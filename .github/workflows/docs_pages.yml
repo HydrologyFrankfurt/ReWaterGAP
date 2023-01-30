@@ -27,12 +27,13 @@ jobs:
           make -C docs clean
           make -C docs html
                
-      - name: Force push to destination branch 
-        uses: ad-m/github-push-action@master
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
         with: 
-          branch: gh-pages
+          publish_branch: gh-pages
+          force_orphan: true
           force: true
-          directory: ./docs/build/html
+          publish_dir: _build/
           
       
       
