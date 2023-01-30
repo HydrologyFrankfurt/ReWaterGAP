@@ -23,7 +23,8 @@ jobs:
         
       - name: make sphinx docs
         run: |
-          make -c docs html
+          make -C docs clean
+          make -C docs html
       
       - name: add .nojekyll file in a new folder docs/build/html
         run: |
