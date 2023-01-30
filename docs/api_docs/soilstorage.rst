@@ -1,6 +1,6 @@
 Soil Storage 
 ===============
-This module computes soil storage and related fluxes for all grid cells.
+This module computes soil storage and related fluxes for all grid cells based on section 4.4 of Müller Schmied et al 2021 [1]_.
 
 .. autoclass:: soil_storage.SoilStorage
     :members:
@@ -59,7 +59,7 @@ Actual evapotranspiration :math:`{E}_{s}`  from soil :math:`(mm/d)` is calculate
 .. math::
     {E}_{s} = min\biggl(({E}_{pot} - E_c) , ({E}_{pot,max} - E_c) \times \frac{S_s}{S_s,max} \biggr)  
 
-where :math:`{E}_{pot}` is potential evapotranspiration :math:`(mm/d)`, :math:`{E}_{c}` is canopy evaporation :math:`(mm/d)` and :math:`{S}_{s,max}` is the maximum soil water content :math:`(mm)` derived as a product of total available water capacity in the upper meter of the soil [1]_ and land-cover-specific rooting depth (Table C2 [2]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 (mm/d)` globally. 
+where :math:`{E}_{pot}` is potential evapotranspiration :math:`(mm/d)`, :math:`{E}_{c}` is canopy evaporation :math:`(mm/d)` and :math:`{S}_{s,max}` is the maximum soil water content :math:`(mm)` derived as a product of total available water capacity in the upper meter of the soil [2]_ and land-cover-specific rooting depth (Table C2 [1]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 (mm/d)` globally. 
 
 
 Runoff from land :math:`{R}_{l}` is calculated following Bergström (1995) [3]_ as
@@ -92,9 +92,11 @@ based on relief, soil texture, aquifer type, and the existence of permafrost or 
 
 References 
 ----------
-.. [1] UBatjes, N. H.: ISRIC-WISE derived soil properties on a 5 by 5 arc-minutes global grid (ver. 1.2), Tech. Rep. 2012/01, ISRIC–World Soil Information, Wageningen, 2012.
 
-.. [2] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
+
+.. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
+
+.. [2] Batjes, N. H.: ISRIC-WISE derived soil properties on a 5 by 5 arc-minutes global grid (ver. 1.2), Tech. Rep. 2012/01, ISRIC–World Soil Information, Wageningen, 2012.
 
 .. [3] Bergström, S.: The HBV model, in: Computer models of watershed hydrology, edited by: Singh, V., Water Resources Publications, Lone Tree, USA, 443–476, 1995
 

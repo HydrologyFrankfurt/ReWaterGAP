@@ -2,7 +2,7 @@
 
 Radiation and Evapotranspiration
 ++++++++++++++++++++++++++++++++
-This module is made up of a class and related method(s) which computes radiation components based on Müller Schmied et al., 2016b [1]_
+This module is made up of a class and related method(s) which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
 (computed within the __init__ method) 
 and Priestly-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
 

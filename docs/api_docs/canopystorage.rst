@@ -1,6 +1,6 @@
 Canopy Storage 
 ===============
-Canopy storage and related fluxes are calculated based on Müller Schmied et al 2021 [1]_.
+Canopy storage and related fluxes are calculated based on section 4.2 of Müller Schmied et al 2021 [1]_.
 
 .. autofunction:: canopy_storage_module.daily_canopy_storage
 
