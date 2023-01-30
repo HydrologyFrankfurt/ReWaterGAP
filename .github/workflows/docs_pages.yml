@@ -22,19 +22,16 @@ jobs:
           python -m pip install sphinx-rtd-theme
           python -m pip install numpydoc
           
-      - name: make sphinx docs
+      - name: Sphinx build
         run: |
-          make -C docs clean
-          make -C docs html
-               
+          sphinx-build doc _build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        with: 
+        with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          force_orphan: true
           publish_dir: _build/
-          
+          force_orphan: true
       
       
       
