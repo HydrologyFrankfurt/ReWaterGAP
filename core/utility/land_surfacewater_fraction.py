@@ -28,27 +28,27 @@ def get_landareafrac(static_data):
     switch_off_swb = 0
 
     # continental fraction
-    cont_frac = static_data.contfrac.values
+    cont_frac = static_data.contfrac.values.astype(np.float64)
 
     # regulate lake
-    reglake_frac = static_data.reglak[0].values
+    reglake_frac = static_data.reglak[0].values.astype(np.float64)
 
     # Global lake
-    glowet_frac = static_data.glowet[0].values
+    glowet_frac = static_data.glowet[0].values.astype(np.float64)
 
     # Global wetland
-    glolake_frac = static_data.glolak[0].values
+    glolake_frac = static_data.glolak[0].values.astype(np.float64)
 
     # local wetland
-    locwet_frac = static_data.locwet[0].values
+    locwet_frac = static_data.locwet[0].values.astype(np.float64)
 
     # local lake
-    loclake_frac = static_data.loclak[0].values
+    loclake_frac = static_data.loclak[0].values.astype(np.float64)
 
     # global and local reservior
     if anthroprogenic is True:
-        glores_frac = static_data.res[0].values
-        locres_frac = static_data.locres[0].values
+        glores_frac = static_data.res[0].values.astype(np.float64)
+        locres_frac = static_data.locres[0].values.astype(np.float64)
         # local reservoir are added to local lakes based on section 4.1 of
         # Müller Schmied et al. (2021)
         loclake_frac += locres_frac
@@ -66,14 +66,16 @@ def get_landareafrac(static_data):
 
 
 def get_glolake_area(static_data):
-    global_lake_area = static_data.global_lake_area.values
+    global_lake_area = static_data.global_lake_area[0].values.\
+        astype(np.float64)
 
     if anthroprogenic is True:
         pass
     else:
         regulated_lake_status = static_data.regulated_lake_status.values
         reservior_and_regulated_lake_area = \
-            static_data.reservoir_and_regulated_lake_area.values
+            static_data.reservoir_and_regulated_lake_area[0].values.\
+            astype(np.float64)
 
         glo_lake_area = np.where(regulated_lake_status == 1, global_lake_area +
                                  reservior_and_regulated_lake_area,
