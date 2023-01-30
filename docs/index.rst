@@ -5,7 +5,7 @@
 
 Welcome to ReWaterGAP
 =====================
-.. image:: ./images/watergap_logo.png
+.. image:: /images/watergap_logo.png
 
 
 .. toctree::
@@ -34,6 +34,7 @@ Welcome to ReWaterGAP
    api_docs/canopystorage
    api_docs/snowstorage
    api_docs/soilstorage
+   api_docs/groundwater_storage
 
 .. toctree::
    :maxdepth: 2
