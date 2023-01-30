@@ -20,6 +20,7 @@ from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
 from controller import read_forcings_and_static as rd
 from core.verticalwaterbalance import vertical_waterbalance as vb
+from core.verticalwaterbalance import parameters as pm
 from core.lateralwaterbalance import lateral_waterbalance as lb
 from view import createandwrite as cw
 
@@ -47,6 +48,7 @@ def run():
         # =====================================================================
         initialize_forcings_static = rd.InitializeForcingsandStaticdata()
         grid_coords = initialize_forcings_static.grid_coords
+        parameters = pm.Parameters()
 
         # =====================================================================
         #  Create and write to ouput variable if selected by user
@@ -57,13 +59,13 @@ def run():
         # Initialize Vertical Water Balance
         # =====================================================================
         vertical_waterbalance = \
-            vb.VerticalWaterBalance(initialize_forcings_static)
+            vb.VerticalWaterBalance(initialize_forcings_static, parameters)
 
         # =====================================================================
         # Initialize Lateral Water Balance
         # =====================================================================
         lateral_waterbalance = \
-            lb.LateralWaterBalance(initialize_forcings_static)
+            lb.LateralWaterBalance(initialize_forcings_static, parameters)
 
         # ====================================================================
         # loop through user defined time
@@ -120,6 +122,11 @@ def run():
             create_out_var.\
                 lateralbalance_write_daily_var(lb_storages_and_fluxes,
                                                time_step)
+            # =================================================================
+            #  Update Land Area Fraction
+            # =================================================================
+            land_swb_fraction = lateral_waterbalance.get_new_swb_fraction()
+            initialize_forcings_static.update_landareafrac(land_swb_fraction)
 
         print('Status:' + colored(' complete', 'cyan'))
 

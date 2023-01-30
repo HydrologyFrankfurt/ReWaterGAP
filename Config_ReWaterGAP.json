@@ -46,11 +46,12 @@
     },
     {
       "LateralWaterBalanceFluxes": {
-        "groundwater_discharge": true,
-        "locallake_outflow": true,
-        "localwetland_outflow": true,
-    	"globallake_outflow": true,
-        "globalwetland_outflow": true
+        "groundwater_discharge": false,
+        "locallake_outflow": false,
+        "localwetland_outflow": false,
+    	"globallake_outflow": false,
+        "globalwetland_outflow": false,
+        "streamflow": false
       }
     },
     {
@@ -59,7 +60,8 @@
         "locallake_storage": true,
         "localwetland_storage": true,
     	"globallake_storage": true,
-    	"globalwetland_storage": true
+    	"globalwetland_storage": true,
+    	"river_storage": true
       }
     }
   ]
