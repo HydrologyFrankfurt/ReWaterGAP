@@ -5,7 +5,7 @@
 
 Welcome to ReWaterGAP
 =====================
-.. image:: /images/watergap_logo.png
+.. image:: ./images/watergap_logo.png
 
 
 .. toctree::
