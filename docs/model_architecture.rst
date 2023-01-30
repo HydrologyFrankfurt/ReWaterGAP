@@ -8,7 +8,6 @@ WaterGap is structured using the model controller view software architectural pa
 
 This separation of concerns not only makes WaterGAP maintainable and extensible but also reduces coupling whiles increasing cohesion among WaterGAP components. 
 
-.. class:: center
 
 MVC is implemented in WaterGAP as shown in Figure 1. WaterGAP is started or run based on a configuration setting module  which is the *controller* component of the software. This module contains the paths to input data (eg. meteorological forcing, model files such as routing data, etc), runtime options (simulation period, time-step configuration), output variables and path to output files. The simulation module then initialize the settings from the configuration file and calls the core package  for computations of hydrological processes based on the defined settings. The simulation module and core package constitute the  the *model* component of the software. Finally the *view* component shows results from the model in the required format.
 
