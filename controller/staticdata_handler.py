@@ -75,9 +75,11 @@ class StaticData:
             str(Path(cm.config_file['FilePath']['inputDir'] +
                      r'static_input/cell_area.nc'))
 
-        # land_mask_path = \
-        #     str(Path(cm.config_file['FilePath']['inputDir'] +
-        #              r'static_input/land_mask.nc'))
+        river_static_file_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/river_static_data/*'))
+        rout_order_path = str(Path(cm.config_file['FilePath']['inputDir'] +
+                                   r'static_input/routing_order.csv'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
@@ -113,9 +115,12 @@ class StaticData:
             cell_area = xr.open_dataset(cell_area_path, decode_times=False)
             self.cell_area = cell_area.cell_area.values
 
-            # #  land_mask
-            # self.land_mask = \
-            #     xr.open_dataarray(land_mask_path, decode_times=False)
+            # River static files**
+            self.river_static_files = \
+                xr.open_mfdataset(river_static_file_path, decode_times=False)
+
+            # routing order data
+            self.rout_order = pd.read_csv(rout_order_path)
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Static data '
