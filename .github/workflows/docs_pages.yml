@@ -14,7 +14,8 @@ jobs:
       - uses: actions/setup-python@v2
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx_rtd_theme numpydoc 
+          pip install sphinx sphinx_rtd_theme numpydoc sphinx.ext.autodoc sphinx.ext.viewcode sphinx.ext.mathjax
+
       - name: Sphinx build
         run: |
           sphinx-build docs _build
