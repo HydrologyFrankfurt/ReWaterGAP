@@ -1,5 +1,0 @@
-Logger
-======================
-.. automodule:: watergap_logger
-.. autofunction:: config_logger
-

@@ -1,4 +1,0 @@
-Command Line Interface
-=======================
-.. automodule:: cli_args
-.. autofunction::  parse_cli
