@@ -16,7 +16,7 @@ jobs:
         
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx_rtd_theme numpydoc numpy numba
+          pip install sphinx sphinx_rtd_theme numpydoc numpy numba termcolor
 
       - name: Sphinx build
         run: |
