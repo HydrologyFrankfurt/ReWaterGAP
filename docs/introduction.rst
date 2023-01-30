@@ -16,7 +16,7 @@ WaterGAP has been generally categorized into two sections:
 
 #. **WaterGAPTools** consisting of *pre-processing* (input-generation) and *standard calibration* (against mean annual streamflow).
 
-.. figure:: /images/overview_watergap_components.png
+.. figure:: ./images/overview_watergap_components.png
    :align: center
    
    *WaterGAP Components*
