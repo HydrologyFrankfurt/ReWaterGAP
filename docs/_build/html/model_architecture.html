@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model Architecture &mdash; ReWaterGAP  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Climate Forcing" href="data_docs/data.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> ReWaterGAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Model Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_docs/data.html">Climate Forcing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_docs/data.html#static-data">Static Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api_docs/rewatergap_schematic.html">Schematic of WaterGAP Global Hydrology Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_docs/radiation_evapotranspiration.html">Radiation and Evapotranspiration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_docs/leafareaindex.html">Leaf Area Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_docs/canopystorage.html">Canopy Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_docs/snowstorage.html">Snow Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_docs/soilstorage.html">Soil Storage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utility API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utility_api/configurationhandler.html">Configuration Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility_api/staticdata_handler.html">Static Data Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility_api/logger.html">Logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility_api/command_line_interface.html">Command Line Interface</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ReWaterGAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Model Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/model_architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="model-architecture">
+<h1>Model Architecture<a class="headerlink" href="#model-architecture" title="Permalink to this headline"></a></h1>
+<p>WaterGap is structured using the model controller view software architectural pattern <a class="footnote-reference brackets" href="#id2" id="id1">1</a>. This pattern is chosen since it improves the software’s organization via separating the software components into three parts namely:</p>
+<ul class="simple">
+<li><p><em>Model</em>: Responsible for managing data and logic (hydrological processes in WaterGAP) of the software.</p></li>
+<li><p><em>Controller</em>: Controls the data flow into model and updates the view whenever data changes.</p></li>
+<li><p><em>View</em>: Visualize the data the model outputs in desired format.</p></li>
+</ul>
+<p>This separation of concerns not only makes WaterGAP maintainable and extensible but also reduces coupling whiles increasing cohesion among WaterGAP components.</p>
+<p>MVC is implemented in WaterGAP as shown in Figure 1. WaterGAP is started or run based on a configuration setting module  which is the <em>controller</em> component of the software. This module contains the paths to input data (eg. meteorological forcing, model files such as routing data, etc), runtime options (simulation period, time-step configuration), output variables and path to output files. The simulation module then initialize the settings from the configuration file and calls the core package  for computations of hydrological processes based on the defined settings. The simulation module and core package constitute the  the <em>model</em> component of the software. Finally the <em>view</em> component views results from the model in the required format.</p>
+<figure class="align-center" id="id3">
+<img alt="_images/MVC.png" src="_images/MVC.png" />
+<figcaption>
+<p><span class="caption-text"><em>WaterGAP MVC Pattern</em></span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Gamma, E., Helm, R., Johnson, R., &amp; Vlissides, J. (1994). Design patterns: Elements of reusable object-oriented software. Addison Wesley.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data_docs/data.html" class="btn btn-neutral float-right" title="Climate Forcing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ReWaterGAP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

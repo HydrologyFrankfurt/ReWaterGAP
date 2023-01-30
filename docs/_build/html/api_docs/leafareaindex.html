@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaf Area Index &mdash; ReWaterGAP  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Canopy Storage" href="canopystorage.html" />
+    <link rel="prev" title="Radiation and Evapotranspiration" href="radiation_evapotranspiration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> ReWaterGAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_architecture.html">Model Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data_docs/data.html">Climate Forcing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_docs/data.html#static-data">Static Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rewatergap_schematic.html">Schematic of WaterGAP Global Hydrology Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="radiation_evapotranspiration.html">Radiation and Evapotranspiration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Leaf Area Index</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parallel-leaf-area-index">1. Parallel Leaf Area Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compute-leaf-area-index">2. Compute Leaf Area Index</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="canopystorage.html">Canopy Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snowstorage.html">Snow Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="soilstorage.html">Soil Storage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utility API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/configurationhandler.html">Configuration Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/staticdata_handler.html">Static Data Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/logger.html">Logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/command_line_interface.html">Command Line Interface</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ReWaterGAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Leaf Area Index</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api_docs/leafareaindex.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="leaf-area-index">
+<span id="leafareaindex"></span><h1>Leaf Area Index<a class="headerlink" href="#leaf-area-index" title="Permalink to this headline"></a></h1>
+<p>Leaf Area index consists of two separate modules.</p>
+<section id="parallel-leaf-area-index">
+<span id="parallel-lai"></span><h2>1. Parallel Leaf Area Index<a class="headerlink" href="#parallel-leaf-area-index" title="Permalink to this headline"></a></h2>
+<p>This module contains a daily leaf area index method which computes leaf area index per grid cell.
+This whole function is vectorized to compute leaf area index in parallel for all grid cell. using
+numpy vectorize function.</p>
+<span class="target" id="module-parallel_leaf_area_index"></span><p>Daily Leaf Area Index (LAI) Function.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="parallel_leaf_area_index.daily_leaf_area_index">
+<span class="sig-prename descclassname"><span class="pre">parallel_leaf_area_index.</span></span><span class="sig-name descname"><span class="pre">daily_leaf_area_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">growth_status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cum_precipitation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precipitation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_area_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_leaf_area_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_leaf_area_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_cover</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">humid_arid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallel_leaf_area_index.html#daily_leaf_area_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallel_leaf_area_index.daily_leaf_area_index" title="Permalink to this definition"></a></dt>
+<dd><p>Compute daily leaf area index per grid cells.</p>
+<p>Vectorization is applied to compute leaf area index in
+parallel for all grid cell. see vectorized function (line 207).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>temperature</strong><span class="classifier">array</span></dt><dd><p>Daily temperature climate forcing,  Units: K.</p>
+</dd>
+<dt><strong>growth_status</strong><span class="classifier">array</span></dt><dd><p>Growth status per grid cell shows whether a specific land cover
+is (not) growing (value=0) or fully grown (value=1).
+Initially all landcovers are not growing
+This variable gets updated per time step..</p>
+</dd>
+<dt><strong>days</strong><span class="classifier">array</span></dt><dd><p>Days since start of leaf area index profile, Units: day.
+This variable gets updated per time step.</p>
+</dd>
+<dt><strong>initial_days</strong><span class="classifier">array</span></dt><dd><p>Landcover specific initial days</p>
+</dd>
+<dt><strong>cum_precipitation</strong><span class="classifier">array</span></dt><dd><p>Cummulative precipitation per time step, Units: mm/d.</p>
+</dd>
+<dt><strong>precipitation</strong><span class="classifier">array</span></dt><dd><p>Daily precipitation climate forcing, Units: mm/d.
+Units are converted from kg m-2 s-1 to mm/d</p>
+</dd>
+<dt><strong>leaf_area_index</strong><span class="classifier">array</span></dt><dd><p>Temporal_leaf_area_index</p>
+</dd>
+<dt><strong>min_leaf_area_index</strong><span class="classifier">array</span></dt><dd><p>Minimum Leaf area index  over all grid cell, Units: (-).</p>
+</dd>
+<dt><strong>max_leaf_area_index</strong><span class="classifier">array</span></dt><dd><p>Maximum Leaf area index  over all grid cell, Units: (-).</p>
+</dd>
+<dt><strong>land_cover</strong><span class="classifier">array</span></dt><dd><p>Land_cover class  based on <a class="reference internal" href="#rb42dba6305b5-1" id="id1">[1]</a>.</p>
+</dd>
+<dt><strong>humid_arid</strong><span class="classifier">array</span></dt><dd><p>Humid-arid calssification based on <a class="reference internal" href="#rb42dba6305b5-1" id="id2">[1]</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>leaf_area_index</strong><span class="classifier">array</span></dt><dd><p>Daily leaf area index</p>
+</dd>
+<dt><strong>days</strong><span class="classifier">array</span></dt><dd><p>Day since start for current day, Units: day</p>
+</dd>
+<dt><strong>cum_precipitation</strong><span class="classifier">array</span></dt><dd><p>Cummulative precipitation for current day, units: mm/d</p>
+</dd>
+<dt><strong>growth_status</strong><span class="classifier">array</span></dt><dd><p>Growth status per grid cell for current day</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>A day is defined as part of the growing season when daily temperature is
+above 8 ◦C for a land-cover-specific number of days (Table C1) and
+cumulative precipitation from the day where growing season starts reaches
+at least 40 mm <a class="reference internal" href="#rb42dba6305b5-1" id="id3">[1]</a>.</p>
+<p>In the beginning of the growing season, LAI increases linearly for 30 days
+until it reaches maximum LAI. For (semi)arid cells, at least 0.5 mm of
+daily precipitation is required to keep the growing season on-going.
+LAI then stays constant for the stated land-cover-specific number of days
+and when growing season conditions are not fulfilled anymore, a senescence
+phase is initiated and LAI linearly decreases to minimum within the next 30
+days</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rb42dba6305b5-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>,<a href="#id3">3</a>)</span></dt>
+<dd><p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,
+Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,
+Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,
+Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).
+The global water resources and use model WaterGAP v2.2d: model
+description and evaluation. Geoscientific Model Development,
+14(2), 1037–1079. <a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="compute-leaf-area-index">
+<h2>2. Compute Leaf Area Index<a class="headerlink" href="#compute-leaf-area-index" title="Permalink to this headline"></a></h2>
+<p>This module consist of a class and related methods which calls the vectorized daily leaf area index  from the
+<a class="reference internal" href="#parallel-lai"><span class="std std-ref">Parallel Lead Area Index</span></a> module.
+In addition it parses  all input parameter and returns outputs variables (tuples) with
+days,cum_precipitation and growth_status (also known as state variables) updated daily.</p>
+<span class="target" id="module-compute_leaf_area_index"></span><p>Leaf Area Index Class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="compute_leaf_area_index.LeafAreaIndex">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compute_leaf_area_index.</span></span><span class="sig-name descname"><span class="pre">LeafAreaIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">climate_forcing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/compute_leaf_area_index.html#LeafAreaIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compute_leaf_area_index.LeafAreaIndex" title="Permalink to this definition"></a></dt>
+<dd><p>Compute leaf area index.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>climate_forcing</strong><span class="classifier">array</span></dt><dd><p>Input forcing to caluclate radiation components and hence
+Priestly-Taylor potential evapotranspiration</p>
+</dd>
+<dt><strong>static_data</strong><span class="classifier">array and csv</span></dt><dd><p>Land_cover  class (array)  based on <a class="reference internal" href="#re39a3e626d30-1" id="id5">[1]</a>.
+Humid-arid calssification(array) based on <a class="reference internal" href="#re39a3e626d30-1" id="id6">[1]</a>.
+CSV formatted table that contains parameters for radiation components
+based on <a class="reference internal" href="#re39a3e626d30-2" id="id7">[2]</a>.</p>
+<p>References.</p>
+<dl class="citation">
+<dt class="label" id="re39a3e626d30-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id5">1</a>,<a href="#id6">2</a>)</span></dt>
+<dd><p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,
+Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,
+Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,
+Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).
+The global water resources and use model WaterGAP v2.2d:
+model description and evaluation. Geoscientific Model
+Development, 14(2), 1037–1079.
+<a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</dd>
+<dt class="label" id="re39a3e626d30-2"><span class="brackets"><a class="fn-backref" href="#id7">2</a></span></dt>
+<dd><p>Müller Schmied, H., Müller, R., Sanchez-Lorenzo, A., Ahrens, B.,
+and Wild, M.: Evaluation of radiation components in a
+global freshwater model with station-based observations,
+Water, 8, 450, <a class="reference external" href="https://doi.org/10.3390/w8100450,2016b">https://doi.org/10.3390/w8100450,2016b</a></p>
+</dd>
+</dl>
+</dd>
+<dt><strong>date</strong><span class="classifier">datetime64</span></dt><dd><p>Date to select specific days</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 52%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>get_daily_leaf_area_index:</strong></p></td>
+<td><p>Vectorized daily leaf area index.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="compute_leaf_area_index.LeafAreaIndex.get_daily_leaf_area_index">
+<span class="sig-name descname"><span class="pre">get_daily_leaf_area_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">growth_status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cum_precipitation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/compute_leaf_area_index.html#LeafAreaIndex.get_daily_leaf_area_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compute_leaf_area_index.LeafAreaIndex.get_daily_leaf_area_index" title="Permalink to this definition"></a></dt>
+<dd><p>Compute leaf area index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>days</strong><span class="classifier">array</span></dt><dd><p>Days since start of leaf area index profile, units: day.
+This variable gets updated per time step.</p>
+</dd>
+<dt><strong>growth_status</strong><span class="classifier">array</span></dt><dd><p>Growth status per grid cell shows whether a specific land cover
+is (not) growing (value=0) or fully grown (value=1).
+Initially all landcovers are not growing
+This variable gets updated per time step..</p>
+</dd>
+<dt><strong>cum_precipitation</strong><span class="classifier">array</span></dt><dd><p>cummulative precipitation per time step. unit( mm/d)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>Outputs (tuple of arrays) from the get_daily_leaf_area_index are.</dt><dd><p>0 = daily leaf area index,
+1 = days since start,
+2 = growth status,
+3 = cumulative precipitation</p>
+</dd>
+<dt>ouput(1-3)  get updated per time step.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="radiation_evapotranspiration.html" class="btn btn-neutral float-left" title="Radiation and Evapotranspiration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="canopystorage.html" class="btn btn-neutral float-right" title="Canopy Storage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ReWaterGAP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soil Storage &mdash; ReWaterGAP  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuration Handler" href="../utility_api/configurationhandler.html" />
+    <link rel="prev" title="Snow Storage" href="snowstorage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> ReWaterGAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_architecture.html">Model Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data_docs/data.html">Climate Forcing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_docs/data.html#static-data">Static Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rewatergap_schematic.html">Schematic of WaterGAP Global Hydrology Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="radiation_evapotranspiration.html">Radiation and Evapotranspiration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leafareaindex.html">Leaf Area Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="canopystorage.html">Canopy Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snowstorage.html">Snow Storage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Soil Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#water-balance">Water balance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inflows">Inflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outflows">Outflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utility API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/configurationhandler.html">Configuration Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/staticdata_handler.html">Static Data Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/logger.html">Logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/command_line_interface.html">Command Line Interface</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ReWaterGAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Soil Storage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api_docs/soilstorage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-soil_storage">
+<span id="soil-storage"></span><h1>Soil Storage<a class="headerlink" href="#module-soil_storage" title="Permalink to this headline"></a></h1>
+<p>Soil Storage.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="soil_storage.SoilStorage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soil_storage.</span></span><span class="sig-name descname"><span class="pre">SoilStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soil_storage.html#SoilStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soil_storage.SoilStorage" title="Permalink to this definition"></a></dt>
+<dd><p>Compute snow storage and related fluxes.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>max_soil_water_content</strong><span class="classifier">array</span></dt><dd><p>Maximum soil water content, Units: mm</p>
+</dd>
+<dt><strong>builtup_area</strong><span class="classifier">array</span></dt><dd><p>Urban or Builtup area fraction, Units: (-)</p>
+</dd>
+<dt><strong>drainage_direction</strong><span class="classifier">array</span></dt><dd><p>Drainage direction taken based on <a class="reference internal" href="#r21da3f1d67a3-1" id="id1">[1]</a>, Units: (-)</p>
+</dd>
+<dt><strong>max_groundwater_recharge</strong><span class="classifier">array</span></dt><dd><p>Maximum groundwater recharge, Units: mm/day</p>
+</dd>
+<dt><strong>soil_texture</strong><span class="classifier">array</span></dt><dd><p>Soil texture class based on  <a class="reference internal" href="#r21da3f1d67a3-1" id="id2">[1]</a>, Units: (-)</p>
+</dd>
+<dt><strong>groundwater_recharge_factor</strong><span class="classifier">array</span></dt><dd><p>Groundwater recharge factor taken from <a class="reference internal" href="#r21da3f1d67a3-1" id="id3">[1]</a>, Units: (-)</p>
+</dd>
+<dt><strong>arid_gw_cell</strong><span class="classifier">array</span></dt><dd><p>Humid-arid calssification(array) based on <a class="reference internal" href="#r21da3f1d67a3-1" id="id4">[1]</a>.</p>
+<p>References.</p>
+<dl class="citation">
+<dt class="label" id="r21da3f1d67a3-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>,<a href="#id3">3</a>,<a href="#id4">4</a>)</span></dt>
+<dd><p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,
+Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,
+Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,
+Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).
+The global water resources and use model WaterGAP v2.2d:
+model description and evaluation. Geoscientific Model
+Development, 14(2), 1037–1079.
+<a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 54%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>immediate_runoff:</strong></p></td>
+<td><p>Compute immediate runoff.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>daily_soil_storage:</strong></p></td>
+<td><p>Compute daily soil storage.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="soil_storage.SoilStorage.daily_soil_storage">
+<span class="sig-name descname"><span class="pre">daily_soil_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soil_water_content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pet_to_soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_area_frac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_temp_elev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canopy_evap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effective_precipitation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precipitation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">immediate_runoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_storage_change_sum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sublimation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soil_storage.html#SoilStorage.daily_soil_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soil_storage.SoilStorage.daily_soil_storage" title="Permalink to this definition"></a></dt>
+<dd><p>Compute daily soil storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>soil_water_content</strong><span class="classifier">array</span></dt><dd><p>Snow water storage, Units: mm</p>
+</dd>
+<dt><strong>pet_to_soil</strong><span class="classifier">array</span></dt><dd><p>Remaining energy for addtional evaporation from soil, Units: mm</p>
+</dd>
+<dt><strong>land_area_frac</strong><span class="classifier">array</span></dt><dd><p>Land area fraction, Units: %.</p>
+</dd>
+<dt><strong>max_temp_elev</strong><span class="classifier">array</span></dt><dd><p>Maximum temperature from the 1st(lowest) elevation, Units: K</p>
+</dd>
+<dt><strong>canopy_evap</strong><span class="classifier">array</span></dt><dd><p>anopy evaporation,  Units: mm</p>
+</dd>
+<dt><strong>effective_precipitation</strong><span class="classifier">array</span></dt><dd><p>Effective precipitation based on <a class="footnote-reference brackets" href="#id12" id="id5">1</a>, Units: mm/day</p>
+</dd>
+<dt><strong>precipitation</strong><span class="classifier">array</span></dt><dd><p>Daily precipitation,  Units: mm/day</p>
+</dd>
+<dt><strong>immediate_runoff</strong><span class="classifier">array</span></dt><dd><p>Immediate runoff, Units: mm/day</p>
+</dd>
+<dt><strong>land_storage_change_sum</strong><span class="classifier">array</span></dt><dd><p>Sum of change in vertical balance storages, Units: mm</p>
+</dd>
+<dt><strong>sublimation</strong><span class="classifier">array</span></dt><dd><p>Sublimation, Units: mm</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>soil_water_content</strong><span class="classifier">array</span></dt><dd><p>Snow water storage, Units: mm</p>
+</dd>
+<dt><strong>groundwater_recharge_from_soil_mm</strong><span class="classifier">array</span></dt><dd><p>Groundwater recharge from soil, Units: mm/day</p>
+</dd>
+<dt><strong>actual_soil_evap</strong><span class="classifier">array</span></dt><dd><p>Actual evapotranspiration from the soil, Units: mm/day</p>
+</dd>
+<dt><strong>soil_saturation</strong><span class="classifier">array</span></dt><dd><p>Soil saturation, Units: (-)</p>
+</dd>
+<dt><strong>surface_runoff</strong><span class="classifier">array</span></dt><dd><p>Surface runoff from land, Units: mm/day</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soil_storage.SoilStorage.immediate_runoff">
+<span class="sig-name descname"><span class="pre">immediate_runoff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">effective_precipitation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soil_storage.html#SoilStorage.immediate_runoff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soil_storage.SoilStorage.immediate_runoff" title="Permalink to this definition"></a></dt>
+<dd><p>Compute immediate runoff and effective precipitation.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>effective_precipitation</strong><span class="classifier">array</span></dt><dd><p>Effective precipitation based on <a class="reference internal" href="#r040d8b6812f8-1" id="id6">[1]</a>, Units: mm/day</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>effective_precipitation</strong><span class="classifier">aaray</span></dt><dd><p>Effective precipitation based on <a class="reference internal" href="#r040d8b6812f8-1" id="id7">[1]</a>, Units: mm/day</p>
+</dd>
+<dt><strong>immediate_runoff</strong><span class="classifier">array</span></dt><dd><p>Immediate runoff, Units: mm/day</p>
+</dd>
+<dt>References.</dt><dd></dd>
+</dl>
+<dl class="citation">
+<dt class="label" id="r040d8b6812f8-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id6">1</a>,<a href="#id7">2</a>)</span></dt>
+<dd><p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,
+Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,
+Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,
+Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).
+The global water resources and use model WaterGAP v2.2d:
+model description and evaluation. Geoscientific Model
+Development, 14(2), 1037–1079.
+<a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="water-balance">
+<h2>Water balance<a class="headerlink" href="#water-balance" title="Permalink to this headline"></a></h2>
+<p>Soil storage <span class="math notranslate nohighlight">\(S_s\)</span> <span class="math notranslate nohighlight">\((mm)\)</span> is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dS_s}{d_t} =  {P}_{eff} − {R}_{l}− {E}_{s}\]</div>
+<p>where <span class="math notranslate nohighlight">\({P}_{eff}\)</span> is effective precipitation <span class="math notranslate nohighlight">\((mm/d)\)</span>, <span class="math notranslate nohighlight">\({R}_{l}\)</span> is runoff from land <span class="math notranslate nohighlight">\((mm/d)\)</span> and <span class="math notranslate nohighlight">\({E}_{s}\)</span> is  the actual evapotranspiration from soil <span class="math notranslate nohighlight">\((mm/d)\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><span class="math notranslate nohighlight">\({R}_{l}\)</span> is partitioned into (a) fast surface and subsurface runoff <span class="math notranslate nohighlight">\({R}_{s}\)</span>, representing direct surface runoff and interflow, and (b) groundwater recharge <span class="math notranslate nohighlight">\({R}_{g}\)</span> according to the <a class="reference internal" href="rewatergap_schematic.html#watergap-scheme"><span class="std std-ref">heuristic scheme</span></a>.</p>
+</div>
+</section>
+<section id="inflows">
+<h2>Inflows<a class="headerlink" href="#inflows" title="Permalink to this headline"></a></h2>
+<p>Effective precipitation <span class="math notranslate nohighlight">\({P}_{eff}\)</span> is  is calculated as</p>
+<div class="math notranslate nohighlight">
+\[{P}_{eff} = {P}_{t} − {P}_{sn} + M\]</div>
+<p>where <span class="math notranslate nohighlight">\({P}_{t}\)</span> is throughfall <span class="math notranslate nohighlight">\((mm/d)\)</span>, <span class="math notranslate nohighlight">\({P}_{sn}\)</span> is snowfall <span class="math notranslate nohighlight">\((mm/d)\)</span> and <span class="math notranslate nohighlight">\(M\)</span> is snow melt <span class="math notranslate nohighlight">\((mm/d)\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In urban areas (defined from MODIS data) <span class="math notranslate nohighlight">\(50 \%\)</span> of <span class="math notranslate nohighlight">\({P}_{eff}\)</span> is directly turned into <span class="math notranslate nohighlight">\({R}_{l}\)</span>. This is known as immediate runoff and is calculated as :</p>
+<div class="math notranslate nohighlight">
+\[{immediate \: runoff} = 0.5 \times {P}_{eff}  \times fraction \: of \: build \: up \: area\]</div>
+<p>Next, effective precipitation is reduced by the immediate runoff.  The resulting effective precipitation used to compute runoff.
+See function <strong>immediate runoff</strong> : line 73 -110 in source code.</p>
+</div>
+</section>
+<section id="outflows">
+<h2>Outflows<a class="headerlink" href="#outflows" title="Permalink to this headline"></a></h2>
+<p>Actual evapotranspiration <span class="math notranslate nohighlight">\({E}_{s}\)</span>  from soil <span class="math notranslate nohighlight">\((mm/d)\)</span> is calculated as</p>
+<div class="math notranslate nohighlight">
+\[{E}_{s} = min\biggl(({E}_{pot} - E_c) , ({E}_{pot,max} - E_c) \times \frac{S_s}{S_s,max} \biggr)\]</div>
+<p>where <span class="math notranslate nohighlight">\({E}_{pot}\)</span> is potential evapotranspiration <span class="math notranslate nohighlight">\((mm/d)\)</span>, <span class="math notranslate nohighlight">\({E}_{c}\)</span> is canopy evaporation <span class="math notranslate nohighlight">\((mm/d)\)</span> and <span class="math notranslate nohighlight">\({S}_{s,max}\)</span> is the maximum soil water content <span class="math notranslate nohighlight">\((mm)\)</span> derived as a product of total available water capacity in the upper meter of the soil <a class="footnote-reference brackets" href="#id12" id="id8">1</a> and land-cover-specific rooting depth (Table C2 <a class="footnote-reference brackets" href="#id13" id="id9">2</a>). The maximum potential evapotranspiration <span class="math notranslate nohighlight">\({E}_{pot,max}\)</span> is set to <span class="math notranslate nohighlight">\(15 (mm/d)\)</span> globally.</p>
+<p>Runoff from land <span class="math notranslate nohighlight">\({R}_{l}\)</span> is calculated following Bergström (1995) <a class="footnote-reference brackets" href="#id14" id="id10">3</a> as</p>
+<div class="math notranslate nohighlight">
+\[R_l = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma\]</div>
+<p>where Gamma is the runoff coefficient (–). This parameter, which varies between 0.1 and 5.0, is used for calibration.
+Together with soil saturation, it determines the fraction of <span class="math notranslate nohighlight">\({P}_{eff}\)</span> that becomes <span class="math notranslate nohighlight">\({R}_{l}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the sum of <span class="math notranslate nohighlight">\({P}_{eff}\)</span> and <span class="math notranslate nohighlight">\(S_s\)</span> of the previous day exceed <span class="math notranslate nohighlight">\({S_s,max}\)</span>, the overflow is added to <span class="math notranslate nohighlight">\({R}_{l}\)</span></p>
+</div>
+<p><span class="math notranslate nohighlight">\({R}_{l}\)</span> is partitioned into fast surface and subsurface runoff <span class="math notranslate nohighlight">\({R}_{s}\)</span> according to</p>
+<div class="math notranslate nohighlight">
+\[{R}_{g} = min\biggl({R}_{gmax} , ({f}_{g} \times {R}_{l} \biggr)\]</div>
+<p>where <span class="math notranslate nohighlight">\({R}_{gmax}\)</span> is soil-texture-specific maximum groundwater recharge with values of 7, 4.5 and 2.5 mmd−1 for sandy,
+loamy and clayey soils, respectively, and <span class="math notranslate nohighlight">\({f}_{g}\)</span> is the groundwater recharge factor ranging between 0 and 1. <span class="math notranslate nohighlight">\({f}_{g}\)</span> is determined
+based on relief, soil texture, aquifer type, and the existence of permafrost or glaciers <a class="footnote-reference brackets" href="#id15" id="id11">4</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If a grid cell is defined as (semi)arid and has coarse (sandy) soil, groundwater recharge will only occur if precipitation exceeds a critical value of 12.5 mmd−1, otherwise the water remains in the soil. The fraction of <span class="math notranslate nohighlight">\({R}_{l}\)</span> that does not recharge the groundwater becomes <span class="math notranslate nohighlight">\({R}_{s}\)</span>, which recharges surface water bodies and the river compartment</p>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id12"><span class="brackets">1</span><span class="fn-backref">(<a href="#id5">1</a>,<a href="#id8">2</a>)</span></dt>
+<dd><p>UBatjes, N. H.: ISRIC-WISE derived soil properties on a 5 by 5 arc-minutes global grid (ver. 1.2), Tech. Rep. 2012/01, ISRIC–World Soil Information, Wageningen, 2012.</p>
+</dd>
+<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id9">2</a></span></dt>
+<dd><p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. <a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</dd>
+<dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id10">3</a></span></dt>
+<dd><p>Bergström, S.: The HBV model, in: Computer models of watershed hydrology, edited by: Singh, V., Water Resources Publications, Lone Tree, USA, 443–476, 1995</p>
+</dd>
+<dt class="label" id="id15"><span class="brackets"><a class="fn-backref" href="#id11">4</a></span></dt>
+<dd><p>Döll, P. and Fiedler, K.: Global-scale modeling of groundwater recharge, Hydrol. Earth Syst. Sci., 12, 863–885, <a class="reference external" href="https://doi.org/10.5194/hess-12-863-2008">https://doi.org/10.5194/hess-12-863-2008</a>, 2008.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="snowstorage.html" class="btn btn-neutral float-left" title="Snow Storage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../utility_api/configurationhandler.html" class="btn btn-neutral float-right" title="Configuration Handler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ReWaterGAP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

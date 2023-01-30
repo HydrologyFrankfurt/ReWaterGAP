@@ -1,0 +1,81 @@
+Soil Storage 
+===============
+.. automodule:: soil_storage
+.. autoclass:: SoilStorage
+    :members:
+
+
+Water balance
+-------------
+Soil storage :math:`S_s` :math:`(mm)` is calculated as:
+
+.. math::
+   \frac{dS_s}{d_t} =  {P}_{eff} − {R}_{l}− {E}_{s}
+
+where :math:`{P}_{eff}` is effective precipitation :math:`(mm/d)`, :math:`{R}_{l}` is runoff from land :math:`(mm/d)` and :math:`{E}_{s}` is  the actual evapotranspiration from soil :math:`(mm/d)`.
+
+.. note::
+    :math:`{R}_{l}` is partitioned into (a) fast surface and subsurface runoff :math:`{R}_{s}`, representing direct surface runoff and interflow, and (b) groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <watergap_scheme>`.
+
+
+Inflows
+-------
+Effective precipitation :math:`{P}_{eff}` is  is calculated as
+
+.. math::
+   {P}_{eff} = {P}_{t} − {P}_{sn} + M
+
+where :math:`{P}_{t}` is throughfall :math:`(mm/d)`, :math:`{P}_{sn}` is snowfall :math:`(mm/d)` and :math:`M` is snow melt :math:`(mm/d)`.
+
+.. note::
+   In urban areas (defined from MODIS data) :math:`50 \%` of :math:`{P}_{eff}` is directly turned into :math:`{R}_{l}`. This is known as immediate runoff and is calculated as :
+
+   .. math::
+     {immediate \: runoff} = 0.5 \times {P}_{eff}  \times fraction \: of \: build \: up \: area
+
+   Next, effective precipitation is reduced by the immediate runoff.  The resulting effective precipitation used to compute runoff. 
+   See function **immediate runoff** : line 73 -110 in source code. 
+
+Outflows
+--------
+Actual evapotranspiration :math:`{E}_{s}`  from soil :math:`(mm/d)` is calculated as
+
+.. math::
+    {E}_{s} = min\biggl(({E}_{pot} - E_c) , ({E}_{pot,max} - E_c) \times \frac{S_s}{S_s,max} \biggr)  
+
+where :math:`{E}_{pot}` is potential evapotranspiration :math:`(mm/d)`, :math:`{E}_{c}` is canopy evaporation :math:`(mm/d)` and :math:`{S}_{s,max}` is the maximum soil water content :math:`(mm)` derived as a product of total available water capacity in the upper meter of the soil [1]_ and land-cover-specific rooting depth (Table C2 [2]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 (mm/d)` globally. 
+
+
+Runoff from land :math:`{R}_{l}` is calculated following Bergström (1995) [3]_ as
+
+.. math::
+   R_l = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
+
+where \Gamma is the runoff coefficient (–). This parameter, which varies between 0.1 and 5.0, is used for calibration.
+Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` that becomes :math:`{R}_{l}`.
+
+.. note::
+     If the sum of :math:`{P}_{eff}` and :math:`S_s` of the previous day exceed :math:`{S_s,max}`, the overflow is added to :math:`{R}_{l}`
+
+
+:math:`{R}_{l}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}`and diffuse groundwater recharge :math:`{R}_{g}` according to
+
+.. math::
+   {R}_{g} = min\biggl({R}_{gmax} , ({f}_{g} \times {R}_{l} \biggr)  
+
+where :math:`{R}_{gmax}` is soil-texture-specific maximum groundwater recharge with values of 7, 4.5 and 2.5 mmd−1 for sandy,
+loamy and clayey soils, respectively, and :math:`{f}_{g}` is the groundwater recharge factor ranging between 0 and 1. :math:`{f}_{g}` is determined
+based on relief, soil texture, aquifer type, and the existence of permafrost or glaciers [4]_. 
+
+.. note::
+   If a grid cell is defined as (semi)arid and has coarse (sandy) soil, groundwater recharge will only occur if precipitation exceeds a critical value of 12.5 mmd−1, otherwise the water remains in the soil. The fraction of :math:`{R}_{l}` that does not recharge the groundwater becomes :math:`{R}_{s}`, which recharges surface water bodies and the river compartment
+
+References 
+----------
+.. [1] UBatjes, N. H.: ISRIC-WISE derived soil properties on a 5 by 5 arc-minutes global grid (ver. 1.2), Tech. Rep. 2012/01, ISRIC–World Soil Information, Wageningen, 2012.
+
+.. [2] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
+
+.. [3] Bergström, S.: The HBV model, in: Computer models of watershed hydrology, edited by: Singh, V., Water Resources Publications, Lone Tree, USA, 443–476, 1995
+
+.. [4] Döll, P. and Fiedler, K.: Global-scale modeling of groundwater recharge, Hydrol. Earth Syst. Sci., 12, 863–885, https://doi.org/10.5194/hess-12-863-2008, 2008.
