@@ -9,7 +9,6 @@ WaterGAP is an open-source software with the aim of increasing reproducibility a
 WaterGAP has been generally categorized into two sections: 
 
 #. **WaterGAP framework** which consists of:
-
    * *WaterGAPUse* which includes the five sectoral water use models. 
    * *WaterGapCore* which includes the linking model Groundwater-Surface Water Use (GWSWUSE) and the WaterGAP Global Hydrology Model (WGHM).
 
