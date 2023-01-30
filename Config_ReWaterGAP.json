@@ -1,0 +1,66 @@
+{
+  "FilePath": {
+    "inputDir": "input_data/",
+    "outputDir": "output_data/"
+  },
+  "RuntimeOptions": [
+    {
+      "SimilationOption": {
+        "ant": false
+      }
+    },
+    {
+      "SimilationPeriod": {
+        "start": "1901-01-01",
+        "end": "1901-12-31"
+      }
+    },
+    {
+      "TimeStep": {
+        "hourly": false,
+        "daily": true
+      }
+    }
+  ],
+  "outputVariable": [
+    {
+      "VerticalWaterBalanceFluxes": {
+        "potevap": false,
+        "netrad": false,
+        "lai": false,
+        "canopy_evap": false,
+        "throughfall": false,
+        "snow_fall": true,
+        "snow_melt": true,
+        "snow_evap": true,
+        "groundwater_recharge": false,
+        "surface_runoff": false
+      }
+    },
+    {
+      "VerticalWaterBalanceStorages": {
+        "canopystor": true,
+        "swe": true,
+        "soilmoist": true
+      }
+    },
+    {
+      "LateralWaterBalanceFluxes": {
+        "groundwater_discharge": true,
+        "locallake_outflow": true,
+        "localwetland_outflow": true,
+    	"globallake_outflow": true,
+        "globalwetland_outflow": true
+      }
+    },
+    {
+      "LateralWaterBalanceStorages": {
+        "groundwater_storage": true,
+        "locallake_storage": true,
+        "localwetland_storage": true,
+    	"globallake_storage": true,
+    	"globalwetland_storage": true
+      }
+    }
+  ]
+}

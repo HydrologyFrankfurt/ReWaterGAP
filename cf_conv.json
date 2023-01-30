@@ -1,0 +1,6 @@
+{
+   "variables":{
+      "shortname":["pr","rlds","rsds","tas"],
+      "units":["kg m-2 s-1","W m-2","W m-2","K"]
+   }
+}
