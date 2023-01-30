@@ -30,9 +30,9 @@ class OuputVariable:
         Output variable.
 
         """
+        self.variable_name = variable_name
         self.create = create
         if self.create is True:
-            self.variable_name = variable_name
             self.grid_coords = grid_coords
             self.path = cm.config_file['FilePath']['outputDir']
 

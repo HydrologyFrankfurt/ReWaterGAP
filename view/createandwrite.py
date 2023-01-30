@@ -122,7 +122,7 @@ class CreateandWritetoVariables:
 
         loclake_outflow = \
             do.OuputVariable('locallake_outflow',
-                             cm.lb_storages.get('locallake_outflow'),
+                             cm.lb_fluxes.get('locallake_outflow'),
                              grid_coords)
 
         locwet_storage = \
@@ -131,7 +131,7 @@ class CreateandWritetoVariables:
                              grid_coords)
         locwet_outflow = \
             do.OuputVariable('localwetland_outflow',
-                             cm.lb_storages.get('localwetland_outflow'),
+                             cm.lb_fluxes.get('localwetland_outflow'),
                              grid_coords)
 
         glolake_storage = \
@@ -141,7 +141,7 @@ class CreateandWritetoVariables:
 
         glolake_outflow = \
             do.OuputVariable('globallake_outflow',
-                             cm.lb_storages.get('globallake_outflow'),
+                             cm.lb_fluxes.get('globallake_outflow'),
                              grid_coords)
 
         glowet_storage = \
@@ -151,9 +151,16 @@ class CreateandWritetoVariables:
 
         glowet_outflow = \
             do.OuputVariable('globalwetland_outflow',
-                             cm.lb_storages.get('globalwetland_outflow'),
+                             cm.lb_fluxes.get('globalwetland_outflow'),
                              grid_coords)
-
+        river_storage = \
+            do.OuputVariable('river_storage',
+                             cm.lb_storages.get('river_storage'),
+                             grid_coords)
+        streamflow = \
+            do.OuputVariable('streamflow',
+                             cm.lb_fluxes.get('streamflow'),
+                             grid_coords)
         # =====================================================================
         # Grouping all lateral water balance variables
         # =====================================================================
@@ -162,14 +169,16 @@ class CreateandWritetoVariables:
                                  'locallake_storage': loclake_storage,
                                  'localwetland_storage': locwet_storage,
                                  'globallake_storage': glolake_storage,
-                                 'globalwetland_storage': glowet_storage})
+                                 'globalwetland_storage': glowet_storage,
+                                 'river_storage': river_storage})
 
         # Fluxes
         self.lb_fluxes.update({'groundwater_discharge': groundwater_discharge,
                                'locallake_outflow': loclake_outflow,
                                'localwetland_outflow': locwet_outflow,
                                'globallake_outflow': glolake_outflow,
-                               'globalwetland_outflow': glowet_outflow})
+                               'globalwetland_outflow': glowet_outflow,
+                               'streamflow': streamflow})
 
     def verticalbalance_write_daily_var(self, value, time_step):
         """
@@ -271,22 +280,29 @@ class CreateandWritetoVariables:
         self.lb_storages['globalwetland_storage'].\
             write_daily_ouput(storage_var['globalwetland_storage'], time_step)
 
+        self.lb_storages['river_storage'].\
+            write_daily_ouput(storage_var['river_storage'], time_step)
+
         # Fluxes
         fluxes_var = value[1]
-        self.lb_fluxes['groundwater_discharge'].\
-            write_daily_ouput(fluxes_var['groundwater_discharge'], time_step)
 
-        self.lb_fluxes['locallake_outflow'].\
-            write_daily_ouput(fluxes_var['locallake_outflow'], time_step)
+        # self.lb_fluxes['groundwater_discharge'].\
+        #     write_daily_ouput(fluxes_var['groundwater_discharge'], time_step)
 
-        self.lb_fluxes['localwetland_outflow'].\
-            write_daily_ouput(fluxes_var['localwetland_outflow'], time_step)
+        # self.lb_fluxes['locallake_outflow'].\
+        #     write_daily_ouput(fluxes_var['locallake_outflow'], time_step)
 
-        self.lb_fluxes['globallake_outflow'].\
-            write_daily_ouput(fluxes_var['globallake_outflow'], time_step)
+        # self.lb_fluxes['localwetland_outflow'].\
+        #     write_daily_ouput(fluxes_var['localwetland_outflow'], time_step)
 
-        self.lb_fluxes['globalwetland_outflow'].\
-            write_daily_ouput(fluxes_var['globalwetland_outflow'], time_step)
+        # self.lb_fluxes['globallake_outflow'].\
+        #     write_daily_ouput(fluxes_var['globallake_outflow'], time_step)
+
+        # self.lb_fluxes['globalwetland_outflow'].\
+        #     write_daily_ouput(fluxes_var['globalwetland_outflow'], time_step)
+
+        # self.lb_fluxes['streamflow'].\
+        #     write_daily_ouput(fluxes_var['streamflow'], time_step)
 
     def save_to_netcdf(self):
         """
@@ -317,6 +333,8 @@ class CreateandWritetoVariables:
         self.lb_storages['globallake_storage'].to_netcdf('globallake_storage')
         self.lb_storages['globalwetland_storage'].\
             to_netcdf('globalwetland_storage')
+
+        self.lb_storages['river_storage'].to_netcdf('river_storage')
 
         # =====================================================================
         #                       Fluxes
@@ -349,3 +367,5 @@ class CreateandWritetoVariables:
 
         self.lb_fluxes['globalwetland_outflow'].\
             to_netcdf('globalwetland_outflow')
+
+        self.lb_fluxes['streamflow'].to_netcdf('streamflow')
