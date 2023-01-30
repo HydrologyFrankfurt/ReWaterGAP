@@ -1,0 +1,185 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue May 10 13:15:40 2022.
+
+@author: nyenah
+"""
+
+import logging
+from pathlib import Path
+import os
+import sys
+import numpy as np
+import xarray as xr
+import pandas as pd
+import watergap_logger as log
+import misc.cli_args as cli
+from controller import configuration_module as cm
+
+
+# ===============================================================
+# Get module name and remove the .py extension
+# Module name is passed to logger
+# ===============================================================
+modname = (os.path.basename(__file__))
+modname = modname.split('.')[0]
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++
+# Parsing  Argguments for CLI from cli_args module
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+args = cli.parse_cli()
+
+# ===============================================================
+# Read in filepath from configuration file and opens file
+# ===============================================================
+
+
+class StaticData:
+    """Handles static data."""
+
+    def __init__(self):
+        """
+        Get file path.
+
+        Return
+        ------
+        Static data
+
+        """
+        # ==============================================================
+        # path to climate forcing netcdf data
+        # ==============================================================
+        land_cover_path = str(Path(cm.config_file['FilePath']['inputDir'] +
+                                   r'static_input/watergap_22d_landcover.nc4'))
+
+        humid_arid_path = str(Path(cm.config_file['FilePath']['inputDir'] +
+                                   r'static_input/watergap_22e_aridhumid.nc4'))
+
+        canopy_model_parameters_path = str(Path(cm.config_file['FilePath']
+                                                ['inputDir']+r'static_input'
+                                                '/canopy_model_'
+                                                'parameters.csv'))
+        land_surface_waterfraction_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/land_water_fractions/*'))
+
+        soil_static_files_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/soil_storage/*'))
+
+        gtopo30_elevation_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/watergap_22e_v001_elevrange.nc4'))
+
+        cell_area_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/cell_area.nc'))
+
+        # land_mask_path = \
+        #     str(Path(cm.config_file['FilePath']['inputDir'] +
+        #              r'static_input/land_mask.nc'))
+        # ==============================================================
+        # Loading in climate forcing
+        # ==============================================================
+        try:
+            # Actual name: Land cover , Unit: (-)
+            land_cover = xr.open_dataset(land_cover_path,
+                                         decode_times=False)
+            self.land_cover = land_cover.landcover[0].values
+
+            # Humid-arid calssification based on Müller Schmied et al. 2021
+            humid_arid = xr.open_dataset(humid_arid_path,
+                                         decode_times=False)
+            self.humid_arid = humid_arid.aridhumid[0].values
+
+            # Elevations according to GTOPO30 (U.S. Geological Survey, 1996)
+            gtopo30_elevation = xr.open_dataset(gtopo30_elevation_path,
+                                                decode_times=False)
+            self.gtopo30_elevation = gtopo30_elevation.elevrange.values
+
+            # Canopy model paramters (Table)
+            self.canopy_model_parameters = \
+                pd.read_csv(canopy_model_parameters_path)
+
+            # Land and surface water fractions
+            self.land_surface_water_fraction = \
+                xr.open_mfdataset(land_surface_waterfraction_path,
+                                  decode_times=False)
+            # Soil static files
+            self.soil_static_files = \
+                xr.open_mfdataset(soil_static_files_path,
+                                  decode_times=False)
+            # Cell Area
+            cell_area = xr.open_dataset(cell_area_path, decode_times=False)
+            self.cell_area = cell_area.cell_area.values
+
+            # #  land_mask
+            # self.land_mask = \
+            #     xr.open_dataarray(land_mask_path, decode_times=False)
+
+        except FileNotFoundError:
+            log.config_logger(logging.ERROR, modname, 'Static data '
+                              'not found', args.debug)
+            sys.exit()  # dont run code if file does not exist
+        except ValueError:
+            log.config_logger(logging.ERROR, modname, 'File(s) extension '
+                              'should be NETCDF or CSV for canopy model'
+                              'parameters', args.debug)
+            sys.exit()  # dont run code if file does not exist
+        else:
+            print('\n'+'Static data loaded successfully')
+
+    def soil_static_data(self):
+        """
+        Update land area fraction.
+
+        Returns
+        -------
+        None.
+
+        """
+        # Built up area, units = (-)
+        builtup_area = self.soil_static_files.builtup_area.values
+
+        # Total available water content, units = mm
+        total_avail_water_content = self.soil_static_files.tawc.values
+
+        # Drainage direction of the grid cell, units = (-)
+        drainage_direction = \
+            self.soil_static_files.drainage_direction[0].values
+
+        # Maxumum ground water recharge = mm
+        max_groundwater_recharge = self.soil_static_files.rgmax.values/100
+
+        # Soil texture, units= (-)
+        soil_texture = self.soil_static_files.texture.values
+
+        # Corrected Missipi only groundwater recharge factor, units= (-)
+        gw_recharge_factor_corr = \
+            self.soil_static_files.gw_factor_corr.values
+
+        # Uncorrected groundwater recharge factor, units= (-)
+        gw_recharge_factor_uncorr = \
+            self.soil_static_files.gw_factor_uncorr.values
+
+        # Groundwater recharge factor, units= (-)
+        # send to paramaters (since calibration is made for this parameter)
+        groundwater_recharge_factor = \
+            np.where(gw_recharge_factor_corr > 0, gw_recharge_factor_corr,
+                     gw_recharge_factor_uncorr)
+
+        return builtup_area, total_avail_water_content, drainage_direction,\
+            max_groundwater_recharge, soil_texture, groundwater_recharge_factor
+
+# =============================================================================
+#     def update_surfacewater_fractions(self):
+#         """
+#         Update land area fraction.
+#
+#         Returns
+#         -------
+#         None.
+#
+#         """
+#         return self.land_surface_water_fraction
+# =============================================================================
