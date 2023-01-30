@@ -22,9 +22,10 @@
 # =============================================================================
 
 import numpy as np
-from core.verticalwaterbalance import parameters as pm
+from numba import njit
 
 
+@njit(cache=True)
 def update_netabs_gw():
     """
     Update net groundwater abstraction.
@@ -38,9 +39,10 @@ def update_netabs_gw():
     return 0
 
 
+@njit(cache=True)
 def compute_groundwater_storage(aridity_or_inlandsink, groundwater_storage,
                                 diffuse_gw_recharge, cell_area, netabs_gw,
-                                remaining_use, land_area_frac,
+                                remaining_use, land_area_frac, gw_dis_coeff,
                                 point_source_recharge=None):
     """
     Compute daily groundwater storage and related fluxes.
@@ -73,7 +75,7 @@ def compute_groundwater_storage(aridity_or_inlandsink, groundwater_storage,
      groundwater_discharge : array
         Updated daily groundwater discharge, Unit: km3/day
     """
-    groundwater_storage_prev = groundwater_storage.copy()
+    groundwater_storage_prev = groundwater_storage
 
     # =========================================================================
     # Computing net groundwater recharge (netgw_in [km3])  which is defined as
@@ -81,10 +83,11 @@ def compute_groundwater_storage(aridity_or_inlandsink, groundwater_storage,
     # =========================================================================
     # Point_source_recharge is only computed for arid surafce water bodies.
     # Except arid inlank sink
-    if aridity_or_inlandsink == 'humid' or aridity_or_inlandsink == "inland sink":
+    if aridity_or_inlandsink == "humid" or \
+            aridity_or_inlandsink == "inland sink":
         point_source_recharge = 0
 
-    netgw_in = diffuse_gw_recharge  + point_source_recharge
+    netgw_in = diffuse_gw_recharge + point_source_recharge
 
     # Update net abstraction from groundwater if there is unsatisfied water use
     # from previous time step.
@@ -99,19 +102,20 @@ def compute_groundwater_storage(aridity_or_inlandsink, groundwater_storage,
     # Groundwater balance dS/dt = netgw_in - NAg - k*S is solved analytically
     #  for each time step of 1 day to prevent numerical inaccuracies.
 
-    groundwater_storage = groundwater_storage_prev * np.exp(-1*pm.gw_dis_coeff) +\
-        (netgw_in/pm.gw_dis_coeff)*(1-np.exp(-1*pm.gw_dis_coeff))
+    groundwater_storage = groundwater_storage_prev * np.exp(-1 * gw_dis_coeff) +\
+        (netgw_in/gw_dis_coeff)*(1-np.exp(-1 * gw_dis_coeff))
 
     groundwater_discharge = \
         groundwater_storage_prev - groundwater_storage + netgw_in
 
-    groundwater_discharge[groundwater_discharge <= 0] = 0
-
     # Recalculate groundwater storage when groundwater discharge=0
     # dS/dt = netgw_in - NAg (without k*S) -> S(t) = S(t-1) + netgw_in
 
-    groundwater_storage = np.where(groundwater_discharge == 0,
+    groundwater_storage = np.where(groundwater_discharge <= 0,
                                    groundwater_storage_prev + netgw_in,
                                    groundwater_storage)
+
+    groundwater_discharge = np.where(groundwater_discharge <= 0, 0,
+                                     groundwater_discharge)
 
     return groundwater_storage, groundwater_discharge

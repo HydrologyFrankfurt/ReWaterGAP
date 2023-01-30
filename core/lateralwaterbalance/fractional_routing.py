@@ -17,12 +17,14 @@
 # between (semi)arid and humid grid cells
 # =============================================================================
 import numpy as np
-from core.verticalwaterbalance import parameters as pm
+from numba import njit
 
 
+@njit(cache=True)
 def frac_routing(surface_runoff, groundwater_discharge, loclake_frac,
                  locwet_frac, glowet_frac, glolake_frac,
-                 reglake_frac, headwater_cell, drainage_direction):
+                 reglake_frac, headwater_cell, drainage_direction,
+                 swb_drainage_area_factor):
     """
     Route water through storage compartment using fractional routing scheme.
 
@@ -51,29 +53,10 @@ def frac_routing(surface_runoff, groundwater_discharge, loclake_frac,
     #  Computing fractional routing factor(fswb_catchment)
     # =========================================================================
     # fswb_catchment is a static value
-    fswb_catchment = (loclake_frac + locwet_frac + glowet_frac) * pm.\
+    fswb_catchment = (loclake_frac + locwet_frac + glowet_frac) * \
         swb_drainage_area_factor
-# =============================================================================
-#               Will fix this later
-#     # setting reservoir fraction to zero for now.
-#     # reservoir_frac = 0
-#     # fswb_catchment = \
-#     #     np.where(headwater_cell == 1, fswb_catchment +
-#     #              (glolake_frac + reglake_frac + reservoir_frac)*pm.\
-#     #    swb_drainage_area_factor,
-#     #              fswb_catchment)
-# =============================================================================
-    fswb_catchment[fswb_catchment > 1] = 1
 
-    # Head water cells. why is fswb_catacment calulated for head water cell?***
-    # fswb_catchment_headwater = (gloLake + reglake + reservior) * 20
-    # limit reserviour to 60%  of runoff..
-    # =========================================================================
-    #     # For antropogenic run
-    # =========================================================================
-    # It is assumed that the fswb_catchment cannot be less than 0.6 in
-    # headwater cells with a reservoir. This means that at least 60% of
-    # surface runoff should go through the reservoir in headwater cells.
+    fswb_catchment = np.where(fswb_catchment > 1, 1, fswb_catchment)
 
     # =========================================================================
     #   Routing surface runoff and groundwater discharge into surface water
@@ -85,29 +68,33 @@ def frac_routing(surface_runoff, groundwater_discharge, loclake_frac,
     local_runoff_river = (1-fswb_catchment) * surface_runoff
 
     # Groundwater discharge is routed into surface water bodies considering
-    # only humid areas.****
+    # only humid areas.
     local_gwrunoff_swb = fswb_catchment * groundwater_discharge
     local_gwrunoff_river = (1-fswb_catchment) * groundwater_discharge
 
     # =========================================================================
-    #     # inland sinks
+    #   Inland sinks
     # =========================================================================
     # Surface runoff and groundwater discharge fills an inland sink.
     # Also there are no outflows the inland sinks.
-    local_runoff_river[drainage_direction < 0] = 0
+    local_runoff_river = \
+        np.where(drainage_direction < 0, 0, local_runoff_river)
+
     local_runoff_swb = np.where(drainage_direction < 0, surface_runoff,
                                 local_runoff_swb)
     local_gwrunoff_swb = \
         np.where(drainage_direction < 0, groundwater_discharge,
                  local_gwrunoff_swb)
-    local_gwrunoff_river[drainage_direction < 0] = 0
+    local_gwrunoff_river = \
+        np.where(drainage_direction < 0, 0, local_gwrunoff_river)
 
     # =========================================================================
-    #   Combining routed surface runoff and groundwater discharge into
-    #   local runoff.
+    # Combining routed surface runoff and groundwater discharge into local
+    # runoff. The remaining discharge is combined into local river inflow
     # =========================================================================
     local_runoff = local_runoff_swb + local_gwrunoff_swb
+    local_river_inflow = local_runoff_river + local_gwrunoff_river
 
     # Note: In semi-arid/arid areas, all groundwater reaches the river directly
 
-    return local_runoff
+    return local_runoff, local_river_inflow

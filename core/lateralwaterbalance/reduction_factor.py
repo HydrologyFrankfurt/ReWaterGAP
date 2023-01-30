@@ -10,7 +10,8 @@
 # =============================================================================
 
 import numpy as np
-from core.verticalwaterbalance import parameters as pm
+from numba import njit
+
 
 # =============================================================================
 # Calculating area reduction factor for dynamic area calulation based on
@@ -18,7 +19,9 @@ from core.verticalwaterbalance import parameters as pm
 # =============================================================================
 
 
-def loclake_and_wetlands_redufactor(storage, max_storage, choose_swb):
+@njit(cache=True)
+def loclake_and_wetlands_redufactor(storage, max_storage, choose_swb,
+                                    reduction_exponent_lakewet):
     """
     Computes dynamic global or local lake or wetland area.
 
@@ -46,20 +49,20 @@ def loclake_and_wetlands_redufactor(storage, max_storage, choose_swb):
     # n_factor=2 is for global and local lakes and n_factor=1 is for global
     #  reservoirs/regulated lakes and local and global wetlands
     # =========================================================================
-    if choose_swb == 'local lake' or choose_swb == "global lake":
-        n_factor = 2
+    if choose_swb == "local lake" or choose_swb == "global lake":
+        n_factor = 2.0
     else:
-        n_factor = 1
+        n_factor = 1.0
 
-    reductionfactor_div = \
-        np.divide(np.abs(storage - max_storage), (n_factor * max_storage),
-                  out=np.zeros_like(max_storage), where=max_storage != 0)
+    reductionfactor_div =\
+        np.abs(storage - max_storage)/(n_factor * max_storage)
 
-    reductionfactor = \
-        1-(reductionfactor_div)**pm.reduction_exponent_lakewet
+    reductionfactor = 1-(reductionfactor_div)**reduction_exponent_lakewet
 
-    # limits of the Lake reduction factor
-    reductionfactor[reductionfactor < 0] = 0
-    reductionfactor[reductionfactor > 1] = 1
+    # # limits of the Lake reduction factor
+    if reductionfactor < 0:
+        reductionfactor = 0
+    elif reductionfactor > 1:
+        reductionfactor = 1
 
     return reductionfactor

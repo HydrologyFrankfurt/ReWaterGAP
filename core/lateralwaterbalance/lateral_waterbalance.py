@@ -10,11 +10,14 @@
 # =============================================================================
 """Lateral waterbalance."""
 
+# =============================================================================
+# This module brings all lateral water balance functions together to run and
+# makes use of numba to optimize speed (especially routing)
+# =============================================================================
+
 import numpy as np
-from core.lateralwaterbalance import groundwaterstorage as gws
-from core.lateralwaterbalance import local_lakes_and_wetlands as lw
-from core.lateralwaterbalance import fractional_routing as fr
-from core.verticalwaterbalance import parameters as pm
+from core.lateralwaterbalance import river_property as rvp
+from core.lateralwaterbalance import rout_flow as rt
 
 
 class LateralWaterBalance:
@@ -23,82 +26,145 @@ class LateralWaterBalance:
     # Getting all storages and fluxes in this dictionary container
     fluxes = {}
     storages = {}
+    land_swb_fraction = {}
 
-    def __init__(self, forcings_static):
-        # Cell Area, unit = km2
+    def __init__(self, forcings_static, parameters):
+        # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        # Initialize storages and process propteries for lateral water balance
+        # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        #                  =================================
+        #                  ||     Continent properties    ||
+        #                  =================================
+        # Cell area , Units : km2
         self.cell_area = forcings_static.static_data.cell_area
-
+        self.parameters = parameters
         self.arid = forcings_static.static_data.humid_arid
         self.drainage_direction = \
             forcings_static.static_data.\
             soil_static_files.drainage_direction[0].values
         self.land_area_frac = forcings_static.curent_landareafrac
 
-        # =====================================================================
-        # Groundwater Storage, Units : m3
-        # =====================================================================
+        #                  =================================
+        #                  ||          Groundwater        ||
+        #                  =================================
+
+        # Groundwater storage, Units : km3
         self.groundwater_storage = np.zeros((forcings_static.lat_length,
                                             forcings_static.lon_length))
+
+        # Net groundwater abstraction , Units : km3/ day
         self.netabs_gw = np.zeros((forcings_static.lat_length,
                                    forcings_static.lon_length))
+        # Total unsatified Water use, units = km3/ day
         self.remaining_use = np.zeros((forcings_static.lat_length,
                                       forcings_static.lon_length))
 
-        # =====================================================================
-        # Local lake storage, Units : m3
-        # =====================================================================
+        #                  =================================
+        #                  ||          Local lake         ||
+        #                  =================================
         self.loclake_frac = forcings_static.static_data.\
-            land_surface_water_fraction.loclak[0].values / 100
+            land_surface_water_fraction.loclak[0].values.astype(np.float64)/100
 
         # Initializing local lake storage to maximum
         m_to_km = 0.001
         max_loclake_storage = self.cell_area * self.loclake_frac * \
-            pm.activelake_depth * m_to_km
+            self.parameters.activelake_depth * m_to_km
+
+        # Local lake storage, Units : km3
         self.loclake_storage = max_loclake_storage
 
-        # =====================================================================
-        # Local wetland storage, Units : m3
-        # =====================================================================
+        #                  =================================
+        #                  ||          Local wetland      ||
+        #                  =================================
+
         self.locwet_frac = forcings_static.static_data.\
-            land_surface_water_fraction.locwet[0].values / 100
+            land_surface_water_fraction.locwet[0].values.astype(np.float64)/100
 
         # Initializing local weltland storage to maximum
         max_locwet_storage = self.cell_area * self.locwet_frac * \
-            pm.activewetland_depth * m_to_km
+            self.parameters.activewetland_depth * m_to_km
+
+        # Local wetland storage, Units : km3
         self.locwet_storage = max_locwet_storage
 
-        # =====================================================================
-        # Global lakes storage, Units : m3
-        # =====================================================================
-        self.glolake_frac = forcings_static.static_data.\
-            land_surface_water_fraction.glolak[0].values / 100
+        #                  =================================
+        #                  ||          Global lake        ||
+        #                  =================================
 
+        self.glolake_frac = forcings_static.static_data.\
+            land_surface_water_fraction.glolak[0].values.astype(np.float64)/100
+
+        # Global lake area Units : km2
         self.glolake_area = forcings_static.global_lake_area
 
-        # Initializing global lake storage to maximum
-        self.glolake_storage = self.glolake_area * pm.activelake_depth * \
+        # Initializing global lake storage to maximum,  Units : km3
+        self.glolake_storage = self.glolake_area * self.parameters.activelake_depth * \
             m_to_km
-        # =====================================================================
-        # Global wetland storage, Units : m3
-        # =====================================================================
-        self.glowet_frac = forcings_static.static_data.\
-            land_surface_water_fraction.glowet[0].values / 100
 
-        # Initializing local weltland storage to maximum
+        #                  =================================
+        #                  ||        Global  wetland      ||
+        #                  =================================
+        self.glowet_frac = forcings_static.static_data.\
+            land_surface_water_fraction.glowet[0].values.astype(np.float64)/100
+
+        # Initializing global weltland storage to maximum, , Units : km3
         max_glowet_storage = self.cell_area * self.glowet_frac * \
-            pm.activewetland_depth * m_to_km
+            self.parameters.activewetland_depth * m_to_km
         self.glowet_storage = max_glowet_storage
 
-        # =====================================================================
-        # Regulated  lakes storage, Units : m3
-        # =====================================================================
+        #                  =================================
+        #                  ||            River            ||
+        #                  =================================
+
+        # The following river properties are input into the RiverProperties
+        # function  which ouputs other properties such as
+        # river bottom width (km), maximum river storage (km3),  river length
+        # corrected with continental area fraction (km).
+
+        # River slope (-),
+        river_slope = forcings_static.static_data.river_static_files.\
+            river_slope[0].values.astype(np.float64)
+        # Roughness (-)
+        roughness = \
+            forcings_static.static_data.river_static_files.\
+            river_bed_roughness[0].values.astype(np.float64)
+        # River length (m)
+        river_length = forcings_static.static_data.river_static_files.\
+            river_length[0].values.astype(np.float64)
+        # Bank full river flow (m3/s)
+        bankfull_flow = forcings_static.static_data.river_static_files.\
+            bankfull_flow[0].values.astype(np.float64)
+        # continental area fraction (-)
+        continental_fraction = forcings_static.static_data.\
+            land_surface_water_fraction.contfrac.values
+
+        self.get_river_prop = rvp.RiverProperties(river_slope, roughness,
+                                                  river_length, bankfull_flow,
+                                                  continental_fraction)
+        # Initiliase routing order and respective outflow cell
+        rout_order = forcings_static.static_data.rout_order
+        self.rout_order = rout_order[['Lat_index_routorder',
+                                      'Lon_index_routorder']].to_numpy()
+
+        self.outflow_cell = rout_order[['Lat_index_outflowcell',
+                                       'Lon_index_outflowcell']].to_numpy()
+
+        # Initializing river storage to maximum (River at bankfull condition),
+        # Units : km3
+        self.river_storage = self.get_river_prop.max_river_storage
+
+        #                  =================================
+        #                  ||    Regulated lake storage   ||
+        #                  =================================
         self.reglake_frac = forcings_static.static_data.\
             land_surface_water_fraction.reglak[0].values / 100
 
-        # =====================================================================
-        # Head water cells.
-        # =====================================================================
-        self.headwater_cell = forcings_static.static_data.\
+        # Regulated lake storage, Units : km3 *****
+
+        #                  =================================
+        #                  ||    Head water cells         ||
+        #                  =================================
+        self.headwater = forcings_static.static_data.\
             land_surface_water_fraction.headwater_cell.values
 
     def calculate(self, diffuse_gw_recharge, openwater_pot_evap, precipitation,
@@ -136,225 +202,110 @@ class LateralWaterBalance:
 
         surface_runoff = surface_runoff * self.cell_area * mm_to_km * \
             self.land_area_frac
+        # print( precipitation[43,129], surface_runoff[43,129])
+        # =====================================================================
+        # Preparing input variables for river routing
+        # =====================================================================
+        # Routing is optimised for with numba which cannot work on the *self*
+        # object hence a copy of the self variable is created.
+        rout_order = self.rout_order.copy()
+        arid = self.arid.copy()
+        drainage_direction = self.drainage_direction.copy()
+        groundwater_storage = self.groundwater_storage.copy()
+        cell_area = self.cell_area.copy()
+        netabs_gw = self.netabs_gw.copy()
+        remaining_use = self.remaining_use.copy()
+        land_area_frac = self.land_area_frac.copy()
+        loclake_frac = self.loclake_frac.copy()
+        locwet_frac = self.locwet_frac.copy()
+        glowet_frac = self.glowet_frac.copy()
+        glolake_frac = self.glolake_frac.copy()
+        reglake_frac = self.reglake_frac.copy()
+        headwater = self.headwater.copy()
+        loclake_storage = self.loclake_storage.copy()
+        locwet_storage = self.locwet_storage.copy()
+        glolake_storage = self.glolake_storage.copy()
+        glolake_area = self.glolake_area.copy()
+        glowet_storage = self.glowet_storage.copy()
+        river_storage = self.river_storage.copy()
+        river_length = self.get_river_prop.river_length.copy()
+        river_bottom_width = self.get_river_prop.river_bottom_width.copy()
+        roughness = self.get_river_prop.roughness.copy()
+        river_slope = self.get_river_prop.river_slope.copy()
+        outflow_cell = self.outflow_cell.copy()
 
         # =====================================================================
-        #               Groundwater storage, Unit : km3/day
+        # Routing
         # =====================================================================
-        # 1. Compute groundwater storage for humid cells, Unit : km3/day
-        # =====================================================================
-        # Groundwater storage is computed 1st for humid region (self.arid == 0)
-        # Note!!!: WaterGAP assumes no groundwater discharge from arid regions
-        # into surface waterbodies(local and global lakes and wetlands) except
-        # rivers
-        daily_groundwaterstorage_humid = \
-            np.where((self.arid == 0) & (self.drainage_direction >= 0), gws.
-                     compute_groundwater_storage("humid",
-                                                 self.groundwater_storage,
-                                                 diffuse_gw_recharge,
-                                                 self.cell_area,
-                                                 self.netabs_gw,
-                                                 self.remaining_use,
-                                                 self.land_area_frac), 0)
+        #                   ++Sequence++
+        # groudwater(only humidcells)->local lakes->local wetland->...
+        # global lakes->reservior & regulated lakes->global wetalnds->river
 
-        # Outputs from the  daily_groundwaterstorage_humid are
-        # 0 = groundwater_storage,  1 = groundwater_discharge,
+        out = rt.rout(rout_order, arid, drainage_direction,
+                      groundwater_storage, diffuse_gw_recharge, cell_area,
+                      netabs_gw, remaining_use, land_area_frac,
+                      surface_runoff, loclake_frac, locwet_frac,
+                      glowet_frac, glolake_frac, glolake_area,
+                      reglake_frac, headwater, loclake_storage,
+                      locwet_storage, glolake_storage, glowet_storage,
+                      precipitation, openwater_pot_evap, river_storage,
+                      river_length, river_bottom_width, roughness,
+                      river_slope, outflow_cell,
+                      self.parameters.gw_dis_coeff,
+                      self.parameters.swb_drainage_area_factor,
+                      self.parameters.swb_outflow_coeff,
+                      self.parameters.gw_recharge_constant,
+                      self.parameters.reduction_exponent_lakewet,
+                      self.parameters.areal_corr_factor,
+                      self.parameters.lake_out_exp,
+                      self.parameters.activelake_depth,
+                      self.parameters.wetland_out_exp,
+                      self.parameters.activewetland_depth,
+                      self.parameters.stat_corr_fact)
 
-        groundwater_storage = daily_groundwaterstorage_humid[0]
-        groundwater_discharge = daily_groundwaterstorage_humid[1]
-
-        # =====================================================================
-        # 2. Compute goundwater storage for inland sink, Unit : km3/day
-        # =====================================================================
-        daily_groundwaterstorage_landsink = \
-            np.where(self.drainage_direction < 0, gws.
-                     compute_groundwater_storage("inland sink",
-                                                 self.groundwater_storage,
-                                                 diffuse_gw_recharge,
-                                                 self.cell_area,
-                                                 self.netabs_gw,
-                                                 self.remaining_use,
-                                                 self.land_area_frac), 0)
-
-        # Groundwater storage (discharge) from humid and inland sinks are
-        # combined.
-        groundwater_storage = np.where(self.drainage_direction < 0,
-                                       daily_groundwaterstorage_landsink[0],
-                                       groundwater_storage)
-
-        groundwater_discharge = np.where(self.drainage_direction < 0,
-                                         daily_groundwaterstorage_landsink[1],
-                                         groundwater_discharge)
-
-        # =====================================================================
-        # Fractional routing to get infjow to surface waterbody, Unit: km3/day
-        # =====================================================================
-        inflow_to_swb = fr.frac_routing(surface_runoff,
-                                        groundwater_discharge,
-                                        self.loclake_frac, self.locwet_frac,
-                                        self.glowet_frac, self.glolake_frac,
-                                        self.reglake_frac, self.headwater_cell,
-                                        self.drainage_direction)
-
-        # =====================================================================
-        # Compute local lake storage, Units : km3/day
-        # =====================================================================
-        loclake_storage = \
-            np.where(self.loclake_frac > 0,
-                     lw.lake_and_wetlands_balance('local lake',
-                                                  self.loclake_storage,
-                                                  self.loclake_frac,
-                                                  precipitation,
-                                                  openwater_pot_evap,
-                                                  self.arid,
-                                                  self.drainage_direction,
-                                                  inflow_to_swb,
-                                                  self.cell_area,), np.nan)
-
-        # Outputs from the lake_and_wetlands_balance are
-        # 0 = local lake storage,  1 = local lake outflow,
-        # 2 = groundwater recharge from local lake
-
-        self.loclake_storage = loclake_storage[0]
-        loclake_outflow = loclake_storage[1]
-        gwr_loclake = loclake_storage[2]
-
-        # update inflow to surface water bodies
-        inflow_to_swb = np.where(self.loclake_frac > 0, loclake_outflow,
-                                 inflow_to_swb)
-        # =====================================================================
-        # Compute local wetland storage, Units : km3/day
-        # =====================================================================
-        locwet_inflow = inflow_to_swb
-        locwet_storage = \
-            np.where(self.locwet_frac > 0,
-                     lw.lake_and_wetlands_balance('local wetland',
-                                                  self.locwet_storage,
-                                                  self.locwet_frac,
-                                                  precipitation,
-                                                  openwater_pot_evap,
-                                                  self.arid,
-                                                  self.drainage_direction,
-                                                  locwet_inflow,
-                                                  self.cell_area,), np.nan)
-
-        # Outputs from the lake_and_wetlands_balance are
-        # 0 = local wetland storage,  1 = local wetland outflow,
-        # 2 = groundwater recharge from local wetland
-
-        self.locwet_storage = locwet_storage[0]
-        locwet_outflow = locwet_storage[1]
-        gwr_locwet = locwet_storage[2]
-
-        # update inflow to surface water bodies
-        inflow_to_swb = np.where(self.locwet_frac > 0, locwet_outflow,
-                                 inflow_to_swb)
-
-        # =====================================================================
-        #   Inflow from Upstream river into global lake
-        # ======================================================================
-        upstream_river_inflow_swb = 0
-        inflow_to_swb += upstream_river_inflow_swb
-
-        # =====================================================================
-        # Compute global lake storage, Units : km3/day
-        # =====================================================================
-        glolake_storage = \
-            np.where(self.glolake_area > 0,
-                     lw.lake_and_wetlands_balance('global lake',
-                                                  self.glolake_storage,
-                                                  self.glolake_area,
-                                                  precipitation,
-                                                  openwater_pot_evap,
-                                                  self.arid,
-                                                  self.drainage_direction,
-                                                  inflow_to_swb), np.nan)
-
-        # Outputs from the lake_and_wetlands_balance are
-        # 0 = global lake storage,  1 = global lake outflow,
-        # 2 = groundwater recharge from global lake
-
-        self.glolake_storage = glolake_storage[0]
-        glolake_outflow = glolake_storage[1]
-        gwr_glolake = glolake_storage[2]
-
-        # update inflow to surface water bodies
-        inflow_to_swb = np.where(self.glolake_area > 0, glolake_outflow,
-                                 inflow_to_swb)
-
-        # =====================================================================
-        # Compute global wetland storage, Units : km3/day
-        # =====================================================================
-        glowet_inflow = inflow_to_swb
-        glowet_storage = \
-            np.where(self.glowet_frac > 0,
-                     lw.lake_and_wetlands_balance('global wetland',
-                                                  self.glowet_storage,
-                                                  self.glowet_frac,
-                                                  precipitation,
-                                                  openwater_pot_evap,
-                                                  self.arid,
-                                                  self.drainage_direction,
-                                                  glowet_inflow,
-                                                  self.cell_area,), np.nan)
-
-        # Outputs from the lake_and_wetlands_balance are
-        # 0 = global wetland storage,  1 = global wetland outflow,
-        # 2 = groundwater recharge from global wetland
-
-        self.glowet_storage = glowet_storage[0]
-        glowet_outflow = glowet_storage[1]
-        gwr_glowet = glowet_storage[2]
-
-        # =====================================================================
-        # Compute groundwater storage for arid cells, Units : km3/day
-        # =====================================================================
-        point_source_recharge = \
-            np.nan_to_num(gwr_loclake + gwr_locwet + gwr_glolake + gwr_glowet)
-        # Groundwater storage is now computed for  arid region (self.arid == 1)
-        daily_groundwater_storage_arid = \
-            np.where((self.arid == 1) & (self.drainage_direction >= 0), gws.
-                     compute_groundwater_storage("arid",
-                                                 self.groundwater_storage,
-                                                 diffuse_gw_recharge,
-                                                 self.cell_area,
-                                                 self.netabs_gw,
-                                                 self.remaining_use,
-                                                 self.land_area_frac,
-                                                 point_source_recharge), np.nan)
-
-        # Outputs from the  daily_groundwater_storage_arid are
-        # 0 = groundwater_storage,  1 = groundwater_discharge,
-
-        # Groundwater storage (discharge)  from arid, humid and inland sinks
-        # are combined into one data.
-        self.groundwater_storage = \
-            np.where((self.arid == 1) & (self.drainage_direction >= 0),
-                     daily_groundwater_storage_arid[0], groundwater_storage)
-
-        groundwater_discharge = \
-            np.where((self.arid == 1) & (self.drainage_direction >= 0),
-                     daily_groundwater_storage_arid[1], groundwater_discharge)
-
+        self.groundwater_storage = out[0]
+        self.loclake_storage = out[1]
+        self.locwet_storage = out[2]
+        self.glolake_storage = out[3]
+        self.glowet_storage = out[4]
+        self.river_storage = out[5]
+        updated_locallake_fraction = out[8]
+        updated_localwetland_fraction = out[9]
+        updated_globalwetland_fraction = out[10]
         # =====================================================================
         # Getting all storages
         # =====================================================================
+        # Remove ocean cells from data
+        mask_con = (cell_area/cell_area)
+
         LateralWaterBalance.storages.\
-            update({'groundwater_storage': self.groundwater_storage,
-                    'locallake_storage': self.loclake_storage,
-                    'localwetland_storage': self.locwet_storage,
-                    'globallake_storage': self.glolake_storage,
-                    'globalwetland_storage': self.glowet_storage})
+            update({'groundwater_storage': self.groundwater_storage*mask_con,
+                    'locallake_storage': self.loclake_storage*mask_con,
+                    'localwetland_storage': self.locwet_storage*mask_con,
+                    'globallake_storage': self.glolake_storage*mask_con,
+                    'globalwetland_storage': self.glowet_storage*mask_con,
+                    'river_storage': self.river_storage*mask_con})
 
         # =====================================================================
         # Getting all fluxes
         # =====================================================================
 
-        LateralWaterBalance.fluxes.\
-            update({'groundwater_discharge': groundwater_discharge,
-                    'locallake_outflow': loclake_outflow,
-                    'localwetland_outflow': locwet_outflow,
-                    'globallake_outflow': glolake_outflow,
-                    'globalwetland_outflow': glowet_outflow})
+        # LateralWaterBalance.fluxes.\
+        #    update({'groundwater_discharge': groundwater_discharge,})
+        #           'locallake_outflow': loclake_outflow})
+        #             'localwetland_outflow': locwet_outflow,
+        #             'globallake_outflow': glolake_outflow,
+        #             'globalwetland_outflow': glowet_outflow})
+
+        # =====================================================================
+        #  Get dynamic area fraction for local lakes and local and
+        #  global wetlands
+        # =====================================================================
+        LateralWaterBalance.land_swb_fraction.update({
+            "current_land_area_fraction": self.land_area_frac,
+            "new_locallake_fraction":  updated_locallake_fraction,
+            "new_localwetland_fraction": updated_localwetland_fraction,
+            "new_globalwetland_fraction":  updated_globalwetland_fraction})
 
     def get_storages_and_fluxes(self):
         """
@@ -369,3 +320,16 @@ class LateralWaterBalance:
 
         """
         return LateralWaterBalance.storages, LateralWaterBalance.fluxes
+
+    def get_new_swb_fraction(self):
+        """
+        Get daily  dynamic area fraction for local lakes and local and
+        #  global wetlands
+
+        Returns
+        -------
+        dict
+          updated fractions***.
+
+        """
+        return LateralWaterBalance.land_swb_fraction
