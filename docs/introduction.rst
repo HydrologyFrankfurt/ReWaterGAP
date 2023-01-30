@@ -11,8 +11,8 @@ WaterGAP has been generally categorized into two sections:
 #. **WaterGAP framework** which consists of:
 
    * *WaterGAPUse* which includes the five sectoral water use models. 
+   
    * *WaterGapCore* which includes the linking model Groundwater-Surface Water Use (GWSWUSE) and the WaterGAP Global Hydrology Model (WGHM).
-
 
 #. **WaterGAPTools** consisting of *pre-processing* (input-generation) and *standard calibration* (against mean annual streamflow).
 
