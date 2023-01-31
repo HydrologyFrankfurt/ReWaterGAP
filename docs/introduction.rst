@@ -18,8 +18,11 @@ WaterGAP has been generally categorized into two sections:
 
 .. figure:: ./images/overview_watergap_components.png
    :align: center
-   
-   *WaterGAP Components*
+
+   WaterGAP Components
+
+
+  
 
 
 References 
