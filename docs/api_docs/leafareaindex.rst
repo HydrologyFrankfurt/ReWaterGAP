@@ -20,5 +20,5 @@ This module consist of a class and related method(s) which calls the vectorized 
 :ref:`Parallel Lead Area Index <parallel_lai>` module.
 The variables *days,cum_precipitation and growth_status* are  updated daily.
 
-.. autoclass:: compute_leaf_area_index.LeafAreaIndex
+.. autoclass:: leafareaindex.LeafAreaIndex
     :members:
