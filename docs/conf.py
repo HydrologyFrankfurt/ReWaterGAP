@@ -16,6 +16,8 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 # Vertical Water Balance path
 sys.path.insert(0, os.path.abspath('../core/verticalwaterbalance'))
+# Lateral Water Balance path
+sys.path.insert(0, os.path.abspath('../core/lateralwaterbalance'))
 # Controller path 
 sys.path.insert(0, os.path.abspath('../controller'))
 # Miscellaneous 
