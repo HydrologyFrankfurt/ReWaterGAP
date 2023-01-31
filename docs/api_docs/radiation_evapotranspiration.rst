@@ -14,7 +14,7 @@ and Priestly-Taylor potential evapotranspiration based on H. Müller Schmied et 
 
 Canopy evaporation
 ===================
-Canopy evaporation following  Deardorff (1978) [3]_ :math:`E_c`  is calculated as
+Canopy evaporation following  Deardorff (1978) [3]_, :math:`E_c`  is calculated as
 
 .. math::
    E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}
