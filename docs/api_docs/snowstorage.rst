@@ -13,20 +13,20 @@ This module is also made up of two functions.
 
 *A.* numba_snow which computes snow water content for the the 100 subgrid of 0.5 grid in series 
 
-.. autofunction:: numba_snow_water_content.numba_snow
+.. autofunction:: snow_subgrid.subgrid_snow_balance
 
   
-*B.* run_snow_parallel which parallelizes the computation for each 0.5 grid in parallel. 
+*B.* subgrid_snow_balance_parallel which parallelizes the computation for each 0.5 grid in parallel. 
    Input data of dimensions 360x720 is divided into *N* chunks for parallel computations (Default is 20 chunks). 
 
-.. autofunction:: numba_snow_water_content.run_snow_parallel
+.. autofunction:: snow_subgrid.subgrid_snow_balance_parallel
 
 
 2.  Snow water equivalent 
 ==========================
 This module calls the :ref:`numba optimized module <numba>` using the *cal_snow* method to compute snow water storage.
 
-.. autoclass:: snow_water_equivalent.Snow
+.. autoclass:: snow.Snow
     :members:
 
 
