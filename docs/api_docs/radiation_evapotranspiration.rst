@@ -2,9 +2,9 @@
 
 Radiation and Evapotranspiration
 ++++++++++++++++++++++++++++++++
-This module is made up of a class and related method(s) which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
-(computed within the __init__ method) 
-and Priestly-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
+This module contains a class and related method, which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
+(computed within Pythons __init__ method) 
+and Priestley-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
 
 .. autoclass:: radiation_evapotranspiration.RadiationPotentialEvap
     :members:
@@ -31,7 +31,7 @@ where :math:`\alpha` is set to 1.26 in humid and to 1.74 in (semi)arid cells (se
 
 Net radiation
 --------------
-The calculation of net radiation, is based on  Müller Schmied et al., 2016b [1]_. 
+The calculation of net radiation, is based on Müller Schmied et al., 2016b [1]_. 
 In general, S↓ and L↓ are provided by the meteorological forcings and have the unit in :math:`(Wm^-2)`. 
 Net shortwave radiation :math:`{S}_{net}` :math:`(Wm^-2)` is calculated as:
 
