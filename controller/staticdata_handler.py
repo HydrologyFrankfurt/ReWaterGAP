@@ -55,10 +55,10 @@ class StaticData:
         humid_arid_path = str(Path(cm.config_file['FilePath']['inputDir'] +
                                    r'static_input/watergap_22e_aridhumid.nc4'))
 
-        canopy_model_parameters_path = str(Path(cm.config_file['FilePath']
-                                                ['inputDir']+r'static_input'
-                                                '/canopy_model_'
-                                                'parameters.csv'))
+        canopy_snow_soil_parameters_path = str(Path(cm.config_file['FilePath']
+                                               ['inputDir']+r'static_input'
+                                               '/canopy_snow_'
+                                               'parameters.csv'))
         land_surface_waterfraction_path = \
             str(Path(cm.config_file['FilePath']['inputDir'] +
                      r'static_input/land_water_fractions/*'))
@@ -100,8 +100,8 @@ class StaticData:
             self.gtopo30_elevation = gtopo30_elevation.elevrange.values
 
             # Canopy model paramters (Table)
-            self.canopy_model_parameters = \
-                pd.read_csv(canopy_model_parameters_path)
+            self.canopy_snow_soil_parameters = \
+                pd.read_csv(canopy_snow_soil_parameters_path)
 
             # Land and surface water fractions
             self.land_surface_water_fraction = \
