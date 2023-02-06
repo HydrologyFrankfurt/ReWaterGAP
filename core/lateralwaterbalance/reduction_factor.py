@@ -57,12 +57,12 @@ def loclake_and_wetlands_redufactor(storage, max_storage, choose_swb,
     reductionfactor_div =\
         np.abs(storage - max_storage)/(n_factor * max_storage)
 
-    reductionfactor = 1-(reductionfactor_div)**reduction_exponent_lakewet
+    reductionfactor = 1.0 - (reductionfactor_div)**reduction_exponent_lakewet
 
     # # limits of the Lake reduction factor
     if reductionfactor < 0:
         reductionfactor = 0
-    elif reductionfactor > 1:
-        reductionfactor = 1
+    elif reductionfactor > 1.0:
+        reductionfactor = 1.0
 
     return reductionfactor

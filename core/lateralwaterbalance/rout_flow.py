@@ -346,7 +346,6 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
             glolake_outflow[x, y] = outflow.item()
             gwr_glolake[x, y] = recharge.item()
 
-
             # update inflow to surface water bodies
             inflow_to_swb = outflow
 
@@ -486,9 +485,6 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
             evaporated_streamflow_inlandsink = river_streamflow[x, y]
         else:
             cellrunoff[x,  y] = river_streamflow[x, y] - inflow_from_upstream
-
-        # if x==184 and y==251:
-        #     print(dyn_loclake_frac[x, y])
 
     return gw_storage, local_lake_storage, local_wetland_storage,\
         global_lake_storage,  global_wetland_storage, river_storage_out,\

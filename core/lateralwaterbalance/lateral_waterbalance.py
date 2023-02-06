@@ -36,13 +36,13 @@ class LateralWaterBalance:
         #                  ||     Continent properties    ||
         #                  =================================
         # Cell area , Units : km2
-        self.cell_area = forcings_static.static_data.cell_area
+        self.cell_area = forcings_static.static_data.cell_area.\
+            astype(np.float64)
         self.parameters = parameters
         self.arid = forcings_static.static_data.humid_arid
         self.drainage_direction = \
             forcings_static.static_data.\
             soil_static_files.drainage_direction[0].values
-        self.land_area_frac = forcings_static.curent_landareafrac
 
         #                  =================================
         #                  ||          Groundwater        ||
@@ -136,7 +136,7 @@ class LateralWaterBalance:
             bankfull_flow[0].values.astype(np.float64)
         # continental area fraction (-)
         continental_fraction = forcings_static.static_data.\
-            land_surface_water_fraction.contfrac.values
+            land_surface_water_fraction.contfrac.values.astype(np.float64)
 
         self.get_river_prop = rvp.RiverProperties(river_slope, roughness,
                                                   river_length, bankfull_flow,
@@ -157,7 +157,7 @@ class LateralWaterBalance:
         #                  ||    Regulated lake storage   ||
         #                  =================================
         self.reglake_frac = forcings_static.static_data.\
-            land_surface_water_fraction.reglak[0].values / 100
+            land_surface_water_fraction.reglak[0].values.astype(np.float64)/100
 
         # Regulated lake storage, Units : km3 *****
 
@@ -168,7 +168,7 @@ class LateralWaterBalance:
             land_surface_water_fraction.headwater_cell.values
 
     def calculate(self, diffuse_gw_recharge, openwater_pot_evap, precipitation,
-                  surface_runoff):
+                  surface_runoff, current_landarea_frac):
         """
         Calculate lateral water balance.
 
@@ -188,6 +188,7 @@ class LateralWaterBalance:
         None.
 
         """
+
         # =====================================================================
         # Converting input fluxes from  mm/day to km/day or km3/day
         # =====================================================================
@@ -198,10 +199,10 @@ class LateralWaterBalance:
 
         # Fluxes in km3/day
         diffuse_gw_recharge = diffuse_gw_recharge * self.cell_area * mm_to_km * \
-            self.land_area_frac
+            current_landarea_frac
 
         surface_runoff = surface_runoff * self.cell_area * mm_to_km * \
-            self.land_area_frac
+            current_landarea_frac
         # print( precipitation[43,129], surface_runoff[43,129])
         # =====================================================================
         # Preparing input variables for river routing
@@ -215,7 +216,6 @@ class LateralWaterBalance:
         cell_area = self.cell_area.copy()
         netabs_gw = self.netabs_gw.copy()
         remaining_use = self.remaining_use.copy()
-        land_area_frac = self.land_area_frac.copy()
         loclake_frac = self.loclake_frac.copy()
         locwet_frac = self.locwet_frac.copy()
         glowet_frac = self.glowet_frac.copy()
@@ -243,7 +243,7 @@ class LateralWaterBalance:
 
         out = rt.rout(rout_order, arid, drainage_direction,
                       groundwater_storage, diffuse_gw_recharge, cell_area,
-                      netabs_gw, remaining_use, land_area_frac,
+                      netabs_gw, remaining_use, current_landarea_frac,
                       surface_runoff, loclake_frac, locwet_frac,
                       glowet_frac, glolake_frac, glolake_area,
                       reglake_frac, headwater, loclake_storage,
@@ -302,7 +302,7 @@ class LateralWaterBalance:
         #  global wetlands
         # =====================================================================
         LateralWaterBalance.land_swb_fraction.update({
-            "current_land_area_fraction": self.land_area_frac,
+            "current_land_area_fraction": current_landarea_frac,
             "new_locallake_fraction":  updated_locallake_fraction,
             "new_localwetland_fraction": updated_localwetland_fraction,
             "new_globalwetland_fraction":  updated_globalwetland_fraction})
