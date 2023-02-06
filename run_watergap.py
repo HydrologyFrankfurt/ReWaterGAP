@@ -95,7 +95,10 @@ def run():
             # =================================================================
             #  computing vertical water balance
             # =================================================================
-            vertical_waterbalance.calculate(date)
+            vertical_waterbalance.\
+                calculate(date,
+                          initialize_forcings_static.current_landareafrac,
+                          initialize_forcings_static.landareafrac_ratio)
 
             # Getting daily storages and fluxes and writing to variables
             vb_storages_and_fluxes = \
@@ -113,7 +116,8 @@ def run():
                 calculate(vertical_waterbalance.fluxes['groundwater_recharge'],
                           vertical_waterbalance.fluxes['openwater_PET'],
                           vertical_waterbalance.fluxes['daily_precipitation'],
-                          vertical_waterbalance.fluxes['surface_runoff'])
+                          vertical_waterbalance.fluxes['surface_runoff'],
+                          initialize_forcings_static.current_landareafrac)
 
             # Getting daily storages and fluxes and writing to variables
             lb_storages_and_fluxes = \
