@@ -81,7 +81,7 @@ class VerticalWaterBalance:
         self.soil_water_content = np.zeros((self.forcings_static.lat_length,
                                             self.forcings_static.lon_length))
 
-    def calculate(self, date):
+    def calculate(self, date, current_landarea_frac, landareafrac_ratio):
         """
         Calculate vertical waterbalance.
 
@@ -161,18 +161,20 @@ class VerticalWaterBalance:
             canopy_balance(self.canopy_storage,
                            leaf_area_index,
                            daily_potential_evap, precipitation,
-                           self.forcings_static.landareafrac_ratio,
+                           current_landarea_frac, landareafrac_ratio,
                            self.parameters.max_storage_coefficient)
 
-        # # ouputs from the  daily_canopy_storage are
-        # # 0 = canopy_storage, 1 = throughfall,
-        # # 2 = canopy_evap , 3 = pet_to_soil, 4 = land_storage_change_sum
+        # ouputs from the  daily_canopy_storage are
+        # 0 = canopy_storage, 1 = throughfall,
+        # 2 = canopy_evap , 3 = pet_to_soil, 4 = land_storage_change_sum
+        # 5 = daily_storage_tranfer
 
         self.canopy_storage = daily_canopy_storage[0]
         throughfall = daily_canopy_storage[1]
         canopy_evap = daily_canopy_storage[2]
         pet_to_soil = daily_canopy_storage[3]
         land_storage_change_sum = daily_canopy_storage[4]
+        daily_storage_transfer = daily_canopy_storage[5]
 
         # =====================================================================
         # Compute snow storage,  Units : mm
@@ -181,10 +183,14 @@ class VerticalWaterBalance:
             snow.Snow(self.forcings_static.static_data, precipitation)
 
         daily_snow_storage = initialize_snow_storage.\
-            snow_balance(self.forcings_static.landareafrac_ratio,
+            snow_balance(current_landarea_frac, landareafrac_ratio,
                          temperature, throughfall, self.snow_water_storage,
                          pet_to_soil, land_storage_change_sum,
-                         self.snow_water_storage_subgrid)
+                         self.snow_water_storage_subgrid,
+                         daily_storage_transfer,
+                         self.parameters.adiabatic_lapse_rate,
+                         self.parameters.snow_freeze_temp,
+                         self.parameters.snow_melt_temp)
 
         # ouputs from the  daily_snow_storage  are
         # 0 = snow_water_storage,  1 = snow_water_storage_subgrid,
@@ -200,6 +206,7 @@ class VerticalWaterBalance:
         effective_precipitation = daily_snow_storage[5]
         max_temp_elev = daily_snow_storage[6]
         land_storage_change_sum = daily_snow_storage[7]
+        daily_storage_transfer = daily_snow_storage[8]
 
         # =====================================================================
         # Compute soil storage, Units : mm
@@ -219,11 +226,12 @@ class VerticalWaterBalance:
         # Running daily soil storage.
         daily_soil_storage = initilaize_soil_storage.\
             soil_balance(self.soil_water_content, pet_to_soil,
-                         self.forcings_static.landareafrac_ratio,
+                         current_landarea_frac, landareafrac_ratio,
                          max_temp_elev, canopy_evap,
                          effective_precipitation_corr, precipitation,
                          immediate_runoff, land_storage_change_sum,
-                         sublimation)
+                         sublimation, daily_storage_transfer,
+                         self.parameters.snow_freeze_temp)
 
         # ouputs from the  daily_soil_storage  are
         # 0 = soil_water_content,  1 = groundwater_recharge_from_soil_mm,

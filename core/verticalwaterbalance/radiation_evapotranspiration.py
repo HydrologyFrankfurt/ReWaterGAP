@@ -30,8 +30,8 @@ class RadiationPotentialEvap:
     """
     Compute radiation and Priestly-Taylor potential evapotranspiration.
 
-    Parameters
-    ----------
+    Input Parameters
+    ----------------
     climate_forcing : array
         Input forcing to caluclate radiation components and
         Priestly-Taylor potential evapotranspiration
@@ -45,6 +45,11 @@ class RadiationPotentialEvap:
     snow_water_storage : array
         if daily snow water storage is greater than 3mm, snow albedo is used
         for shortwave radiation calulation, Units: mm.
+    parameters: : array
+        The following parameters are obtained from the parameters array:
+        snow_albedo_thresh (mm), openwater_albedo (-), pt_coeff_arid (-),
+        pt_coeff_humid (-).
+
 
         References.
 
@@ -106,7 +111,7 @@ class RadiationPotentialEvap:
         land_cover = self.static_data.land_cover
 
         # Actual name: canopy model paramters (Table)
-        canopy_parameters = self.static_data.canopy_model_parameters
+        radiation_parameters = self.static_data.canopy_snow_soil_parameters
 
         # =====================================================================
         # Net shortwave and upward shortwave radiation (Wm−2)
@@ -114,15 +119,15 @@ class RadiationPotentialEvap:
         # Albedo based on landcover type (Müller Schmied et al 2014,Table A2)
         albedo = np.zeros(temperature.shape)
         albedo.fill(np.nan)
-        for i in range(len(canopy_parameters)):
-            albedo[land_cover[:, :] == canopy_parameters.loc[i, 'Number']] = \
-               canopy_parameters.loc[i, 'albedo']
+        for i in range(len(radiation_parameters)):
+            albedo[land_cover[:, :] == radiation_parameters.loc[i, 'Number']] = \
+               radiation_parameters.loc[i, 'albedo']
 
         snow_albedo = np.zeros(temperature.shape)
         snow_albedo.fill(np.nan)
-        for i in range(len(canopy_parameters)):
-            snow_albedo[land_cover[:, :] == canopy_parameters.loc[i, 'Number']] = \
-               canopy_parameters.loc[i, 'snow_albedo']
+        for i in range(len(radiation_parameters)):
+            snow_albedo[land_cover[:, :] == radiation_parameters.loc[i, 'Number']] = \
+               radiation_parameters.loc[i, 'snow_albedo']
 
         #  snow_water_storage > 3mm, snow abledo is used for shortwave
         # radiation calulation
@@ -148,9 +153,9 @@ class RadiationPotentialEvap:
         # Emissivity by landcover type (Müller Schmied et al 2014,Table A2)
         emissivity = np.zeros(temperature.shape)
         emissivity.fill(np.nan)
-        for i in range(len(canopy_parameters)):
-            emissivity[land_cover[:, :] == canopy_parameters.loc[i, 'Number']] = \
-               canopy_parameters.loc[i, 'emissivity']
+        for i in range(len(radiation_parameters)):
+            emissivity[land_cover[:, :] == radiation_parameters.loc[i, 'Number']] = \
+               radiation_parameters.loc[i, 'emissivity']
 
         # Stefan_Boltzmann_constant (5.67 × 10−8 (Wm−2·K−4))
         stefan_boltzmann_constant = 5.67e-08  # (Müller Schmied et al., 2016)

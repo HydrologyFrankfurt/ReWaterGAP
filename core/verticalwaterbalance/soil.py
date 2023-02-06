@@ -28,7 +28,6 @@
 # =============================================================================
 
 import numpy as np
-from core.verticalwaterbalance import parameters as pm
 from core.utility import check_negative_precipitation as check
 
 
@@ -81,14 +80,14 @@ class Soil:
         #      calulating maximum soil water content
         # ===========================================
         total_avail_water_content = soil_static_data[1]
-        canopy_parameters = static_data.canopy_model_parameters
+        soil_parameters = static_data.canopy_snow_soil_parameters
         land_cover = static_data.land_cover
 
         # Getting rooting depth for for all grids.
         rooting_depth = np.zeros(land_cover.shape) * np.nan
-        for i in range(len(canopy_parameters)):
-            rooting_depth[land_cover[:, :] == canopy_parameters.loc[i, 'Number']] = \
-                canopy_parameters.loc[i, 'rooting_depth']
+        for i in range(len(soil_parameters)):
+            rooting_depth[land_cover[:, :] == soil_parameters.loc[i, 'Number']] = \
+                soil_parameters.loc[i, 'rooting_depth']
         self.max_soil_water_content = \
             np.where(total_avail_water_content > 0,
                      total_avail_water_content * rooting_depth, np.nan)
@@ -147,10 +146,10 @@ class Soil:
         return effective_precipitation, immediate_runoff
 
     def soil_balance(self, soil_water_content, pet_to_soil,
-                     land_area_frac, max_temp_elev, canopy_evap,
-                     effective_precipitation, precipitation,
-                     immediate_runoff, land_storage_change_sum,
-                     sublimation):
+                     current_landarea_frac, landareafrac_ratio, max_temp_elev,
+                     canopy_evap, effective_precipitation, precipitation,
+                     immediate_runoff, land_storage_change_sum, sublimation,
+                     daily_storage_transfer, snow_freeze_temp):
         """
         Compute daily soil balance.
 
@@ -160,8 +159,11 @@ class Soil:
             Soil water content, Units: mm
         pet_to_soil : array
             Remaining energy for addtional evaporation from soil, Units: mm
-        land_area_frac : array
-            Land area fraction, Units: %.
+        current_landarea_frac : array
+           Land area fraction of current time step,  Units: (-)
+        landareafrac_ratio : array
+            Ratio of land area fraction of previous to current time step,
+            Units: (-)
         max_temp_elev : array
             Maximum temperature from the 1st(lowest) elevation from snow
             algorithm. , Units: K
@@ -177,6 +179,11 @@ class Soil:
             Sum of change in vertical balance storages, Units: mm
         sublimation : array
             Sublimation, Units: mm/day
+        daily_storage_transfer : array
+            Storage to be transfered to runoff when land area fraction of
+            current time step is zero, Units: mm
+        snow_freeze_temp: array
+            Snow freeze temperature  , Units:  K
 
         Returns
         -------
@@ -190,19 +197,28 @@ class Soil:
             Soil saturation, Units: (-)
         surface_runoff : array
             Surface runoff from land, Units: mm/day
+        daily_storage_transfer : array
+            Updated storage to be transfered to runoff when land area fraction
+            of current time step is zero, Units: mm
 
         """
         #  Checking negative precipittaion
         check.check_neg_precipitation(precipitation)
 
-        # Defining constants
-        snow_freeze_temp = 273.15  # K
+        # =========================================================================
+        # Check if  current_landarea_frac == 0 , then add previous storage to
+        # daily_storage_tranfer. This storage will then  added to runoff.
+        # (e.g. island)
+        # =========================================================================
+        daily_storage_transfer = \
+            np.where(current_landarea_frac == 0, daily_storage_transfer +
+                     soil_water_content.copy()*self.pm.areal_corr_factor, 0)
 
         # =====================================================================
         # Calculating soil water overflow (mm) and soil water content(mm).
         # =====================================================================
         # Correcting  soil_water_content for land area fraction
-        soil_water_content *= land_area_frac
+        soil_water_content *= landareafrac_ratio
 
         # Initial storage to calulate change in soil storage.
         initial_storage = soil_water_content.copy()
@@ -408,7 +424,7 @@ class Soil:
                      soil_water_content_new, soil_water_content)
 
         # Adapt soil water content to land area fraction
-        soil_water_content = np.where(land_area_frac <= 0, 0,
+        soil_water_content = np.where(current_landarea_frac <= 0, 0,
                                       soil_water_content)
 
         # computing change in soil_water_content
@@ -469,5 +485,15 @@ class Soil:
         # Finally surface runoff is calculated as follows:
         surface_runoff = total_daily_runoff - groundwater_recharge_from_soil_mm
 
+        # =====================================================================
+        # Assign zero to flux, if land area fraction is less than
+        # or equal to zero
+        # =====================================================================
+        groundwater_recharge_from_soil_mm[current_landarea_frac <= 0] = 0
+        actual_soil_evap[current_landarea_frac <= 0] = 0
+        soil_saturation[current_landarea_frac <= 0] = 0
+        surface_runoff[current_landarea_frac <= 0] = 0
+
         return soil_water_content, groundwater_recharge_from_soil_mm, \
-            actual_soil_evap, soil_saturation, surface_runoff
+            actual_soil_evap, soil_saturation, surface_runoff,  \
+            daily_storage_transfer

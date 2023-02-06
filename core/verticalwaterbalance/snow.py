@@ -69,13 +69,13 @@ class Snow():
 
     def __init__(self, static_data, precipitation):
 
-        parameters = static_data.canopy_model_parameters
+        parameters_snow = static_data.canopy_snow_soil_parameters
         land_cover = static_data.land_cover
 
         self.degreeday = np.zeros(land_cover.shape) * np.nan
-        for i in range(len(parameters)):
-            self.degreeday[land_cover[:, :] == parameters.loc[i, 'Number']] = \
-                parameters.loc[i, 'degree-day']
+        for i in range(len(parameters_snow)):
+            self.degreeday[land_cover[:, :] == parameters_snow.loc[i, 'Number']] = \
+                parameters_snow.loc[i, 'degree-day']
 
         self.elevation = static_data.gtopo30_elevation
 
@@ -83,16 +83,22 @@ class Snow():
         check.check_neg_precipitation(precipitation)
         self.precipitation = precipitation
 
-    def snow_balance(self, land_area_frac, temperature, throughfall,
-                     snow_water_storage, pet_to_soil, land_storage_change_sum,
-                     snow_water_storage_subgrid):
+    def snow_balance(self, current_landarea_frac, landareafrac_ratio,
+                     temperature, throughfall, snow_water_storage, pet_to_soil,
+                     land_storage_change_sum, snow_water_storage_subgrid,
+                     daily_storage_transfer, adiabatic_lapse_rate,
+                     snow_freeze_temp,
+                     snow_melt_temp):
         """
         Compute daily snow storage.
 
         Parameters
         ----------
-        land_area_frac : array
-            Land area fraction, Units: %.
+        current_landarea_frac : array
+          Land area fraction of current time step,  Units: (-)
+        landareafrac_ratio : array
+           Ratio of land area fraction of previous to current time step,
+           Units: (-)
         temperature : array
             Daily temperature climate forcing, Units: K.
         throughfall : array
@@ -106,6 +112,15 @@ class Snow():
         snow_water_storage_subgrid : array
             Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.
             Geological Survey, 1996) land surface elevation map, Units: mm
+        daily_storage_transfer : array
+            Storage to be transfered to runoff when land area fraction of
+            current time step is zero, Units: mm
+        adiabatic_lapse_rate: array
+            Adiabatic lapse rate , Units:  K/m or °C/m
+        snow_freeze_temp: array
+            Snow freeze temperature  , Units:  K
+        snow_melt_temp: array
+            Snow melt temperature  , Units:  K
 
         Returns
         -------
@@ -125,6 +140,9 @@ class Snow():
             Maximum temperature from the 1st(lowest) elevation, Units: K
         land_storage_change_sum : array
             Sum of change in vertical balance storages, Units: mm
+        daily_storage_transfer : array
+            Updated storage to be transfered to runoff when land area fraction
+            of current time step is zero, Units: mm
         """
         # Strip off self object for numba to perfom calulations
         elevation = self.elevation
@@ -155,10 +173,22 @@ class Snow():
 
         degreeday_chunk = np.asarray(np.split(degreeday, chunk))
 
-        land_area_frac_chunk = np.asarray(np.split(land_area_frac, chunk))
+        current_landarea_frac_chunk = \
+            np.asarray(np.split(current_landarea_frac, chunk))
+        landareafrac_ratio_chunk = \
+            np.asarray(np.split(landareafrac_ratio, chunk))
 
         elevation_chunk = np.asarray(np.split(elevation, chunk, axis=1))
 
+        daily_storage_transfer_chunk = \
+            np.asarray(np.split(daily_storage_transfer, chunk))
+
+        adiabatic_lapse_rate_chunk = \
+            np.asarray(np.split(adiabatic_lapse_rate, chunk))
+
+        snow_freeze_temp_chunk = np.asarray(np.split(snow_freeze_temp, chunk))
+
+        snow_melt_temp_chunk = np.asarray(np.split(snow_melt_temp, chunk))
         # =====================================================================
         #         Running numba snow water balance function
         # =====================================================================
@@ -171,8 +201,13 @@ class Snow():
                                              pet_to_soil_chunk,
                                              land_storage_change_sum_chunk,
                                              degreeday_chunk,
-                                             land_area_frac_chunk,
-                                             elevation_chunk)
+                                             current_landarea_frac_chunk,
+                                             landareafrac_ratio_chunk,
+                                             elevation_chunk,
+                                             daily_storage_transfer_chunk,
+                                             adiabatic_lapse_rate_chunk,
+                                             snow_freeze_temp_chunk,
+                                             snow_melt_temp_chunk)
 
         # =====================================================================
         #         conbining chunks into original dimension
@@ -185,7 +220,8 @@ class Snow():
         effective_precipitation = np.vstack(snow_output[5])
         max_temp_elev = np.vstack(snow_output[6])
         land_storage_change_sum = np.vstack(snow_output[7])
+        daily_storage_transfer = np.vstack(snow_output[8])
 
         return snow_water_storage, snow_water_storage_subgrid, snow_fall,\
             sublimation, snow_melt, effective_precipitation, max_temp_elev,\
-            land_storage_change_sum
+            land_storage_change_sum, daily_storage_transfer

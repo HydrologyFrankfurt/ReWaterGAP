@@ -30,7 +30,7 @@ from core.utility import check_negative_precipitation as check
 class LeafAreaIndex:
     """Compute leaf area index.
 
-    Parameters
+    Input Parameters
     ----------
     climate_forcing : array
         Input forcing to caluclate leaf area index
@@ -80,7 +80,7 @@ class LeafAreaIndex:
         # =====================================================================
 
         # Actual name: canopy model paramters (Table)
-        parameters_lai = self.static_data.canopy_model_parameters
+        parameters_lai = self.static_data.canopy_snow_soil_parameters
 
         def minimum_leaf_area_index(max_leaf_area_index, frac_decid_plant,
                                     red_factor_evergreen):

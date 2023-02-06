@@ -19,6 +19,8 @@ import numpy as np
 
 
 class Parameters:
+    """WaterGAP parameters."""
+
     def __init__(self):
         # Define Array size for parameters
         longitude_size = 720
@@ -29,10 +31,10 @@ class Parameters:
         # Radiation and Evapotranspiration
         # =====================================================================
         # open water albedo (-)
-        self.openwater_albedo = 0.08
+        self.openwater_albedo = 0.08 + np.zeros(parameter_size)
 
         # snow albedo threhold (mm)
-        self.snow_albedo_thresh = 3.0
+        self.snow_albedo_thresh = 3.0 + np.zeros(parameter_size)
 
         # Priestley-Taylor coefficient  for humid cells
         self.pt_coeff_humid = 1.26 + np.zeros(parameter_size)
@@ -45,6 +47,13 @@ class Parameters:
         # =====================================================================
         # maximum storage coefficient (mm)
         self.max_storage_coefficient = 0.3 + np.zeros(parameter_size)
+
+        # =====================================================================
+        # Snow
+        # =====================================================================
+        self.snow_freeze_temp = 273.15 + np.zeros(parameter_size)  # K
+        self.snow_melt_temp = 273.15 + np.zeros(parameter_size)  # K
+        self.adiabatic_lapse_rate = 0.006 + np.zeros(parameter_size)  # K/m or °C/m
 
         # =====================================================================
         # Soil

@@ -32,11 +32,14 @@ from numba import njit, prange
 @njit(nogil=True)
 def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
                          temperature, precipitation, throughfall, pet_to_soil,
-                         land_storage_change_sum, degreeday, land_area_frac,
-                         elevation):
+                         land_storage_change_sum, degreeday,
+                         current_landarea_frac, landareafrac_ratio,
+                         elevation, daily_storage_transfer,
+                         adiabatic_lapse_rate,  snow_freeze_temp,
+                         snow_melt_temp):
     """
     Compute snow water balance for subgrids including snow water storage and
-    # water flows entering and leaving the snow storage
+    water flows entering and leaving the snow storage
 
     Parameters
     ----------
@@ -57,11 +60,22 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
         Sum of change in vertical balance storages, Units: mm
     degreeday : array
         Land cover specific degreeday values based on [2]_ .Units: mm/day/C
-    land_area_frac : array
-        Land area fraction,  Units: %
+    current_landarea_frac : array
+      Land area fraction of current time step,  Units: (-)
+    landareafrac_ratio : array
+       Ratio of land area fraction of previous to current time step, Units: (-)
     elevation : array
         and surface elevation map based on GTOPO30 (U.S.
         Geological Survey, 1996) [1]_. Units: m
+    daily_storage_transfer : array
+        Storage to be transfered to runoff when land area fraction of current
+        time step is zero, Units: mm
+    adiabatic_lapse_rate: array
+        Adiabatic lapse rate , Units:  K/m or °C/m
+    snow_freeze_temp: array
+        Snow freeze temperature  , Units:  K
+    snow_melt_temp: array
+        Snow melt temperature  , Units:  K
 
     Returns
     -------
@@ -82,6 +96,9 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
         Maximum temperature from the 1st(lowest) elevation, Units: K
     land_storage_change_sum : array
        Sum of change in vertical balance storages, Units: mm
+    daily_storage_transfer : array
+       Updated storage to be transfered to runoff when land area fraction
+       of current time step is zero, Units: mm
 
     References.
 
@@ -106,13 +123,6 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
     max_temp_elev = np.zeros(snow_water_storage.shape)
 
     # =====================================================================
-    # Defining constants
-    # =====================================================================
-    adiabatic_lapse_rate = (0.006)  # K/m or °C/m
-    snow_freeze_temp = 273.15  # K ***
-    snow_melt_temp = 273.15    # K ***
-
-    # =====================================================================
     # Extracting elevation and mean elevation  for subcells,  Units = m
     # =====================================================================
     mean_elevation = elevation[0, :, :]
@@ -127,8 +137,18 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
     #                       Looping through subgrids
     # =========================================================================
     for i in range(len(elevation_subgrid)):
+        # =====================================================================
+        # Check if  current_landarea_frac == 0 , then add previous storage to
+        # daily_storage_tranfer. This storage will then  added to runoff.
+        # (e.g. island)
+        # =====================================================================
+
+        dailystoragetransfer =\
+            np.where(current_landarea_frac == 0, daily_storage_transfer +
+                     snow_water_storage_subgrid[i], 0)
+
         # correcting  snow_water_storage_subgrid for land area fraction
-        snow_water_storage_subgrid[i] *= land_area_frac
+        snow_water_storage_subgrid[i] *= landareafrac_ratio
 
         # Initial storage to calulate change in snow water storage.
         initial_storage = snow_water_storage_subgrid[i].copy()
@@ -264,7 +284,9 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
         # Maximum temperature is taking from the 1st(lowest) elevation
         if i == 0:
             max_temp_elev += temp_elev
-
+        # Assign zero to storage if land area fraction is zero
+        snow_water_storage_subgrid[i] = np.where(current_landarea_frac <= 0, 0,
+                                                 snow_water_storage_subgrid[i])
         # =================================================================
         # Acuumulating subcells into output varaibles
         # =================================================================
@@ -282,14 +304,26 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
     sublimation = sublimation / len(elevation_subgrid)
     snow_melt = snow_melt / len(elevation_subgrid)
     effective_precipitation = effective_precipitation / len(elevation_subgrid)
+    dailystoragetransfer = dailystoragetransfer / len(elevation_subgrid)
 
-    # Assign zero to snow water storage if land area fraction is less than
-    # or equal to zero
-    snow_water_storage = np.where(land_area_frac <= 0, 0, snow_water_storage)
+    # =========================================================================
+    # Assign zero to storage or flux, if land area fraction is zero
+    # =========================================================================
+    snow_water_storage = \
+        np.where(current_landarea_frac <= 0, 0, snow_water_storage)
+
+    snow_fall = np.where(current_landarea_frac <= 0, 0, snow_fall)
+    sublimation = np.where(current_landarea_frac <= 0, 0, sublimation)
+    snow_melt = np.where(current_landarea_frac <= 0, 0, snow_melt)
+    effective_precipitation = \
+        np.where(current_landarea_frac <= 0, 0, effective_precipitation)
+    max_temp_elev = np.where(current_landarea_frac <= 0, 0, max_temp_elev)
+    land_storage_change_sum = \
+        np.where(current_landarea_frac <= 0, 0, land_storage_change_sum)
 
     return snow_water_storage, snow_water_storage_subgrid, snow_fall,\
         sublimation, snow_melt, effective_precipitation, max_temp_elev,\
-        land_storage_change_sum
+        land_storage_change_sum, dailystoragetransfer
 
 
 @njit(parallel=True, nogil=True, cache=True)
@@ -298,8 +332,12 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
                                   temperature_chunk, precipitation_chunk,
                                   throughfall_chunk, pet_to_soil_chunk,
                                   land_storage_change_sum_chunk,
-                                  degreeday_chunk, land_area_frac_chunk,
-                                  elevation_chunk):
+                                  degreeday_chunk, current_landarea_frac_chunk,
+                                  landareafrac_ratio_chunk, elevation_chunk,
+                                  daily_storage_transfer_chunk,
+                                  adiabatic_lapse_rate_chunk,
+                                  snow_freeze_temp_chunk,
+                                  snow_melt_temp_chunk):
     """
     Compute snow water balance and related storages and fluxes in parallel.
 
@@ -326,11 +364,22 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
         Sum of change in vertical balance storages, Units: mm
     degreeday_chunk : array
         Land cover specific degreeday values based on [2]_ .Units: mm/day/C
-    land_area_frac_chunk : array
-        Land area fraction,  Units: %
+    current_landarea_frac_chunk : array
+        Land area fraction of current time step,  Units: (-)
+    landareafrac_ratio_chunk : array
+        Ratio of land area fraction of previous to current time step, Units:(-)
     elevation_chunk : array
         and surface elevation map based on GTOPO30 (U.S.
         Geological Survey, 1996) [1]_. Units: m
+    daily_storage_transfer_chunk : array
+        storage to be transfered to runoff when land area fraction of current
+        time step is zero, Units: mm
+    adiabatic_lapse_rate_chunk: array
+        Adiabatic lapse rate , Units:  K/m or °C/m
+    snow_freeze_temp_chunk: array
+        Snow freeze temperature  , Units:  K
+    snow_melt_temp_chunk: array
+        Snow melt temperature  , Units:  K
 
     Returns
     -------
@@ -350,6 +399,9 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
         Chunk of maximum temperature from the 1st(lowest) elevation, Units: K
     land_storage_change_sum : array
         Sum of change in vertical balance storages (chunks), Units: mm
+    daily_storage_transfer : array
+        Updated storage to be transfered to runoff when land area fraction
+        of current time step is zero, Units: mm
 
     References.
 
@@ -369,6 +421,7 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
     effective_precipitation = np.zeros(snow_water_storage_chunk.shape)
     max_temp_elev = np.zeros(snow_water_storage_chunk.shape)
     land_storage_change_sum = np.zeros(snow_water_storage_chunk.shape)
+    daily_storage_transfer = np.zeros(snow_water_storage_chunk.shape)
 
     # Numba uses prange to automatically run loops in parallel.
     for i in prange(len(snow_water_storage_chunk)):
@@ -380,7 +433,13 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
                                  throughfall_chunk[i], pet_to_soil_chunk[i],
                                  land_storage_change_sum_chunk[i],
                                  degreeday_chunk[i],
-                                 land_area_frac_chunk[i], elevation_chunk[i])
+                                 current_landarea_frac_chunk[i],
+                                 landareafrac_ratio_chunk[i],
+                                 elevation_chunk[i],
+                                 daily_storage_transfer_chunk[i],
+                                 adiabatic_lapse_rate_chunk[i],
+                                 snow_freeze_temp_chunk[i],
+                                 snow_melt_temp_chunk[i])
 
         snow_water_storage[i] = results[0]
         snow_water_storage_subgrid[i] = results[1]
@@ -390,7 +449,8 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
         effective_precipitation[i] = results[5]
         max_temp_elev[i] = results[6]
         land_storage_change_sum[i] = results[7]
+        daily_storage_transfer[i] = results[8]
 
     return snow_water_storage, snow_water_storage_subgrid, snow_fall,\
         sublimation, snow_melt, effective_precipitation, max_temp_elev,\
-        land_storage_change_sum
+        land_storage_change_sum, daily_storage_transfer
