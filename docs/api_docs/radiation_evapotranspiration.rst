@@ -14,20 +14,22 @@ and Priestley-Taylor potential evapotranspiration based on H. Müller Schmied et
 
 Canopy evaporation
 ===================
-Canopy evaporation following  Deardorff (1978) [3]_, :math:`E_c`  is calculated as
+Canopy evaporation :math:`E_c` following Deardorff (1978) [3]_, is calculated as
 
 .. math::
    E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}
 
-where :math:`{S_c}_{,max}` is e (maximum) canopy storage is calculated in canopy storage under :ref:`Outflows <canopy_outflows>`,
-:math:`{E}_{pot}` is the potential evapotranspiration :math:`(mm/d)` calculated with the **Priestley–Taylor** equation according to  
-Shuttleworth (1993)  [4]_ as:
+where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy storage under :ref:`Outflows <canopy_outflows>` and :math:`{S_c}_{,max}` :math:`[mm]` is the maximum canopy storage. :math:`{E}_{pot}` :math:`[mm/d]` is the potential evapotranspiration calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:"
 
 .. math::
    {E}_{pot} = \alpha\Big(\frac{S_a R}{S_a + g}\Big)
 
-where :math:`\alpha` is set to 1.26 in humid and to 1.74 in (semi)arid cells (see Appendix B [2]_). 
-:math:`R` is net radiation :math:`(mm/d)` that depends on land cover (Table C2) [2]_.
+where :math:`\alpha` is set to 1.26 in humid and to 1.74 in (semi)arid cells (see Appendix B in Müller et al. [2]_). :math:`R` is the net radiation :math:`[mm/d]` that depends on land cover (Table C2, Müller et al. [2]_). :math:`{S_a}` is the slope of the saturation vapor pressure–temperature relationship, and :math:`g` is the psychrometric constant.
+
+Notes
+-----
+All grid cells with an aridity index AI < 0.75 are defined as semiarid/arid grid cells. Furthermore, all grid cells north of 55∘ N are defined as humid grid cells.
+For further information on this see Müller et al. [3] Appendix B.
 
 Net radiation
 --------------
