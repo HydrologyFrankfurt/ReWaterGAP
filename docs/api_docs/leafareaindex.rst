@@ -8,9 +8,7 @@ Leaf Area index consists of two separate modules.
 
 1. Parallel Leaf Area Index 
 ============================
-This module contains a daily leaf area index method which computes leaf area index per grid cell. 
-This whole function is vectorized to compute leaf area index in parallel for all grid cell. using 
-numpy vectorize function. See https://numpy.org/doc/stable/reference/generated/numpy.vectorize.html
+This module contains a daily leaf area indexing method that computes the leaf area index per grid cell. This function is vectorized to compute the LAI parallelly for all grid cells, using the „numpy.vectorize“ function. See: https://numpy.org/doc/stable/reference/generated/numpy.vectorize.html
 
 .. autofunction:: parallel_leaf_area_index.daily_leaf_area_index
      
