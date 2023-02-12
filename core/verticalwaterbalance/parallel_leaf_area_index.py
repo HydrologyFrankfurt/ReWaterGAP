@@ -37,6 +37,7 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
     ----------
     temperature : array
         Daily temperature climate forcing.
+        
         Unit: [K]
     growth_status : array
         Growth status shows, per grid cell, whether a specific land cover has not started to grow or is growing (value=0) or is fully grown (value=1).
@@ -45,26 +46,32 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
         Days since start of leaf area index profile (counter for days with
         growing conditions).
         This variable gets updated per time step.
+        
         Unit: [day]
     initial_days : array
        Landcover specific initial days
     cum_precipitation : array
         Cummulative precipitation per time step.
+       
         Unit: [mm/d]
     precipitation : array
         Daily precipitation climate forcing.
         Units are converted from [kg m-2 s-1] to [mm/d].
+        
         Unit: [mm/d]
     leaf_area_index : array
         Temporal_leaf_area_index
     min_leaf_area_index : array
         Minimum Leaf area index  over all grid cell.
+        
         Unit: [-]
     max_leaf_area_index : array
         Maximum Leaf area index  over all grid cell.
+        
         Unit: [-]
     land_cover : array
         Land_cover class  based on [1]_.
+        
     humid_arid : array
         Humid-arid calssification based on [1]_.
 
@@ -73,9 +80,15 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
     leaf_area_index : array
         Daily leaf area index
     days : array
-        Day since start for current day, Units: day
+        Day since start for current day.
+        
+        Unit: [day]
+        
     cum_precipitation : array
-       Cummulative precipitation for current day, units: mm/d
+       Cummulative precipitation for current day.
+       
+       Unit: [mm/d]
+       
     growth_status : array
         Growth status per grid cell for current day
 
