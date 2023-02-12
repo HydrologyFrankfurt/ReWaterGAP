@@ -94,7 +94,7 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
 
 
     Notes
-    -----
+    ----------
     A day is defined as part of the growing season when the daily temperature stays above 8°C for a land-cover-specific number of days (Table C1), and cumulative precipitation from the day where the growing season starts reaches at least 40 mm [1]_.
 
     At the beginning of the growing season, LAI increases linearly for 30 days until it reaches maximum LAI. For (semi)arid cells at least 0.5 mm of daily precipitation is required to keep the growing season ongoing. LAI then stays constant for the stated land-cover-specific number of days and when growing season conditions are not fulfilled anymore, a senescence phase is initiated and LAI linearly decreases to a minimum within the next 30 days.
