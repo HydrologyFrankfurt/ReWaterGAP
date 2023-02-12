@@ -36,29 +36,33 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
     Parameters
     ----------
     temperature : array
-        Daily temperature climate forcing,  Units: K.
+        Daily temperature climate forcing.
+        Unit: [K]
     growth_status : array
-        Growth status per grid cell shows whether a specific land cover
-        is (not) growing (value=0) or fully grown (value=1).
-        Initially all landcovers are not growing
-        This variable gets updated per time step..
+        Growth status shows, per grid cell, whether a specific land cover has not started to grow or is growing (value=0) or is fully grown (value=1).
+        Initially all landcovers are not growing. This variable gets updated per time step.
     days : array
         Days since start of leaf area index profile (counter for days with
-        growing conditions), Units: day.
+        growing conditions).
         This variable gets updated per time step.
+        Unit: [day]
     initial_days : array
        Landcover specific initial days
     cum_precipitation : array
-        Cummulative precipitation per time step, Units: mm/d.
+        Cummulative precipitation per time step.
+        Unit: [mm/d]
     precipitation : array
-        Daily precipitation climate forcing, Units: mm/d.
-        Units are converted from kg m-2 s-1 to mm/d
+        Daily precipitation climate forcing.
+        Units are converted from [kg m-2 s-1] to [mm/d].
+        Unit: [mm/d]
     leaf_area_index : array
         Temporal_leaf_area_index
     min_leaf_area_index : array
-        Minimum Leaf area index  over all grid cell, Units: (-).
+        Minimum Leaf area index  over all grid cell.
+        Unit: [-]
     max_leaf_area_index : array
-        Maximum Leaf area index  over all grid cell, Units: (-).
+        Maximum Leaf area index  over all grid cell.
+        Unit: [-]
     land_cover : array
         Land_cover class  based on [1]_.
     humid_arid : array
@@ -78,18 +82,9 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
 
     Notes
     -----
-    A day is defined as part of the growing season when daily temperature is
-    above 8◦C(281.15 K) for a land-cover-specific number of initial days
-    (Table C1) and cumulative precipitation from the day where growing season
-    starts reaches at least 40 mm [1]_.
+    A day is defined as part of the growing season when the daily temperature stays above 8°C for a land-cover-specific number of days (Table C1), and cumulative precipitation from the day where the growing season starts reaches at least 40 mm [1]_.
 
-    In the beginning of the growing season, LAI increases linearly for 30 days
-    until it reaches maximum LAI. For (semi)arid cells, at least 0.5 mm of
-    daily precipitation is required to keep the growing season on-going.
-    LAI then stays constant for the stated land-cover-specific number of days
-    and when growing season conditions are not fulfilled anymore, a senescence
-    phase is initiated and LAI linearly decreases to minimum within the next 30
-    days
+    At the beginning of the growing season, LAI increases linearly for 30 days until it reaches maximum LAI. For (semi)arid cells at least 0.5 mm of daily precipitation is required to keep the growing season ongoing. LAI then stays constant for the stated land-cover-specific number of days and when growing season conditions are not fulfilled anymore, a senescence phase is initiated and LAI linearly decreases to a minimum within the next 30 days.
 
     References
     ----------
