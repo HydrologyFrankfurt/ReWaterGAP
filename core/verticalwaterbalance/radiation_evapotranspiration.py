@@ -28,27 +28,29 @@ import numpy as np
 
 class RadiationPotentialEvap:
     """
-    Compute radiation and Priestly-Taylor potential evapotranspiration.
+    Compute radiation and Priestley-Taylor potential evapotranspiration.
 
     Input Parameters
     ----------------
     climate_forcing : array
         Input forcing to caluclate radiation components and
-        Priestly-Taylor potential evapotranspiration
+        Priestley-Taylor potential evapotranspiration.
     static_data : array and csv
         Land_cover  class (array)  based on [1]_.
         Humid-arid calssification(array) based on [1]_.
         CSV formatted table that contains parameters for radiation components
         based on [2]_.
     date : datetime64
-        Date to select specific days
+        Date to select specific days.
     snow_water_storage : array
-        if daily snow water storage is greater than 3mm, snow albedo is used
-        for shortwave radiation calulation, Units: mm.
+        If daily snow water storage is greater than 3mm, snow albedo is used
+        for shortwave radiation calulation.
+        
+        Unit: [mm]
     parameters: : array
         The following parameters are obtained from the parameters array:
-        snow_albedo_thresh (mm), openwater_albedo (-), pt_coeff_arid (-),
-        pt_coeff_humid (-).
+        snow_albedo_thresh [mm], openwater_albedo [-], pt_coeff_arid [-],
+        pt_coeff_humid [-].
 
 
         References.
@@ -71,7 +73,7 @@ class RadiationPotentialEvap:
     Methods
     -------
     priestley_taylor:
-        Priestly-Taylor potential evapotranspiration.
+        Priestley-Taylor potential evapotranspiration.
     """
 
     def __init__(self, climate_forcing, static_data, date, snow_water_storage,
@@ -191,11 +193,13 @@ class RadiationPotentialEvap:
             self.net_longwave_radiation
 
     def priestley_taylor(self):
-        """Compute Priestly-Taylor potential evapotranspiration.
+        """Compute Priestley-Taylor potential evapotranspiration.
 
         Returns
         -------
-        Potential evapotranspiration per time step, Units: mm/d.
+        Potential evapotranspiration per time step. 
+        
+        Unit: [mm/d]
         """
         # =====================================================================
         # Slope of the saturation kPa°C-1
