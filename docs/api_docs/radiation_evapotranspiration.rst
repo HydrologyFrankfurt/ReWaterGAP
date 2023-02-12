@@ -34,33 +34,35 @@ For further information on this see Müller et al. [3] Appendix B.
 Net radiation
 --------------
 The calculation of net radiation, is based on Müller Schmied et al., 2016b [1]_. 
-In general, S↓ and L↓ are provided by the meteorological forcings and have the unit in :math:`(Wm^-2)`. 
-Net shortwave radiation :math:`{S}_{net}` :math:`(Wm^-2)` is calculated as:
+S↓ and L↓ describe the shortwave downward radiation and longwave downward radiation and are provided by meteorological forcings and have the unit :math:`[Wm^-2]`.
+
+Net shortwave radiation :math:`{S}_{net}` :math:`[Wm^-2]` is calculated as:
 
 .. math:: 
     {S}_{net} = S↓ (1 − {\alpha}_{LC}),
 
-where :math:`{\alpha}_{LC}` is the albedo (-) based on land cover type (Table C2) [2]_. 
-Albedo values for WaterGAP are taken from assumptions of the IMAGE model [5]_. In the case of a reasonable snow cover, the albedo value is varying dynamically in WaterGAP to represent the influence of snow cover dynamics on radiation balance [2]_.
-Upward shortwave radiation :math:`S↑` :math:`(Wm^-2)` is calculated as:
+where :math:`{\alpha}_{LC}` is the albedo :math:`[-]` based on land cover type [Müller, Schmied et al. Table C2 [2]_]. 
+Albedo values for WaterGAP are taken from assumptions of the IMAGE model [5]_. 
+In the case of a reasonable snow cover, the albedo value is varying dynamically in WaterGAP to represent the influence of snow cover dynamics on radiation balance [2]_.
+
+Upward shortwave radiation :math:`S↑` :math:`[Wm−2]`is calculated as:
 
 .. math::
     S↑ = S↓ − {S}_{net}
 
-Upward longwave radiation :math:`L↑` :math:`(Wm^-2)` is calculated as:
+Upward longwave radiation :math:`L↑` :math:`[Wm^-2]` is calculated as:
 
 .. math::
     L↑ = {ε}_{LC}σT^4,
 
-where :math:`{ε}_{LC}` is the emissivity (-) based on land cover type Table C2) [2]_, :math:`σ` is the Stefan–Boltzmann constant :math:`(5.67 × 10−8 (Wm^-2·K^−4))` and 
-:math:`T`is temperature :math:`K`. 
+where :math:`{ε}_{LC}` is the emissivity :math:`[-]` based on land cover type Table C2) [2]_, :math:`σ` is the Stefan–Boltzmann constant :math:`(5.67 × 10−8 [Wm^-2·K^−4])` and :math:`T`is the temperature in :math:`[K]`. 
 
-Net longwave radiation :math:`{L}_{net}` :math:`(Wm^-2)` is calculated as:
+Net longwave radiation :math:`{L}_{net}` :math:`[Wm^-2]` is calculated as:
 
 .. math::
     {L}_{net} = L↓ − L↑.
 
-net radiation :math:`R` :math:`(Wm^-2)` is calculated as:
+Net radiation :math:`R` :math:`[Wm^-2]` is calculated as:
 
 .. math::
    R = {S}_{net} + {L}_{net}
