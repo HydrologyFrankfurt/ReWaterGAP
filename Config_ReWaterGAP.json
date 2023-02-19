@@ -27,7 +27,7 @@
       "VerticalWaterBalanceFluxes": {
         "potevap": false,
         "netrad": false,
-        "lai": false,
+        "lai": true,
         "canopy_evap": false,
         "throughfall": false,
         "snow_fall": true,

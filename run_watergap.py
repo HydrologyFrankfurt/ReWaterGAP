@@ -91,7 +91,6 @@ def run():
 
         for time_step, date in zip(range(time_range),
                                    grid_coords['time'].values):
-
             # =================================================================
             #  computing vertical water balance
             # =================================================================
@@ -117,7 +116,9 @@ def run():
                           vertical_waterbalance.fluxes['openwater_PET'],
                           vertical_waterbalance.fluxes['daily_precipitation'],
                           vertical_waterbalance.fluxes['surface_runoff'],
-                          initialize_forcings_static.current_landareafrac)
+                          vertical_waterbalance.fluxes['daily_storage_transfer'],
+                          initialize_forcings_static.current_landareafrac,
+                          initialize_forcings_static.previous_landareafrac)
 
             # Getting daily storages and fluxes and writing to variables
             lb_storages_and_fluxes = \
