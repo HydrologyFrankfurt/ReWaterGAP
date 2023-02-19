@@ -1,0 +1,76 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Aug 26 08:12:56 2022.
+
+@author: nyenah
+"""
+import numpy as np
+from termcolor import colored
+
+# =========================================================================
+#     Check negative precipitation values
+# =========================================================================
+# This does not stop code execution but warns if there are negative values
+
+
+def check_neg_precipitation(precipitation):
+    """
+    Warns user on negative precipitation values.
+
+    Parameters
+    ----------
+    precipitation : array
+        precipitation
+
+    Returns
+    -------
+    warning message.
+
+    """
+    if np.any(precipitation.values < 0):
+        msg = colored("There are negative values in the precipitation data.",
+                      'red')
+        raise ValueError(msg)
+
+
+def to_mm_per_day(precipitation):
+    """
+    Convert precipitation to mm per day.
+
+    Parameters
+    ----------
+    forcing : array
+        Climate forcing
+
+    Returns
+    -------
+    precipitation with converted units.
+
+    """
+    to_mm_per_day = 86400
+    if precipitation.units == 'kg m-2 s-1':
+        coverted = precipitation.values.astype(np.float64) * to_mm_per_day
+    else:
+        coverted = precipitation.values.astype(np.float64)
+    return coverted
+
+
+def to_kelvin(temperature):
+    """
+    Convert temperature to K.
+
+    Parameters
+    ----------
+    temperature : array
+        Temperature
+
+    Returns
+    -------
+    Temperature with converted units.
+
+    """
+    if temperature.units == "K" or temperature.units == "k":
+        converted = temperature.values.astype(np.float64)
+    else:
+        converted = temperature.values.astype(np.float64) - 273.15
+    return converted
