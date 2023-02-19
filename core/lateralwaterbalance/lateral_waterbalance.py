@@ -124,16 +124,25 @@ class LateralWaterBalance:
         # River slope (-),
         river_slope = forcings_static.static_data.river_static_files.\
             river_slope[0].values.astype(np.float64)
+
         # Roughness (-)
         roughness = \
             forcings_static.static_data.river_static_files.\
             river_bed_roughness[0].values.astype(np.float64)
-        # River length (m)
+
+        # Roughness multiplier (-)
+        self.roughness_multiplier = \
+            forcings_static.static_data.river_static_files.\
+            river_roughness_coeff_mult.values.astype(np.float64)
+
+        # River length (km)**
         river_length = forcings_static.static_data.river_static_files.\
             river_length[0].values.astype(np.float64)
+
         # Bank full river flow (m3/s)
         bankfull_flow = forcings_static.static_data.river_static_files.\
             bankfull_flow[0].values.astype(np.float64)
+
         # continental area fraction (-)
         continental_fraction = forcings_static.static_data.\
             land_surface_water_fraction.contfrac.values.astype(np.float64)
@@ -141,6 +150,7 @@ class LateralWaterBalance:
         self.get_river_prop = rvp.RiverProperties(river_slope, roughness,
                                                   river_length, bankfull_flow,
                                                   continental_fraction)
+
         # Initiliase routing order and respective outflow cell
         rout_order = forcings_static.static_data.rout_order
         self.rout_order = rout_order[['Lat_index_routorder',
@@ -168,7 +178,8 @@ class LateralWaterBalance:
             land_surface_water_fraction.headwater_cell.values
 
     def calculate(self, diffuse_gw_recharge, openwater_pot_evap, precipitation,
-                  surface_runoff, current_landarea_frac):
+                  surface_runoff, daily_storage_transfer,
+                  current_landarea_frac, previous_landarea_frac):
         """
         Calculate lateral water balance.
 
@@ -182,13 +193,16 @@ class LateralWaterBalance:
             Daily precipitation, Unit: mm/day
         surface_runoff : array
             Daily surface runoff, unit: mm/day.
+        daily_storage_transfer : array
+            Storage to be transfered to runoff when land area fraction of
+            current time step is zero, Units: mm
 
         Returns
         -------
         None.
 
         """
-
+        # print(surface_runoff[117, 454], openwater_pot_evap[117, 454],  diffuse_gw_recharge[117,454])
         # =====================================================================
         # Converting input fluxes from  mm/day to km/day or km3/day
         # =====================================================================
@@ -201,14 +215,21 @@ class LateralWaterBalance:
         diffuse_gw_recharge = diffuse_gw_recharge * self.cell_area * mm_to_km * \
             current_landarea_frac
 
+        daily_storage_transfer = daily_storage_transfer * self.cell_area * mm_to_km * \
+            previous_landarea_frac
+
         surface_runoff = surface_runoff * self.cell_area * mm_to_km * \
             current_landarea_frac
-        # print( precipitation[43,129], surface_runoff[43,129])
+
+        # When cuurent land area fraction = 0, canopy, snow, and soil storage
+        # from the previous timestep  becomes surface runoff
+        surface_runoff = np.where(current_landarea_frac == 0,
+                                  daily_storage_transfer, surface_runoff)
+
         # =====================================================================
         # Preparing input variables for river routing
         # =====================================================================
-        # Routing is optimised for with numba which cannot work on the *self*
-        # object hence a copy of the self variable is created.
+        # Routing is optimised for with numba
         rout_order = self.rout_order.copy()
         arid = self.arid.copy()
         drainage_direction = self.drainage_direction.copy()
@@ -231,6 +252,7 @@ class LateralWaterBalance:
         river_length = self.get_river_prop.river_length.copy()
         river_bottom_width = self.get_river_prop.river_bottom_width.copy()
         roughness = self.get_river_prop.roughness.copy()
+        roughness_multiplier = self.roughness_multiplier.copy()
         river_slope = self.get_river_prop.river_slope.copy()
         outflow_cell = self.outflow_cell.copy()
 
@@ -250,7 +272,7 @@ class LateralWaterBalance:
                       locwet_storage, glolake_storage, glowet_storage,
                       precipitation, openwater_pot_evap, river_storage,
                       river_length, river_bottom_width, roughness,
-                      river_slope, outflow_cell,
+                      roughness_multiplier, river_slope, outflow_cell,
                       self.parameters.gw_dis_coeff,
                       self.parameters.swb_drainage_area_factor,
                       self.parameters.swb_outflow_coeff,
@@ -272,6 +294,7 @@ class LateralWaterBalance:
         updated_locallake_fraction = out[8]
         updated_localwetland_fraction = out[9]
         updated_globalwetland_fraction = out[10]
+        print(self.loclake_storage[117, 454])
         # =====================================================================
         # Getting all storages
         # =====================================================================
@@ -302,7 +325,7 @@ class LateralWaterBalance:
         #  global wetlands
         # =====================================================================
         LateralWaterBalance.land_swb_fraction.update({
-            "current_land_area_fraction": current_landarea_frac,
+            "current_landareafrac": current_landarea_frac,
             "new_locallake_fraction":  updated_locallake_fraction,
             "new_localwetland_fraction": updated_localwetland_fraction,
             "new_globalwetland_fraction":  updated_globalwetland_fraction})
@@ -323,13 +346,16 @@ class LateralWaterBalance:
 
     def get_new_swb_fraction(self):
         """
-        Get daily  dynamic area fraction for local lakes and local and
-        #  global wetlands
+        Get daily  dynamic fraction.
+
+        These fractions constist of updated local lakes and local and global
+        wetland fractions.
 
         Returns
         -------
         dict
-          updated fractions***.
+          updated fractions from surface water bodies without rivers and
+          global lakes.
 
         """
         return LateralWaterBalance.land_swb_fraction

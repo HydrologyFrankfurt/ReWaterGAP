@@ -25,7 +25,7 @@ class RiverProperties:
         # Units of input variables
         # River slope (-)
         # Roughness (-)
-        # River length (m)
+        # River length (km)
         # Bank full river flow (m3/s)
         # continental area fraction (-)
 
@@ -60,3 +60,4 @@ class RiverProperties:
 
         self.max_river_storage = 0.5 * self.river_length * (river_depth_bf) * \
             (self.river_bottom_width + river_top_width_bf)
+

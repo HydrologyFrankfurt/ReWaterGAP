@@ -134,11 +134,11 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
     if choose_swb == "global lake":
         evapo_redfactor = redfactor
         lake_wet_area = max_area
-        lake_wet_newfraction = 0
+        # lake_wet_newfraction = 0
     else:
         # Dynamic area of swb except global lake
         lake_wet_area = redfactor * max_area
-        lake_wet_newfraction = redfactor * lakewet_frac
+        # lake_wet_newfraction = redfactor * lakewet_frac
     # =========================================================================
     # Computing lake or wetland corrected evaporation (openwater_evapo[km/day])
     # =========================================================================
@@ -323,5 +323,14 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
             outflow += (storage - max_storage)
             # updating storage
             storage = max_storage
-
+    
+    new_redfactor = \
+        rf.loclake_and_wetlands_redufactor(storage, max_storage,
+                                           choose_swb,
+                                           reduction_exponent_lakewet)
+    if choose_swb == 'global lake':
+        lake_wet_newfraction = 0
+    else:
+        lake_wet_newfraction = new_redfactor * lakewet_frac
+        
     return storage, outflow, gwr_lakewet, lake_wet_newfraction

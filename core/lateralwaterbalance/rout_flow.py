@@ -40,14 +40,14 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
          glowet_frac, glolake_frac, glolake_area, reglake_frac, headwater,
          loclake_storage, locwet_storage, glolake_storage, glowet_storage,
          precipitation, openwater_pot_evap, river_storage, river_length,
-         river_bottom_width, roughness, river_slope, outflow_cell,
-         gw_dis_coeff, swb_drainage_area_factor, swb_outflow_coeff,
-         gw_recharge_constant, reduction_exponent_lakewet, areal_corr_factor,
-         lake_out_exp, activelake_depth, wetland_out_exp, activewetland_depth,
-         stat_corr_fact):
+         river_bottom_width, roughness, roughness_multiplier, river_slope,
+         outflow_cell, gw_dis_coeff, swb_drainage_area_factor,
+         swb_outflow_coeff, gw_recharge_constant, reduction_exponent_lakewet,
+         areal_corr_factor, lake_out_exp, activelake_depth, wetland_out_exp,
+         activewetland_depth, stat_corr_fact):
 
     # =========================================================================
-    #            Creating outputs for storages and fluxes
+    #   Creating outputs for storages, fluxes and factors(eg. reduction factor)
     # =========================================================================
     #                  =================================
     #                  ||           Groundwater       ||
@@ -155,6 +155,7 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
         river_length_cell = river_length[x, y]
         river_bottom_width_cell = river_bottom_width[x, y]
         roughness_cell = roughness[x, y]
+        roughness_multiplier_cell = roughness_multiplier[x, y]
         river_slope_cell = river_slope[x, y]
 
     #                  =================================
@@ -227,6 +228,8 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                       swb_drainage_area_factor[x, y])
 
         inflow_to_swb, inflow_to_river = routed_flow
+        # if x==183 and y==394:
+        #     print(diffuse_gw_recharge_cell, surface_runoff_cell)
 
     #                  =================================
     #                  || Local lake  waterbalance    ||
@@ -258,6 +261,7 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                       area_of_cell=grid_cell_area)
 
             storage, outflow, recharge, frac = daily_loclake_storage
+
             local_lake_storage[x, y] = storage.item()
             loclake_outflow[x, y] = outflow.item()
             gwr_loclake[x, y] = recharge.item()
@@ -265,7 +269,8 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
 
             # update inflow to surface water bodies
             inflow_to_swb = outflow
-
+        # if x==117 and y==454:
+        #     print(local_lake_storage[x, y])
     #                  =================================
     #                  || Local wetland waterbalance ||
     #                  =================================
@@ -298,11 +303,11 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                      area_of_cell=grid_cell_area)
 
             storage, outflow, recharge, frac = daily_locwet_storage
+
             local_wetland_storage[x, y] = storage.item()
             locwet_outflow[x, y] = outflow.item()
             gwr_locwet[x, y] = recharge.item()
             dyn_locwet_frac[x, y] = frac.item()
-
             # update inflow to surface water bodies
             inflow_to_swb = outflow
 
@@ -342,10 +347,10 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
 
             # frac contains only 0's since global lake fraction is not updated
             storage, outflow, recharge, frac = daily_glolake_storage
+
             global_lake_storage[x, y] = storage.item()
             glolake_outflow[x, y] = outflow.item()
             gwr_glolake[x, y] = recharge.item()
-
             # update inflow to surface water bodies
             inflow_to_swb = outflow
 
@@ -381,6 +386,7 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                      area_of_cell=grid_cell_area)
 
             storage, outflow, recharge, frac = daily_glowet_storage
+
             global_wetland_storage[x, y] = storage.item()
             glowet_outflow[x, y] = outflow.item()
             gwr_glowet[x, y] = recharge.item()
@@ -445,7 +451,7 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
         velocity_and_outflowconst = \
             rb.river_velocity(river_storage_cell, river_length_cell,
                               river_bottom_width_cell, roughness_cell,
-                              river_slope_cell)
+                              roughness_multiplier_cell, river_slope_cell)
 
         velocity, outflow_constant = velocity_and_outflowconst
 
@@ -470,7 +476,8 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
         # and longitude(n=0)[cell is an inland sink or flows to the ocean]
         if m > 0 and n > 0:
             river_inflow[m, n] += river_streamflow[x, y]
-
+        # if x==116 and y==454:
+        #     print(river_inflow[m, n], river_streamflow[x, y],  m, n )
         # =================================
         # 4. compute cellrunoff(km3/day)
         # ==================================
@@ -485,7 +492,8 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
             evaporated_streamflow_inlandsink = river_streamflow[x, y]
         else:
             cellrunoff[x,  y] = river_streamflow[x, y] - inflow_from_upstream
-
+       
+    
     return gw_storage, local_lake_storage, local_wetland_storage,\
         global_lake_storage,  global_wetland_storage, river_storage_out,\
         river_streamflow, cellrunoff, dyn_loclake_frac, dyn_locwet_frac, \
