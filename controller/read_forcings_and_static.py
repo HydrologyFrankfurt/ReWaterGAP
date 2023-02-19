@@ -58,13 +58,12 @@ class InitializeForcingsandStaticdata:
         # =====================================================================
         # Get initial land area fracion
         # =====================================================================
-        self.previous_landareafrac = \
+        self.current_landareafrac = \
             lsf.get_landareafrac(self.static_data.land_surface_water_fraction)
-        self.current_landareafrac = self.previous_landareafrac
-        self.landareafrac_ratio =  \
-            np.divide(self.previous_landareafrac, self.current_landareafrac,
-                      out=np.zeros_like(self.previous_landareafrac),
-                      where=self.current_landareafrac != 0)
+        self.landareafrac_ratio = \
+            np.ones(self.current_landareafrac.shape).astype(np.float64)
+        self.previous_landareafrac = \
+            np.zeros(self.current_landareafrac.shape).astype(np.float64)
 
         # =====================================================================
         # Get initial fractions for local lakes and local and global wetland
@@ -76,7 +75,11 @@ class InitializeForcingsandStaticdata:
         self.previous_glowetfrac = self.static_data.\
             land_surface_water_fraction.glowet[0].values.astype(np.float64)/100
 
-    def update_landareafrac(self, land_surface_frac):
+        self.previous_swb_frac = self.previous_loclakefrac + self.previous_locwetfrac + \
+            self.previous_glowetfrac
+        self.current_swb_frac = 0
+
+    def update_landareafrac(self, land_swb_fraction):
         """
         Update land area fraction.
 
@@ -91,35 +94,28 @@ class InitializeForcingsandStaticdata:
 
         """
         # updated fractions for current time step
-        current_landareafrac = land_surface_frac["current_land_area_fraction"]
-        loclake_frac = land_surface_frac["new_locallake_fraction"]
-        locwet_frac = land_surface_frac["new_localwetland_fraction"]
-        glowet_frac = land_surface_frac["new_globalwetland_fraction"]
+        current_landareafrac = land_swb_fraction["current_landareafrac"]
+        loclake_frac = land_swb_fraction["new_locallake_fraction"]
+        locwet_frac = land_swb_fraction["new_localwetland_fraction"]
+        glowet_frac = land_swb_fraction["new_globalwetland_fraction"]
 
         # compute change in fraction based on previous and current
         # local lakes and local and global wetland fractions
-        current_swb_frac = loclake_frac + locwet_frac + glowet_frac
-        previous_swb_frac = self.previous_loclakefrac + self.previous_locwetfrac + \
-            self.previous_glowetfrac
 
-        change_in_frac = current_swb_frac-previous_swb_frac
+        self.current_swb_frac = loclake_frac + locwet_frac + glowet_frac
 
-        # Now current surface water bodies fraction becomes previous fraction
-        self.previous_loclakefrac = loclake_frac.copy()
-        self.previous_locwetfrac = locwet_frac.copy()
-        self.previous_glowetfrac = glowet_frac.copy()
+        change_in_frac = self.current_swb_frac - self.previous_swb_frac
+        # print( change_in_frac[117, 454])
+        self.previous_swb_frac = self.current_swb_frac.copy()
 
-        # update land area fraction
+        # current fractions becomes previous
+        # update current and previous land area fraction
         self.previous_landareafrac = current_landareafrac.copy()
-        self.current_landareafrac = self.previous_landareafrac - change_in_frac
 
+        self.current_landareafrac = self.previous_landareafrac - change_in_frac
+        self.current_landareafrac[self.current_landareafrac < 0] = 0
+        # print( self.current_landareafrac[117, 454])
         self.landareafrac_ratio =  \
             np.divide(self.previous_landareafrac, self.current_landareafrac,
-                      out=np.zeros_like(self.previous_landareafrac),
+                      out=np.zeros_like(self.current_landareafrac),
                       where=self.current_landareafrac != 0)
-
-        print(self.previous_landareafrac[184, 251],
-              self.current_landareafrac[184, 251])
-
-# I will add printing of data information here as functions.
-#  More functions will come here so dont worry

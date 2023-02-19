@@ -144,34 +144,26 @@ class StaticData:
 
         """
         # Built up area, units = (-)
-        builtup_area = self.soil_static_files.builtup_area.values
+        builtup_area = self.soil_static_files.builtup_area_frac[0].values
 
-        # Total available water content, units = mm
-        total_avail_water_content = self.soil_static_files.tawc.values
+        # Total available water content , units = mm
+        total_avail_water_content = \
+            self.soil_static_files.tawc[0].values.astype(np.float64)
 
         # Drainage direction of the grid cell, units = (-)
         drainage_direction = \
             self.soil_static_files.drainage_direction[0].values
 
         # Maxumum ground water recharge = mm
-        max_groundwater_recharge = self.soil_static_files.rgmax.values/100
+        max_groundwater_recharge = \
+            self.soil_static_files.max_recharge[0].values/100
 
         # Soil texture, units= (-)
         soil_texture = self.soil_static_files.texture.values
 
-        # Corrected Missipi only groundwater recharge factor, units= (-)
-        gw_recharge_factor_corr = \
-            self.soil_static_files.gw_factor_corr.values
-
-        # Uncorrected groundwater recharge factor, units= (-)
-        gw_recharge_factor_uncorr = \
-            self.soil_static_files.gw_factor_uncorr.values
-
-        # Groundwater recharge factor, units= (-)
-        # send to paramaters (since calibration is made for this parameter)
+        # groundwater recharge factor with Missipi corrected, units= (-)
         groundwater_recharge_factor = \
-            np.where(gw_recharge_factor_corr > 0, gw_recharge_factor_corr,
-                     gw_recharge_factor_uncorr)
+            self.soil_static_files.gw_factor_corr[0].values.astype(np.float64)
 
         return builtup_area, total_avail_water_content, drainage_direction,\
             max_groundwater_recharge, soil_texture, groundwater_recharge_factor

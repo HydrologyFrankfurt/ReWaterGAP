@@ -51,19 +51,19 @@ class ClimateForcing:
         # path to climate forcing netcdf data
         # ==============================================================
         precipitation_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                                      r'climate_forcing/precipitation/*.nc'))
+                                      r'climate_forcing/precipitation/*'))
 
         longwave_radiation_path = str(Path(cm.config_file['FilePath']
                                            ['inputDir'] + r'climate_forcing'
-                                           '/rad_longwave/*.nc'))
+                                           '/rad_longwave/*'))
 
         shortwave_radiation_path = str(Path(cm.config_file['FilePath']
                                             ['inputDir'] + r'climate_forcing'
-                                            '/rad_shortwave/*.nc'))
+                                            '/rad_shortwave/*'))
 
         temperature_path = str(Path(cm.config_file['FilePath']
                                     ['inputDir'] + r'climate_forcing'
-                                    '/temperature/*.nc'))
+                                    '/temperature/*'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
@@ -145,22 +145,27 @@ class ClimateForcing:
 
         print('\n'+'+++++++++++++++' + '\n' + 'Checking units' + '\n' +
               '+++++++++++++++')
+
+        extra_units = ["mm/day", " mm day-1", "°C", "C", "degree celcius",
+                       "celcius"]
         for index, units in enumerate(self.units):
-            if units in cf_info['variables']['units']:
+            if units in cf_info['variables']['units'] or units in extra_units:
                 print('*' + self.var_name[index] + '*' + ' required in ' +
                       units + ' found')
-
             else:
-                log.config_logger(logging.WARNING, modname, units +
-                                  '  follows cf convention.'
+                log.config_logger(logging.ERROR, modname, units +
+                                  ' is not a known cf convention unit.'
                                   ' Plesae check data units', args.debug)
+                sys.exit()  # dont run code if units does not exist
 
     # =========================================================================
     #     mask climate forcing
     # =========================================================================
+
     def mask_forcings(self):
         """
         Mask climate forcing.
+
         Returns
         -------
         data range : xarray
