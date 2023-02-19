@@ -46,7 +46,7 @@ class Parameters:
         # Canopy
         # =====================================================================
         # maximum storage coefficient (mm)
-        self.max_storage_coefficient = 0.3 + np.zeros(parameter_size)
+        self.max_storage_coefficient = 0.30 + np.zeros(parameter_size)
 
         # =====================================================================
         # Snow
@@ -59,7 +59,7 @@ class Parameters:
         # Soil
         # =====================================================================
         # Fraction of effective_precipitation that directly becomes runoff (-)
-        self.runoff_frac_builtup = 0.5
+        self.runoff_frac_builtup = 0.50
 
         # Runoff coefficient (-)
         self.gamma = 2 + np.zeros(parameter_size)

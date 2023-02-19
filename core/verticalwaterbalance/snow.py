@@ -25,7 +25,6 @@
 
 import numpy as np
 from core.verticalwaterbalance import snow_subgrid as ss
-from core.utility import check_negative_precipitation as check
 
 
 class Snow():
@@ -79,8 +78,6 @@ class Snow():
 
         self.elevation = static_data.gtopo30_elevation
 
-        # Checking negative precipittaion
-        check.check_neg_precipitation(precipitation)
         self.precipitation = precipitation
 
     def snow_balance(self, current_landarea_frac, landareafrac_ratio,

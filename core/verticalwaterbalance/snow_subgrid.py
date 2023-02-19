@@ -146,6 +146,7 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
         dailystoragetransfer =\
             np.where(current_landarea_frac == 0, daily_storage_transfer +
                      snow_water_storage_subgrid[i], 0)
+        # =====================================================================
 
         # correcting  snow_water_storage_subgrid for land area fraction
         snow_water_storage_subgrid[i] *= landareafrac_ratio

@@ -28,29 +28,30 @@ import numpy as np
 
 class RadiationPotentialEvap:
     """
-    Compute radiation and Priestley-Taylor potential evapotranspiration.
+    Compute radiation and Priestly-Taylor potential evapotranspiration.
 
     Input Parameters
     ----------------
-    climate_forcing : array
-        Input forcing to caluclate radiation components and
-        Priestley-Taylor potential evapotranspiration.
+    temperature : array
+        Air tempeature, Units: K
+    down_shortwave_radiation: array
+        Downward shortwave radiation  Units: Wm−2
+    down_longwave_radiation: array
+        Downward longwave radiation  Units: Wm−2
     static_data : array and csv
         Land_cover  class (array)  based on [1]_.
         Humid-arid calssification(array) based on [1]_.
         CSV formatted table that contains parameters for radiation components
         based on [2]_.
     date : datetime64
-        Date to select specific days.
+        Date to select specific days
     snow_water_storage : array
-        If daily snow water storage is greater than 3mm, snow albedo is used
-        for shortwave radiation calulation.
-        
-        Unit: [mm]
+        if daily snow water storage is greater than 3mm, snow albedo is used
+        for shortwave radiation calulation, Units: mm.
     parameters: : array
         The following parameters are obtained from the parameters array:
-        snow_albedo_thresh [mm], openwater_albedo [-], pt_coeff_arid [-],
-        pt_coeff_humid [-].
+        snow_albedo_thresh (mm), openwater_albedo (-), pt_coeff_arid (-),
+        pt_coeff_humid (-).
 
 
         References.
@@ -73,38 +74,30 @@ class RadiationPotentialEvap:
     Methods
     -------
     priestley_taylor:
-        Priestley-Taylor potential evapotranspiration.
+        Priestly-Taylor potential evapotranspiration.
     """
 
-    def __init__(self, climate_forcing, static_data, date, snow_water_storage,
+    def __init__(self, temperature, down_shortwave_radiation,
+                 down_longwave_radiation, static_data, snow_water_storage,
                  parameters):
-        self.climate_forcing = climate_forcing
-        self.static_data = static_data
-        self.date = date
-        self.upwards_rad_components = []
+
+        #  Actual name: Air tempeature, Units: K
+        #  Actual name: Downward shortwave radiation  Units: Wm−2
+        #  Actual name: Downward longwave radiation  Units: Wm−2
+
         # Global model parameters(e.g. snow aldedo threhold, openwater_albedo,
         # Shuttleworth alpha coeffecient  (arid and humid cells) for  potential
         # evapotranspiiration calulation. etc.) can be found here.
         self.pm = parameters
-        # =====================================================================
-        # # Loading in climate forcing
-        # =====================================================================
 
-        #  Actual name: Air tempeature, Units: K
-        temperature = self.climate_forcing.temperature.sel(time=str(self.date))
-        temperature = temperature.tas.values
+        self.static_data = static_data
 
-        #  Actual name: Downward shortwave radiation  Units: Wm−2
-        down_shortwave_radiation = \
-            self.climate_forcing.down_shortwave_radiation.sel(
-                time=str(self.date))
-        down_shortwave_radiation = down_shortwave_radiation.rsds.values
+        # self.tempeature is created so that priestley_taylor function can
+        # access this variable directly.
+        self.temperature = temperature
 
-        #  Actual name: Downward longwave radiation  Units: Wm−2
-        down_longwave_radiation = \
-            self.climate_forcing.down_longwave_radiation.sel(
-                time=str(self.date))
-        down_longwave_radiation = down_longwave_radiation.rlds.values
+        # upward radiation components are stored here
+        self.upwards_rad_components = []
 
         # =====================================================================
         # # Loading in static variables
@@ -165,8 +158,8 @@ class RadiationPotentialEvap:
         # Actual name: Upward longwave radiation, Units:  Wm−2
         # upward_longwave_radiation is based on Eq. 3 in
         # Müller Schmied et al., 2016b
-        up_longwave_radiation = emissivity * \
-            (stefan_boltzmann_constant * np.power(temperature, 4))
+        up_longwave_radiation = \
+            emissivity * (stefan_boltzmann_constant * np.power(temperature, 4))
 
         #  Actual name: Net longwave radiation Unit: (Wm−2)
         # net_longwave_radiation is based on Eq. 4 in
@@ -193,21 +186,18 @@ class RadiationPotentialEvap:
             self.net_longwave_radiation
 
     def priestley_taylor(self):
-        """Compute Priestley-Taylor potential evapotranspiration.
+        """Compute Priestly-Taylor potential evapotranspiration.
 
         Returns
         -------
-        Potential evapotranspiration per time step. 
-        
-        Unit: [mm/d]
+        Potential evapotranspiration per time step, Units: mm/d.
         """
         # =====================================================================
         # Slope of the saturation kPa°C-1
         # =====================================================================
         # Converting temperature to degrees celcius
         covert_to_degree = 273.15
-        temperature = self.climate_forcing.temperature.sel(time=str(self.date))
-        temperature = temperature.tas.values - covert_to_degree
+        temperature = self.temperature - covert_to_degree
 
         # Actual name: Slope of the saturation, Units: kPa°C-1
         slope_of_sat_num = 4098 * (0.6108 * np.exp((17.27 * temperature) /

@@ -28,7 +28,6 @@
 # =============================================================================
 
 import numpy as np
-from core.utility import check_negative_precipitation as check
 
 
 class Soil:
@@ -202,17 +201,14 @@ class Soil:
             of current time step is zero, Units: mm
 
         """
-        #  Checking negative precipittaion
-        check.check_neg_precipitation(precipitation)
-
         # =========================================================================
         # Check if  current_landarea_frac == 0 , then add previous storage to
         # daily_storage_tranfer. This storage will then  added to runoff.
         # (e.g. island)
         # =========================================================================
         daily_storage_transfer = \
-            np.where(current_landarea_frac == 0, daily_storage_transfer +
-                     soil_water_content.copy()*self.pm.areal_corr_factor, 0)
+            np.where(current_landarea_frac == 0, (daily_storage_transfer +
+                     soil_water_content.copy())*self.pm.areal_corr_factor, 0)
 
         # =====================================================================
         # Calculating soil water overflow (mm) and soil water content(mm).
@@ -258,6 +254,12 @@ class Soil:
         # soil_water_content_new (eq.15 in H. Müller Schmied et al 2021)
         soil_water_content_new = soil_water_content + effective_precipitation \
             - actual_soil_evap - runoff
+
+        # minimal storage volume =1e15 (smaller volumes set to zero) to counter
+        # numerical inaccuracies***
+        soil_water_content_new = \
+            np.where(np.abs(soil_water_content_new) <= 1e-15, 0,
+                     soil_water_content_new)
 
 # =============================================================================
 # I dont know why effective prctipiatation is set to zero after addition to the
@@ -376,11 +378,12 @@ class Soil:
         # if the updated soil_water_content_new > maximum soil water content
         # it becomes overflow.
         soil_water_overflow_new = \
-            np.where((self.max_soil_water_content > 0) &
-                     (soil_water_content_new > self.max_soil_water_content),
-                     (soil_water_overflow + soil_water_content_new -
-                      self.max_soil_water_content) * self.pm.areal_corr_factor,
-                     0)
+            np.where((soil_water_content_new > self.max_soil_water_content),
+                     soil_water_overflow +
+                     (soil_water_content_new - self.max_soil_water_content),
+                     soil_water_overflow)
+
+        soil_water_overflow_new *= self.pm.areal_corr_factor
 
         # Total daily runoff is calculated as runoff plus immediate runoff plus
         # updated soil water overflow (soil_water_overflow_new)
@@ -395,14 +398,15 @@ class Soil:
         # soil water content of previous time step can be higher than
         # maximum soil water content hence runoff can be possible.
         total_daily_runoff = \
-            np.where((max_temp_elev > snow_freeze_temp), total_daily_runoff,
+            np.where((max_temp_elev > snow_freeze_temp), total_daily_runoff,  +
                      (soil_water_overflow) * self.pm.areal_corr_factor)
 
         # =========================================================
         #  +++ Soil_water_overflow that can be wrrirten out ++++++
         # ==========================================================
         soil_water_overflow =\
-            np.where((max_temp_elev > snow_freeze_temp),
+            np.where((max_temp_elev > snow_freeze_temp) &
+                     (self.max_soil_water_content > 0),
                      soil_water_overflow_new,
                      soil_water_overflow * self.pm.areal_corr_factor)
 

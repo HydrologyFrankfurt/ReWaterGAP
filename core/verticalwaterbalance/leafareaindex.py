@@ -24,7 +24,6 @@
 
 import numpy as np
 from core.verticalwaterbalance import parallel_leaf_area_index
-from core.utility import check_negative_precipitation as check
 
 
 class LeafAreaIndex:
@@ -32,8 +31,10 @@ class LeafAreaIndex:
 
     Input Parameters
     ----------
-    climate_forcing : array
-        Input forcing to caluclate leaf area index
+    temperature : array
+        Air tempeature, Units: K
+    precipitation : array
+        Precipitation, Units:  mm/day
     static_data : array and csv
         Land_cover  class (array)  based on [1]_.
         Humid-arid calssification(array) based on [1]_.
@@ -68,10 +69,10 @@ class LeafAreaIndex:
         Vectorized daily leaf area index.
     """
 
-    def __init__(self, climate_forcing, static_data, date):
-        self.climate_forcing = climate_forcing
+    def __init__(self,  temperature, precipitation, static_data):
+        self.temperature = temperature
+        self.precipitation = precipitation
         self.static_data = static_data
-        self.date = date
 
         # =====================================================================
         # Distribute maximum and minimum Leaf area index over all grid cells
@@ -175,19 +176,10 @@ class LeafAreaIndex:
         # # Loading in climate forcing
         # =====================================================================
         #  Actual name: Air tempeature, Units: K
-        temperature = self.climate_forcing.temperature.sel(time=str(self.date))
-        temperature = temperature.tas.values
+        temperature = self.temperature
 
-        #  Actual name: Precipitation, Units:  kg m-2 s-1
-        precipitation = self.climate_forcing.precipitation.sel(
-            time=str(self.date))
-
-        #   Units conversion 1 kg m-2 s-1 = 86400 mmd-1
-        to_mm_per_day = 86400
-        precipitation = precipitation.pr.values * to_mm_per_day
-
-        #  Checking negative precipittaion
-        check.check_neg_precipitation(precipitation)
+        #  Actual name: Precipitation, Units:  mm/day
+        precipitation = self.precipitation
 
         # =====================================================================
         # # Loading in static variables

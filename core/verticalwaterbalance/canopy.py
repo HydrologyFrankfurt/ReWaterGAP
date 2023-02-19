@@ -18,7 +18,6 @@
 # =============================================================================
 
 import numpy as np
-from core.utility import check_negative_precipitation as check
 
 
 def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
@@ -62,11 +61,6 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
         time step is zero, Units: mm
     """
     # =========================================================================
-    #     Checking negative precipittaion
-    # =========================================================================
-    check.check_neg_precipitation(precipitation)
-
-    # =========================================================================
     # Check if  current_landarea_frac == 0 , then add previous storage to
     # daily_storage_tranfer. This storage will then  added to runoff.
     # (e.g. island)
@@ -78,7 +72,7 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
     # Adapt for change in land area fraction on canopy storage
     # =========================================================================
     canopy_storage *= landareafrac_ratio
-
+    # print(landareafrac_ratio[116, 454])
     # Initial storage to calulate change in canopy_storage.
     initial_storage = canopy_storage.copy()
 
@@ -129,8 +123,7 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
 
     canopy_evap = np.where(canopy_evap_cal > canopy_storage_new,
                            canopy_storage_new, canopy_evap_cal)
-    canopy_evap = np.where(daily_leaf_area_index > 0,
-                           canopy_evap, 0)
+    canopy_evap = np.where(daily_leaf_area_index > 0, canopy_evap, 0)
     canopy_evap[current_landarea_frac <= 0] = 0
 
     # =========================================================================
