@@ -57,12 +57,12 @@ Upward longwave radiation :math:`L↑` :math:`[Wm^-2]` is calculated as:
 
 where :math:`{ε}_{LC}` is the emissivity :math:`[-]` based on land cover type Table C2) [2]_, :math:`σ` is the Stefan–Boltzmann constant :math:`(5.67 × 10−8 [Wm^-2·K^−4])` and :math:`T` is the temperature in :math:`[K]` . 
 
-Net longwave radiation :math:`{L}_{net}` :math:`[\frac{W}{m^-2}}]` is calculated as:
+Net longwave radiation :math:`{L}_{net}` :math:`[\frac{W}{m^-2}]` is calculated as:
 
 .. math::
     {L}_{net} = L↓ − L↑.
 
-Net radiation :math:`R` :math:`[\frac{W}{m^-2}}]` is calculated as:
+Net radiation :math:`R` :math:`[\frac{W}{m^-2}]` is calculated as:
 
 .. math::
    R = {S}_{net} + {L}_{net}
@@ -70,7 +70,7 @@ Net radiation :math:`R` :math:`[\frac{W}{m^-2}}]` is calculated as:
 
 Slope of the saturation and psychrometric constant
 ---------------------------------------------------
-:math:`s_a` is the slope of the saturation vapor pressure–temperature relationship :math:`[\frac{kPa}{°C}}]` defined as:
+:math:`s_a` is the slope of the saturation vapor pressure–temperature relationship :math:`[\frac{kPa}{°C}]` defined as:
 
 .. math::
    s_a = \frac{4098 (0.6108 e^\frac{17.27T}{T + 237.3})}{(T + 237.3)^2}
