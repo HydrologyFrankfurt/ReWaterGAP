@@ -21,11 +21,16 @@ This module computes soil storage and related fluxes for all grid cells based on
 
    .. math::
       {P}_{eff}  + {S}_{s,p} - {S_s,max}
+      
+   where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is ref:`soil storage <soil_storage>`
+   of previous day and maximum soil storage respectively.
    
-   Surface runoff is finally calculated as total daily runoff minus ground water recharge.
+   Surface runoff is finally calculated as total daily runoff from land minus ground water recharge.
 
 Water balance
 -------------
+.. _soil_storage:
+
 Soil storage :math:`S_s` :math:`(mm)` is calculated as:
 
 .. math::
