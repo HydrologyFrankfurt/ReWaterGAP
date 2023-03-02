@@ -286,25 +286,25 @@ class CreateandWritetoVariables:
         # Fluxes
         fluxes_var = value[1]
 
-        # self.lb_fluxes['groundwater_discharge'].\
-        #     write_daily_ouput(fluxes_var['groundwater_discharge'], time_step)
+        self.lb_fluxes['groundwater_discharge'].\
+            write_daily_ouput(fluxes_var['groundwater_discharge'], time_step)
 
-        # self.lb_fluxes['locallake_outflow'].\
-        #     write_daily_ouput(fluxes_var['locallake_outflow'], time_step)
+        self.lb_fluxes['locallake_outflow'].\
+            write_daily_ouput(fluxes_var['locallake_outflow'], time_step)
 
-        # self.lb_fluxes['localwetland_outflow'].\
-        #     write_daily_ouput(fluxes_var['localwetland_outflow'], time_step)
+        self.lb_fluxes['localwetland_outflow'].\
+            write_daily_ouput(fluxes_var['localwetland_outflow'], time_step)
 
-        # self.lb_fluxes['globallake_outflow'].\
-        #     write_daily_ouput(fluxes_var['globallake_outflow'], time_step)
+        self.lb_fluxes['globallake_outflow'].\
+            write_daily_ouput(fluxes_var['globallake_outflow'], time_step)
 
-        # self.lb_fluxes['globalwetland_outflow'].\
-        #     write_daily_ouput(fluxes_var['globalwetland_outflow'], time_step)
+        self.lb_fluxes['globalwetland_outflow'].\
+            write_daily_ouput(fluxes_var['globalwetland_outflow'], time_step)
 
-        # self.lb_fluxes['streamflow'].\
-        #     write_daily_ouput(fluxes_var['streamflow'], time_step)
+        self.lb_fluxes['streamflow'].\
+            write_daily_ouput(fluxes_var['streamflow'], time_step)
 
-    def save_to_netcdf(self):
+    def save_to_netcdf(self, end_date):
         """
         Save variables to netcdf.
 
@@ -317,55 +317,60 @@ class CreateandWritetoVariables:
         #                       Storages
         # =====================================================================
         # Vertical Water Balance
-        self.vb_storages['canopystor'].to_netcdf('canopy_storage')
-        self.vb_storages['swe'].to_netcdf('snow_water_storage')
-        self.vb_storages['soilmoist'].to_netcdf('soil_water_storage')
+        self.vb_storages['canopystor'].to_netcdf('canopy_storage_' + end_date)
+        self.vb_storages['swe'].to_netcdf('snow_water_storage_' + end_date)
+        self.vb_storages['soilmoist'].\
+            to_netcdf('soil_water_storage_' + end_date)
 
         # Lateral Water Balance
         self.lb_storages['groundwater_storage'].\
-            to_netcdf('groundwater_storage')
+            to_netcdf('groundwater_storage_' + end_date)
 
-        self.lb_storages['locallake_storage'].to_netcdf('locallake_storage')
+        self.lb_storages['locallake_storage'].\
+            to_netcdf('locallake_storage_' + end_date)
 
         self.lb_storages['localwetland_storage'].\
-            to_netcdf('localwetland_storage')
+            to_netcdf('localwetland_storage_' + end_date)
 
-        self.lb_storages['globallake_storage'].to_netcdf('globallake_storage')
+        self.lb_storages['globallake_storage'].\
+            to_netcdf('globallake_storage_' + end_date)
         self.lb_storages['globalwetland_storage'].\
-            to_netcdf('globalwetland_storage')
+            to_netcdf('globalwetland_storage_' + end_date)
 
-        self.lb_storages['river_storage'].to_netcdf('river_storage')
+        self.lb_storages['river_storage'].\
+            to_netcdf('river_storage_' + end_date)
 
         # =====================================================================
         #                       Fluxes
         # =====================================================================
         # Vertical Water Balance
-        self.vb_fluxes['netrad'].to_netcdf('net_radiation')
-        self.vb_fluxes['potevap'].to_netcdf('pet_taylor')
-        self.vb_fluxes['lai'].to_netcdf('leaf_area_index')
-        self.vb_fluxes['canopy_evap'].to_netcdf('canopy_evap')
-        self.vb_fluxes['throughfall'].to_netcdf('throughfall')
-        self.vb_fluxes['snow_fall'].to_netcdf('snow_fall')
-        self.vb_fluxes['snow_melt'].to_netcdf('snow_melt')
-        self.vb_fluxes['snow_evap'].to_netcdf('sublimation')
+        self.vb_fluxes['netrad'].to_netcdf('net_radiation_' + end_date)
+        self.vb_fluxes['potevap'].to_netcdf('pet_taylor_' + end_date)
+        self.vb_fluxes['lai'].to_netcdf('leaf_area_index_' + end_date)
+        self.vb_fluxes['canopy_evap'].to_netcdf('canopy_evap_' + end_date)
+        self.vb_fluxes['throughfall'].to_netcdf('throughfall_' + end_date)
+        self.vb_fluxes['snow_fall'].to_netcdf('snow_fall_' + end_date)
+        self.vb_fluxes['snow_melt'].to_netcdf('snow_melt_' + end_date)
+        self.vb_fluxes['snow_evap'].to_netcdf('sublimation_' + end_date)
         self.vb_fluxes['groundwater_recharge'].\
-            to_netcdf('groundwater_recharge')
-        self.vb_fluxes['surface_runoff'].to_netcdf('surface_runoff')
+            to_netcdf('groundwater_recharge_' + end_date)
+        self.vb_fluxes['surface_runoff'].\
+            to_netcdf('surface_runoff_' + end_date)
 
         # Lateral Water Balance
         self.lb_fluxes['groundwater_discharge'].\
-            to_netcdf('groundwater_discharge')
+            to_netcdf('groundwater_discharge_' + end_date)
 
         self.lb_fluxes['locallake_outflow'].\
-            to_netcdf('locallake_outflow')
+            to_netcdf('locallake_outflow_' + end_date)
 
         self.lb_fluxes['localwetland_outflow'].\
-            to_netcdf('localwetland_outflow')
+            to_netcdf('localwetland_outflow_' + end_date)
 
         self.lb_fluxes['globallake_outflow'].\
-            to_netcdf('globallake_outflow')
+            to_netcdf('globallake_outflow_' + end_date)
 
         self.lb_fluxes['globalwetland_outflow'].\
-            to_netcdf('globalwetland_outflow')
+            to_netcdf('globalwetland_outflow_' + end_date)
 
-        self.lb_fluxes['streamflow'].to_netcdf('streamflow')
+        self.lb_fluxes['streamflow'].to_netcdf('streamflow_' + end_date)
