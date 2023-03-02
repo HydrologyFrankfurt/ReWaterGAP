@@ -15,12 +15,12 @@ This module computes soil storage and related fluxes for all grid cells based on
    Then, total daily runoff from land (RL) is calculated as:
 
    .. math::
-      RL= daily runoff (R1) + immediate runoff (R3) + soil water overflow (R2). 
+      RL = R1 + R3 + R2
 
    where soil water overflow (R2) is calulated as:
 
    .. math::
-      effective precipitation  + soil storage of the previous day - maximum soil storage
+      {P}_{eff}  + {S}_{s,p} - {S_s,max}
    
    Surface runoff is finally calculated as total daily runoff minus ground water recharge.
 
