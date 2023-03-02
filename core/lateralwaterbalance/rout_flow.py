@@ -8,7 +8,7 @@
 # You should have received a copy of the LGPLv3 License along with WaterGAP.
 # if not see <https://www.gnu.org/licenses/lgpl-3.0>
 # =============================================================================
-"Routing"
+"""Routing."""
 
 # =============================================================================
 # This module routes flow from surface runoff and groundwater to the river
@@ -492,9 +492,9 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
             evaporated_streamflow_inlandsink = river_streamflow[x, y]
         else:
             cellrunoff[x,  y] = river_streamflow[x, y] - inflow_from_upstream
-       
-    
+
     return gw_storage, local_lake_storage, local_wetland_storage,\
         global_lake_storage,  global_wetland_storage, river_storage_out,\
-        river_streamflow, cellrunoff, dyn_loclake_frac, dyn_locwet_frac, \
-        dyn_glowet_frac
+        gw_discharge, loclake_outflow, locwet_outflow, glolake_outflow, \
+        glowet_outflow, river_streamflow,  cellrunoff, dyn_loclake_frac, \
+        dyn_locwet_frac, dyn_glowet_frac

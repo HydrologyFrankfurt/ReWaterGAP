@@ -58,9 +58,17 @@ def river_water_balance(river_storage, river_inflow, outflow_constant,
                         stat_corr_fact):
 
     river_storage_prev = river_storage
+
+    # Note!!! even though river evaporation is not considered, variables are
+    # named such that they allow for future consideration of evaporation.
+
     # river evaporation and use is set to zero for now **
     riverevap_use = 0
-    #at max ds/dt=0**** better words will be useful here
+
+    # To get *riverevap_use_max*, the river water balance Eq.30 (section 4.7.1)
+    # of Müller Schmied et al. (2021) is solved at dS/dt=0.
+    # At maximum evapoiration and use there is no change in storage
+
     riverevap_use_max = river_inflow + \
         (outflow_constant * river_storage_prev *
          np.exp(-1*outflow_constant))/(1 - np.exp(-1*outflow_constant))

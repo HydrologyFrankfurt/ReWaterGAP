@@ -202,7 +202,6 @@ class LateralWaterBalance:
         None.
 
         """
-        # print(surface_runoff[117, 454], openwater_pot_evap[117, 454],  diffuse_gw_recharge[117,454])
         # =====================================================================
         # Converting input fluxes from  mm/day to km/day or km3/day
         # =====================================================================
@@ -291,9 +290,16 @@ class LateralWaterBalance:
         self.glolake_storage = out[3]
         self.glowet_storage = out[4]
         self.river_storage = out[5]
-        updated_locallake_fraction = out[8]
-        updated_localwetland_fraction = out[9]
-        updated_globalwetland_fraction = out[10]
+        groundwater_discharge = out[6]
+        loclake_outflow = out[7]
+        locwet_outflow = out[8]
+        glolake_outflow = out[9]
+        glowet_outflow = out[10]
+        streamflow = out[11]
+
+        updated_locallake_fraction = out[13]
+        updated_localwetland_fraction = out[14]
+        updated_globalwetland_fraction = out[15]
         print(self.loclake_storage[117, 454])
         # =====================================================================
         # Getting all storages
@@ -313,12 +319,13 @@ class LateralWaterBalance:
         # Getting all fluxes
         # =====================================================================
 
-        # LateralWaterBalance.fluxes.\
-        #    update({'groundwater_discharge': groundwater_discharge,})
-        #           'locallake_outflow': loclake_outflow})
-        #             'localwetland_outflow': locwet_outflow,
-        #             'globallake_outflow': glolake_outflow,
-        #             'globalwetland_outflow': glowet_outflow})
+        LateralWaterBalance.fluxes.\
+            update({'groundwater_discharge': groundwater_discharge*mask_con,
+                   'locallake_outflow': loclake_outflow*mask_con,
+                    'localwetland_outflow': locwet_outflow*mask_con,
+                    'globallake_outflow': glolake_outflow*mask_con,
+                    'globalwetland_outflow': glowet_outflow*mask_con,
+                    'streamflow': streamflow*mask_con})
 
         # =====================================================================
         #  Get dynamic area fraction for local lakes and local and
@@ -359,3 +366,26 @@ class LateralWaterBalance:
 
         """
         return LateralWaterBalance.land_swb_fraction
+
+    def update_latbal_for_restart(self, latbalance_states):
+        """
+        Update vertical balance parameters for model restart.
+
+        Parameters
+        ----------
+        vertbalance_states : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.groundwater_storage = \
+            latbalance_states["groundwater_storage_prev"]
+        self.loclake_storage = latbalance_states["loclake_storage_prev"]
+        self.locwet_storage = latbalance_states["locwet_storage_prev"]
+
+        self.glolake_storage = latbalance_states["glolake_storage_prev"]
+        self.glowet_storage = latbalance_states["glowet_storage_prev"]
+        self.river_storage = latbalance_states["river_storage_prev"]
