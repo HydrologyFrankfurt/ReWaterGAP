@@ -68,13 +68,18 @@ config_file = config_handler(args.name)
 # Initializing Runtime Options (bottleneck to run simulation)
 ant = config_file['RuntimeOptions'][0]['SimilationOption']['ant']
 
+
+restart = config_file['RuntimeOptions'][1]['RestartOptions']['restart']
+save_states = config_file['RuntimeOptions'][1]['RestartOptions']['save_model_states_for_restart']
+
 # Initializing  Simulation Period
-start = config_file['RuntimeOptions'][1]['SimilationPeriod']['start']
-end = config_file['RuntimeOptions'][1]['SimilationPeriod']['end']
+start = config_file['RuntimeOptions'][2]['SimilationPeriod']['start']
+end = config_file['RuntimeOptions'][2]['SimilationPeriod']['end']
 
 # Temporal Resoulutiom (bottleneck: just examples)
-dailyRes = config_file['RuntimeOptions'][2]['TimeStep']['daily']
-hourly = config_file['RuntimeOptions'][2]['TimeStep']['hourly']
+dailyRes = config_file['RuntimeOptions'][3]['TimeStep']['daily']
+hourly = config_file['RuntimeOptions'][3]['TimeStep']['hourly']
+
 
 if dailyRes:
     temporal_res = 'Daily'

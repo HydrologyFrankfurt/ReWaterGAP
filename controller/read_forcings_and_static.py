@@ -119,3 +119,21 @@ class InitializeForcingsandStaticdata:
             np.divide(self.previous_landareafrac, self.current_landareafrac,
                       out=np.zeros_like(self.current_landareafrac),
                       where=self.current_landareafrac != 0)
+
+    def update_landfrac_for_restart(self, landfrac_state):
+        """
+        Update Land area fraction for model restart.
+
+        Parameters
+        ----------
+        landfrac_state : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.current_landareafrac = landfrac_state["current_landareafrac"]
+        self.previous_landareafrac = landfrac_state["previous_landareafrac"]
+        self.landareafrac_ratio = landfrac_state["landareafrac_ratio"]
