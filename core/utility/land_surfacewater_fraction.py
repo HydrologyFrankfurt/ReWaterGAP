@@ -62,10 +62,25 @@ def get_landareafrac(static_data):
     # regulated lakes are found in global resevoiur
     land_area_frac = (cont_frac - (glolake_frac + glowet_frac + loclake_frac +
                                    locwet_frac + glores_frac))/100
+    land_area_frac[land_area_frac < 0] = 0
     return land_area_frac
 
 
 def get_glolake_area(static_data):
+    """
+    Get global lake area.
+
+    Parameters
+    ----------
+    static_data : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    glo_lake_area : TYPE
+        DESCRIPTION.
+
+    """
     global_lake_area = static_data.global_lake_area[0].values.\
         astype(np.float64)
 
