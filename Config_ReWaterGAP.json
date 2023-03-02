@@ -10,6 +10,12 @@
       }
     },
     {
+    "RestartOptions":{
+        "restart": false,
+        "save_model_states_for_restart": false
+        }
+    },
+    {
       "SimilationPeriod": {
         "start": "1901-01-01",
         "end": "1901-12-31"
@@ -25,16 +31,16 @@
   "outputVariable": [
     {
       "VerticalWaterBalanceFluxes": {
-        "potevap": false,
-        "netrad": false,
+        "potevap": true,
+        "netrad": true,
         "lai": true,
-        "canopy_evap": false,
-        "throughfall": false,
+        "canopy_evap": true,
+        "throughfall": true,
         "snow_fall": true,
         "snow_melt": true,
         "snow_evap": true,
-        "groundwater_recharge": false,
-        "surface_runoff": false
+        "groundwater_recharge": true,
+        "surface_runoff": true
       }
     },
     {
