@@ -45,8 +45,8 @@ class VerticalWaterBalance:
 
         # Days since start of leaf area index profile(counter for days with
         # growing conditions), units: day
-        self.days = np.zeros((self.forcings_static.lat_length,
-                              self.forcings_static.lon_length))
+        self.lai_days = np.zeros((self.forcings_static.lat_length,
+                                  self.forcings_static.lon_length))
 
         # Variable Name: cumulative precipitation,  units: mm/day
         self.cum_precipitation = np.zeros((self.forcings_static.lat_length,
@@ -177,16 +177,17 @@ class VerticalWaterBalance:
                           self.forcings_static.static_data)
 
         daily_leaf_area_index = initialize_leaf_area_index.\
-            get_daily_leaf_area_index(self.days, self.growth_status,
+            get_daily_leaf_area_index(self.lai_days, self.growth_status,
                                       self.cum_precipitation)
 
         # ouputs from the get_daily_leaf_area_index" are
-        # 0 = daily leaf area index (-), 1 = days since start (days),
+        # 0 = daily leaf area index (-),
+        # 1 = days since start leaf area index profile (days),
         # 2 = cumulative precipitation (mm/day)  and 3 = growth status(-)
         # ouput(1-3)  get updated per time step.
 
         leaf_area_index = daily_leaf_area_index[0]
-        self.days = daily_leaf_area_index[1]
+        self.lai_days = daily_leaf_area_index[1]
         self.cum_precipitation = daily_leaf_area_index[2]
         self.growth_status = daily_leaf_area_index[3]
 
@@ -257,7 +258,8 @@ class VerticalWaterBalance:
             initilaize_soil_storage.immediate_runoff(effective_precipitation)
 
         # ouputs from the  modified_effective_precipitation are
-        # 0 = effective_precipitation (mm/day),  1 = immediate_runoff (mm/day)
+        # 0 = effective_precipitation (mm/day): this is wriiten out **
+        # 1 = immediate_runoff (mm/day)
         effective_precipitation_corr = modified_effective_precipitation[0]
         immediate_runoff = modified_effective_precipitation[1]
 
@@ -276,6 +278,12 @@ class VerticalWaterBalance:
         # 1 = groundwater_recharge_from_soil_mm (mm),
         # 2 = actual_soil_evap (mm/day), 3 =  soil_saturation (-),
         # 4 = surface_runoff (mm/day) , 5 = daily_storage_tranfer (mm/day)
+        # 6 =  (RL) potential runoff from landcells including the amount of
+        # gw-recharge (mm/day)
+        # 7 = (R1) daily runoff from soil (mm/day)
+        # 8 = (R2) soil overflow runoff from landcells (mm/day)
+        # 9 = (R3) urban runoff from landcells (mm/day) : (accounts only
+        # for built-up area)
 
         self.soil_water_content = daily_soil_storage[0]
         groundwater_recharge_from_soil_mm = daily_soil_storage[1]
@@ -325,3 +333,27 @@ class VerticalWaterBalance:
 
         """
         return VerticalWaterBalance.storages, VerticalWaterBalance.fluxes
+
+    def update_vertbal_for_restart(self, vertbalance_states):
+        """
+        Update vertical balance parameters for model restart.
+
+        Parameters
+        ----------
+        vertbalance_states : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.lai_days = vertbalance_states["lai_days_since_start"]
+        self.cum_precipitation = vertbalance_states["cum_precipitation"]
+        self.growth_status = vertbalance_states["growth_status"]
+
+        self.canopy_storage = vertbalance_states["canopy_storage_prev"]
+        self.snow_water_storage = vertbalance_states["snow_water_stor_prev"]
+        self.snow_water_storage_subgrid = \
+            vertbalance_states["snow_water_storsubgrid_prev"]
+        self.soil_water_content = vertbalance_states["soil_water_content_prev"]

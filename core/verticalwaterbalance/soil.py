@@ -213,7 +213,7 @@ class Soil:
         # =====================================================================
         # Calculating soil water overflow (mm) and soil water content(mm).
         # =====================================================================
-        # Correcting  soil_water_content for land area fraction
+        # Adapting  soil_water_content since land area fraction is dynamic
         soil_water_content *= landareafrac_ratio
 
         # Initial storage to calulate change in soil storage.
@@ -236,7 +236,8 @@ class Soil:
         soil_saturation = (soil_water_content/self.max_soil_water_content)
 
         # gamma = Runoff coefficient (-)
-        runoff = effective_precipitation * (soil_saturation)**self.pm.gamma
+        daily_runoff = \
+            effective_precipitation * (soil_saturation)**self.pm.gamma
 
         # =====================================================================
         # Calculating actual soil evapotranspiration (mm/day) and updating
@@ -253,7 +254,7 @@ class Soil:
         # Updating soil water content into a helper variable
         # soil_water_content_new (eq.15 in H. Müller Schmied et al 2021)
         soil_water_content_new = soil_water_content + effective_precipitation \
-            - actual_soil_evap - runoff
+            - actual_soil_evap - daily_runoff
 
         # minimal storage volume =1e15 (smaller volumes set to zero) to counter
         # numerical inaccuracies***
@@ -306,7 +307,7 @@ class Soil:
         #  Correcting runoff and immediate runoff with areal_corr_factor
         #            (Areal correction factor-CFA (-))
         # ==============================================================
-        runoff *= self.pm.areal_corr_factor
+        daily_runoff *= self.pm.areal_corr_factor
         immediate_runoff *= self.pm.areal_corr_factor
 
         # =====================================================================
@@ -322,7 +323,7 @@ class Soil:
         # H. Müller Schmied et al 2021
         groundwater_recharge_from_soil_mm = \
             np.minimum(self.max_groundwater_recharge,
-                       self.groundwater_recharge_factor * runoff)
+                       self.groundwater_recharge_factor * daily_runoff)
 
         # For (semi) arid cells groundwater recharge becomes zero when critical
         # precipitation for groundwater recharge (default = 12.5 mm/day) is not
@@ -364,7 +365,7 @@ class Soil:
         # Updating runoff and soil water content with remaning water in
         # the soil.
         # =====================================================================
-        runoff -= potential_gw_recharge
+        daily_runoff -= potential_gw_recharge
         soil_water_content_new += (potential_gw_recharge /
                                    self.pm.areal_corr_factor)
 
@@ -389,7 +390,8 @@ class Soil:
         # updated soil water overflow (soil_water_overflow_new)
         total_daily_runoff = \
             np.where(self.max_soil_water_content > 0,
-                     runoff + immediate_runoff + soil_water_overflow_new, 0)
+                     daily_runoff + immediate_runoff +
+                     soil_water_overflow_new, 0)
 
         # Note!!! Total daily runoff is only calulated with  updated soil water
         # overflow (soil_water_overflow_new) when maximum temperature is above
@@ -500,4 +502,5 @@ class Soil:
 
         return soil_water_content, groundwater_recharge_from_soil_mm, \
             actual_soil_evap, soil_saturation, surface_runoff,  \
-            daily_storage_transfer
+            daily_storage_transfer, total_daily_runoff, daily_runoff, \
+            soil_water_overflow, immediate_runoff

@@ -20,6 +20,7 @@
 import numpy as np
 
 
+
 def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
                    precipitation, current_landarea_frac, landareafrac_ratio,
                    max_storage_coefficient):

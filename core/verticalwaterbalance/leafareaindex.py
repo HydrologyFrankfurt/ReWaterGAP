@@ -144,14 +144,14 @@ class LeafAreaIndex:
             self.min_leaf_area_index[land_cover[:, :] == parameters_lai.loc[i, 'Number']] = \
                 parameters_lai.loc[i, 'min_leaf_area_index']
 
-    def get_daily_leaf_area_index(self, days, growth_status,
+    def get_daily_leaf_area_index(self, lai_days, growth_status,
                                   cum_precipitation):
         """
         Compute leaf area index.
 
         Parameters
         ----------
-        days : array
+        lai_days : array
             Days since start of leaf area index profile (counter for days with
             growing conditions), Units: day.
             This variable gets updated per time step.
@@ -200,7 +200,7 @@ class LeafAreaIndex:
         daily_leaf_area_index = \
             np.where(land_cover != np.nan,
                      parallel_leaf_area_index.vectorized_leaf_area_index(
-                            temperature, growth_status, days,
+                            temperature, growth_status, lai_days,
                             self.initial_days, cum_precipitation,
                             precipitation, temp_leaf_area_index,
                             self.min_leaf_area_index, self.max_leaf_area_index,

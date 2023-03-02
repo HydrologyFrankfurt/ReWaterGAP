@@ -148,7 +148,7 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
                      snow_water_storage_subgrid[i], 0)
         # =====================================================================
 
-        # correcting  snow_water_storage_subgrid for land area fraction
+        # Adapting  snow_water_storage_subgrid to dynamic land area fraction
         snow_water_storage_subgrid[i] *= landareafrac_ratio
 
         # Initial storage to calulate change in snow water storage.
