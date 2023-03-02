@@ -8,11 +8,12 @@ This module computes soil storage and related fluxes for all grid cells based on
 
 .. note:: 
    The computation order for the soil storage module is as follows:
-   First, :ref:`immediate runoff <immediate_runoff>` is calculated. After, 
+   First, :ref:`immediate runoff (R3) <immediate_runoff>` is calculated. After, 
    :ref:`effective precipitation <effective_precipitation>` is reduced by the immediate runoff. 
-   Then, :ref:`runoff <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
-   Soil storage is updated. Afterwards, :ref:`ground water recharge <diffuse_groundwater_recharge>` is calculated based on runoff.
-   Then, total daily runoff is calculated as runoff plus immediate runoff plus soil water overflow. 
+   Then, :ref:`daily runoff (R1) <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
+   Soil storage is updated. Afterwards, :ref:`ground water recharge <diffuse_groundwater_recharge>` is calculated based on daily runoff.
+   Then, total daily runoff (RL) is calculated as: :math:`RL= daily runoff (R1) + immediate runoff (R3) + soil water overflow (R2)'. 
+   where soil water overflow (R2) is calulated as  (:ref:`effective precipitation <effective_precipitation>`  + :ref:`soil storage <soil_storage>` of the previous day - maximum soil storage)
    Surface runoff is finally calculated as total daily runoff minus ground water recharge.
 
 Water balance
@@ -23,10 +24,6 @@ Soil storage :math:`S_s` :math:`(mm)` is calculated as:
    \frac{dS_s}{d_t} =  {P}_{eff} − {R}_{l}− {E}_{s}
 
 where :math:`{P}_{eff}` is effective precipitation :math:`(mm/d)`, :math:`{R}_{l}` is runoff from land :math:`(mm/d)` and :math:`{E}_{s}` is  the actual evapotranspiration from soil :math:`(mm/d)`.
-
-.. note::
-    :math:`{R}_{l}` is partitioned into (a) fast surface and subsurface runoff :math:`{R}_{s}`, representing direct surface runoff and interflow, and (b) groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <watergap_scheme>`.
-
 
 Inflows
 -------
@@ -40,15 +37,15 @@ Effective precipitation :math:`{P}_{eff}` is  is calculated as
 where :math:`{P}_{t}` is throughfall :math:`(mm/d)`, :math:`{P}_{sn}` is snowfall :math:`(mm/d)` and :math:`M` is snow melt :math:`(mm/d)`.
 
 .. note::
-   In urban areas (defined from MODIS data) :math:`50 \%` of :math:`{P}_{eff}` is directly turned into :math:`{R}_{l}`. This is known as immediate runoff and is calculated as :
+   In urban areas (defined from MODIS data) :math:`50 \%` of :math:`{P}_{eff}` is directly turned into :math:`{R}_{3}`. This is known as immediate runoff and is calculated as :
 
 .. _immediate_runoff:
 
    .. math::
      {immediate \: runoff} = 0.5 \times {P}_{eff}  \times fraction \: of \: build \: up \: area
 
-   Next, effective precipitation is reduced by the immediate runoff.  The resulting effective precipitation used to compute runoff. 
-   See function **immediate runoff** : line 73 -110 in source code. 
+   Next, effective precipitation is reduced by the immediate runoff.  The resulting effective precipitation used to compute the soil water balance. 
+   See function **immediate runoff** : in source code. 
 
 Outflows
 --------
@@ -62,21 +59,22 @@ Actual evapotranspiration :math:`{E}_{s}`  from soil :math:`(mm/d)` is calculate
 where :math:`{E}_{pot}` is potential evapotranspiration :math:`(mm/d)`, :math:`{E}_{c}` is canopy evaporation :math:`(mm/d)` and :math:`{S}_{s,max}` is the maximum soil water content :math:`(mm)` derived as a product of total available water capacity in the upper meter of the soil [2]_ and land-cover-specific rooting depth (Table C2 [1]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 (mm/d)` globally. 
 
 
-Runoff from land :math:`{R}_{l}` is calculated following Bergström (1995) [3]_ as
+Daily runoff from soil :math:`{R}_{1} (mm/day)` is calculated following Bergström (1995) [3]_ as
 
 .. _runoff:
 
 .. math::
-   R_l = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
+   R_1 = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
 
 where \Gamma is the runoff coefficient (–). This parameter, which varies between 0.1 and 5.0, is used for calibration.
-Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` that becomes :math:`{R}_{l}`.
+Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` that becomes :math:`{R}_{1}`.
 
 .. note::
-     If the sum of :math:`{P}_{eff}` and :math:`S_s` of the previous day exceed :math:`{S_s,max}`, the overflow is added to :math:`{R}_{l}`
+     If the sum of :math:`{P}_{eff}` and :math:`S_s` of the previous day exceed :math:`{S_s,max}`, the overflow  :math:`{R}_{2}` is added to runoff from land 
+     :math:`{R}_{l}`.
 
 
-:math:`{R}_{l}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}`and diffuse groundwater recharge :math:`{R}_{g}` according to
+:math:`{R}_{l}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}`and diffuse groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <watergap_scheme>`.
 
 .. _diffuse_groundwater_recharge:
 
@@ -87,8 +85,10 @@ where :math:`{R}_{gmax}` is soil-texture-specific maximum groundwater recharge w
 loamy and clayey soils, respectively, and :math:`{f}_{g}` is the groundwater recharge factor ranging between 0 and 1. :math:`{f}_{g}` is determined
 based on relief, soil texture, aquifer type, and the existence of permafrost or glaciers [4]_. 
 
-.. note::
-   If a grid cell is defined as (semi)arid and has coarse (sandy) soil, groundwater recharge will only occur if precipitation exceeds a critical value of 12.5 mm/d, otherwise the water remains in the soil. The fraction of :math:`{R}_{l}` that does not recharge the groundwater becomes :math:`{R}_{s}`, which recharges surface water bodies and the river compartment
+.. note:: 
+   If a grid cell is defined as (semi)arid and has coarse (sandy) soil, groundwater recharge will only occur if precipitation exceeds a critical value of 12.5 mm/d, otherwise the water remains in the soil. The fraction of :math:`{R}_{1}` that does not recharge the groundwater becomes :math:`{R}_{s}`, which recharges surface water bodies and the river compartment.
+
+
 
 References 
 ----------
