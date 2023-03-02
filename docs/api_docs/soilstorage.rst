@@ -14,7 +14,7 @@ This module computes soil storage and related fluxes for all grid cells based on
    Then, :ref:`daily runoff (R1) <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
    Soil storage is updated. Afterwards, :ref:`ground water recharge <diffuse_groundwater_recharge>` is calculated based on daily runoff.
    
-   Total daily runoff from land (RL) is then calculated as: :math:`RL= daily runoff (R1) + immediate runoff (R3) + soil water overflow (R2)'. 
+   Total daily runoff from land (RL) is then calculated as: :math:`RL= daily runoff (R1) + immediate runoff (R3) + soil water overflow (R2)`, 
    where soil water overflow (R2) is calulated as:
    (:ref:`effective precipitation <effective_precipitation>`  + :ref:`soil storage <soil_storage>` of the previous day - maximum soil storage)
    Surface runoff is finally calculated as total daily runoff minus ground water recharge.
