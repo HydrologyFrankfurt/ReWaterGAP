@@ -22,7 +22,7 @@ This module computes soil storage and related fluxes for all grid cells based on
    .. math::
       {P}_{eff}  + {S}_{s,p} - {S_s,max}
       
-   where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is ref:`soil storage <soil_storage>`
+   where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is :ref:`soil storage <soil_storage>`
    of previous day and maximum soil storage respectively.
    
    Surface runoff is finally calculated as total daily runoff from land minus ground water recharge.
@@ -50,14 +50,14 @@ Effective precipitation :math:`{P}_{eff}` is  is calculated as
 where :math:`{P}_{t}` is throughfall :math:`(mm/d)`, :math:`{P}_{sn}` is snowfall :math:`(mm/d)` and :math:`M` is snow melt :math:`(mm/d)`.
 
 .. note::
-   In urban areas (defined from MODIS data) :math:`50 \%` of :math:`{P}_{eff}` is directly turned into :math:`{R}_{3}`. This is known as immediate runoff and is calculated as :
+   In urban areas (defined from MODIS data) :math:`50 \%` of :math:`{P}_{eff}` is directly turned into immediate runoff and is calculated as:
 
 .. _immediate_runoff:
 
    .. math::
      {immediate \: runoff} = 0.5 \times {P}_{eff}  \times fraction \: of \: build \: up \: area
 
-   Next, effective precipitation is reduced by the immediate runoff.  The resulting effective precipitation used to compute the soil water balance. 
+   Next, effective precipitation is reduced by the immediate runoff. The resulting effective precipitation used to compute the soil water balance. 
    See function **immediate runoff** : in source code. 
 
 Outflows
@@ -72,29 +72,29 @@ Actual evapotranspiration :math:`{E}_{s}`  from soil :math:`(mm/d)` is calculate
 where :math:`{E}_{pot}` is potential evapotranspiration :math:`(mm/d)`, :math:`{E}_{c}` is canopy evaporation :math:`(mm/d)` and :math:`{S}_{s,max}` is the maximum soil water content :math:`(mm)` derived as a product of total available water capacity in the upper meter of the soil [2]_ and land-cover-specific rooting depth (Table C2 [1]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 (mm/d)` globally. 
 
 
-Daily runoff from soil :math:`{R}_{1} (mm/day)` is calculated following Bergström (1995) [3]_ as
+Daily runoff from soil :math:`{R1} (mm/day)` is calculated following Bergström (1995) [3]_ as
 
 .. _runoff:
 
 .. math::
-   R_1 = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
+   R1 = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
 
 where \Gamma is the runoff coefficient (–). This parameter, which varies between 0.1 and 5.0, is used for calibration.
-Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` that becomes :math:`{R}_{1}`.
+Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` that becomes :math:`{R1}`.
 
 .. note::
-     If the sum of :math:`{P}_{eff}` and :math:`S_s` of the previous day exceed :math:`{S_s,max}`, the overflow  :math:`{R}_{2}` is added to runoff from land 
-     :math:`{R}_{l}`.
+     If the sum of :math:`{P}_{eff}` and :math:`S_s` of the previous day exceed :math:`{S_s,max}`, the overflow  :math:`{R2}` is added together with 
+     daily runoff :math:`{R1}` and immediate runoff :math:`{R3}` to total daily runoff from land :math:`{R}_{L}`.
 
 
-:math:`{R}_{l}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}`and diffuse groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <watergap_scheme>`.
+:math:`{R1}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}` and diffuse groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <watergap_scheme>`.
 
 .. _diffuse_groundwater_recharge:
 
 .. math::
-   {R}_{g} = min\biggl({R}_{gmax} , ({f}_{g} \times {R}_{l} \biggr)  
+   {R}_{g} = min\biggl({R}_{gmax} , ({f}_{g} \times {Rl} \biggr)  
 
-where :math:`{R}_{gmax}` is soil-texture-specific maximum groundwater recharge with values of 7, 4.5 and 2.5 mmd−1 for sandy,
+where :math:`{R}_{gmax}` is soil-texture-specific maximum groundwater recharge with values of 7, 4.5 and 2.5 (mm/d) for sandy,
 loamy and clayey soils, respectively, and :math:`{f}_{g}` is the groundwater recharge factor ranging between 0 and 1. :math:`{f}_{g}` is determined
 based on relief, soil texture, aquifer type, and the existence of permafrost or glaciers [4]_. 
 
