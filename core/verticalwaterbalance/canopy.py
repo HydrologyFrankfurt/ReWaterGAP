@@ -31,35 +31,35 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
     Parameters
     ----------
     canopy_storage : array
-        Daily canopy storage,  Units: mm
+        Daily canopy storage;  Units: [mm]
     daily_leaf_area_index : array
-       Daily leaf area index  Units: (-)
+       Daily leaf area index;  Units: [-]
     potential_evap : array
-        Daily potential  evapotranspiration,  Units: mm/day
+        Daily potential  evapotranspiration;  Units: [mm/day]
     precipitation : array
-        Daily precipitation,  Units: mm/day
+        Daily precipitation;  Units: [mm/day]
     current_landarea_frac : array
-      Land area fraction of current time step,  Units: (-)
+      Land area fraction of current time step;  Units: [-]
     landareafrac_ratio : array
-       Ratio of land area fraction of previous to current time step, Units: (-)
+       Ratio of land area fraction of previous to current time step; Units: [-]
     max_storage_coefficient:
         coefficient for computing maximum canopy storage
 
     Returns
     -------
     canopy_storage : array
-        Updated daily canopy stroage,  Units: mm
+        Updated daily canopy stroage;  Units: [mm]
     throughfall : array
-        Throughfall,  Units: mm/day
+        Throughfall;  Units: [mm/day]
     canopy_evap : array
-        Canopy evaporation,  Units: mm/day
+        Canopy evaporation;  Units: [mm/day]
     pet_to_soil : array
-        Remaining energy for addtional soil evaporation, Units: mm/day
+        Remaining energy for addtional soil evaporation; Units: [mm/day]
     land_storage_change_sum : array
-        Sum of change in vertical balance storages, Units: mm
+        Sum of change in vertical balance storages; Units: [mm]
     daily_storage_transfer : array
         Storage to be transfered to runoff when land area fraction of current
-        time step is zero, Units: mm
+        time step is zero; Units: [mm]
     """
     # =========================================================================
     # Check if  current_landarea_frac == 0 , then add previous storage to
