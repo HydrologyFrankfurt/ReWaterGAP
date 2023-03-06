@@ -35,12 +35,12 @@ class Snow():
     static_data : contains the following data
             elevation : array
                 Land surface elevation map based on GTOPO30 (U.S.
-                Geological Survey, 1996) [1]_. Units: m
+                Geological Survey, 1996) [1]_. Units: [m]
             degreeday : array
                 Land cover specific degreeday values based on [2]_ .
-                Units: mm/day/C
+                Units: [mm/day/C]
     precipitation : array
-        Daily precipitation,  Units: mm/day
+        Daily precipitation.  Units: [mm/day]
 
         References.
 
@@ -92,54 +92,54 @@ class Snow():
         Parameters
         ----------
         current_landarea_frac : array
-          Land area fraction of current time step,  Units: (-)
+          Land area fraction of current time step.  Units: [-]
         landareafrac_ratio : array
-           Ratio of land area fraction of previous to current time step,
-           Units: (-)
+           Ratio of land area fraction of previous to current time step.
+           Units: [-]
         temperature : array
-            Daily temperature climate forcing, Units: K.
+            Daily temperature climate forcing. Units: [K]
         throughfall : array
-            Throughfall, Units: mm/day
+            Throughfall. Units: [mm/day]
         snow_water_storage : array
-           Snow water storage, Units: mm
+           Snow water storage. Units: [mm]
         pet_to_soil : array
-            Remaining energy for addtional evaporation from soil, Units: mm/day
+            Remaining energy for addtional evaporation from soil. Units: [mm/day]
         land_storage_change_sum : array
-                Sum of change in vertical balance storages, Units: mm
+                Sum of change in vertical balance storages. Units: [mm]
         snow_water_storage_subgrid : array
             Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.
-            Geological Survey, 1996) land surface elevation map, Units: mm
+            Geological Survey, 1996) land surface elevation map. Units: [mm]
         daily_storage_transfer : array
             Storage to be transfered to runoff when land area fraction of
-            current time step is zero, Units: mm
+            current time step is zero. Units: [mm]
         adiabatic_lapse_rate: array
-            Adiabatic lapse rate , Units:  K/m or °C/m
+            Adiabatic lapse rate. Units:  [K/m] or [°C/m]
         snow_freeze_temp: array
-            Snow freeze temperature  , Units:  K
+            Snow freezing temperature. Units: [K]
         snow_melt_temp: array
-            Snow melt temperature  , Units:  K
+            Snow melting temperature. Units: [K]
 
         Returns
         -------
         snow_water_storage : array
-            Updated snow water storage, Units: mm
+            Updated snow water storage. Units: [mm]
         snow_water_storage_subgrid : array
-            Updated snow water storage divided into 100 subgrids
+            Updated snow water storage divided into 100 subgrids. Unit: [-]
         snow_fall : array
-            Snowfall, Units: mm/day
+            Snowfall. Units: [mm/day]
         sublimation : array
-            Sublimation, Units: mm/day
+            Sublimation. Units: [mm/day]
         snow_melt : array
-            Snow melt, Units: mm/day
+            Snow melt. Units: [mm/day]
         effective_precipitation : array
-            Effective Precipitation, Units: mm/day
+            Effective Precipitation. Units: [mm/day]
         max_temp_elev : array
-            Maximum temperature from the 1st(lowest) elevation, Units: K
+            Maximum temperature from the first (lowest) elevation. Units: [K]
         land_storage_change_sum : array
-            Sum of change in vertical balance storages, Units: mm
+            Sum of change in vertical balance storages. Units: [mm]
         daily_storage_transfer : array
             Updated storage to be transfered to runoff when land area fraction
-            of current time step is zero, Units: mm
+            of current time step is zero. Units: [mm]
         """
         # Strip off self object for numba to perfom calulations
         elevation = self.elevation
