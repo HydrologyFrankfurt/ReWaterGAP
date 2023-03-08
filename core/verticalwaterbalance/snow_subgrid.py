@@ -44,61 +44,61 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
     Parameters
     ----------
     snow_water_storage : array
-        Snow water storage, Units: mm
+        Snow water storage. Units: [mm]
     snow_water_storage_subgrid : array
         Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.
-        Geological Survey, 1996) land surface elevation map, Units: mm
+        Geological Survey, 1996) land surface elevation map. Units: [mm]
     temperature : array
-        Daily temperature climate forcing, Units: K.
+        Daily temperature climate forcing. Units: [K]
     precipitation : array
-        Daily precipitation,  Units: mm/day
+        Daily precipitation.  Units: [mm/day]
     throughfall : array
-       Throughfall,  Units: mm/day
+       Throughfall. Units: [mm/day]
     pet_to_soil : array
-        Remaining energy for addtional soil evaporation, Units: mm/day
+        Remaining energy for addtional soil evaporation. Units: [mm/day]
     land_storage_change_sum : array
-        Sum of change in vertical balance storages, Units: mm
+        Sum of change in vertical balance storages. Units: [mm]
     degreeday : array
-        Land cover specific degreeday values based on [2]_ .Units: mm/day/C
+        Land cover specific degreeday values based on [2]_. Units: [mm/day/C]
     current_landarea_frac : array
-      Land area fraction of current time step,  Units: (-)
+      Land area fraction of current time step.  Units: [-]
     landareafrac_ratio : array
-       Ratio of land area fraction of previous to current time step, Units: (-)
+       Ratio of land area fraction of previous to current time step. Units: [-]
     elevation : array
         and surface elevation map based on GTOPO30 (U.S.
-        Geological Survey, 1996) [1]_. Units: m
+        Geological Survey, 1996) [1]_. Units: [m]
     daily_storage_transfer : array
         Storage to be transfered to runoff when land area fraction of current
-        time step is zero, Units: mm
+        time step is zero. Units: [mm]
     adiabatic_lapse_rate: array
-        Adiabatic lapse rate , Units:  K/m or °C/m
+        Adiabatic lapse rate. Units: [K/m] or [°C/m]
     snow_freeze_temp: array
-        Snow freeze temperature  , Units:  K
+        Snow freezing temperature. Units: [K]
     snow_melt_temp: array
-        Snow melt temperature  , Units:  K
+        Snow melting temperature. Units: [K]
 
     Returns
     -------
     snow_water_storage : array
-        Updated snow water storage, Units: mm
+        Updated snow water storage. Units: [mm]
     snow_water_storage_subgrid : array
         Updated snow water storage divided into 100 subgrids based on GTOPO30
         (U.S. Geological Survey, 1996) land surface elevation map, Units: mm
     snow_fall : array
-        Snowfall, Units: mm/day
+        Snowfall. Units: [mm/day]
     sublimation : array
-        Sublimation, Units: mm/day
+        Sublimation. Units: [mm/day]
     snow_melt : array
-        Snow melt, Units: mm/day
+        Snow melt. Units: [mm/day]
     effective_precipitation : array
-        Effective Precipitation, Units: mm/day
+        Effective Precipitation. Units: [mm/day]
     max_temp_elev : array
-        Maximum temperature from the 1st(lowest) elevation, Units: K
+        Maximum temperature from the first (lowest) elevation. Units: [K]
     land_storage_change_sum : array
-       Sum of change in vertical balance storages, Units: mm
+       Sum of change in vertical balance storages. Units: [mm]
     daily_storage_transfer : array
        Updated storage to be transfered to runoff when land area fraction
-       of current time step is zero, Units: mm
+       of current time step is zero. Units: [mm]
 
     References.
 
@@ -349,60 +349,60 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
     Parameters
     ----------
     snow_water_storage_chunk : array
-       Snow water storage, Units: mm
+       Snow water storage. Units: [mm]
     snow_water_storage_subgrid_chunk : array
         Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.
-        Geological Survey, 1996) land surface elevation map, Units: mm
+        Geological Survey, 1996) land surface elevation map. Units: [mm]
     temperature_chunk : array
-        Daily temperature climate forcing, Units: K.
+        Daily temperature climate forcing. Units: [K]
     precipitation_chunk : array
-        Daily precipitation,  Units: mm/day
+        Daily precipitation. Units: [mm/day]
     throughfall_chunk : array
-        Throughfall,  Units: mm/day
+        Throughfall. Units: [mm/day]
     pet_to_soil_chunk : array
-        Remaining energy for addtional soil evaporation, Units: mm/day
+        Remaining energy for addtional soil evaporation. Units: [mm/day]
     land_storage_change_sum_chunk : array
-        Sum of change in vertical balance storages, Units: mm
+        Sum of change in vertical balance storages. Units: [mm]
     degreeday_chunk : array
-        Land cover specific degreeday values based on [2]_ .Units: mm/day/C
+        Land cover specific degreeday values based on [2]_. Units: [mm/day/C]
     current_landarea_frac_chunk : array
-        Land area fraction of current time step,  Units: (-)
+        Land area fraction of current time step.  Units: [-]
     landareafrac_ratio_chunk : array
-        Ratio of land area fraction of previous to current time step, Units:(-)
+        Ratio of land area fraction of previous to current time step. Units: [-]
     elevation_chunk : array
         and surface elevation map based on GTOPO30 (U.S.
-        Geological Survey, 1996) [1]_. Units: m
+        Geological Survey, 1996) [1]_. Units: [m]
     daily_storage_transfer_chunk : array
         storage to be transfered to runoff when land area fraction of current
-        time step is zero, Units: mm
+        time step is zero. Units: [mm]
     adiabatic_lapse_rate_chunk: array
-        Adiabatic lapse rate , Units:  K/m or °C/m
+        Adiabatic lapse rate. Units:  [K/m] or [°C/m]
     snow_freeze_temp_chunk: array
-        Snow freeze temperature  , Units:  K
+        Snow freezing temperature. Units: [K]
     snow_melt_temp_chunk: array
-        Snow melt temperature  , Units:  K
+        Snow melting temperature. Units: [K]
 
     Returns
     -------
     snow_water_storage : array
-        Updated snow water storage chunks, Units: mm
+        Updated snow water storage chunks. Units: [mm]
     snow_water_storage_subgrid : array
-        Updated snow water storage subgrid chunks,  Units: mm
+        Updated snow water storage subgrid chunks. Units: [mm]
     snow_fall : array
-        Snowfall chunks, Units: mm/day
+        Snowfall chunks. Units: [mm/day]
     sublimation : array
-        sublimation chunks, Units: mm/day
+        sublimation chunks. Units: [mm/day]
     snow_melt : array
-        Snow melt chunks, Units: mm/day
+        Snow melt chunks. Units: [mm/day]
     effective_precipitation : array
-        Effective Precipitation chunks, Units: mm/day
+        Effective Precipitation chunks. Units: [mm/day]
     max_temp_elev : array
-        Chunk of maximum temperature from the 1st(lowest) elevation, Units: K
+        Chunk of maximum temperature from the first (lowest) elevation. Units: [K]
     land_storage_change_sum : array
-        Sum of change in vertical balance storages (chunks), Units: mm
+        Sum of change in vertical balance storages (chunks). Units: [mm]
     daily_storage_transfer : array
         Updated storage to be transfered to runoff when land area fraction
-        of current time step is zero, Units: mm
+        of current time step is zero. Units: [mm]
 
     References.
 
