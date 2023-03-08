@@ -37,19 +37,19 @@ class Soil:
     ----------
     static_data : contains the following data
         max_soil_water_content : array
-            Maximum soil water content, Units: mm
+            Maximum soil water content. Units: [mm]
         builtup_area : array
-            Urban or Builtup area fraction, Units: (-)
+            Urban or Builtup area fraction. Units: [-]
         drainage_direction : array
-            Drainage direction taken from [1]_, Units: (-)
+            Drainage direction taken from [1]_. Units: [-]
         max_groundwater_recharge : array
-            Maximum groundwater recharge, Units: mm/day
+            Maximum groundwater recharge. Units: [mm/day]
         soil_texture : array
-            Soil texture class based on  [1]_, Units: (-)
+            Soil texture class based on  [1]_. Units: [-]
         groundwater_recharge_factor : array
-            Groundwater recharge factor taken from [1]_, Units: (-)
+            Groundwater recharge factor taken from [1]_. Units: [-]
         arid_gw_cell : array
-            Humid-arid calssification(array) based on [1]_.
+            Humid-arid calssification(array) based on [1]_. Units: [-]
 
         References.
 
@@ -108,14 +108,14 @@ class Soil:
         Parameters
         ----------
         effective_precipitation : array
-            Effective precipitation based on [1]_, Units: mm/day
+            Effective precipitation based on [1]_. Units: [mm/day]
 
         Returns
         -------
         effective_precipitation : array
-            Effective precipitation based on [1]_, Units: mm/day
+            Effective precipitation based on [1]_. Units: [mm/day]
         immediate_runoff : array
-            Immediate runoff, Units: mm/day
+            Immediate runoff. Units: [mm/day]
 
         References.
 
@@ -155,50 +155,50 @@ class Soil:
         Parameters
         ----------
         soil_water_content : array
-            Soil water content, Units: mm
+            Soil water content. Units: [mm]
         pet_to_soil : array
-            Remaining energy for addtional evaporation from soil, Units: mm
+            Remaining energy for addtional evaporation from soil. Units: [mm]
         current_landarea_frac : array
-           Land area fraction of current time step,  Units: (-)
+           Land area fraction of current time step.  Units: [-]
         landareafrac_ratio : array
-            Ratio of land area fraction of previous to current time step,
-            Units: (-)
+            Ratio of land area fraction of previous to current time step.
+            Units: [-]
         max_temp_elev : array
-            Maximum temperature from the 1st(lowest) elevation from snow
-            algorithm. , Units: K
+            Maximum temperature from the first (lowest) elevation from snow
+            algorithm. Units: [K]
         canopy_evap : array
-            anopy evaporation,  Units: mm/day
+            Canopy evaporation.  Units: [mm/day]
         effective_precipitation : array
-            Effective precipitation based on [1]_, Units: mm/day
+            Effective precipitation based on [1]_. Units: [mm/day]
         precipitation : array
-            Daily precipitation,  Units: mm/day
+            Daily precipitation.  Units: [mm/day]
         immediate_runoff : array
-            Immediate runoff, Units: mm/day
+            Immediate runoff. Units: [mm/day]
         land_storage_change_sum : array
-            Sum of change in vertical balance storages, Units: mm
+            Sum of change in vertical balance storages. Units: [mm]
         sublimation : array
-            Sublimation, Units: mm/day
+            Sublimation. Units: [mm/day]
         daily_storage_transfer : array
             Storage to be transfered to runoff when land area fraction of
-            current time step is zero, Units: mm
+            current time step is zero. Units: [mm]
         snow_freeze_temp: array
-            Snow freeze temperature  , Units:  K
+            Snow freezing temperature. Units: [K]
 
         Returns
         -------
         soil_water_content : array
-            Updated soil water content , Units: mm
+            Updated soil water content. Units: [mm]
         groundwater_recharge_from_soil_mm : array
-            Groundwater recharge from soil, Units: mm/day
+            Groundwater recharge from soil. Units: [mm/day]
         actual_soil_evap : array
-            Actual evapotranspiration from the soil, Units: mm/day
+            Actual evapotranspiration from the soil. Units: [mm/day]
         soil_saturation : array
-            Soil saturation, Units: (-)
+            Soil saturation. Units: [-]
         surface_runoff : array
-            Surface runoff from land, Units: mm/day
+            Surface runoff from land. Units: [mm/day]
         daily_storage_transfer : array
             Updated storage to be transfered to runoff when land area fraction
-            of current time step is zero, Units: mm
+            of current time step is zero. Units: [mm]
 
         """
         # =========================================================================
