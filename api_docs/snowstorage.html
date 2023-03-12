@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snow Storage &mdash; ReWaterGAP  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Soil Storage" href="soilstorage.html" />
+    <link rel="prev" title="Canopy Storage" href="canopystorage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ReWaterGAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_architecture.html">Model Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data_docs/data.html">Climate Forcing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_docs/data.html#static-data">Static Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rewatergap_schematic.html">Schematic of WaterGAP Global Hydrology Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="radiation_evapotranspiration.html">Radiation and Evapotranspiration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leafareaindex.html">Leaf Area Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="canopystorage.html">Canopy Storage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Snow Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#numba-optimized-snow-water-content">1.  Numba optimized snow water content</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snow_subgrid.subgrid_snow_balance"><code class="docutils literal notranslate"><span class="pre">subgrid_snow_balance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snow_subgrid.subgrid_snow_balance_parallel"><code class="docutils literal notranslate"><span class="pre">subgrid_snow_balance_parallel()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#snow-water-equivalent">2.  Snow water equivalent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snow.Snow"><code class="docutils literal notranslate"><span class="pre">Snow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#snow.Snow.snow_balance"><code class="docutils literal notranslate"><span class="pre">Snow.snow_balance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#water-balance">Water balance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inflows">Inflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outflows">Outflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="soilstorage.html">Soil Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="groundwater_storage.html">Groundwater Storage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utility API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/configurationhandler.html">Configuration Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/staticdata_handler.html">Static Data Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/logger.html">Logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/command_line_interface.html">Command Line Interface</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ReWaterGAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Snow Storage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api_docs/snowstorage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="snow-storage">
+<h1>Snow Storage<a class="headerlink" href="#snow-storage" title="Permalink to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Simulation of the snow dynamics is calculated such that each <span class="math notranslate nohighlight">\(0.5° × 0.5°\)</span> grid cell is subdivided into 100 non localized subgrids that are assigned different land surface elevations according to GTOPO30 (U.S. Geological Survey, 1996) <a class="footnote-reference brackets" href="#id14" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. The daily temperature of  each subgrid is calculated from daily temperature at the 0.5◦ × 0.5◦ cell by applying an adiabatic lapse rate of 0.6 <span class="math notranslate nohighlight">\(°C/100m\)</span> <a class="footnote-reference brackets" href="#id15" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. The daily snow water balance is computed for each of the subcells such that within a 0.5◦ × 0.5◦ cell there may be subcells with and without snow cover or snowfall <a class="footnote-reference brackets" href="#id16" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. Subgrid values are then aggregated to 0.5◦ × 0.5◦ cell values. See section 4.3  of Müller Schmied et al 2021 <a class="footnote-reference brackets" href="#id16" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
+</div>
+<p>Snow Storage  consists of two modules.</p>
+<section id="numba-optimized-snow-water-content">
+<span id="numba"></span><h2>1.  Numba optimized snow water content<a class="headerlink" href="#numba-optimized-snow-water-content" title="Permalink to this heading"></a></h2>
+<p>This module is also made up of two functions.</p>
+<p><em>A.</em> numba_snow which computes snow water content for the the 100 subgrid of 0.5 grid in series</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="snow_subgrid.subgrid_snow_balance">
+<span class="sig-prename descclassname"><span class="pre">snow_subgrid.</span></span><span class="sig-name descname"><span class="pre">subgrid_snow_balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snow_water_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_water_storage_subgrid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precipitation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">throughfall</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pet_to_soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_storage_change_sum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degreeday</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_landarea_frac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">landareafrac_ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_storage_transfer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adiabatic_lapse_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_freeze_temp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_melt_temp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snow_subgrid.html#subgrid_snow_balance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snow_subgrid.subgrid_snow_balance" title="Permalink to this definition"></a></dt>
+<dd><p>Compute snow water balance for subgrids including snow water storage and
+water flows entering and leaving the snow storage</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>snow_water_storage</strong><span class="classifier">array</span></dt><dd><p>Snow water storage. Units: [mm]</p>
+</dd>
+<dt><strong>snow_water_storage_subgrid</strong><span class="classifier">array</span></dt><dd><p>Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.
+Geological Survey, 1996) land surface elevation map. Units: [mm]</p>
+</dd>
+<dt><strong>temperature</strong><span class="classifier">array</span></dt><dd><p>Daily temperature climate forcing. Units: [K]</p>
+</dd>
+<dt><strong>precipitation</strong><span class="classifier">array</span></dt><dd><p>Daily precipitation.  Units: [mm/day]</p>
+</dd>
+<dt><strong>throughfall</strong><span class="classifier">array</span></dt><dd><p>Throughfall. Units: [mm/day]</p>
+</dd>
+<dt><strong>pet_to_soil</strong><span class="classifier">array</span></dt><dd><p>Remaining energy for addtional soil evaporation. Units: [mm/day]</p>
+</dd>
+<dt><strong>land_storage_change_sum</strong><span class="classifier">array</span></dt><dd><p>Sum of change in vertical balance storages. Units: [mm]</p>
+</dd>
+<dt><strong>degreeday</strong><span class="classifier">array</span></dt><dd><p>Land cover specific degreeday values based on <a class="footnote-reference brackets" href="#id15" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. Units: [mm/day/C]</p>
+</dd>
+<dt><strong>current_landarea_frac</strong><span class="classifier">array</span></dt><dd><p>Land area fraction of current time step.  Units: [-]</p>
+</dd>
+<dt><strong>landareafrac_ratio</strong><span class="classifier">array</span></dt><dd><p>Ratio of land area fraction of previous to current time step. Units: [-]</p>
+</dd>
+<dt><strong>elevation</strong><span class="classifier">array</span></dt><dd><p>and surface elevation map based on GTOPO30 (U.S.
+Geological Survey, 1996) <a class="reference internal" href="#r8c9f2c82d89e-1" id="id6">[1]</a>. Units: [m]</p>
+</dd>
+<dt><strong>daily_storage_transfer</strong><span class="classifier">array</span></dt><dd><p>Storage to be transfered to runoff when land area fraction of current
+time step is zero. Units: [mm]</p>
+</dd>
+<dt><strong>adiabatic_lapse_rate: array</strong></dt><dd><p>Adiabatic lapse rate. Units: [K/m] or [°C/m]</p>
+</dd>
+<dt><strong>snow_freeze_temp: array</strong></dt><dd><p>Snow freezing temperature. Units: [K]</p>
+</dd>
+<dt><strong>snow_melt_temp: array</strong></dt><dd><p>Snow melting temperature. Units: [K]</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>snow_water_storage</strong><span class="classifier">array</span></dt><dd><p>Updated snow water storage. Units: [mm]</p>
+</dd>
+<dt><strong>snow_water_storage_subgrid</strong><span class="classifier">array</span></dt><dd><p>Updated snow water storage divided into 100 subgrids based on GTOPO30
+(U.S. Geological Survey, 1996) land surface elevation map, Units: mm</p>
+</dd>
+<dt><strong>snow_fall</strong><span class="classifier">array</span></dt><dd><p>Snowfall. Units: [mm/day]</p>
+</dd>
+<dt><strong>sublimation</strong><span class="classifier">array</span></dt><dd><p>Sublimation. Units: [mm/day]</p>
+</dd>
+<dt><strong>snow_melt</strong><span class="classifier">array</span></dt><dd><p>Snow melt. Units: [mm/day]</p>
+</dd>
+<dt><strong>effective_precipitation</strong><span class="classifier">array</span></dt><dd><p>Effective Precipitation. Units: [mm/day]</p>
+</dd>
+<dt><strong>max_temp_elev</strong><span class="classifier">array</span></dt><dd><p>Maximum temperature from the first (lowest) elevation. Units: [K]</p>
+</dd>
+<dt><strong>land_storage_change_sum</strong><span class="classifier">array</span></dt><dd><p>Sum of change in vertical balance storages. Units: [mm]</p>
+</dd>
+<dt><strong>daily_storage_transfer</strong><span class="classifier">array</span></dt><dd><p>Updated storage to be transfered to runoff when land area fraction
+of current time step is zero. Units: [mm]</p>
+</dd>
+<dt>References.</dt><dd></dd>
+</dl>
+<div role="list" class="citation-list">
+<div class="citation" id="r8c9f2c82d89e-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">1</a><span class="fn-bracket">]</span></span>
+<p>U.S. Geological Survey: USGS EROS archive – digital elevation–
+global 30 arc-second elevation (GTOPO30), available at:
+<a class="reference external" href="https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects">https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects</a>
+(last access: 25 MArch 2020), 1996</p>
+</div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="simple">
+<dt><em>B.</em> subgrid_snow_balance_parallel which parallelizes the computation for each 0.5 grid in parallel.</dt><dd><p>Input data of dimensions 360x720 is divided into <em>N</em> chunks for parallel computations (Default is 20 chunks).</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snow_subgrid.subgrid_snow_balance_parallel">
+<span class="sig-prename descclassname"><span class="pre">snow_subgrid.</span></span><span class="sig-name descname"><span class="pre">subgrid_snow_balance_parallel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snow_water_storage_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_water_storage_subgrid_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precipitation_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">throughfall_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pet_to_soil_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_storage_change_sum_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degreeday_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_landarea_frac_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">landareafrac_ratio_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_storage_transfer_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adiabatic_lapse_rate_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_freeze_temp_chunk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_melt_temp_chunk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snow_subgrid.html#subgrid_snow_balance_parallel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snow_subgrid.subgrid_snow_balance_parallel" title="Permalink to this definition"></a></dt>
+<dd><p>Compute snow water balance and related storages and fluxes in parallel.</p>
+<p>The default 360x720 degree cell is divided into desired chunks.
+Defualt is 20 along the rows thus 20 chunks of 18x720 cells. Return
+variables are also in same chunks size.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>snow_water_storage_chunk</strong><span class="classifier">array</span></dt><dd><p>Snow water storage. Units: [mm]</p>
+</dd>
+<dt><strong>snow_water_storage_subgrid_chunk</strong><span class="classifier">array</span></dt><dd><p>Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.
+Geological Survey, 1996) land surface elevation map. Units: [mm]</p>
+</dd>
+<dt><strong>temperature_chunk</strong><span class="classifier">array</span></dt><dd><p>Daily temperature climate forcing. Units: [K]</p>
+</dd>
+<dt><strong>precipitation_chunk</strong><span class="classifier">array</span></dt><dd><p>Daily precipitation. Units: [mm/day]</p>
+</dd>
+<dt><strong>throughfall_chunk</strong><span class="classifier">array</span></dt><dd><p>Throughfall. Units: [mm/day]</p>
+</dd>
+<dt><strong>pet_to_soil_chunk</strong><span class="classifier">array</span></dt><dd><p>Remaining energy for addtional soil evaporation. Units: [mm/day]</p>
+</dd>
+<dt><strong>land_storage_change_sum_chunk</strong><span class="classifier">array</span></dt><dd><p>Sum of change in vertical balance storages. Units: [mm]</p>
+</dd>
+<dt><strong>degreeday_chunk</strong><span class="classifier">array</span></dt><dd><p>Land cover specific degreeday values based on <a class="footnote-reference brackets" href="#id15" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. Units: [mm/day/C]</p>
+</dd>
+<dt><strong>current_landarea_frac_chunk</strong><span class="classifier">array</span></dt><dd><p>Land area fraction of current time step.  Units: [-]</p>
+</dd>
+<dt><strong>landareafrac_ratio_chunk</strong><span class="classifier">array</span></dt><dd><p>Ratio of land area fraction of previous to current time step. Units: [-]</p>
+</dd>
+<dt><strong>elevation_chunk</strong><span class="classifier">array</span></dt><dd><p>and surface elevation map based on GTOPO30 (U.S.
+Geological Survey, 1996) <a class="reference internal" href="#r5e31cc1bba7a-1" id="id8">[1]</a>. Units: [m]</p>
+</dd>
+<dt><strong>daily_storage_transfer_chunk</strong><span class="classifier">array</span></dt><dd><p>storage to be transfered to runoff when land area fraction of current
+time step is zero. Units: [mm]</p>
+</dd>
+<dt><strong>adiabatic_lapse_rate_chunk: array</strong></dt><dd><p>Adiabatic lapse rate. Units:  [K/m] or [°C/m]</p>
+</dd>
+<dt><strong>snow_freeze_temp_chunk: array</strong></dt><dd><p>Snow freezing temperature. Units: [K]</p>
+</dd>
+<dt><strong>snow_melt_temp_chunk: array</strong></dt><dd><p>Snow melting temperature. Units: [K]</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>snow_water_storage</strong><span class="classifier">array</span></dt><dd><p>Updated snow water storage chunks. Units: [mm]</p>
+</dd>
+<dt><strong>snow_water_storage_subgrid</strong><span class="classifier">array</span></dt><dd><p>Updated snow water storage subgrid chunks. Units: [mm]</p>
+</dd>
+<dt><strong>snow_fall</strong><span class="classifier">array</span></dt><dd><p>Snowfall chunks. Units: [mm/day]</p>
+</dd>
+<dt><strong>sublimation</strong><span class="classifier">array</span></dt><dd><p>sublimation chunks. Units: [mm/day]</p>
+</dd>
+<dt><strong>snow_melt</strong><span class="classifier">array</span></dt><dd><p>Snow melt chunks. Units: [mm/day]</p>
+</dd>
+<dt><strong>effective_precipitation</strong><span class="classifier">array</span></dt><dd><p>Effective Precipitation chunks. Units: [mm/day]</p>
+</dd>
+<dt><strong>max_temp_elev</strong><span class="classifier">array</span></dt><dd><p>Chunk of maximum temperature from the first (lowest) elevation. Units: [K]</p>
+</dd>
+<dt><strong>land_storage_change_sum</strong><span class="classifier">array</span></dt><dd><p>Sum of change in vertical balance storages (chunks). Units: [mm]</p>
+</dd>
+<dt><strong>daily_storage_transfer</strong><span class="classifier">array</span></dt><dd><p>Updated storage to be transfered to runoff when land area fraction
+of current time step is zero. Units: [mm]</p>
+</dd>
+<dt>References.</dt><dd></dd>
+</dl>
+<div role="list" class="citation-list">
+<div class="citation" id="r5e31cc1bba7a-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">1</a><span class="fn-bracket">]</span></span>
+<p>U.S. Geological Survey: USGS EROS archive – digital elevation–
+global 30 arc-second elevation (GTOPO30), available at:
+<a class="reference external" href="https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects">https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects</a>
+(last access: 25 MArch 2020), 1996</p>
+</div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="snow-water-equivalent">
+<h2>2.  Snow water equivalent<a class="headerlink" href="#snow-water-equivalent" title="Permalink to this heading"></a></h2>
+<p>This module calls the <a class="reference internal" href="#numba"><span class="std std-ref">numba optimized module</span></a> using the <em>cal_snow</em> method to compute snow water storage.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="snow.Snow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snow.</span></span><span class="sig-name descname"><span class="pre">Snow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precipitation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snow.html#Snow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snow.Snow" title="Permalink to this definition"></a></dt>
+<dd><p>Compute snow storage and related fluxes.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>static_data</strong><span class="classifier">contains the following data</span></dt><dd><dl class="simple">
+<dt>elevation<span class="classifier">array</span></dt><dd><p>Land surface elevation map based on GTOPO30 (U.S.
+Geological Survey, 1996) <a class="reference internal" href="#rb37cc0be62c7-1" id="id9">[1]</a>. Units: [m]</p>
+</dd>
+<dt>degreeday<span class="classifier">array</span></dt><dd><p>Land cover specific degreeday values based on <a class="reference internal" href="#rb37cc0be62c7-2" id="id10">[2]</a> .
+Units: [mm/day/C]</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>precipitation</strong><span class="classifier">array</span></dt><dd><p>Daily precipitation.  Units: [mm/day]</p>
+<p>References.</p>
+<div role="list" class="citation-list">
+<div class="citation" id="rb37cc0be62c7-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">1</a><span class="fn-bracket">]</span></span>
+<p>U.S. Geological Survey: USGS EROS archive – digital elevation–
+global 30 arc-second elevation (GTOPO30), available at:
+<a class="reference external" href="https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects">https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects</a>
+(last access: 25 MArch 2020), 1996</p>
+</div>
+<div class="citation" id="rb37cc0be62c7-2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">2</a><span class="fn-bracket">]</span></span>
+<p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,
+Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,
+Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,
+Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).
+The global water resources and use model WaterGAP v2.2d:
+model description and evaluation. Geoscientific Model
+Development, 14(2), 1037–1079.
+<a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</div>
+</div>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>cal_snow:</strong></p></td>
+<td><p>Compute daily snow storage.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="snow.Snow.snow_balance">
+<span class="sig-name descname"><span class="pre">snow_balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_landarea_frac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">landareafrac_ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">throughfall</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_water_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pet_to_soil</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_storage_change_sum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_water_storage_subgrid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_storage_transfer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adiabatic_lapse_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_freeze_temp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_melt_temp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snow.html#Snow.snow_balance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snow.Snow.snow_balance" title="Permalink to this definition"></a></dt>
+<dd><p>Compute daily snow storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>current_landarea_frac</strong><span class="classifier">array</span></dt><dd><p>Land area fraction of current time step.  Units: [-]</p>
+</dd>
+<dt><strong>landareafrac_ratio</strong><span class="classifier">array</span></dt><dd><p>Ratio of land area fraction of previous to current time step.
+Units: [-]</p>
+</dd>
+<dt><strong>temperature</strong><span class="classifier">array</span></dt><dd><p>Daily temperature climate forcing. Units: [K]</p>
+</dd>
+<dt><strong>throughfall</strong><span class="classifier">array</span></dt><dd><p>Throughfall. Units: [mm/day]</p>
+</dd>
+<dt><strong>snow_water_storage</strong><span class="classifier">array</span></dt><dd><p>Snow water storage. Units: [mm]</p>
+</dd>
+<dt><strong>pet_to_soil</strong><span class="classifier">array</span></dt><dd><p>Remaining energy for addtional evaporation from soil. Units: [mm/day]</p>
+</dd>
+<dt><strong>land_storage_change_sum</strong><span class="classifier">array</span></dt><dd><p>Sum of change in vertical balance storages. Units: [mm]</p>
+</dd>
+<dt><strong>snow_water_storage_subgrid</strong><span class="classifier">array</span></dt><dd><p>Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.
+Geological Survey, 1996) land surface elevation map. Units: [mm]</p>
+</dd>
+<dt><strong>daily_storage_transfer</strong><span class="classifier">array</span></dt><dd><p>Storage to be transfered to runoff when land area fraction of
+current time step is zero. Units: [mm]</p>
+</dd>
+<dt><strong>adiabatic_lapse_rate: array</strong></dt><dd><p>Adiabatic lapse rate. Units:  [K/m] or [°C/m]</p>
+</dd>
+<dt><strong>snow_freeze_temp: array</strong></dt><dd><p>Snow freezing temperature. Units: [K]</p>
+</dd>
+<dt><strong>snow_melt_temp: array</strong></dt><dd><p>Snow melting temperature. Units: [K]</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>snow_water_storage</strong><span class="classifier">array</span></dt><dd><p>Updated snow water storage. Units: [mm]</p>
+</dd>
+<dt><strong>snow_water_storage_subgrid</strong><span class="classifier">array</span></dt><dd><p>Updated snow water storage divided into 100 subgrids. Unit: [-]</p>
+</dd>
+<dt><strong>snow_fall</strong><span class="classifier">array</span></dt><dd><p>Snowfall. Units: [mm/day]</p>
+</dd>
+<dt><strong>sublimation</strong><span class="classifier">array</span></dt><dd><p>Sublimation. Units: [mm/day]</p>
+</dd>
+<dt><strong>snow_melt</strong><span class="classifier">array</span></dt><dd><p>Snow melt. Units: [mm/day]</p>
+</dd>
+<dt><strong>effective_precipitation</strong><span class="classifier">array</span></dt><dd><p>Effective Precipitation. Units: [mm/day]</p>
+</dd>
+<dt><strong>max_temp_elev</strong><span class="classifier">array</span></dt><dd><p>Maximum temperature from the first (lowest) elevation. Units: [K]</p>
+</dd>
+<dt><strong>land_storage_change_sum</strong><span class="classifier">array</span></dt><dd><p>Sum of change in vertical balance storages. Units: [mm]</p>
+</dd>
+<dt><strong>daily_storage_transfer</strong><span class="classifier">array</span></dt><dd><p>Updated storage to be transfered to runoff when land area fraction
+of current time step is zero. Units: [mm]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="water-balance">
+<h2>Water balance<a class="headerlink" href="#water-balance" title="Permalink to this heading"></a></h2>
+<p>Snow storage <span class="math notranslate nohighlight">\(S_sn\)</span> <span class="math notranslate nohighlight">\((mm)\)</span> is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dS_sn}{d_t} =  {P}_{sn} − M − {E}_{sn}\]</div>
+<p>where <span class="math notranslate nohighlight">\({P}_{sn}\)</span> is the part of <a class="reference internal" href="canopystorage.html#canopy-outflows"><span class="std std-ref">throughfall</span></a> <span class="math notranslate nohighlight">\((P_t)\)</span> that falls as snow <span class="math notranslate nohighlight">\((mm/d)\)</span>, <span class="math notranslate nohighlight">\(M\)</span> is snowmelt <span class="math notranslate nohighlight">\((mm/d)\)</span> and <span class="math notranslate nohighlight">\({E}_{sn}\)</span> is  sublimation <span class="math notranslate nohighlight">\((mm/d)\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Snow storage is also corrected with land area fraction.</p>
+</div>
+</section>
+<section id="inflows">
+<h2>Inflows<a class="headerlink" href="#inflows" title="Permalink to this heading"></a></h2>
+<p>Snow fall from throughfall <span class="math notranslate nohighlight">\({P}_{sn}\)</span> is  is calculated as</p>
+<div class="math notranslate nohighlight">
+\[
+{P}_{sn}=
+\begin{cases}
+P_t, &amp; \text{if }  T &lt; T_f \\
+0, &amp; \text{otherwise}
+\end{cases}
+\]</div><p>where <span class="math notranslate nohighlight">\(T\)</span> is daily air temperature <span class="math notranslate nohighlight">\((°C)\)</span>, and <span class="math notranslate nohighlight">\(T_f\)</span> is snow freeze temperature, set to <span class="math notranslate nohighlight">\(0 °C\)</span> . In order to prevent excessive snow
+accumulation, when snow storage <span class="math notranslate nohighlight">\({S}_{sn}\)</span> reaches <span class="math notranslate nohighlight">\(1000 mm\)</span> in a subcell, the temperature in this subcell is increased to the temperature in the highest subcell with a temperature above <span class="math notranslate nohighlight">\(T_f\)</span> <a class="footnote-reference brackets" href="#id15" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
+</section>
+<section id="outflows">
+<h2>Outflows<a class="headerlink" href="#outflows" title="Permalink to this heading"></a></h2>
+<p>Snow melt <span class="math notranslate nohighlight">\(M\)</span>  is calculated with a land-cover-specific degreeday factor <span class="math notranslate nohighlight">\(D_F (mmd^−1 °C^-1)\)</span> (Table C2) <a class="footnote-reference brackets" href="#id16" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> when the temperature <span class="math notranslate nohighlight">\(T\)</span> in a subgrid surpasses melting temperature <span class="math notranslate nohighlight">\(T_m = 0 (◦C)\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+M=
+\begin{cases}
+D_F(T-T_m), &amp; \text{if }  T &gt; T_m, {S}_{sn} &gt; 0\\
+0, &amp; \text{otherwise}
+\end{cases}
+\]</div><p>Sublimation <span class="math notranslate nohighlight">\({E}_{sn}\)</span> is calculated as the fraction of <span class="math notranslate nohighlight">\({E}_{pot}\)</span> that remains available after <span class="math notranslate nohighlight">\(E_c\)</span>. For calculating <span class="math notranslate nohighlight">\({E}_{pot}\)</span> , land-cover-specific albedo values are used if <span class="math notranslate nohighlight">\({S}_{sn}\)</span> surpasses <span class="math notranslate nohighlight">\(3 mm\)</span> in the 0.5◦ × 0.5◦ cell (Table C2) <a class="footnote-reference brackets" href="#id16" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. See potential evapotranspiration under <a class="reference internal" href="radiation_evapotranspiration.html#evaporation"><span class="std std-ref">Canopy evaporation</span></a>.</p>
+<div class="math notranslate nohighlight">
+\[
+{E}_{sn}=
+\begin{cases}
+{E}_{pot} - E_c, &amp; \text{if } ({E}_{pot} - E_c) &gt; {S}_{sn} \\
+{S}_{sn}, &amp; \text{otherwise}
+\end{cases}
+\]</div></section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id14" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>U.S. Geological Survey: USGS EROS archive – digital elevation– global 30 arc-second elevation (GTOPO30), available at: <a class="reference external" href="https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects">https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects</a> (last access: 25 MArch 2020), 1996</p>
+</aside>
+<aside class="footnote brackets" id="id15" role="note">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id5">2</a>,<a role="doc-backlink" href="#id7">3</a>,<a role="doc-backlink" href="#id11">4</a>)</span>
+<p>Schulze, K. and Döll, P.: Neue Ansätze zur Modellierung von Schneeakkumulation und -schmelze im globalen Wassermodell WaterGAP, in: Tagungsband zum 7. Workshop zur großskaligen Modellierung in der Hydrologie, edited by: Ludwig, R., Reichert, D., and Mauser, W., November 2003, 145–154, Kassel University Press, Kassel, 2004</p>
+</aside>
+<aside class="footnote brackets" id="id16" role="note">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id4">2</a>,<a role="doc-backlink" href="#id12">3</a>,<a role="doc-backlink" href="#id13">4</a>)</span>
+<p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. <a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="canopystorage.html" class="btn btn-neutral float-left" title="Canopy Storage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="soilstorage.html" class="btn btn-neutral float-right" title="Soil Storage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ReWaterGAP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

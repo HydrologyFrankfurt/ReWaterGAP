@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>soil &mdash; ReWaterGAP  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ReWaterGAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_architecture.html">Model Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data_docs/data.html">Climate Forcing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_docs/data.html#static-data">Static Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_docs/rewatergap_schematic.html">Schematic of WaterGAP Global Hydrology Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_docs/radiation_evapotranspiration.html">Radiation and Evapotranspiration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_docs/leafareaindex.html">Leaf Area Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_docs/canopystorage.html">Canopy Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_docs/snowstorage.html">Snow Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_docs/soilstorage.html">Soil Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_docs/groundwater_storage.html">Groundwater Storage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utility API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/configurationhandler.html">Configuration Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/staticdata_handler.html">Static Data Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/logger.html">Logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_api/command_line_interface.html">Command Line Interface</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ReWaterGAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">soil</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for soil</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># This file is part of WaterGAP.</span>
+
+<span class="c1"># WaterGAP is an opensource software which computes water flows and storages as</span>
+<span class="c1"># well as water withdrawals and consumptive uses on all continents.</span>
+
+<span class="c1"># You should have received a copy of the LGPLv3 License along with WaterGAP.</span>
+<span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="sd">&quot;&quot;&quot;Soil Storage.&quot;&quot;&quot;</span>
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># This module computes soil water balance, including soil storage and related</span>
+<span class="c1"># fluxes for all grid cells based on section 4.4 of</span>
+<span class="c1"># (Müller Schmied et al. (2021)). First, interception and snow is calculated</span>
+<span class="c1"># followed by immediate runoff.</span>
+<span class="c1"># Effective precipitation (computes as throufall - snowfall + snowmelt)</span>
+<span class="c1"># is reduced by the immediate runoff. Then, runoff is</span>
+<span class="c1"># calculated by using soil saturation, effective precipitation and runoff</span>
+<span class="c1"># coefficient. Actual evapotranspiration is calculated and the soil storage is</span>
+<span class="c1"># updated. Afterwards, ground water recharge is calculated based on the runoff.</span>
+<span class="c1"># Then, total daily runoff is calculated as runoff plus immediate runoff plus</span>
+<span class="c1"># soil water overflow. Surface runoff is then finally calculated as total daily</span>
+<span class="c1"># runoff minus ground water recharge.</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="Soil"><a class="viewcode-back" href="../api_docs/soilstorage.html#soil.Soil">[docs]</a><span class="k">class</span> <span class="nc">Soil</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute snow storage and related fluxes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    static_data : contains the following data</span>
+<span class="sd">        max_soil_water_content : array</span>
+<span class="sd">            Maximum soil water content. Units: [mm]</span>
+<span class="sd">        builtup_area : array</span>
+<span class="sd">            Urban or Builtup area fraction. Units: [-]</span>
+<span class="sd">        drainage_direction : array</span>
+<span class="sd">            Drainage direction taken from [1]_. Units: [-]</span>
+<span class="sd">        max_groundwater_recharge : array</span>
+<span class="sd">            Maximum groundwater recharge. Units: [mm/day]</span>
+<span class="sd">        soil_texture : array</span>
+<span class="sd">            Soil texture class based on  [1]_. Units: [-]</span>
+<span class="sd">        groundwater_recharge_factor : array</span>
+<span class="sd">            Groundwater recharge factor taken from [1]_. Units: [-]</span>
+<span class="sd">        arid_gw_cell : array</span>
+<span class="sd">            Humid-arid calssification(array) based on [1]_. Units: [-]</span>
+
+<span class="sd">        References.</span>
+
+<span class="sd">        .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,</span>
+<span class="sd">                    Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,</span>
+<span class="sd">                    Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,</span>
+<span class="sd">                    Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).</span>
+<span class="sd">                    The global water resources and use model WaterGAP v2.2d:</span>
+<span class="sd">                    model description and evaluation. Geoscientific Model</span>
+<span class="sd">                    Development, 14(2), 1037–1079.</span>
+<span class="sd">                    https://doi.org/10.5194/gmd-14-1037-2021</span>
+
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    immediate_runoff:</span>
+<span class="sd">        Compute immediate runoff.</span>
+
+<span class="sd">    daily_soil_storage:</span>
+<span class="sd">        Compute daily soil storage.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">static_data</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="n">soil_static_data</span> <span class="o">=</span> <span class="n">static_data</span><span class="o">.</span><span class="n">soil_static_data</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pm</span> <span class="o">=</span> <span class="n">parameters</span>
+        <span class="c1"># ==========================================</span>
+        <span class="c1">#      calulating maximum soil water content</span>
+        <span class="c1"># ===========================================</span>
+        <span class="n">total_avail_water_content</span> <span class="o">=</span> <span class="n">soil_static_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">soil_parameters</span> <span class="o">=</span> <span class="n">static_data</span><span class="o">.</span><span class="n">canopy_snow_soil_parameters</span>
+        <span class="n">land_cover</span> <span class="o">=</span> <span class="n">static_data</span><span class="o">.</span><span class="n">land_cover</span>
+
+        <span class="c1"># Getting rooting depth for for all grids.</span>
+        <span class="n">rooting_depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">land_cover</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">soil_parameters</span><span class="p">)):</span>
+            <span class="n">rooting_depth</span><span class="p">[</span><span class="n">land_cover</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">==</span> <span class="n">soil_parameters</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;Number&#39;</span><span class="p">]]</span> <span class="o">=</span> \
+                <span class="n">soil_parameters</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;rooting_depth&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">total_avail_water_content</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+                     <span class="n">total_avail_water_content</span> <span class="o">*</span> <span class="n">rooting_depth</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+        <span class="c1"># ===============================================</span>
+        <span class="c1">#         # Getting soil water balance parameters</span>
+        <span class="c1"># ===============================================</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">builtup_area</span> <span class="o">=</span> <span class="n">soil_static_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drainage_direction</span> <span class="o">=</span> <span class="n">soil_static_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_groundwater_recharge</span> <span class="o">=</span> <span class="n">soil_static_data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">soil_texture</span> <span class="o">=</span> <span class="n">soil_static_data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groundwater_recharge_factor</span> <span class="o">=</span> <span class="n">soil_static_data</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arid_gw_cell</span> <span class="o">=</span> <span class="n">static_data</span><span class="o">.</span><span class="n">humid_arid</span>
+
+<div class="viewcode-block" id="Soil.immediate_runoff"><a class="viewcode-back" href="../api_docs/soilstorage.html#soil.Soil.immediate_runoff">[docs]</a>    <span class="k">def</span> <span class="nf">immediate_runoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effective_precipitation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute immediate runoff and effective precipitation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        effective_precipitation : array</span>
+<span class="sd">            Effective precipitation based on [1]_. Units: [mm/day]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        effective_precipitation : array</span>
+<span class="sd">            Effective precipitation based on [1]_. Units: [mm/day]</span>
+<span class="sd">        immediate_runoff : array</span>
+<span class="sd">            Immediate runoff. Units: [mm/day]</span>
+
+<span class="sd">        References.</span>
+
+<span class="sd">        .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,</span>
+<span class="sd">                    Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,</span>
+<span class="sd">                    Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,</span>
+<span class="sd">                    Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).</span>
+<span class="sd">                    The global water resources and use model WaterGAP v2.2d:</span>
+<span class="sd">                    model description and evaluation. Geoscientific Model</span>
+<span class="sd">                    Development, 14(2), 1037–1079.</span>
+<span class="sd">                    https://doi.org/10.5194/gmd-14-1037-2021</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note !!! runoff_frac_builtup = 0.5, Which is the fraction of</span>
+        <span class="c1"># effective_precipitation that directly becomes runoff (specifically</span>
+        <span class="c1"># in urban areas)</span>
+        <span class="n">immediate_runoff</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">builtup_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">runoff_frac_builtup</span> <span class="o">*</span> <span class="n">effective_precipitation</span>
+                      <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtup_area</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Reducing effective precipitation by immediate runoff since 50% is</span>
+        <span class="c1"># left.</span>
+        <span class="n">effective_precipitation</span> <span class="o">=</span>\
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">builtup_area</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">effective_precipitation</span> <span class="o">-</span>
+                     <span class="n">immediate_runoff</span><span class="p">,</span> <span class="n">effective_precipitation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">effective_precipitation</span><span class="p">,</span> <span class="n">immediate_runoff</span></div>
+
+<div class="viewcode-block" id="Soil.soil_balance"><a class="viewcode-back" href="../api_docs/soilstorage.html#soil.Soil.soil_balance">[docs]</a>    <span class="k">def</span> <span class="nf">soil_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">soil_water_content</span><span class="p">,</span> <span class="n">pet_to_soil</span><span class="p">,</span>
+                     <span class="n">current_landarea_frac</span><span class="p">,</span> <span class="n">landareafrac_ratio</span><span class="p">,</span> <span class="n">max_temp_elev</span><span class="p">,</span>
+                     <span class="n">canopy_evap</span><span class="p">,</span> <span class="n">effective_precipitation</span><span class="p">,</span> <span class="n">precipitation</span><span class="p">,</span>
+                     <span class="n">immediate_runoff</span><span class="p">,</span> <span class="n">land_storage_change_sum</span><span class="p">,</span> <span class="n">sublimation</span><span class="p">,</span>
+                     <span class="n">daily_storage_transfer</span><span class="p">,</span> <span class="n">snow_freeze_temp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute daily soil balance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        soil_water_content : array</span>
+<span class="sd">            Soil water content. Units: [mm]</span>
+<span class="sd">        pet_to_soil : array</span>
+<span class="sd">            Remaining energy for addtional evaporation from soil. Units: [mm]</span>
+<span class="sd">        current_landarea_frac : array</span>
+<span class="sd">           Land area fraction of current time step.  Units: [-]</span>
+<span class="sd">        landareafrac_ratio : array</span>
+<span class="sd">            Ratio of land area fraction of previous to current time step.</span>
+<span class="sd">            Units: [-]</span>
+<span class="sd">        max_temp_elev : array</span>
+<span class="sd">            Maximum temperature from the first (lowest) elevation from snow</span>
+<span class="sd">            algorithm. Units: [K]</span>
+<span class="sd">        canopy_evap : array</span>
+<span class="sd">            Canopy evaporation.  Units: [mm/day]</span>
+<span class="sd">        effective_precipitation : array</span>
+<span class="sd">            Effective precipitation based on [1]_. Units: [mm/day]</span>
+<span class="sd">        precipitation : array</span>
+<span class="sd">            Daily precipitation.  Units: [mm/day]</span>
+<span class="sd">        immediate_runoff : array</span>
+<span class="sd">            Immediate runoff. Units: [mm/day]</span>
+<span class="sd">        land_storage_change_sum : array</span>
+<span class="sd">            Sum of change in vertical balance storages. Units: [mm]</span>
+<span class="sd">        sublimation : array</span>
+<span class="sd">            Sublimation. Units: [mm/day]</span>
+<span class="sd">        daily_storage_transfer : array</span>
+<span class="sd">            Storage to be transfered to runoff when land area fraction of</span>
+<span class="sd">            current time step is zero. Units: [mm]</span>
+<span class="sd">        snow_freeze_temp: array</span>
+<span class="sd">            Snow freezing temperature. Units: [K]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        soil_water_content : array</span>
+<span class="sd">            Updated soil water content. Units: [mm]</span>
+<span class="sd">        groundwater_recharge_from_soil_mm : array</span>
+<span class="sd">            Groundwater recharge from soil. Units: [mm/day]</span>
+<span class="sd">        actual_soil_evap : array</span>
+<span class="sd">            Actual evapotranspiration from the soil. Units: [mm/day]</span>
+<span class="sd">        soil_saturation : array</span>
+<span class="sd">            Soil saturation. Units: [-]</span>
+<span class="sd">        surface_runoff : array</span>
+<span class="sd">            Surface runoff from land. Units: [mm/day]</span>
+<span class="sd">        daily_storage_transfer : array</span>
+<span class="sd">            Updated storage to be transfered to runoff when land area fraction</span>
+<span class="sd">            of current time step is zero. Units: [mm]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># =========================================================================</span>
+        <span class="c1"># Check if  current_landarea_frac == 0 , then add previous storage to</span>
+        <span class="c1"># daily_storage_tranfer. This storage will then  added to runoff.</span>
+        <span class="c1"># (e.g. island)</span>
+        <span class="c1"># =========================================================================</span>
+        <span class="n">daily_storage_transfer</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">current_landarea_frac</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">daily_storage_transfer</span> <span class="o">+</span>
+                     <span class="n">soil_water_content</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Calculating soil water overflow (mm) and soil water content(mm).</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Adapting  soil_water_content since land area fraction is dynamic</span>
+        <span class="n">soil_water_content</span> <span class="o">*=</span> <span class="n">landareafrac_ratio</span>
+
+        <span class="c1"># Initial storage to calulate change in soil storage.</span>
+        <span class="n">initial_storage</span> <span class="o">=</span> <span class="n">soil_water_content</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Soil_water_overflow will be used to calulate Total daily runoff.</span>
+        <span class="c1"># Total daily runoff = runoff + immediate runoff + soil water overflow</span>
+        <span class="n">soil_water_overflow</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">soil_water_content</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">,</span>
+                     <span class="n">soil_water_content</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">soil_water_content</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">soil_water_content</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">,</span> <span class="n">soil_water_content</span><span class="p">)</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Calculating runoff (mm/day). Not written out as ouput!!!!</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Runoff: see eq. 18 in H. Müller Schmied et al 2021.</span>
+        <span class="n">soil_saturation</span> <span class="o">=</span> <span class="p">(</span><span class="n">soil_water_content</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">)</span>
+
+        <span class="c1"># gamma = Runoff coefficient (-)</span>
+        <span class="n">daily_runoff</span> <span class="o">=</span> \
+            <span class="n">effective_precipitation</span> <span class="o">*</span> <span class="p">(</span><span class="n">soil_saturation</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">gamma</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Calculating actual soil evapotranspiration (mm/day) and updating</span>
+        <span class="c1"># soil water storage (mm).</span>
+        <span class="c1">#           Order of calculation is important!!!</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Equation for  actual soil evapotranspiration taken from Eq. 17 in</span>
+        <span class="c1"># H. Müller Schmied et al 2021.</span>
+        <span class="c1"># max_daily_pet = maximum daily potential evapotransipration (mm/day)</span>
+        <span class="n">actual_soil_evap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">pet_to_soil</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">max_daily_pet</span> <span class="o">-</span> <span class="n">canopy_evap</span><span class="p">)</span> <span class="o">*</span>
+                                      <span class="n">soil_saturation</span><span class="p">)</span>
+
+        <span class="c1"># Updating soil water content into a helper variable</span>
+        <span class="c1"># soil_water_content_new (eq.15 in H. Müller Schmied et al 2021)</span>
+        <span class="n">soil_water_content_new</span> <span class="o">=</span> <span class="n">soil_water_content</span> <span class="o">+</span> <span class="n">effective_precipitation</span> \
+            <span class="o">-</span> <span class="n">actual_soil_evap</span> <span class="o">-</span> <span class="n">daily_runoff</span>
+
+        <span class="c1"># minimal storage volume =1e15 (smaller volumes set to zero) to counter</span>
+        <span class="c1"># numerical inaccuracies***</span>
+        <span class="n">soil_water_content_new</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">soil_water_content_new</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                     <span class="n">soil_water_content_new</span><span class="p">)</span>
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># I dont know why effective prctipiatation is set to zero after addition to the</span>
+<span class="c1"># soil water content if you won&#39;t use it for further calculations. This was</span>
+<span class="c1"># done in the old code (c++). I just wrote it here for safety (will remove</span>
+<span class="c1"># this soon)</span>
+<span class="c1">#         # Set effective_precipitation = 0 after adding it soil water content</span>
+<span class="c1">#         effective_precipitation = \</span>
+<span class="c1">#             np.where((max_temp_elev &gt; snow_freeze_temp) &amp;</span>
+<span class="c1">#                      (self.max_soil_water_content &gt; 0),</span>
+<span class="c1">#                      0, effective_precipitation)</span>
+<span class="c1"># =============================================================================</span>
+
+        <span class="c1">#  Note !!!  when too much water has been taken out of the</span>
+        <span class="c1">#  soil water storage (negative soil storage), soil water content is</span>
+        <span class="c1">#  set to zero. Daily actual soil evaporation is now corrected by</span>
+        <span class="c1">#  reducing by the soil water content (negative soil water content)</span>
+
+        <span class="n">actual_soil_evap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">soil_water_content_new</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">actual_soil_evap</span> <span class="o">+</span> <span class="n">soil_water_content_new</span><span class="p">,</span>
+                                    <span class="n">actual_soil_evap</span><span class="p">)</span>
+
+        <span class="n">soil_water_content_new</span><span class="p">[</span><span class="n">soil_water_content_new</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Actual soil evaporation only occurs when temperature is higher than</span>
+        <span class="c1"># snow freeze temperature and when there is water in the soil to</span>
+        <span class="c1"># evaporate</span>
+        <span class="n">actual_soil_evap</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">max_temp_elev</span> <span class="o">&gt;</span> <span class="n">snow_freeze_temp</span><span class="p">)</span> <span class="o">&amp;</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span>
+                     <span class="n">actual_soil_evap</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># =================================================</span>
+        <span class="c1"># +++ Soil saturation that can be  writing out +++</span>
+        <span class="c1"># ==================================================</span>
+        <span class="c1"># soil_saturation only occurs under favourable temperature and also</span>
+        <span class="c1"># when maximum soil water content is greater than zero</span>
+        <span class="n">soil_saturation</span> <span class="o">=</span>\
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">max_temp_elev</span> <span class="o">&gt;</span> <span class="n">snow_freeze_temp</span><span class="p">)</span> <span class="o">&amp;</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span>
+                     <span class="n">soil_saturation</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># ==============================================================</span>
+        <span class="c1">#  Correcting runoff and immediate runoff with areal_corr_factor</span>
+        <span class="c1">#            (Areal correction factor-CFA (-))</span>
+        <span class="c1"># ==============================================================</span>
+        <span class="n">daily_runoff</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span>
+        <span class="n">immediate_runoff</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Calculating ground water recharge from soil(mm/day),</span>
+        <span class="c1"># potential recharge (mm/day)</span>
+        <span class="c1">#               Order of calculation is important!!!</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Note: the &#39;mm&#39; at the end of  groundwater_recharge_from_soil_mm</span>
+        <span class="c1"># means it is  vertical water balance variable.This distinguish it from</span>
+        <span class="c1"># ground water recharge in the horizontal water balance</span>
+
+        <span class="c1"># Groundwater recharge equation is calulated based on  Eq. 19 from</span>
+        <span class="c1"># H. Müller Schmied et al 2021</span>
+        <span class="n">groundwater_recharge_from_soil_mm</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_groundwater_recharge</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">groundwater_recharge_factor</span> <span class="o">*</span> <span class="n">daily_runoff</span><span class="p">)</span>
+
+        <span class="c1"># For (semi) arid cells groundwater recharge becomes zero when critical</span>
+        <span class="c1"># precipitation for groundwater recharge (default = 12.5 mm/day) is not</span>
+        <span class="c1"># exceeded.</span>
+        <span class="n">groundwater_recharge_from_soil_mm_arid</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">precipitation</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">critcal_gw_precipitation</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                     <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">)</span>
+
+        <span class="c1"># For (semi) arid cells, water remains in the soil when critical</span>
+        <span class="c1"># precipitation for groundwater recharge (default = 12.5 mm/day) is not</span>
+        <span class="c1"># exceeded. This is stored in a helper variable &#39;potential_gw_recharge&#39;</span>
+        <span class="n">potential_gw_recharge</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">precipitation</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">critcal_gw_precipitation</span><span class="p">,</span>
+                     <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Note!!! If a grid cell is  (semi)arid and has coarse</span>
+        <span class="c1"># (sandy) soil, with texture class &lt; 21 and drainage direction value</span>
+        <span class="c1"># &gt;= zero, groundwater recharge will only occur if precipitation</span>
+        <span class="c1"># exceeds a critical value (default = 12.5 mm/day).</span>
+        <span class="n">groundwater_recharge_from_soil_mm</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">arid_gw_cell</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">soil_texture</span> <span class="o">&lt;</span> <span class="mi">21</span><span class="p">))</span> <span class="o">&amp;</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drainage_direction</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span>
+                     <span class="n">groundwater_recharge_from_soil_mm_arid</span><span class="p">,</span>
+                     <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">)</span>
+
+        <span class="c1"># Making sure there is no potential_gw_recharge for humid cells.</span>
+        <span class="n">potential_gw_recharge</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">arid_gw_cell</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">soil_texture</span> <span class="o">&lt;</span> <span class="mi">21</span><span class="p">))</span> <span class="o">&amp;</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drainage_direction</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="n">potential_gw_recharge</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Making sure groundwater_recharge_from_soil_mm is only calulated</span>
+        <span class="c1"># when the maximum temperature is greater than snow freeze temperature.</span>
+        <span class="n">groundwater_recharge_from_soil_mm</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">max_temp_elev</span> <span class="o">&gt;</span> <span class="n">snow_freeze_temp</span><span class="p">)</span> <span class="o">&amp;</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span>
+                     <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Updating runoff and soil water content with remaning water in</span>
+        <span class="c1"># the soil.</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="n">daily_runoff</span> <span class="o">-=</span> <span class="n">potential_gw_recharge</span>
+        <span class="n">soil_water_content_new</span> <span class="o">+=</span> <span class="p">(</span><span class="n">potential_gw_recharge</span> <span class="o">/</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span><span class="p">)</span>
+
+        <span class="c1"># ===================================================================</span>
+        <span class="c1">#           Calulating total daily run off (mm/day).</span>
+        <span class="c1"># Total daily run off will later be used for the Surface runoff</span>
+        <span class="c1"># which is written out. Order of calculation is important!!!</span>
+        <span class="c1"># ===================================================================</span>
+        <span class="c1"># Updating soil_water_overflow into a helper variable</span>
+        <span class="c1"># soil_water_overflow_new.</span>
+        <span class="c1"># if the updated soil_water_content_new &gt; maximum soil water content</span>
+        <span class="c1"># it becomes overflow.</span>
+        <span class="n">soil_water_overflow_new</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">soil_water_content_new</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">),</span>
+                     <span class="n">soil_water_overflow</span> <span class="o">+</span>
+                     <span class="p">(</span><span class="n">soil_water_content_new</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">),</span>
+                     <span class="n">soil_water_overflow</span><span class="p">)</span>
+
+        <span class="n">soil_water_overflow_new</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span>
+
+        <span class="c1"># Total daily runoff is calculated as runoff plus immediate runoff plus</span>
+        <span class="c1"># updated soil water overflow (soil_water_overflow_new)</span>
+        <span class="n">total_daily_runoff</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+                     <span class="n">daily_runoff</span> <span class="o">+</span> <span class="n">immediate_runoff</span> <span class="o">+</span>
+                     <span class="n">soil_water_overflow_new</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Note!!! Total daily runoff is only calulated with  updated soil water</span>
+        <span class="c1"># overflow (soil_water_overflow_new) when maximum temperature is above</span>
+        <span class="c1"># freezing temperature, else the old soil_water_overflow is used.</span>
+        <span class="c1"># This is because if maximum temperature is below freezing temperature,</span>
+        <span class="c1"># soil water content of previous time step can be higher than</span>
+        <span class="c1"># maximum soil water content hence runoff can be possible.</span>
+        <span class="n">total_daily_runoff</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">max_temp_elev</span> <span class="o">&gt;</span> <span class="n">snow_freeze_temp</span><span class="p">),</span> <span class="n">total_daily_runoff</span><span class="p">,</span>  <span class="o">+</span>
+                     <span class="p">(</span><span class="n">soil_water_overflow</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span><span class="p">)</span>
+
+        <span class="c1"># =========================================================</span>
+        <span class="c1">#  +++ Soil_water_overflow that can be wrrirten out ++++++</span>
+        <span class="c1"># ==========================================================</span>
+        <span class="n">soil_water_overflow</span> <span class="o">=</span>\
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">max_temp_elev</span> <span class="o">&gt;</span> <span class="n">snow_freeze_temp</span><span class="p">)</span> <span class="o">&amp;</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span>
+                     <span class="n">soil_water_overflow_new</span><span class="p">,</span>
+                     <span class="n">soil_water_overflow</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span><span class="p">)</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1">#         Updating soil_water_content</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># if  updated soil_water_content_new exceeds maximum soil storage,</span>
+        <span class="c1"># limit it to the maximum soil</span>
+        <span class="n">soil_water_content_new</span> <span class="o">=</span>\
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">soil_water_content_new</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span><span class="p">,</span> <span class="n">soil_water_content_new</span><span class="p">)</span>
+
+        <span class="c1"># When maxumium temperature &gt; snow freeze temperature,</span>
+        <span class="c1"># snow_water_content becomes the updated soil_water_content_new</span>
+        <span class="c1"># else it keeps it&#39;s initial values</span>
+        <span class="n">soil_water_content</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">max_temp_elev</span> <span class="o">&gt;</span> <span class="n">snow_freeze_temp</span><span class="p">)</span> <span class="o">&amp;</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_soil_water_content</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span>
+                     <span class="n">soil_water_content_new</span><span class="p">,</span> <span class="n">soil_water_content</span><span class="p">)</span>
+
+        <span class="c1"># Adapt soil water content to land area fraction</span>
+        <span class="n">soil_water_content</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">current_landarea_frac</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">soil_water_content</span><span class="p">)</span>
+
+        <span class="c1"># computing change in soil_water_content</span>
+        <span class="n">soil_water_content_change</span> <span class="o">=</span> <span class="n">soil_water_content</span> <span class="o">-</span> <span class="n">initial_storage</span>
+
+        <span class="c1"># Sum of change in vertical balance storages (canopy, snow, soil)</span>
+        <span class="n">land_storage_change_sum</span> <span class="o">+=</span> <span class="n">soil_water_content_change</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Calulating corrected actual total evaporation for land (mm/day)</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Actual total evaporation for land is corrected such that when areal</span>
+        <span class="c1"># correction factor is increased or reduced , actual total evaporation</span>
+        <span class="c1"># will also be reduced or increased respectively. This is then</span>
+        <span class="c1"># consistent with cell-corrected runoff</span>
+        <span class="n">corr_land_aet</span> <span class="o">=</span>\
+            <span class="n">land_storage_change_sum</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-</span> \
+            <span class="n">precipitation</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">+</span> \
+            <span class="p">(</span><span class="n">actual_soil_evap</span> <span class="o">+</span> <span class="n">canopy_evap</span> <span class="o">+</span> <span class="n">sublimation</span><span class="p">)</span> <span class="o">*</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">pm</span><span class="o">.</span><span class="n">areal_corr_factor</span>
+
+        <span class="c1"># Avoid negative values for corrected actual total evaporation for land</span>
+        <span class="c1"># This negative values as stored in neg_land_aet</span>
+        <span class="n">neg_land_aet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">corr_land_aet</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">corr_land_aet</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">corr_land_aet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">corr_land_aet</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">corr_land_aet</span><span class="p">)</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1">#                       Surface Runoff</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Correcting total_daily_runoff with neg_land_aet</span>
+        <span class="n">total_daily_runoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">neg_land_aet</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">total_daily_runoff</span> <span class="o">+</span> <span class="n">neg_land_aet</span><span class="p">,</span>
+                                      <span class="n">total_daily_runoff</span><span class="p">)</span>
+        <span class="c1"># Avoid negative runoff</span>
+        <span class="n">total_daily_runoff</span><span class="p">[</span><span class="n">total_daily_runoff</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Computing deficit surface runoff(neg_runoff) from total_daily_runoff</span>
+        <span class="c1"># and groundwater recharge from soil</span>
+        <span class="n">neg_runoff</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">total_daily_runoff</span> <span class="o">-</span> <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">)</span>
+                     <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">total_daily_runoff</span> <span class="o">-</span>
+                           <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># The idea here is to reduce soil water content  with deficit surface</span>
+        <span class="c1"># runoff when groundwater recharge  from soil is larger than total</span>
+        <span class="c1"># daily runoff</span>
+        <span class="n">soil_water_content</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">total_daily_runoff</span> <span class="o">-</span> <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">)</span>
+                     <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">soil_water_content</span> <span class="o">+</span> <span class="n">neg_runoff</span><span class="p">,</span> <span class="n">soil_water_content</span><span class="p">)</span>
+
+        <span class="c1"># Ensure that groundwater recharge  from soil is not greater than</span>
+        <span class="c1"># total daily runoff</span>
+        <span class="n">groundwater_recharge_from_soil_mm</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">total_daily_runoff</span> <span class="o">-</span> <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">)</span>
+                     <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">total_daily_runoff</span><span class="p">,</span>
+                     <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">)</span>
+
+        <span class="c1"># Finally surface runoff is calculated as follows:</span>
+        <span class="n">surface_runoff</span> <span class="o">=</span> <span class="n">total_daily_runoff</span> <span class="o">-</span> <span class="n">groundwater_recharge_from_soil_mm</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1"># Assign zero to flux, if land area fraction is less than</span>
+        <span class="c1"># or equal to zero</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">[</span><span class="n">current_landarea_frac</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">actual_soil_evap</span><span class="p">[</span><span class="n">current_landarea_frac</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">soil_saturation</span><span class="p">[</span><span class="n">current_landarea_frac</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">surface_runoff</span><span class="p">[</span><span class="n">current_landarea_frac</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">soil_water_content</span><span class="p">,</span> <span class="n">groundwater_recharge_from_soil_mm</span><span class="p">,</span> \
+            <span class="n">actual_soil_evap</span><span class="p">,</span> <span class="n">soil_saturation</span><span class="p">,</span> <span class="n">surface_runoff</span><span class="p">,</span>  \
+            <span class="n">daily_storage_transfer</span><span class="p">,</span> <span class="n">total_daily_runoff</span><span class="p">,</span> <span class="n">daily_runoff</span><span class="p">,</span> \
+            <span class="n">soil_water_overflow</span><span class="p">,</span> <span class="n">immediate_runoff</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ReWaterGAP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
