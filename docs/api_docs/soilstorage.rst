@@ -8,9 +8,9 @@ This module computes soil storage and related fluxes for all grid cells based on
 
 .. note:: 
    The computation order for the soil storage module is as follows:
-   First, :ref:`immediate runoff (R3) <immediate_runoff>` is calculated. After, 
+   First, :ref:`immediate runoff (R1) <immediate_runoff>` is calculated. After, 
    :ref:`effective precipitation <effective_precipitation>` is reduced by the immediate runoff. 
-   Then, :ref:`daily runoff (R1) <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
+   Then, :ref:`daily runoff (R3) <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
    Soil storage is updated. Afterwards, :ref:`ground water recharge <diffuse_groundwater_recharge>` is calculated based on daily runoff.
    Then, total daily runoff from land (RL) is calculated as:
 
@@ -18,9 +18,17 @@ This module computes soil storage and related fluxes for all grid cells based on
       RL = R1 + R3 + R2
 
    where soil water overflow (R2) is calulated as:
-
+   
    .. math::
-      {P}_{eff}  + {S}_{s,p} - {S_s,max}
+           :nowrap:
+
+            \[
+            {P}_{eff}= 
+            \begin{cases}
+            {P}_{eff} + {S}_{s,p} - {S_s,max}, & \text{if } ({P}_{eff} + {S}_{s,p})>{S_s}_{,max} \\
+            0, & \text{otherwise}
+            \end{cases}
+            \]
       
    where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is :ref:`soil storage <soil_storage>`
    of previous day and maximum soil storage respectively.
