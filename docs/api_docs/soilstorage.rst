@@ -20,13 +20,15 @@ This module computes soil storage and related fluxes for all grid cells based on
    where soil water overflow (R2) is calulated as:
 
    .. math::
-      \[
-      {P}_{eff}= 
-      \begin{cases}
-      {P}_{eff} + {S}_{s,p} - {S_s,max}, & \text{if } ({P}_{eff} + {S}_{s,p})>{S_s}_{,max} \\
-      0, & \text{otherwise}
-      \end{cases}
-      \]
+           :nowrap:
+           
+           \[
+           {P}_{eff} = 
+           \begin{cases}
+           {P}_{eff} + {S}_{s,p} - {S_s,max}, & \text{if} ({P}_{eff} + {S}_{s,p})>{S_s}_{,max} \\
+           0, & \text{otherwise}
+           \end{cases}
+           \]
       
    where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is :ref:`soil storage <soil_storage>`
    of previous day and maximum soil storage respectively.
