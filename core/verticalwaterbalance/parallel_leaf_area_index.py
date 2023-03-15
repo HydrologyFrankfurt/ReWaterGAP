@@ -12,12 +12,12 @@
 """Daily Leaf Area Index (LAI) Function."""
 
 # =============================================================================
-# This module computes leaf area index based on section 4.2.3 of
-# (Müller Schmied et al. (2021)).
-# Leaf area index is computed for all grid cells in parallel using
-# numpy vectorize function.vectorised functions peforms elementwise
+# This module computes the leaf area index based on section 4.2.3 of
+# Müller Schmied et al. (2021).
+# The Leaf area index is computed for all grid cells in parallel using
+# numpys vectorize function.vectorised functions, peforming elementwise
 # computations on all arrays at onces.
-# See https://numpy.org/doc/stable/reference/generated/numpy.vectorize.html
+# See: https://numpy.org/doc/stable/reference/generated/numpy.vectorize.html
 # =============================================================================
 
 import numpy as np
@@ -28,58 +28,58 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
                           leaf_area_index, min_leaf_area_index,
                           max_leaf_area_index, land_cover, humid_arid):
     """
-    Compute daily leaf area index per grid cells.
+    Compute daily leaf area index per grid cell.
 
     Vectorization is applied to compute leaf area index in
-    parallel for all grid cell.
+    parallel for all grid cells.
 
     Parameters
     ----------
     temperature : array
-        Daily temperature climate forcing,  Units: K.
+        Daily temperature climate forcing.  Units: [K]
     growth_status : array
         Growth status per grid cell shows whether a specific land cover
         is (not) growing (value=0) or fully grown (value=1).
         Initially all landcovers are not growing
-        This variable gets updated per time step..
+        This variable gets updated per time step.
     days : array
         Days since start of leaf area index profile (counter for days with
-        growing conditions), Units: day.
+        growing conditions). Units: [day]
         This variable gets updated per time step.
     initial_days : array
-       Landcover specific initial days
+       Landcover specific initial days.
     cum_precipitation : array
-        Cummulative precipitation per time step, Units: mm/d.
+        Cumulative precipitation per time step. Units: [mm/d]
     precipitation : array
-        Daily precipitation climate forcing, Units: mm/d.
-        Units are converted from kg m-2 s-1 to mm/d
+        Daily precipitation climate forcing. Units: [mm/d]
+        Units are converted from [kg m-2 s-1] to [mm/d]
     leaf_area_index : array
         Temporal_leaf_area_index
     min_leaf_area_index : array
-        Minimum Leaf area index  over all grid cell, Units: (-).
+        Minimum Leaf area index  over all grid cell. Units: [-]
     max_leaf_area_index : array
-        Maximum Leaf area index  over all grid cell, Units: (-).
+        Maximum Leaf area index  over all grid cell. Units: [-]
     land_cover : array
         Land_cover class  based on [1]_.
     humid_arid : array
-        Humid-arid calssification based on [1]_.
+        Humid-arid classification based on [1]_.
 
     Returns
     -------
     leaf_area_index : array
         Daily leaf area index
     days : array
-        Day since start for current day, Units: day
+        Day since start for current day. Units: [day]
     cum_precipitation : array
-       Cummulative precipitation for current day, units: mm/d
+       Cumulative precipitation for current day. units: [mm/d]
     growth_status : array
-        Growth status per grid cell for current day
+        Growth status per grid cell for current day.
 
 
     Notes
     -----
-    A day is defined as part of the growing season when daily temperature is
-    above 8◦C(281.15 K) for a land-cover-specific number of initial days
+    A day is defined as part of the growing season when the daily temperature is
+    above 8°C (281.15 K) for a land-cover-specific number of initial days
     (Table C1) and cumulative precipitation from the day where growing season
     starts reaches at least 40 mm [1]_.
 
@@ -105,10 +105,10 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
         # ======================
         # Growing Phase
         # ======================
-        # Plant can only start growing if daily temperature is above
-        # 8◦C(281.15 K) for a land-cover-specific number of initial days (See
-        # Table C1 in (Müller Schmied et al. (2021)). Note that 'days' variable
-        # is a counter for days with growing conditions
+        # Plants can only start growing if the daily temperature is above
+        # 8°C(281.15 K) for a land-cover-specific number of initial days (See
+        # Table C1 in (Müller Schmied et al. (2021)). Note that the 'days' variable
+        # is a counter for days with growing conditions.
         # Initially growth staus is zero (landcover is not growing yet).
         if temperature > 281.15:
             if growth_status == 0:
@@ -120,7 +120,7 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
                     cum_precipitation += precipitation
 
                     if cum_precipitation > 40:
-                        # Landcover grows linearly  till it gets to maximum LAI
+                        # Landcover grows linearly untill it gets to maximum LAI
                         # (at initial + 30 days) then growth status changes.
 
                         if days >= initial_days + 30:
@@ -138,7 +138,7 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
                         # reached therefore LAI is minimum. The days variable
                         # is set to landcover specific initial days till
                         # cumulative precipitation is reached (thus growing
-                        # season is reached)
+                        # season is reached).
 
                         days = initial_days
                         leaf_area_index = min_leaf_area_index
@@ -153,14 +153,14 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
                     leaf_area_index = min_leaf_area_index
 
             else:
-                # Leaf Area index has reached maximum (growth status is 1 ) and
-                # will deacrease. When in the decreasing phase, temperature
+                # Leaf Area index has reached maximum (growth status is 1) and
+                # will decrease. When in the decreasing phase, temperature
                 # specification may be reached and hence this part of the code
                 # still continues the decreasing phase till 30 days is reached.
 
                 if days <= 30:
                     days = days-1
-                    # if land_cover_type is '1' or '2' we have evergreen plants
+                    # If land_cover_type is '1' or '2' we have evergreen plants
                     # and LAI will never completely degrade and hence growth
                     # status is switched at once.
                     if land_cover <= 2:
@@ -176,12 +176,12 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
                                        (30 - days))
 
                 else:
-                    # Leaf area index has reached maximum (growth status is 1 )
+                    # Leaf area index has reached maximum (growth status is 1)
                     # but temperature specification is met. LAI then stays
                     # constant (at maximum) for the stated land-cover-specific
                     # number of days.
-                    # Also, if land is arid  and precipitation is below 0.5mm
-                    # the days variable decreases
+                    # Also, if land is arid and precipitation is below 0.5mm
+                    # the days variable decreases.
 
                     if humid_arid == 1 and precipitation < 0.5:
                         days = days-1
@@ -206,9 +206,9 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
                     cum_precipitation += precipitation
 
                     if cum_precipitation > 40:
-                        # Here temperature is less than  281.15K but landcover
-                        # is already growing.This part of the code
-                        # still continues the growing  phase till landcover
+                        # Here temperature is less than 281.15K but landcover
+                        # is already growing. This part of the code
+                        # still continues the growing phase till landcover
                         # specific initial days + 30 is reached.
 
                         if days >= initial_days + 30:
@@ -231,7 +231,7 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
                 # Leaf Area index has reached maximum (growth status = 1) and
                 # will deacrease when growing season conditions are not
                 # fulfilled anymore.
-                # Here days variable decreases from 30 to 0 days
+                # Here days variable decreases from 30 to 0 days.
 
                 if days <= 30:
                     days = days-1
@@ -250,7 +250,7 @@ def daily_leaf_area_index(temperature, growth_status, days, initial_days,
                     # but temperature specification is not met. LAI then stays
                     # constant (at maximum) for the stated land-cover-specific
                     # number of days. Here the days variable decreases
-                    # (note the difference from the growing pahse)
+                    # (note the difference from the growing pahse).
 
                     days = days-1
                     leaf_area_index = max_leaf_area_index
