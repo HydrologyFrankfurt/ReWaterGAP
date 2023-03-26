@@ -137,3 +137,4 @@ class InitializeForcingsandStaticdata:
         self.current_landareafrac = landfrac_state["current_landareafrac"]
         self.previous_landareafrac = landfrac_state["previous_landareafrac"]
         self.landareafrac_ratio = landfrac_state["landareafrac_ratio"]
+        self.previous_swb_frac = landfrac_state["previous_swb_frac"]

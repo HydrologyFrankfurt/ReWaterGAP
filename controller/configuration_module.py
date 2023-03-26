@@ -72,11 +72,13 @@ ant = config_file['RuntimeOptions'][0]['SimilationOption']['ant']
 restart = config_file['RuntimeOptions'][1]['RestartOptions']['restart']
 save_states = config_file['RuntimeOptions'][1]['RestartOptions']['save_model_states_for_restart']
 
-# Initializing  Simulation Period
+# Initializing  simulation and spinup period 
 start = config_file['RuntimeOptions'][2]['SimilationPeriod']['start']
 end = config_file['RuntimeOptions'][2]['SimilationPeriod']['end']
+spinup_years = \
+    config_file['RuntimeOptions'][2]['SimilationPeriod']['spinup_years']
 
-# Temporal Resoulutiom (bottleneck: just examples)
+# Temporal resoulution
 dailyRes = config_file['RuntimeOptions'][3]['TimeStep']['daily']
 hourly = config_file['RuntimeOptions'][3]['TimeStep']['hourly']
 
