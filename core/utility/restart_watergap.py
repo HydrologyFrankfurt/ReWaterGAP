@@ -41,8 +41,8 @@ class RestartState:
     def __init__(self):
         self.state = {}
 
-    def savestate(self, date, current_landarea_frac,
-                  previous_landarea_frac, landareafrac_ratio,
+    def savestate(self, date, current_landarea_frac, previous_landarea_frac,
+                  landareafrac_ratio, previous_swb_frac,
                   lai_days_since_start, lai_cum_precipitation,
                   lai_growth_status, canopy_storage, snow_storage,
                   snow_storage_subgrid, soil_water_content,
@@ -86,7 +86,8 @@ class RestartState:
 
         landfrac_state = {"current_landareafrac": current_landarea_frac,
                           "previous_landareafrac": previous_landarea_frac,
-                          "landareafrac_ratio": landareafrac_ratio}
+                          "landareafrac_ratio": landareafrac_ratio,
+                          "previous_swb_frac": previous_swb_frac}
 
         vert_bal_states = {"lai_days_since_start": lai_days_since_start,
                            "cum_precipitation": lai_cum_precipitation,
