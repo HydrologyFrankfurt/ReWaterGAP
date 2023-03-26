@@ -6,42 +6,33 @@ Created on Tue Jul 26 14:05:03 2022.
 """
 import time
 from termcolor import colored
-import PIL.Image
+from misc import watergap_version
+
 
 # =============================================================================
 # WaterGAP Ascii Image
 # =============================================================================
-img_flag = True
-path = './misc/watergap_logo.png'  # path to the image field
+logo = f"""
+███████████████████████████████████████████████████████████████████████████████
 
-try:
-    img = PIL.Image.open(path)
-    img_flag = True
-except FileNotFoundError:
-    print(path, "Unable to find image ")
+ /██      /██           /██                       /██████  /██████ /███████
+| ██  /█ | ██          | ██                      /██__  ██/██__  █| ██__  ██
+| ██ /███| ██ /██████ /██████   /██████  /██████| ██  \__| ██  \ █| ██  \ ██
+| ██/██ ██ ██|____  █|_  ██_/  /██__  ██/██__  █| ██ /███| ███████| ███████/
+| ████_  ████ /███████ | ██   | ███████| ██  \__| ██|_  █| ██__  █| ██____/
+| ███/ \  ███/██__  ██ | ██ /█| ██_____| ██     | ██  \ █| ██  | █| ██
+| ██/   \  █|  ███████ |  ████|  ██████| ██     |  ██████| ██  | █| ██
+|__/     \__/\_______/  \___/  \_______|__/      \______/|__/  |__|__/
 
+        WaterGAP ({watergap_version.__version__}) funded by DFG
 
-width, height = img.size
-aspect_ratio = height/width
-new_width = 120
-new_height = aspect_ratio * new_width * 0.55
-img = img.resize((new_width, int(new_height)))
+        GitHub:  https://github.com/HydrologyFrankfurt/ReWaterGAP
+        Twitter: https://twitter.com/HydroFrankfurt
 
+███████████████████████████████████████████████████████████████████████████████
+"""
 
-img = img.convert('L')
-
-chars = [" ", "*", "*", "%", "*", "P", "+", "*", "$", ",", "."]
-
-pixels = img.getdata()
-new_pixels = [chars[pixel//25] for pixel in pixels]
-new_pixels = ''.join(new_pixels)
-new_pixels_count = len(new_pixels)
-ascii_image = [new_pixels[index:index + new_width]
-               for index in range(0, new_pixels_count, new_width)]
-ascii_image = "\n".join(ascii_image)
-
-
-print("\n"*3 + ascii_image)
+print(logo)
 
 
 # =============================================================================
