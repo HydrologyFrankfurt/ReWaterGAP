@@ -89,7 +89,22 @@ def run():
                                  'Please select valid period', 'red'))
 
     # getting time range from time input (including the first day).
-    time_range = round((end_date - start_date + 1)/np.timedelta64(1, 'D'))
+    timerange_main = round((end_date - start_date + 1)/np.timedelta64(1, 'D'))
+    date_main = grid_coords['time'].values
+
+    #               #====================
+    #               #   *** Spin up ***
+    #               #====================
+
+    # getting time range for spin up
+    spin_up = cm.spinup_years
+    end_spinup = np.datetime64(cm.start.split('-')[0]+'-12-31')
+    time_range = \
+        round((end_spinup - start_date + 1)/np.timedelta64(1, 'D'))
+    spin_start = np.where(grid_coords['time'].values == start_date)[0].item()
+    spin_end = 1 + np.where(grid_coords['time'].values == end_spinup)[0].item()
+
+    simulation_date = grid_coords['time'].values[spin_start:spin_end]
 
     # *********************************************************************
     print('\n' + '++++++++++++++++++++++++++++++++++++++++++++' + '\n' +
@@ -117,79 +132,94 @@ def run():
     #                  ====================================
     #                  ||   Main Loop for all processes  ||
     #                  ====================================
-    for time_step, date in zip(range(time_range),
-                               grid_coords['time'].values):
-        # =================================================================
-        #  computing vertical water balance
-        # =================================================================
-        vertical_waterbalance.\
-            calculate(date,
-                      initialize_forcings_static.current_landareafrac,
-                      initialize_forcings_static.landareafrac_ratio)
+    while True:
+        print('Spin up phase: ' + colored(spin_up, 'cyan'))
+        if spin_up == 0:
+            print(colored('Spin up phase over. Starting simulation from ' +
+                          cm.start + ':' + cm.end + '\n', 'cyan'))
+            time_range = timerange_main
+            simulation_date = date_main
+        for time_step, date in zip(range(time_range), simulation_date):
+            # =================================================================
+            #  Computing vertical water balance
+            # =================================================================
+            vertical_waterbalance.\
+                calculate(date,
+                          initialize_forcings_static.current_landareafrac,
+                          initialize_forcings_static.landareafrac_ratio)
 
-        # Getting daily storages and fluxes and writing to variables
-        vb_storages_and_fluxes = \
-            vertical_waterbalance.get_storages_and_fluxes()
+            # =================================================================
+            #  Computing lateral water balance
+            # =================================================================
 
-        create_out_var.\
-            verticalbalance_write_daily_var(vb_storages_and_fluxes,
-                                            time_step)
+            lateral_waterbalance.\
+                calculate(vertical_waterbalance.fluxes['groundwater_recharge'],
+                          vertical_waterbalance.fluxes['openwater_PET'],
+                          vertical_waterbalance.fluxes['daily_precipitation'],
+                          vertical_waterbalance.fluxes['surface_runoff'],
+                          vertical_waterbalance.fluxes['daily_storage_transfer'],
+                          initialize_forcings_static.current_landareafrac,
+                          initialize_forcings_static.previous_landareafrac)
+            if spin_up == 0:
+                # =============================================================
+                # Write vertical and lateralbalacne variables to file
+                # =============================================================
+                # Getting daily storages and fluxes and writing to variables
+                vb_storages_and_fluxes = \
+                    vertical_waterbalance.get_storages_and_fluxes()
 
-        # =================================================================
-        #  computing vertical water balance
-        # =================================================================
+                create_out_var.\
+                    verticalbalance_write_daily_var(vb_storages_and_fluxes,
+                                                    time_step)
 
-        lateral_waterbalance.\
-            calculate(vertical_waterbalance.fluxes['groundwater_recharge'],
-                      vertical_waterbalance.fluxes['openwater_PET'],
-                      vertical_waterbalance.fluxes['daily_precipitation'],
-                      vertical_waterbalance.fluxes['surface_runoff'],
-                      vertical_waterbalance.fluxes['daily_storage_transfer'],
-                      initialize_forcings_static.current_landareafrac,
-                      initialize_forcings_static.previous_landareafrac)
+                # Getting daily storages and fluxes and writing to variables
+                lb_storages_and_fluxes = \
+                    lateral_waterbalance.get_storages_and_fluxes()
 
-        # Getting daily storages and fluxes and writing to variables
-        lb_storages_and_fluxes = \
-            lateral_waterbalance.get_storages_and_fluxes()
+                create_out_var.\
+                    lateralbalance_write_daily_var(lb_storages_and_fluxes,
+                                                   time_step)
+            # =================================================================
+            #  Update Land Area Fraction
+            # =================================================================
+            land_swb_fraction = lateral_waterbalance.get_new_swb_fraction()
+            initialize_forcings_static.update_landareafrac(land_swb_fraction)
 
-        create_out_var.\
-            lateralbalance_write_daily_var(lb_storages_and_fluxes,
-                                           time_step)
-        # =================================================================
-        #  Update Land Area Fraction
-        # =================================================================
-        land_swb_fraction = lateral_waterbalance.get_new_swb_fraction()
-        initialize_forcings_static.update_landareafrac(land_swb_fraction)
+        if end_date == date and spin_up == 0:
+            print('Status:' + colored(' complete', 'cyan'))
 
-    print('Status:' + colored(' complete', 'cyan'))
+            # =================================================================
+            #  Get restart information if restart is needed.
+            # =================================================================
+            if savestate_for_restart is True:
+                restart_model.\
+                    savestate(date,
+                              initialize_forcings_static.current_landareafrac,
+                              initialize_forcings_static.previous_landareafrac,
+                              initialize_forcings_static.landareafrac_ratio,
+                              initialize_forcings_static.previous_swb_frac,
+                              vertical_waterbalance.lai_days,
+                              vertical_waterbalance.cum_precipitation,
+                              vertical_waterbalance.growth_status,
+                              vertical_waterbalance.canopy_storage,
+                              vertical_waterbalance.snow_water_storage,
+                              vertical_waterbalance.snow_water_storage_subgrid,
+                              vertical_waterbalance.soil_water_content,
+                              lateral_waterbalance.groundwater_storage,
+                              lateral_waterbalance.loclake_storage,
+                              lateral_waterbalance.locwet_storage,
+                              lateral_waterbalance.glolake_storage,
+                              lateral_waterbalance.glowet_storage,
+                              lateral_waterbalance.river_storage)
 
-    # =================================================================
-    #  Get restart information if restart is needed.
-    # =================================================================
-    if savestate_for_restart is True:
-        restart_model.\
-            savestate(date,
-                      initialize_forcings_static.current_landareafrac,
-                      initialize_forcings_static.previous_landareafrac,
-                      initialize_forcings_static.landareafrac_ratio,
-                      vertical_waterbalance.lai_days,
-                      vertical_waterbalance.cum_precipitation,
-                      vertical_waterbalance.growth_status,
-                      vertical_waterbalance.canopy_storage,
-                      vertical_waterbalance.snow_water_storage,
-                      vertical_waterbalance.snow_water_storage_subgrid,
-                      vertical_waterbalance.soil_water_content,
-                      lateral_waterbalance.groundwater_storage,
-                      lateral_waterbalance.loclake_storage,
-                      lateral_waterbalance.locwet_storage,
-                      lateral_waterbalance.glolake_storage,
-                      lateral_waterbalance.glowet_storage,
-                      lateral_waterbalance.river_storage)
+            # =================================================================
+            # Store ouput variable if selected by user
+            # =================================================================
+            create_out_var.save_to_netcdf(str(end_date))
 
-    # =====================================================================
-    # Store ouput variable if selected by user
-    # =====================================================================
-    create_out_var.save_to_netcdf(str(end_date))
+            break
+        else:
+            spin_up -= 1
 
 
 if __name__ == "__main__":

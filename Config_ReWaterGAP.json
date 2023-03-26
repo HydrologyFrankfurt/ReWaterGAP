@@ -18,7 +18,8 @@
     {
       "SimilationPeriod": {
         "start": "1901-01-01",
-        "end": "1901-12-31"
+        "end": "1901-12-31",
+        "spinup_years": 0
       }
     },
     {
@@ -31,23 +32,23 @@
   "outputVariable": [
     {
       "VerticalWaterBalanceFluxes": {
-        "potevap": true,
-        "netrad": true,
-        "lai": true,
-        "canopy_evap": true,
-        "throughfall": true,
-        "snow_fall": true,
-        "snow_melt": true,
-        "snow_evap": true,
-        "groundwater_recharge": true,
-        "surface_runoff": true
+        "potevap": false,
+        "netrad": false,
+        "lai": false,
+        "canopy_evap": false,
+        "throughfall": false,
+        "snow_fall": false,
+        "snow_melt": false,
+        "snow_evap": false,
+        "groundwater_recharge": false,
+        "surface_runoff": false
       }
     },
     {
       "VerticalWaterBalanceStorages": {
-        "canopystor": true,
-        "swe": true,
-        "soilmoist": true
+        "canopystor": false,
+        "swe": false,
+        "soilmoist": false
       }
     },
     {
@@ -67,7 +68,7 @@
         "localwetland_storage": true,
     	"globallake_storage": true,
     	"globalwetland_storage": true,
-    	"river_storage": true
+    	"river_storage": false
       }
     }
   ]
