@@ -52,28 +52,28 @@ def compute_groundwater_storage(aridity_or_inlandsink, groundwater_storage,
     aridiity : string
         Compute groundwater for "Humid" or "Arid" region
     groundwater_storage : array
-        Daily groundwater storage. Units: [km^3]
+        Daily groundwater storage, Unit: [km^3]
     diffuse_gw_recharge : array
-        Daily difuuse groundwater recharge. Units: [km^3/day]
+        Daily difuuse groundwater recharge, Unit: [km^3/day]
     cell_area : array
-        Area of a grid cell. Units: [km^2]
+        Area of a grid cell, Unit: [km^2]
     netabs_gw : array
-        Net abstraction from groundwater. Units: [km^3/day]
+        Net abstraction from groundwater, Unit: [km^3/day]
     remainingUse : array
-        Daily total unsatisfied water use. Units: [km^3/day]
+        Daily total unsatisfied water use, Unit: [km^3/day]
     land_area_frac : array
-        Land area fraction. Units: [%]
+        Land area fraction, Unit: [%]
     point_source_recharge : array
         Sum of all point groundwater recharge from surface waterboides in
-        arid regions. Units: [km^3/day]
+        arid regions, Unit: [km^3/day]
 
     Returns
     -------
     groundwater_storage : array
-        Updated daily groundwater storage. Units: [km^3]
+        Updated daily groundwater storage, Unit: [km^3]
 
      groundwater_discharge : array
-        Updated daily groundwater discharge. Units: [km^3/day]
+        Updated daily groundwater discharge, Unit: [km^3/day]
     """
     groundwater_storage_prev = groundwater_storage
 

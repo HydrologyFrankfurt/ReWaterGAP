@@ -40,20 +40,20 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
     choose_swb : string
         Select surface waterbody (global and local lakes and wetlands)
     storage : array
-        Daily surface waterbody storage, Unit: km3
+        Daily surface waterbody storage, Unit: [km3]
     lakewet_frac : array
-        Fraction of surface waterbody, Unit: %
+        Fraction of surface waterbody, Unit: [%]
     precipitation : array
-        Daily precipitation, Unit: km/day
+        Daily precipitation, Unit: [km/day]
     openwater_pot_evap : array
-        Daily open water potential evaporation, Unit: km/day
+        Daily open water potential evaporation, Unit: [km/day]
     aridity : array
         Array which differentiates arid(aridity=1) from
-        humid(aridity=0) regions taken from  [1]_ , Units: (-)
+        humid(aridity=0) regions taken from  [1]_ , Units: [-]
     drainage_direction : array
-        Drainage direction taken from  [1]_ , Units: (-)
+        Drainage direction taken from  [1]_ , Units: [-]
     inflow_to_swb : array
-        Inflow into selected surface waterbody, Unit: km3/day
+        Inflow into selected surface waterbody, Unit: [km3/day]
     area_of_cell: array, optional
         Area of grid cell, Unit: km2.
         Note!!! local lakes and global and local wetlands uses area fractions
@@ -75,12 +75,12 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
     Returns
     -------
     storage : TYPE
-        Updated daily surface waterbody storage, Unit: km3
+        Updated daily surface waterbody storage, Unit: [km3]
     outflow : TYPE
-        Daily surface waterbody outflow, Unit: km3/day
+        Daily surface waterbody outflow, Unit: [km3/day]
     gwr_lakewet : TYPE
         Daily groundwater recharge from surface water body outflow
-        (arid region only), Unit: km3/day
+        (arid region only), Unit: [km3/day]
 
     """
 

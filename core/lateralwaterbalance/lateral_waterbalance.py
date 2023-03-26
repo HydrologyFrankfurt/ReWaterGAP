@@ -295,12 +295,15 @@ class LateralWaterBalance:
         locwet_outflow = out[8]
         glolake_outflow = out[9]
         glowet_outflow = out[10]
-        streamflow = out[11]
+
+        # Streamflow is only stored for all cells except inland sinks
+        streamflow = np.where(drainage_direction >= 0, out[11], np.nan)
 
         updated_locallake_fraction = out[13]
         updated_localwetland_fraction = out[14]
         updated_globalwetland_fraction = out[15]
-        print(self.loclake_storage[117, 454])
+
+        # print(streamflow[96, 195], streamflow[182, 257])
         # =====================================================================
         # Getting all storages
         # =====================================================================

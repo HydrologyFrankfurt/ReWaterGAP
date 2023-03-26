@@ -228,8 +228,6 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                       swb_drainage_area_factor[x, y])
 
         inflow_to_swb, inflow_to_river = routed_flow
-        # if x==183 and y==394:
-        #     print(diffuse_gw_recharge_cell, surface_runoff_cell)
 
     #                  =================================
     #                  || Local lake  waterbalance    ||
@@ -269,8 +267,7 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
 
             # update inflow to surface water bodies
             inflow_to_swb = outflow
-        # if x==117 and y==454:
-        #     print(local_lake_storage[x, y])
+
     #                  =================================
     #                  || Local wetland waterbalance ||
     #                  =================================
@@ -476,8 +473,7 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
         # and longitude(n=0)[cell is an inland sink or flows to the ocean]
         if m > 0 and n > 0:
             river_inflow[m, n] += river_streamflow[x, y]
-        # if x==116 and y==454:
-        #     print(river_inflow[m, n], river_streamflow[x, y],  m, n )
+
         # =================================
         # 4. compute cellrunoff(km3/day)
         # ==================================
