@@ -238,10 +238,11 @@ class CreateandWritetoVariables:
             write_daily_ouput(fluxes_var['snow_evap'], time_step)
 
         self.vb_fluxes['groundwater_recharge'].\
-            write_daily_ouput(fluxes_var['groundwater_recharge'], time_step)
+            write_daily_ouput(fluxes_var['groundwater_recharge_out'],
+                              time_step)
 
         self.vb_fluxes['surface_runoff'].\
-            write_daily_ouput(fluxes_var['surface_runoff'], time_step)
+            write_daily_ouput(fluxes_var['surface_runoff_out'], time_step)
 
     def lateralbalance_write_daily_var(self, value, time_step):
         """
