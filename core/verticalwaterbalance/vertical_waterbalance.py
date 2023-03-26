@@ -280,9 +280,9 @@ class VerticalWaterBalance:
         # 4 = surface_runoff (mm/day) , 5 = daily_storage_tranfer (mm/day)
         # 6 =  (RL) potential runoff from landcells including the amount of
         # gw-recharge (mm/day)
-        # 7 = (R1) daily runoff from soil (mm/day)
+        # 7 = (R3) daily runoff from soil (mm/day)
         # 8 = (R2) soil overflow runoff from landcells (mm/day)
-        # 9 = (R3) urban runoff from landcells (mm/day) : (accounts only
+        # 9 = (R1) urban runoff from landcells (mm/day) : (accounts only
         # for built-up area)
 
         self.soil_water_content = daily_soil_storage[0]
@@ -314,6 +314,14 @@ class VerticalWaterBalance:
                     'snow_fall': snow_fall * per_contfrac,
                     'snow_melt': snow_melt * per_contfrac,
                     'snow_evap': sublimation * per_contfrac,
+
+                    # Variable_out is used to differenciate the same variable
+                    # which are inputs to the lateral waterbalance.
+                    # variable_out is the wriiten out as netcdf
+                    'groundwater_recharge_out':
+                        groundwater_recharge_from_soil_mm * per_contfrac,
+                    'surface_runoff_out': surface_runoff * per_contfrac,
+
                     'groundwater_recharge': groundwater_recharge_from_soil_mm,
                     'surface_runoff': surface_runoff,
                     'openwater_PET': openwater_potential_evap,

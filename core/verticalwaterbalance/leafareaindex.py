@@ -32,18 +32,18 @@ class LeafAreaIndex:
     Input Parameters
     ----------
     temperature : array
-        Air tempeature. Units: [K]
+        Air tempeature, Units: [K]
     precipitation : array
-        Precipitation. Units: [mm/day]
+        Precipitation, Units:  [mm/day]
     static_data : array and csv
-        Land_cover class (array) based on [1]_.
+        Land_cover  class (array)  based on [1]_.
         Humid-arid calssification(array) based on [1]_.
         CSV formatted table that contains maximum leaf area index [-], Fraction
         of deciduous plants per lancover type [-], Reduction factor for
         evergreen plants per land cover type [-].  This stated parameters are
         used used to compute  miniimum leaf area_index [-].
 
-        The parameters in the csv table are taken from [2]_.
+        The parameters in the csv table are  taken from [2]_.
 
         References.
 
@@ -103,7 +103,7 @@ class LeafAreaIndex:
             -------
             min_leaf_area_index : array
                 Minimum one-sided leaf area index per landcover type.
-                Units: [-]
+                Units: (-)
 
             """
             # See Eq. 5 in Müller Schmied et al 2021. for minimum one-sided
@@ -153,15 +153,15 @@ class LeafAreaIndex:
         ----------
         lai_days : array
             Days since start of leaf area index profile (counter for days with
-            growing conditions). Units: [day]
+            growing conditions), Units: [day]
             This variable gets updated per time step.
         growth_status : array
             Growth status per grid cell shows whether a specific land cover
             is (not) growing (value=0) or fully grown (value=1).
             Initially all landcovers are not growing
-            This variable gets updated per time step.
+            This variable gets updated per time step..
         cum_precipitation : array
-             cummulative precipitation per time step. Units: [mm/d]
+             cummulative precipitation per time step.  Units: [mm/d]
 
         Returns
         -------
@@ -170,7 +170,7 @@ class LeafAreaIndex:
             1 = days since start,
             2 = growth status,
             3 = cumulative precipitation
-        ouput(1-3) get updated per time step.
+        ouput(1-3)  get updated per time step.
         """
         # =====================================================================
         # # Loading in climate forcing

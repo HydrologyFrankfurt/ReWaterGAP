@@ -37,19 +37,19 @@ class Soil:
     ----------
     static_data : contains the following data
         max_soil_water_content : array
-            Maximum soil water content. Units: [mm]
+            Maximum soil water content, Units: [mm]
         builtup_area : array
-            Urban or Builtup area fraction. Units: [-]
+            Urban or Builtup area fraction, Units: [-]
         drainage_direction : array
-            Drainage direction taken from [1]_. Units: [-]
+            Drainage direction taken from [1]_, Units: [-]
         max_groundwater_recharge : array
-            Maximum groundwater recharge. Units: [mm/day]
+            Maximum groundwater recharge, Units: [mm/day]
         soil_texture : array
-            Soil texture class based on  [1]_. Units: [-]
+            Soil texture class based on  [1]_, Units: [-]
         groundwater_recharge_factor : array
-            Groundwater recharge factor taken from [1]_. Units: [-]
+            Groundwater recharge factor taken from [1]_, Units: [-]
         arid_gw_cell : array
-            Humid-arid calssification(array) based on [1]_. Units: [-]
+            Humid-arid calssification(array) based on [1]_.
 
         References.
 
@@ -108,14 +108,14 @@ class Soil:
         Parameters
         ----------
         effective_precipitation : array
-            Effective precipitation based on [1]_. Units: [mm/day]
+            Effective precipitation based on [1]_, Units: [mm/day]
 
         Returns
         -------
         effective_precipitation : array
-            Effective precipitation based on [1]_. Units: [mm/day]
+            Effective precipitation based on [1]_, Units: [mm/day]
         immediate_runoff : array
-            Immediate runoff. Units: [mm/day]
+            Immediate runoff, Units: [mm/day]
 
         References.
 
@@ -155,50 +155,50 @@ class Soil:
         Parameters
         ----------
         soil_water_content : array
-            Soil water content. Units: [mm]
+            Soil water content, Units: [mm]
         pet_to_soil : array
-            Remaining energy for addtional evaporation from soil. Units: [mm]
+            Remaining energy for addtional evaporation from soil, Units: [mm]
         current_landarea_frac : array
-           Land area fraction of current time step.  Units: [-]
+           Land area fraction of current time step,  Units: [-]
         landareafrac_ratio : array
-            Ratio of land area fraction of previous to current time step.
+            Ratio of land area fraction of previous to current time step,
             Units: [-]
         max_temp_elev : array
-            Maximum temperature from the first (lowest) elevation from snow
-            algorithm. Units: [K]
+            Maximum temperature from the 1st(lowest) elevation from snow
+            algorithm. , Units: [K]
         canopy_evap : array
-            Canopy evaporation.  Units: [mm/day]
+            anopy evaporation,  Units: [mm/day]
         effective_precipitation : array
-            Effective precipitation based on [1]_. Units: [mm/day]
+            Effective precipitation based on [1]_, Units: [mm/day]
         precipitation : array
-            Daily precipitation.  Units: [mm/day]
+            Daily precipitation,  Units: [mm/day]
         immediate_runoff : array
-            Immediate runoff. Units: [mm/day]
+            Immediate runoff, Units: [mm/day]
         land_storage_change_sum : array
-            Sum of change in vertical balance storages. Units: [mm]
+            Sum of change in vertical balance storages, Units: [mm]
         sublimation : array
-            Sublimation. Units: [mm/day]
+            Sublimation, Units: [mm/day]
         daily_storage_transfer : array
             Storage to be transfered to runoff when land area fraction of
-            current time step is zero. Units: [mm]
+            current time step is zero, Units: [mm]
         snow_freeze_temp: array
-            Snow freezing temperature. Units: [K]
+            Snow freeze temperature  , Units:  [K]
 
         Returns
         -------
         soil_water_content : array
-            Updated soil water content. Units: [mm]
+            Updated soil water content , Units: [mm]
         groundwater_recharge_from_soil_mm : array
-            Groundwater recharge from soil. Units: [mm/day]
+            Groundwater recharge from soil, Units: [mm/day]
         actual_soil_evap : array
-            Actual evapotranspiration from the soil. Units: [mm/day]
+            Actual evapotranspiration from the soil, Units: [mm/day]
         soil_saturation : array
-            Soil saturation. Units: [-]
+            Soil saturation, Units: [-]
         surface_runoff : array
-            Surface runoff from land. Units: [mm/day]
+            Surface runoff from land, Units: [mm/day]
         daily_storage_transfer : array
             Updated storage to be transfered to runoff when land area fraction
-            of current time step is zero. Units: [mm]
+            of current time step is zero, Units: [mm]
 
         """
         # =========================================================================
@@ -230,9 +230,9 @@ class Soil:
                      self.max_soil_water_content, soil_water_content)
 
         # =====================================================================
-        # Calculating runoff (mm/day). Not written out as ouput!!!!
+        # Calculating daily soil runoff (mm/day).
         # =====================================================================
-        # Runoff: see eq. 18 in H. Müller Schmied et al 2021.
+        # Runoff: see eq. 18d in H. Müller Schmied et al 2021 (Corrigendum)
         soil_saturation = (soil_water_content/self.max_soil_water_content)
 
         # gamma = Runoff coefficient (-)
@@ -378,6 +378,7 @@ class Soil:
         # soil_water_overflow_new.
         # if the updated soil_water_content_new > maximum soil water content
         # it becomes overflow.
+        # See eq. 18c in H. Müller Schmied et al 2021 (Corrigendum)
         soil_water_overflow_new = \
             np.where((soil_water_content_new > self.max_soil_water_content),
                      soil_water_overflow +
@@ -387,7 +388,8 @@ class Soil:
         soil_water_overflow_new *= self.pm.areal_corr_factor
 
         # Total daily runoff is calculated as runoff plus immediate runoff plus
-        # updated soil water overflow (soil_water_overflow_new)
+        # updated soil water overflow (soil_water_overflow_new).
+        # See eq. 18a in H. Müller Schmied et al 2021 (Corrigendum)
         total_daily_runoff = \
             np.where(self.max_soil_water_content > 0,
                      daily_runoff + immediate_runoff +
@@ -399,18 +401,35 @@ class Soil:
         # This is because if maximum temperature is below freezing temperature,
         # soil water content of previous time step can be higher than
         # maximum soil water content hence runoff can be possible.
+        # Also if max_temp_elev < snow_freeze_temp, effective_precipitation=0,
+        # There is no need to add it to total daily runoff.
+
         total_daily_runoff = \
-            np.where((max_temp_elev > snow_freeze_temp), total_daily_runoff,  +
+            np.where((max_temp_elev > snow_freeze_temp), total_daily_runoff,
                      (soil_water_overflow) * self.pm.areal_corr_factor)
 
-        # =========================================================
-        #  +++ Soil_water_overflow that can be wrrirten out ++++++
-        # ==========================================================
+        # =====================================================================
+        #  +++ Soil_water_overflow, immdediate runoff and daily runof
+        #  that can be wrrirten out ++++++
+        # =====================================================================
         soil_water_overflow =\
             np.where((max_temp_elev > snow_freeze_temp) &
                      (self.max_soil_water_content > 0),
                      soil_water_overflow_new,
                      soil_water_overflow * self.pm.areal_corr_factor)
+
+        # Immediate runoff is only corrected when conditions to calculate
+        # total daily runoff is satified
+        immediate_runoff =\
+            np.where((max_temp_elev > snow_freeze_temp) &
+                     (self.max_soil_water_content > 0),
+                     immediate_runoff,
+                     (immediate_runoff / self.pm.areal_corr_factor))
+
+        daily_runoff =\
+            np.where((max_temp_elev > snow_freeze_temp) &
+                     (self.max_soil_water_content > 0),
+                     daily_runoff, 0)
 
         # =====================================================================
         #         Updating soil_water_content
@@ -423,7 +442,6 @@ class Soil:
 
         # When maxumium temperature > snow freeze temperature,
         # snow_water_content becomes the updated soil_water_content_new
-        # else it keeps it's initial values
         soil_water_content = \
             np.where((max_temp_elev > snow_freeze_temp) &
                      (self.max_soil_water_content > 0),

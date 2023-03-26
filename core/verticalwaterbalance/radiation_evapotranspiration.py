@@ -33,11 +33,11 @@ class RadiationPotentialEvap:
     Input Parameters
     ----------------
     temperature : array
-        Air tempeature, Units: K
+        Air tempeature, Units: [K]
     down_shortwave_radiation: array
-        Downward shortwave radiation  Units: Wm−2
+        Downward shortwave radiation  Units: [Wm−2]
     down_longwave_radiation: array
-        Downward longwave radiation  Units: Wm−2
+        Downward longwave radiation  Units: [Wm−2]
     static_data : array and csv
         Land_cover  class (array)  based on [1]_.
         Humid-arid calssification(array) based on [1]_.
@@ -47,11 +47,11 @@ class RadiationPotentialEvap:
         Date to select specific days
     snow_water_storage : array
         if daily snow water storage is greater than 3mm, snow albedo is used
-        for shortwave radiation calulation, Units: mm.
+        for shortwave radiation calulation, Units: [mm]
     parameters: : array
         The following parameters are obtained from the parameters array:
-        snow_albedo_thresh (mm), openwater_albedo (-), pt_coeff_arid (-),
-        pt_coeff_humid (-).
+        snow_albedo_thresh [mm], openwater_albedo [-], pt_coeff_arid [-],
+        pt_coeff_humid [-].
 
 
         References.
