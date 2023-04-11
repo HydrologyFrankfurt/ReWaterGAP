@@ -77,12 +77,12 @@ Actual evapotranspiration :math:`{E}_{s}`  from soil :math:`(mm/d)` is calculate
 where :math:`{E}_{pot}` is potential evapotranspiration :math:`(mm/d)`, :math:`{E}_{c}` is canopy evaporation :math:`(mm/d)` and :math:`{S}_{s,max}` is the maximum soil water content :math:`(mm)` derived as a product of total available water capacity in the upper meter of the soil [2]_ and land-cover-specific rooting depth (Table C2 [1]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 (mm/d)` globally. 
 
 
-Daily runoff from soil :math:`{R1} (mm/day)` is calculated following Bergström (1995) [3]_ as
+Daily runoff from soil :math:`{R3} (mm/day)` is calculated following Bergström (1995) [3]_ as
 
 .. _runoff:
 
 .. math::
-   R1 = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
+   R3 = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
 
 where \Gamma is the runoff coefficient (–). This parameter, which varies between 0.1 and 5.0, is used for calibration.
 Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` that becomes :math:`{R1}`.
