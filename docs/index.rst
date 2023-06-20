@@ -35,6 +35,7 @@ Welcome to ReWaterGAP
    api_docs/snowstorage
    api_docs/soilstorage
    api_docs/groundwater_storage
+   api_docs/lakes_wetlands_storage
 
 .. toctree::
    :maxdepth: 2
