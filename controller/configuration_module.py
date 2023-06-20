@@ -17,7 +17,7 @@ import os
 import sys
 import watergap_logger as log
 import misc.cli_args as cli
-
+import pandas as pd
 
 # ===============================================================
 # Get module name and remove the .py extension
@@ -65,30 +65,56 @@ def config_handler(filename):
 
 config_file = config_handler(args.name)
 
-# Initializing Runtime Options (bottleneck to run simulation)
+# =============================================================================
+# # Initializing Runtime Options (bottleneck to run simulation)
+# =============================================================================
+# For Anthropenic run (ant=True)
 ant = config_file['RuntimeOptions'][0]['SimilationOption']['ant']
 
+# Resevior are active if reservior_opt = on
+reservior_opt = config_file['RuntimeOptions'][0]['SimilationOption']['res_opt']
 
+# Reservoir operation duration
+reservoir_start_year = 1901
+reservoir_end_year = 1905
+
+# create an array of date of only first days from reservior_start_year
+# to reservoir_end_year
+reservoir_opt_years = pd.date_range(str(reservoir_start_year)+"-01-01",
+                                    str(reservoir_end_year)+"-01-01", freq="YS")
+
+# For Naturalised run reservior operation is automatically switched off
+if ant is False:
+    reservior_opt = "off"
+
+# =============================================================================
+# # Save and restart WaterGAP state
+# =============================================================================
 restart = config_file['RuntimeOptions'][1]['RestartOptions']['restart']
 save_states = config_file['RuntimeOptions'][1]['RestartOptions']['save_model_states_for_restart']
 
-# Initializing  simulation and spinup period 
+# =============================================================================
+# # Initializing  simulation and spinup period 
+# =============================================================================
 start = config_file['RuntimeOptions'][2]['SimilationPeriod']['start']
 end = config_file['RuntimeOptions'][2]['SimilationPeriod']['end']
 spinup_years = \
     config_file['RuntimeOptions'][2]['SimilationPeriod']['spinup_years']
 
-# Temporal resoulution
+# =============================================================================
+# # Temporal resoulution
+# =============================================================================
 dailyRes = config_file['RuntimeOptions'][3]['TimeStep']['daily']
 hourly = config_file['RuntimeOptions'][3]['TimeStep']['hourly']
-
 
 if dailyRes:
     temporal_res = 'Daily'
 else:
     temporal_res = 'Hourly'
 
-# Selection of ouput variable (fluxes, storages and flows)
+# =============================================================================
+# # Selection of ouput variable (fluxes, storages and flows)
+# =============================================================================
 # Vertical Water Balance (vb)
 vb_fluxes = config_file['outputVariable'][0]['VerticalWaterBalanceFluxes']
 vb_storages = config_file['outputVariable'][1]['VerticalWaterBalanceStorages']

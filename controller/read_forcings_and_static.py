@@ -16,6 +16,7 @@
 # dimensions of the input variables to create the output variables
 # =============================================================================
 import numpy as np
+import pandas as pd
 from core.utility import land_surfacewater_fraction as lsf
 from controller import climateforcing_handler as cf
 from controller import staticdata_handler as sd
@@ -31,18 +32,28 @@ class InitializeForcingsandStaticdata:
         # Please see staticdata and climateforcing handlers for varibale units
         # =====================================================================
         self.static_data = sd.StaticData()
-
         self.climate_forcing = cf.ClimateForcing()
         self.climate_forcing.check_unitandvarname()
 
         # =====================================================================
         # Get grid to create ouput variable
         # =====================================================================
-        # Note!!! coord contains latitiude, longitude and time (based on
-        # simulation period )
-        self.grid_coords = \
-            self.climate_forcing.temperature.sel(time=slice(cm.start,
-                                                            cm.end)).coords
+        # Note!!! grid_coord contains latitiude, longitude and time (based on
+        # simulation period ).
+        # I am only selecting the coordinates(lat, lon and time) of the
+        # temperature variable. the actual temperature forcing is not used here
+
+        # Select forcing data for a year if run is less than or equal to a year
+        # This is required to run initialization years for good results.
+        if cm.start.split("-")[0] == cm.end.split("-")[0]:
+            year_end = cm.end.split('-')[0]+'-12-31'
+            self.grid_coords = \
+                self.climate_forcing.temperature.\
+                sel(time=slice(cm.start, year_end)).coords
+        else:
+            self.grid_coords = \
+                self.climate_forcing.temperature.sel(time=slice(cm.start,
+                                                                cm.end)).coords
 
         # Geting length of lat,lon from grid coordinates (grid_coords)
         # to create temporary data.
@@ -56,18 +67,10 @@ class InitializeForcingsandStaticdata:
             lsf.get_glolake_area(self.static_data.land_surface_water_fraction)
 
         # =====================================================================
-        # Get initial land area fracion
+        # Get initial fractions for local lakes, local and global wetland,
+        # and reservervoirs
         # =====================================================================
-        self.current_landareafrac = \
-            lsf.get_landareafrac(self.static_data.land_surface_water_fraction)
-        self.landareafrac_ratio = \
-            np.ones(self.current_landareafrac.shape).astype(np.float64)
-        self.previous_landareafrac = \
-            np.zeros(self.current_landareafrac.shape).astype(np.float64)
-
-        # =====================================================================
-        # Get initial fractions for local lakes and local and global wetland
-        # =====================================================================
+        self.glores_frac_prevyear = 0
         self.previous_loclakefrac = self.static_data.\
             land_surface_water_fraction.loclak[0].values.astype(np.float64)/100
         self.previous_locwetfrac = self.static_data.\
@@ -78,6 +81,73 @@ class InitializeForcingsandStaticdata:
         self.previous_swb_frac = self.previous_loclakefrac + self.previous_locwetfrac + \
             self.previous_glowetfrac
         self.current_swb_frac = 0
+
+        # =====================================================================
+        # initialize land area fracion variables
+        # =====================================================================
+        self.current_landareafrac = 0
+        self.landareafrac_ratio = 0
+        self.previous_landareafrac = 0
+
+        if cm.reservior_opt == "off":
+            # land area fraction is computed without reservior fraction. land
+            # area fraction is calulated once at model start and updated daily.
+            # (see update_landareafrac function).
+            self.current_landareafrac = \
+                lsf.compute_landareafrac(self.static_data.
+                                         land_surface_water_fraction,
+                                         self.current_landareafrac)
+            self.landareafrac_ratio = \
+                np.ones(self.current_landareafrac.shape).astype(np.float64)
+            self.previous_landareafrac = \
+                np.zeros(self.current_landareafrac.shape).astype(np.float64)
+
+            # if reservoir fractions are considered in land area fraction
+            # See function "landareafrac_with_reservior".
+
+    def landareafrac_with_reservior(self, simulation_date, reservoir_opt_year):
+        """
+        Get land area fraction.
+
+        Parameters
+        ----------
+        simulation_date : TYPE
+            DESCRIPTION.
+        reservoir_opt_year : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        # Here land area fraction considers reservoir fraction which is read in
+        # yearly. Hence Land area area fraction is recalulated every year.
+        # Note!!! that land area fraction is also updated daily after yearly
+        # calulation. (see update_landareafrac function)
+        if cm.reservior_opt == "on":
+            if simulation_date in reservoir_opt_year:
+                resyear = str(pd.to_datetime(simulation_date).year)
+                print(resyear)
+                # =============================================================
+                # Get land area fracion
+                # =============================================================
+                self.current_landareafrac = \
+                    lsf.compute_landareafrac(self.static_data.
+                                             land_surface_water_fraction,
+                                             self.current_landareafrac,
+                                             self.static_data.resyear_frac,
+                                             resyear, self.glores_frac_prevyear)
+                self.landareafrac_ratio = \
+                    np.ones(self.current_landareafrac.shape).astype(np.float64)
+                self.previous_landareafrac = \
+                    np.zeros(self.current_landareafrac.shape).astype(np.float64)
+
+                # Assigning current reservoir year to previous year.
+                self.glores_frac_prevyear = self.static_data.resyear_frac.\
+                    glores_frac.sel(time=resyear).values.astype(np.float64)
+
+                self.glores_frac_prevyear = self.glores_frac_prevyear[0]
 
     def update_landareafrac(self, land_swb_fraction):
         """
@@ -105,7 +175,7 @@ class InitializeForcingsandStaticdata:
         self.current_swb_frac = loclake_frac + locwet_frac + glowet_frac
 
         change_in_frac = self.current_swb_frac - self.previous_swb_frac
-        # print( change_in_frac[117, 454])
+
         self.previous_swb_frac = self.current_swb_frac.copy()
 
         # current fractions becomes previous
@@ -114,7 +184,7 @@ class InitializeForcingsandStaticdata:
 
         self.current_landareafrac = self.previous_landareafrac - change_in_frac
         self.current_landareafrac[self.current_landareafrac < 0] = 0
-        # print( self.current_landareafrac[117, 454])
+
         self.landareafrac_ratio =  \
             np.divide(self.previous_landareafrac, self.current_landareafrac,
                       out=np.zeros_like(self.current_landareafrac),

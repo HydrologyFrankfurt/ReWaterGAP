@@ -78,8 +78,20 @@ class StaticData:
         river_static_file_path = \
             str(Path(cm.config_file['FilePath']['inputDir'] +
                      r'static_input/river_static_data/*'))
+
+        reservoir_reglake_file_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/reservior_regulated_lake/*'))
+
+        reservoir_frac_file_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/watergap_22d_gloresfrac_1901_2020.nc'))
+
         rout_order_path = str(Path(cm.config_file['FilePath']['inputDir'] +
                                    r'static_input/routing_order.csv'))
+
+        alloc_coeff_path = str(Path(cm.config_file['FilePath']['inputDir'] +
+                                    r'static_input/alloc_coeff_by_routorder.csv'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
@@ -119,8 +131,22 @@ class StaticData:
             self.river_static_files = \
                 xr.open_mfdataset(river_static_file_path, decode_times=False)
 
+            # Reserviour and regulated lakes (data for computing waterbalance)
+            self.res_reg_files = \
+                xr.open_mfdataset(reservoir_reglake_file_path,
+                                  decode_times=False)
+
+            # Yearly Reserviour fractions
+            self.resyear_frac = \
+                xr.open_dataset(reservoir_frac_file_path)
+
             # routing order data
             self.rout_order = pd.read_csv(rout_order_path)
+
+            # Allocation coeffiencient according to routing order
+            # Required for computing reselease from Hanasaki algorithm
+            # see Hanasaki et al 2006
+            self.alloc_coeff = pd.read_csv(alloc_coeff_path)
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Static data '
