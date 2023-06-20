@@ -26,6 +26,7 @@ logo = f"""
 
         WaterGAP ({watergap_version.__version__}) funded by DFG
 
+        Institution: {watergap_version.__institution__}
         GitHub:  https://github.com/HydrologyFrankfurt/ReWaterGAP
         Twitter: https://twitter.com/HydroFrankfurt
 
