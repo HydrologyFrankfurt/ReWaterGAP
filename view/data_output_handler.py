@@ -6,7 +6,10 @@ Created on Mon Mar 28 14:24:15 2022.
 """
 import xarray as xr
 import numpy as np
+import datetime as dt
+from misc import watergap_version
 from controller import configuration_module as cm
+from view import var_info 
 
 
 class OuputVariable:
@@ -51,7 +54,27 @@ class OuputVariable:
             # Add variables names for respective output varaibes
             self.data[self.variable_name] = \
                 xr.DataArray(dummy_data, coords=self.grid_coords,
-                             dims=('time', 'lat', 'lon'))
+                             dims=('time', 'lat', 'lon'),
+                             )
+            # Add variable metadata
+            self.data[self.variable_name].attrs = {
+                "standard_name": self.variable_name,
+                "long_name": var_info.modelvars[self.variable_name]['long'],
+                "units": var_info.modelvars[self.variable_name]['unit'],
+                }
+
+            # Add global metadata
+            self.data.attrs = {
+                'title': "WaterGAP"+" "+watergap_version.__version__ + ' model ouptput',
+                'institution': watergap_version.__institution__,
+                'contact': "hannes.mueller.schmied@em.uni-frankfurt.de",
+                'model_version':  "WaterGAP"+" "+watergap_version.__version__,
+                "reference": watergap_version.__reference__,
+                'Creation_date':
+                    dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    }
+
+        # ======================================================================================================
 
     def write_daily_ouput(self, array, time_step):
         """
