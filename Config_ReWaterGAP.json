@@ -6,7 +6,8 @@
   "RuntimeOptions": [
     {
       "SimilationOption": {
-        "ant": false
+        "ant": true,
+        "res_opt": "on"
       }
     },
     {
@@ -18,7 +19,7 @@
     {
       "SimilationPeriod": {
         "start": "1901-01-01",
-        "end": "1901-12-31",
+        "end": "1902-12-31",
         "spinup_years": 0
       }
     },
@@ -46,9 +47,9 @@
     },
     {
       "VerticalWaterBalanceStorages": {
-        "canopystor": false,
-        "swe": false,
-        "soilmoist": false
+        "canopystor": true,
+        "swe": true,
+        "soilmoist": true
       }
     },
     {
@@ -58,7 +59,7 @@
         "localwetland_outflow": false,
     	"globallake_outflow": false,
         "globalwetland_outflow": false,
-        "streamflow": false
+        "streamflow": true
       }
     },
     {
@@ -68,7 +69,7 @@
         "localwetland_storage": true,
     	"globallake_storage": true,
     	"globalwetland_storage": true,
-    	"river_storage": false
+    	"river_storage": true
       }
     }
   ]

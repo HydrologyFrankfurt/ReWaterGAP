@@ -19,6 +19,7 @@ from termcolor import colored
 from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
 from controller import read_forcings_and_static as rd
+from controller import wateruse_handler as wateruse
 from core.verticalwaterbalance import vertical_waterbalance as vb
 from core.verticalwaterbalance import parameters as pm
 from core.lateralwaterbalance import lateral_waterbalance as lb
@@ -52,9 +53,11 @@ def run():
     savestate_for_restart = cm.save_states
     restart = cm.restart
     # =====================================================================
-    # Initialize static data, climate forcings and get data dimensions
+    # Initialize static data, climate forcings , wateruse data
+    # and get data dimensions
     # =====================================================================
     initialize_forcings_static = rd.InitializeForcingsandStaticdata()
+    potential_net_abstraction = wateruse.Wateruse()
     grid_coords = initialize_forcings_static.grid_coords
     parameters = pm.Parameters()
 
@@ -73,7 +76,8 @@ def run():
     # Initialize Lateral Water Balance
     # =====================================================================
     lateral_waterbalance = \
-        lb.LateralWaterBalance(initialize_forcings_static, parameters)
+        lb.LateralWaterBalance(initialize_forcings_static,
+                               potential_net_abstraction, parameters)
 
     # ====================================================================
     # Get time range for Loop
@@ -101,9 +105,11 @@ def run():
     end_spinup = np.datetime64(cm.start.split('-')[0]+'-12-31')
     time_range = \
         round((end_spinup - start_date + 1)/np.timedelta64(1, 'D'))
+
     spin_start = np.where(grid_coords['time'].values == start_date)[0].item()
     spin_end = 1 + np.where(grid_coords['time'].values == end_spinup)[0].item()
 
+    #  if there is spinup, simulation date will start with the spinup years.
     simulation_date = grid_coords['time'].values[spin_start:spin_end]
 
     # *********************************************************************
@@ -141,6 +147,16 @@ def run():
             simulation_date = date_main
         for time_step, date in zip(range(time_range), simulation_date):
             # =================================================================
+            #  Get Land area fraction and reservoirs respective years
+            # =================================================================
+            # Get Land area fraction
+            initialize_forcings_static.\
+                landareafrac_with_reservior(date, cm.reservoir_opt_years)
+            # Activate reservoirs for current year
+            lateral_waterbalance.\
+                activate_res_area_storage_capacity(date, cm.reservoir_opt_years)
+
+            # =================================================================
             #  Computing vertical water balance
             # =================================================================
             vertical_waterbalance.\
@@ -151,7 +167,6 @@ def run():
             # =================================================================
             #  Computing lateral water balance
             # =================================================================
-
             lateral_waterbalance.\
                 calculate(vertical_waterbalance.fluxes['groundwater_recharge'],
                           vertical_waterbalance.fluxes['openwater_PET'],
@@ -159,7 +174,8 @@ def run():
                           vertical_waterbalance.fluxes['surface_runoff'],
                           vertical_waterbalance.fluxes['daily_storage_transfer'],
                           initialize_forcings_static.current_landareafrac,
-                          initialize_forcings_static.previous_landareafrac)
+                          initialize_forcings_static.previous_landareafrac,
+                          date)
             if spin_up == 0:
                 # =============================================================
                 # Write vertical and lateralbalacne variables to file
