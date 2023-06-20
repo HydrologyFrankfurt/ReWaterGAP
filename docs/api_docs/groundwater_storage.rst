@@ -46,7 +46,7 @@ The second outflow component NAg: to be completed
    expensive and hence lead to numerical problems.
    
    Since :math:`R_g` , :math:`{R}_{gl,res,w}` and :math:`NA_g`  are constant per each time step, they are grouped as one constant called 
-   Net recharge (:math:`NR=R}_{g} − {R}_{gl,res,w} − {NA}_{g}`). The final balance euqation to solve is then:
+   Net recharge :math:`(NR={R}_{g} − {R}_{gl,res,w} − {NA}_{g})`. The final balance euqation to solve is then:
    
    .. math::
       \frac{dS_g}{d_t} =  NR − {Q}_{g}
