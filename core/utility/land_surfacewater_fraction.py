@@ -6,67 +6,137 @@ Created on Sat Jun  4 19:09:21 2022.
 """
 import numpy as np
 from controller import configuration_module as cm
-
+# For anthropogenic run , cm.ant=True , else naturalised run is activated
 anthroprogenic = cm.ant
+# Reservoirs are activated if cm.reservior_opt="on", else they are deactivated
+reservoir_operation = cm.reservior_opt
 
 
-def get_landareafrac(static_data):
+def compute_landareafrac(landwater_frac, land_area_frac,
+                         resyear_frac=None, res_year=None,
+                         glores_frac_prevyear=None):
     """
-    Get lAnd area fraction.
+    Compute land area fraction.
 
     Parameters
     ----------
-    static_data : TYPE
+    landwater_frac : TYPE
+        DESCRIPTION.
+    resyear_frac : TYPE
+        DESCRIPTION.
+    res_year : TYPE
+        DESCRIPTION.
+    glores_frac_prevyear : TYPE
         DESCRIPTION.
 
     Returns
     -------
-    landAreaFrac : TYPE
+    land_area_frac : TYPE
         DESCRIPTION.
 
     """
-    switch_off_swb = 0
-
     # continental fraction
-    cont_frac = static_data.contfrac.values.astype(np.float64)
+    cont_frac = landwater_frac.contfrac.values.astype(np.float64)
 
     # regulate lake
-    reglake_frac = static_data.reglak[0].values.astype(np.float64)
+    reglake_frac = landwater_frac.reglak[0].values.astype(np.float64)
 
     # Global lake
-    glowet_frac = static_data.glowet[0].values.astype(np.float64)
+    glowet_frac = landwater_frac.glowet[0].values.astype(np.float64)
 
     # Global wetland
-    glolake_frac = static_data.glolak[0].values.astype(np.float64)
+    glolake_frac = landwater_frac.glolak[0].values.astype(np.float64)
 
     # local wetland
-    locwet_frac = static_data.locwet[0].values.astype(np.float64)
+    locwet_frac = landwater_frac.locwet[0].values.astype(np.float64)
 
     # local lake
-    loclake_frac = static_data.loclak[0].values.astype(np.float64)
+    loclake_frac = landwater_frac.loclak[0].values.astype(np.float64)
 
-    # global and local reservior
-    if anthroprogenic is True:
-        glores_frac = static_data.res[0].values.astype(np.float64)
-        locres_frac = static_data.locres[0].values.astype(np.float64)
-        # local reservoir are added to local lakes based on section 4.1 of
-        # Müller Schmied et al. (2021)
-        loclake_frac += locres_frac
-    else:
+    if anthroprogenic is False:
         # regulated lakes becomes global lakes (global lake fraction is
         # increased by regulated lake)
+        # Note!!! regulated lakes are found in global resevoir
         glolake_frac += reglake_frac
-        glores_frac = switch_off_swb
 
-    # Note!!!
-    # regulated lakes are found in global resevoiur
-    land_area_frac = (cont_frac - (glolake_frac + glowet_frac + loclake_frac +
-                                   locwet_frac + glores_frac))/100
-    land_area_frac[land_area_frac < 0] = 0
+        land_area_frac = (cont_frac - (glolake_frac + glowet_frac +
+                                       loclake_frac + locwet_frac))/100
+
+        land_area_frac[land_area_frac < 0] = 0
+
+    # =========================================================================
+    #     Resevoirs
+    # =========================================================================
+    if anthroprogenic is True:
+        if reservoir_operation == "on":
+
+            # Read in global reservoir fraction per year. This reservoir
+            # fraction contains accumulated values per year, specifically
+            # when a grid cell has more than one reservoir fraction (e.g.,
+            # a new dam is built) but with diferernt outflow cells.
+            glores_frac = resyear_frac.glores_frac.sel(time=res_year).\
+                values.astype(np.float64)
+            # changing data dimension from (1,360,720) to (360,720)
+            glores_frac = glores_frac[0]
+
+            # ================================================================
+            # Compute land area fraction at model start and subsequent years
+            # ===============================================================
+            if str(res_year) == cm.start.split('-')[0]:
+                # Read in local reservior.
+                locres_frac = landwater_frac.locres[0].values.astype(np.float64)
+                # local reservoir are added to local lakes based on section 4.1
+                # of Müller Schmied et al. (2021)
+                loclake_frac += locres_frac
+
+                land_area_frac = (cont_frac - (glolake_frac + glowet_frac +
+                                               loclake_frac + locwet_frac +
+                                               glores_frac))/100
+
+                land_area_frac[land_area_frac < 0] = 0
+
+            else:
+                # Compute the change in global reservoir fraction every year to
+                # adapt land area fraction. The numpy equivalent of the if else
+                # statement is written below.
+
+                # if glores_frac_prevyear == 0:
+                #     glores_frac_change = glores_frac
+                # elif glores_frac > glores_frac_prevyear:
+                #     # In this case a grid cell has more than one reservoir
+                #     # fraction but different operational year
+                #     glores_frac_change = glores_frac - glores_frac_prevyear
+                # else:
+                #     glores_frac_change = 0
+
+                mask_zero = glores_frac_prevyear == 0
+                mask_greater = glores_frac > glores_frac_prevyear
+                diff = glores_frac - glores_frac_prevyear
+
+                glores_frac_change = np.where(mask_zero, glores_frac,
+                                              np.where(mask_greater, diff, 0))
+
+                # Recompute land area fraction to account for the changes in
+                #  reservoir fraction.
+                land_area_frac = land_area_frac - (glores_frac_change/100)
+
+                land_area_frac[land_area_frac < 0] = 0
+        else:
+            # regulated lakes becomes global lakes (global lake fraction is
+            # increased by regulated lake)
+            # Note!!! regulated lakes are found in global resevoir
+
+            glolake_frac += reglake_frac
+
+            land_area_frac = (cont_frac - (glolake_frac + glowet_frac +
+                                           loclake_frac + locwet_frac))/100
+
+            land_area_frac[land_area_frac < 0] = 0
+
     return land_area_frac
 
 
-def get_glolake_area(static_data):
+def get_glolake_area(landwater_frac):
     """
     Get global lake area.
 
@@ -81,15 +151,27 @@ def get_glolake_area(static_data):
         DESCRIPTION.
 
     """
-    global_lake_area = static_data.global_lake_area[0].values.\
+    global_lake_area = landwater_frac.global_lake_area[0].values.\
         astype(np.float64)
 
     if anthroprogenic is True:
-        pass
+        if reservoir_operation == "off":
+            # Add reservoir area to lake area in case of regulated lake
+            regulated_lake_status = landwater_frac.regulated_lake_status.values
+            reservior_and_regulated_lake_area = \
+                landwater_frac.reservoir_and_regulated_lake_area[0].values.\
+                astype(np.float64)
+
+            glo_lake_area = np.where(regulated_lake_status == 1, global_lake_area +
+                                     reservior_and_regulated_lake_area,
+                                     global_lake_area)
+        else:
+            glo_lake_area = global_lake_area
     else:
-        regulated_lake_status = static_data.regulated_lake_status.values
+        # Add reservoir area to lake area in case of regulated lake
+        regulated_lake_status = landwater_frac.regulated_lake_status.values
         reservior_and_regulated_lake_area = \
-            static_data.reservoir_and_regulated_lake_area[0].values.\
+            landwater_frac.reservoir_and_regulated_lake_area[0].values.\
             astype(np.float64)
 
         glo_lake_area = np.where(regulated_lake_status == 1, global_lake_area +
