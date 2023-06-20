@@ -113,6 +113,14 @@ class Parameters:
         # drainage area factor.
 
         self.swb_drainage_area_factor = 20 + np.zeros(parameter_size)
+
+        # ============================
+        # Reservior and regulated lake
+        # ============================
+        # Reduction exponent (-) taken from Eqn 25 in (Müller Schmied et al.
+        # (2021)) for reservior and regulated lake.
+        self.reduction_exponent_res = 2.81383 + np.zeros(parameter_size)
+
         # ==================
         # river
         # ==================
