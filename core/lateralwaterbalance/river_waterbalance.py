@@ -9,8 +9,48 @@ from numba import njit
 
 
 @njit(cache=True)
-def river_velocity(river_storage, river_length, river_bottom_width,
+def river_velocity(rout_order, routflow_looper,
+                   river_storage, river_length, river_bottom_width,
                    roughness, roughness_multiplier, river_slope, ):
+    """
+    Compute river velocity for grid cells.
+
+    Parameters
+    ----------
+    rout_order : array
+        Routing order of cells
+    routflow_looper : int
+        looper that goes through the routing order.
+    river_storage : array
+        DESCRIPTION.
+    river_length : TYPE
+        DESCRIPTION.
+    river_bottom_width : TYPE
+        DESCRIPTION.
+    roughness : TYPE
+        DESCRIPTION.
+    roughness_multiplier : TYPE
+        DESCRIPTION.
+    river_slope : TYPE
+        DESCRIPTION.
+     : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    river_velocity : TYPE
+        DESCRIPTION.
+    outflow_constant : TYPE
+        DESCRIPTION.
+
+    """
+    # Index to  print out varibales of interest
+    # e.g  if x==65 and y==137: print(prev_gw_storage)
+    x, y = rout_order[routflow_looper]
+
+    # =========================================================================
+    # Compute river velocity.
+    # =========================================================================
     # Note!!! River velocity is computed in m3/s and later converted to
     # km3/day
 
@@ -42,7 +82,7 @@ def river_velocity(river_storage, river_length, river_bottom_width,
     m_ps_to_km_ps = 86.4
     river_velocity = river_velocity * m_ps_to_km_ps
 
-    # limit  velocity values below  0.00001(cm/day) to  0.00001 (cm/day)
+    # limit  velocity values below  0.00001 to  0.00001
     river_velocity = np.where(river_velocity < 0.00001, 0.00001, river_velocity)
 
     # Now river velocity is divided by river length to be consitent with
@@ -54,9 +94,42 @@ def river_velocity(river_storage, river_length, river_bottom_width,
 
 
 @njit(cache=True)
-def river_water_balance(river_storage, river_inflow, outflow_constant,
+def river_water_balance(rout_order, routflow_looper,
+                        river_storage, river_inflow, outflow_constant,
                         stat_corr_fact):
+    """
+    Compute River water balance including storages and fluxes.
 
+    Parameters
+    ----------
+    rout_order : TYPE
+        DESCRIPTION.
+    routflow_looper : TYPE
+        DESCRIPTION.
+    river_storage : TYPE
+        DESCRIPTION.
+    river_inflow : TYPE
+        DESCRIPTION.
+    outflow_constant : TYPE
+        DESCRIPTION.
+    stat_corr_fact : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    river_storage : TYPE
+        DESCRIPTION.
+    streamflow : TYPE
+        DESCRIPTION.
+
+    """
+    # Index to  print out varibales of interest
+    # e.g  if x==65 and y==137: print(prev_gw_storage)
+    x, y = rout_order[routflow_looper]
+
+    # =========================================================================
+    # Compute river water balance
+    # =========================================================================
     river_storage_prev = river_storage
 
     # Note!!! even though river evaporation is not considered, variables are

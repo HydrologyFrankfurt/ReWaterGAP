@@ -16,8 +16,10 @@
 # =============================================================================
 
 import numpy as np
+import pandas as pd
 from core.lateralwaterbalance import river_property as rvp
 from core.lateralwaterbalance import rout_flow as rt
+from controller import configuration_module as cm
 
 
 class LateralWaterBalance:
@@ -28,21 +30,22 @@ class LateralWaterBalance:
     storages = {}
     land_swb_fraction = {}
 
-    def __init__(self, forcings_static, parameters):
+    def __init__(self, forcings_static, pot_net_abstraction, parameters):
         # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        # Initialize storages and process propteries for lateral water balance
+        # Initialize storages, wateruse and process properies for lateral
+        # water balance
         # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        self.static_data = forcings_static.static_data
         #                  =================================
         #                  ||     Continent properties    ||
         #                  =================================
         # Cell area , Units : km2
-        self.cell_area = forcings_static.static_data.cell_area.\
+        self.cell_area = self.static_data.cell_area.\
             astype(np.float64)
         self.parameters = parameters
-        self.arid = forcings_static.static_data.humid_arid
+        self.arid = self.static_data.humid_arid
         self.drainage_direction = \
-            forcings_static.static_data.\
-            soil_static_files.drainage_direction[0].values
+            self.static_data.soil_static_files.drainage_direction[0].values
 
         #                  =================================
         #                  ||          Groundwater        ||
@@ -62,7 +65,7 @@ class LateralWaterBalance:
         #                  =================================
         #                  ||          Local lake         ||
         #                  =================================
-        self.loclake_frac = forcings_static.static_data.\
+        self.loclake_frac = self.static_data.\
             land_surface_water_fraction.loclak[0].values.astype(np.float64)/100
 
         # Initializing local lake storage to maximum
@@ -77,7 +80,7 @@ class LateralWaterBalance:
         #                  ||          Local wetland      ||
         #                  =================================
 
-        self.locwet_frac = forcings_static.static_data.\
+        self.locwet_frac = self.static_data.\
             land_surface_water_fraction.locwet[0].values.astype(np.float64)/100
 
         # Initializing local weltland storage to maximum
@@ -91,7 +94,7 @@ class LateralWaterBalance:
         #                  ||          Global lake        ||
         #                  =================================
 
-        self.glolake_frac = forcings_static.static_data.\
+        self.glolake_frac = self.static_data.\
             land_surface_water_fraction.glolak[0].values.astype(np.float64)/100
 
         # Global lake area Units : km2
@@ -104,7 +107,7 @@ class LateralWaterBalance:
         #                  =================================
         #                  ||        Global  wetland      ||
         #                  =================================
-        self.glowet_frac = forcings_static.static_data.\
+        self.glowet_frac = self.static_data.\
             land_surface_water_fraction.glowet[0].values.astype(np.float64)/100
 
         # Initializing global weltland storage to maximum, , Units : km3
@@ -122,29 +125,29 @@ class LateralWaterBalance:
         # corrected with continental area fraction (km).
 
         # River slope (-),
-        river_slope = forcings_static.static_data.river_static_files.\
+        river_slope = self.static_data.river_static_files.\
             river_slope[0].values.astype(np.float64)
 
         # Roughness (-)
         roughness = \
-            forcings_static.static_data.river_static_files.\
+            self.static_data.river_static_files.\
             river_bed_roughness[0].values.astype(np.float64)
 
         # Roughness multiplier (-)
         self.roughness_multiplier = \
-            forcings_static.static_data.river_static_files.\
+            self.static_data.river_static_files.\
             river_roughness_coeff_mult.values.astype(np.float64)
 
         # River length (km)**
-        river_length = forcings_static.static_data.river_static_files.\
+        river_length = self.static_data.river_static_files.\
             river_length[0].values.astype(np.float64)
 
         # Bank full river flow (m3/s)
-        bankfull_flow = forcings_static.static_data.river_static_files.\
+        bankfull_flow = self.static_data.river_static_files.\
             bankfull_flow[0].values.astype(np.float64)
 
         # continental area fraction (-)
-        continental_fraction = forcings_static.static_data.\
+        continental_fraction = self.static_data.\
             land_surface_water_fraction.contfrac.values.astype(np.float64)
 
         self.get_river_prop = rvp.RiverProperties(river_slope, roughness,
@@ -152,7 +155,7 @@ class LateralWaterBalance:
                                                   continental_fraction)
 
         # Initiliase routing order and respective outflow cell
-        rout_order = forcings_static.static_data.rout_order
+        rout_order = self.static_data.rout_order
         self.rout_order = rout_order[['Lat_index_routorder',
                                       'Lon_index_routorder']].to_numpy()
 
@@ -163,10 +166,62 @@ class LateralWaterBalance:
         # Units : km3
         self.river_storage = self.get_river_prop.max_river_storage
 
-        #                  =================================
-        #                  ||    Regulated lake storage   ||
-        #                  =================================
-        self.reglake_frac = forcings_static.static_data.\
+        #                  ===============================================
+        #                  ||   Reservior and  Regulated lake storage   ||
+        #                  ===============================================
+        # Initializing global reservior stoarge, area and capacity to zero.
+        # Note that once reservoirs are not active their coresponding storage,
+        # area and capacity will be  zero.
+        # (see activate_res_area_storage_capacity function).
+
+        self.glores_storage = np.zeros((forcings_static.lat_length,
+                                        forcings_static.lon_length))
+
+        self.glores_area = np.zeros((forcings_static.lat_length,
+                                     forcings_static.lon_length))
+
+        self.glores_capacity = np.zeros((forcings_static.lat_length,
+                                         forcings_static.lon_length))
+
+        # Reservoir type (1==irrgiation, 2==non irrigation)
+        self.glores_type = self.static_data.\
+            res_reg_files.reservoir_type[0].values.astype(np.int32)
+
+        # Reservoir start year  units: year
+        self.glores_startyear = self.static_data.\
+            res_reg_files.startyear[0].values.astype(np.int32)
+
+        # Reservoir start year  units: year
+        self.glores_startmonth = self.static_data.\
+            res_reg_files.startmonth[0].values.astype(np.int32)
+
+        # Allocation coefficient for 5 downstream cells according to routing
+        # order (see Hanasaki et al 2006.)
+        alloc_coeff = self.static_data.alloc_coeff
+        self.allocation_coeff = \
+            alloc_coeff[alloc_coeff.columns[-5:]].to_numpy()
+
+        # Mean annual total water demand of the reservoir from 1971 to 2000
+        # read in units: m3/year, converted units : m3/s
+        # 31536000=(365 * 24 * 60 * 60)
+        year_to_s = 31536000
+        self.mean_annual_demand_res = self.static_data.\
+            res_reg_files.mean_nus[0].values.astype(np.float64) / year_to_s
+
+        # Mean annual inflow in to reservior
+        # read in units: km3/month, converted units : m3/s
+        # note: km3/month is first converted to km3/year before m3/s
+        self.mean_annaul_inflow_res = self.static_data.res_reg_files.\
+            mean_inflow[0].values.astype(np.float64) * 12 * 1e9 / year_to_s
+
+        # reservoir release coefficient  units: (-)
+        # E.g  for environmental flow requirement reselease is initialised
+        # as 0.1
+        self.k_release = np.zeros((forcings_static.lat_length,
+                                   forcings_static.lon_length)) + 0.1
+
+        # Regulated lake fraction
+        self.reglake_frac = self.static_data.\
             land_surface_water_fraction.reglak[0].values.astype(np.float64)/100
 
         # Regulated lake storage, Units : km3 *****
@@ -174,12 +229,77 @@ class LateralWaterBalance:
         #                  =================================
         #                  ||    Head water cells         ||
         #                  =================================
-        self.headwater = forcings_static.static_data.\
+        self.headwater = self.static_data.\
             land_surface_water_fraction.headwater_cell.values
 
+        #                  =================================
+        #                  ||           WaterUSe         ||
+        #                  =================================
+        self.potential_net_abstraction = pot_net_abstraction.\
+            potential_net_abstraction
+
+    def activate_res_area_storage_capacity(self, simulation_date,
+                                           reservoir_opt_year):
+        """
+        Activate storage,area and capacity of reservoir in current year.
+
+        Parameters
+        ----------
+        simulation_date : TYPE
+            DESCRIPTION.
+        reservoir_opt_year : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        # Deactivate storage,area and capacity of reservoir that are not active
+        # in current year
+        if cm.reservior_opt == "on":
+            if simulation_date in reservoir_opt_year:
+                resyear = int(pd.to_datetime(simulation_date).year)
+
+                glores_storage_active = self.static_data.\
+                    res_reg_files.stor_cap[0].values.astype(np.float64)
+
+                # Initialize reserviour and regulated lake area, Units :km2
+                glores_area_active = self.static_data.\
+                    land_surface_water_fraction.reservoir_and_regulated_lake_area[0].\
+                    values.astype(np.float64)
+
+                # Initialize reservior capacity,  Units : km3
+                glores_capacity_active = self.static_data.\
+                    res_reg_files.stor_cap[0].values.astype(np.float64)
+
+                # # Initialize newly activated global reservior storage in
+                # the current year to maximum,  Units : km3
+                # Keep storage values of already activate reservoirs
+                self.glores_storage = np.where(self.glores_startyear == resyear,
+                                               glores_storage_active,
+                                               self.glores_storage)
+
+                # Initialize newly activated global reservior area, Units : km2
+                # Keep area values of already activate reservoirs
+                self.glores_area = np.where(self.glores_startyear == resyear,
+                                            glores_area_active,
+                                            self.glores_area)
+
+                # Initialize newly activated global reservior capacity,
+                # Units : km3, Keep capacity values of already activate
+                # reservoirs
+                self.glores_capacity = np.where(self.glores_startyear == resyear,
+                                                glores_capacity_active,
+                                                self.glores_capacity, )
+
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # Calculate Lateral Water Balance
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     def calculate(self, diffuse_gw_recharge, openwater_pot_evap, precipitation,
                   surface_runoff, daily_storage_transfer,
-                  current_landarea_frac, previous_landarea_frac):
+                  current_landarea_frac, previous_landarea_frac,
+                  simulation_date):
         """
         Calculate lateral water balance.
 
@@ -226,6 +346,22 @@ class LateralWaterBalance:
                                   daily_storage_transfer, surface_runoff)
 
         # =====================================================================
+        # Selecting potential net abstraction for surface water for current
+        # month
+        # =====================================================================
+        #           ===================================================
+        #           || Potential net abstraction from surface water ||
+        #           ==================================================
+        date = simulation_date.astype("datetime64[M]")
+        potential_net_abstraction = self.potential_net_abstraction.sel(
+            time=str(date))
+        # Actual name: Potential net abstraction from surface water NApot,
+        # Unit=m3/month
+        # yet to activate water use
+        potential_net_abstraction_sw = np.zeros(surface_runoff.shape)
+        # potential_net_abstraction.pnas.values.astype(np.float64)
+
+        # =====================================================================
         # Preparing input variables for river routing
         # =====================================================================
         # Routing is optimised for with numba
@@ -246,7 +382,25 @@ class LateralWaterBalance:
         locwet_storage = self.locwet_storage.copy()
         glolake_storage = self.glolake_storage.copy()
         glolake_area = self.glolake_area.copy()
+
+        glores_storage = self.glores_storage.copy()
+        glores_capacity = self.glores_capacity.copy()
+        glores_area = self.glores_area.copy()
+        glores_type = self.glores_type.copy()
+        mean_annual_demand_res = self.mean_annual_demand_res.copy()
+        mean_annaul_inflow_res = self.mean_annaul_inflow_res.copy()
+        allocation_coeff = self.allocation_coeff.copy()
+        glores_startmonth = self.glores_startmonth.copy()
+        k_release = self.k_release.copy()
+        # current_mon_day will be used to check if reservoirs opreation start
+        # in current month. This is required to calulate the release factor
+        # using the  Hanasaki reservoir algorithm
+        # (see module reservior_and_regulated_lakes.py )
+        current_mon_day = np.array([int(pd.to_datetime(simulation_date).month),
+                                    int(pd.to_datetime(simulation_date).day)])
+
         glowet_storage = self.glowet_storage.copy()
+
         river_storage = self.river_storage.copy()
         river_length = self.get_river_prop.river_length.copy()
         river_bottom_width = self.get_river_prop.river_bottom_width.copy()
@@ -269,41 +423,51 @@ class LateralWaterBalance:
                       glowet_frac, glolake_frac, glolake_area,
                       reglake_frac, headwater, loclake_storage,
                       locwet_storage, glolake_storage, glowet_storage,
-                      precipitation, openwater_pot_evap, river_storage,
-                      river_length, river_bottom_width, roughness,
-                      roughness_multiplier, river_slope, outflow_cell,
+                      glores_storage, glores_capacity, glores_area,
+                      glores_type, mean_annual_demand_res,
+                      mean_annaul_inflow_res, allocation_coeff, k_release,
+                      glores_startmonth, precipitation, openwater_pot_evap,
+                      river_storage, river_length, river_bottom_width,
+                      roughness, roughness_multiplier, river_slope,
+                      outflow_cell,
                       self.parameters.gw_dis_coeff,
                       self.parameters.swb_drainage_area_factor,
                       self.parameters.swb_outflow_coeff,
                       self.parameters.gw_recharge_constant,
                       self.parameters.reduction_exponent_lakewet,
+                      self.parameters.reduction_exponent_res,
                       self.parameters.areal_corr_factor,
                       self.parameters.lake_out_exp,
                       self.parameters.activelake_depth,
                       self.parameters.wetland_out_exp,
                       self.parameters.activewetland_depth,
-                      self.parameters.stat_corr_fact)
+                      self.parameters.stat_corr_fact,
+                      current_mon_day,
+                      potential_net_abstraction_sw)
 
+        # update variables for next timestep or output.
         self.groundwater_storage = out[0]
         self.loclake_storage = out[1]
         self.locwet_storage = out[2]
         self.glolake_storage = out[3]
-        self.glowet_storage = out[4]
-        self.river_storage = out[5]
-        groundwater_discharge = out[6]
-        loclake_outflow = out[7]
-        locwet_outflow = out[8]
-        glolake_outflow = out[9]
-        glowet_outflow = out[10]
+        self.glores_storage = out[4]
+        self.k_release = out[5]
+        self.glowet_storage = out[6]
+        self.river_storage = out[7]
+        groundwater_discharge = out[8]
+        loclake_outflow = out[9]
+        locwet_outflow = out[10]
+        glolake_outflow = out[11]
+        glowet_outflow = out[12]
 
         # Streamflow is only stored for all cells except inland sinks
-        streamflow = np.where(drainage_direction >= 0, out[11], np.nan)
+        streamflow = np.where(drainage_direction >= 0, out[13], np.nan)
 
-        updated_locallake_fraction = out[13]
-        updated_localwetland_fraction = out[14]
-        updated_globalwetland_fraction = out[15]
+        updated_locallake_fraction = out[15]
+        updated_localwetland_fraction = out[16]
+        updated_globalwetland_fraction = out[17]
 
-        # print(streamflow[96, 195], streamflow[182, 257])
+        # print(streamflow[94, 193], streamflow[182, 257])
         # =====================================================================
         # Getting all storages
         # =====================================================================

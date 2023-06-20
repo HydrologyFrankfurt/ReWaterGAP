@@ -9,7 +9,7 @@
 # if not see <https://www.gnu.org/licenses/lgpl-3.0>
 # =============================================================================
 
-"""Local lakes and wetland storages."""
+"""Local lakes and wetland storages and fluxes."""
 
 # =============================================================================
 # This module computes water balance for global and local lakes and wetlands,
@@ -23,7 +23,8 @@ from core.lateralwaterbalance import reduction_factor as rf
 
 
 @njit(cache=True)
-def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
+def lake_wetland_balance(rout_order, routflow_looper,
+                         choose_swb, storage, lakewet_frac, precipitation,
                          openwater_pot_evap, aridity, drainage_direction,
                          inflow_to_swb, swb_outflow_coeff,
                          groundwater_recharge_constant,
@@ -37,6 +38,10 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
 
     Parameters
     ----------
+    rout_order : array
+        Routing order of cells
+    routflow_looper : int
+        looper that goes through the routing order.
     choose_swb : string
         Select surface waterbody (global and local lakes and wetlands)
     storage : array
@@ -74,15 +79,18 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
 
     Returns
     -------
-    storage : TYPE
+    storage :  array
         Updated daily surface waterbody storage, Unit: [km3]
-    outflow : TYPE
+    outflow :  array
         Daily surface waterbody outflow, Unit: [km3/day]
-    gwr_lakewet : TYPE
+    gwr_lakewet :  array
         Daily groundwater recharge from surface water body outflow
         (arid region only), Unit: [km3/day]
 
     """
+    # Index to  print out varibales of interest
+    # e.g  if x==65 and y==137: print(prev_gw_storage)
+    x, y = rout_order[routflow_looper]
 
     # =========================================================================
     #     Parameters for respective surface waterbody.
@@ -105,15 +113,15 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
     # Computing reduction factor (km2/day) and maximum storage(km3/day) for
     # local and global lakes and wetlands. Equation 24 & 25 in
     # (Müller Schmied et al. (2021)) .
-    # Outputs from lake_and_wetlands_redufactor function is reduction factor
+    # Outputs from swb_redufactor function is reduction factor
     # =========================================================================
     # convert m to km
     m_to_km = 0.001
 
     # Note!!! Global lake area has absolute lake area in the outflow cell.
-    # hence the outflow cell is used for waterbalance calulation
-    # since global lake area is absolute, lakewet_frac = aboslute lake area
-    # The rest (local lakes and global and local wetlands) uses area fractions
+    # hence the outflow cell is used for waterbalance calulation.
+    # The rest (local lakes and global and local wetlands) uses respective
+    # waterbody fractions multiplied by the grid cell area
 
     if choose_swb == "global lake":
         max_area = lakewet_frac
@@ -123,11 +131,10 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
     max_storage = max_area * active_depth * m_to_km
 
     redfactor = \
-        rf.loclake_and_wetlands_redufactor(storage_prevstep, max_storage,
-                                           choose_swb,
-                                           reduction_exponent_lakewet)
+        rf.swb_redfactor(storage_prevstep, max_storage,
+                         reduction_exponent_lakewet, choose_swb)
 
-    # For global lake, reduction factor is only used for reducting evaporation
+    # For global lake, reduction factor is only used for reducing evaporation
     # and not area since global lake area is assumed not to be dynamic.
     # This would prevent continuous decline of global lake levels in some cases
     # i.e. ((semi)arid regions)
@@ -140,10 +147,12 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
         lake_wet_area = redfactor * max_area
         # lake_wet_newfraction = redfactor * lakewet_frac
     # =========================================================================
-    # Computing lake or wetland corrected evaporation (openwater_evapo[km/day])
+    # Computing lake or wetland corrected evaporation
+    # (openwater_evapo_cor[km3/day])
     # =========================================================================
     # /////////////////////////////////////////////////////////////////////////
-    # CFA correction approach for open water evaporation
+    # Areal correction factor (CFA) approach for correcting
+    # open water evaporation.
 
     # Water balance of surface waterbodies (lakes,wetlands and reservoir)
     # except rivers is given as: See Eqn. 22 in Müller Schmied et al. (2021).
@@ -177,19 +186,20 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
     else:  # local lakes and global and local wetlands
         openwater_pet = openwater_pot_evap
 
-    openwater_evapo = (1 - areal_corr_factor) * precipitation + \
+    openwater_evapo_cor = (1 - areal_corr_factor) * precipitation + \
         (areal_corr_factor * openwater_pet)
 
-    openwater_evapo = np.where(openwater_evapo < 0, 0, openwater_evapo)
+    openwater_evapo_cor = np.where(openwater_evapo_cor < 0, 0,
+                                   openwater_evapo_cor)
 
     # =========================================================================
     # Calculating lake or wetland  groundwater recharge[gwr_lakewet (km3/day)]
     # =========================================================================
-    # Point source recharge is calculated for arid regions only. Except in arid
-    # inland sinks.
+    # Point_source_recharge is only computed for (semi)arid surafce water
+    # bodies but not for  inlank sink or humid regions
     if choose_swb == "global lake":
-        # Recharge for global lake needs to be reduced else more water will
-        # recharge the ground since global lake area is assumed not be dynamic
+        # Since global lake area is assumed not be dynamic, recharge needs to
+        # be reduced else more water will recharge the ground
         gwr_lakewet = np.where((aridity == 1) & (drainage_direction >= 0),
                                groundwater_recharge_constant * m_to_km *
                                lake_wet_area * evapo_redfactor, 0)
@@ -204,16 +214,21 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
     # =========================================================================
     total_inflow = inflow_to_swb + precipitation * lake_wet_area
 
+    # *****************************************
+    # If both global lake and reservoir are found in the same outflow cell.
+    # The demand is shared equally(50%) between.
+    # *****************************************
     # =========================================================================
     # Combininig  open water PET and point source recharge into petgwr(km3/day)
     # =========================================================================
-    # petgwr will change for Global lake if water-use is considerd ******
-    petgwr = openwater_evapo * lake_wet_area + gwr_lakewet
+    # petgwr will change for global lake if water-use is considerd ******
+    petgwr = openwater_evapo_cor * lake_wet_area + gwr_lakewet
 
     # Computing  petgwr_max.
+    # This is the maximum amount of openwater_evapo_cor + gwr_lakewet to ensure
+    # that lake (wetland) storage does not fall below  -max_storage (0):.
     # Note!! lake (wetland) storage goes from -max_storage (0) to max_storage
-    # and hence petgwr_max is calulated to help prevent lake (wetland) storage
-    # from going beyond  -max_storage(0)
+
     if choose_swb == "local lake" or choose_swb == "global lake":
         petgwr_max = storage_prevstep + max_storage + total_inflow
     else:  # local and global wetlands
@@ -235,7 +250,7 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
 
         gwr_lakewet *= (petgwr_max/petgwr)
 
-        openwater_evapo *= (petgwr_max/petgwr)
+        openwater_evapo_cor *= (petgwr_max/petgwr)
 
     # =========================================================================
     #                   Computing storage for surface waterbody
@@ -268,11 +283,10 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
                 outflow += (storage - max_storage)
                 storage = max_storage
 
-            # Recalculate global lake abd wetland storage when lake outflow = 0
+            # Recalculate global lake and wetland storage when lake outflow = 0
             # dS/dt = total_inflow - petgwr - NAl
             # (without k*S) -> S(t) = S(t-1) + netgw_in
-            # Claudia onlly used less than**
-            if outflow < 0:  # update outflow (Claudia onlly used less than**)
+            if outflow < 0:  # update outflow
                 outflow = 0
                 storage = net_in + storage_prevstep
 
@@ -299,10 +313,10 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
         else:
             which_storge = storage  # current storage
 
-        # Note: For local lakes storage can become negative(even if previous
-        # storage is positive) hence exponential expression is computed for
-        # positive storages only.
-        # This means that for negatve storage  outflow is set to zero
+        # Note: local lakes storage can become negative even if previous
+        # storage is positive(e.g. high evaporation) hence exponential
+        # expression for outflow is computed for positive storages only.
+        # This means that for negatve storage outflow is set to zero
         if which_storge > 0:
             outflow = swb_outflow_coeff * which_storge * \
                 (which_storge/max_storage)**exp_factor
@@ -323,14 +337,14 @@ def lake_wetland_balance(choose_swb, storage, lakewet_frac, precipitation,
             outflow += (storage - max_storage)
             # updating storage
             storage = max_storage
-    
+
     new_redfactor = \
-        rf.loclake_and_wetlands_redufactor(storage, max_storage,
-                                           choose_swb,
-                                           reduction_exponent_lakewet)
+        rf.swb_redfactor(storage, max_storage,
+                         reduction_exponent_lakewet, choose_swb)
+
     if choose_swb == 'global lake':
         lake_wet_newfraction = 0
     else:
         lake_wet_newfraction = new_redfactor * lakewet_frac
-        
+
     return storage, outflow, gwr_lakewet, lake_wet_newfraction

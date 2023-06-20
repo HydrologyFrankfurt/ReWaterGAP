@@ -21,7 +21,8 @@ from numba import njit
 
 
 @njit(cache=True)
-def frac_routing(surface_runoff, groundwater_discharge, loclake_frac,
+def frac_routing(rout_order, routflow_looper,
+                 surface_runoff, groundwater_discharge, loclake_frac,
                  locwet_frac, glowet_frac, glolake_frac,
                  reglake_frac, headwater_cell, drainage_direction,
                  swb_drainage_area_factor):
@@ -30,6 +31,10 @@ def frac_routing(surface_runoff, groundwater_discharge, loclake_frac,
 
     Parameters
     ----------
+    rout_order : array
+        Routing order of cells
+    routflow_looper : int
+        looper that goes through the routing order.
     surface_runoff : array
         Daily volumetric surface runoff, unit: km3/day.
     groundwater_discharge : array
@@ -48,11 +53,14 @@ def frac_routing(surface_runoff, groundwater_discharge, loclake_frac,
         water bodies, unit: km3/day.
 
     """
-
+    # Index to  print out varibales of interest
+    # e.g  if x==65 and y==137: print(prev_gw_storage)
+    x, y = rout_order[routflow_looper]
     # =========================================================================
     #  Computing fractional routing factor(fswb_catchment)
     # =========================================================================
-    # fswb_catchment is a static value
+    # fswb_catchment is calulated as 20 * (wetland and local lake fraction),
+    # see section 4 of  (Müller Schmied et al. (2021)
     fswb_catchment = (loclake_frac + locwet_frac + glowet_frac) * \
         swb_drainage_area_factor
 
@@ -76,7 +84,7 @@ def frac_routing(surface_runoff, groundwater_discharge, loclake_frac,
     #   Inland sinks
     # =========================================================================
     # Surface runoff and groundwater discharge fills an inland sink.
-    # Also there are no outflows the inland sinks.
+    # There are no outflows from the inland sinks.
     local_runoff_river = \
         np.where(drainage_direction < 0, 0, local_runoff_river)
 
@@ -90,7 +98,8 @@ def frac_routing(surface_runoff, groundwater_discharge, loclake_frac,
 
     # =========================================================================
     # Combining routed surface runoff and groundwater discharge into local
-    # runoff. The remaining discharge is combined into local river inflow
+    # runoff.  Routed discharge from groundwater and remaining routed surface
+    # runoff to river is combined into local river inflow
     # =========================================================================
     local_runoff = local_runoff_swb + local_gwrunoff_swb
     local_river_inflow = local_runoff_river + local_gwrunoff_river
