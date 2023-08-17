@@ -7,7 +7,7 @@
     {
       "SimilationOption": {
         "ant": true,
-        "res_opt": "on"
+        "res_opt": "off"
       }
     },
     {
@@ -47,9 +47,9 @@
     },
     {
       "VerticalWaterBalanceStorages": {
-        "canopystor": true,
-        "swe": true,
-        "soilmoist": true
+        "canopystor": false,
+        "swe": false,
+        "soilmoist": false
       }
     },
     {
@@ -59,17 +59,17 @@
         "localwetland_outflow": false,
     	"globallake_outflow": false,
         "globalwetland_outflow": false,
-        "streamflow": true
+        "streamflow": false
       }
     },
     {
       "LateralWaterBalanceStorages": {
-        "groundwater_storage": true,
-        "locallake_storage": true,
-        "localwetland_storage": true,
-    	"globallake_storage": true,
-    	"globalwetland_storage": true,
-    	"river_storage": true
+        "groundwater_storage": false,
+        "locallake_storage": false,
+        "localwetland_storage": false,
+    	"globallake_storage": false,
+    	"globalwetland_storage": false,
+    	"river_storage": false
       }
     }
   ]
