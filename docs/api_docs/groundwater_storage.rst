@@ -38,7 +38,7 @@ Groundwater discharge, :math:`Q_g (m^3 {d}^{-1})` to surface waterbodies is an o
 
 
 WaterGAP computes actual net abstraction from groundwater, :math:`NA_g (m^3 {d}^{-1})` from the potential net groundwater abstraction. 
-The potential net abstraction from groundwater is computed from the Groundwater-Surface Water Use (GWSWUSE) model(see section 2 of Müller Schmied et al 2021 [1]_.)
+The potential net abstraction from groundwater is computed from the Groundwater-Surface Water Use (GWSWUSE) model (see section 2 of Müller Schmied et al 2021 [1]_).
 Details on the computation of the actual net abstaction groundwater can be found in the **Water Abstraction** section. 
 
 
