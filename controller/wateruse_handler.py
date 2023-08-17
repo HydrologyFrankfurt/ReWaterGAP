@@ -7,6 +7,7 @@ Created on Thu Mar  3 18:21:35 2022
 @author: nyenah
 """
 import logging
+import numpy as np
 from pathlib import Path
 import glob
 import os
@@ -15,7 +16,7 @@ import xarray as xr
 import watergap_logger as log
 import misc.cli_args as cli
 from controller import configuration_module as cm
-
+from core.lateralwaterbalance import aggregate_netabstraction as aggr
 
 # ===============================================================
 # Get module name and remove the .py extension
@@ -35,7 +36,7 @@ args = cli.parse_cli()
 
 
 class Wateruse:
-    """Handles climate forcing data."""
+    """Handles water use and relevant static data."""
 
     def __init__(self):
         """
@@ -52,6 +53,12 @@ class Wateruse:
         potential_net_abstraction_path = \
             str(Path(cm.config_file['FilePath']['inputDir'] + r'water_use/*'))
 
+        frgi_path = str(Path(cm.config_file['FilePath']['inputDir'] +
+                             r'static_input/watergap_22d_frgi.nc4'))
+
+        glwdunits_path = str(Path(cm.config_file['FilePath']['inputDir'] +
+                             r'static_input/watergap_22d_glwdunits.nc'))
+
         # ==============================================================
         # Loading in Wateruse
         # ==============================================================
@@ -59,6 +66,14 @@ class Wateruse:
             self.potential_net_abstraction = \
                 xr.open_mfdataset(glob.glob(potential_net_abstraction_path),
                                   chunks={'time': 365})
+            # Fraction of return flow from irrigation to groundwater
+            # See Döll et al 2012, eqn 1
+            self.frac_irri_returnflow_to_gw = \
+                xr.open_dataset(frgi_path, decode_times=False)
+
+            # Riprian cells of global lake or reservoir
+            self.glwdunits = \
+                xr.open_dataset(glwdunits_path, decode_times=False)
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Climate forcing '
@@ -71,3 +86,29 @@ class Wateruse:
         else:
             print('Water-use input files loaded successfully')
 
+    def aggregate_riparian_netpotabs(self, lake_area, res_area, netabs):
+        """
+        Aggregate riparian potential net abstractiion.
+
+        Parameters
+        ----------
+        lake_area : TYPE
+            DESCRIPTION.
+        res_area : TYPE
+            DESCRIPTION.
+        netabs : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        aggreagted_potnet_abstraction : TYPE
+            DESCRIPTION.
+
+        """
+        glwdunits = self.glwdunits.glwdunits.values
+        unique_glwdunits = np.unique(glwdunits)[1:-1]
+
+        aggreagted_potnet_abstraction = \
+            aggr.aggregate_potnetabs(glwdunits, lake_area, res_area,
+                                     netabs, unique_glwdunits)
+        return aggreagted_potnet_abstraction
