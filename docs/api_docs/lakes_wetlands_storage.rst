@@ -15,7 +15,7 @@ Lakes and wetland storage  :math:`{S}_{l,w}` :math:`(m^3)` is computated as
 where :math:`{Q}_{in}' is inflow into the lake or wetland from upstream (:math:`m^3 {d}^{-1}`), 
 :math:`A' is global (or local) water body surface area (:math:`m^2`) in the grid cell at time step t,
 :math:`P' is precipitation (:math:`m^3 {d}^{-1}`),
-:math:`{E}_{pot}' is potential evapotranspiration (:math:`m^3 {d}^{-1}`), Rgl;res;w
+:ref:`:math:`{E}_{pot}' <pot_evap>`  is potential evapotranspiration (:math:`m^3 {d}^{-1}`), Rgl;res;w
 is groundwater recharge from the water body (only in
 arid/semiarid regions) (m3 d−1, Eq. 26), NAl;res is the net
 abstraction from the lakes and reservoirs (m3 d−1) 
