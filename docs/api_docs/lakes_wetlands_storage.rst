@@ -26,7 +26,7 @@ to be completed soon
 
 Outflows
 --------
-to ne completed soon
+to be completed soon
 
 References 
 ----------
