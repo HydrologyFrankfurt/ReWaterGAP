@@ -163,7 +163,7 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
         openwater_evapo_cor *= (petgwr_max/petgwr)
 
     else:
-        # reservior is solved numerically.
+        # reservior water balance  is solved numerically.
         storage = storage_prevstep + total_inflow - petgwr
 
     release, k_release_new = hanaski.\

@@ -23,27 +23,18 @@
 
 import numpy as np
 from numba import njit
-
-
-@njit(cache=True)
-def update_netabs_gw():
-    """
-    Update net groundwater abstraction.
-
-    Returns
-    -------
-    int
-        DESCRIPTION.
-
-    """
-    return 0
+from core.lateralwaterbalance import adapt_netabs_groundwater as adapt_gw_abs
 
 
 @njit(cache=True)
 def compute_groundwater_balance(rout_order, routflow_looper,
                                 aridity_or_inlandsink, groundwater_storage,
-                                diffuse_gw_recharge, netabs_gw,
-                                remaining_use, gw_dis_coeff,
+                                diffuse_gw_recharge,
+                                potential_net_abstraction_gw,
+                                daily_unsatisfied_pot_nas, gw_dis_coeff,
+                                prev_potential_water_withdrawal_sw_irri,
+                                prev_potential_consumptive_use_sw_irri,
+                                frac_irri_returnflow_to_gw,
                                 point_source_recharge=None):
     """
     Compute daily groundwater balance including storages and related fluxes.
@@ -60,10 +51,10 @@ def compute_groundwater_balance(rout_order, routflow_looper,
         Daily groundwater storage, Unit: [km^3]
     diffuse_gw_recharge : array
         Daily difuuse groundwater recharge, Unit: [km^3/day]
-    netabs_gw : array
-        Net abstraction from groundwater, Unit: [km^3/day]
-    remainingUse : array
-        Daily total unsatisfied water use, Unit: [km^3/day]
+    potential_net_abstraction_gw : array
+        Potential net abstraction from groundwater, Unit: [km^3/day]
+    daily_unsatisfied_pot_nas : array
+        Daily unsatisfied water use, Unit: [km^3/day]
     gw_dis_coeff : array
         Groundwater discharge coefficient (Döll et al., 2014)
     point_source_recharge : array
@@ -82,6 +73,12 @@ def compute_groundwater_balance(rout_order, routflow_looper,
     # e.g  if x==65 and y==137: print(prev_gw_storage)
     x, y = rout_order[routflow_looper]
 
+    #                  ======================================
+    #                  ||  groundwaterwater balance    ||
+    #                  ======================================
+    # Note components of the waterbalance in Equation 20 of Müller Schmied et
+    # al. (2021) is calulated as follows.
+
     prev_gw_storage = groundwater_storage
 
     # =========================================================================
@@ -98,17 +95,26 @@ def compute_groundwater_balance(rout_order, routflow_looper,
 
     # Update net abstraction from groundwater if there is unsatisfied water use
     # from previous time step.
-    netabs_gw_updated = np.where(remaining_use != 0, update_netabs_gw(),
-                                 netabs_gw)
+    actual_net_abstraction_gw = \
+        np.where(daily_unsatisfied_pot_nas != 0,
+                 adapt_gw_abs.
+                 update_netabs_gw(potential_net_abstraction_gw,
+                                  prev_potential_water_withdrawal_sw_irri,
+                                  prev_potential_consumptive_use_sw_irri,
+                                  daily_unsatisfied_pot_nas,
+                                  frac_irri_returnflow_to_gw,
+                                  rout_order, routflow_looper),
+                 potential_net_abstraction_gw)
 
     # Updating net groundwater recharge (netgw_in [km3])
-    netgw_in = netgw_in-netabs_gw_updated
+    netgw_in = netgw_in - actual_net_abstraction_gw
 
     # =========================================================================
     # Computing  daily groundwater storage (km3) and discharge(km3/day)
     # =========================================================================
     # Groundwater balance dS/dt = netgw_in - NAg - k*S is solved analytically
-    #  for each time step of 1 day to prevent numerical inaccuracies.
+    # for each time step of 1 day to prevent numerical inaccuracies.
+    # See in Equation 20 of Müller Schmied et al. (2021)
 
     current_gw_storage = prev_gw_storage * np.exp(-1 * gw_dis_coeff) +\
         (netgw_in/gw_dis_coeff)*(1-np.exp(-1 * gw_dis_coeff))
@@ -124,5 +130,6 @@ def compute_groundwater_balance(rout_order, routflow_looper,
 
     groundwater_discharge = np.where(groundwater_discharge <= 0, 0,
                                      groundwater_discharge)
-
+    # if x==119 and y ==424:
+    #       print(daily_unsatisfied_pot_nas , potential_net_abstraction_gw, actual_net_abstraction_gw)
     return current_gw_storage, groundwater_discharge

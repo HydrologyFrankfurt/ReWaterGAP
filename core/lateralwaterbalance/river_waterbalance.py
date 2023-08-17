@@ -96,7 +96,8 @@ def river_velocity(rout_order, routflow_looper,
 @njit(cache=True)
 def river_water_balance(rout_order, routflow_looper,
                         river_storage, river_inflow, outflow_constant,
-                        stat_corr_fact):
+                        stat_corr_fact,
+                        accumulated_unsatisfied_potential_netabs_sw):
     """
     Compute River water balance including storages and fluxes.
 
@@ -127,43 +128,64 @@ def river_water_balance(rout_order, routflow_looper,
     # e.g  if x==65 and y==137: print(prev_gw_storage)
     x, y = rout_order[routflow_looper]
 
-    # =========================================================================
-    # Compute river water balance
-    # =========================================================================
+    #                  ======================================
+    #                  ||            River balance         ||
+    #                  ======================================
+    # Note components of the waterbalance in Equation 30 of Müller Schmied et
+    # al. (2021) is calulated as follows. River area is not considered hence
+    # river precipitation and evaporation are not considered.
     river_storage_prev = river_storage
 
     # Note!!! even though river evaporation is not considered, variables are
     # named such that they allow for future consideration of evaporation.
 
-    # river evaporation and use is set to zero for now **
-    riverevap_use = 0
+    riverevap_netabs = accumulated_unsatisfied_potential_netabs_sw
 
-    # To get *riverevap_use_max*, the river water balance Eq.30 (section 4.7.1)
-    # of Müller Schmied et al. (2021) is solved at dS/dt=0.
-    # At maximum evapoiration and use there is no change in storage
+    # To get *riverevap_netabs_max*, defined as the maximum value for
+    # netabstraction,  the river water balance Eq.30  (section 4.7.1) of Müller
+    # Schmied et al. (2021) is differentiated analytically with a timestep of
+    # one day. After set this differential to 0 and solve of netabs to get
+    # maximum net abstraaction.
 
-    riverevap_use_max = river_inflow + \
+    riverevap_netabs_max = river_inflow + \
         (outflow_constant * river_storage_prev *
          np.exp(-1*outflow_constant))/(1 - np.exp(-1*outflow_constant))
 
-    if riverevap_use > riverevap_use_max:
+    if riverevap_netabs > riverevap_netabs_max:
         river_storage = 0
-        streamflow = river_inflow + river_storage_prev - riverevap_use_max
+
+        streamflow = river_inflow + river_storage_prev - riverevap_netabs_max
         if streamflow < 0:
             streamflow = 0
+
+        # There is not enough  storage to satisfy potential net asbraction from
+        # suracface water
+        if accumulated_unsatisfied_potential_netabs_sw > 0:
+            accumulated_unsatisfied_potential_netabs_sw -= \
+                accumulated_unsatisfied_potential_netabs_sw * \
+                (riverevap_netabs_max / riverevap_netabs)
+
     else:
 
         # river water balance Eq.30 (section 4.7.1) of Müller Schmied et al.
         # (2021) is solved analytically with a timestep of one day.
         river_storage = river_storage_prev * np.exp(-1*outflow_constant) + \
-            (river_inflow / outflow_constant) * (1 - np.exp(-1*outflow_constant))
+            ((river_inflow - accumulated_unsatisfied_potential_netabs_sw)
+             / outflow_constant) * (1 - np.exp(-1*outflow_constant))
 
         streamflow = river_inflow + river_storage_prev - river_storage
         if streamflow < 0:
             streamflow = 0
 
+        # potential net asbraction from suracface water is satified due to
+        # available storage
+        accumulated_unsatisfied_potential_netabs_sw = 0
+
     # Apply a staion correction factor which corrects discharge at the grid
     # cell where the gauging station is located
     streamflow *= stat_corr_fact
 
-    return river_storage, streamflow
+    # if x==119 and y ==423:
+    #       print(river_inflow ,accumulated_unsatisfied_potential_netabs_sw)
+    return river_storage, streamflow, \
+        accumulated_unsatisfied_potential_netabs_sw

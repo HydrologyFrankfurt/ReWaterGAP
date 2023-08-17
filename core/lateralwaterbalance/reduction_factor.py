@@ -49,6 +49,7 @@ def swb_redfactor(storage, max_storage, reduction_exponent_swb,
     """
     # =========================================================================
     # Computing reduction factor for surface water bodies.
+    # See Equation 24 & 25 in (Müller Schmied et al. (2021).
     # n_factor is the multiplying factor in the denominator of maximum storage.
     # n_factor=2 is for global and local lakes and n_factor=1 is for global
     #  reservoirs/regulated lakes and local and global wetlands

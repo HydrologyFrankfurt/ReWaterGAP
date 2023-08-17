@@ -55,13 +55,6 @@ class LateralWaterBalance:
         self.groundwater_storage = np.zeros((forcings_static.lat_length,
                                             forcings_static.lon_length))
 
-        # Net groundwater abstraction , Units : km3/ day
-        self.netabs_gw = np.zeros((forcings_static.lat_length,
-                                   forcings_static.lon_length))
-        # Total unsatified Water use, units = km3/ day
-        self.remaining_use = np.zeros((forcings_static.lat_length,
-                                      forcings_static.lon_length))
-
         #                  =================================
         #                  ||          Local lake         ||
         #                  =================================
@@ -235,8 +228,56 @@ class LateralWaterBalance:
         #                  =================================
         #                  ||           WaterUSe         ||
         #                  =================================
+        # Contanins both surface and groundwater monthly potential net
+        # abstraction data
+        self.get_aggr_func = pot_net_abstraction
         self.potential_net_abstraction = pot_net_abstraction.\
             potential_net_abstraction
+
+        # Potential net groundwater abstraction , Units : km3/ day
+        self.potential_net_abstraction_gw = \
+            np.zeros((forcings_static.lat_length,
+                      forcings_static.lon_length))
+
+        # Potential net groundwater abstraction , Units : km3/ day
+        self.potential_net_abstraction_sw = \
+            np.zeros((forcings_static.lat_length,
+                      forcings_static.lon_length))
+
+        # Accumulated unsatified potential net abstraction, units = km3/ day
+        self.accumulated_unsatisfied_potential_netabs_sw = \
+            np.zeros((forcings_static.lat_length,
+                      forcings_static.lon_length))
+
+        self.prev_accumulated_unsatisfied_potential_netabs_sw = \
+            np.zeros((forcings_static.lat_length,
+                      forcings_static.lon_length))
+
+        # Daily unsatisfied potential net abstraction, units = km3/ day
+        self.daily_unsatisfied_pot_nas = np.zeros((forcings_static.lat_length,
+                                                   forcings_static.lon_length))
+
+        # Previous potential water withdrawal from surfacewater for irrigation
+        # units = km3/ day
+        # This is needed to  adapt potential net abstraction from groundwter.
+        self.prev_potential_water_withdrawal_sw_irri =\
+            np.zeros((forcings_static.lat_length, forcings_static.lon_length))
+
+        # Previous potential water consumptive use from surfacewater
+        # for irrigation units = km3/ day
+        # This is needed to  adapt potential net abstraction from groundwter.
+        self.prev_potential_consumptive_use_sw_irri = \
+            np.zeros((forcings_static.lat_length, forcings_static.lon_length))
+
+        # Fraction of return flow from irrigation to groundwater
+        # See Döll et al 2012, eqn 1
+        self.frac_irri_returnflow_to_gw = pot_net_abstraction.frac_irri_returnflow_to_gw.\
+            frgi[0].values.astype(np.float64)
+            
+        self.riparian =  np.zeros((forcings_static.lat_length, forcings_static.lon_length)) # **
+        # for redistributing to riparian cell    
+        self.unagregrgated_potential_netabs_sw= np.zeros((forcings_static.lat_length, forcings_static.lon_length)) # **
+        self.potential_netabs_sw= np.zeros((forcings_static.lat_length, forcings_static.lon_length)) # **
 
     def activate_res_area_storage_capacity(self, simulation_date,
                                            reservoir_opt_year):
@@ -255,7 +296,7 @@ class LateralWaterBalance:
         None.
 
         """
-        # Deactivate storage,area and capacity of reservoir that are not active
+        # Activate storage,area and capacity of reservoir that are  active
         # in current year
         if cm.reservior_opt == "on":
             if simulation_date in reservoir_opt_year:
@@ -264,7 +305,7 @@ class LateralWaterBalance:
                 glores_storage_active = self.static_data.\
                     res_reg_files.stor_cap[0].values.astype(np.float64)
 
-                # Initialize reserviour and regulated lake area, Units :km2
+                # Initialize reservior and regulated lake area, Units :km2
                 glores_area_active = self.static_data.\
                     land_surface_water_fraction.reservoir_and_regulated_lake_area[0].\
                     values.astype(np.float64)
@@ -346,18 +387,87 @@ class LateralWaterBalance:
                                   daily_storage_transfer, surface_runoff)
 
         # =====================================================================
-        # Selecting potential net abstraction for surface water for current
-        # month
+        # Selecting potential net abstraction (surface or groundwater) for
+        # current day
         # =====================================================================
-        #           ===================================================
-        #           || Potential net abstraction from surface water ||
-        #           ==================================================
-        date = simulation_date.astype("datetime64[M]")
-        potential_net_abstraction = self.potential_net_abstraction.sel(
-            time=str(date))
-        # Actual name: Potential net abstraction from surface water NApot,
-        # Unit=m3/month
-        # yet to activate water use
+        #      =============================================================
+        #      || Potential net abstraction from surface and ground water ||
+        #      =============================================================
+        # get current year and month to select relevant net abstraction data
+        current_year_mon_day = [str(pd.to_datetime(simulation_date).year),
+                                str(pd.to_datetime(simulation_date).month),
+                                int(pd.to_datetime(simulation_date).day)]
+
+        date = current_year_mon_day[0] + "-" + current_year_mon_day[1]
+
+        # Select monthly abastraction data and convert to daily
+        m3_to_km3 = 1e9
+        days_in_month = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31,
+                         8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+        first_day = current_year_mon_day[2]
+
+        for month, num_of_days in days_in_month.items():
+            if month == int(pd.to_datetime(simulation_date).month) and \
+                    first_day == 1:
+                # Actual name: Potential net abstraction from groundwater
+                # (NApot,g), Unit=m3/month
+                self.potential_net_abstraction_gw = self.potential_net_abstraction.pnag.\
+                    sel(time=date)[0].values.astype(np.float64)
+
+                #  coverted to units = km3/day
+                self.potential_net_abstraction_gw = \
+                    self.potential_net_abstraction_gw / (num_of_days * m3_to_km3)
+
+                # ***********************************************************
+                # Aggregate potential net abstaraction of riparaian cell to
+                # outflow cell and convert to km3/day
+                # ***********************************************************
+                # Actual name: Potential net abstraction from surfacewater
+                # (NApot,s), Unit=m3/month
+                self.potential_net_abstraction_sw = self.potential_net_abstraction.pnas.\
+                    sel(time=date)[0].values.astype(np.float64)
+
+                self.unagregrgated_potential_netabs_sw = self.potential_net_abstraction_sw.copy()/(num_of_days * m3_to_km3)
+
+                self.potential_net_abstraction_sw = self.get_aggr_func.\
+                    aggregate_riparian_netpotabs(self.glolake_area,
+                                                 self.glores_area,
+                                                 self.potential_net_abstraction_sw)
+
+                #  coverted to units = km3/day
+                self.potential_net_abstraction_sw = \
+                    self.potential_net_abstraction_sw / (num_of_days * m3_to_km3)
+                self.potential_netabs_sw = self.potential_net_abstraction_sw.copy()
+                # ***********************************************************
+                # load in Potential water withdrawal from surfacewater and
+                #  consumptive use and convert to km3/day
+                # ***********************************************************
+                # Actual name: Potential water withdrawal from surfacewater
+                # for irrigation (NApot,s), Unit=m3/month
+                self.potential_water_withdrawal_sw_irri = self.potential_net_abstraction.pirrig_ww.\
+                    sel(time=date)[0].values.astype(np.float64)
+                #  coverted to units = km3/day
+                self.potential_water_withdrawal_sw_irri = \
+                    self.potential_water_withdrawal_sw_irri / (num_of_days * m3_to_km3)
+
+                # Actual name: Potential water consumptive use from
+                # surfacewater for irrigation (NApot,s), Unit=m3/month
+                self.potential_consumptive_use_sw_irri = self.potential_net_abstraction.pirrig_cu.\
+                    sel(time=date)[0].values.astype(np.float64)
+                #  coverted to units = km3/day
+                self.potential_consumptive_use_sw_irri = \
+                    self.potential_consumptive_use_sw_irri / (num_of_days * m3_to_km3)
+
+        # Accumulated unsatisfied potential net abstraction from surface water
+        # (accumulated_unsatisfied_potential_netabs_sw) represents the portion
+        # of potential net abstraction that could not be satisfied over time.
+        # It takes into account not only the unsatisfied use of the current
+        # time step, but also that of previous time steps.
+        self.accumulated_unsatisfied_potential_netabs_sw += \
+            (self.potential_net_abstraction_sw + self.riparian)
+
+        # Actual name: Potential net abstraction from surface water (NApot,s),
+        # Unit=m3/month (for hanasaki i will change later)
         potential_net_abstraction_sw = np.zeros(surface_runoff.shape)
         # potential_net_abstraction.pnas.values.astype(np.float64)
 
@@ -370,8 +480,27 @@ class LateralWaterBalance:
         drainage_direction = self.drainage_direction.copy()
         groundwater_storage = self.groundwater_storage.copy()
         cell_area = self.cell_area.copy()
-        netabs_gw = self.netabs_gw.copy()
-        remaining_use = self.remaining_use.copy()
+
+        potential_net_abstraction_gw = self.potential_net_abstraction_gw.copy()
+
+        prev_potential_water_withdrawal_sw_irri = \
+            self.prev_potential_water_withdrawal_sw_irri.copy()
+
+        prev_potential_consumptive_use_sw_irri = \
+            self.prev_potential_consumptive_use_sw_irri.copy()
+
+        frac_irri_returnflow_to_gw = self.frac_irri_returnflow_to_gw.copy()
+
+        daily_unsatisfied_pot_nas = self.daily_unsatisfied_pot_nas.copy()
+
+        accumulated_unsatisfied_potential_netabs_sw = \
+            self.accumulated_unsatisfied_potential_netabs_sw.copy()
+
+        prev_accumulated_unsatisfied_potential_netabs_sw = \
+            self.prev_accumulated_unsatisfied_potential_netabs_sw.copy()
+
+        glwdunits = self.get_aggr_func.glwdunits.glwdunits.values.copy()
+
         loclake_frac = self.loclake_frac.copy()
         locwet_frac = self.locwet_frac.copy()
         glowet_frac = self.glowet_frac.copy()
@@ -396,8 +525,8 @@ class LateralWaterBalance:
         # in current month. This is required to calulate the release factor
         # using the  Hanasaki reservoir algorithm
         # (see module reservior_and_regulated_lakes.py )
-        current_mon_day = np.array([int(pd.to_datetime(simulation_date).month),
-                                    int(pd.to_datetime(simulation_date).day)])
+        current_mon_day = np.array([int(current_year_mon_day[1]),
+                                    current_year_mon_day[2]])
 
         glowet_storage = self.glowet_storage.copy()
 
@@ -418,7 +547,13 @@ class LateralWaterBalance:
 
         out = rt.rout(rout_order, arid, drainage_direction,
                       groundwater_storage, diffuse_gw_recharge, cell_area,
-                      netabs_gw, remaining_use, current_landarea_frac,
+                      potential_net_abstraction_gw,
+                      prev_potential_water_withdrawal_sw_irri,
+                      prev_potential_consumptive_use_sw_irri,
+                      frac_irri_returnflow_to_gw,
+                      accumulated_unsatisfied_potential_netabs_sw,
+                      daily_unsatisfied_pot_nas,
+                      current_landarea_frac,
                       surface_runoff, loclake_frac, locwet_frac,
                       glowet_frac, glolake_frac, glolake_area,
                       reglake_frac, headwater, loclake_storage,
@@ -443,7 +578,11 @@ class LateralWaterBalance:
                       self.parameters.activewetland_depth,
                       self.parameters.stat_corr_fact,
                       current_mon_day,
-                      potential_net_abstraction_sw)
+                      potential_net_abstraction_sw,
+                      glwdunits,
+                      self.unagregrgated_potential_netabs_sw, 
+                      self.potential_netabs_sw, 
+                      prev_accumulated_unsatisfied_potential_netabs_sw)
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]
@@ -467,7 +606,33 @@ class LateralWaterBalance:
         updated_localwetland_fraction = out[16]
         updated_globalwetland_fraction = out[17]
 
-        # print(streamflow[94, 193], streamflow[182, 257])
+        # =====================================================================
+        # Update accumulated unsatisfied potential net abstraction from
+        # surface water and daily_unsatisfied_pot_nas.
+        # see module adapt_netabs_groundwater.py more more explanation on
+        # these variables
+        # =====================================================================
+        self.accumulated_unsatisfied_potential_netabs_sw = out[18]
+        
+        self.riparian = out[19]
+
+        self.daily_unsatisfied_pot_nas = \
+            self.accumulated_unsatisfied_potential_netabs_sw - \
+            self.prev_accumulated_unsatisfied_potential_netabs_sw
+
+        self.prev_accumulated_unsatisfied_potential_netabs_sw = \
+            self.accumulated_unsatisfied_potential_netabs_sw.copy()
+
+        # The ff. variables also needed to  adapt potential net abstraction
+        # from groundwter.
+        # previous potential water withdrawal from surfacewater for irrigation
+
+        self.prev_potential_water_withdrawal_sw_irri =\
+            self.potential_water_withdrawal_sw_irri.copy()
+
+        self.prev_potential_consumptive_use_sw_irri = \
+            self.potential_consumptive_use_sw_irri.copy()
+
         # =====================================================================
         # Getting all storages
         # =====================================================================
