@@ -21,6 +21,8 @@ Canopy evaporation :math:`E_c` following Deardorff (1978) [3]_, is calculated as
 
 where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy storage under :ref:`Outflows <canopy_outflows>` and :math:`{S_c}_{,max}` :math:`[mm]` is the maximum canopy storage. :math:`{E}_{pot}` :math:`[mm/d]` is the potential evapotranspiration calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:
 
+.. _pot_evap:
+
 .. math::
    {E}_{pot} = \alpha\Big(\frac{S_a R}{S_a + g}\Big)
 
