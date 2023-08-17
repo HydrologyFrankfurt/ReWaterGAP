@@ -15,23 +15,18 @@ Lakes and wetland storage  :math:`{S}_{l,w}` :math:`(m^3)` is computated as
 where :math:`{Q}_{in}' is inflow into the lake or wetland from upstream (:math:`m^3 {d}^{-1}`), 
 :math:`A' is global (or local) water body surface area (:math:`m^2`) in the grid cell at time step t,
 :math:`P' is precipitation (:math:`m^3 {d}^{-1}`), :ref:`:math:`{E}_{pot}' <pot_evap>`  is potential evapotranspiration (:math:`m^3 {d}^{-1}`), 
-:math:`{R_g}_{l,w}' is point source groundwater recharge from the water body (only in arid/semiarid regions) (:math:`m^3 {d}^{-1}`), :math:`NA_l` is net abstraction from lakes (:math:`m^3 {d}^{-1}`)
+:math:`{R_g}_{l,w}' is point source groundwater recharge from the water body (only in arid/semiarid regions) (:math:`m^3 {d}^{-1}`), :math:`NA_l` is net abstraction from lakes (:math:`m^3 {d}^{-1}`).
 
 
 Inflows
 -------
 
-Diffuse groundwater recharge from soil  :math:`R_g (m^3 {d}^{-1})` is the main inflow in humid cells
-and point groundwater recharge from surface water bodies (lakes, reservoirs and wetlands) :math:`{R}_{gl,res,w} (m^3 {d}^{-1})` is the main inflow in (semi)arid
-grid cells. :math:`{R}_{gl,res,w}` varies temporally with the area of the surface water body, which depends on the respective water storage.
+to be completed soon 
 
 
 Outflows
 --------
-Groundwater discharge, :math:`Q_g (m^3 {d}^{-1})` to surface waterbodies is an outflow which is computed as:
-
-.. math::
-   {Q}_{g} =  {k}_{g} \times {S}_{g}
+to ne completed soon
 
 References 
 ----------
