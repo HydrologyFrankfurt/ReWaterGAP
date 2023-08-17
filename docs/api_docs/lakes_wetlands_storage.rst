@@ -24,8 +24,11 @@ where :math:`{Q}_{in}` is inflow into the lake or wetland from upstream :math:`(
 
 Inflows
 -------
+Computation of inflow (Qin), differs for local and global water bodies. 
+For local lakes and wetlands, inflow comes only from local runoff within the same grid cell. 
+A fraction  fswb (see farctional routing) of the fast surface and subsurface runoff, as well as discharge from groundwater in humid grid cells, is directed to these local water bodies (see watergap schematic diagram). If a grid cell contains both a local lake and wetland, the outflow from the lake becomes the inflow to the wetland.
 
-to be completed soon 
+On the other hand, global lakes and wetlands receive inflow from both local runoff and river inflow from upstream grid cells. 
 
 
 Outflows
