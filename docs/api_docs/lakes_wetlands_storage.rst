@@ -10,20 +10,12 @@ Water balance
 Lakes and wetland storage  :math:`{S}_{l,w}` :math:`(m^3)` is computated as
 
 .. math::
-   \frac{dS_l,w}{d_t} =  {Q}_{in} + A(P  − {E}_{pot}) − {R}_{g,l,sw}  − {NA}_{l}  − {Q}_{out}
+   \frac{dS_l,w}{d_t} =  {Q}_{in} + A(P  − {E}_{pot}) − {R_g}_{l,w}  − {NA}_{l}  − {Q}_{out}
 
 where :math:`{Q}_{in}' is inflow into the lake or wetland from upstream (:math:`m^3 {d}^{-1}`), 
 :math:`A' is global (or local) water body surface area (:math:`m^2`) in the grid cell at time step t,
-:math:`P' is precipitation (:math:`m^3 {d}^{-1}`),
-:ref:`:math:`{E}_{pot}' <pot_evap>`  is potential evapotranspiration (:math:`m^3 {d}^{-1}`), Rgl;res;w
-is groundwater recharge from the water body (only in
-arid/semiarid regions) (m3 d−1, Eq. 26), NAl;res is the net
-abstraction from the lakes and reservoirs (m3 d−1) 
-where :math:`R_g` is point source groundwater recharge from lakes and wetlands (:math:`m^3 {d}^{-1}`).
-:math:`{R}_{gl,res,w}` is point groundwater recharge from surface
-water bodies (lakes, reservoirs and wetlands) in (semi)arid
-areas (:math:`m^3 {d}^{-1}`), :math:`Q_g` is groundwater discharge (:math:`m^3 {d}^{-1}`) and :math:`NA_g` is net abstraction from groundwater
-(:math:`m^3 {d}^{-1}`)
+:math:`P' is precipitation (:math:`m^3 {d}^{-1}`), :ref:`:math:`{E}_{pot}' <pot_evap>`  is potential evapotranspiration (:math:`m^3 {d}^{-1}`), 
+:math:`{R_g}_{l,w}' is point source groundwater recharge from the water body (only in arid/semiarid regions) (:math:`m^3 {d}^{-1}`), :math:`NA_l` is net abstraction from lakes (:math:`m^3 {d}^{-1}`)
 
 
 Inflows
