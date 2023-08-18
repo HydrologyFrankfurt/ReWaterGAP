@@ -9,34 +9,16 @@ This module computes soil storage and related fluxes for all grid cells based on
 .. note:: 
    The computation order for the soil storage module is as follows:
    First, :ref:`immediate runoff (R1) <immediate_runoff>` is calculated. After, 
-   :ref:`effective precipitation <effective_precipitation>` is reduced by the immediate runoff. After, runoff from :ref:`soil water overflow (R2)  <overflow>`
-   is computed. Then, :ref:`daily runoff (R3) <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
-   Soil storage is updated. Afterwards, :ref:`ground water recharge <diffuse_groundwater_recharge>` is calculated based on daily runoff. The remaining soil runoff (R3) after 
-   groundwater recharge + immediate runoff (R1) + soil water overflow (R2) is computed as :ref:`total daily runoff <total_daily_runoff>`.
+   :ref:`effective precipitation <effective_precipitation>` is reduced by the immediate runoff. After, runoff from :ref:`soil water overflow (R2)    <overflow>` is computed. Then, :ref:`daily runoff (R3) <runoff>` is calculated followed by :ref:`actual evapotranspiration 
+   <actual_evapotranspiration>`. Soil storage is updated. Afterwards, :ref:`ground water recharge <diffuse_groundwater_recharge>` is calculated 
+   based on daily runoff. The remaining soil runoff (R3) after groundwater recharge + immediate runoff (R1) + soil water overflow (R2) is 
+   computed as :ref:`total daily runoff <total_daily_runoff>`.
 
-   Then, total daily runoff from land (RL) is calculated as:
+   **Note**: Daily runoff is corrected with an areal correction factor (CFA) if gamma is insufficient to fit simulated discharge. To conserve 
+   water balance, evapotranspiration is also corrected with CFA. After evapotranspiration correction, soil storage, total daily runoff and 
+   groundwater recharge are adjusted as well. Finally, *Surface runoff* is calculated as total daily runoff from land  minus ground water 
+   recharge.
 
-   .. total_daily_runoff:
-
-   .. math::
-      RL = R1 + R3 + R2
-
-   where soil water overflow (R2) is calculated as:
-
-   .. _overflow:
-   
-   .. math::
-      {P}_{eff} = 
-      \begin{cases}
-      {P}_{eff} +{S}_{s,p} - {S_s,max}, & \text{if } ({P}_{eff} + {S}_{s,p})>{S_s}_{,max} \\
-      0, & \text{otherwise}
-      \end{cases}
-
-      
-   where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is :ref:`soil storage <soil_storage>`
-   of previous day and maximum soil storage respectively.
-   
-   Surface runoff is finally calculated as total daily runoff from land minus ground water recharge.
 
 Water balance
 -------------
@@ -47,7 +29,7 @@ Soil storage :math:`S_s` :math:`(mm)` is calculated as:
 .. math::
    \frac{dS_s}{d_t} =  {P}_{eff} − {R}_{l}− {E}_{s}
 
-where :math:`{P}_{eff}` is effective precipitation :math:`(mm/d)`, :math:`{R}_{l}` is runoff from land :math:`(mm/d)` and :math:`{E}_{s}` is  the actual evapotranspiration from soil :math:`(mm/d)`.
+where :math:`{P}_{eff}` is effective precipitation :math:`(mm/d)`, :math:`{R}_{l}` is total runoff from land :math:`(mm/d)` and :math:`{E}_{s}` is  the actual evapotranspiration from soil :math:`(mm/d)`.
 
 Inflows
 -------
@@ -82,6 +64,27 @@ Actual evapotranspiration :math:`{E}_{s}`  from soil :math:`(mm/d)` is calculate
 
 where :math:`{E}_{pot}` is potential evapotranspiration :math:`(mm/d)`, :math:`{E}_{c}` is canopy evaporation :math:`(mm/d)` and :math:`{S}_{s,max}` is the maximum soil water content :math:`(mm)` derived as a product of total available water capacity in the upper meter of the soil [2]_ and land-cover-specific rooting depth (Table C2 [1]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 (mm/d)` globally. 
 
+   Then, total daily runoff from land (RL) is calculated as:
+
+   .. total_daily_runoff:
+
+   .. math::
+      RL = R1 + R3 + R2
+
+   where soil water overflow (R2) is calculated as:
+
+   .. _overflow:
+   
+   .. math::
+      {P}_{eff} = 
+      \begin{cases}
+      {P}_{eff} +{S}_{s,p} - {S_s,max}, & \text{if } ({P}_{eff} + {S}_{s,p})>{S_s}_{,max} \\
+      0, & \text{otherwise}
+      \end{cases}
+
+      
+   where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is :ref:`soil storage <soil_storage>`
+   of previous day and maximum soil storage respectively.
 
 Daily runoff from soil :math:`{R3} (mm/day)` is calculated following Bergström (1995) [3]_ as
 
