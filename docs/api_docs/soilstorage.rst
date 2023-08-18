@@ -120,10 +120,11 @@ correction factor is increased or reduced  to increase runoff, actual total evap
 .. _corrected_evap:
 
 .. math::
-   RL = P - AET - \frac{dS}{dt}, (dt=1), eqn. 1 \\ &
-   RL \times CFA  = P - {E}_{s,corr} - dS, eqn. 2 \\ &
-   P - {E}_{s,corr} - ds = CFA (P - E_s - ds), eqn2 into eqn1 \\ &
-   {E}_{s,corr} = dS(CFA-1) - P(CFA-1) + E_s(CFA)
+   RL &= P - AET - \frac{dS}{dt}, (dt=1), eqn.1, \\ RL \times CFA &= P - {E}{s,corr} - dS,eqn2,
+
+substituting RL from equation 2 into equantion 1 :
+
+.. math:: P - {E}{s,corr} - ds &= CFA (P - E_s - ds), \\ {E}_{s,corr} &= dS(CFA-1) - P(CFA-1) + E_s(CFA)
  
 where P: precipitation (mm/day)
 
