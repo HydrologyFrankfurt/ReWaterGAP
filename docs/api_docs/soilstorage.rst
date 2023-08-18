@@ -16,7 +16,7 @@ This module computes soil storage and related fluxes for all grid cells based on
    (R2).
 
    **Note**: Total daily runoff from land is corrected with an areal correction factor (CFA) (if gamma is insufficient to fit simulated discharge). To conserve 
-   water balance, :ref:` actual evapotranspiration <corrected_evap>` is also corrected with CFA. After evapotranspiration correction, soil storage, total daily runoff from 
+   water balance, :ref:`actual evapotranspiration <corrected_evap>` is also corrected with CFA. After evapotranspiration correction, soil storage, total daily runoff from 
    land and groundwater recharge are adjusted as well. Finally, *Surface runoff* is calculated as total daily runoff from land minus groundwater recharge.
 
 
@@ -117,12 +117,12 @@ based on relief, soil texture, aquifer type, and the existence of permafrost or 
 If the gamma parameter is not enough to match the observed discharge, total daily runoff from land  is adjusted the by multiplying it with a areal correction factor (CFA). To conserve mass balance actual total evaporation from land  (:math:`{E}_{s}`) is corrected such that when areal
 correction factor is increased or reduced  to increase runoff, actual total evaporation will also be reduced or increased respectively. 
 
-.. _corrected_evap
+.. _corrected_evap:
 
 .. math::
-   RL = P - AET - \frac{dS}{dt}, (dt=1), eqn. 1
-   RL \times CFA  = P - {E}_{s,corr} - dS, eqn. 2
-   P - {E}_{s,corr} - ds = CFA (P - E_s - ds), eqn2 into eqn1
+   RL = P - AET - \frac{dS}{dt}, (dt=1), eqn. 1 \\ &
+   RL \times CFA  = P - {E}_{s,corr} - dS, eqn. 2 \\ &
+   P - {E}_{s,corr} - ds = CFA (P - E_s - ds), eqn2 into eqn1 \\ &
    {E}_{s,corr} = dS(CFA-1) - P(CFA-1) + E_s(CFA)
  
 where P: precipitation (mm/day)
