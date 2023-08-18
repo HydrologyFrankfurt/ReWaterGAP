@@ -4,11 +4,10 @@ Lakes and wetlands storages and related fluxes are calculated based on section 4
 The location, area, and other attributes of these water bodies are defined using the Global Lakes and Wetland Database (GLWD) (Lehner and Döll, 2004). Area fractions of local lakes and wetlands, except for global lake (which have absolute area), are obtained from this database (see appendix D in Müller Schmied et al 2021), and this information is then used for the computation of the maximum capacity of the surface water bodies.
 
 .. note::
-   In each grid cell, there can be a maximum of one local wetland storage compartment, one global wetland compartment, one local lake compartment and one global lake 
-   compartment. The lateral water flow within the cell follows the sequence shown in watergap schematic diagram. For example, if there is a local lake compartment in a grid 
-   cell, it is this compartment that receives, under a humid climate, a fraction of the outflow from the groundwater compartment and of the fast surface and subsurface 
-   outflow.  The outflow from the local lake becomes inflow to the local wetland if it exists. If there is no local wetland but a global lake, the outflow from the local lake 
-   becomes part of the inflow of the global lake. 
+   Each grid cell can have a maximum of one local wetland, one global wetland, one local lake, and one global lake compartment. The lateral water flow within the cell follows 
+   the sequence shown in the :ref:`watergap schematic diagram <watergap_scheme>`, . For example, if there is a local lake compartment in a grid cell, it receives a fraction of 
+   the outflow from the groundwater compartment (under a humid climate) and of the fast surface and subsurface outflow . The outflow from the local lake becomes inflow to the 
+   local wetland if it exists, otherwise to the global lake
 
 .. autofunction:: lakes_and_wetlands.lake_wetland_balance
 
@@ -33,7 +32,7 @@ Inflows
 -------
 Computation of inflow (Qin), differs for local and global water bodies. 
 For local lakes and wetlands, inflow comes only from local runoff within the same grid cell. 
-A fraction  fswb (see farctional routing) of the fast surface and subsurface runoff, as well as discharge from groundwater in humid grid cells, is directed to these local water bodies (see watergap schematic diagram). If a grid cell contains both a local lake and wetland, the outflow from the lake becomes the inflow to the wetland.
+A fraction  *fswb* (see farctional routing) of the fast surface and subsurface runoff, as well as discharge from groundwater in humid grid cells, is directed to these local water bodies (see watergap schematic diagram). If a grid cell contains both a local lake and wetland, the outflow from the lake becomes the inflow to the wetland.
 
 On the other hand, global lakes and wetlands receive inflow from both local runoff and river inflow from upstream grid cells. 
 
