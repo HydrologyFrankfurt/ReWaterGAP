@@ -34,7 +34,7 @@ of the water body :math:`m^2` computed as the :math:`{A}_{grid} \times {A}_{frac
 
 
 Reduction factor is applied differently for local and global lakes. 
-In the case of local lake reduction factor is used to reduce the lake area while for global lake, it is only used for reducing evaporation since global lake area is assumed not to be dynamic. This would prevent continuous decline of global lake levels in some cases such as (semi)arid regions.
+In the case of local lake, reduction factor is used to reduce the lake area while for global lake, it is only used for reducing evaporation since global lake area is assumed not to be dynamic. This would prevent continuous decline of global lake levels in some cases such as (semi)arid regions.
 Reduction factor is computed for local and global lake as:
 
 .. _lake_red:
@@ -43,12 +43,24 @@ Reduction factor is computed for local and global lake as:
    r = 1- (\frac{|S_l - Sl,max|}{2({S}_{l,max})})^p,  0 <= r <=1
 
 
-where :math:`S_l` is the volume of the water :math:`m^3` stored in the lake at time step t :math:`days`, :math:`{S}_{l,max}` is the maximum storage of the lake :math:`m^3`,. 
+where :math:`S_l` is the volume of the water :math:`m^3` stored in the lake at time step t :math:`days`, :math:`{S}_{l,max}` is the maximum storage of the lake :math:`m^3`. 
 :math:`{S}_{l,max}` is computed based on :math:`{{A}_{max}` and a maximum storage depth of 5 m, and p is the reduction exponent (–), set to 3.32 [1]_. 
 
 **Note:** According to the  :ref:`lake reduction factor equation <lake_red>`, the area is reduced by :math:`1 \%` if :math:`S_l = 50 \% \times {S}_{l,max}`, 
 by :math:`10 \%` if :math:`S_l = 0` and by :math:`100 \%` if :math:`S_l=-{S}_{l,max}`.
 
+In the case of local and global wetalnds,  reduction factor is used to reduce the are. it is also computed as 
+
+.. _wetland_red:
+
+.. math::
+   r = 1- (\frac{|S_w - Sw,max|}{{S}_{w,max}})^p,  0 <= r <=1
+
+
+where :math:`S_w` is the volume of the water :math:`m^3` stored in the wetlands at time step t :math:`days`, :math:`{S}_{w,max}` is the maximum storage of the wetland :math:`m^3`.  Reduction exponent p sis also et to 3.32 [1]_. 
+
+**Note:** Also by the  :ref:`lake reduction factor equation <wetland_red>`, the area is reduced by :math:`10 \%` if :math:`S_w = 50 \% \times {S}_{w,max}`, 
+by :math:`70 \%` if :math:`S_w = 10 \% \times {S}_{w,max}`.
 
 
 Inflows
