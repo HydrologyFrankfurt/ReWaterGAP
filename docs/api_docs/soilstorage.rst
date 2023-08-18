@@ -65,7 +65,7 @@ where :math:`{E}_{pot}` is potential evapotranspiration :math:`(mm/d)`, :math:`{
 
 Total daily runoff from land (RL) is calculated as:
 
-.. total_daily_runoff:
+.. _total_daily_runoff:
 
 .. math::
   RL = R1 + R3 + R2
