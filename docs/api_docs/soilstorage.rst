@@ -12,11 +12,12 @@ This module computes soil storage and related fluxes for all grid cells based on
    :ref:`effective precipitation <effective_precipitation>` is reduced by the immediate runoff. Then, runoff from :ref:`soil water overflow (R2) <overflow>` is computed. 
    After, :ref:`daily runoff (R3) <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
    Soil storage is updated. Afterwards, :ref:`ground water recharge <diffuse_groundwater_recharge>` is calculated 
-   based on daily runoff. Then, :ref:`total daily runoff from land <total_daily_runoff>` is computed as daily runoff (R3) + immediate runoff (R1) + soil water overflow (R2).
+   based on daily runoff. Then, :ref:`total daily runoff from land (RL) <total_daily_runoff>` is computed as daily runoff (R3) + immediate runoff (R1) + soil water overflow 
+   (R2).
 
    **Note**: Total daily runoff from land is corrected with an areal correction factor (CFA) (if gamma is insufficient to fit simulated discharge). To conserve 
-   water balance, evapotranspiration is also corrected with CFA. After evapotranspiration correction, soil storage, total daily runoff from land and 
-   groundwater recharge are adjusted as well. Finally, *Surface runoff* is calculated as total daily runoff from land minus groundwater recharge.
+   water balance, :ref:` actual evapotranspiration <corrected_evap>` is also corrected with CFA. After evapotranspiration correction, soil storage, total daily runoff from 
+   land and groundwater recharge are adjusted as well. Finally, *Surface runoff* is calculated as total daily runoff from land minus groundwater recharge.
 
 
 Water balance
@@ -84,7 +85,7 @@ where soil water overflow (R2) is calculated as:
 where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is :ref:`soil storage <soil_storage>`
 of previous day and maximum soil storage respectively.
 
-Daily runoff from soil :math:`{R3} (mm/day)` is calculated following Bergström (1995) [3]_ as
+Daily runoff from soil (R3) :math:`(mm/day)` is calculated following Bergström (1995) [3]_ as
 
 .. _runoff:
 
@@ -97,7 +98,6 @@ Together with soil saturation, it determines the fraction of math:`{P}_{eff}` th
 .. note::
      If the sum of :math:`{P}_{eff}` and :math:`S_s` of the previous day exceed :math:`{S_s,max}`, the overflow  :math:`{R2}` is added together with 
      daily runoff :math:`{R3}` and immediate runoff :math:`{R1}` to total daily runoff from land :math:`{R}_{L}`.
-
 
 :math:`{R3}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}` and diffuse groundwater recharge :math:`{R}_{g}` according to the:ref:`heuristic scheme <watergap_scheme>`.
 
@@ -112,6 +112,20 @@ based on relief, soil texture, aquifer type, and the existence of permafrost or 
 
 .. note:: 
    If a grid cell is defined as (semi)arid and has coarse (sandy) soil, groundwater recharge will only occur if precipitation exceeds a critical value of 12.5 mm/d, otherwise the water remains in the soil. The fraction of :math:`{R}_{3}` that does not recharge the groundwater becomes :math:`{R}_{s}`, which recharges surface water bodies and the river compartment.
+
+
+If the gamma parameter is not enough to match the observed discharge, total daily runoff from land  is adjusted the by multiplying it with a areal correction factor (CFA). To conserve mass balance actual total evaporation from land  (:math:`{E}_{s}`) is corrected such that when areal
+correction factor is increased or reduced  to increase runoff, actual total evaporation will also be reduced or increased respectively. 
+
+.. _corrected_evap
+
+.. math::
+   RL = P - AET - \frac{dS}{dt}, (dt=1), eqn. 1
+   RL \times CFA  = P - {E}_{s,corr} - dS, eqn. 2
+   P - {E}_{s,corr} - ds = CFA (P - E_s - ds), eqn2 into eqn1
+   {E}_{s,corr} = dS(CFA-1) - P(CFA-1) + E_s(CFA)
+ 
+where P: precipitation (mm/day)
 
 
 
