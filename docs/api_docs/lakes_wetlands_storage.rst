@@ -23,23 +23,32 @@ where :math:`{Q}_{in}` is inflow into the lake or wetland from upstream :math:`(
 :math:`P` is precipitation :math:`(m^3 {d}^{-1})`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` :math:`(m^3 {d}^{-1})`, :math:`{R_g}_{l,w}` is point source groundwater recharge from the water body (only in arid/semiarid regions) :math:`(m^3 {d}^{-1})`, :math:`NA_l` is net abstraction from lakes :math:`(m^3 {d}^{-1})` 
 and :math:`{Q}_{out}` is outflow from the water body to other surface water bodies including river storage :math:`(m^3 {d}^{-1})`. 
 
-The area of these surface water bodies (except global lake) varies temporally and it computed as 
+The area of these surface water bodies (except global lake) varies temporally and it computed as: 
 
 .. math::
    A = r \times {A}_{max}
 
 where :math:`r` is reduction factor (–), and :math:`{A}_{max}`  is maximum extent
-of the water body :math:`m^2}` computed as the *(area of 0.5 \times 0.5 grid cell) \times area fraction of surface waterbody)*.
+of the water body :math:`m^2` computed as the :math:`{A}_{grid} \times {A}_{fraction,l}`.
+:math:`{A}_{grid}` is the area of 0.5 :math:`\times` 0.5 grid cell and :math:`{A}_{fraction,l}` is the area fraction of the surface waterbody.
 
-Reduction factor is computed for in the case of local lakes  as:
+
+Reduction factor is applied differently for local and global lakes. 
+In the case of local lake reduction factor is used to reduce the lake area while for global lake, it is only used for reducing evaporation since global lake area is assumed not to be dynamic. This would prevent continuous decline of global lake levels in some cases such as (semi)arid regions.
+Reduction factor is computed for local and global lake as:
+
+.. _lake_red:
 
 .. math::
-   r = 1- \frac{|S_l - S_l,max|}{2(Sl,max)} , 0 <= r <=1
+   r = 1- (\frac{|S_l - Sl,max|}{2({S}_{l,max})})^p,  0 <= r <=1
 
 
-.. note::
-   Water balance equation is solved analytically for (global) lake and wetland per timestep of 1 day
-   but numerically for (local) lake and wetlands. 
+where :math:`S_l` is the volume of the water :math:`m^3` stored in the lake at time step t :math:`days`, :math:`{S}_{l,max}` is the maximum storage of the lake :math:`m^3`,. 
+:math:`{S}_{l,max}` is computed based on :math:`{{A}_{max}` and a maximum storage depth of 5 m, and p is the reduction exponent (–), set to 3.32 [1]_. 
+
+**Note:** According to the  :ref:`lake reduction factor equation <lake_red>`, the area is reduced by :math:`1 \%` if :math:`S_l = 50 \% \times {S}_{l,max}`, 
+by :math:`10 \%` if :math:`S_l = 0` and by :math:`100 \%` if :math:`S_l=-{S}_{l,max}`.
+
 
 
 Inflows
