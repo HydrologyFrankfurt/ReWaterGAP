@@ -9,16 +9,18 @@ This module computes soil storage and related fluxes for all grid cells based on
 .. note:: 
    The computation order for the soil storage module is as follows:
    First, :ref:`immediate runoff (R1) <immediate_runoff>` is calculated. After, 
-   :ref:`effective precipitation <effective_precipitation>` is reduced by the immediate runoff. 
-   Then, :ref:`daily runoff (R3) <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
+   :ref:`effective precipitation <effective_precipitation>` is reduced by the immediate runoff. After, runoff from :ref:`soil water overflow (R2)  <overflow>`
+   is computed. Then, :ref:`daily runoff (R3) <runoff>` is calculated followed by :ref:`actual evapotranspiration <actual_evapotranspiration>`. 
    Soil storage is updated. Afterwards, :ref:`ground water recharge <diffuse_groundwater_recharge>` is calculated based on daily runoff.
    Then, total daily runoff from land (RL) is calculated as:
 
    .. math::
       RL = R1 + R3 + R2
 
-   where soil water overflow (R2) is calulated as:
+   where soil water overflow (R2) is calculated as:
 
+   .. _overflow:
+   
    .. math::
       {P}_{eff} = 
       \begin{cases}
@@ -85,26 +87,26 @@ Daily runoff from soil :math:`{R3} (mm/day)` is calculated following Bergström 
    R3 = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
 
 where \Gamma is the runoff coefficient (–). This parameter, which varies between 0.1 and 5.0, is used for calibration.
-Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` that becomes :math:`{R1}`.
+Together with soil saturation, it determines the fraction of math:`{P}_{eff}` that becomes :math:`{R3}`.
 
 .. note::
      If the sum of :math:`{P}_{eff}` and :math:`S_s` of the previous day exceed :math:`{S_s,max}`, the overflow  :math:`{R2}` is added together with 
-     daily runoff :math:`{R1}` and immediate runoff :math:`{R3}` to total daily runoff from land :math:`{R}_{L}`.
+     daily runoff :math:`{R3}` and immediate runoff :math:`{R1}` to total daily runoff from land :math:`{R}_{L}`.
 
 
-:math:`{R1}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}` and diffuse groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <watergap_scheme>`.
+:math:`{R3}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}` and diffuse groundwater recharge :math:`{R}_{g}` according to the:ref:`heuristic scheme <watergap_scheme>`.
 
 .. _diffuse_groundwater_recharge:
 
 .. math::
-   {R}_{g} = min\biggl({R}_{gmax} , ({f}_{g} \times {Rl} \biggr)  
+   {R}_{g} = min\biggl({R}_{gmax} , ({f}_{g} \times {R3} \biggr)  
 
 where :math:`{R}_{gmax}` is soil-texture-specific maximum groundwater recharge with values of 7, 4.5 and 2.5 (mm/d) for sandy,
 loamy and clayey soils, respectively, and :math:`{f}_{g}` is the groundwater recharge factor ranging between 0 and 1. :math:`{f}_{g}` is determined
 based on relief, soil texture, aquifer type, and the existence of permafrost or glaciers [4]_. 
 
 .. note:: 
-   If a grid cell is defined as (semi)arid and has coarse (sandy) soil, groundwater recharge will only occur if precipitation exceeds a critical value of 12.5 mm/d, otherwise the water remains in the soil. The fraction of :math:`{R}_{1}` that does not recharge the groundwater becomes :math:`{R}_{s}`, which recharges surface water bodies and the river compartment.
+   If a grid cell is defined as (semi)arid and has coarse (sandy) soil, groundwater recharge will only occur if precipitation exceeds a critical value of 12.5 mm/d, otherwise the water remains in the soil. The fraction of :math:`{R}_{3}` that does not recharge the groundwater becomes :math:`{R}_{s}`, which recharges surface water bodies and the river compartment.
 
 
 
