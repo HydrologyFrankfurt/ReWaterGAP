@@ -40,7 +40,7 @@ Reduction factor is computed for local and global lake as:
 .. _lake_red:
 
 .. math::
-   r = 1- left(\frac{|S_l - Sl,max|}{2({S}_{l,max})}right)^p,  0 <= r <=1
+   r = 1- \left(\frac{|S_l - Sl,max|}{2({S}_{l,max})}\right)^p,  0 <= r <=1
 
 
 where :math:`S_l` is the volume of the water :math:`m^3` stored in the lake at time step t :math:`days`, :math:`{S}_{l,max}` is the maximum storage of the lake :math:`m^3`. 
