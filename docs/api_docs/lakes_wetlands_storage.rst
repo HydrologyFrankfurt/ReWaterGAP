@@ -3,6 +3,13 @@ Lakes and wetlands storage
 Lakes and wetlands storages and related fluxes are calculated based on section 4.6 of Müller Schmied et al 2021 [1]_.  In WaterGAP, lakes and wetlands are categorized into two types: local and global. Local water bodies receive inflow only from the runoff generated within the grid cell, while global water bodies additionally receive streamflow from upstream grid cells. All local (global) wetlands within a 0.5◦ × 0.5◦ grid cell are simulated as one local (global) wetland that covers a specified fraction of the cell, and all local lakes within a grid cell are aggregated and simulated as one. It is important to note that the water balance of global lakes is computed at the outflow cell. 
 The location, area, and other attributes of these water bodies are defined using the Global Lakes and Wetland Database (GLWD) (Lehner and Döll, 2004). Area fractions of local lakes and wetlands, except for global lake (which have absolute area), are obtained from this database (see appendix D in Müller Schmied et al 2021), and this information is then used for the computation of the maximum capacity of the surface water bodies.
 
+.. note::
+   In each grid cell, there can be a maximum of one local wetland storage compartment, one global wetland compartment, one local lake compartment and one global lake 
+   compartment. The lateral water flow within the cell follows the sequence shown in watergap schematic diagram. For example, if there is a local lake compartment in a grid 
+   cell, it is this compartment that receives, under a humid climate, a fraction of the outflow from the groundwater compartment and of the fast surface and subsurface 
+   outflow.  The outflow from the local lake becomes inflow to the local wetland if it exists. If there is no local wetland but a global lake, the outflow from the local lake 
+   becomes part of the inflow of the global lake. 
+
 .. autofunction:: lakes_and_wetlands.lake_wetland_balance
 
 Water balance
