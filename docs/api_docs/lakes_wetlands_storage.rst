@@ -20,7 +20,22 @@ Lakes and wetland storage  :math:`{S}_{l,w}` :math:`(m^3)` is computated as
 
 where :math:`{Q}_{in}` is inflow into the lake or wetland from upstream :math:`(m^3 {d}^{-1})`, 
 :math:`A` is global (or local) water body surface area :math:`(m^2)` in the grid cell at time step t,
-:math:`P` is precipitation :math:`(m^3 {d}^{-1})`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` :math:`(m^3 {d}^{-1})`, :math:`{R_g}_{l,w}` is point source groundwater recharge from the water body (only in arid/semiarid regions) :math:`(m^3 {d}^{-1})`, :math:`NA_l` is net abstraction from lakes :math:`(m^3 {d}^{-1})`.
+:math:`P` is precipitation :math:`(m^3 {d}^{-1})`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` :math:`(m^3 {d}^{-1})`, :math:`{R_g}_{l,w}` is point source groundwater recharge from the water body (only in arid/semiarid regions) :math:`(m^3 {d}^{-1})`, :math:`NA_l` is net abstraction from lakes :math:`(m^3 {d}^{-1})` 
+and :math:`{Q}_{out}` is outflow from the water body to other surface water bodies including river storage :math:`(m^3 {d}^{-1})`. 
+
+The area of these surface water bodies (except global lake) varies temporally and it computed as 
+
+.. math::
+   A = r * {A}_{max}
+
+where :math:`r` is reduction factor (–), and :math:`{A}_{max}`  is maximum extent
+of the water body :math:`m^2}` computed as the :math:`(area of 0.5 * 0.5 grid cell) * area fraction of surface waterbody`.
+
+Reduction factor is computed for in the case of local lakes  as:
+
+.. math::
+   r = 1- \frac{|S_l - Sl,max|}{2(Sl,max)} 
+   domain of reduction factor 0<= r <=1
 
 
 .. note::
