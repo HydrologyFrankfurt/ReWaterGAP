@@ -15,16 +15,29 @@
 # =============================================================================
 # This module computes soil water balance, including soil storage and related
 # fluxes for all grid cells based on section 4.4 of
-# (Müller Schmied et al. (2021)). First, interception and snow is calculated
-# followed by immediate runoff.
-# Effective precipitation (computes as throufall - snowfall + snowmelt)
-# is reduced by the immediate runoff. Then, runoff is
-# calculated by using soil saturation, effective precipitation and runoff
-# coefficient. Actual evapotranspiration is calculated and the soil storage is
-# updated. Afterwards, ground water recharge is calculated based on the runoff.
-# Then, total daily runoff is calculated as runoff plus immediate runoff plus
-# soil water overflow. Surface runoff is then finally calculated as total daily
-# runoff minus ground water recharge.
+# (Müller Schmied et al. (2021)). After, interception and snow, runoff from
+# urban areas or immediate runoff (R1) is computed.
+# Effective precipitation (computes as throufall - snowfall + snowmelt) is
+# reduced by the immediate runoff. After, runoff from soil water overflow (R2)
+# is computed.Then, daily runoff (R3), Bergström (1995), is calculated by using
+# soil saturation, effective precipitation and runoff coefficient.
+# Actual evapotranspiration is calculated and the soil storage is
+# updated. Afterwards, ground water recharge is calculated based on the
+# soil runoff (R3). Then, total daily runoff from land (RL) is computed as
+# ( daily runoff (R3) + immediate runoff (R1) + soil water overflow (R2) )
+# (see Corrigendum equation 18a-c of Müller Schmied et al. (2021)).
+
+# For runoff from soil water overflow (R2),  we check if previous and current
+# storage exceed maximum soil water and update runoff from soil water overflow
+# accordingly.
+
+# Note: Total daily runoff (RL) is corrected with areal correction factor (CFA)
+# (if gamma is not sufficeint to fit simulated discharge). To conserve water
+# balance , evapotranspiration is also corrected with CFA.
+
+# After evapotranspiration correction, soil storage, total daily runoff and
+#  groundwater recharge are adjusted as well. Finally Surface runoff is then
+# calculated as total daily runoff minus ground water recharge.
 # =============================================================================
 
 import numpy as np
@@ -129,6 +142,9 @@ class Soil:
                     https://doi.org/10.5194/gmd-14-1037-2021
 
         """
+        # Runoff from urban areas or immediate runoff (R1). see eq.18b in H.
+        # Müller Schmied et al 2021(Corrigendum)
+
         # Note !!! runoff_frac_builtup = 0.5, Which is the fraction of
         # effective_precipitation that directly becomes runoff (specifically
         # in urban areas)
@@ -211,7 +227,7 @@ class Soil:
                      soil_water_content.copy())*self.pm.areal_corr_factor, 0)
 
         # =====================================================================
-        # Calculating soil water overflow (mm) and soil water content(mm).
+        # Calculating soil water overflow (R2) (mm) and soil water content(mm).
         # =====================================================================
         # Adapting  soil_water_content since land area fraction is dynamic
         soil_water_content *= landareafrac_ratio
@@ -219,8 +235,9 @@ class Soil:
         # Initial storage to calulate change in soil storage.
         initial_storage = soil_water_content.copy()
 
-        # Soil_water_overflow will be used to calulate Total daily runoff.
-        # Total daily runoff = runoff + immediate runoff + soil water overflow
+        # Soil_water_overflow (R2): see eq.18c in H. Müller Schmied et al 2021
+        # (Corrigendum). Soil_water_overflow  will be used to calulate
+        # Total daily runoff (runoff + immediate runoff + soil water overflow)
         soil_water_overflow = \
             np.where(soil_water_content > self.max_soil_water_content,
                      soil_water_content - self.max_soil_water_content, 0)
@@ -230,9 +247,9 @@ class Soil:
                      self.max_soil_water_content, soil_water_content)
 
         # =====================================================================
-        # Calculating daily soil runoff (mm/day).
+        # Calculating daily soil runoff (R3) (mm/day).
         # =====================================================================
-        # Runoff: see eq. 18d in H. Müller Schmied et al 2021 (Corrigendum)
+        # Runoff (R3): see eq.18d in H. Müller Schmied et al 2021 (Corrigendum)
         soil_saturation = (soil_water_content/self.max_soil_water_content)
 
         # gamma = Runoff coefficient (-)
@@ -365,20 +382,29 @@ class Soil:
         # Updating runoff and soil water content with remaning water in
         # the soil.
         # =====================================================================
+        # As potential recharge is water that remains in the soil for
+        # (seimi)arid under the prior stated conditions ,
+        # it is subtracted from runoff and added to storage.
+
+        # Remove double counting of CFA as recharge is computed from
+        # corrected daily runoff.
         daily_runoff -= potential_gw_recharge
         soil_water_content_new += (potential_gw_recharge /
                                    self.pm.areal_corr_factor)
 
         # ===================================================================
-        #           Calulating total daily run off (mm/day).
+        #  Calulating  total daily (RL) runoff (mm/day).
         # Total daily run off will later be used for the Surface runoff
         # which is written out. Order of calculation is important!!!
         # ===================================================================
         # Updating soil_water_overflow into a helper variable
-        # soil_water_overflow_new.
+        # soil_water_overflow_new (R2). see eq.18c in H. Müller Schmied et al
+        # 2021 (Corrigendum).
         # if the updated soil_water_content_new > maximum soil water content
-        # it becomes overflow.
-        # See eq. 18c in H. Müller Schmied et al 2021 (Corrigendum)
+        # it becomes overflow. This is to prevent the storage of the current
+        # time step to exceed maximum soil storage.
+        # Note: effective precipition will be always be zero if
+        # (max_temp_elev > snow_freeze_temp)
         soil_water_overflow_new = \
             np.where((soil_water_content_new > self.max_soil_water_content),
                      soil_water_overflow +
@@ -387,7 +413,7 @@ class Soil:
 
         soil_water_overflow_new *= self.pm.areal_corr_factor
 
-        # Total daily runoff is calculated as runoff plus immediate runoff plus
+        # Total daily runoff (RL) is calculated as runoff + immediate runoff +
         # updated soil water overflow (soil_water_overflow_new).
         # See eq. 18a in H. Müller Schmied et al 2021 (Corrigendum)
         total_daily_runoff = \
@@ -460,10 +486,23 @@ class Soil:
         # =====================================================================
         # Calulating corrected actual total evaporation for land (mm/day)
         # =====================================================================
-        # Actual total evaporation for land is corrected such that when areal
+        # Actual total evaporation from land is corrected such that when areal
         # correction factor is increased or reduced , actual total evaporation
         # will also be reduced or increased respectively. This is then
-        # consistent with cell-corrected runoff
+        # consistent with cell-corrected runoff.
+        # ----------------------------------------------------------------
+        # R(L) = P - AET - ds (dt=1) eqn. 1
+        # R(L) * CFA  = P - AET_corr - ds (dt=1) eqn. 2
+        # eqn2 into egn 1
+        # P - AET_corr - ds = CFA ( P - AET - ds)
+        # AET_corr = ds(CFA-1) - P(CFA-1) + AET(CFA)
+        # ///////////////////////////////////////////////////////////
+        # R(L): runoff from land (mm/day), P: precipitation (mm/day)
+        # AET: actual total evaporation for land (mm/day)
+        # ds: change in soil moisture storage (mm/day)
+        # CFA: areal correction factor
+        # /////////////////////////////////////////////////////////////
+
         corr_land_aet =\
             land_storage_change_sum * (self.pm.areal_corr_factor - 1.0) - \
             precipitation * (self.pm.areal_corr_factor - 1.0) + \
@@ -471,7 +510,7 @@ class Soil:
             self.pm.areal_corr_factor
 
         # Avoid negative values for corrected actual total evaporation for land
-        # This negative values as stored in neg_land_aet
+        # This negative values are stored in neg_land_aet
         neg_land_aet = np.where(corr_land_aet < 0, corr_land_aet, 0)
         corr_land_aet = np.where(corr_land_aet < 0, 0, corr_land_aet)
 
@@ -482,19 +521,21 @@ class Soil:
         total_daily_runoff = np.where(neg_land_aet < 0,
                                       total_daily_runoff + neg_land_aet,
                                       total_daily_runoff)
-        # Avoid negative runoff
+        # Avoid negative total daily runoff  in case neg_land_aet is large.
         total_daily_runoff[total_daily_runoff < 0] = 0
 
-        # Computing deficit surface runoff(neg_runoff) from total_daily_runoff
-        # and groundwater recharge from soil
+        # Compute deficit surface runoff (neg_runoff) from total_daily_runoff
+        # and groundwater recharge from soil after evapotranspiration
+        # correction. The idea here is to reduce soil water content with
+        # deficit surface runoff when groundwater recharge from soil is larger
+        # than total daily runoff and limit groundwater recharge to total daily
+        # runoff. surface runoff here will be zero.
+
         neg_runoff = \
             np.where((total_daily_runoff - groundwater_recharge_from_soil_mm)
                      < 0, (total_daily_runoff -
                            groundwater_recharge_from_soil_mm), 0)
 
-        # The idea here is to reduce soil water content  with deficit surface
-        # runoff when groundwater recharge  from soil is larger than total
-        # daily runoff
         soil_water_content = \
             np.where((total_daily_runoff - groundwater_recharge_from_soil_mm)
                      < 0, soil_water_content + neg_runoff, soil_water_content)
