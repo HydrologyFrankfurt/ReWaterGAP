@@ -26,16 +26,15 @@ and :math:`{Q}_{out}` is outflow from the water body to other surface water bodi
 The area of these surface water bodies (except global lake) varies temporally and it computed as 
 
 .. math::
-   A = r * {A}_{max}
+   A = r \times {A}_{max}
 
 where :math:`r` is reduction factor (–), and :math:`{A}_{max}`  is maximum extent
-of the water body :math:`m^2}` computed as the :math:`(area of 0.5 * 0.5 grid cell) * area fraction of surface waterbody`.
+of the water body :math:`m^2}` computed as the *(area of 0.5 \times 0.5 grid cell) \times area fraction of surface waterbody)*.
 
 Reduction factor is computed for in the case of local lakes  as:
 
 .. math::
-   r = 1- \frac{|S_l - Sl,max|}{2(Sl,max)} 
-   domain of reduction factor 0<= r <=1
+   r = 1- \frac{|S_l - S_l,max|}{2(Sl,max)} , 0 <= r <=1
 
 
 .. note::
