@@ -66,7 +66,7 @@ ReWaterGAP documentation
 
         +++
 
-        .. button-ref:: api
+        .. button-ref:: api_docs
             :ref-type: ref
             :click-parent:
             :color: secondary
@@ -102,6 +102,6 @@ ReWaterGAP documentation
 
     getting_started/index
     user_guide/index
-    reference/index
+    api_docs/index
     development/index
     whatsnew/index
