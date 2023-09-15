@@ -1,6 +1,6 @@
 :notoc:
 
-.. pandas documentation master file, created by
+.. ReWater GAP documentation master file, created by
 
 .. module:: pandas
 
