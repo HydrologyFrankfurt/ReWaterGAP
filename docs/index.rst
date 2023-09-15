@@ -2,7 +2,7 @@
 
 .. ReWater GAP documentation master file, created by
 
-.. module:: pandas
+# .. module:: pandas
 
 ********************
 pandas documentation
