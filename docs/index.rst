@@ -1,30 +1,20 @@
 :notoc:
 
-.. ReWater GAP documentation master file, created by
+.. ReWaterGAP documentation master file, created by
 
-# .. module:: pandas
+************************
+ReWaterGAP documentation
+************************
 
-********************
-pandas documentation
-********************
-
-**Date**: |today| **Version**: |version|
-
-**Download documentation**: `Zipped HTML <pandas.zip>`__
-
-**Previous versions**: Documentation of previous pandas versions is available at
-`pandas.pydata.org <https://pandas.pydata.org/>`__.
+**Date**: |today| **Version**: 2.2e
 
 **Useful links**:
-`Binary Installers <https://pypi.org/project/pandas>`__ |
-`Source Repository <https://github.com/pandas-dev/pandas>`__ |
-`Issues & Ideas <https://github.com/pandas-dev/pandas/issues>`__ |
-`Q&A Support <https://stackoverflow.com/questions/tagged/pandas>`__ |
-`Mailing List <https://groups.google.com/g/pydata>`__
+`Source Repository <https://github.com/HydrologyFrankfurt/ReWaterGAP>`__ |
+`Issues & Ideas <https://github.com/HydrologyFrankfurt/ReWaterGAP/issues>`__ |
+`Q&A Support <>`__ |
+`Mailing List <>`__
 
-:mod:`pandas` is an open source, BSD-licensed library providing high-performance,
-easy-to-use data structures and data analysis tools for the `Python <https://www.python.org/>`__
-programming language.
+:mod:`ReWaterGAP` is an open source, GNU-GPL 3-licensed hydrological simulation software for quantifying water flows and storages on all continents of the Earth.
 
 .. grid:: 1 2 2 2
     :gutter: 4
