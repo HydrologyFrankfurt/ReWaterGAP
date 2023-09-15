@@ -26,7 +26,6 @@ pandas documentation
 easy-to-use data structures and data analysis tools for the `Python <https://www.python.org/>`__
 programming language.
 
-{% if not single_doc or single_doc == "index.rst" -%}
 .. grid:: 1 2 2 2
     :gutter: 4
     :padding: 2 2 0 0
@@ -106,38 +105,15 @@ programming language.
 
             To the development guide
 
-{% endif %}
-{% if single_doc and single_doc.endswith('.rst') -%}
-.. toctree::
-    :maxdepth: 3
-    :titlesonly:
 
-    {{ single_doc[:-4] }}
-{% elif single_doc and single_doc.count('.') <= 1 %}
-.. autosummary::
-    :toctree: reference/api/
-
-    {{ single_doc }}
-{% elif single_doc %}
-.. autosummary::
-    :toctree: reference/api/
-    :template: autosummary/accessor_method.rst
-
-    {{ single_doc }}
-{% else -%}
 .. toctree::
     :maxdepth: 3
     :hidden:
     :titlesonly:
-{% endif %}
-{% if not single_doc %}
+
+
     getting_started/index
     user_guide/index
-    {% endif -%}
-    {% if include_api -%}
     reference/index
-    {% endif -%}
-    {% if not single_doc -%}
     development/index
     whatsnew/index
-{% endif %}
