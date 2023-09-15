@@ -32,7 +32,7 @@ programming language.
     :class-container: sd-text-center
 
     .. grid-item-card:: Getting started
-        :img-top: _static/index_getting_started.svg
+        :img-top: images/index_getting_started.svg
         :class-card: intro-card
         :shadow: md
 
