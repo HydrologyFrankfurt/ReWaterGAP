@@ -30,7 +30,7 @@ ReWaterGAP documentation
 
     .. grid-item-card:: User guide
         :text-align: center
-        :link:  user_guide/index
+        :link:  user_guide
         :link-type: ref
 
         :octicon:`book;10em`
@@ -40,7 +40,7 @@ ReWaterGAP documentation
 
     .. grid-item-card:: API Reference
         :text-align: center
-        :link:  api_docs/index
+        :link:  api_docs
         :link-type: ref
 
         :octicon:`gear;10em`
@@ -51,13 +51,12 @@ ReWaterGAP documentation
 
     .. grid-item-card:: Contributers Guide
         :text-align: center
-        :link: contributers_guide/index
+        :link: contributers_guide
         :link-type: ref
 
         :octicon:`light-bulb;10em`
         +++
-        Saw a typo in the documentation or want to improve
-        existing functionalities? The contributing guidelines will guide
+        Saw a typo in the documentation or want to improve functionalities? The contributing guidelines will guide
         you through the process of improving ReWaterGAP.
 
 
