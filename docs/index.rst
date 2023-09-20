@@ -24,7 +24,7 @@ ReWaterGAP documentation
 
         :octicon:`play;10em`
         +++
-       Getting started
+        Getting started
 
     .. grid-item-card::
         :text-align: center
@@ -33,7 +33,7 @@ ReWaterGAP documentation
 
         :octicon:`book;10em`
         +++
-       User guide
+        User guide
 
     .. grid-item-card::
         :text-align: center
@@ -42,7 +42,7 @@ ReWaterGAP documentation
 
         :octicon:`gear;10em`
         +++
-       API Reference
+        API Reference
 
     .. grid-item-card::
         :text-align: center
@@ -56,9 +56,8 @@ ReWaterGAP documentation
 
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :hidden:
-    :titlesonly:
 
 
     getting_started/index
