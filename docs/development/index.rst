@@ -1,5 +1,0 @@
-.. _development:
-
-===========
-Developer Guide
-===========
