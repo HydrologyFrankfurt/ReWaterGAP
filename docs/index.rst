@@ -14,84 +14,45 @@ ReWaterGAP documentation
 
 :mod:`ReWaterGAP` is an open source, GNU-GPL 3-licensed hydrological simulation software for quantifying water flows and storages on all continents of the Earth.
 
-.. grid:: 1 2 2 2
-    :gutter: 4
-    :padding: 2 2 0 0
-    :class-container: sd-text-center
+.. grid:: 2
+    :gutter: 1
 
-    .. grid-item-card:: Getting started
-        :img-top: images/getting_started.svg
-        :class-card: intro-card
-        :shadow: md
+    .. grid-item-card::
+        :text-align: center
+        :link:  getting_started/index
+        :link-type: ref
 
-        New to *ReWaterGAP*? Check out the getting started guides. They contain an
-        introduction to *ReWaterGAP's* main concepts and links to additional tutorials.
-
+        :octicon:`play;10em`
         +++
+       Getting started
 
-        .. button-ref:: getting_started
-            :ref-type: ref
-            :click-parent:
-            :color: secondary
-            :expand:
+    .. grid-item-card::
+        :text-align: center
+        :link:  user_guide/index
+        :link-type: ref
 
-            To the getting started guides
-
-    .. grid-item-card::  User guide
-        :img-top: images/user_guide.svg
-        :class-card: intro-card
-        :shadow: md
-
-        The user guide provides in-depth information on the
-        key concepts of ReWaterGAP with useful background information and explanation.
-
+        :octicon:`book;10em`
         +++
+       User guide
 
-        .. button-ref:: user_guide
-            :ref-type: ref
-            :click-parent:
-            :color: secondary
-            :expand:
+    .. grid-item-card::
+        :text-align: center
+        :link:  api_docs/index
+        :link-type: ref
 
-            To the user guide
-
-    .. grid-item-card::  API reference
-        :img-top: images/api_reference.svg
-        :class-card: intro-card
-        :shadow: md
-
-        The reference guide contains a detailed description of
-        the ReWaterGAP API. The reference describes how the methods work and which parameters can
-        be used. It assumes that you have an understanding of the key concepts.
-
+        :octicon:`gear;10em`
         +++
+       API Reference
 
-        .. button-ref:: api_docs
-            :ref-type: ref
-            :click-parent:
-            :color: secondary
-            :expand:
+    .. grid-item-card::
+        :text-align: center
+        :link: contributers_guide/index
+        :link-type: ref
 
-            To the reference guide
-
-    .. grid-item-card::  Contributers guide
-        :img-top: images/developer_guide.svg
-        :class-card: intro-card
-        :shadow: md
-
-        Saw a typo in the documentation? Want to improve
-        existing functionalities? The contributing guidelines will guide
-        you through the process of improving ReWaterGAP.
-
+        :octicon:`light-bulb;10em`
         +++
+        Contributers Guide
 
-        .. button-ref:: contributers_guide
-            :ref-type: ref
-            :click-parent:
-            :color: secondary
-            :expand:
-
-            To the development guide
 
 
 .. toctree::
