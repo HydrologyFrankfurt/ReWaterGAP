@@ -10,19 +10,19 @@ API Reference
 
     .. grid-item-card:: Vertical Water Balance
         :text-align: center
-        :link:
+        :link: rewatergap_schematic
         :link-type: ref
 
-        :octicon:`play;10em`
+        :octicon:`arrow-down;10em`
         +++
         Vertical
 
     .. grid-item-card:: Lateral Water Balance
         :text-align: center
-        :link:
+        :link: rewatergap_schematic
         :link-type: ref
 
-        :octicon:`play;10em`
+        :octicon:`arrow-right;10em`
         +++
         Lateral
 
