@@ -21,12 +21,12 @@ ReWaterGAP documentation
         :text-align: center
         :link:  getting_started/index
         :link-type: ref
-
         :octicon:`play;10em`
-        +++
-        **Getting started**
+
         New to *ReWaterGAP*? Check out the getting started guides. They contain an
         introduction to *ReWaterGAP's* main concepts and links to additional tutorials.
+        +++
+        **Getting started**
 
 
     .. grid-item-card::
