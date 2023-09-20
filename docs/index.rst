@@ -21,11 +21,12 @@ ReWaterGAP documentation
         :text-align: center
         :link:  getting_started/index
         :link-type: ref
-        A
-        B
+
         :octicon:`play;10em`
         +++
+        :intro: Test test test
         Getting started
+
 
     .. grid-item-card::
         :text-align: center
