@@ -16,4 +16,5 @@ API Reference
    soilstorage
    groundwater_storage
    lakes_wetlands_storage
+   net_abstractions
 
