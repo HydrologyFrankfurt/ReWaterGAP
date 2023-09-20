@@ -1,5 +1,5 @@
 .. _contributers_guide:
 
 ===========
-Developer Guide
+Contributers Guide
 ===========
