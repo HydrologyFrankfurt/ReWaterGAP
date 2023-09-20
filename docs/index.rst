@@ -19,7 +19,7 @@ ReWaterGAP documentation
 
     .. grid-item-card:: Getting started
         :text-align: center
-        :link:  getting_started/index
+        :link:  getting_started
         :link-type: ref
 
         :octicon:`play;10em`
@@ -47,7 +47,7 @@ ReWaterGAP documentation
         +++
         The reference guide contains a detailed description of
         the ReWaterGAP API. The reference describes how the methods work and which parameters can
-        be used. It assumes that you have an understanding of the key concepts.
+        be used.
 
     .. grid-item-card:: Contributers Guide
         :text-align: center
@@ -56,7 +56,7 @@ ReWaterGAP documentation
 
         :octicon:`light-bulb;10em`
         +++
-        Saw a typo in the documentation? Want to improve
+        Saw a typo in the documentation or want to improve
         existing functionalities? The contributing guidelines will guide
         you through the process of improving ReWaterGAP.
 
