@@ -10,16 +10,16 @@ API Reference
 
     .. grid-item-card:: Vertical Water Balance
         :text-align: center
-        :link:  getting_started
+        :link:
         :link-type: ref
 
         :octicon:`play;10em`
         +++
-       Vertical
+        Vertical
 
     .. grid-item-card:: Lateral Water Balance
         :text-align: center
-        :link:  getting_started
+        :link:
         :link-type: ref
 
         :octicon:`play;10em`
