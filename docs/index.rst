@@ -36,10 +36,12 @@ ReWaterGAP documentation
         :link-type: ref
 
         :octicon:`book;10em`
+        **User guide**
         +++
-        User guide
+        The user guide provides in-depth information on the
+        key concepts of ReWaterGAP with useful background information and explanation.
 
-    .. grid-item-card::
+    .. grid-item-card:: API Reference
         :text-align: center
         :link:  api_docs/index
         :link-type: ref
