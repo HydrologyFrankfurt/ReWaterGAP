@@ -24,8 +24,9 @@ ReWaterGAP documentation
 
         :octicon:`play;10em`
         +++
-        :intro: Test test test
-        Getting started
+        **Getting started**
+        New to *ReWaterGAP*? Check out the getting started guides. They contain an
+        introduction to *ReWaterGAP's* main concepts and links to additional tutorials.
 
 
     .. grid-item-card::
