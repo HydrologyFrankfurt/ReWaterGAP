@@ -17,26 +17,23 @@ ReWaterGAP documentation
 .. grid:: 2
     :gutter: 1
 
-    .. grid-item-card::
+    .. grid-item-card:: Getting started
         :text-align: center
         :link:  getting_started/index
         :link-type: ref
 
         :octicon:`play;10em`
-
+        +++
         New to *ReWaterGAP*? Check out the getting started guides. They contain an
         introduction to *ReWaterGAP's* main concepts and links to additional tutorials.
-        +++
-        **Getting started**
 
 
-    .. grid-item-card::
+    .. grid-item-card:: User guide
         :text-align: center
         :link:  user_guide/index
         :link-type: ref
 
         :octicon:`book;10em`
-        **User guide**
         +++
         The user guide provides in-depth information on the
         key concepts of ReWaterGAP with useful background information and explanation.
@@ -48,16 +45,20 @@ ReWaterGAP documentation
 
         :octicon:`gear;10em`
         +++
-        API Reference
+        The reference guide contains a detailed description of
+        the ReWaterGAP API. The reference describes how the methods work and which parameters can
+        be used. It assumes that you have an understanding of the key concepts.
 
-    .. grid-item-card::
+    .. grid-item-card:: Contributers Guide
         :text-align: center
         :link: contributers_guide/index
         :link-type: ref
 
         :octicon:`light-bulb;10em`
         +++
-        Contributers Guide
+        Saw a typo in the documentation? Want to improve
+        existing functionalities? The contributing guidelines will guide
+        you through the process of improving ReWaterGAP.
 
 
 
