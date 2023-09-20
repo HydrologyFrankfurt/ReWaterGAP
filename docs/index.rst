@@ -21,7 +21,8 @@ ReWaterGAP documentation
         :text-align: center
         :link:  getting_started/index
         :link-type: ref
-
+        A
+        B
         :octicon:`play;10em`
         +++
         Getting started
