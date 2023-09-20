@@ -74,7 +74,7 @@ ReWaterGAP documentation
 
             To the reference guide
 
-    .. grid-item-card::  Developer guide
+    .. grid-item-card::  Contributers guide
         :img-top: images/developer_guide.svg
         :class-card: intro-card
         :shadow: md
@@ -85,7 +85,7 @@ ReWaterGAP documentation
 
         +++
 
-        .. button-ref:: development
+        .. button-ref:: contributers_guide
             :ref-type: ref
             :click-parent:
             :color: secondary
@@ -103,5 +103,5 @@ ReWaterGAP documentation
     getting_started/index
     user_guide/index
     api_docs/index
-    development/index
+    contributers_guide/index
     whatsnew/index
