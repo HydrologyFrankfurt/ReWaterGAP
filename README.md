@@ -26,7 +26,7 @@ ReWater Gap receives funding from the german research foundation DFG. For furthe
 # The Team
 - Principal investigator: [Prof. Dr. Petra Döll](https://www.uni-frankfurt.de/45217719/Univ__Prof__Dr__rer__nat__habil__Petra_D%C3%B6ll)
 - Principal investigator: [Prof. Dr. Martina Flörke](https://www.hydrology.ruhr-uni-bochum.de/hydro/lehrstuhl/mitarbeiter/floerke.html.de)
-- [Dr. Robert Reinecke](https://github.com/rreinecke)
+- Lead software architect: [Dr. Robert Reinecke](https://github.com/rreinecke)
 - Lead Programmer: [Emmanuel Nyenah](https://github.com/nyenah)
 - Editing: [Leon Mühlenbruch](https://github.com/Leon-Muehlenbruch)
 
