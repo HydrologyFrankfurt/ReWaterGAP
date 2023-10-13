@@ -94,8 +94,9 @@ In the computation of NApot,g in GWSWUSE, it is assumed that the total demand fo
 
 UnNApot,s(t-1) is positive and WApot,s,irri(t) >0
 In this case, the surface water abstraction for irrigation on the previous day was lower than that assumed when computing NApot,g. Thus, return flows to groundwater are decreased and NAg becomes larger than NApot,g. We derive the algorithm by setting, as a first step, all water uses that are not related to surface water use for irrigation to zero, as they are not affected by the reduction of net abstraction from surface water as compared to NApot,s. The equations in italics show the derivation, the normal letters what is included in the code. Then, Eq. (2) is simplified to
-NApot,s = WApot,s,irri- (1-frgi)(WApot,s,irri-CUpot,s,irri)
-eff= CUpot,s,irri/WApot,s,irri
+.. math::
+{NA}_{pot,s} = WApot,s,irri- (1-frgi)(WApot,s,irri-CUpot,s,irri)
+{eff}= CUpot,s,irri/WApot,s,irri
 NApot,s = WApot,s,irri- (1-frgi)(WApot,s,irri-eff WApot,s,irri)
 NApot,s = WApot,s,irri- (1-frgi)(1-eff) WApot,s,irri
 NApot,s = WApot,s,irri [1-(1-frgi)(1-eff)]
@@ -106,8 +107,10 @@ factor WAs,irri = factor WApot,s,irri - UnNApot,s
 WAs,irri = (1/factor) (factor WApot,s,irri - UnNApot,s)
 Neglecting all water uses except surface water use for irrigation, Eq. 1 is simplified to
 NApot,g = -frgi (1-eff)WApot,s,irri
+
 Then, the change in return flow to groundwater due to changing from WApot,s,irri to Ws,irr is computed as
-return_flow_change = frgi(1-eff)(WAs,irri-WApot,s,irri) //(negative)
+.. math::
+   return_flow_change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) //(negative)
 NAg(t) = NApot,g(t) – return flow change(t-1) (output)
 
 
