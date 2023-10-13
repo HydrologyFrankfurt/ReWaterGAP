@@ -12,14 +12,31 @@ Potential net abstraction from groundwater :math:`({NA}_{pot,g})` and potential 
 
 1 Computation of potential net abstractions from surface water and groundwater
 ------------------------------------------------------------------------------
-Only the irrigation, domestic and manufacturing water use sectors are assumed to use groundwater as their source of water in addition to surface water. A fraction frgi of the total return flows from irrigation (using either surface water or groundwater) recharges groundwater, while the rest directly flows to surface water bodies. The return flows of all other four water sectors are assumed to directly reach the surface water [1]_. Implementing these assumptions, the module GWSWUSE computes  
-
+Only three sectors are assumed to use groundwater, in addition to surface water, as their source: irrigation, domestic, and manufacturing. A fraction of the water returned from irrigation (whether from surface or groundwater) refills groundwater at a rate of :math:`{f}_{rgi}`, while the rest directly flows back to surface water bodies. For the other sectors, their return flows go directly to the surface water. Implementing these assumptions, the module GWSWUSE computes :math:`({NA}_{pot,g})` as the sum of the three sectors using groundwater minus the artificial groundwater recharge [1]_. Implementing these assumptions, the module GWSWUSE computes  
 
 .. math::
    {NA}_{pot,g} = [{WA}_{pot,g,irri} + {WA}_{pot,g,dom} + {WA}_{pot,g,man}] - [{frgi}*({WA}_{pot,g,irri} - {CU}_{pot,g,irri} + {WA}_{pot,s,irri} - {CU}_{pot,s,irri})]
 
 
 with WApot: potential water abstraction, in km3/month, CUpot: potential consumptive use, in km3/month, NA: net abstraction, in km3/month, frgi: fraction of return flow (WA-CU) from irrigation to groundwater, and g: groundwater, s: surface water, irri: irrigation, dom: domestic, man: manufacturing. The term that is subtracted at the right-hand side of Eq. (1), the return flow from irrigation with surface water or groundwater to groundwater, can be regarded as artificial groundwater recharge [1]_.
+
+with:
+:math:`{WA}_{pot}`: potential water abstraction, in [km3/month], 
+:math:`{CU}_{pot}`: potential consumptive use, in [km3/month], 
+:math:`{NA}`: net abstraction, in [km3/month], 
+:math:`{f}_{rgi}`: fraction of return flow :math:`({WA}-{CU})` from irrigation to groundwater,
+and the indices:
+_g_: groundwater, 
+_s_: surface water, 
+_irri_: irrigation, 
+_dom_: domestic, 
+_man_: manufacturing. 
+
+.. note::
+For computations in WaterGAP, net abstractions are converted from [km3/month] to [km3/day]
+
+The subtracted artificial groundwater recharge is the returned flow from irrigation with surface water or groundwater to groundwater (Döll et al., 2012).
+
 For water uses where the source of the water and the sink for the return flow are the surface water bodies, only consumptive use needs to be included in the computation of NApot,s. This is the case for water use for cooling of thermal power plants and for livestock as well as for surface water use in the domestic and manufacturing sectors. Thus, NApot,s is computed as
 NApot,s = [CUpot,liv + CUpot,thermal + CUpot,s,dom + CUpot,s,man + WApot,s,irri] – 
                    [(1-frgi) (WApot,g,irri-CUpot,g,irri+WApot,s,irri-CUpot,s,irri) + 
