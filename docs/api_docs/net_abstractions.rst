@@ -7,7 +7,7 @@ In WaterGAP, water usage across five sectors is simulated, differentiating betwe
 Net abstractions are the difference between the water abstractions from a storage compartment (groundwater or surface water) and the water returned to that compartment [1]_. This concept is used to gauge the impact of human water use on water storage. Thus, the impact of irrigation on soil water storage is neglected in WaterGAP. 
 
 Net abstractions (math:`{NA}`) can be either positive or negative; the latter occurs if return flows to a storage compartment exceed abstractions from the compartment. 
-Potential net abstraction from groundwater (math:`{NA}_{pot,g}`) and potential net abstraction from surface water (math:`{NA}_{pot,s}`), which do not take into account water availability, are computed in GWSWUSE (Groundwater-Surface Water Use) and are input to WGHM (WaterGAP Global Hydrology Model). The sum of these potential net abstractions reflects the potential consumptive water use – the part of taken water that's evaporated or transpired during usage.
+Potential net abstraction from groundwater math:`({NA}_{pot,g})` and potential net abstraction from surface water math:`({NA}_{pot,s})`, which do not take into account water availability, are computed in GWSWUSE (Groundwater-Surface Water Use) and are input to WGHM (WaterGAP Global Hydrology Model). The sum of these potential net abstractions reflects the potential consumptive water use – the part of taken water that's evaporated or transpired during usage.
 
 
 1 Computation of potential net abstractions from surface water and groundwater
