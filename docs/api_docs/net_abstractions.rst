@@ -21,17 +21,19 @@ Only three sectors are assumed to use groundwater, in addition to surface water,
 with WApot: potential water abstraction, in km3/month, CUpot: potential consumptive use, in km3/month, NA: net abstraction, in km3/month, frgi: fraction of return flow (WA-CU) from irrigation to groundwater, and g: groundwater, s: surface water, irri: irrigation, dom: domestic, man: manufacturing. The term that is subtracted at the right-hand side of Eq. (1), the return flow from irrigation with surface water or groundwater to groundwater, can be regarded as artificial groundwater recharge [1]_.
 
 with:
-- :math:`{WA}_{pot}`: potential water abstraction, in [km3/month], 
-- :math:`{CU}_{pot}`: potential consumptive use, in [km3/month], 
-- :math:`{NA}`: net abstraction, in [km3/month], 
-- :math:`{f}_{rgi}`: fraction of return flow :math:`({WA}-{CU})` from irrigation to groundwater,
+
+ - :math:`{WA}_{pot}`: potential water abstraction, in [km3/month], 
+ - :math:`{CU}_{pot}`: potential consumptive use, in [km3/month], 
+ - :math:`{NA}`: net abstraction, in [km3/month], 
+ - :math:`{f}_{rgi}`: fraction of return flow :math:`({WA}-{CU})` from irrigation to groundwater,
 
 and the indices:
-- g: groundwater, 
-- _s_: surface water, 
-- _irri_: irrigation, 
-- _dom_: domestic, 
-- _man_: manufacturing. 
+
+ - g: groundwater, 
+ - _s_: surface water, 
+ - _irri_: irrigation, 
+ - _dom_: domestic, 
+ - _man_: manufacturing. 
 
 .. note::
 
