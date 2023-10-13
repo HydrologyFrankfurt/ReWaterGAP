@@ -27,7 +27,7 @@ with:
 - :math:`{f}_{rgi}`: fraction of return flow :math:`({WA}-{CU})` from irrigation to groundwater,
 
 and the indices:
-- _g_: groundwater, 
+- g: groundwater, 
 - _s_: surface water, 
 - _irri_: irrigation, 
 - _dom_: domestic, 
