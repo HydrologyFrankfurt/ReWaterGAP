@@ -29,11 +29,11 @@ with:
 
 and the indices:
 
- - g: groundwater, 
- - _s_: surface water, 
- - _irri_: irrigation, 
- - _dom_: domestic, 
- - _man_: manufacturing. 
+ - *g*: groundwater, 
+ - *s*: surface water, 
+ - *irri*: irrigation, 
+ - *dom*: domestic, 
+ - *man*: manufacturing. 
 
 .. note::
 
