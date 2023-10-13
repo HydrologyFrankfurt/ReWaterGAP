@@ -15,8 +15,8 @@ If you would like to learn more about the functionalities of WaterGAP find the A
 
 
 If you would like to learn how the WaterGAP code works find our commented code [here]. 
-| G2+
-| A basic understanding about programming is helpful.
+|G2+
+|A basic understanding about programming is helpful.
 
 
 If you would like to run WaterGAP using your own input data, run the model for a specific basin, region, period, configuration or change temporal resolution find our guide [here]. 
