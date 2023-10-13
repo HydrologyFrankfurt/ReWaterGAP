@@ -11,7 +11,7 @@ Only the irrigation, domestic and manufacturing water use sectors are assumed to
    \frac{dS_g}{d_t} =  {R}_{g} − {R}_{gl,res,w}− {Q}_{g}- {NA}_{g}
 
 .. math::
-   {NA}_{pot,g}
+   {NA}_{pot,g} = [{WA}_{pot,g,irri} + {WA}_{pot,g,dom} + {WA}_{pot,g,man}] - [{frgi}*({WA}_{pot,g,irri} - {CU}_{pot,g,irri} + {WA}_{pot,s,irri} - {CU}_{pot,s,irri})]
 
 
 with WApot: potential water abstraction, in km3/month, CUpot: potential consumptive use, in km3/month, NA: net abstraction, in km3/month, frgi: fraction of return flow (WA-CU) from irrigation to groundwater, and g: groundwater, s: surface water, irri: irrigation, dom: domestic, man: manufacturing. The term that is subtracted at the right-hand side of Eq. (1), the return flow from irrigation with surface water or groundwater to groundwater, can be regarded as artificial groundwater recharge (Döll et al., 2012).
