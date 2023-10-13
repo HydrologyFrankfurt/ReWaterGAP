@@ -4,12 +4,11 @@
 User Guide
 ===========
 
-If you are new to WaterGAP and want to learn how to run the program find our quick start guide [here]. 
+If you are new to WaterGAP and want to learn how to run the program find our quick start guide `here <https://hydrologyfrankfurt.github.io/ReWaterGAP/getting_started/index.html>`_. 
 | G1+
 | No knowledge about programming is required.
 
-
-If you would like to learn more about the functionalities of WaterGAP find the API References [here]. 
+If you would like to learn more about the functionalities of WaterGAP find the API References `here <https://hydrologyfrankfurt.github.io/ReWaterGAP/api_docs/index.html>`_. 
 | G1+
 | No knowledge about programming is required.
 
@@ -29,6 +28,6 @@ If you would like to couple WaterGAP to other models (e. g. `G3M <https://github
 | An advanced level of programming is required.
 
 
-All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome. Find the contributors guide [here].
+All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome. Find the contributors guide `here <https://hydrologyfrankfurt.github.io/ReWaterGAP/contributers_guide/index.html>`_.
 
 
