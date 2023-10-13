@@ -46,7 +46,7 @@ For water uses where the source of the water and the destination for the return 
 Thus, NApot,s is computed as:
 
 .. math::
-{NA}_{pot,s} = [{CU}_{pot,liv} + {CU}_{pot,thermal} + {CU}_{pot,s,dom} + {CU}_{pot,s,man} + {WA}_{pot,s,irri}] – [(1-{f}_{rgi})*({WA}_{pot,g,irri}-{CU}_{pot,g,irri}+{WA}_{pot,s,irri}-{CU}_{pot,s,irri}) + ({WA}_{pot,g,dom} -{CU}_{pot,g,dom} + {WA}_{pot,g,man} - {CU}_{pot,g,man})]
+   {NA}_{pot,s} = [{CU}_{pot,liv} + {CU}_{pot,thermal} + {CU}_{pot,s,dom} + {CU}_{pot,s,man} + {WA}_{pot,s,irri}] – [(1-{f}_{rgi})*({WA}_{pot,g,irri}-{CU}_{pot,g,irri}+{WA}_{pot,s,irri}-{CU}_{pot,s,irri}) + ({WA}_{pot,g,dom} -{CU}_{pot,g,dom} + {WA}_{pot,g,man} - {CU}_{pot,g,man})]
 
 with: 
 - _liv_: livestock,
@@ -55,27 +55,37 @@ with:
  
 1 Actual net abstraction from surface water
 -------------------------------------------
-The demand for groundwater abstractions is always fulfilled in WaterGAP, assuming an unlimited groundwater volume, different from the demand for surface water abstractions. If the potential net abstraction from surface water NApot,s is positive, it might not be possible to fulfill the demand due to the lack of water in the surface water bodies in the grid cell. There are two options for spatially shifting (part of) NApot,s to other cells. In the case of the “riparian water supply”option, if the demand cell is a riparian cell of a global lake or reservoir, NApot,s is satisﬁed from the lake/reservoir storage if possible. In the case of the “neighboring cell water supply” option, any accumulated unsatisfied potential net abstraction from surface water is satisfied from a neighboring supply cell. In case of the “delayed water supply” option, there is a temporal shift of the demand for surface water that could not be fulfilled at one day to later in the year [2]_. This means that for “delayed water supply option”, unsatisfied water demand after spatial satisfaction is tried to be satisfied the next day till the end of the calender year. Demand is set to zero at the end of the calender year.
+The demand for groundwater abstractions is always fulfilled in WaterGAP, assuming an unlimited groundwater volume, which differs from the demand for surface water abstractions. If the potential net abstraction from surface water (NApot,s), is positive, fulfilling the demand might not be possible due to water scarcity in the surface water bodies of the grid cell.
+There are three options for managing this situation by spatially shifting parts of NApot,s to other grid cells.
+
+1. With the 'riparian water supply' option, if the demanding cell is situated along a global lake or reservoir, NApot,s can be fulfilled from the storage of the lake or reservoir, if possible. In WaterGAP this is achieved by computing storages in the output cell.
+2. Alternatively, with the 'neighboring cell water supply' option, any accumulated unsatisfied potential net abstraction from surface water can be satisfied from a neighboring cell with available supply.
+3. Lastly, in the 'delayed water supply' option, surface water demands that couldn't be met on a given day are shifted to a later time in the year (Müller Schmied et al., 2021, p. 1050).
+
 
 1.1	Riparian water supply option
---------------------------------
-If the demand cell is a riparian cell of a global lake or reservoir, NAs is satisﬁed from the lake/reservoir storage if possible. For this, the NApot,s values of all riparian cells are aggregated for each time step if they are positive and assigned to the outflow cell (lines 958-982 in routing.cpp) (and subtracted from lake/reservoir storage of the outflow cell).  Negative NApot,s  (return flows) are used to increase the storage or the riparians cell itself. 
-If satisfaction is not possible, the unsatisfied part from the outflow cell is reassigned to the riparian cells proportionally (directly after computation of the global lake/reservoir storage).  The percentage contribution of each riparian cell to the aggerated demand in the outflow cell is used to redistribute the unsatisfied demand to the riparian cells.  The redistributed demand of the riparian cell  are  tried to be satisfied with river storage of that riparian cell in the next time step.
-The actual net abstraction from surface water in global lake/reservoir outflow cell due to NApot,s in riparian demand cells (net_abstraction_sw_for_riparian_cells) and the part of potential net abstraction from surface water in riparian demand cell that is supplied from global lake/reservoir outflow cell (net_abstraction_sw_from_outflow_cell) can be written out.
+----------------------------------
+If the demand cell is a riparian cell of a global lake or reservoir, NAs is satisfied from the lake/reservoir storage if possible. For this purpose, the NApot,s values of all riparian cells are aggregated for each time step if they are positive and then assigned to the outflow cell, subtracting them from the lake/reservoir storage of the outflow cell.
+Negative NApot,s (return flows) are used to increase the storage of the riparians cell itself. 
+
+If satisfaction is impossible, the not-satisfied part from the outflow cell is proportionally redistributed to the riparian cells, right after calculating the global lake/reservoir storage. The proportional contribution of each riparian cell to the aggregated demand in the outflow cell is employed to distribute the unmet demand to the riparian cells.
+The actual net abstraction from surface water in the global lake/reservoir outflow cells, resulting from NApot,s in riparian demand cells (net_abstraction_sw_for_riparian_cells), and the part of the potential net abstraction from surface water in the riparian demand cell that is supplied from the global lake/reservoir outflow cell (net_abstraction_sw_from_outflow_cell) can be written out.
+
 
 1.2	Neighboring cell water supply option 
 ----------------------------------------
-Unsatisﬁed surface water demand of all other cells can be taken from the neighbouring cell with the largest river and lake/reservoir storage simulating the effect of water transfers. However, in each cell i, the first priority is to satisfy the water demand of cell i (from water storage in cell i), and only the second priority, is to satisfy water demand allocated from the neighboring cell(s) from water storage in cell i. 
+Unsatisﬁed surface water demand of all other cells can be taken from the neighboring cell with the largest river and lake/reservoir storage simulating the effect of water transfers. However, in each cell i, the first priority is to satisfy the water demand of cell i (from water storage in cell i), and only the second priority, is to satisfy water demand allocated from the neighboring cell(s) from water storage in cell i. 
 If not all the unsatisfied demand of the demand cell can be fulfilled in the supply cell, the unsatisfied demand is assigned back to the demand cell. 
-In both cases, the NAs of the demand cell is reduced as compared to NApot,s and the NAs of the supply cell is increased. 
-If unsatisfied NAs of the demand cell can be satisfied in the supply cell, then NAg in the demand cell remains constant, as the full return flow from irrigation with surface water occurs in the demand cell. 
-In this case, the sum of NAg and NAs in each grid cell is no longer equal to the total actual consumptive water use in both the supply and the demand cells. The actual net abstraction from surface water in supply cell due to NApot,s in neighboring demand cells (net_abstraction_sw_for_neighbor_cells) and the part of potential net abstraction from surface water demand cell that is supplied from that is supplied from supply cell (net_abstraction_sw_from_supply_cell) can be written out. In case of the delayed water supply option, it is first attempted to fulfil the delayed use in the cell before shifting it to the neighboring cell.
+In both cases, the :math:`{NA}_{s} of the demand cell is reduced as compared to :math:`{NA}_{pot,s}` and the :math:`{NA}_{s} of the supply cell is increased. 
+If unsatisfied :math:`{NA}_{s} of the demand cell can be satisfied in the supply cell, then NAg in the demand cell remains constant, as the full return flow from irrigation with surface water occurs in the demand cell. 
+In this case, the sum of :math:`{NA}_{g} and :math:`{NA}_{s} in each grid cell is no longer equal to the total actual consumptive water use in both the supply and the demand cells. The actual net abstraction from surface water in supply cell due to NApot,s in neighboring demand cells (net_abstraction_sw_for_neighbor_cells) and the part of potential net abstraction from surface water demand cell that is supplied from that is supplied from supply cell (net_abstraction_sw_from_supply_cell) can be written out. In case of the delayed water supply option, it is first attempted to fulfill the delayed use in the cell before shifting it to the neighboring cell.
 
 
 1.3	Delayed water supply option
 -------------------------------
 Temporal distribution, by allowing delayed satisfaction of daily surface water demands, aims at compensating that WaterGAP likely underestimates demand satisfaction due to the generic reservoir algorithm and an underestimation of the storage of water, e.g., by small tanks and dams (Müller Schmied et al., 2021, p. 1050). If even after the spatial distribution of unsatisfied NAs, there is still unsatisfied NAs, it is possible to satisfy it until the end of the calendar year. Unsatisfied NAs of the grid cell is registered by adding it to the variable “accumulated unsatisfied potential net abstraction from surface water” AccUnNApot,s (at the end of each time step). At the beginning of the next time step, it  is added to the NApot,s of that day, and it is attempted to satisfy AccUnNApot,s by subtracting it from the surface water storages, either increasing or decreasing AccUnNApot,s. 
 The daily unsatisfied net abstraction from surface water UnNApot,s of a grid cell is computed as AccUnNApot,s(t) minus AccUnNApot,s(t-1) at the end of each time step. If it is positive, then less water than demanded can be taken from the surface water on this day. If it is zero,NAs=NApot,s. If it is negative, more surface water is net abstracted on this day than demanded. If for the previous time step, NAs is not equal to NApot,s and if there is withdrawal from surface for irrigation, Nag  is adapted to account for the change in return flows from the surface water.
+
 
 2 Actual net abstraction from groundwater
 -----------------------------------------
