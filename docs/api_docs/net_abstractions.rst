@@ -1,14 +1,19 @@
 Net abstractions 
 ===============
 Computation of actual net abstractions from surface water and groundwater 
-In WaterGAP, water use by five water use sectors is taken simulated, differentiating groundwater and surface water as water source and making assumption of the amount of return flows to either surface water or groundwater. Different from other hydrological models, the impact of human water use on water storages and flows is computed by taking out  net abstractions from either the groundwater (groundwater use) or the surface water bodies lakes/reservoirs and rivers (priority 1: global lakes/reservoirs, priority 2: river, priority 3: local lakes and reservoirs) (surface water use). Net abstractions are the difference between water abstractions from the storage compartment (groundwater or surface water) and the return flows to the storage compartment [1]_. Thus, the impact of irrigation on soil water storage is neglected in WaterGAP. Net abstractions can be positive or negative; the latter occurs if return flows to a storage compartment exceed abstractions from the compartment. Potential net abstraction from groundwater NApot,g and potential net abstraction from surface water NApot,s, which do not take into account water availability, are computed in GWSWUSE and are input to WGHM. The sum of NApot,g and NApot,s equals the potential consumptive water use, i.e. the part of the abstracted water that is evapotranspirated during use.
+-------------------------------------------------------------------------
+In WaterGAP, water usage across five sectors is simulated, differentiating between groundwater and surface water sources. The model assumes how much water is returned to either surface water or groundwater. Unlike other hydrological models, the impact of human water use on water storage and flow is calculated by subtracting net abstractions from either groundwater (groundwater use) or surface water bodies like lakes/reservoirs and rivers (surface water use). Priority is assigned to the water body type in ascending priority where global lakes/reservoirs are 1, rivers 2, and local lakes/reservations 3. 
+
+Net abstractions are the difference between the water abstractions from a storage compartment (groundwater or surface water) and the water returned to that compartment [1]_. This concept is used to gauge the impact of human water use on water storage. Thus, the impact of irrigation on soil water storage is neglected in WaterGAP. 
+
+Net abstractions (math:`{NA}`) can be either positive or negative; the latter occurs if return flows to a storage compartment exceed abstractions from the compartment. 
+Potential net abstraction from groundwater (math:`{NA}_{pot,g}`) and potential net abstraction from surface water (math:`{NA}_{pot,s}`), which do not take into account water availability, are computed in GWSWUSE (Groundwater-Surface Water Use) and are input to WGHM (WaterGAP Global Hydrology Model). The sum of these potential net abstractions reflects the potential consumptive water use – the part of taken water that's evaporated or transpired during usage.
+
+
 1 Computation of potential net abstractions from surface water and groundwater
+------------------------------------------------------------------------------
 Only the irrigation, domestic and manufacturing water use sectors are assumed to use groundwater as their source of water in addition to surface water. A fraction frgi of the total return flows from irrigation (using either surface water or groundwater) recharges groundwater, while the rest directly flows to surface water bodies. The return flows of all other four water sectors are assumed to directly reach the surface water [1]_. Implementing these assumptions, the module GWSWUSE computes  
 
-:math:`NA_{pot,g} = [WA_{pot,g,irri} + WA_{pot,g,dom} + WA_{pot,g,man}] - [frgi*(WA_{pot,g,irri} -CU_{pot,g,irri} + WA_{pot,s,irri} - CU{pot,s,irri})]`	 (1)
-
-.. math::
-   \frac{dS_g}{d_t} =  {R}_{g} − {R}_{gl,res,w}− {Q}_{g}- {NA}_{g}
 
 .. math::
    {NA}_{pot,g} = [{WA}_{pot,g,irri} + {WA}_{pot,g,dom} + {WA}_{pot,g,man}] - [{frgi}*({WA}_{pot,g,irri} - {CU}_{pot,g,irri} + {WA}_{pot,s,irri} - {CU}_{pot,s,irri})]
