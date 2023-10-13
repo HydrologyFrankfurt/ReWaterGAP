@@ -41,16 +41,22 @@ For computations in WaterGAP, net abstractions are converted from [km3/month] to
 
 The subtracted artificial groundwater recharge is the returned flow from irrigation with surface water or groundwater to groundwater (Döll et al., 2012).
 
-For water uses where the source of the water and the sink for the return flow are the surface water bodies, only consumptive use needs to be included in the computation of NApot,s. This is the case for water use for cooling of thermal power plants and for livestock as well as for surface water use in the domestic and manufacturing sectors. Thus, NApot,s is computed as
-NApot,s = [CUpot,liv + CUpot,thermal + CUpot,s,dom + CUpot,s,man + WApot,s,irri] – 
-                   [(1-frgi) (WApot,g,irri-CUpot,g,irri+WApot,s,irri-CUpot,s,irri) + 
-                   (WApot,g,dom-CUpot,g,dom+WApot,g,man-CUpot,g,man)] 	(2)
-with liv: livestock, thermal: cooling of thermal power plants. 
+
+For water uses where the source of the water and the destination for the return flow are surface water bodies, only the consumptive use needs to be included in the computation of NApot,s. This applies to water use for cooling thermal power plants, livestock, as well as surface water use in the domestic and manufacturing sectors. 
+Thus, NApot,s is computed as:
+
+.. math::
+{NA}_{pot,s} = [{CU}_{pot,liv} + {CU}_{pot,thermal} + {CU}_{pot,s,dom} + {CU}_{pot,s,man} + {WA}_{pot,s,irri}] – [(1-{f}_{rgi})*({WA}_{pot,g,irri}-{CU}_{pot,g,irri}+{WA}_{pot,s,irri}-{CU}_{pot,s,irri}) + ({WA}_{pot,g,dom} -{CU}_{pot,g,dom} + {WA}_{pot,g,man} - {CU}_{pot,g,man})]
+
+with: 
+- _liv_: livestock,
+- _thermal_: cooling of thermal power plants.
 
  
 1 Actual net abstraction from surface water
 -------------------------------------------
 The demand for groundwater abstractions is always fulfilled in WaterGAP, assuming an unlimited groundwater volume, different from the demand for surface water abstractions. If the potential net abstraction from surface water NApot,s is positive, it might not be possible to fulfill the demand due to the lack of water in the surface water bodies in the grid cell. There are two options for spatially shifting (part of) NApot,s to other cells. In the case of the “riparian water supply”option, if the demand cell is a riparian cell of a global lake or reservoir, NApot,s is satisﬁed from the lake/reservoir storage if possible. In the case of the “neighboring cell water supply” option, any accumulated unsatisfied potential net abstraction from surface water is satisfied from a neighboring supply cell. In case of the “delayed water supply” option, there is a temporal shift of the demand for surface water that could not be fulfilled at one day to later in the year [2]_. This means that for “delayed water supply option”, unsatisfied water demand after spatial satisfaction is tried to be satisfied the next day till the end of the calender year. Demand is set to zero at the end of the calender year.
+
 1.1	Riparian water supply option
 --------------------------------
 If the demand cell is a riparian cell of a global lake or reservoir, NAs is satisﬁed from the lake/reservoir storage if possible. For this, the NApot,s values of all riparian cells are aggregated for each time step if they are positive and assigned to the outflow cell (lines 958-982 in routing.cpp) (and subtracted from lake/reservoir storage of the outflow cell).  Negative NApot,s  (return flows) are used to increase the storage or the riparians cell itself. 
