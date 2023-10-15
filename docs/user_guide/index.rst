@@ -30,11 +30,11 @@ User Guide
     .. grid-item-card:: 
         :text-align: center
         :link:  <https://hydrologyfrankfurt.github.io/ReWaterGAP/_modules/canopy.html#canopy_balance>_
-        :link-type: ref
+        :link-type: url
 
         :octicon:`gear;10em`
         +++
-        If you would like to learn how the WaterGAP code works find our commented code ` <https://hydrologyfrankfurt.github.io/ReWaterGAP/_modules/canopy.html#canopy_balance>`_. 
+        If you would like to learn how the WaterGAP code works find our commented code here. 
 
     .. grid-item-card:: 
         :text-align: center
