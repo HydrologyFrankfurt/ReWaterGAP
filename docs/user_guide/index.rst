@@ -29,7 +29,7 @@ User Guide
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  ` <https://hydrologyfrankfurt.github.io/ReWaterGAP/_modules/canopy.html#canopy_balance>`_
+        :link:  <https://hydrologyfrankfurt.github.io/ReWaterGAP/_modules/canopy.html#canopy_balance>_
         :link-type: ref
 
         :octicon:`gear;10em`
