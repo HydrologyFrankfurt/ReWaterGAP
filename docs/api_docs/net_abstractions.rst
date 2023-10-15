@@ -92,11 +92,10 @@ The daily unsatisfied net abstraction from surface water UnNApot,s of a grid cel
 In the computation of :math:`{NA}_{pot,g}` in GWSWUSE, it is assumed that the total demand for irrigation by surface water can be fulfilled by the water available in surface water bodies including the river. As net abstractions from groundwater are a function of the return flows of irrigation with surface water (return flows of all other sectors are assumed to only flow to surface water bodies [1]_, the potential net abstraction from groundwater NApot,g needs to be adapted if, for each cell and time step, the actual net abstraction from surface water for irrigation is smaller than what was assumed when computing NApot,s of a day (i.e., not all demand for net abstractions from surface water can be fulfilled even after spatial redistribution) or if, due to the delayed water use option, more surface water is abstracted for irrigation than demanded on this day (so whenever net abstraction from surface water on a specific day differs from the potential one computed in GWSWUSE). It is assumed in WGHM that irrigation water abstraction is reduced as a priority, and fulfilled only after non-irrigation demands are fulfilled. Actual net abstraction from groundwater NAg is computed in each time step based on NApot,g(t) and UnNApot,s(t-1), using the equations to compute NApot,g and NApot,s as described in Döll et al. (2012)[1]_.
 
 
-UnNApot,s(t-1) is positive and WApot,s,irri(t) >0
-In this case, the surface water abstraction for irrigation on the previous day was lower than that assumed when computing NApot,g. Thus, return flows to groundwater are decreased and NAg becomes larger than NApot,g. We derive the algorithm by setting, as a first step, all water uses that are not related to surface water use for irrigation to zero, as they are not affected by the reduction of net abstraction from surface water as compared to NApot,s. The equations in italics show the derivation, the normal letters what is included in the code. Then, Eq. (2) is simplified to
+**UnNApot,s(t-1) is positive and WApot,s,irri(t) >0**
+In this case, the surface water abstraction for irrigation on the previous day was lower than that assumed when computing :math:`{NA}_{pot,g}`. Thus, return flows to groundwater are decreased and NAg becomes larger than NApot,g. We derive the algorithm by setting, as a first step, all water uses that are not related to surface water use for irrigation to zero, as they are not affected by the reduction of net abstraction from surface water as compared to NApot,s. The equations in italics show the derivation, the normal letters what is included in the code. Then, Eq. (2) is simplified to
 
 .. math::
-
    {NA}_{pot,s} = WApot,s,irri- (1-frgi)(WApot,s,irri-CUpot,s,irri)
    {eff}= CUpot,s,irri/WApot,s,irri
    NApot,s = WApot,s,irri- (1-frgi)(WApot,s,irri-eff WApot,s,irri)
@@ -120,15 +119,12 @@ Then, the change in return flow to groundwater due to changing from WApot,s,irri
    NAg(t) = NApot,g(t) – return flow change(t-1) (output)
 
 
-
-
-
-UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0
+**UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0**
 Then, NAg is not adjusted as without irrigation, there is never any return flow to groundwater. The daily unsatisfied net abstraction from surface water is added to the accumulated unsatisfied NAs from other sectors as
 G_acc_unsat_net_abstraction_other_sectors += UnNApot,s 
 and return NAg = NApot,g
 
-UnNApot,s(t-1) is negative and WApot,s,irri(t) >0
+**UnNApot,s(t-1) is negative and WApot,s,irri(t) >0**
 In this case, the actual NAs subtracted from surface water storage was larger than NApot,s on the previous day, as part of the unsatisfied NApot,s accumulated from earlier time could by satisfied. If this additional NAs was caused by supplying irrigation water and not only for satisfying the water demand of other sectors (which have priority), then more return flow to groundwater is generated than it was assumed when NApot,g was computed in GWSWUSE. Thus, return flows to groundwater are increased and NAg becomes smaller than NApot,g
 NAs = NApot,s + added_net_abstraction_sw_irri
 factor WAs,irri = factor WApot,s,irri + add_net_abstraction_sw_irri
@@ -137,7 +133,7 @@ return_flow_change = frgi(1-eff)(WAs,irri-WApot,s,irri) //(positive)
 NAg(t) = NApot,g(t) – return flow change(t-1) (output)
 
 
-UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0
+**UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0**
 See  case (UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0)
 
 References 
