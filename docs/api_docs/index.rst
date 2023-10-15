@@ -10,7 +10,7 @@ API Reference
 
     .. grid-item-card:: Vertical Water Balance
         :text-align: center
-        :link:  docs/vertical_water_balance
+        :link:  vertical_water_balance
         :link-type: ref
 
         :octicon:`arrow-down;10em`
@@ -19,7 +19,7 @@ API Reference
 
     .. grid-item-card:: Lateral Water Balance
         :text-align: center
-        :link: docs/lateral_water_balance
+        :link: lateral_water_balance
         :link-type: ref
 
         :octicon:`arrow-right;10em`
