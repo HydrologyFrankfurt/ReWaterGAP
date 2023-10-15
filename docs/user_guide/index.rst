@@ -16,25 +16,25 @@ User Guide
 
         :octicon:`play;10em`
         +++
-        If you are new to WaterGAP and want to learn how to run the program find our quick start guide `here <https://hydrologyfrankfurt.github.io/ReWaterGAP/getting_started/index.html>`_. 
+        If you are new to WaterGAP and want to learn how to run the program find our quick start guide here. 
 
     .. grid-item-card::
-        :text-align: center
-        :link:  user_guide
-        :link-type: ref
-
-        :octicon:`book;10em`
-        +++
-        If you would like to learn more about the functionalities of WaterGAP find the API References `here <https://hydrologyfrankfurt.github.io/ReWaterGAP/api_docs/index.html>`_. 
-
-    .. grid-item-card:: 
         :text-align: center
         :link:  api_docs
         :link-type: ref
 
+        :octicon:`book;10em`
+        +++
+        If you would like to learn more about the functionalities of WaterGAP find the API References here. 
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  ` <https://hydrologyfrankfurt.github.io/ReWaterGAP/_modules/canopy.html#canopy_balance>`_
+        :link-type: ref
+
         :octicon:`gear;10em`
         +++
-        If you would like to learn how the WaterGAP code works find our commented code `here <https://hydrologyfrankfurt.github.io/ReWaterGAP/_modules/canopy.html#canopy_balance>`_. 
+        If you would like to learn how the WaterGAP code works find our commented code ` <https://hydrologyfrankfurt.github.io/ReWaterGAP/_modules/canopy.html#canopy_balance>`_. 
 
     .. grid-item-card:: 
         :text-align: center
@@ -43,7 +43,7 @@ User Guide
 
         :octicon:`light-bulb;10em`
         +++
-        If you would like to run WaterGAP using your own input data, run the model for a specific basin, region, period, configuration or change temporal resolution find our guide [here]. 
+        If you would like to run WaterGAP using your own input data, run the model for a specific basin, region, period, configuration or change temporal resolution find our guide here. 
 
 
 
