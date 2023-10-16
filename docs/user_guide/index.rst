@@ -6,7 +6,7 @@
 User Guide
 ===========
 
-.. grid:: 2
+.. grid:: 1
     :gutter: 1
 
     .. grid-item-card:: 
