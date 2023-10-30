@@ -71,6 +71,9 @@ config_file = config_handler(args.name)
 # For Anthropenic run (ant=True)
 ant = config_file['RuntimeOptions'][0]['SimilationOption']['ant']
 
+# Subtract water demand from surface and groundwater
+subtract_use = config_file['RuntimeOptions'][0]['SimilationOption']['subtract_use']
+
 # Resevior are active if reservior_opt = on
 reservior_opt = config_file['RuntimeOptions'][0]['SimilationOption']['res_opt']
 
@@ -83,9 +86,18 @@ reservoir_end_year = 1905
 reservoir_opt_years = pd.date_range(str(reservoir_start_year)+"-01-01",
                                     str(reservoir_end_year)+"-01-01", freq="YS")
 
-# For Naturalised run reservior operation is automatically switched off
+# For naturalised run reservior operation and water-use are switched off
 if ant is False:
     reservior_opt = "off"
+    subtract_use = False
+else:
+    # Here one forgot to either activate either reservoir operation or
+    # substract use in anthropogenic mode
+    if reservior_opt == "off" and subtract_use is False:
+        print('None of the variant in anthropogenic run is '
+              'activated (reservoir opetration , water use or both).'
+              ' Defaulting to naturalised run')
+        ant = False
 
 # =============================================================================
 # # Save and restart WaterGAP state
@@ -94,7 +106,7 @@ restart = config_file['RuntimeOptions'][1]['RestartOptions']['restart']
 save_states = config_file['RuntimeOptions'][1]['RestartOptions']['save_model_states_for_restart']
 
 # =============================================================================
-# # Initializing  simulation and spinup period 
+# # Initializing  simulation and spinup period
 # =============================================================================
 start = config_file['RuntimeOptions'][2]['SimilationPeriod']['start']
 end = config_file['RuntimeOptions'][2]['SimilationPeriod']['end']
@@ -105,12 +117,14 @@ spinup_years = \
 # # Temporal resoulution
 # =============================================================================
 dailyRes = config_file['RuntimeOptions'][3]['TimeStep']['daily']
-hourly = config_file['RuntimeOptions'][3]['TimeStep']['hourly']
 
-if dailyRes:
+if dailyRes is True:
     temporal_res = 'Daily'
 else:
-    temporal_res = 'Hourly'
+    log.config_logger(logging.ERROR, modname, 'WaterGAP currently has only '
+                      'daily resolution ', args.debug)
+    sys.exit()  # dont run code if cofiguration file does not exist
+
 
 # =============================================================================
 # # Selection of ouput variable (fluxes, storages and flows)

@@ -38,53 +38,70 @@ args = cli.parse_cli()
 class Wateruse:
     """Handles water use and relevant static data."""
 
-    def __init__(self):
+    def __init__(self,  subtract_use, grid_coords):
         """
-        Get file path.
+        Get file path and read in water use data.
+
+        ant: boolean
+            Read in water use data when simulation is an anthropogenic run.
 
         Return
         ------
         climate forcings
 
         """
-        # ==============================================================
-        # path to Wateruse netcdf data
-        # ==============================================================
-        potential_net_abstraction_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] + r'water_use/*'))
-
-        frgi_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                             r'static_input/watergap_22d_frgi.nc4'))
-
-        glwdunits_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                             r'static_input/watergap_22d_glwdunits.nc'))
-
-        # ==============================================================
-        # Loading in Wateruse
-        # ==============================================================
-        try:
-            self.potential_net_abstraction = \
-                xr.open_mfdataset(glob.glob(potential_net_abstraction_path),
-                                  chunks={'time': 365})
-            # Fraction of return flow from irrigation to groundwater
-            # See Döll et al 2012, eqn 1
-            self.frac_irri_returnflow_to_gw = \
-                xr.open_dataset(frgi_path, decode_times=False)
-
-            # Riprian cells of global lake or reservoir
-            self.glwdunits = \
-                xr.open_dataset(glwdunits_path, decode_times=False)
-
-        except FileNotFoundError:
-            log.config_logger(logging.ERROR, modname, 'Climate forcing '
-                              'not found', args.debug)
-            sys.exit()  # dont run code if file does not exist
-        except ValueError:
-            log.config_logger(logging.ERROR, modname, 'File(s) extension '
-                              'should be NETCDF', args.debug)
-            sys.exit()  # dont run code if file does not exist
+        # Naturalised run or Anthropogenic run without wateruse:
+        if subtract_use is False:
+            # Geting length of  lat,lon from grid coordinates (grid_coords)
+            lat_length = len(grid_coords['lat'].values)
+            lon_length = len(grid_coords['lon'].values)
+            zero_data = np.zeros((lat_length, lon_length))
+            self.potential_net_abstraction = zero_data
+            self.frac_irri_returnflow_to_gw = zero_data
+            self.glwdunits = zero_data
         else:
-            print('Water-use input files loaded successfully')
+            # ==============================================================
+            # path to Wateruse netcdf data
+            # ==============================================================
+            potential_net_abstraction_path = \
+                str(Path(cm.config_file['FilePath']['inputDir']
+                         + r'water_use/*'))
+
+            frgi_path = str(Path(cm.config_file['FilePath']['inputDir'] +
+                                 r'static_input/watergap_22d_frgi.nc4'))
+
+            glwdunits_path = str(Path(cm.config_file['FilePath']['inputDir'] +
+                                 r'static_input/watergap_22d_glwdunits.nc'))
+
+            # ==============================================================
+            # Loading in Wateruse
+            # ==============================================================
+            try:
+                self.potential_net_abstraction = \
+                    xr.open_mfdataset(glob.glob(potential_net_abstraction_path),
+                                      chunks={'time': 365})
+                # Fraction of return flow from irrigation to groundwater
+                # See Döll et al 2012, eqn 1
+                frac_irri_returnflow_to_gw = \
+                    xr.open_dataset(frgi_path, decode_times=False)
+                self.frac_irri_returnflow_to_gw = \
+                    frac_irri_returnflow_to_gw.frgi[0].values.astype(np.float64)
+
+                # Riprian cells of global lake or reservoir
+                glwdunits = \
+                    xr.open_dataset(glwdunits_path, decode_times=False)
+                self.glwdunits = glwdunits.glwdunits.values
+
+            except FileNotFoundError:
+                log.config_logger(logging.ERROR, modname, 'Climate forcing '
+                                  'not found', args.debug)
+                sys.exit()  # dont run code if file does not exist
+            except ValueError:
+                log.config_logger(logging.ERROR, modname, 'File(s) extension '
+                                  'should be NETCDF', args.debug)
+                sys.exit()  # dont run code if file does not exist
+            else:
+                print('Water-use input files loaded successfully')
 
     def aggregate_riparian_netpotabs(self, lake_area, res_area, netabs):
         """
@@ -105,10 +122,9 @@ class Wateruse:
             DESCRIPTION.
 
         """
-        glwdunits = self.glwdunits.glwdunits.values
-        unique_glwdunits = np.unique(glwdunits)[1:-1]
+        unique_glwdunits = np.unique(self.glwdunits)[1:-1]
 
         aggreagted_potnet_abstraction = \
-            aggr.aggregate_potnetabs(glwdunits, lake_area, res_area,
+            aggr.aggregate_potnetabs(self.glwdunits, lake_area, res_area,
                                      netabs, unique_glwdunits)
         return aggreagted_potnet_abstraction
