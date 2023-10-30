@@ -7,7 +7,8 @@
     {
       "SimilationOption": {
         "ant": true,
-        "res_opt": "off"
+        "res_opt": "off",
+        "subtract_use": false 
       }
     },
     {
@@ -25,7 +26,6 @@
     },
     {
       "TimeStep": {
-        "hourly": false,
         "daily": true
       }
     }
@@ -59,17 +59,18 @@
         "localwetland_outflow": false,
     	"globallake_outflow": false,
         "globalwetland_outflow": false,
-        "streamflow": false
+        "streamflow": false,
+        "actual_net_abstraction_gw": true
       }
     },
     {
       "LateralWaterBalanceStorages": {
         "groundwater_storage": false,
-        "locallake_storage": false,
+        "locallake_storage": true,
         "localwetland_storage": false,
-    	"globallake_storage": false,
+    	"globallake_storage": true,
     	"globalwetland_storage": false,
-    	"river_storage": false
+    	"river_storage": true
       }
     }
   ]

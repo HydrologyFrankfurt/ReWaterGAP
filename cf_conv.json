@@ -1,5 +1,9 @@
 {
    "variables":{
+      "_comment": "Units of input forcings and wateruse will be updated here", 
+      "_comment2": "Units are according cf convention",
+      " wateruse": "to be updated",
+      "static_input":  "to be updated", 
       "shortname":["pr","rlds","rsds","tas"],
       "units":["kg m-2 s-1","W m-2","W m-2","K"]
    }

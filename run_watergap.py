@@ -38,13 +38,32 @@ def run():
 
     """
     if cm.ant is True:
-        pass
-    else:
-        print('\n' + colored('+++ WaterGAP in Natural Mode +++', 'cyan'))
-        print('Period:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
+        print('\n' + colored('+++ Antropogenic Run +++', 'cyan'))
+        if cm.reservior_opt == 'off':
+            print(colored('Use only: human water use without '
+                          'global man-made reservoirs/regulated lakes',
+                          'blue'))
+        elif cm.subtract_use is False:
+            print(colored('Reservoirs only: exclude human water use'
+                          ' but include global man-made'
+                          ' reservoirs/regulated lakes', 'blue'))
+        else:
+            print(colored('Standard (ant) run: include human water'
+                          ' use and include global man-made'
+                          ' reservoirs/regulated lakes', 'blue'))
+
+        print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
         print('Temporal resolution:' +
               colored(' %s' % (cm.temporal_res), 'green'))
-        # no reserviours are considered here
+    else:
+        print('\n' + colored('+++ Naturalised Run +++', 'cyan'))
+        print('Note:' + colored(' 1. Reserviors, abstraction from surface and'
+                                ' groundwater are not considered.' + '\n'
+                                + '      2. Regulated lakes are treated as'
+                                '  global lakes ', 'blue'))
+        print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
+        print('Temporal resolution:' +
+              colored(' %s' % (cm.temporal_res), 'green'))
 
     # =====================================================================
     # Initialize Restart module for possible restart of WaterGAP
@@ -57,8 +76,8 @@ def run():
     # and get data dimensions
     # =====================================================================
     initialize_forcings_static = rd.InitializeForcingsandStaticdata()
-    potential_net_abstraction = wateruse.Wateruse()
     grid_coords = initialize_forcings_static.grid_coords
+    potential_net_abstraction = wateruse.Wateruse(cm.subtract_use, grid_coords)
     parameters = pm.Parameters()
 
     # =====================================================================
