@@ -37,6 +37,6 @@ def aggregate_potnetabs(glwdunits, lake_area, res_area, netabs, unique_glwdunits
                          np.zeros_like(aggregate), aggregate)
 
             # add all ripriarian cells  net abstraction to out flow cell
-            aggregate[x, y] = pot_net_abs.sum()
+            aggregate[x, y] += pot_net_abs.sum()
 
     return aggregate

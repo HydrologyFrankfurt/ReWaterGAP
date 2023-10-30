@@ -132,4 +132,4 @@ def compute_groundwater_balance(rout_order, routflow_looper,
                                      groundwater_discharge)
     # if x==119 and y ==424:
     #       print(daily_unsatisfied_pot_nas , potential_net_abstraction_gw, actual_net_abstraction_gw)
-    return current_gw_storage, groundwater_discharge
+    return current_gw_storage, groundwater_discharge, actual_net_abstraction_gw

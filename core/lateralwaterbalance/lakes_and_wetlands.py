@@ -236,7 +236,6 @@ def lake_wetland_balance(rout_order, routflow_looper,
         else:
             accumulated_unsatisfied_potential_netabs_glolake = \
                 accumulated_unsatisfied_potential_netabs_sw
-        startaccu=accumulated_unsatisfied_potential_netabs_glolake
     else:
         accumulated_unsatisfied_potential_netabs_glolake = 0
 
@@ -324,8 +323,7 @@ def lake_wetland_balance(rout_order, routflow_looper,
                 storage = net_in + storage_prevstep
 
             accumulated_unsatisfied_potential_netabs_glolake = 0
-        # if x == 119 and y == 424:
-        #     print(startaccu, accumulated_unsatisfied_potential_netabs_glolake, storage)
+
     elif choose_swb == 'global wetland':
         if petgwr_netabs_sw > petgwr_netabs_sw_max:
             outflow = 0

@@ -28,7 +28,7 @@ import sys
 # (potential_net_abstraction_gw) needs to be adapted.
 
 # potential_net_abstraction_gw is adapted if, for each cell and time step:
-# 1. there is less water for irrigation in surface water (i.e., not all demand for net
+# 1. there is less water for irrigation in surface water(i.e., not all demand for net
 # abstractions from surface water can be fulfilled even after spatial
 # redistribution) or
 # 2. if, due to the delayed water use option, more surface water is abstracted

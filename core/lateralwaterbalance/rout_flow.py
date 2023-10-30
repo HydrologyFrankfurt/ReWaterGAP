@@ -33,6 +33,9 @@ from core.lateralwaterbalance import fractional_routing as fr
 from core.lateralwaterbalance import river_waterbalance as rb
 from core.lateralwaterbalance import reservior_and_regulated_lakes as res_reg
 from core.lateralwaterbalance import distribute_to_riparian as to_riparian
+from core.lateralwaterbalance import net_abstraction_from_local_lake as \
+    netsabs_lake
+
 
 @njit(cache=True)
 def rout(rout_order, arid, drainage_direction,  groundwater_storage,
@@ -52,9 +55,12 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
          swb_drainage_area_factor, swb_outflow_coeff, gw_recharge_constant,
          reduction_exponent_lakewet, reduction_exponent_res, areal_corr_factor,
          lake_out_exp, activelake_depth, wetland_out_exp, activewetland_depth,
-         stat_corr_fact, current_mon_day, potential_net_abstraction_sw, 
-         glwdunits, unagregrgated_potential_netabs_sw, potential_netabs_sw, 
-         prev_accumulated_unsatisfied_potential_netabs_sw):
+         stat_corr_fact, current_mon_day,
+         monthly_potential_net_abstraction_sw,
+         glwdunits, unagregrgated_potential_netabs_sw,
+         potential_net_abstraction_sw,
+         prev_accumulated_unsatisfied_potential_netabs_sw,
+         unsatisfied_potential_netabs_riparian, subtract_use):
 
     # =========================================================================
     #   Creating outputs for storages, fluxes and factors(eg. reduction factor)
@@ -140,10 +146,8 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
     #                  =================================
     #                  ||           WaterUSe         ||
     #                  =================================
-    accumulated_unsatisfied_potential_netabs_sw_out = \
-        np.zeros(groundwater_storage.shape)
-    unsatisfied_potential_netabs_riparian = np.zeros(groundwater_storage.shape)
-    checkaccu= np.zeros(groundwater_storage.shape)
+    actual_net_abstraction_gw = np.zeros(groundwater_storage.shape)
+
     # =========================================================================
     # Routing is calulated according to the routing order for individual cells
     # =========================================================================
@@ -153,6 +157,16 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
         # Get respective outflow cell for routing ordered cells.
         m, n = outflow_cell[routflow_looper]
 
+        # update  accumulated_unsatisfied_potential_netabs_sw  with
+        # unsatisfied_potential_netabs_riparian.
+        # Note: In riparaian cell water supply option, the unsatisfied demand
+        # from a global lake outflow cell is attempted to be satisfied in
+        # riparian cells (local lakes or rivers) either on the same day or the
+        # next day depending on the routing order.
+
+        if glwdunits[x, y] > 0 and subtract_use == True:
+            accumulated_unsatisfied_potential_netabs_sw[x, y] += \
+                unsatisfied_potential_netabs_riparian[x, y]
     #                  =================================
     #                  ||   Groundwater  balance      ||
     #                  =================================
@@ -180,11 +194,15 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                                 prev_potential_consumptive_use_sw_irri[x, y],
                                                 frac_irri_returnflow_to_gw[x, y])
 
-            storage, discharge = daily_groundwaterbalance_humid
+            storage, discharge, actual_netabs_gw =\
+                daily_groundwaterbalance_humid
 
             groundwater_storage_out[x, y] = storage.item()
             groundwater_discharge[x, y] = discharge.item()
+            actual_net_abstraction_gw[x, y] = actual_netabs_gw.item()
 
+        # if x==87 and y==224:
+        #     print(groundwater_discharge[x, y], surface_runoff[x, y])
     # =========================================================================
     # 2. Compute groundwater storage for inland sink
     # =========================================================================
@@ -202,10 +220,12 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                                 prev_potential_consumptive_use_sw_irri[x, y],
                                                 frac_irri_returnflow_to_gw[x, y])
 
-            storage_sink, discharge_sink = daily_groundwaterbalance_landsink
+            storage_sink, discharge_sink, actual_netabs_gw =\
+                daily_groundwaterbalance_landsink
 
             groundwater_storage_out[x, y] = storage_sink.item()
             groundwater_discharge[x, y] = discharge_sink.item()
+            actual_net_abstraction_gw[x, y] = actual_netabs_gw.item()
 
     #                  =================================
     #                  ||   Fractional routing        ||
@@ -358,9 +378,8 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
             glolake_storage_out[x, y] = storage.item()
             glolake_outflow[x, y] = outflow.item()
             gwr_glolake[x, y] = recharge.item()
-            accumulated_unsatisfied_potential_netabs_sw_out[x, y] = \
+            accumulated_unsatisfied_potential_netabs_sw[x, y] = \
                 accum_unpot_netabs_sw.item()
-            checkaccu[x, y] = accum_unpot_netabs_sw.item()
             # update inflow to surface water bodies
             inflow_to_swb = outflow
 
@@ -393,7 +412,7 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                              k_release[x, y],
                                              glores_type[x, y],
                                              allocation_coeff,
-                                             potential_net_abstraction_sw,
+                                             monthly_potential_net_abstraction_sw,
                                              mean_annual_demand_res,
                                              mean_annaul_inflow_res[x, y])
 
@@ -410,22 +429,24 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
     #    || Resdistribute unsatisfied net abstraction to riparian cell  ||
     #    ||               for global lakes and reservoirs               ||
     #    -----------------------------------------------------------------
-        if (glores_area[x, y] > 0) | (glolake_area[x, y] > 0):
+        if subtract_use == True:
+            if (glores_area[x, y] > 0) | (glolake_area[x, y] > 0):
 
-            distributed_potnetabs = to_riparian.\
-                redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
-                                         accumulated_unsatisfied_potential_netabs_sw_out,
-                                         unagregrgated_potential_netabs_sw,
-                                         potential_netabs_sw, glwdunits,
-                                         x, y)
+                distributed_potnetabs = to_riparian.\
+                    redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw[x, y],
+                                             accumulated_unsatisfied_potential_netabs_sw[x, y],
+                                             unagregrgated_potential_netabs_sw,
+                                             potential_net_abstraction_sw[x, y],
+                                             glwdunits, rout_order,
+                                             unsatisfied_potential_netabs_riparian,
+                                             x, y)
 
-            outflowcell, riparian = distributed_potnetabs
-            accumulated_unsatisfied_potential_netabs_sw_out[x, y] = \
-                outflowcell.item()
+                accumulated_unsatisfied_potential_netabs_sw[x, y] = \
+                    distributed_potnetabs[0]
 
-            unsatisfied_potential_netabs_riparian = riparian
-        # if x==119 and y==424:
-        #     print(unsatisfied_potential_netabs_riparian[x, y], accumulated_unsatisfied_potential_netabs_sw_out[x, y])
+                unsatisfied_potential_netabs_riparian = \
+                    distributed_potnetabs[1]
+
     # =========================================================================
     # Global lake water balance including storages and fluxes are computed
     # for each cell. See section 4.6 of Müller Schmied et al. (2021)
@@ -501,10 +522,12 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                                frac_irri_returnflow_to_gw[x, y],
                                                point_source_recharge)
 
-            storage, discharge_arid = daily_groundwater_balance_arid
+            storage, discharge_arid, actual_netabs_gw = \
+                daily_groundwater_balance_arid
 
             groundwater_storage_out[x, y] = storage.item()
             groundwater_discharge[x, y] = discharge_arid.item()
+            actual_net_abstraction_gw[x, y] = actual_netabs_gw.item()
             # In semi-arid/arid areas, groundwater reaches the river directly
             inflow_to_river += discharge_arid.item()
 
@@ -546,16 +569,14 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                                                      river_inflow[x, y],
                                                      outflow_constant,
                                                      stat_corr_fact[x, y],
-                                                     accumulated_unsatisfied_potential_netabs_sw_out[x, y])
+                                                     accumulated_unsatisfied_potential_netabs_sw[x, y])
 
         storage, streamflow, accum_unpot_netabs_sw = daily_river_balance
         river_storage_out[x, y] = storage.item()
         river_streamflow[x, y] = streamflow.item()
-        accumulated_unsatisfied_potential_netabs_sw_out[x, y] = \
+        accumulated_unsatisfied_potential_netabs_sw[x, y] = \
             accum_unpot_netabs_sw.item()
 
-        if x==119 and y ==424:
-            print(accumulated_unsatisfied_potential_netabs_sw[x, y], checkaccu[x, y] ,accumulated_unsatisfied_potential_netabs_sw_out[x, y] )
         # =================================
         # 3. Put water into downstream cell
         # ==================================
@@ -579,10 +600,39 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
         else:
             cellrunoff[x,  y] = river_streamflow[x, y] - inflow_from_upstream
 
+    #               ====================================
+    #               ||  Abstraction from  local lake  ||
+    #               ====================================
+    #    -----------------------------------------------------------------
+    #    || Water can be abstracted from local lake storage if there is ||
+    #    || a lake in the cell, there is accumulated unsatisfied use    ||
+    #    || after river abstraction, and lake storage is above          ||
+    #    ||  - max_storage.                                             ||
+    #    -----------------------------------------------------------------
+        if subtract_use == True : 
+            if (loclake_frac[x, y] > 0) and \
+                    (accumulated_unsatisfied_potential_netabs_sw[x, y] > 0):
+                m_to_km = 0.001
+                max_storage = cell_area[x, y] * loclake_frac[x, y] * activelake_depth[x, y] * \
+                    m_to_km
+                if (loclake_storage_out[x, y] > (-1 * max_storage)):
+
+                    storage, accum_unpot_netabs_sw, frac,  = netsabs_lake.\
+                        abstract_from_local_lake(loclake_storage_out[x, y],
+                                                 max_storage,
+                                                 loclake_frac[x, y],
+                                                 reduction_exponent_lakewet[x, y],
+                                                 accumulated_unsatisfied_potential_netabs_sw[x, y])
+
+                    loclake_storage_out[x, y] = storage.item()
+                    accumulated_unsatisfied_potential_netabs_sw[x, y] = \
+                        accum_unpot_netabs_sw.item()
+                    dyn_loclake_frac[x, y] = frac.item()
+
     return groundwater_storage_out, loclake_storage_out, locwet_storage_out,\
         glolake_storage_out, global_reservior_storage, k_release_out, \
         glowet_storage_out, river_storage_out, groundwater_discharge, \
         loclake_outflow, locwet_outflow, glolake_outflow, glowet_outflow, \
         river_streamflow,  cellrunoff, dyn_loclake_frac, dyn_locwet_frac, \
-        dyn_glowet_frac, accumulated_unsatisfied_potential_netabs_sw_out, \
-        unsatisfied_potential_netabs_riparian
+        dyn_glowet_frac, accumulated_unsatisfied_potential_netabs_sw, \
+        unsatisfied_potential_netabs_riparian, actual_net_abstraction_gw

@@ -104,6 +104,7 @@ def frac_routing(rout_order, routflow_looper,
     local_runoff = local_runoff_swb + local_gwrunoff_swb
     local_river_inflow = local_runoff_river + local_gwrunoff_river
 
-    # Note: In semi-arid/arid areas, all groundwater reaches the river directly
+    # Note: In semi-arid/arid areas, all groundwater discharge reaches the
+    # river directly
 
     return local_runoff, local_river_inflow
