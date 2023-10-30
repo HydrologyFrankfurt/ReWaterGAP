@@ -36,7 +36,7 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
                          current_landarea_frac, landareafrac_ratio,
                          elevation, daily_storage_transfer,
                          adiabatic_lapse_rate,  snow_freeze_temp,
-                         snow_melt_temp):
+                         snow_melt_temp, chk):
     """
     Compute snow water balance for subgrids including snow water storage and
     water flows entering and leaving the snow storage
@@ -266,9 +266,15 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
         # ==================================================================
         # effective_precipitation is needed as input soil water balance.
         # Note!! np.where conditions computes throughfall minus snowfall
-        effective_precipitation_elev =\
-            np.where(temp_elev <= snow_freeze_temp, 0, throughfall) +\
-            snow_melt_subgrid
+        throughfall_before_melt = \
+            np.where(temp_elev <= snow_freeze_temp, 0, throughfall)
+        effective_precipitation_elev = snow_melt_subgrid + throughfall_before_melt
+
+        # if chk==4:
+        #     print( snow_melt_subgrid[15, 224],
+        #           throughfall[15, 224],
+        #           temp_elev[15, 224],
+        #           throughfall_before_melt[15, 224])
 
         # computing change in snow_water_storage
         snow_water_storage_change = \
@@ -428,6 +434,7 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
     # Numba uses prange to automatically run loops in parallel.
     for i in prange(len(snow_water_storage_chunk)):
 
+        chk=i
         results = \
             subgrid_snow_balance(snow_water_storage_chunk[i],
                                  snow_water_storage_subgrid_chunk[i],
@@ -441,7 +448,8 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
                                  daily_storage_transfer_chunk[i],
                                  adiabatic_lapse_rate_chunk[i],
                                  snow_freeze_temp_chunk[i],
-                                 snow_melt_temp_chunk[i])
+                                 snow_melt_temp_chunk[i],
+                                 chk)
 
         snow_water_storage[i] = results[0]
         snow_water_storage_subgrid[i] = results[1]

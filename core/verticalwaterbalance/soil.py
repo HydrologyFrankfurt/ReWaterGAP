@@ -148,6 +148,7 @@ class Soil:
         # Note !!! runoff_frac_builtup = 0.5, Which is the fraction of
         # effective_precipitation that directly becomes runoff (specifically
         # in urban areas)
+
         immediate_runoff = \
             np.where(self.builtup_area > 0,
                      (self.pm.runoff_frac_builtup * effective_precipitation
@@ -270,8 +271,9 @@ class Soil:
 
         # Updating soil water content into a helper variable
         # soil_water_content_new (eq.15 in H. Müller Schmied et al 2021)
-        soil_water_content_new = soil_water_content + effective_precipitation \
-            - actual_soil_evap - daily_runoff
+        soil_water_content_new = \
+            (soil_water_content + effective_precipitation -
+             actual_soil_evap - daily_runoff)
 
         # minimal storage volume =1e15 (smaller volumes set to zero) to counter
         # numerical inaccuracies***
