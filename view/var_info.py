@@ -26,12 +26,17 @@ modelvars = {
     "surface_runoff": {"long": "Surface runoff", "unit": "mm/day"},
 
     # LateralWaterBalanceFluxes
-    "groundwater_discharge": {"long": "Groundwater discharge", "unit": "km3/day"},
+    "groundwater_discharge": {"long": "Groundwater discharge",
+                              "unit": "km3/day"},
     "locallake_outflow": {"long": "Locallake outflow", "unit": "km3/day"},
-    "localwetland_outflow": {"long": "Localwetland outflow", "unit": "km3/day"},
+    "localwetland_outflow": {"long": "Localwetland outflow",
+                             "unit": "km3/day"},
     "globallake_outflow": {"long": "Globallake outflow", "unit": "km3/day"},
-    "globalwetland_outflow": {"long": "Globalwetland outflow", "unit": "km3/day"},
+    "globalwetland_outflow": {"long": "Globalwetland outflow",
+                              "unit": "km3/day"},
     "streamflow": {"long": "Streamflow or River discharge", "unit": "km3/day"},
+    "actual_net_abstraction_gw": {"long": "actual net abstraction from "
+                                  "groundwater", "unit": "km3/day"},
 
     # VerticalWaterBalanceStorages
     "canopystor": {"long": "Canopy storage", "unit": "mm"},

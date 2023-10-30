@@ -161,6 +161,11 @@ class CreateandWritetoVariables:
             do.OuputVariable('streamflow',
                              cm.lb_fluxes.get('streamflow'),
                              grid_coords)
+
+        actual_net_abstraction_gw = \
+            do.OuputVariable('actual_net_abstraction_gw',
+                             cm.lb_fluxes.get('actual_net_abstraction_gw'),
+                             grid_coords)
         # =====================================================================
         # Grouping all lateral water balance variables
         # =====================================================================
@@ -178,7 +183,8 @@ class CreateandWritetoVariables:
                                'localwetland_outflow': locwet_outflow,
                                'globallake_outflow': glolake_outflow,
                                'globalwetland_outflow': glowet_outflow,
-                               'streamflow': streamflow})
+                               'streamflow': streamflow,
+                               'actual_net_abstraction_gw': actual_net_abstraction_gw})
 
     def verticalbalance_write_daily_var(self, value, time_step):
         """
@@ -305,6 +311,10 @@ class CreateandWritetoVariables:
         self.lb_fluxes['streamflow'].\
             write_daily_ouput(fluxes_var['streamflow'], time_step)
 
+        self.lb_fluxes['actual_net_abstraction_gw'].\
+            write_daily_ouput(fluxes_var['actual_net_abstraction_gw'],
+                              time_step)
+
     def save_to_netcdf(self, end_date):
         """
         Save variables to netcdf.
@@ -375,3 +385,5 @@ class CreateandWritetoVariables:
             to_netcdf('globalwetland_outflow_' + end_date)
 
         self.lb_fluxes['streamflow'].to_netcdf('streamflow_' + end_date)
+        self.lb_fluxes['actual_net_abstraction_gw'].\
+            to_netcdf('actual_net_abstraction_gw_' + end_date)
