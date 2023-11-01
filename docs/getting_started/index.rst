@@ -7,13 +7,12 @@ Getting started
 Introduction
 ------------
 
-..  rst-class:: bignums-xxl
+..  rst-class:: bignums
 
 1.  One one one bignums-xxl
 
-    Lots of stories here ...
+    Lots of stories here
 
-    ...
 
 
 WaterGAP is a state-of-the-art global-scale water resource and water-use simulation model. 
