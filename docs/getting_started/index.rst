@@ -7,6 +7,12 @@ Getting started
 Introduction
 ------------
 
+.. rst-class:: 
+   1. ONE One one
+
+      Delicious, James
+
+
 WaterGAP is a state-of-the-art global-scale water resource and water-use simulation model. 
 WaterGAP was used to support the sustainable development of the Earth system by assessing water scarcity for humans, drought hazards, ecologically-relevant streamflow characteristics, the impacts of human water use and dam construction as well as freshwater-related scenarios of the future [1]_. 
 Recent focus has been on quantifying the impact of climate change on the global freshwater system, including the streamflow regime, groundwater recharge, floods, and droughts. 
@@ -28,11 +34,6 @@ WaterGAP has been generally categorized into two sections:
    
    *WaterGAP Components*
 
-
-.. rst-class:: bignums
-   1. ONE One one
-
-      Delicious, James
 
 
 References 
