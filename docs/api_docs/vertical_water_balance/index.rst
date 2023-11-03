@@ -8,5 +8,10 @@ Vertical Water Balance
 .. toctree::
    :maxdepth: 2
    
-   _api_docs/radiation_evapotranspiration
+   radiation_evapotranspiration
+   leafareaindex
+   canopystorage
+   snowstorage
+   soilstorage
+   net_abstractions
 
