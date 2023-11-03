@@ -57,10 +57,3 @@ ReWaterGAP documentation
         Saw a typo in the documentation or want to improve functionalities? The contributing guidelines will guide
         you through the process of improving ReWaterGAP.
 
-
-
-
-    getting_started/index
-    user_guide/index
-    api_docs/index
-    contributers_guide/index
