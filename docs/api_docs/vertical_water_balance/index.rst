@@ -9,7 +9,7 @@ Vertical Water Balance
    :maxdepth: 2
    
    rewatergap_schematic
-   radiation_evapotranspiration
+   api_docs/radiation_evapotranspiration
    leafareaindex
    canopystorage
    snowstorage
