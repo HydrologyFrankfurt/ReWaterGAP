@@ -29,4 +29,14 @@ API Reference
     :hidden:
 
    rewatergap_schematic
+   radiation_evapotranspiration
+   leafareaindex
+   canopystorage
+   snowstorage
+   soilstorage
+   groundwater_storage
+   lakes_wetlands_storage
+   net_abstractions
+   vertical_water_balance/index
+   lateral_water_balance/index
 
