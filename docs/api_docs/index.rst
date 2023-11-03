@@ -17,7 +17,7 @@ API Reference
 
     .. grid-item-card:: Lateral Water Balance
         :text-align: center
-        :link: api_docs/lateral_water_balance
+        :link: lateral_water_balance
         :link-type: ref
 
         :octicon:`arrow-right;10em`
