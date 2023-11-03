@@ -10,7 +10,7 @@ API Reference
 
     .. grid-item-card:: Vertical Water Balance
         :text-align: center
-        :link:  api_docs/vertical_water_balance
+        :link:  vertical_water_balance
         :link-type: ref
 
         :octicon:`arrow-down;10em`
@@ -38,5 +38,5 @@ API Reference
    groundwater_storage
    lakes_wetlands_storage
    net_abstractions
-   docs/api_docs/vertical_water_balance
-   docs/api_docs/lateral_water_balance
+   vertical_water_balance
+   lateral_water_balance
