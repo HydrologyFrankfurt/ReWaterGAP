@@ -1,5 +1,5 @@
 
-.. _vertical_water_balance:
+.. _api_docs/vertical_water_balance:
 
 ===========
 Vertical Water Balance
