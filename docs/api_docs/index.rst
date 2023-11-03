@@ -12,7 +12,7 @@ API Reference
         :link: rewatergap_schematic
         :link-type: ref
 
-        :octicon:`arrow-down;10em`
+        :octicon:`cpu;10em`
 
     .. grid-item-card:: Vertical Water Balance
         :text-align: center
