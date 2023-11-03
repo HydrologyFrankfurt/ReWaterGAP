@@ -10,9 +10,8 @@ API Reference
 
     .. grid-item-card:: Vertical Water Balance
         :text-align: center
-
-        .. button-ref:: getting_started
-            :ref-type: ref
+        :link:  vertical_water_balance
+        :link-type: ref
 
         :octicon:`arrow-down;10em`
 
