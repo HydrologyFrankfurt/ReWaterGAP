@@ -38,4 +38,4 @@ API Reference
    lakes_wetlands_storage
    net_abstractions
    vertical_water_balance/index
-   lateral_water_balance
+   lateral_water_balance/index
