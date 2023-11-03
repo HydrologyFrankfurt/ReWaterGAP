@@ -1,4 +1,3 @@
-
 .. _lateral_water_balance:
 
 ===========
