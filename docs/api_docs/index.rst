@@ -1,16 +1,15 @@
-
 .. _api_docs:
 
-===========
+=============
 API Reference
-===========
+=============
 
 .. grid:: 1
     :gutter: 1
 
     .. grid-item-card:: Vertical Water Balance
         :text-align: center
-        :link:  vertical_water_balance
+        :link: vertical_water_balance
         :link-type: ref
 
         :octicon:`arrow-down;10em`
