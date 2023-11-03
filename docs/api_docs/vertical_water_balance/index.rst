@@ -7,6 +7,7 @@ Vertical Water Balance
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
    
    radiation_evapotranspiration
    leafareaindex
