@@ -4,7 +4,7 @@ Schematic of WaterGAP Global Hydrology Model
 =============================================
 WaterGAP Global Hydrology Model is developed based on the schematic [1]_ presented below. 
 
-.. figure:: ../images/watergap_schematic.png
+.. figure:: .../images/watergap_schematic.png
    :align: center
    
    *Schematic of WGHM in WaterGAP 2.2d: Boxes represent water storage compartments, and arrows represent water flows. Green (red) color indicates processes that occur only in grid cells with humid ((semi)arid) climate*
