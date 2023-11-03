@@ -63,7 +63,7 @@ ReWaterGAP documentation
 
 .. toctree::
     :maxdepth: 2
-
+    :hidden:
 
     getting_started/index
     user_guide/index
