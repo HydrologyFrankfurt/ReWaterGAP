@@ -38,5 +38,5 @@ API Reference
    groundwater_storage
    lakes_wetlands_storage
    net_abstractions
-   vertical_water_balance
+   vertical_water_balance/index
    lateral_water_balance
