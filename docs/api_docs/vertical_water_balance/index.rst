@@ -1,11 +1,8 @@
-
 .. _vertical_water_balance:
 
-===========
+======================
 Vertical Water Balance
-===========
-
-radiation_evapotranspiration
+======================
 
 
 .. toctree::
