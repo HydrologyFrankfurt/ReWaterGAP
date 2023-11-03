@@ -1,3 +1,5 @@
+:notoc:
+
 .. ReWaterGAP documentation master file, created by
 
 ************************
