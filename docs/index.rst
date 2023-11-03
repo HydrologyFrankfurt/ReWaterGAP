@@ -67,4 +67,3 @@ ReWaterGAP documentation
     user_guide/index
     api_docs/index
     contributers_guide/index
-    whatsnew/index
