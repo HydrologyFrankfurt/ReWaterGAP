@@ -14,17 +14,3 @@ Vertical Water Balance
    snowstorage
    soilstorage
    net_abstractions
-
-
-```{toctree}
-:caption: Get started
-
-radiation_evapotranspiration
-leafareaindex
-```
-
-```{toctree}
-:caption: Navigation and links
-
-soilstorage
-net_abstractions
