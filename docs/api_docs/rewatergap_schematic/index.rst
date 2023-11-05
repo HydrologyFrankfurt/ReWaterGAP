@@ -1,8 +1,8 @@
 .. _rewatergap_schamtic:
 
-===============
-WaterGAP Schema
-===============
+==================
+WaterGAP Schematic
+==================
 
 
 .. toctree::
