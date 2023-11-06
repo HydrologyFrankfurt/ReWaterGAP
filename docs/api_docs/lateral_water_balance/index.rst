@@ -29,9 +29,3 @@ Lateral Water Balance
         Net Abstractions
 
 
-.. toctree::
-   :maxdepth: 1
-   
-   groundwater_storage
-   lakes_wetlands_storage
-   net_abstractions
