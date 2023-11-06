@@ -52,8 +52,8 @@ Thus, NApot,s is computed as:
    {NA}_{pot,s} = [{CU}_{pot,liv} + {CU}_{pot,thermal} + {CU}_{pot,s,dom} + {CU}_{pot,s,man} + {WA}_{pot,s,irri}] – [(1-{f}_{rgi})*({WA}_{pot,g,irri}-{CU}_{pot,g,irri}+{WA}_{pot,s,irri}-{CU}_{pot,s,irri}) + ({WA}_{pot,g,dom} -{CU}_{pot,g,dom} + {WA}_{pot,g,man} - {CU}_{pot,g,man})]
 
 with: 
-- _liv_: livestock,
-- _thermal_: cooling of thermal power plants.
+- *liv*: livestock,
+- *thermal*: cooling of thermal power plants.
 
  
 1 Actual net abstraction from surface water
