@@ -1,3 +1,5 @@
+.. _rewatergap_schematic:
+
 ==================
 WaterGAP Schematic
 ==================
