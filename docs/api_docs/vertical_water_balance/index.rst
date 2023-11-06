@@ -37,7 +37,7 @@ Vertical Water Balance
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  soil_storage
+        :link:  soil_storage_header
         :link-type: ref
 
         Soil Storage
