@@ -1,5 +1,3 @@
-.. _rewatergap_schamtic:
-
 ==================
 WaterGAP Schematic
 ==================
@@ -10,4 +8,3 @@ WaterGAP Schematic
    :hidden:
 
    rewatergap_scheme
- 
