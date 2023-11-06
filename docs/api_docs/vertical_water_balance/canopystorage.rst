@@ -1,3 +1,5 @@
+.. _canopy_storage:
+
 Canopy Storage 
 ===============
 Canopy storage and related fluxes are calculated based on section 4.2 of Müller Schmied et al 2021 [1]_.
