@@ -140,6 +140,7 @@ Then, the change in return flow to groundwater due to changing from WApot,s,irri
 .. math::
    return_flow_change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) 
 
+.. math::
    NAg(t) = NApot,g(t) – return flow change(t-1)
 
 
@@ -155,13 +156,17 @@ In this case, the actual NAs subtracted from surface water storage was larger th
 
 .. math::
    NAs = NApot,s + added_net_abstraction_sw_irri
-   
+
+.. math::
    factor WAs,irri = factor WApot,s,irri + add_net_abstraction_sw_irri
 
+.. math::
    WAs,irri = (1/factor) (factor WApot,s,irri + add_net_abstraction_sw_irri)
 
+.. math::
    return_flow_change = frgi(1-eff)(WAs,irri-WApot,s,irri)
 
+.. math::
    NAg(t) = NApot,g(t) – return flow change(t-1)
 
 
