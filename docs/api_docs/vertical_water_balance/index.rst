@@ -13,4 +13,3 @@ Vertical Water Balance
    canopystorage
    snowstorage
    soilstorage
-   net_abstractions
