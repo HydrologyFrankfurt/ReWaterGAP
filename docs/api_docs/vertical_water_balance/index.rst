@@ -14,12 +14,30 @@ Vertical Water Balance
 
         Radiation and evapotranspiration 
 
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  leafareaindex
+        :link-type: ref
 
-.. toctree::
-   :maxdepth: 1
+       Leaf Area Index
 
-   
-   leafareaindex
-   canopystorage
-   snowstorage
-   soilstorage
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  canopy_storage
+        :link-type: ref
+
+       Canopy Storage
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  snow_storage
+        :link-type: ref
+
+       Snow Storage
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  soil_storage
+        :link-type: ref
+
+       Soil Storage
