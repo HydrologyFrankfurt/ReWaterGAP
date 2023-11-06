@@ -50,4 +50,4 @@ Vertical Water Balance
     leafareaindex
     canopystorage
     snowstorage
-    soilsstorage
+    soilstorage
