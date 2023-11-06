@@ -9,7 +9,7 @@ API Reference
 
     .. grid-item-card:: WaterGAP Schematic Diagram
         :text-align: center
-        :link: vertical_water_balance
+        :link: rewatergap_schematic
         :link-type: ref
 
         :octicon:`cpu;10em`
