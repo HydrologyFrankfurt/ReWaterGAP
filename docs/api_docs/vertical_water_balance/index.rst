@@ -19,25 +19,25 @@ Vertical Water Balance
         :link:  leafareaindex
         :link-type: ref
 
-       Leaf Area Index
+        Leaf Area Index
 
     .. grid-item-card:: 
         :text-align: center
         :link:  canopy_storage
         :link-type: ref
 
-       Canopy Storage
+        Canopy Storage
 
     .. grid-item-card:: 
         :text-align: center
         :link:  snow_storage
         :link-type: ref
 
-       Snow Storage
+        Snow Storage
 
     .. grid-item-card:: 
         :text-align: center
         :link:  soil_storage
         :link-type: ref
 
-       Soil Storage
+        Soil Storage
