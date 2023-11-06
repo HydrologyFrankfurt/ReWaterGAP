@@ -1,3 +1,5 @@
+.. _snow_storage:
+
 Snow Storage 
 ++++++++++++
 .. note::
