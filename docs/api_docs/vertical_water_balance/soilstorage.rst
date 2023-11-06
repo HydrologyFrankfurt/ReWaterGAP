@@ -1,5 +1,8 @@
+.. _soil_storage:
+
+============
 Soil Storage 
-===============
+============
 This module computes soil storage and related fluxes for all grid cells based on section 4.4 of Müller Schmied et al 2021 [1]_.
 
 .. autoclass:: soil.Soil
