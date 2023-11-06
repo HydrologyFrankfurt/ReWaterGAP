@@ -138,7 +138,7 @@ Neglecting all water uses except surface water use for irrigation, Eq. 1 is simp
 Then, the change in return flow to groundwater due to changing from WApot,s,irri to Ws,irr is computed as
 
 .. math::
-   returnflow change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) 
+   returnflow\:change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) 
 
 .. math::
   {NA}_{g(t)} = {NA}_{pot,g(t)} – {return flow change}_{(t-1)}
@@ -155,19 +155,19 @@ and return NAg = NApot,g
 In this case, the actual NAs subtracted from surface water storage was larger than NApot,s on the previous day, as part of the unsatisfied NApot,s accumulated from earlier time could by satisfied. If this additional NAs was caused by supplying irrigation water and not only for satisfying the water demand of other sectors (which have priority), then more return flow to groundwater is generated than it was assumed when NApot,g was computed in GWSWUSE. Thus, return flows to groundwater are increased and NAg becomes smaller than NApot,g
 
 .. math::
-   NAs = NApot,s + added_net_abstraction_sw_irri
+   NAs = NApot,s + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
-   factor WAs,irri = factor WApot,s,irri + add_net_abstraction_sw_irri
+   factor WAs,irri = factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
-   WAs,irri = (1/factor) (factor WApot,s,irri + add_net_abstraction_sw_irri)
+   WAs,irri = (1/factor) (factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
    return_flow_change = frgi(1-eff)(WAs,irri-WApot,s,irri)
 
 .. math::
-   NAg(t) = NApot,g(t) – return flow change(t-1)
+   NAg(t) = NApot,g(t) – returnflow\:change(t-1)
 
 
 **UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0**
