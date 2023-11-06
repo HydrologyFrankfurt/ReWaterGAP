@@ -42,4 +42,12 @@ Vertical Water Balance
 
         Soil Storage
 
+.. toctree::
+    :maxdepth: 1
+    :hidden:
 
+    radiation_evapotranspiration
+    leafareaindex
+    canopystorage
+    snowstorage
+    soilsstorage
