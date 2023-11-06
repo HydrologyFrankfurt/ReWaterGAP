@@ -100,20 +100,34 @@ In the computation of :math:`{NA}_{pot,g}` in GWSWUSE, it is assumed that the to
 In this case, the surface water abstraction for irrigation on the previous day was lower than that assumed when computing :math:`{NA}_{pot,g}`. Thus, return flows to groundwater are decreased and NAg becomes larger than NApot,g. We derive the algorithm by setting, as a first step, all water uses that are not related to surface water use for irrigation to zero, as they are not affected by the reduction of net abstraction from surface water as compared to NApot,s. The equations in italics show the derivation, the normal letters what is included in the code. Then, Eq. (2) is simplified to
 
 .. math::
-   :nowrap:
-
-  \begin{middle}
    {NA}_{pot,s} = WApot,s,irri- (1-frgi)(WApot,s,irri-CUpot,s,irri)
 
+.. math::
    {eff} = CUpot,s,irri/WApot,s,irri
 
+.. math::
    NApot,s = WApot,s,irri- (1-frgi)(WApot,s,irri-eff WApot,s,irri)
-  \end{middle}
 
+.. math::
+   NApot,s = WApot,s,irri- (1-frgi)(1-eff) WApot,s,irri
 
+.. math::
+   NApot,s = WApot,s,irri [1-(1-frgi)(1-eff)]
 
+.. math::
+   factor = [1-(1-frgi)(1-eff)]
 
-NApot,s = WApot,s,irri- (1-frgi)(1-eff) WApot,s,irri \\ NApot,s = WApot,s,irri [1-(1-frgi)(1-eff)] \\ factor = [1-(1-frgi)(1-eff)] \\ NApot,s = factor WApot,s,irri \\ NAs = NApot,s - UnNApot,s \\ factor WAs,irri = factor WApot,s,irri - UnNApot,s \\ WAs,irri = (1/factor) (factor WApot,s,irri - UnNApot,s)
+.. math::
+   NApot,s = factor WApot,s,irri
+
+.. math::
+   NAs = NApot,s - UnNApot,s
+
+.. math::
+   factor WAs,irri = factor WApot,s,irri - UnNApot,s
+
+.. math::
+   WAs,irri = (1/factor) (factor WApot,s,irri - UnNApot,s)
 
 
 Neglecting all water uses except surface water use for irrigation, Eq. 1 is simplified to
