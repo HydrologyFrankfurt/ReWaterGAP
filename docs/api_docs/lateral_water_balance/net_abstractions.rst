@@ -138,10 +138,10 @@ Neglecting all water uses except surface water use for irrigation, Eq. 1 is simp
 Then, the change in return flow to groundwater due to changing from WApot,s,irri to Ws,irr is computed as
 
 .. math::
-   return_flow_change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) 
+   returnflow change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) 
 
 .. math::
-   NAg(t) = NApot,g(t) – return flow change(t-1)
+  {NA}_{g(t)} = {NA}_{pot,g(t)} – {return flow change}_{(t-1)}
 
 
 **UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0**
