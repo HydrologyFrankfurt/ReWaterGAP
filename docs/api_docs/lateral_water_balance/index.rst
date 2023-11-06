@@ -1,8 +1,6 @@
-.. _lateral_water_balance:
-
-===========
+=====================
 Lateral Water Balance
-===========
+=====================
 
 .. toctree::
    :maxdepth: 2
