@@ -30,7 +30,7 @@ API Reference
         :octicon:`arrow-right;10em`
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
     :hidden:
 
     rewatergap_schematic/index
