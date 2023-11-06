@@ -1,3 +1,5 @@
+.. _groundwater_storage:
+
 Groundwater Storage
 ===================
 Groundwater storage and related fluxes are calculated based on section 4.5 of Müller Schmied et al 2021 [1]_.
