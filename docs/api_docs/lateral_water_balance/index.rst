@@ -5,7 +5,7 @@ Lateral Water Balance
 =====================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    groundwater_storage
    lakes_wetlands_storage
