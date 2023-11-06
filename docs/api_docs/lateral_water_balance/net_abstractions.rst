@@ -1,3 +1,5 @@
+.. _net_abstractions:
+
 ================
 Net abstractions 
 ================
