@@ -29,3 +29,11 @@ API Reference
 
         :octicon:`arrow-right;10em`
 
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    rewatergap_schematic/index
+    vertical_water_balance/index
+    lateral_water_balance/index
+    
