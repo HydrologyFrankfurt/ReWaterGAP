@@ -9,7 +9,7 @@ Vertical Water Balance
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  radiation_evapotranspiration
+        :link:  radiation_evap
         :link-type: ref
 
         Radiation and evapotranspiration 
