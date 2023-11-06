@@ -96,19 +96,30 @@ In the computation of :math:`{NA}_{pot,g}` in GWSWUSE, it is assumed that the to
 
 
 **UnNApot,s(t-1) is positive and WApot,s,irri(t) >0**
+
 In this case, the surface water abstraction for irrigation on the previous day was lower than that assumed when computing :math:`{NA}_{pot,g}`. Thus, return flows to groundwater are decreased and NAg becomes larger than NApot,g. We derive the algorithm by setting, as a first step, all water uses that are not related to surface water use for irrigation to zero, as they are not affected by the reduction of net abstraction from surface water as compared to NApot,s. The equations in italics show the derivation, the normal letters what is included in the code. Then, Eq. (2) is simplified to
 
 .. math::
    {NA}_{pot,s} = WApot,s,irri- (1-frgi)(WApot,s,irri-CUpot,s,irri)
+
    {eff}= CUpot,s,irri/WApot,s,irri
+
    NApot,s = WApot,s,irri- (1-frgi)(WApot,s,irri-eff WApot,s,irri)
+
    NApot,s = WApot,s,irri- (1-frgi)(1-eff) WApot,s,irri
+
    NApot,s = WApot,s,irri [1-(1-frgi)(1-eff)]
+
    factor = [1-(1-frgi)(1-eff)]
+
    NApot,s = factor WApot,s,irri
+
    NAs = NApot,s - UnNApot,s
+
    factor WAs,irri = factor WApot,s,irri - UnNApot,s
+
    WAs,irri = (1/factor) (factor WApot,s,irri - UnNApot,s)
+
 
 Neglecting all water uses except surface water use for irrigation, Eq. 1 is simplified to
 
@@ -118,25 +129,35 @@ Neglecting all water uses except surface water use for irrigation, Eq. 1 is simp
 Then, the change in return flow to groundwater due to changing from WApot,s,irri to Ws,irr is computed as
 
 .. math::
-   return_flow_change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) //(negative)
-   NAg(t) = NApot,g(t) – return flow change(t-1) (output)
+   return_flow_change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) 
+
+   NAg(t) = NApot,g(t) – return flow change(t-1)
 
 
 **UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0**
+
 Then, NAg is not adjusted as without irrigation, there is never any return flow to groundwater. The daily unsatisfied net abstraction from surface water is added to the accumulated unsatisfied NAs from other sectors as
 G_acc_unsat_net_abstraction_other_sectors += UnNApot,s 
 and return NAg = NApot,g
 
 **UnNApot,s(t-1) is negative and WApot,s,irri(t) >0**
+
 In this case, the actual NAs subtracted from surface water storage was larger than NApot,s on the previous day, as part of the unsatisfied NApot,s accumulated from earlier time could by satisfied. If this additional NAs was caused by supplying irrigation water and not only for satisfying the water demand of other sectors (which have priority), then more return flow to groundwater is generated than it was assumed when NApot,g was computed in GWSWUSE. Thus, return flows to groundwater are increased and NAg becomes smaller than NApot,g
-NAs = NApot,s + added_net_abstraction_sw_irri
-factor WAs,irri = factor WApot,s,irri + add_net_abstraction_sw_irri
-WAs,irri = (1/factor) (factor WApot,s,irri + add_net_abstraction_sw_irri)
-return_flow_change = frgi(1-eff)(WAs,irri-WApot,s,irri) //(positive)
-NAg(t) = NApot,g(t) – return flow change(t-1) (output)
+
+.. math::
+   NAs = NApot,s + added_net_abstraction_sw_irri
+   
+   factor WAs,irri = factor WApot,s,irri + add_net_abstraction_sw_irri
+
+   WAs,irri = (1/factor) (factor WApot,s,irri + add_net_abstraction_sw_irri)
+
+   return_flow_change = frgi(1-eff)(WAs,irri-WApot,s,irri)
+
+   NAg(t) = NApot,g(t) – return flow change(t-1)
 
 
 **UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0**
+
 See  case (UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0)
 
 References 
