@@ -102,13 +102,13 @@ In this case, the surface water abstraction for irrigation on the previous day w
 .. math::
    :nowrap:
 
-  \begin{center}
+  \begin{middle}
    {NA}_{pot,s} = WApot,s,irri- (1-frgi)(WApot,s,irri-CUpot,s,irri)
 
    {eff} = CUpot,s,irri/WApot,s,irri
 
    NApot,s = WApot,s,irri- (1-frgi)(WApot,s,irri-eff WApot,s,irri)
-  \end{center}
+  \end{middle}
 
 
 
