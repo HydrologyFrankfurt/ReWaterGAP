@@ -9,4 +9,4 @@ Lateral Water Balance
    
    groundwater_storage
    lakes_wetlands_storage
-
+   net_abstractions
