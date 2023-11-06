@@ -1,3 +1,5 @@
+.. _vertical_water_balance:
+
 ======================
 Vertical Water Balance
 ======================
