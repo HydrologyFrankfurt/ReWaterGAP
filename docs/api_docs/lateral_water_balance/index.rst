@@ -1,3 +1,5 @@
+.. _lateral_water_balance:
+
 =====================
 Lateral Water Balance
 =====================
