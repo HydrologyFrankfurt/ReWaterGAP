@@ -9,4 +9,4 @@ WaterGAP Schematic
    :maxdepth: 2
    :hidden:
 
-   rewatergap_scheme
+   watergap_schematic
