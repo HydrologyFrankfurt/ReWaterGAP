@@ -68,7 +68,7 @@ There are three options for managing this situation by spatially shifting parts 
 
 1.1	Riparian water supply option
 ----------------------------------
-If the demand cell is a riparian cell of a global lake or reservoir, :math:{NA}_{s} is satisfied from the lake/reservoir storage if possible. For this purpose, the NApot,s values of all riparian cells are aggregated for each time step if they are positive and then assigned to the outflow cell, subtracting them from the lake/reservoir storage of the outflow cell.
+If the demand cell is a riparian cell of a global lake or reservoir, :math:`{NA}_{s}` is satisfied from the lake/reservoir storage if possible. For this purpose, the NApot,s values of all riparian cells are aggregated for each time step if they are positive and then assigned to the outflow cell, subtracting them from the lake/reservoir storage of the outflow cell.
 Negative NApot,s (return flows) are used to increase the storage of the riparian cell itself. 
 
 If satisfaction is impossible, the not-satisfied part from the outflow cell is proportionally redistributed to the riparian cells, right after calculating the global lake/reservoir storage. The proportional contribution of each riparian cell to the aggregated demand in the outflow cell is employed to distribute the unmet demand to the riparian cells. The unmet demand from a global lake outflow cell is attempted to be satisfied in riparian cells (local lakes or rivers) either on the same day or the next day, depending on the routing order.
