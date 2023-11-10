@@ -1,8 +1,16 @@
 .. _net_abstractions:
 
+.. default-role:: label
+
+1. [1]
+2. [2]
+3. [3]
+
+
 ================
 Net abstractions 
 ================
+
 Computation of actual net abstractions from surface water and groundwater 
 -------------------------------------------------------------------------
 In WaterGAP, water usage across five sectors is simulated, differentiating between groundwater and surface water sources. The model assumes how much water is returned to either surface water or groundwater. Unlike other hydrological models, the impact of human water use on water storage and flow is calculated by subtracting net abstractions from either groundwater (groundwater use) or surface water bodies like lakes/reservoirs and rivers (surface water use). Priority is assigned to the water body type in ascending priority where global lakes/reservoirs are 1, rivers 2, and local lakes/reservations 3. 
