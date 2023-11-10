@@ -33,7 +33,14 @@ WaterGAP has been generally categorized into two sections:
 --------------------------
 
 1. Cloning the Repository
+    1. Prerequisites
+    Python3: https://www.python.org/downloads/
     1. How to do it
+    Clone the WaterGAP repository: https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository
+
+    Open the terminal
+    Navigate to the downloaded repository folder
+
 2. Preparing Input Files
     1. Run with default input
     2. Run with user input
