@@ -1,11 +1,8 @@
 .. _net_abstractions:
 
-.. default-role:: label
-
-1. [1]
-2. [2]
-3. [3]
-
+1. &#9675; First item
+2. &#9675; Second item
+3. &#9675; Third item
 
 ================
 Net abstractions 
