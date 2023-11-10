@@ -32,20 +32,42 @@ WaterGAP has been generally categorized into two sections:
 5 minute guide to WaterGAP
 --------------------------
 
-1. Cloning the Repository
-    1. Prerequisites
-    Python3: https://www.python.org/downloads/
-    1. How to do it
-    Clone the WaterGAP repository: https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository
+1: **Download and Install Python** (if already installed skip this step)
+	Download the current version for you OS from python.org and install
+		https://www.python.org/downloads/
 
-    Open the terminal
-    Navigate to the downloaded repository folder
+2: **Download and Install Mamba** (if already installed skip this step)
+	Go here and choose your OS (Linux or MacOS), then download Miniforge3 (downloaded file has .sh extension)
+	https://github.com/conda-forge/miniforge
+	Navigate in Terminal to sh file you downloaded
+	Install by running and following the instructions
+		$ bash Miniforge3-$(uname)-$(uname -m).sh
+		example: $ bash Miniforge3-MacOSX-arm64.sh (for mac os Apple Silicon)
+	Navigate to bin folder in minifoge
+		example: $ cd /Users/leon/miniforge3/bin
+	Activate mamba by running
+		$ source activate
 
-2. Preparing Input Files
-    1. Run with default input
-    2. Run with user input
-3. User Configuration
-    1. How to configure a naturalized run 
+3: **Clone the WaterGAP repository**
+	Using the Terminal
+		Navigate to directory of choice where the WaterGAP folder will be copied into.	
+			Exam
+		git clone https://github.com/HydrologyFrankfurt/ReWaterGAP.git
+	For more information
+		https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository
+
+4: **Navigate to the ReWaterGAP folder in the terminal**
+	$ cd user/…/ReWaterGAP
+	
+5: **Create an environment to run ReWaterGAP in**
+	create an environment and install the required packages from requirements.txt file
+	$ mamba create --name watergap --file requirements.txt
+
+6: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
+	$ python3 run_watergap.py Config_ReWaterGAP.json
+	
+	
+
 
 
 References 
