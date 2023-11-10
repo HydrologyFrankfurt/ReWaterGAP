@@ -4,3 +4,6 @@ numpy==1.23.5
 pandas==1.5.3
 termcolor==2.3.0
 xarray==2023.2.0
+netcdf4
+h5netcdf
+dask
