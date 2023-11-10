@@ -29,6 +29,17 @@ WaterGAP has been generally categorized into two sections:
    *WaterGAP Components*
 
 
+5 minute guide to WaterGAP
+--------------------------
+
+1. Cloning the Repository
+    1. How to do it
+2. Preparing Input Files
+    1. Run with default input
+    2. Run with user input
+3. User Configuration
+    1. How to configure a naturalized run 
+
 
 References 
 ----------
