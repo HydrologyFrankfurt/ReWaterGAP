@@ -41,21 +41,35 @@ WaterGAP has been generally categorized into two sections:
 	https://github.com/conda-forge/miniforge
 	Navigate in Terminal to sh file you downloaded
 	Install by running and following the instructions
-		$ bash Miniforge3-$(uname)-$(uname -m).sh
-		example: $ bash Miniforge3-MacOSX-arm64.sh (for mac os Apple Silicon)
-	Navigate to bin folder in minifoge
-		example: $ cd /Users/leon/miniforge3/bin
+
+.. code-block:: bash
+		
+	$ bash Miniforge3-$(uname)-$(uname -m).sh
+		
+	example: $ bash Miniforge3-MacOSX-arm64.sh (for mac os Apple Silicon)
+
+
+Navigate to bin folder in minifoge
+
+.. code-block:: bash
+
+	example: $ cd /Users/leon/miniforge3/bin
 	Activate mamba by running
+
+.. code-block:: bash
+
 		$ source activate
 
 3: **Clone the WaterGAP repository**
 
-	Using the Terminal
-		Navigate to directory of choice where the WaterGAP folder will be copied into. Then 
+Using the Terminal, navigate to the directory of choice where the WaterGAP folder will be copied into. Then 
+
+.. code-block:: bash
+
 		git clone https://github.com/HydrologyFrankfurt/ReWaterGAP.git
 
-	Find more information in the official GitHub documentation here
-		https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository
+Find more information in the official GitHub documentation here:
+https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository
 
 4: **Navigate to the ReWaterGAP folder in the terminal**
 
@@ -66,10 +80,14 @@ WaterGAP has been generally categorized into two sections:
 5: **Create an environment to run ReWaterGAP in**
 	create an environment and install the required packages from requirements.txt file
 
-::
+.. code-block:: bash
+
 	$ mamba create --name watergap --file requirements.txt
 
 6: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
+
+.. code-block:: bash
+
 	$ python3 run_watergap.py Config_ReWaterGAP.json
 	
 	
