@@ -49,11 +49,12 @@ WaterGAP has been generally categorized into two sections:
 		$ source activate
 
 3: **Clone the WaterGAP repository**
+
 	Using the Terminal
-		Navigate to directory of choice where the WaterGAP folder will be copied into.	
-			Exam
+		Navigate to directory of choice where the WaterGAP folder will be copied into. Then 
 		git clone https://github.com/HydrologyFrankfurt/ReWaterGAP.git
-	For more information
+
+	Find more information in the official GitHub documentation here
 		https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository
 
 4: **Navigate to the ReWaterGAP folder in the terminal**
