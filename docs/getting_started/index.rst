@@ -58,10 +58,15 @@ WaterGAP has been generally categorized into two sections:
 		https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository
 
 4: **Navigate to the ReWaterGAP folder in the terminal**
+
+.. code-block:: bash
+
 	$ cd user/…/ReWaterGAP
 	
 5: **Create an environment to run ReWaterGAP in**
 	create an environment and install the required packages from requirements.txt file
+
+::
 	$ mamba create --name watergap --file requirements.txt
 
 6: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
