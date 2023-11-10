@@ -155,7 +155,7 @@ and return NAg = NApot,g
 In this case, the actual NAs subtracted from surface water storage was larger than NApot,s on the previous day, as part of the unsatisfied NApot,s accumulated from earlier time could by satisfied. If this additional NAs was caused by supplying irrigation water and not only for satisfying the water demand of other sectors (which have priority), then more return flow to groundwater is generated than it was assumed when NApot,g was computed in GWSWUSE. Thus, return flows to groundwater are increased and NAg becomes smaller than NApot,g
 
 .. math::
-   NAs = NApot,s + {added\:net\:abstraction}_{sw,irri}
+   {NA}_{s} = {NA}_{pot,s} + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
    factor WAs,irri = factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
@@ -164,10 +164,10 @@ In this case, the actual NAs subtracted from surface water storage was larger th
    WAs,irri = (1/factor) (factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
-   return_flow_change = frgi(1-eff)(WAs,irri-WApot,s,irri)
+   {return_flow_change} = frgi(1-eff)(WAs,irri-WApot,s,irri)
 
 .. math::
-   NAg(t) = NApot,g(t) – returnflow\:change(t-1)
+   {NA}_{g(t)} = {NA}_{pot,g(t)} – {returnflow\:change}_{(t-1)}
 
 
 **UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0**
