@@ -54,7 +54,8 @@ Navigate to bin folder in minifoge
 .. code-block:: bash
 
 	example: $ cd /Users/leon/miniforge3/bin
-	Activate mamba by running
+	
+Activate mamba by running
 
 .. code-block:: bash
 
@@ -84,7 +85,9 @@ https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forke
 
 	$ mamba create --name watergap --file requirements.txt
 
-6: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
+6. **Import Data**
+
+7: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
 
 .. code-block:: bash
 
