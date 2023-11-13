@@ -127,7 +127,7 @@ def run():
 
     spin_start = np.where(grid_coords['time'].values.astype('datetime64[D]') == start_date)[0].item()
     spin_end = 1 + np.where(grid_coords['time'].values.astype('datetime64[D]') == end_spinup)[0].item()
-    print(spin_start, spin_end)
+
     #  if there is spinup, simulation date will start with the spinup years.
     simulation_date = grid_coords['time'].values[spin_start:spin_end]
 
