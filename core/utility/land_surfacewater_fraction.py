@@ -68,7 +68,7 @@ def compute_landareafrac(landwater_frac, land_area_frac,
     #     Resevoirs
     # =========================================================================
     if anthroprogenic is True:
-        if reservoir_operation == "on":
+        if reservoir_operation is True:
 
             # Read in global reservoir fraction per year. This reservoir
             # fraction contains accumulated values per year, specifically
@@ -155,8 +155,8 @@ def get_glolake_area(landwater_frac):
         astype(np.float64)
 
     if anthroprogenic is True:
-        if reservoir_operation == "off":
-            # Add reservoir area to lake area in case of regulated lake
+        if reservoir_operation is False:
+            # Add reservoir area to global lake area in case of regulated lake
             regulated_lake_status = landwater_frac.regulated_lake_status.values
             reservior_and_regulated_lake_area = \
                 landwater_frac.reservoir_and_regulated_lake_area[0].values.\
@@ -168,7 +168,7 @@ def get_glolake_area(landwater_frac):
         else:
             glo_lake_area = global_lake_area
     else:
-        # Add reservoir area to lake area in case of regulated lake
+        # Add reservoir area to global lake area in case of regulated lake
         regulated_lake_status = landwater_frac.regulated_lake_status.values
         reservior_and_regulated_lake_area = \
             landwater_frac.reservoir_and_regulated_lake_area[0].values.\
