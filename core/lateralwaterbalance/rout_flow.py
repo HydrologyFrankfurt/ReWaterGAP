@@ -33,6 +33,7 @@ from core.lateralwaterbalance import fractional_routing as fr
 from core.lateralwaterbalance import river_waterbalance as rb
 from core.lateralwaterbalance import reservior_and_regulated_lakes as res_reg
 from core.lateralwaterbalance import distribute_to_riparian as to_riparian
+from core.lateralwaterbalance import neighbouringcell as nbcell
 from core.lateralwaterbalance import net_abstraction_from_local_lake as \
     netsabs_lake
 
@@ -60,7 +61,8 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
          glwdunits, unagregrgated_potential_netabs_sw,
          potential_net_abstraction_sw,
          prev_accumulated_unsatisfied_potential_netabs_sw,
-         unsatisfied_potential_netabs_riparian, subtract_use):
+         unsatisfied_potential_netabs_riparian, subtract_use,
+         neigbourcells):
 
     # =========================================================================
     #   Creating outputs for storages, fluxes and factors(eg. reduction factor)
@@ -154,8 +156,12 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
     for routflow_looper in range(len(rout_order)):
         # Get invidividual cells based on routing order
         x, y = rout_order[routflow_looper]
+
         # Get respective outflow cell for routing ordered cells.
         m, n = outflow_cell[routflow_looper]
+
+        # Get neigbouring cells for demand cell
+        neigbourcells_for_demandcell = neigbourcells[routflow_looper]
 
         # update  accumulated_unsatisfied_potential_netabs_sw  with
         # unsatisfied_potential_netabs_riparian.
@@ -600,26 +606,46 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
         else:
             cellrunoff[x,  y] = river_streamflow[x, y] - inflow_from_upstream
 
-    #               ====================================
-    #               ||  Abstraction from  local lake  ||
-    #               ====================================
-    #    -----------------------------------------------------------------
-    #    || Water can be abstracted from local lake storage if there is ||
-    #    || a lake in the cell, there is accumulated unsatisfied use    ||
-    #    || after river abstraction, and lake storage is above          ||
-    #    ||  - max_storage.                                             ||
-    #    -----------------------------------------------------------------
-        if subtract_use == True : 
+        #    =================================================
+        #    ||  Neighbouring cell Water supply option  &   ||
+        #    ||  Abstraction from  local lake               ||
+        #    ==================================================
+
+        if subtract_use == True :
+            # compute loclake_maxstorage and glolake_maxstorage required for
+            # neighbouring cell water supply option and abstraction from local
+            # lake*(will refactor to be  have it  calulated once for all grid)*
+            m_to_km = 0.001
+            if (loclake_frac[x, y] > 0):
+
+                loclake_maxstorage = cell_area[x, y] * loclake_frac[x, y] * \
+                    activelake_depth[x, y] * m_to_km
+            else:
+                loclake_maxstorage = 0
+
+            if (glolake_area[x, y] > 0):
+                glolake_maxstorage = \
+                    glolake_area[x, y]*activelake_depth[x, y] * m_to_km
+            else:
+                glolake_maxstorage = 0
+            #               ====================================
+            #               ||  Abstraction from  local lake  ||
+            #               ====================================
+            #    --------------------------------------------------------------
+            #    || Water can be abstracted from local lake storage if       ||
+            #    || 1) there is a lake in the cell, 2)there is accumulated   ||
+            #    || unsatisfied use  after river abstraction, and 3)         ||
+            #    || lake storage is above negative max_storage.              ||
+            #    ||                                                          ||
+            #    -----------------------------------------------------------------
             if (loclake_frac[x, y] > 0) and \
                     (accumulated_unsatisfied_potential_netabs_sw[x, y] > 0):
-                m_to_km = 0.001
-                max_storage = cell_area[x, y] * loclake_frac[x, y] * activelake_depth[x, y] * \
-                    m_to_km
-                if (loclake_storage_out[x, y] > (-1 * max_storage)):
+
+                if (loclake_storage_out[x, y] > (-1 * loclake_maxstorage)):
 
                     storage, accum_unpot_netabs_sw, frac,  = netsabs_lake.\
                         abstract_from_local_lake(loclake_storage_out[x, y],
-                                                 max_storage,
+                                                 loclake_maxstorage,
                                                  loclake_frac[x, y],
                                                  reduction_exponent_lakewet[x, y],
                                                  accumulated_unsatisfied_potential_netabs_sw[x, y])
@@ -628,6 +654,25 @@ def rout(rout_order, arid, drainage_direction,  groundwater_storage,
                     accumulated_unsatisfied_potential_netabs_sw[x, y] = \
                         accum_unpot_netabs_sw.item()
                     dyn_loclake_frac[x, y] = frac.item()
+
+            #               =============================================
+            #               ||  Neighbouring cell Water supply option  ||
+            #               =============================================
+            #    --------------------------------------------------------------
+            #    ||       ||
+            #    ||    ||
+            #    ||          ||
+            #    ||           ||
+            #    ||                                                          ||
+            #    --------------------------------------------------------------
+            # nbcell_lat_lon = nbcell.\
+            #     neighbouring_cell(neigbourcells_for_demandcell,
+            #                       river_storage_out, loclake_storage_out,
+            #                       glolake_storage_out, loclake_maxstorage,
+            #                       glolake_maxstorage, rout_order,
+            #                       outflow_cell, x, y)
+            # if x==12 and y == 284:
+            #     print(x, y, nbcell_lat_lon)
 
     return groundwater_storage_out, loclake_storage_out, locwet_storage_out,\
         glolake_storage_out, global_reservior_storage, k_release_out, \

@@ -14,7 +14,7 @@
 # This module brings all lateral water balance functions together to run and
 # makes use of numba to optimize speed (especially routing)
 # =============================================================================
-
+import ast
 import numpy as np
 import pandas as pd
 from core.lateralwaterbalance import river_property as rvp
@@ -286,6 +286,15 @@ class LateralWaterBalance:
         self.unagregrgated_potential_netabs_sw = \
             np.zeros((forcings_static.lat_length, forcings_static.lon_length))
 
+        #                  =================================
+        #                  ||    Neigbouring cells        ||
+        #                  =================================
+        # Neighbouuring cells (8 per cell) from which wateruse from demand
+        # cells could be satified. Data is a numpy array of lat and lon index
+        # for cells.
+        self.neighbourcells = \
+            self.static_data.neighbourcells.iloc[:, 1:].values
+
     def activate_res_area_storage_capacity(self, simulation_date,
                                            reservoir_opt_year):
         """
@@ -305,7 +314,7 @@ class LateralWaterBalance:
         """
         # Activate storage,area and capacity of reservoir that are  active
         # in current year
-        if cm.ant is True and cm.reservior_opt == "on":
+        if cm.ant is True and cm.reservior_opt is True:
             if simulation_date in reservoir_opt_year:
                 resyear = int(pd.to_datetime(simulation_date).year)
 
@@ -475,6 +484,7 @@ class LateralWaterBalance:
         # of potential net abstraction that could not be satisfied over time.
         # It takes into account not only the unsatisfied use of the current
         # time step, but also that of previous time steps.
+        # Delayed use *** (write some nice)
         self.accumulated_unsatisfied_potential_netabs_sw += \
             self.potential_net_abstraction_sw
 
@@ -598,7 +608,7 @@ class LateralWaterBalance:
                       self.potential_net_abstraction_sw,
                       prev_accumulated_unsatisfied_potential_netabs_sw,
                       self.unsatisfied_potential_netabs_riparian,
-                      cm.subtract_use)
+                      cm.subtract_use, self.neighbourcells)
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]
@@ -627,7 +637,7 @@ class LateralWaterBalance:
         # =====================================================================
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.
-        # see module adapt_netabs_groundwater.py more more explanation on
+        # see module adapt_netabs_groundwater.py to see more explanation on
         # these variables
         # =====================================================================
         self.accumulated_unsatisfied_potential_netabs_sw = out[18]
@@ -653,7 +663,7 @@ class LateralWaterBalance:
 
         # print(self.loclake_storage[87, 224], loclake_outflow[87, 224],
         #       self.loclake_storage[59, 373], loclake_outflow[59, 373])
-        print(self.glolake_storage[89, 480])
+        # print(self.glolake_storage[89, 480])
         # print(self.river_storage[59, 371], streamflow[59, 371],
         #       self.river_storage[71, 447], streamflow[71, 447])
 
