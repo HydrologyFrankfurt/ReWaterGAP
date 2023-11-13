@@ -96,6 +96,10 @@ class StaticData:
         neighbourcells_path = \
             str(Path(cm.config_file['FilePath']['inputDir'] +
                      r'static_input/neigbouringcells_latlon.csv'))
+
+        neighbourcells_outflowcell_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/neigbouringcells_outflow_latlon.csv'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
@@ -155,6 +159,8 @@ class StaticData:
             # Neighbouuring cells from which wateruse from demand cells could
             # be satified.
             self.neighbourcells = pd.read_csv(neighbourcells_path)
+            self.neighbourcells_outflowcell = \
+                pd.read_csv(neighbourcells_outflowcell_path)
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Static data '
