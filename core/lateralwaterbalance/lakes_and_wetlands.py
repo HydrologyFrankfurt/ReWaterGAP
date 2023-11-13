@@ -24,14 +24,14 @@ from core.lateralwaterbalance import reduction_factor as rf
 
 @njit(cache=True)
 def lake_wetland_balance(rout_order, routflow_looper,
-                         choose_swb, storage, lakewet_frac, precipitation,
+                         choose_swb, storage, precipitation,
                          openwater_pot_evap, aridity, drainage_direction,
                          inflow_to_swb, swb_outflow_coeff,
                          groundwater_recharge_constant,
                          reduction_exponent_lakewet, areal_corr_factor,
-                         lake_outflow_exp=None, lake_depth=None,
-                         wetland_outflow_exp=None,  wetland_depth=None,
-                         area_of_cell=0, reservoir_area=0,
+                         max_storage=None, max_area=None, lakewet_frac=0,
+                         lake_outflow_exp=None, wetland_outflow_exp=None,
+                         reservoir_area=0,
                          accumulated_unsatisfied_potential_netabs_sw=0):
     """
     Compute water balance for global and local lakes and wetlands including
@@ -60,11 +60,30 @@ def lake_wetland_balance(rout_order, routflow_looper,
         Drainage direction taken from  [1]_ , Units: [-]
     inflow_to_swb : array
         Inflow into selected surface waterbody, Unit: [km3/day]
-    area_of_cell: array, optional
-        Area of grid cell, Unit: km2.
-        Note!!! local lakes and global and local wetlands uses area fractions
-       and hence cell area is required to compute respective absolute areas.
-       Global lake area is already absolute so no cell_area is required.
+    swb_outflow_coeff:
+
+    groundwater_recharge_constant:
+
+    reduction_exponent_lakewet:
+
+    areal_corr_factor:
+
+    max_storage:
+
+    max_area: array,
+        Maximum area of surface waterbody, Unit: km2.
+        Note!!! Global lake area has absolute lake area (including that of
+        riparian cells) in the outflow cell. Hence the outflow cell is used for
+        waterbalance calulation.
+
+    lake_outflow_exp:
+
+    wetland_outflow_exp:
+
+    reservoir_area:
+
+    accumulated_unsatisfied_potential_netabs_sw:
+
 
     References.
 
@@ -96,15 +115,10 @@ def lake_wetland_balance(rout_order, routflow_looper,
     # =========================================================================
     #     Parameters for respective surface waterbody.
     # =========================================================================
-    # Note!!!: Active depth is the same for both local and global
-    # lakes.
     if choose_swb == "local lake" or choose_swb == "global lake":
         exp_factor = lake_outflow_exp
-        active_depth = lake_depth
     else:
-        # Local and global wetland paramters (Active depth is the same as well)
         exp_factor = wetland_outflow_exp
-        active_depth = wetland_depth
 
     # =========================================================================
 
@@ -117,27 +131,10 @@ def lake_wetland_balance(rout_order, routflow_looper,
     storage_prevstep = storage
 
     # =========================================================================
-    # Computing Reduction factor (km2/day) and maximum storage(km3/day) for
+    # Computing Reduction factor (km2/day) for
     # local and global lakes and wetlands. Equation 24 & 25 in
     # (Müller Schmied et al. (2021).
     # =========================================================================
-    # convert m to km
-    m_to_km = 0.001
-
-    # Note!!! Global lake area has absolute lake area (including that of
-    # riparian cells) in the outflow cell. Hence the outflow cell is used for
-    # waterbalance calulation.
-    # The rest (local lakes and global and local wetlands) uses respective
-    # waterbody fractions multiplied by the grid cell area
-
-    if choose_swb == "global lake":
-        max_area = lakewet_frac
-    else:  # local lakes and global and local wetlands
-        max_area = area_of_cell * lakewet_frac
-
-    max_storage = max_area * active_depth * m_to_km
-
-    # Outputs from swb_redufactor function is reduction factor
     redfactor = \
         rf.swb_redfactor(storage_prevstep, max_storage,
                          reduction_exponent_lakewet, choose_swb)
@@ -206,6 +203,8 @@ def lake_wetland_balance(rout_order, routflow_looper,
     # =========================================================================
     # Point_source_recharge is only computed for (semi)arid surafce water
     # bodies but not for  inlank sink or humid regions
+    # convert m to km
+    m_to_km = 0.001
     if choose_swb == "global lake":
         # Since global lake area is assumed not be dynamic, recharge needs to
         # be reduced else more water will recharge the ground

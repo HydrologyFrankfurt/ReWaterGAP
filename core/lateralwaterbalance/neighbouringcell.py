@@ -17,30 +17,19 @@ from numba import njit
 
 
 @njit(cache=True)
-def create_rout_order_dict(rout_order):
-    rout_order_dict = {}
-    for i in range(rout_order.shape[0]):
-        lat, lon = rout_order[i, 0], rout_order[i, 1]
-        rout_order_dict[(lat, lon)] = i
-    return rout_order_dict
-
-@njit(cache=True)
-def neighbouring_cell(cells, river_storage, loclake_storage, glolake_storage,
-                      loclake_maxstorage, glolake_maxstorage, rout_order,
-                      outflowcell, x, y):
+def neighbouring_cell(cells, Outflowcell_for_neigbourcells,
+                      river_storage, loclake_storage, glolake_storage,
+                      max_loclake_storage, max_glolake_storage, x, y):
     #
     largest_storage_neighbour = 0.0
     neigbour_cell_x, neigbour_cell_y = 0, 0
     # Loop through each pair of lat and lon indices
-    rout_order_dict = create_rout_order_dict(rout_order)
-    """
-    for i in range(0, len(cells), 2):
-        cell_lat, cell_lon = cells[i], cells[i+1]
 
-        # get outflow cell for respective neighbourcell
-        index_outflowcell = np.where((rout_order[:, 0] == cell_lat) &
-                                      (rout_order[:, 1] == cell_lon))
-        outflowcell_lat, outflowcell_lon = outflowcell[index_outflowcell]
+    for i in range(0, len(cells), 2):
+        neighbourcell_lat, neighbourcell_lon = cells[i], cells[i+1]
+
+        neighbourcell_outflowcell_lat, neighbourcell_outflowcell_lon = \
+            Outflowcell_for_neigbourcells[i], Outflowcell_for_neigbourcells[i+1]
 
         # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Select the neighbour cell only if it's not directly upstream of the
@@ -49,24 +38,28 @@ def neighbouring_cell(cells, river_storage, loclake_storage, glolake_storage,
         # cells typically have more water than upstream cells (except in rare
         # cases).
 
-        if (outflowcell_lat == x) & (outflowcell_lon == y):
+        if (neighbourcell_outflowcell_lat == x) & \
+                (neighbourcell_outflowcell_lon == y):
             continue
 
         # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         # Ignore the cells which are not neighbours
-        if (cell_lat == 0) & (cell_lon == 0):
+        if (neighbourcell_lat == 0) & (neighbourcell_lon == 0):
             continue
 
-        cell_storage = river_storage[cell_lat, cell_lon] + loclake_storage[cell_lat, cell_lon] + \
-            glolake_storage[cell_lat, cell_lon] #+ #loclake_maxstorage[cell_lat, cell_lon] + \
-            #glolake_maxstorage[cell_lat, cell_lon]
+        cell_storage = river_storage[neighbourcell_lat, neighbourcell_lon] +\
+            loclake_storage[neighbourcell_lat, neighbourcell_lon] + \
+            glolake_storage[neighbourcell_lat, neighbourcell_lon] + \
+            max_loclake_storage[neighbourcell_lat, neighbourcell_lon] + \
+            max_glolake_storage[neighbourcell_lat, neighbourcell_lon]
 
         # if cm.res_opt is True:
         #     cell_storage += global_reservior_storage[cell_lat, cell_lon]
 
         if cell_storage > largest_storage_neighbour:
             largest_storage_neighbour = cell_storage
-            neigbour_cell_x, neigbour_cell_y = cell_lat, cell_lon"""
+            neigbour_cell_x, neigbour_cell_y = \
+                neighbourcell_lat, neighbourcell_lon
 
     return neigbour_cell_x, neigbour_cell_y

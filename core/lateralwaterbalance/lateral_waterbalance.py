@@ -14,7 +14,6 @@
 # This module brings all lateral water balance functions together to run and
 # makes use of numba to optimize speed (especially routing)
 # =============================================================================
-import ast
 import numpy as np
 import pandas as pd
 from core.lateralwaterbalance import river_property as rvp
@@ -43,7 +42,7 @@ class LateralWaterBalance:
         self.cell_area = self.static_data.cell_area.\
             astype(np.float64)
         self.parameters = parameters
-        self.arid = self.static_data.humid_arid
+        self.aridhumid = self.static_data.humid_arid
         self.drainage_direction = \
             self.static_data.soil_static_files.drainage_direction[0].values
 
@@ -63,11 +62,12 @@ class LateralWaterBalance:
 
         # Initializing local lake storage to maximum
         m_to_km = 0.001
-        max_loclake_storage = self.cell_area * self.loclake_frac * \
+        self.max_loclake_area = self.cell_area * self.loclake_frac
+        self.max_loclake_storage = self.max_loclake_area * \
             self.parameters.activelake_depth * m_to_km
 
         # Local lake storage, Units : km3
-        self.loclake_storage = max_loclake_storage
+        self.loclake_storage = self.max_loclake_storage
 
         #                  =================================
         #                  ||          Local wetland      ||
@@ -77,11 +77,12 @@ class LateralWaterBalance:
             land_surface_water_fraction.locwet[0].values.astype(np.float64)/100
 
         # Initializing local weltland storage to maximum
-        max_locwet_storage = self.cell_area * self.locwet_frac * \
+        self.max_locwet_area = self.cell_area * self.locwet_frac
+        self.max_locwet_storage = self.max_locwet_area * \
             self.parameters.activewetland_depth * m_to_km
 
         # Local wetland storage, Units : km3
-        self.locwet_storage = max_locwet_storage
+        self.locwet_storage = self.max_locwet_storage
 
         #                  =================================
         #                  ||          Global lake        ||
@@ -94,8 +95,9 @@ class LateralWaterBalance:
         self.glolake_area = forcings_static.global_lake_area
 
         # Initializing global lake storage to maximum,  Units : km3
-        self.glolake_storage = self.glolake_area * self.parameters.activelake_depth * \
-            m_to_km
+        self.max_glolake_storage = self.glolake_area * \
+            self.parameters.activelake_depth * m_to_km
+        self.glolake_storage = self.max_glolake_storage
 
         #                  =================================
         #                  ||        Global  wetland      ||
@@ -104,9 +106,10 @@ class LateralWaterBalance:
             land_surface_water_fraction.glowet[0].values.astype(np.float64)/100
 
         # Initializing global weltland storage to maximum, , Units : km3
-        max_glowet_storage = self.cell_area * self.glowet_frac * \
+        self.max_glowet_area = self.cell_area * self.glowet_frac
+        self.max_glowet_storage = self.max_glowet_area * \
             self.parameters.activewetland_depth * m_to_km
-        self.glowet_storage = max_glowet_storage
+        self.glowet_storage = self.max_glowet_storage
 
         #                  =================================
         #                  ||            River            ||
@@ -222,7 +225,7 @@ class LateralWaterBalance:
         #                  =================================
         #                  ||    Head water cells         ||
         #                  =================================
-        self.headwater = self.static_data.\
+        self.headwatercell = self.static_data.\
             land_surface_water_fraction.headwater_cell.values
 
         #                  =================================
@@ -294,6 +297,9 @@ class LateralWaterBalance:
         # for cells.
         self.neighbourcells = \
             self.static_data.neighbourcells.iloc[:, 1:].values
+        # Respective outflow for neigbouring cells
+        self.neighbourcells_outflowcell = \
+            self.static_data.neighbourcells_outflowcell.iloc[:, 1:].values
 
     def activate_res_area_storage_capacity(self, simulation_date,
                                            reservoir_opt_year):
@@ -493,58 +499,12 @@ class LateralWaterBalance:
         monthly_potential_net_abstraction_sw = np.zeros(surface_runoff.shape)
         # potential_net_abstraction.pnas.values.astype(np.float64)
 
-        # print(self.potential_net_abstraction_sw[185, 396],
-        #       self.unagregrgated_potential_netabs_sw[185, 396] )
         # =====================================================================
-        # Preparing input variables for river routing
+        #   Additional  input variables for river routing
         # =====================================================================
-        # Routing is optimised for with numba
-        rout_order = self.rout_order.copy()
-        arid = self.arid.copy()
-        drainage_direction = self.drainage_direction.copy()
-        groundwater_storage = self.groundwater_storage.copy()
-        cell_area = self.cell_area.copy()
 
-        potential_net_abstraction_gw = self.potential_net_abstraction_gw.copy()
+        glwdunits = self.get_aggr_func.glwdunits
 
-        prev_potential_water_withdrawal_sw_irri = \
-            self.prev_potential_water_withdrawal_sw_irri.copy()
-
-        prev_potential_consumptive_use_sw_irri = \
-            self.prev_potential_consumptive_use_sw_irri.copy()
-
-        frac_irri_returnflow_to_gw = self.frac_irri_returnflow_to_gw.copy()
-
-        daily_unsatisfied_pot_nas = self.daily_unsatisfied_pot_nas.copy()
-
-        accumulated_unsatisfied_potential_netabs_sw = \
-            self.accumulated_unsatisfied_potential_netabs_sw.copy()
-
-        prev_accumulated_unsatisfied_potential_netabs_sw = \
-            self.prev_accumulated_unsatisfied_potential_netabs_sw.copy()
-
-        glwdunits = self.get_aggr_func.glwdunits.copy()
-
-        loclake_frac = self.loclake_frac.copy()
-        locwet_frac = self.locwet_frac.copy()
-        glowet_frac = self.glowet_frac.copy()
-        glolake_frac = self.glolake_frac.copy()
-        reglake_frac = self.reglake_frac.copy()
-        headwater = self.headwater.copy()
-        loclake_storage = self.loclake_storage.copy()
-        locwet_storage = self.locwet_storage.copy()
-        glolake_storage = self.glolake_storage.copy()
-        glolake_area = self.glolake_area.copy()
-
-        glores_storage = self.glores_storage.copy()
-        glores_capacity = self.glores_capacity.copy()
-        glores_area = self.glores_area.copy()
-        glores_type = self.glores_type.copy()
-        mean_annual_demand_res = self.mean_annual_demand_res.copy()
-        mean_annaul_inflow_res = self.mean_annaul_inflow_res.copy()
-        allocation_coeff = self.allocation_coeff.copy()
-        glores_startmonth = self.glores_startmonth.copy()
-        k_release = self.k_release.copy()
         # current_mon_day will be used to check if reservoirs opreation start
         # in current month. This is required to calulate the release factor
         # using the  Hanasaki reservoir algorithm
@@ -552,63 +512,61 @@ class LateralWaterBalance:
         current_mon_day = np.array([int(current_year_mon_day[1]),
                                     current_year_mon_day[2]])
 
-        glowet_storage = self.glowet_storage.copy()
-
-        river_storage = self.river_storage.copy()
-        river_length = self.get_river_prop.river_length.copy()
-        river_bottom_width = self.get_river_prop.river_bottom_width.copy()
-        roughness = self.get_river_prop.roughness.copy()
-        roughness_multiplier = self.roughness_multiplier.copy()
-        river_slope = self.get_river_prop.river_slope.copy()
-        outflow_cell = self.outflow_cell.copy()
+        river_length = self.get_river_prop.river_length
+        river_bottom_width = self.get_river_prop.river_bottom_width
+        roughness = self.get_river_prop.roughness
+        river_slope = self.get_river_prop.river_slope
 
         # =====================================================================
-        # Routing
+        # Routing (Routing function is optimised for with numba)
         # =====================================================================
         #                   ++Sequence++
         # groudwater(only humidcells)->local lakes->local wetland->...
         # global lakes->reservior & regulated lakes->global wetalnds->river
 
-        out = rt.rout(rout_order, arid, drainage_direction,
-                      groundwater_storage, diffuse_gw_recharge, cell_area,
-                      potential_net_abstraction_gw,
-                      prev_potential_water_withdrawal_sw_irri,
-                      prev_potential_consumptive_use_sw_irri,
-                      frac_irri_returnflow_to_gw,
-                      accumulated_unsatisfied_potential_netabs_sw,
-                      daily_unsatisfied_pot_nas,
-                      current_landarea_frac,
-                      surface_runoff, loclake_frac, locwet_frac,
-                      glowet_frac, glolake_frac, glolake_area,
-                      reglake_frac, headwater, loclake_storage,
-                      locwet_storage, glolake_storage, glowet_storage,
-                      glores_storage, glores_capacity, glores_area,
-                      glores_type, mean_annual_demand_res,
-                      mean_annaul_inflow_res, allocation_coeff, k_release,
-                      glores_startmonth, precipitation, openwater_pot_evap,
-                      river_storage, river_length, river_bottom_width,
-                      roughness, roughness_multiplier, river_slope,
-                      outflow_cell,
+        out = rt.rout(self.rout_order, self.outflow_cell,
+                      self.drainage_direction, self.aridhumid,
+                      precipitation, openwater_pot_evap, surface_runoff,
+                      diffuse_gw_recharge, self.groundwater_storage,
+                      self.loclake_storage, self.locwet_storage,
+                      self.glolake_storage, self.glores_storage,
+                      self.glowet_storage, self.river_storage,
+                      self.max_loclake_storage, self.max_locwet_storage,
+                      self.max_glolake_storage, self.max_glowet_storage,
+                      self.glores_capacity, self.max_loclake_area,
+                      self.max_locwet_area, self.glolake_area,
+                      self.glores_area, self.max_glowet_area,
+                      self.loclake_frac, self.locwet_frac,
+                      self.glowet_frac, self.glolake_frac,
+                      self.reglake_frac, self.headwatercell,
                       self.parameters.gw_dis_coeff,
                       self.parameters.swb_drainage_area_factor,
                       self.parameters.swb_outflow_coeff,
                       self.parameters.gw_recharge_constant,
                       self.parameters.reduction_exponent_lakewet,
                       self.parameters.reduction_exponent_res,
-                      self.parameters.areal_corr_factor,
                       self.parameters.lake_out_exp,
-                      self.parameters.activelake_depth,
                       self.parameters.wetland_out_exp,
-                      self.parameters.activewetland_depth,
+                      self.parameters.areal_corr_factor,
                       self.parameters.stat_corr_fact,
-                      current_mon_day,
-                      monthly_potential_net_abstraction_sw,
-                      glwdunits,
-                      self.unagregrgated_potential_netabs_sw,
+                      river_length, river_bottom_width, roughness,
+                      self.roughness_multiplier, river_slope,
+                      glwdunits, self.glores_startmonth, current_mon_day,
+                      self.k_release, self.glores_type, self.allocation_coeff,
+                      self.mean_annual_demand_res, self.mean_annaul_inflow_res,
+                      self.potential_net_abstraction_gw,
                       self.potential_net_abstraction_sw,
-                      prev_accumulated_unsatisfied_potential_netabs_sw,
+                      self.unagregrgated_potential_netabs_sw,
+                      self.accumulated_unsatisfied_potential_netabs_sw,
+                      self.prev_accumulated_unsatisfied_potential_netabs_sw,
+                      self.daily_unsatisfied_pot_nas,
+                      monthly_potential_net_abstraction_sw,
+                      self.prev_potential_water_withdrawal_sw_irri,
+                      self.prev_potential_consumptive_use_sw_irri,
+                      self.frac_irri_returnflow_to_gw,
                       self.unsatisfied_potential_netabs_riparian,
-                      cm.subtract_use, self.neighbourcells)
+                      self.neighbourcells, self.neighbourcells_outflowcell,
+                      cm.subtract_use)
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]
@@ -626,7 +584,7 @@ class LateralWaterBalance:
         glowet_outflow = out[12]
 
         # Streamflow is only stored for all cells except inland sinks
-        streamflow = np.where(drainage_direction >= 0, out[13], np.nan)
+        streamflow = np.where(self.drainage_direction >= 0, out[13], np.nan)
 
         updated_locallake_fraction = out[15]
         updated_localwetland_fraction = out[16]
@@ -661,25 +619,12 @@ class LateralWaterBalance:
         self.prev_potential_consumptive_use_sw_irri = \
             self.potential_consumptive_use_sw_irri.copy()
 
-        # print(self.loclake_storage[87, 224], loclake_outflow[87, 224],
-        #       self.loclake_storage[59, 373], loclake_outflow[59, 373])
-        # print(self.glolake_storage[89, 480])
-        # print(self.river_storage[59, 371], streamflow[59, 371],
-        #       self.river_storage[71, 447], streamflow[71, 447])
-
-        # print(actual_net_abstraction_gw[106, 493])
-
-        # print(self.accumulated_unsatisfied_potential_netabs_sw[106, 493],
-        #       self.river_storage[106, 493], streamflow[106, 493],
-        #       actual_net_abstraction_gw[106, 493],
-        #       self.potential_net_abstraction_gw[106, 493],
-        #       self.daily_unsatisfied_pot_nas[106, 493])
-
+        print(self.glolake_storage[89, 480])
         # =====================================================================
         # Getting all storages
         # =====================================================================
         # Remove ocean cells from data
-        mask_con = (cell_area/cell_area)
+        mask_con = (self.cell_area/self.cell_area)
 
         LateralWaterBalance.storages.\
             update({'groundwater_storage': self.groundwater_storage*mask_con,
