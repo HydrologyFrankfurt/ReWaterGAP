@@ -39,7 +39,7 @@ def run():
     """
     if cm.ant is True:
         print('\n' + colored('+++ Antropogenic Run +++', 'cyan'))
-        if cm.reservior_opt == 'off':
+        if cm.reservior_opt is False:
             print(colored('Use only: human water use without '
                           'global man-made reservoirs/regulated lakes',
                           'blue'))
@@ -105,8 +105,8 @@ def run():
     end_date = np.datetime64(cm.end)
 
     # check if user inputs larger time period than dataset
-    if (grid_coords['time'][-1].values < end_date) or \
-            (grid_coords['time'][0].values < start_date):
+    if (grid_coords['time'][-1].values.astype('datetime64[D]') < end_date) or \
+            (grid_coords['time'][0].values.astype('datetime64[D]') < start_date):
         raise ValueError(colored('Start or end date of simulation period '
                                  'is not included in the data. '
                                  'Please select valid period', 'red'))
@@ -125,9 +125,9 @@ def run():
     time_range = \
         round((end_spinup - start_date + 1)/np.timedelta64(1, 'D'))
 
-    spin_start = np.where(grid_coords['time'].values == start_date)[0].item()
-    spin_end = 1 + np.where(grid_coords['time'].values == end_spinup)[0].item()
-
+    spin_start = np.where(grid_coords['time'].values.astype('datetime64[D]') == start_date)[0].item()
+    spin_end = 1 + np.where(grid_coords['time'].values.astype('datetime64[D]') == end_spinup)[0].item()
+    print(spin_start, spin_end)
     #  if there is spinup, simulation date will start with the spinup years.
     simulation_date = grid_coords['time'].values[spin_start:spin_end]
 
@@ -220,7 +220,7 @@ def run():
             land_swb_fraction = lateral_waterbalance.get_new_swb_fraction()
             initialize_forcings_static.update_landareafrac(land_swb_fraction)
 
-        if end_date == date and spin_up == 0:
+        if end_date == date.astype('datetime64[D]') and spin_up == 0:
             print('Status:' + colored(' complete', 'cyan'))
 
             # =================================================================

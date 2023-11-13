@@ -5,10 +5,8 @@
   },
   "RuntimeOptions": [
     {
-      "SimilationOption": {
-        "ant": true,
-        "res_opt": "off",
-        "subtract_use": false 
+      "SimulationOption": {
+        "AntNat_opts": {"ant": false,  "subtract_use": false, "res_opt": false}
       }
     },
     {
