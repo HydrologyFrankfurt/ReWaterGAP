@@ -68,14 +68,26 @@ config_file = config_handler(args.name)
 # =============================================================================
 # # Initializing Runtime Options (bottleneck to run simulation)
 # =============================================================================
-# For Anthropenic run (ant=True)
-ant = config_file['RuntimeOptions'][0]['SimilationOption']['ant']
+antnat_opts = \
+    config_file['RuntimeOptions'][0]['SimulationOption']['AntNat_opts']
 
-# Subtract water demand from surface and groundwater
-subtract_use = config_file['RuntimeOptions'][0]['SimilationOption']['subtract_use']
+# For Anthropenic run (ant=True) or Naturalised run (ant=false).
+ant = antnat_opts['ant']
+subtract_use = antnat_opts['subtract_use']  # Enable or disable wateruse
+reservior_opt = antnat_opts['res_opt']  # Enable or disable reservoir operation
 
-# Resevior are active if reservior_opt = on
-reservior_opt = config_file['RuntimeOptions'][0]['SimilationOption']['res_opt']
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Error Handling
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Here one forgot to either activate either reservoir operation or
+# substract use in anthropogenic mode
+if ant is True and reservior_opt is False and subtract_use is False:
+    msg = ' None of the variant in anthropogenic run is ' + \
+          'activated (reservoir opetration , wateruse or both). ' + \
+          'Please choose an option'
+    log.config_logger(logging.ERROR, modname, msg, args.debug)
+    sys.exit()  # dont run code if cofiguration file does not exist
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Reservoir operation duration
 reservoir_start_year = 1901
@@ -85,19 +97,6 @@ reservoir_end_year = 1905
 # to reservoir_end_year
 reservoir_opt_years = pd.date_range(str(reservoir_start_year)+"-01-01",
                                     str(reservoir_end_year)+"-01-01", freq="YS")
-
-# For naturalised run reservior operation and water-use are switched off
-if ant is False:
-    reservior_opt = "off"
-    subtract_use = False
-else:
-    # Here one forgot to either activate either reservoir operation or
-    # substract use in anthropogenic mode
-    if reservior_opt == "off" and subtract_use is False:
-        print('None of the variant in anthropogenic run is '
-              'activated (reservoir opetration , water use or both).'
-              ' Defaulting to naturalised run')
-        ant = False
 
 # =============================================================================
 # # Save and restart WaterGAP state

@@ -90,8 +90,12 @@ class StaticData:
         rout_order_path = str(Path(cm.config_file['FilePath']['inputDir'] +
                                    r'static_input/routing_order.csv'))
 
-        alloc_coeff_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                                    r'static_input/alloc_coeff_by_routorder.csv'))
+        alloc_coeff_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/alloc_coeff_by_routorder.csv'))
+        neighbourcells_path = \
+            str(Path(cm.config_file['FilePath']['inputDir'] +
+                     r'static_input/neigbouringcells_latlon.csv'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
@@ -147,6 +151,10 @@ class StaticData:
             # Required for computing reselease from Hanasaki algorithm
             # see Hanasaki et al 2006
             self.alloc_coeff = pd.read_csv(alloc_coeff_path)
+
+            # Neighbouuring cells from which wateruse from demand cells could
+            # be satified.
+            self.neighbourcells = pd.read_csv(neighbourcells_path)
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Static data '

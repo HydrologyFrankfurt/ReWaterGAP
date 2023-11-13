@@ -89,7 +89,7 @@ class InitializeForcingsandStaticdata:
         self.landareafrac_ratio = 0
         self.previous_landareafrac = 0
 
-        if cm.reservior_opt == "off":
+        if cm.reservior_opt is False:
             # land area fraction is computed without reservior fraction. land
             # area fraction is calulated once at model start and updated daily.
             # (see update_landareafrac function).
@@ -125,7 +125,7 @@ class InitializeForcingsandStaticdata:
         # yearly. Hence Land area area fraction is recalulated every year.
         # Note!!! that land area fraction is also updated daily after yearly
         # calulation. (see update_landareafrac function)
-        if cm.reservior_opt == "on":
+        if cm.reservior_opt is True:
             if simulation_date in reservoir_opt_year:
                 resyear = str(pd.to_datetime(simulation_date).year)
                 print(resyear)
