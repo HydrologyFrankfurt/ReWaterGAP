@@ -52,10 +52,10 @@ Install Mamba by running the following command and follow the installation promp
 	$ bash Miniforge3-MacOSX-arm64.sh (example for MacOS Apple Silicon)
 
 
-.. |image| image:: ../images/mamba_licence_location.png
+.. |image| figure:: ../images/mamba_licence_location.png
 
 
-.. |installation_complete| image:: ../images/installation_complete.png
+.. |installation_complete| figure:: ../images/installation_complete.png
 
 
 Navigate to the "bin" folder in the newly created "miniforge3" folder.
