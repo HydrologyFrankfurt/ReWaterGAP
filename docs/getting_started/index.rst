@@ -32,14 +32,15 @@ WaterGAP has been generally categorized into two sections:
 5 minute guide to WaterGAP
 --------------------------
 
-1: **Download and Install Python** (if already installed skip this step)
+1: **Download and Install Python** (Skip this step if python is already installed)
 	Download the current Python version for your OS from `the official Python Website <https://www.python.org/downloads/>`__ and install.
 
-2: **Download and Install Mamba** (if already installed skip this step)
-	Go to the `Mamba Website <Miniforge3<https://github.com/conda-forge/miniforge>`__ , choose your OS (Linux or MacOS) and download the file. (downloaded file has .sh extension)
-	Navigate in Terminal to sh file you downloaded
+2: **Download and Install Mamba** (Skip this step if mamba is already installed)
+	Go to the `Mamba Website <https://github.com/conda-forge/miniforge>`__ , choose your OS (Linux or MacOS) and download the installation file (the downloaded file has an ".sh" extension)
+	
+	Open you terminal and navigate to the downloaded ".sh" file 
+	
 	Install by running and following the instructions
-
 
 
 .. code-block:: bash
@@ -69,7 +70,7 @@ Using the Terminal, navigate to the directory of choice where the WaterGAP folde
 
 		git clone https://github.com/HydrologyFrankfurt/ReWaterGAP.git
 
-Find more information in the official GitHub documentation `here <Miniforge3<https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository>`__:
+Find more information in the official GitHub documentation `here <https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository>`__ :
 
 4: **Navigate to the ReWaterGAP folder in the terminal**
 
