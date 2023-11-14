@@ -86,7 +86,9 @@ Find more information in the official GitHub documentation `here <Miniforge3<htt
 	$ mamba create --name watergap --file requirements.txt
 
 6: Activate the WaterGAP environment
- 	
+
+.. code-block:: bash
+
 	example
 	$ mamba activate watergap
 
