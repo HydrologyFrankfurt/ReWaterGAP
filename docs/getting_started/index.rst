@@ -44,18 +44,19 @@ Go to the `Mamba Website <https://github.com/conda-forge/miniforge>`__ , choose 
 Open your terminal and navigate to the downloaded file (it has the name "Miniforge3-(OSname)-(architecture).sh")
 	
 	
-Install Mamba by running the following command and follow the installation prompts. The prompt will notify you where to install Mamba (see |image| below). The created folder will be called "miniforge3".
+Install Mamba by running the following command and follow the installation prompts. The prompt will notify you where to install Mamba (see :ref:`image <mamba_licence_location>` below). The created folder will be called "miniforge3".|installation_complete|
 
 
 .. code-block:: bash
 		
 	$ bash Miniforge3-MacOSX-arm64.sh (example for MacOS Apple Silicon)
 
+.. _mamba_licence_location:
 
-.. |image| figure:: ../images/mamba_licence_location.png
+.. figure:: ../images/getting_started/mamba_licence_location.png
 
 
-.. |installation_complete| figure:: ../images/installation_complete.png
+.. |installation_complete| image:: ../images/getting_started/installation_complete.png
 
 
 Navigate to the "bin" folder in the newly created "miniforge3" folder.
