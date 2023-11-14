@@ -78,15 +78,23 @@ Find more information in the official GitHub documentation `here <Miniforge3<htt
 	$ cd user/…/ReWaterGAP
 	
 5: **Create an environment to run ReWaterGAP in**
-	create an environment and install the required packages from requirements.txt file
+	Create an environment (e.g. with the name "watergap") and install the required packages from the requirements.txt file.
 
 .. code-block:: bash
 
+	example
 	$ mamba create --name watergap --file requirements.txt
 
-6. **Import Data**
+6: Activate the WaterGAP environment
+ 	
+	example
+	$ mamba activate watergap
 
-7: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
+
+7. **Import Data**
+
+
+8: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
 
 .. code-block:: bash
 
