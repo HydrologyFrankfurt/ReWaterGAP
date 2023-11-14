@@ -44,7 +44,7 @@ Go to the `Mamba Website <https://github.com/conda-forge/miniforge>`__ , choose 
 Open your terminal and navigate to the downloaded file (it has the name "Miniforge3-(OSname)-(architecture).sh")
 	
 	
-Install Mamba by running the following command and follow the installation prompts. The prompt will notify you where to install Mamba. The created folder will be called "miniforge3".
+Install Mamba by running the following command and follow the installation prompts. The prompt will notify you where to install Mamba (see |image| below). The created folder will be called "miniforge3".
 
 
 .. code-block:: bash
@@ -52,7 +52,13 @@ Install Mamba by running the following command and follow the installation promp
 	$ bash Miniforge3-MacOSX-arm64.sh (example for MacOS Apple Silicon)
 
 
-	Navigate to the "bin" folder in the newly created "miniforge3" folder.
+.. |image| image:: ../images/mamba_licence_location.png
+
+
+.. |installation_complete| image:: ../images/installation_complete.png
+
+
+Navigate to the "bin" folder in the newly created "miniforge3" folder.
 
 .. code-block:: bash
 
@@ -63,6 +69,7 @@ Install Mamba by running the following command and follow the installation promp
 .. code-block:: bash
 
 		$ source activate
+
 
 **3: Clone the WaterGAP repository**
 
