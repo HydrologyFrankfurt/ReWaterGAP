@@ -40,6 +40,8 @@ WaterGAP has been generally categorized into two sections:
 	Navigate in Terminal to sh file you downloaded
 	Install by running and following the instructions
 
+`Source Repository <https://github.com/HydrologyFrankfurt/ReWaterGAP>`__
+
 .. code-block:: bash
 		
 	$ bash Miniforge3-$(uname)-$(uname -m).sh
