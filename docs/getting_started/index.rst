@@ -94,7 +94,20 @@ Find more information in the official GitHub documentation `here <https://docs.g
 	$ mamba activate watergap
 
 
-7. **Import Data**
+7. **Data**
+The following data should be provided by the User in NetCDF format:
+
+Climate Forcings
+	precipitation
+	longwave radiation
+	shortwave radiation
+	temperature
+Water Use
+
+
+You can find the necessary climate forcings data at `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3b/SecondaryInputData/climate/atmosphere/mri-esm2-0/>`__ .
+
+The files need to be saved in their respective folders under input_data (see picture):
 
 
 8: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
