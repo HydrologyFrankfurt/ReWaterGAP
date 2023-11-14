@@ -33,10 +33,10 @@ WaterGAP has been generally categorized into two sections:
 --------------------------
 
 1: **Download and Install Python** (if already installed skip this step)
-	Download the current Python version for your OS from `the official Python Website <https://www.python.org/downloads/>`__and install.
+	Download the current Python version for your OS from `the official Python Website <https://www.python.org/downloads/>`__ and install.
 
 2: **Download and Install Mamba** (if already installed skip this step)
-	Go to the `Mamba Website <Miniforge3<https://github.com/conda-forge/miniforge>`__, choose your OS (Linux or MacOS) and download the file. (downloaded file has .sh extension)
+	Go to the `Mamba Website <Miniforge3<https://github.com/conda-forge/miniforge>`__ , choose your OS (Linux or MacOS) and download the file. (downloaded file has .sh extension)
 	Navigate in Terminal to sh file you downloaded
 	Install by running and following the instructions
 
