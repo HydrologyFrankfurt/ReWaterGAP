@@ -111,6 +111,7 @@ You can find the necessary climate forcing data at `ISIMIP <https://data.isimip.
 
 The files need to be saved in their respective folders under input_data (see picture):
 
+.. figure:: ../images/getting_started/input_data.png
 
 8: **Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
 
