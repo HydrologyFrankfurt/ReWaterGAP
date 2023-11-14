@@ -98,10 +98,11 @@ Find more information in the official GitHub documentation `here <https://docs.g
 The following data should be provided by the User in NetCDF format:
 
 Climate Forcings
-	precipitation
-	longwave radiation
-	shortwave radiation
-	temperature
+	- precipitation
+	- longwave radiation
+	- shortwave radiation
+	- temperature
+
 Water Use
 
 
