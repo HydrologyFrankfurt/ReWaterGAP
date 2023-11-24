@@ -76,6 +76,13 @@ ant = antnat_opts['ant']
 subtract_use = antnat_opts['subtract_use']  # Enable or disable wateruse
 reservior_opt = antnat_opts['res_opt']  # Enable or disable reservoir operation
 
+# Temporal and spatial satisfaction options
+demand_satisfaction_opts = \
+    config_file['RuntimeOptions'][0]['SimulationOption']['Demand_satisfaction_opts']
+
+delayed_use = demand_satisfaction_opts['delayed_use']
+neighbouringcell = demand_satisfaction_opts['neighbouringcell']
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Error Handling
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

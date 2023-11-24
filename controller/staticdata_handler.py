@@ -207,16 +207,3 @@ class StaticData:
 
         return builtup_area, total_avail_water_content, drainage_direction,\
             max_groundwater_recharge, soil_texture, groundwater_recharge_factor
-
-# =============================================================================
-#     def update_surfacewater_fractions(self):
-#         """
-#         Update land area fraction.
-#
-#         Returns
-#         -------
-#         None.
-#
-#         """
-#         return self.land_surface_water_fraction
-# =============================================================================

@@ -105,7 +105,7 @@ class Wateruse:
 
     def aggregate_riparian_netpotabs(self, lake_area, res_area, netabs):
         """
-        Aggregate riparian potential net abstractiion.
+        Aggregate riparian potential net abstractiion to outflowcell.
 
         Parameters
         ----------
