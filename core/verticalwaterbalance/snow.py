@@ -85,7 +85,7 @@ class Snow():
                      land_storage_change_sum, snow_water_storage_subgrid,
                      daily_storage_transfer, adiabatic_lapse_rate,
                      snow_freeze_temp,
-                     snow_melt_temp):
+                     snow_melt_temp, minstorage_volume):
         """
         Compute daily snow storage.
 
@@ -118,6 +118,8 @@ class Snow():
             Snow freeze temperature  , Units:  [K]
         snow_melt_temp: array
             Snow melt temperature  , Units:  [K]
+        minstorage_volume: float
+            Volumes at which storage is set to zero, units: [km3]
 
         Returns
         -------
@@ -204,7 +206,8 @@ class Snow():
                                              daily_storage_transfer_chunk,
                                              adiabatic_lapse_rate_chunk,
                                              snow_freeze_temp_chunk,
-                                             snow_melt_temp_chunk)
+                                             snow_melt_temp_chunk,
+                                             minstorage_volume)
 
         # =====================================================================
         #         conbining chunks into original dimension

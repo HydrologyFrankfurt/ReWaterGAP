@@ -23,7 +23,7 @@ import numpy as np
 
 def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
                    precipitation, current_landarea_frac, landareafrac_ratio,
-                   max_storage_coefficient):
+                   max_storage_coefficient, minstorage_volume):
     """
     Calulate daily canopy balanceincluding canopy storage and water flows
     entering and leaving the canopy storage.
@@ -44,6 +44,8 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
        Ratio of land area fraction of previous to current time step, Units: [-]
     max_storage_coefficient:
         coefficient for computing maximum canopy storage, Units: [-]
+    minstorage_volume: float
+        Volumes at which storage is set to zero, units: [km3]
 
     Returns
     -------
@@ -73,6 +75,12 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
     # Adapt for change in land area fraction on canopy storage
     # =========================================================================
     canopy_storage *= landareafrac_ratio
+
+    # minimal storage volume =1e15 (smaller volumes set to zero) to counter
+    # numerical inaccuracies
+    canopy_storage = np.where(np.abs(canopy_storage) <= minstorage_volume, 0,
+                              canopy_storage)
+
     # print(landareafrac_ratio[116, 454])
     # Initial storage to calulate change in canopy_storage.
     initial_storage = canopy_storage.copy()

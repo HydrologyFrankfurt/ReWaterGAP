@@ -36,7 +36,7 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
                          current_landarea_frac, landareafrac_ratio,
                          elevation, daily_storage_transfer,
                          adiabatic_lapse_rate,  snow_freeze_temp,
-                         snow_melt_temp, chk):
+                         snow_melt_temp, minstorage_volume, chk):
     """
     Compute snow water balance for subgrids including snow water storage and
     water flows entering and leaving the snow storage
@@ -150,6 +150,12 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
 
         # Adapting  snow_water_storage_subgrid to dynamic land area fraction
         snow_water_storage_subgrid[i] *= landareafrac_ratio
+
+        # minimal storage volume =1e15 (smaller volumes set to zero) to counter
+        # numerical inaccuracies
+        snow_water_storage_subgrid[i] = \
+            np.where(np.abs(snow_water_storage_subgrid[i]) <=
+                     minstorage_volume, 0, snow_water_storage_subgrid[i])
 
         # Initial storage to calulate change in snow water storage.
         initial_storage = snow_water_storage_subgrid[i].copy()
@@ -345,7 +351,8 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
                                   daily_storage_transfer_chunk,
                                   adiabatic_lapse_rate_chunk,
                                   snow_freeze_temp_chunk,
-                                  snow_melt_temp_chunk):
+                                  snow_melt_temp_chunk,
+                                  minstorage_volume):
     """
     Compute snow water balance and related storages and fluxes in parallel.
 
@@ -388,6 +395,8 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
         Snow freeze temperature  , Units:  [K]
     snow_melt_temp_chunk: array
         Snow melt temperature  , Units:  [K]
+    minstorage_volume: float
+        Volumes at which storage is set to zero, units: [km3]
 
     Returns
     -------
@@ -449,6 +458,7 @@ def subgrid_snow_balance_parallel(snow_water_storage_chunk,
                                  adiabatic_lapse_rate_chunk[i],
                                  snow_freeze_temp_chunk[i],
                                  snow_melt_temp_chunk[i],
+                                 minstorage_volume,
                                  chk)
 
         snow_water_storage[i] = results[0]

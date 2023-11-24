@@ -165,7 +165,8 @@ class Soil:
                      current_landarea_frac, landareafrac_ratio, max_temp_elev,
                      canopy_evap, effective_precipitation, precipitation,
                      immediate_runoff, land_storage_change_sum, sublimation,
-                     daily_storage_transfer, snow_freeze_temp):
+                     daily_storage_transfer, snow_freeze_temp,
+                     minstorage_volume):
         """
         Compute daily soil balance.
 
@@ -276,9 +277,9 @@ class Soil:
              actual_soil_evap - daily_runoff)
 
         # minimal storage volume =1e15 (smaller volumes set to zero) to counter
-        # numerical inaccuracies***
+        # numerical inaccuracies
         soil_water_content_new = \
-            np.where(np.abs(soil_water_content_new) <= 1e-15, 0,
+            np.where(np.abs(soil_water_content_new) <= minstorage_volume, 0,
                      soil_water_content_new)
 
 # =============================================================================

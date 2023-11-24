@@ -36,6 +36,9 @@ class VerticalWaterBalance:
         self.cont_frac = forcings_static.static_data.\
             land_surface_water_fraction.contfrac.values.astype(np.float64)/100
         self.parameters = parameters
+
+        # Volumes at which storage is set to zero, units: [km3]
+        self.minstorage_volume = 1e-15
         # =====================================================================
         #               State variables for:
         #  1. leaf area index Units : (-)
@@ -199,7 +202,8 @@ class VerticalWaterBalance:
                            leaf_area_index,
                            daily_potential_evap, precipitation,
                            current_landarea_frac, landareafrac_ratio,
-                           self.parameters.max_storage_coefficient)
+                           self.parameters.max_storage_coefficient,
+                           self.minstorage_volume)
 
         # ouputs from the  daily_canopy_storage are
         # 0 = canopy_storage (mm), 1 = throughfall (mm/day),
@@ -228,7 +232,8 @@ class VerticalWaterBalance:
                          daily_storage_transfer,
                          self.parameters.adiabatic_lapse_rate,
                          self.parameters.snow_freeze_temp,
-                         self.parameters.snow_melt_temp)
+                         self.parameters.snow_melt_temp,
+                         self.minstorage_volume)
 
         # ouputs from the  daily_snow_storage  are
         # 0 = snow_water_storage (mm), 1 = snow_water_storage_subgrid (mm),
@@ -271,7 +276,8 @@ class VerticalWaterBalance:
                          effective_precipitation_corr, precipitation,
                          immediate_runoff, land_storage_change_sum,
                          sublimation, daily_storage_transfer,
-                         self.parameters.snow_freeze_temp)
+                         self.parameters.snow_freeze_temp,
+                         self.minstorage_volume)
 
         # ouputs from the  daily_soil_storage  are
         # 0 = soil_water_content (mm),
