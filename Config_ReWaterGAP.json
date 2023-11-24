@@ -6,7 +6,8 @@
   "RuntimeOptions": [
     {
       "SimulationOption": {
-        "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": false}
+        "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": false},
+        "Demand_satisfaction_opts": {"delayed_use": true, "neighbouringcell": true}
       }
     },
     {

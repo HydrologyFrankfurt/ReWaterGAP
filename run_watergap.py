@@ -40,17 +40,29 @@ def run():
     if cm.ant is True:
         print('\n' + colored('+++ Antropogenic Run +++', 'cyan'))
         if cm.reservior_opt is False:
-            print(colored('Use only: human water use without '
+            print(colored('Use only: Human water use without '
                           'global man-made reservoirs/regulated lakes',
                           'blue'))
         elif cm.subtract_use is False:
-            print(colored('Reservoirs only: exclude human water use'
+            print(colored('Reservoirs only: Exclude human water use'
                           ' but include global man-made'
                           ' reservoirs/regulated lakes', 'blue'))
         else:
-            print(colored('Standard (ant) run: include human water'
+            print(colored('Standard (ant) run: Include human water'
                           ' use and include global man-made'
                           ' reservoirs/regulated lakes', 'blue'))
+        # demand satisfaction option
+        if cm.delayed_use and cm.neighbouringcell:
+            msg = 'Delayed water supply & Neighboring cell water supply'
+        elif cm.delayed_use:
+            msg = 'Delayed water supply'
+        elif cm.neighbouringcell:
+            msg = 'Neighboring cell water supply'
+
+        satisfaction_option =\
+            f"Riparian water supply (default) & {msg} option activated."
+        print(colored('Demand satisfaction option: ' + satisfaction_option,
+                      'blue'))
 
         print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
         print('Temporal resolution:' +
