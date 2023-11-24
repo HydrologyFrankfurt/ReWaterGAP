@@ -27,7 +27,7 @@ def frac_routing(rout_order, routflow_looper,
                  reglake_frac, headwater_cell, drainage_direction,
                  swb_drainage_area_factor):
     """
-    Route water through storage compartment using fractional routing scheme.
+    Rout water through storage compartment using fractional routing scheme.
 
     Parameters
     ----------
@@ -35,23 +35,36 @@ def frac_routing(rout_order, routflow_looper,
         Routing order of cells
     routflow_looper : int
         looper that goes through the routing order.
-    surface_runoff : array
-        Daily volumetric surface runoff, unit: km3/day.
-    groundwater_discharge : array
-        Daily volumetric groundwater discharge, unit: km3/day.
-    locLake_frac : array
-        Local lake area fraction, unit: (-).
-    locwet_frac : array
-        Local wetland area fraction, unit: (-).
-    glowet_frac : array
-        Global wetland area fraction, unit: (-).
+    surface_runoff : float
+        Daily volumetric surface runoff, unit: [km3/day].
+    groundwater_discharge : float
+        Daily volumetric groundwater discharge, unit: [km3/day].
+    locLake_frac : float
+        Local lake area fraction, unit: [-].
+    locwet_frac : float
+        Local wetland area fraction, unit: [-].
+    glowet_frac : float
+        Global wetland area fraction, unit: [-].
+    glolake_frac: float
+        Global lake area fraction, unit: [-].
+    reglake_frac: float
+        Regulated lake area fraction, unit: [-].
+    headwater_cell: int
+        Head water cells, unit: [-].
+    drainage_direction: int
+        Drainage direction taken as used in (Müller Schmied et al. (2021),
+        units: [-]
+    swb_drainage_area_factor: float
+        Surface water bodies drainage area factor taken from
+        (Müller Schmied et al. (2021),  units: [-]
 
     Returns
     -------
-    local_runoff : array
+    local_runoff : float
         Routed surface runoff and groundwater discharge into surface
-        water bodies, unit: km3/day.
-
+        water bodies, unit: [km3/day].
+    local_river_inflow
+        local river inflow, , unit: [km3/day].
     """
     # Index to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
@@ -76,7 +89,8 @@ def frac_routing(rout_order, routflow_looper,
     local_runoff_river = (1-fswb_catchment) * surface_runoff
 
     # Groundwater discharge is routed into surface water bodies considering
-    # only humid areas.
+    # only humid areas. Note that discharge was 1st only computed for humid
+    # regions and hence discharge for arid reions is zero
     local_gwrunoff_swb = fswb_catchment * groundwater_discharge
     local_gwrunoff_river = (1-fswb_catchment) * groundwater_discharge
 
@@ -84,7 +98,7 @@ def frac_routing(rout_order, routflow_looper,
     #   Inland sinks
     # =========================================================================
     # Surface runoff and groundwater discharge fills an inland sink.
-    # There are no outflows from the inland sinks.
+    # There are no outflows from the inland sinks .
     local_runoff_river = \
         np.where(drainage_direction < 0, 0, local_runoff_river)
 

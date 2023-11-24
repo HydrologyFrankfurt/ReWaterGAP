@@ -45,45 +45,47 @@ def lake_wetland_balance(rout_order, routflow_looper,
         looper that goes through the routing order.
     choose_swb : string
         Select surface waterbody (global and local lakes and wetlands)
-    storage : array
+    storage : float
         Daily surface waterbody storage, Unit: [km3]
-    lakewet_frac : array
+    lakewet_frac : float
         Fraction of surface waterbody, Unit: [%]
-    precipitation : array
+    precipitation : float
         Daily precipitation, Unit: [km/day]
-    openwater_pot_evap : array
+    openwater_pot_evap : float
         Daily open water potential evaporation, Unit: [km/day]
-    aridity : array
-        Array which differentiates arid(aridity=1) from
+    aridity : int
+        Integer which differentiates arid(aridity=1) from
         humid(aridity=0) regions taken from  [1]_ , Units: [-]
-    drainage_direction : array
+    drainage_direction : int
         Drainage direction taken from  [1]_ , Units: [-]
-    inflow_to_swb : array
+    inflow_to_swb : float
         Inflow into selected surface waterbody, Unit: [km3/day]
-    swb_outflow_coeff:
-
-    groundwater_recharge_constant:
-
-    reduction_exponent_lakewet:
-
-    areal_corr_factor:
-
-    max_storage:
-
-    max_area: array,
+    swb_outflow_coeff: float
+        Surface water outflow coefficient , Unit: [1/day]
+    groundwater_recharge_constant: float
+        Groundwater recharge constant below lakes, reserviors & wetlands,
+        Unit: [m/day]
+    reduction_exponent_lakewet: float
+        Reduction exponent taken from Eqn 24 and 25 [1]_ , Units: [-].
+    areal_corr_factor: float
+        Areal correction factor
+    max_storage: float
+        Maximum storage of surface waterbody storage, Unit: [km3]
+    max_area: float,
         Maximum area of surface waterbody, Unit: km2.
         Note!!! Global lake area has absolute lake area (including that of
         riparian cells) in the outflow cell. Hence the outflow cell is used for
         waterbalance calulation.
-
-    lake_outflow_exp:
-
-    wetland_outflow_exp:
-
-    reservoir_area:
-
+    lake_outflow_exp: float
+        Lake outflow exponent taken from Eqn 27 [1]_, Units: [-].
+    wetland_outflow_exp: float
+        Wetland outflow exponent taken from Eqn 27 [1]_, Units: [-].
+    reservoir_area: float
+        Reservoir Area (required to split water demand 50%  between reservoir
+        and global lake), Unit: [km2]
     accumulated_unsatisfied_potential_netabs_sw:
-
+        Accumulated unsatified potential net abstraction from surafce water,
+        Unit: [km^3/day]
 
     References.
 
@@ -99,14 +101,20 @@ def lake_wetland_balance(rout_order, routflow_looper,
 
     Returns
     -------
-    storage :  array
+    storage :  float
         Updated daily surface waterbody storage, Unit: [km3]
-    outflow :  array
+    outflow :  float
         Daily surface waterbody outflow, Unit: [km3/day]
-    gwr_lakewet :  array
+    gwr_lakewet :  float
         Daily groundwater recharge from surface water body outflow
         (arid region only), Unit: [km3/day]
-
+    lake_wet_newfraction: float
+        Updated local lake area fraction(to adapt landarea fraction), Unit:[-].
+    accumulated_unsatisfied_potential_netabs_glolake: float
+        Accumulated unsatified potential net abstraction after global lake
+        satisfaction, Unit: [km^3/day]
+    actual_use_sw: float
+        Accumulated actual net abstraction from surface water, Unit: [km^3/day]
     """
     # Index to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
@@ -237,6 +245,10 @@ def lake_wetland_balance(rout_order, routflow_looper,
                 accumulated_unsatisfied_potential_netabs_sw
     else:
         accumulated_unsatisfied_potential_netabs_glolake = 0
+
+    # Needed To compute daily actual use
+    acc_unsatisfied_potnetabs_glolake_start = \
+        accumulated_unsatisfied_potential_netabs_glolake
 
     # Note abstraction from local lake is done after that of river.
     # For global and local wetlands there are no absractions
@@ -388,5 +400,10 @@ def lake_wetland_balance(rout_order, routflow_looper,
     else:
         lake_wet_newfraction = new_redfactor * lakewet_frac
 
-    return storage, outflow, gwr_lakewet, lake_wet_newfraction,\
+    # Daily actual net use
+    actual_use_sw = acc_unsatisfied_potnetabs_glolake_start - \
         accumulated_unsatisfied_potential_netabs_glolake
+
+    return storage, outflow, gwr_lakewet, lake_wet_newfraction,\
+        accumulated_unsatisfied_potential_netabs_glolake, \
+        actual_use_sw

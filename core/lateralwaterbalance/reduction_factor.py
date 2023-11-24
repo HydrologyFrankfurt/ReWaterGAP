@@ -30,15 +30,15 @@ def swb_redfactor(storage, max_storage, reduction_exponent_swb,
 
     Parameters
     ----------
-    storage : array
-        Daily surface water body storage
-    max_storage : array
-        Maximum surface water body storage
+    storage :float
+        Daily surface waterbody storage, Unit: [km3]
+    max_storage : float
+        Maximum storage of surface waterbody storage, Unit: [km3]
     choose_swb : string
         select surface water body type ( global and local lakes and wetlands)
     reduction_exponent_swb: float
-        Exponent for calculating reduction factor according to equation 24
-        and 25 of Müller Schmied et al. (2021) for respective waterbodies.
+       Reduction exponent taken from Eqn 24 and 25 of  Müller Schmied et al.
+       (2021) for respective waterbodies.,  Units: [-].
 
     Returns
     -------

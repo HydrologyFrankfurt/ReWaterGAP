@@ -11,7 +11,7 @@
 """Lateral waterbalance."""
 
 # =============================================================================
-# This module brings all lateral water balance functions together to run and
+# This module brings all lateral water balance functions together and
 # makes use of numba to optimize speed (especially routing)
 # =============================================================================
 import numpy as np
@@ -41,6 +41,7 @@ class LateralWaterBalance:
         # Cell area , Units : km2
         self.cell_area = self.static_data.cell_area.\
             astype(np.float64)
+
         self.parameters = parameters
         self.aridhumid = self.static_data.humid_arid
         self.drainage_direction = \
@@ -61,12 +62,13 @@ class LateralWaterBalance:
             land_surface_water_fraction.loclak[0].values.astype(np.float64)/100
 
         # Initializing local lake storage to maximum
+        # Local lake area and storage,  Units : km2 & km3 respectively
         m_to_km = 0.001
+
         self.max_loclake_area = self.cell_area * self.loclake_frac
         self.max_loclake_storage = self.max_loclake_area * \
             self.parameters.activelake_depth * m_to_km
 
-        # Local lake storage, Units : km3
         self.loclake_storage = self.max_loclake_storage
 
         #                  =================================
@@ -77,11 +79,11 @@ class LateralWaterBalance:
             land_surface_water_fraction.locwet[0].values.astype(np.float64)/100
 
         # Initializing local weltland storage to maximum
+        # Local wetland area and storage,  Units : km2 & km3 respectively
         self.max_locwet_area = self.cell_area * self.locwet_frac
         self.max_locwet_storage = self.max_locwet_area * \
             self.parameters.activewetland_depth * m_to_km
 
-        # Local wetland storage, Units : km3
         self.locwet_storage = self.max_locwet_storage
 
         #                  =================================
@@ -106,6 +108,7 @@ class LateralWaterBalance:
             land_surface_water_fraction.glowet[0].values.astype(np.float64)/100
 
         # Initializing global weltland storage to maximum, , Units : km3
+        # Global wetland area and storage,  Units : km2 & km3 respectively
         self.max_glowet_area = self.cell_area * self.glowet_frac
         self.max_glowet_storage = self.max_glowet_area * \
             self.parameters.activewetland_depth * m_to_km
@@ -115,10 +118,9 @@ class LateralWaterBalance:
         #                  ||            River            ||
         #                  =================================
 
-        # The following river properties are input into the RiverProperties
-        # function  which ouputs other properties such as
-        # river bottom width (km), maximum river storage (km3),  river length
-        # corrected with continental area fraction (km).
+        # The following river properties are required to compute the
+        # river bottom width (km) and  maximum river storage (km3).
+        #  see also the river_property.py module.
 
         # River slope (-),
         river_slope = self.static_data.river_static_files.\
@@ -134,7 +136,9 @@ class LateralWaterBalance:
             self.static_data.river_static_files.\
             river_roughness_coeff_mult.values.astype(np.float64)
 
-        # River length (km)**
+        # River length  with uncorrected length in coastal cells (km).
+        # Note: River length is later corrected with continental cell fraction
+        # (see RiverProperties function in river_property.py module)
         river_length = self.static_data.river_static_files.\
             river_length[0].values.astype(np.float64)
 
@@ -165,10 +169,11 @@ class LateralWaterBalance:
         #                  ===============================================
         #                  ||   Reservior and  Regulated lake storage   ||
         #                  ===============================================
-        # Initializing global reservior stoarge, area and capacity to zero.
-        # Note that once reservoirs are not active their coresponding storage,
-        # area and capacity will be  zero.
-        # (see activate_res_area_storage_capacity function).
+        # Initializing reservior and regulated lake stoarge, area and capacity
+        # to zero. once reservoirs are active their coresponding storage,
+        # area and capacity will be read in.
+        # (see activate_res_area_storage_capacity function uder the heading
+        # *Activcate Reservior and Regulated lake storage* in this module).
 
         self.glores_storage = np.zeros((forcings_static.lat_length,
                                         forcings_static.lon_length))
@@ -198,15 +203,14 @@ class LateralWaterBalance:
             alloc_coeff[alloc_coeff.columns[-5:]].to_numpy()
 
         # Mean annual total water demand of the reservoir from 1971 to 2000
-        # read in units: m3/year, converted units : m3/s
+        # units was converted from m3/year to m3/s
         # 31536000=(365 * 24 * 60 * 60)
         year_to_s = 31536000
         self.mean_annual_demand_res = self.static_data.\
             res_reg_files.mean_nus[0].values.astype(np.float64) / year_to_s
 
         # Mean annual inflow in to reservior
-        # read in units: km3/month, converted units : m3/s
-        # note: km3/month is first converted to km3/year before m3/s
+        # Units was converted from km3/month to m3/s
         self.mean_annaul_inflow_res = self.static_data.res_reg_files.\
             mean_inflow[0].values.astype(np.float64) * 12 * 1e9 / year_to_s
 
@@ -220,7 +224,7 @@ class LateralWaterBalance:
         self.reglake_frac = self.static_data.\
             land_surface_water_fraction.reglak[0].values.astype(np.float64)/100
 
-        # Regulated lake storage, Units : km3 *****
+        # Regulated lake storage, Units : km3 *****(yet to be done)
 
         #                  =================================
         #                  ||    Head water cells         ||
@@ -236,7 +240,8 @@ class LateralWaterBalance:
         self.potential_net_abstraction = pot_net_abstraction.\
             potential_net_abstraction
 
-        # To also access aggrehation function and glwdunits
+        # Get aggregation function and glwdunits from the pot_net_abstraction
+        # class
         self.get_aggr_func = pot_net_abstraction
 
         # Potential net groundwater abstraction , Units : km3/ day
@@ -244,48 +249,63 @@ class LateralWaterBalance:
             np.zeros((forcings_static.lat_length,
                       forcings_static.lon_length))
 
-        # Potential net groundwater abstraction , Units : km3/ day
+        # Potential net surface water abstraction , Units : km3/ day
         self.potential_net_abstraction_sw = \
             np.zeros((forcings_static.lat_length,
                       forcings_static.lon_length))
 
-        # Accumulated unsatified potential net abstraction, units = km3/ day
+        # Current and previous accumulated unsatified potential net
+        # abstraction, units = km3/ day.
+        # This represents the portion of potential net abstraction from surface
+        # water that could not be satisfied over time after spatial satifaction
+        # (see adapt_netabs_groundwater.py module for more details)
         self.accumulated_unsatisfied_potential_netabs_sw = \
             np.zeros((forcings_static.lat_length,
                       forcings_static.lon_length))
-
         self.prev_accumulated_unsatisfied_potential_netabs_sw = \
             np.zeros((forcings_static.lat_length,
                       forcings_static.lon_length))
 
         # Daily unsatisfied potential net abstraction, units = km3/ day
+        # This is calculated as the difference between current and
+        # previous accumulated_unsatisfied_potential_netabs_sw . This is
+        # required to adapt adapts potential net ground water abstraction
+        # (see adapt_netabs_groundwater.py module for more details)
         self.daily_unsatisfied_pot_nas = np.zeros((forcings_static.lat_length,
                                                    forcings_static.lon_length))
 
         # Current and previous potential water withdrawal from surfacewater
-        # for irrigation units = km3/ day
-        # This is needed to  adapt potential net abstraction from groundwter.
+        # for irrigation units = km3/ day. Required to adapt potential net
+        # abstraction from groundwter.
+        # (see adapt_netabs_groundwater.py module for more details)
         self.potential_water_withdrawal_sw_irri =\
             np.zeros((forcings_static.lat_length, forcings_static.lon_length))
         self.prev_potential_water_withdrawal_sw_irri =\
             np.zeros((forcings_static.lat_length, forcings_static.lon_length))
 
         # Current and previous potential water consumptive use from
-        # surfacewater for irrigation units = km3/ day
-        # This is needed to  adapt potential net abstraction from groundwter.
+        # surfacewater for irrigation units = km3/ day. Required to adapt
+        # potential net abstraction from groundwter.
+        # (see adapt_netabs_groundwater.py module for more details)
         self.potential_consumptive_use_sw_irri = \
             np.zeros((forcings_static.lat_length, forcings_static.lon_length))
         self.prev_potential_consumptive_use_sw_irri = \
             np.zeros((forcings_static.lat_length, forcings_static.lon_length))
 
         # Fraction of return flow from irrigation to groundwater
-        # See Döll et al 2012, eqn 1
+        # See Döll et al 2012, eqn 1.  Required  to  adapt potential net
+        # abstraction from groundwter.
+        # (see adapt_netabs_groundwater.py module for more details)
         self.frac_irri_returnflow_to_gw = pot_net_abstraction.\
             frac_irri_returnflow_to_gw
 
-        # for redistributing to riparian cell # **
+        # Unsatisfied potential net abstraction from global lake or reservoir
+        # outflow cell to riparian cell, units = km3/ day.
         self.unsatisfied_potential_netabs_riparian = \
             np.zeros((forcings_static.lat_length, forcings_static.lon_length))
+
+        # Unaggregated potential net abstraction from surface water (riaprian
+        # cells are not agrregated to outflow cells),  units = km3/ day.
         self.unagregrgated_potential_netabs_sw = \
             np.zeros((forcings_static.lat_length, forcings_static.lon_length))
 
@@ -301,24 +321,43 @@ class LateralWaterBalance:
         self.neighbourcells_outflowcell = \
             self.static_data.neighbourcells_outflowcell.iloc[:, 1:].values
 
+        # Unsatisfied potential net abstraction from demand cell and to
+        # supply cell. Required for neigbouuring cell water suplly option, 
+        # units = km3/ day.
+        self.unsat_potnetabs_sw_from_demandcell = \
+            np.zeros((forcings_static.lat_length, forcings_static.lon_length))
+        self.unsat_potnetabs_sw_to_supplycell = \
+            np.zeros((forcings_static.lat_length, forcings_static.lon_length))
+
+        # This is a 2d array of integer tuples which contains lat and lon index
+        # values of selected neighbour cell with high water availability
+        self.neighbouring_cells_map = np.zeros((forcings_static.lat_length,
+                                               forcings_static.lon_length),
+                                               dtype=np.dtype('(2,)i4'))
+
+    #                  =====================================================
+    #                  ||  Activcate Reservior and Regulated lake storage ||
+    #                  =====================================================
     def activate_res_area_storage_capacity(self, simulation_date,
                                            reservoir_opt_year):
         """
         Activate storage,area and capacity of reservoir in current year.
 
+        see run_watergap.py module
+
         Parameters
         ----------
-        simulation_date : TYPE
-            DESCRIPTION.
-        reservoir_opt_year : TYPE
-            DESCRIPTION.
+        simulation_date : np.datetime64
+            Current day, month and year of simulation.
+        reservoir_opt_year : int
+            Year of activation for reservoir
 
         Returns
         -------
         None.
 
         """
-        # Activate storage,area and capacity of reservoir that are  active
+        # Activate storage, area and capacity of reservoir that are  active
         # in current year
         if cm.ant is True and cm.reservior_opt is True:
             if simulation_date in reservoir_opt_year:
@@ -336,7 +375,7 @@ class LateralWaterBalance:
                 glores_capacity_active = self.static_data.\
                     res_reg_files.stor_cap[0].values.astype(np.float64)
 
-                # # Initialize newly activated global reservior storage in
+                # # Initialize newly activated reservior storage in
                 # the current year to maximum,  Units : km3
                 # Keep storage values of already activate reservoirs
                 self.glores_storage = \
@@ -344,7 +383,7 @@ class LateralWaterBalance:
                              glores_storage_active,
                              self.glores_storage)
 
-                # Initialize newly activated global reservior area, Units : km2
+                # Initialize newly activated reservior area, Units : km2
                 # Keep area values of already activate reservoirs
                 self.glores_area = np.where(self.glores_startyear == resyear,
                                             glores_area_active,
@@ -381,6 +420,12 @@ class LateralWaterBalance:
         daily_storage_transfer : array
             Storage to be transfered to runoff when land area fraction of
             current time step is zero, Units: mm
+        current_landarea_frac: array
+            Current land area fraction
+        previous_landarea_frac: array
+            Previous land area fraction
+        simulation_date: np.datetime64
+            Current day, month and year of simulation.
 
         Returns
         -------
@@ -396,11 +441,11 @@ class LateralWaterBalance:
         openwater_pot_evap *= mm_to_km
 
         # Fluxes in km3/day
-        diffuse_gw_recharge = diffuse_gw_recharge * self.cell_area * mm_to_km * \
-            current_landarea_frac
+        diffuse_gw_recharge = diffuse_gw_recharge * self.cell_area * \
+            mm_to_km * current_landarea_frac
 
-        daily_storage_transfer = daily_storage_transfer * self.cell_area * mm_to_km * \
-            previous_landarea_frac
+        daily_storage_transfer = daily_storage_transfer * self.cell_area * \
+            mm_to_km * previous_landarea_frac
 
         surface_runoff = surface_runoff * self.cell_area * mm_to_km * \
             current_landarea_frac
@@ -435,12 +480,11 @@ class LateralWaterBalance:
             for month, num_of_days in days_in_month.items():
                 if month == int(pd.to_datetime(simulation_date).month) and \
                         first_day == 1:
-                    # Actual name: Potential net abstraction from groundwater
-                    # (NApot,g), Unit=m3/month
+                    # data unit read in =m3/month
                     self.potential_net_abstraction_gw = self.potential_net_abstraction.pnag.\
                         sel(time=date)[0].values.astype(np.float64)
 
-                    #  coverted to units = km3/day
+                    # coverted to units = km3/day
                     self.potential_net_abstraction_gw = \
                         self.potential_net_abstraction_gw / (num_of_days * m3_to_km3)
 
@@ -448,8 +492,7 @@ class LateralWaterBalance:
                     # Aggregate potential net abstaraction of riparaian cell to
                     # outflow cell and convert to km3/day
                     # *********************************************************
-                    # Actual name: Potential net abstraction from surfacewater
-                    # (NApot,s), Unit=m3/month
+                    # data unit read in =m3/month
                     self.potential_net_abstraction_sw = self.potential_net_abstraction.pnas.\
                         sel(time=date)[0].values.astype(np.float64)
 
@@ -461,7 +504,9 @@ class LateralWaterBalance:
                                                      self.glores_area,
                                                      self.potential_net_abstraction_sw)
 
-                    #  aggregated potential net abstraction units = km3/day
+                    # outflow cells of global lakes, regulated lakes and
+                    # reseviors have aggregated potential net abstraction.
+                    # Respective riparian cells have values of 0
                     self.potential_net_abstraction_sw = \
                         self.potential_net_abstraction_sw / (num_of_days * m3_to_km3)
 
@@ -469,30 +514,41 @@ class LateralWaterBalance:
                     # load in Potential water withdrawal from surfacewater and
                     #  consumptive use and convert to km3/day
                     # *********************************************************
-                    # Actual name: Potential water withdrawal from surfacewater
-                    # for irrigation (NApot,s), Unit=m3/month
+                    # data unit read in =m3/month
                     self.potential_water_withdrawal_sw_irri = self.potential_net_abstraction.pirrig_ww.\
                         sel(time=date)[0].values.astype(np.float64)
+
                     #  coverted to units = km3/day
                     self.potential_water_withdrawal_sw_irri = \
                         self.potential_water_withdrawal_sw_irri / (num_of_days * m3_to_km3)
 
-                    # Actual name: Potential water consumptive use from
-                    # surfacewater for irrigation (NApot,s), Unit=m3/month
+                    # data unit read in =m3/month
                     self.potential_consumptive_use_sw_irri = self.potential_net_abstraction.pirrig_cu.\
                         sel(time=date)[0].values.astype(np.float64)
+
                     #  coverted to units = km3/day
                     self.potential_consumptive_use_sw_irri = \
                         self.potential_consumptive_use_sw_irri / (num_of_days * m3_to_km3)
 
-        # Accumulated unsatisfied potential net abstraction from surface water
-        # (accumulated_unsatisfied_potential_netabs_sw) represents the portion
-        # of potential net abstraction that could not be satisfied over time.
-        # It takes into account not only the unsatisfied use of the current
-        # time step, but also that of previous time steps.
-        # Delayed use *** (write some nice)
-        self.accumulated_unsatisfied_potential_netabs_sw += \
-            self.potential_net_abstraction_sw
+        # ------------
+        # Delayed use
+        # ------------
+        # At the begining of each day accumulated unsatisfied potential net
+        # abstraction from surface water is added to daily potential net
+        # abstraction from surface water. This is attempted to be satisfied
+        # untill the end of the calendar year where it is set to zero
+        # (see section *Update accumulated unsatisfied potential net
+        # abstraction from surface water and and daily_unsatisfied_pot_nas* in
+        # this module below)
+
+        if cm.delayed_use is True:
+            self.accumulated_unsatisfied_potential_netabs_sw += \
+                self.potential_net_abstraction_sw
+        else:
+            self.accumulated_unsatisfied_potential_netabs_sw = \
+                self.potential_net_abstraction_sw
+
+        # --------------------------------------------------------------------
 
         # Actual name: Potential net abstraction from surface water (NApot,s),
         # Unit=m3/month (for hanasaki i will change later)
@@ -566,7 +622,11 @@ class LateralWaterBalance:
                       self.frac_irri_returnflow_to_gw,
                       self.unsatisfied_potential_netabs_riparian,
                       self.neighbourcells, self.neighbourcells_outflowcell,
-                      cm.subtract_use)
+                      self.unsat_potnetabs_sw_from_demandcell,
+                      self.unsat_potnetabs_sw_to_supplycell,
+                      self.neighbouring_cells_map,
+                      cm.subtract_use,
+                      cm.neighbouringcell)
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]
@@ -589,25 +649,38 @@ class LateralWaterBalance:
         updated_locallake_fraction = out[15]
         updated_localwetland_fraction = out[16]
         updated_globalwetland_fraction = out[17]
-
+        self.unsatisfied_potential_netabs_riparian = out[19]
         actual_net_abstraction_gw = out[20]
+        self.unsat_potnetabs_sw_from_demandcell = out[21]
+        self.unsat_potnetabs_sw_to_supplycell = out[22]
 
-        # =====================================================================
+        # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.
-        # see module adapt_netabs_groundwater.py to see more explanation on
-        # these variables
-        # =====================================================================
+        # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         self.accumulated_unsatisfied_potential_netabs_sw = out[18]
 
-        self.unsatisfied_potential_netabs_riparian = out[19]
-
-        self.daily_unsatisfied_pot_nas = \
-            self.accumulated_unsatisfied_potential_netabs_sw - \
-            self.prev_accumulated_unsatisfied_potential_netabs_sw
+        if cm.delayed_use is True:
+            end_of_year = [str(pd.to_datetime(simulation_date).month),
+                           str(pd.to_datetime(simulation_date).day)]
+            # accumulated_unsatisfied_potential_netabs_sw and
+            # daily_unsatisfied_pot_nas is zero at the end of the calender year
+            if end_of_year[0] == '12' and end_of_year[1] == '31':
+                self.accumulated_unsatisfied_potential_netabs_sw = \
+                    np.zeros_like(self.accumulated_unsatisfied_potential_netabs_sw)
+                self.daily_unsatisfied_pot_nas = \
+                    np.zeros_like(self.daily_unsatisfied_pot_nas)
+            else:
+                self.daily_unsatisfied_pot_nas = \
+                    self.accumulated_unsatisfied_potential_netabs_sw - \
+                    self.prev_accumulated_unsatisfied_potential_netabs_sw
+        else:
+            self.daily_unsatisfied_pot_nas = \
+                self.accumulated_unsatisfied_potential_netabs_sw
 
         self.prev_accumulated_unsatisfied_potential_netabs_sw = \
             self.accumulated_unsatisfied_potential_netabs_sw.copy()
+        # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         # The ff. variables also needed to  adapt potential net abstraction
         # from groundwter.
@@ -619,7 +692,8 @@ class LateralWaterBalance:
         self.prev_potential_consumptive_use_sw_irri = \
             self.potential_consumptive_use_sw_irri.copy()
 
-        print(self.glolake_storage[89, 480])
+        print(self.river_storage[17, 192], streamflow[17, 192])
+
         # =====================================================================
         # Getting all storages
         # =====================================================================
@@ -690,12 +764,12 @@ class LateralWaterBalance:
 
     def update_latbal_for_restart(self, latbalance_states):
         """
-        Update vertical balance parameters for model restart.
+        Update vertical balance parameters for model restart from pickle file.
 
         Parameters
         ----------
-        vertbalance_states : TYPE
-            DESCRIPTION.
+        latbalance_states : dictionary
+            Dictionary of all lateral balance storages.
 
         Returns
         -------

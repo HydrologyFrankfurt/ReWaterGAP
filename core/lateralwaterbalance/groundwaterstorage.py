@@ -44,30 +44,31 @@ def compute_groundwater_balance(rout_order, routflow_looper,
     rout_order : array
         Routing order of cells
     routflow_looper : int
-        looper that goes through the routing order.
+        Looper that goes through the routing order.
     aridiity : string
         Compute groundwater for "Humid" or "Arid" region
-    groundwater_storage : array
+    groundwater_storage : float
         Daily groundwater storage, Unit: [km^3]
-    diffuse_gw_recharge : array
+    diffuse_gw_recharge : float
         Daily difuuse groundwater recharge, Unit: [km^3/day]
-    potential_net_abstraction_gw : array
+    potential_net_abstraction_gw : float
         Potential net abstraction from groundwater, Unit: [km^3/day]
-    daily_unsatisfied_pot_nas : array
+    daily_unsatisfied_pot_nas : float
         Daily unsatisfied water use, Unit: [km^3/day]
-    gw_dis_coeff : array
+    gw_dis_coeff : float
         Groundwater discharge coefficient (Döll et al., 2014)
-    point_source_recharge : array
+    point_source_recharge : float
         Sum of all point groundwater recharge from surface waterboides in
         arid regions, Unit: [km^3/day]
 
     Returns
     -------
-    groundwater_storage : array
+    groundwater_storage : float
         Updated daily groundwater storage, Unit: [km^3]
-
-     groundwater_discharge : array
+     groundwater_discharge : float
         Updated daily groundwater discharge, Unit: [km^3/day]
+    actual_net_abstraction_gw: float
+        Actual Net abstraction from groundwater, Unit: [km^3/day]
     """
     # Index to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
@@ -130,6 +131,5 @@ def compute_groundwater_balance(rout_order, routflow_looper,
 
     groundwater_discharge = np.where(groundwater_discharge <= 0, 0,
                                      groundwater_discharge)
-    # if x==119 and y ==424:
-    #       print(daily_unsatisfied_pot_nas , potential_net_abstraction_gw, actual_net_abstraction_gw)
+
     return current_gw_storage, groundwater_discharge, actual_net_abstraction_gw

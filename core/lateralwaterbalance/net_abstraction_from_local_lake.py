@@ -18,28 +18,28 @@ def abstract_from_local_lake(storage, max_storage, lake_frac,
 
     Parameters
     ----------
-    storage : TYPE
-        DESCRIPTION.
-    area_of_cell : TYPE
-        DESCRIPTION.
+    storage : float
+       Local Lake storage, Unit: [km^3/day]
     lake_frac : TYPE
-        DESCRIPTION.
-    active_depth : TYPE
-        DESCRIPTION.
-    reduction_exponent_lakewet : TYPE
-        DESCRIPTION.
-    accumulated_unsatisfied_potential_netabs_sw : TYPE
-        DESCRIPTION.
+        Local lake area fraction, Unit: [-].
+    reduction_exponent_lakewet : float
+        Lake reduction exponent taken from Eqn 24 from (Müller Schmied et al.
+        (2021)) , Units: [-].
+    accumulated_unsatisfied_potential_netabs_sw : float
+        Accumulated unsatified potential net abstraction after satisfaction
+        from river, Unit: [km^3/day]
 
     Returns
     -------
-    updated_storage : TYPE
-        DESCRIPTION.
-    updated_accum_unsat_potnetabs_sw : TYPE
-        DESCRIPTION.
-    lake_wet_newfraction : TYPE
-        DESCRIPTION.
-
+    updated_storage : float
+        Updated local Lake storage, Unit: [km^3/day]
+    updated_accum_unsat_potnetabs_sw : float
+        Accumulated unsatified potential net abstraction after local lake
+        satisfaction, Unit: [km^3/day]
+    lake_newfraction : float
+        Updated local lake area fraction(to adapt landarea fraction), Unit:[-].
+    actual_use_sw:float
+        Accumulated actual net abstraction from surface water, Unit: [km^3/day]
     """
     choose_swb = 'local lake'
     # Abtsract from local lake if there is accumulated unstaisfied use
@@ -63,6 +63,11 @@ def abstract_from_local_lake(storage, max_storage, lake_frac,
         rf.swb_redfactor(updated_storage, max_storage,
                          reduction_exponent_lakewet, choose_swb)
 
-    lake_wet_newfraction = update_redfactor * lake_frac
+    lake_newfraction = update_redfactor * lake_frac
+
+    # Daily actual net use
+    actual_use_sw = accumulated_unsatisfied_potential_netabs_sw - \
+        updated_accum_unsat_potnetabs_sw
+
     return updated_storage, updated_accum_unsat_potnetabs_sw, \
-        lake_wet_newfraction
+        lake_newfraction, actual_use_sw

@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Jan  1 21:04:26 2023
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+"""River water balance."""
+
+# =============================================================================
+# This module computes water balance for rivers, including storage and
+# related fluxes for all grid cells based on section 4.7 of (Müller Schmied et
+# al. (2021)).
+# =============================================================================
+
 import numpy as np
 from numba import njit
 
@@ -11,7 +23,7 @@ from numba import njit
 @njit(cache=True)
 def river_velocity(rout_order, routflow_looper,
                    river_storage, river_length, river_bottom_width,
-                   roughness, roughness_multiplier, river_slope, ):
+                   roughness, roughness_multiplier, river_slope):
     """
     Compute river velocity for grid cells.
 
@@ -21,27 +33,25 @@ def river_velocity(rout_order, routflow_looper,
         Routing order of cells
     routflow_looper : int
         looper that goes through the routing order.
-    river_storage : array
-        DESCRIPTION.
-    river_length : TYPE
-        DESCRIPTION.
-    river_bottom_width : TYPE
-        DESCRIPTION.
-    roughness : TYPE
-        DESCRIPTION.
+    river_storage : float
+        Daily river storage, Unit: [km^3/day]
+    river_length : float
+        River length, Unit: [km]
+    river_bottom_width : float
+       River bottom width, Unit: [km]
+    roughness : float
+        Roughness of river bed, Unit: [-]
     roughness_multiplier : TYPE
-        DESCRIPTION.
+        Roughness of river bed multiplier, Unit: [-]
     river_slope : TYPE
-        DESCRIPTION.
-     : TYPE
-        DESCRIPTION.
+        River slope, Unit: [-]
 
     Returns
     -------
-    river_velocity : TYPE
-        DESCRIPTION.
-    outflow_constant : TYPE
-        DESCRIPTION.
+    river_velocity : float
+        River velocity, Unit: [km/day]
+    outflow_constant : float
+        River outflow constant (river_velocity / river_length), Unit: [1/day]
 
     """
     # Index to  print out varibales of interest
@@ -89,7 +99,7 @@ def river_velocity(rout_order, routflow_looper,
     # the outflow constant of the other surface waterbodies
     # (Global and local lakes and wetlands)
 
-    outflow_constant = river_velocity / river_length
+    outflow_constant = river_velocity / river_length  # units (1/day)
     return river_velocity, outflow_constant
 
 
@@ -97,31 +107,34 @@ def river_velocity(rout_order, routflow_looper,
 def river_water_balance(rout_order, routflow_looper,
                         river_storage, river_inflow, outflow_constant,
                         stat_corr_fact,
-                        accumulated_unsatisfied_potential_netabs_sw):
+                        accumulated_unsatisfied_potential_netabs_sw,
+                        minstorage_volume):
     """
     Compute River water balance including storages and fluxes.
 
     Parameters
     ----------
-    rout_order : TYPE
-        DESCRIPTION.
-    routflow_looper : TYPE
-        DESCRIPTION.
-    river_storage : TYPE
-        DESCRIPTION.
-    river_inflow : TYPE
-        DESCRIPTION.
-    outflow_constant : TYPE
-        DESCRIPTION.
+    rout_order : array
+        Routing order of cells
+    routflow_looper : int
+        looper that goes through the routing order.
+    river_storage : float
+        Daily river storage, Unit: [km^3/day]
+    river_inflow : float
+        Daily river inflow, Unit: [km^3/day]
+    outflow_constant : float
+        River outflow constant (river_velocity / river_length), Unit: [1/day]
     stat_corr_fact : TYPE
-        DESCRIPTION.
+        Station correction factor to correct streamflow values, Unit: [-]
+    minstorage_volume: float
+        Volumes at which storage is set to zero, units: [km3]
 
     Returns
     -------
-    river_storage : TYPE
-        DESCRIPTION.
-    streamflow : TYPE
-        DESCRIPTION.
+    river_storage :  float
+        Daily river storage, Unit: [km^3/day]
+    streamflow :  float
+       Daily streamflow, Unit: [km^3/day]
 
     """
     # Index to  print out varibales of interest
@@ -140,6 +153,10 @@ def river_water_balance(rout_order, routflow_looper,
     # named such that they allow for future consideration of evaporation.
 
     riverevap_netabs = accumulated_unsatisfied_potential_netabs_sw
+
+    # # Needed To compute daily actual use
+    acc_unsatisfied_potnetabs_start = \
+        accumulated_unsatisfied_potential_netabs_sw
 
     # To get *riverevap_netabs_max*, defined as the maximum value for
     # netabstraction,  the river water balance Eq.30  (section 4.7.1) of Müller
@@ -174,6 +191,11 @@ def river_water_balance(rout_order, routflow_looper,
             (((river_inflow - riverevap_netabs)
              / outflow_constant) * (1 - np.exp(-1*outflow_constant)))
 
+        # minimal storage volume =1e15 (smaller volumes set to zero) to counter
+        # numerical inaccuracies
+        if np.abs(river_storage) <= minstorage_volume:
+            river_storage = 0
+
         streamflow = river_inflow + river_storage_prev - river_storage - \
             riverevap_netabs
 
@@ -188,5 +210,9 @@ def river_water_balance(rout_order, routflow_looper,
     # cell where the gauging station is located
     streamflow *= stat_corr_fact
 
-    return river_storage, streamflow, \
+    # Daily actual net use
+    actual_use_sw = acc_unsatisfied_potnetabs_start - \
         accumulated_unsatisfied_potential_netabs_sw
+
+    return river_storage, streamflow, \
+        accumulated_unsatisfied_potential_netabs_sw, actual_use_sw

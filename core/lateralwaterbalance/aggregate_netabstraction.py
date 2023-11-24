@@ -1,17 +1,52 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Aug 13 19:32:32 2023
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+
+"""Aggregate riparian potential net abstractiion to outflowcell."""
+
+# =============================================================================
+# This module aggregates riparian potential net abstractiion to outflowcell.
+# =============================================================================
 
 from numba import njit
 import numpy as np
 
 
 @njit(cache=True)
-def aggregate_potnetabs(glwdunits, lake_area, res_area, netabs, unique_glwdunits):
+def aggregate_potnetabs(glwdunits, lake_area, res_area, netabs,
+                        unique_glwdunits):
+    """
+    Aggregate riparian potential net abstractiion to outflowcell.
 
+    Parameters
+    ----------
+    glwdunits : array
+       Global Lakes and Wetlands units(outflow cell and riparian cell)
+    lake_area : TYPE
+        Maximum area of global lake, Unit: [km2]
+    res_area : TYPE
+        Maximum area of reservoir and regulated lake, Unit: [km2]
+    netabs : TYPE
+        Daily potential net abstraction from surface water
+    unique_glwdunits : array
+        Unique values of global Lakes and Wetlands units(outflow cell and
+        riparian cell)
+
+    Returns
+    -------
+    aggregate : array
+        outflow cells of global lakes, regulated lakes and reseviors have
+        aggregated potential net abstraction. Respective riparian cells have
+        values of 0. The rest of cells have respective daily potential net
+        abstraction  values
+    """
     aggregate = netabs  # create a copy of net abstraction for aggregation
 
     for i in range(len(unique_glwdunits)):
@@ -31,7 +66,8 @@ def aggregate_potnetabs(glwdunits, lake_area, res_area, netabs, unique_glwdunits
                 np.where((glwdunits == unique_glwdunits[i]) & (netabs > 0),
                          netabs, 0)
 
-            # set positive abstraction value of riparain cell of lake to zero
+            # set positive abstraction values of riparain cell of lake or
+            # reservior  to zero
             aggregate =\
                 np.where((glwdunits == unique_glwdunits[i]) & (netabs > 0),
                          np.zeros_like(aggregate), aggregate)
