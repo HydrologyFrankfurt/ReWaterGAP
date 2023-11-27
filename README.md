@@ -16,7 +16,7 @@ WaterGAP has a leading role among global hydrological models. However, the resea
 The project goal is to rewrite the software with a modular structure using a modern programming language and providing extensive documentation.
 Then, it will be possible for other researchers to run our global hydrological modelling software by themselves, to reproduce our results or investigate the impact of data and algorithm modifications on the results. The research community can compare algorithms, check the consistency and accuracy of our computational approach and find possible errors in the software more easily.
 
-This project is done in cooperation between the Göthe University Frankfurt and the Ruhr-University Bochum, Germany.
+This project is done in cooperation between the Göthe University Frankfurt, Germany and the Ruhr-University Bochum, Germany.
 For more information on the project and a more comprehensive description find the official project summary [here](https://www.uni-frankfurt.de/109439580/Towards_a_sustainable_utilization_of_the_global_hydrological_modelling_software_WaterGAP).
 
 # Funding
