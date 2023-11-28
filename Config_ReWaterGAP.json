@@ -1,7 +1,7 @@
 {
   "FilePath": {
-    "inputDir": "input_data/",
-    "outputDir": "output_data/"
+    "InputDir": "input_data/", # Climate forcing, Static_input and Water use
+    "OutputDir": "output_data/"
   },
   "RuntimeOptions": [
     {
@@ -17,7 +17,7 @@
         }
     },
     {
-      "SimilationPeriod": {
+      "SimulationPeriod": {
         "start": "1901-01-01",
         "end": "1902-12-31",
         "spinup_years": 0
@@ -29,7 +29,7 @@
       }
     }
   ],
-  "outputVariable": [
+  "OutputVariable": [
     {
       "VerticalWaterBalanceFluxes": {
         "potevap": false,
