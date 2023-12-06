@@ -12,7 +12,7 @@ from controller import configuration_module as cm
 from view import output_var_info as var_info
 
 
-class OuputVariable:
+class OutputVariable:
     """Create ouput variables."""
 
     def __init__(self, variable_name, create, grid_coords):
@@ -110,5 +110,11 @@ class OuputVariable:
 
         """
         # I need to add meta data
+        encoding = {self.variable_name:
+                    {'_FillValue': 1e+20,
+                     'chunksizes': [1, 360, 720],
+                     "zlib": True, "complevel": 5}}
         if self.create is True:
-            self.data.to_netcdf(self.path + filename + '.nc')
+            self.data.to_netcdf(self.path + filename + '.nc',
+                                format='NETCDF4_CLASSIC',
+                                encoding=encoding)

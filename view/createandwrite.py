@@ -35,49 +35,49 @@ class CreateandWritetoVariables:
         self.vb_storages = {}
         self.vb_fluxes = {}
 
-        potential_evap = doh.OuputVariable("potevap",  cm.vb_fluxes.
-                                           get('pot_evap'), grid_coords)
+        potential_evap = doh.OutputVariable("potevap",  cm.vb_fluxes.
+                                            get('pot_evap'), grid_coords)
 
-        net_radiation = doh.OuputVariable("netrad", cm.vb_fluxes.
-                                          get('net_rad'), grid_coords)
+        net_radiation = doh.OutputVariable("netrad", cm.vb_fluxes.
+                                           get('net_rad'), grid_coords)
 
-        leaf_area_index = doh.OuputVariable("lai-total", cm.vb_fluxes.
-                                            get('leaf_area_index'), grid_coords)
+        leaf_area_index = doh.OutputVariable("lai-total", cm.vb_fluxes.
+                                             get('leaf_area_index'), grid_coords)
 
-        canopy_storage = doh.OuputVariable("canopystor", cm.vb_storages.
-                                           get('canopy_storage'), grid_coords)
+        canopy_storage = doh.OutputVariable("canopystor", cm.vb_storages.
+                                            get('canopy_storage'), grid_coords)
 
-        canopy_evap = doh.OuputVariable("canopy_evap",
-                                        cm.vb_fluxes.get('canopy_evap'),
-                                        grid_coords)
+        canopy_evap = doh.OutputVariable("canopy_evap",
+                                         cm.vb_fluxes.get('canopy_evap'),
+                                         grid_coords)
 
-        throughfall = doh.OuputVariable("throughfall", cm.vb_fluxes.
-                                        get('throughfall'), grid_coords)
+        throughfall = doh.OutputVariable("throughfall", cm.vb_fluxes.
+                                         get('throughfall'), grid_coords)
 
         snow_water_storage = \
-            doh.OuputVariable("swe", cm.vb_storages.get('snow_water_equiv'),
-                              grid_coords)
+            doh.OutputVariable("swe", cm.vb_storages.get('snow_water_equiv'),
+                               grid_coords)
 
-        snow_fall = doh.OuputVariable("snow_fall", cm.vb_fluxes.
-                                      get('snow_fall'), grid_coords)
+        snow_fall = doh.OutputVariable("snow_fall", cm.vb_fluxes.
+                                       get('snow_fall'), grid_coords)
 
-        snow_melt = doh.OuputVariable("snow_melt", cm.vb_fluxes.
-                                      get('snow_melt'), grid_coords)
+        snow_melt = doh.OutputVariable("snow_melt", cm.vb_fluxes.
+                                       get('snow_melt'), grid_coords)
 
-        sublimation = doh.OuputVariable("snow_evap", cm.vb_fluxes.
-                                        get('snow_evap'), grid_coords)
+        sublimation = doh.OutputVariable("snow_evap", cm.vb_fluxes.
+                                         get('snow_evap'), grid_coords)
 
         soil_water_storage = \
-            doh.OuputVariable("soilmoist", cm.vb_storages.get('soil_moisture'),
-                              grid_coords)
+            doh.OutputVariable("soilmoist", cm.vb_storages.get('soil_moisture'),
+                               grid_coords)
 
         groundwater_recharge = \
-            doh.OuputVariable("qr", cm.vb_fluxes.get('groundwater_recharge'),
-                              grid_coords)
+            doh.OutputVariable("qr", cm.vb_fluxes.get('groundwater_recharge'),
+                               grid_coords)
 
         surface_runoff = \
-            doh.OuputVariable("qs", cm.vb_fluxes.get('surface_runoff'),
-                              grid_coords)
+            doh.OutputVariable("qs", cm.vb_fluxes.get('surface_runoff'),
+                               grid_coords)
 
         # =====================================================================
         # Grouping all vertical water balance variables
@@ -106,55 +106,55 @@ class CreateandWritetoVariables:
         self.lb_fluxes = {}
 
         groundwater_storage = \
-            doh.OuputVariable("groundwstor", cm.lb_storages.
-                              get('groundwater_storage'), grid_coords)
+            doh.OutputVariable("groundwstor", cm.lb_storages.
+                               get('groundwater_storage'), grid_coords)
 
         groundwater_discharge = \
-            doh.OuputVariable("qg", cm.lb_fluxes.
-                              get('groundwater_discharge'), grid_coords)
+            doh.OutputVariable("qg", cm.lb_fluxes.
+                               get('groundwater_discharge'), grid_coords)
 
         loclake_storage = \
-            doh.OuputVariable("locallakestor", cm.lb_storages.
-                              get('local_lake_storage'), grid_coords)
+            doh.OutputVariable("locallakestor", cm.lb_storages.
+                               get('local_lake_storage'), grid_coords)
 
         loclake_outflow = \
-            doh.OuputVariable("locallake_outflow", cm.lb_fluxes.
-                              get('local_lake_outflow'),  grid_coords)
+            doh.OutputVariable("locallake_outflow", cm.lb_fluxes.
+                               get('local_lake_outflow'),  grid_coords)
 
         locwet_storage = \
-            doh.OuputVariable("localwetlandstor", cm.lb_storages.
-                              get('local_wetland_storage'), grid_coords)
+            doh.OutputVariable("localwetlandstor", cm.lb_storages.
+                               get('local_wetland_storage'), grid_coords)
         locwet_outflow = \
-            doh.OuputVariable("localwetland_outflow", cm.lb_fluxes.
-                              get('local_wetland_outflow'),  grid_coords)
+            doh.OutputVariable("localwetland_outflow", cm.lb_fluxes.
+                               get('local_wetland_outflow'),  grid_coords)
 
         glolake_storage = \
-            doh.OuputVariable("globallakestor", cm.lb_storages.
-                              get('global_lake_storage'), grid_coords)
+            doh.OutputVariable("globallakestor", cm.lb_storages.
+                               get('global_lake_storage'), grid_coords)
 
         glolake_outflow = \
-            doh.OuputVariable("globallake_outflow",
-                              cm.lb_fluxes.get('global_lake_outflow'),
-                              grid_coords)
+            doh.OutputVariable("globallake_outflow",
+                               cm.lb_fluxes.get('global_lake_outflow'),
+                               grid_coords)
 
         glowet_storage = \
-            doh.OuputVariable("globalwetlandstor", cm.lb_storages.
-                              get('global_wetland_storage'), grid_coords)
+            doh.OutputVariable("globalwetlandstor", cm.lb_storages.
+                               get('global_wetland_storage'), grid_coords)
 
         glowet_outflow = \
-            doh.OuputVariable("globalwetland_outflow", cm.lb_fluxes.
-                              get('global_wetland_outflow'), grid_coords)
+            doh.OutputVariable("globalwetland_outflow", cm.lb_fluxes.
+                               get('global_wetland_outflow'), grid_coords)
 
         river_storage = \
-            doh.OuputVariable("riverstor", cm.lb_storages.
-                              get('river_storage'), grid_coords)
+            doh.OutputVariable("riverstor", cm.lb_storages.
+                               get('river_storage'), grid_coords)
         streamflow = \
-            doh.OuputVariable("dis", cm.lb_fluxes.get('streamflow'),
-                              grid_coords)
+            doh.OutputVariable("dis", cm.lb_fluxes.get('streamflow'),
+                               grid_coords)
 
         actual_net_abstraction_gw = \
-            doh.OuputVariable("actual_net_abstraction_gw", cm.lb_fluxes.
-                              get('actual_net_abstr_groundwater'), grid_coords)
+            doh.OutputVariable("actual_net_abstraction_gw", cm.lb_fluxes.
+                               get('actual_net_abstr_groundwater'), grid_coords)
         # =====================================================================
         # Grouping all lateral water balance variables
         # =====================================================================
