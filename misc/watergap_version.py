@@ -14,7 +14,7 @@
 version_info = (2, 2, "e")
 __version__ = ".".join(map(str, version_info))
 
-__institution__ = "University of Frankfurt and University of Bochum"
+__institution__ = "Goethe University Frankfurt and University of Bochum"
 
 __reference__ = "Müller Schmied, H., et.al.: The global water resources and" + \
     " use model WaterGAP v2.2d: model description and evaluation," + \
