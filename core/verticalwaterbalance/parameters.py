@@ -36,6 +36,9 @@ class Parameters:
         # snow albedo threhold (mm)
         self.snow_albedo_thresh = 3.0 + np.zeros(parameter_size)
 
+        # Priestley-Taylor coefficient  for potential evapotranspiration(α)
+        # Following Shuttleworth (1993), α is set to 1.26 in humid
+        # and to 1.74 in (semi)arid cells
         # Priestley-Taylor coefficient  for humid cells
         self.pt_coeff_humid = 1.26 + np.zeros(parameter_size)
 

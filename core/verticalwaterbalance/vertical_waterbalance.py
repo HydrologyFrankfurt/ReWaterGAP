@@ -17,41 +17,75 @@
 
 import numpy as np
 from core.utility import units_conveter_check_neg_precip as check_or_convert
-from core.verticalwaterbalance import radiation_evapotranspiration as rad_pet
-from core.verticalwaterbalance import leafareaindex
-from core.verticalwaterbalance import canopy
-from core.verticalwaterbalance import snow
-from core.verticalwaterbalance import soil
+from core.verticalwaterbalance import vertical_waterbalance_numba as vb_numba
+from core.verticalwaterbalance import leafareaindex as lai_ini
 
 
 class VerticalWaterBalance:
     """Computes vertical waterbalance."""
 
-    # Getting all storages and fluxes in this dictionary container
+    # Get all storages and fluxes in this dictionary container
     fluxes = {}
     storages = {}
 
     def __init__(self, forcings_static, parameters):
         self.forcings_static = forcings_static
-        self.cont_frac = forcings_static.static_data.\
+        self.cont_frac = self.forcings_static.static_data.\
             land_surface_water_fraction.contfrac.values.astype(np.float64)/100
         self.parameters = parameters
 
+        # Initialise routing order
+        rout_order = self.forcings_static.static_data.rout_order
+        self.rout_order = rout_order[['Lat_index_routorder',
+                                      'Lon_index_routorder']].to_numpy()
+
         # Volumes at which storage is set to zero, units: [km3]
         self.minstorage_volume = 1e-15
-        # =====================================================================
-        #               State variables for:
-        #  1. leaf area index Units : (-)
-        # =====================================================================
-        # Note!!! "get_daily_leaf_area_index" also takes additional input
-        # which are defined below.
 
+        # =====================================================================
+        #                   Radiation
+        # =====================================================================
+        # Model paramters for radiation (Müller Schmied et al 2014,Table A2)
+        radiation_parameters = \
+            self.forcings_static.static_data.canopy_snow_soil_parameters
+        # Land cover based on Müller Schmied et al. 2021 , Units: (-)
+        self.land_cover = self.forcings_static.static_data.land_cover
+        # Humid-arid calssification based on Müller Schmied et al. 2021
+        self.humid_arid = self.forcings_static.static_data.humid_arid
+
+        # Albedo based on landcover type (Müller Schmied et al 2014,Table A2)
+        self.albedo = np.zeros((self.forcings_static.lat_length,
+                                self.forcings_static.lon_length))
+        self.albedo.fill(np.nan)
+        for i in range(len(radiation_parameters)):
+            self.albedo[self.land_cover[:, :] == radiation_parameters.loc[i, 'Number']] = \
+               radiation_parameters.loc[i, 'albedo']
+
+        # Snow albedo based on landcover type(Müller Schmied et al 2014,
+        # Table A2)
+        self.snow_albedo = np.zeros(self.albedo.shape)
+        self.snow_albedo.fill(np.nan)
+        for i in range(len(radiation_parameters)):
+            self.snow_albedo[self.land_cover[:, :] == radiation_parameters.loc[i, 'Number']] = \
+               radiation_parameters.loc[i, 'snow_albedo']
+
+        # Emissivity based on landcover type(Müller Schmied et al 2014,
+        # Table A2)
+        self.emissivity = np.zeros(self.albedo.shape)
+        self.emissivity.fill(np.nan)
+        for i in range(len(radiation_parameters)):
+            self.emissivity[self.land_cover[:, :] == radiation_parameters.loc[i, 'Number']] = \
+               radiation_parameters.loc[i, 'emissivity']
+
+        # =====================================================================
+        #           Leaf area index
+        # =====================================================================
         # Days since start of leaf area index profile(counter for days with
         # growing conditions), units: day
         self.lai_days = np.zeros((self.forcings_static.lat_length,
                                   self.forcings_static.lon_length))
 
-        # Variable Name: cumulative precipitation,  units: mm/day
+        # cumulative precipitation,  units: mm/day
         self.cum_precipitation = np.zeros((self.forcings_static.lat_length,
                                            self.forcings_static.lon_length))
 
@@ -61,32 +95,77 @@ class VerticalWaterBalance:
         self.growth_status = np.zeros((self.forcings_static.lat_length,
                                        self.forcings_static.lon_length))
 
+        # self.lai_param contains parameter such as maximum and minimum Leaf
+        # area index, and inital days per landcover to start or end growing
+        # season
+        parameters_lai = \
+            self.forcings_static.static_data.canopy_snow_soil_parameters
+        self.lai_param = lai_ini.LeafAreaIndex(self.land_cover, parameters_lai)
+
         # =====================================================================
-        #         # 2. canopy storage,  Units : mm
+        #                   Canopy
         # =====================================================================
         self.canopy_storage = \
             np.zeros((self.forcings_static.lat_length,
                       self.forcings_static.lon_length))
 
         # =====================================================================
-        #         3. snow water storage,  Units : mm
+        #                   Snow
         # =====================================================================
         self.snow_water_storage = np.zeros((self.forcings_static.lat_length,
                                             self.forcings_static.lon_length))
-        # Getting size of elevation data to create subgrid array for snow
-        # water storage
-        elev_size = \
-            self.forcings_static.static_data.gtopo30_elevation[1:].shape
+
+        # Land cover specific degreeday values(Müller Schmied et al. 2021)
+        self.degreeday = np.zeros(self.snow_water_storage.shape) * np.nan
+
+        # Get degree day parameter (Müller Schmied et al 2014,Table A2)
+        parameters_snow = \
+            self.forcings_static.static_data.canopy_snow_soil_parameters
+        for i in range(len(parameters_snow)):
+           self.degreeday[self.land_cover[:, :] == parameters_snow.loc[i, 'Number']] = \
+               parameters_snow.loc[i, 'degree-day']
+
+        self.elevation = self.forcings_static.static_data.gtopo30_elevation
 
         # Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.
         # Geological Survey, 1996) land surface elevation map, Units: mm
+        elev_size = \
+            self.forcings_static.static_data.gtopo30_elevation[1:].shape
         self.snow_water_storage_subgrid = np.zeros(elev_size)
 
         # =====================================================================
-        #         4. soil water storage,  Units : mm
+        #                   Soil
         # =====================================================================
         self.soil_water_content = np.zeros((self.forcings_static.lat_length,
                                             self.forcings_static.lon_length))
+
+        # Get parameters for soil water balance
+        soil_static_data = self.forcings_static.static_data.soil_static_data()
+        self.builtup_area = soil_static_data[0]
+        total_avail_water_content = soil_static_data[1]
+        self.drainage_direction = soil_static_data[2]
+        self.max_groundwater_recharge = soil_static_data[3]
+        self.soil_texture = soil_static_data[4]
+        self.groundwater_recharge_factor = soil_static_data[5]
+
+        # Calulate maximum soil water content
+        soil_parameters = \
+            self.forcings_static.static_data.canopy_snow_soil_parameters
+
+        rooting_depth = np.zeros(self.land_cover.shape) * np.nan
+        for i in range(len(soil_parameters)):
+            rooting_depth[self.land_cover[:, :] == soil_parameters.loc[i, 'Number']] = \
+                soil_parameters.loc[i, 'rooting_depth']
+        self.max_soil_water_content = \
+            np.where(total_avail_water_content > 0,
+                     total_avail_water_content * rooting_depth, np.nan)
+
+        # =====================================================================
+        #   Storage to be transfered to runoff when land area fraction is zero
+        # =====================================================================
+        self.daily_storage_transfer = \
+            np.zeros((self.forcings_static.lat_length,
+                      self.forcings_static.lon_length))
 
     def calculate(self, date, current_landarea_frac, landareafrac_ratio):
         """
@@ -108,10 +187,9 @@ class VerticalWaterBalance:
         # Select daily climate forcing and convert units (only precipitation
         #  and tempearture)
         # =====================================================================
-        #                  =========================
-        #                  ||     Precipitation   ||
-        #                  =========================
-        #  Actual name: Precipitation
+        #                  ==================================
+        #                  ||     Precipitation (mm/day)   ||
+        #                  ==================================
         precipitation = self.forcings_static.climate_forcing.precipitation.sel(
             time=str(date))
 
@@ -121,181 +199,104 @@ class VerticalWaterBalance:
         # Covert precipitation units to mm/day
         precipitation = check_or_convert.to_mm_per_day(precipitation.pr)
 
-        #                  =========================
-        #                  ||     Air tempeature  ||
-        #                  =========================
-        #  Actual name: Air tempeature
+        #                  =============================
+        #                  ||     Air tempeature (K)  ||
+        #                  =============================
         temperature = self.forcings_static.climate_forcing.temperature.sel(
             time=str(date))
 
-        # Covert air tempeature to Kelvin
+        # Covert air tempeature from degree celcius to Kelvin
         temperature = check_or_convert.to_kelvin(temperature.tas)
 
-        #                  ==================================
-        #                  || Downward shortwave radiation ||
-        #                  ==================================
-        #  Actual name: Downward shortwave radiation  Units: Wm−2
+        #                  =========================================
+        #                  || Downward shortwave radiation (Wm−2) ||
+        #                  =========================================
         down_shortwave_radiation = \
             self.forcings_static.climate_forcing.down_shortwave_radiation.sel(
                 time=str(date))
         down_shortwave_radiation = \
             down_shortwave_radiation.rsds.values.astype(np.float64)
 
-        #                  ==================================
-        #                  ||  Downward longwave radiation ||
-        #                  ==================================
-        #  Actual name: Downward longwave radiation  Units: Wm−2
+        #                  =========================================
+        #                  ||  Downward longwave radiation (Wm−2) ||
+        #                  =========================================
         down_longwave_radiation = \
             self.forcings_static.climate_forcing.down_longwave_radiation.sel(
                 time=str(date))
         down_longwave_radiation = \
             down_longwave_radiation.rlds.values.astype(np.float64)
 
-        # =================================================================
-        #       Radiation compononents and Priestley-Taylor PET
-        # =================================================================
-        # Initialising daily radiation components for PET calcultion
-        # All daily radiation componnents can be also wriitten out
-        radiation_for_potevap = rad_pet.\
-            RadiationPotentialEvap(temperature, down_shortwave_radiation,
-                                   down_longwave_radiation,
-                                   self.forcings_static.static_data,
-                                   self.snow_water_storage,
-                                   self.parameters)
-
-        # Computes Priestley-Taylor PET from radiation components directly.
-        # Output from priestley_taylor() is 0 = daily PET  (mm/day) and
-        # 1= openwater PET (mm/day).
-        potential_evap = radiation_for_potevap.priestley_taylor()
-        daily_potential_evap = potential_evap[0]
-        openwater_potential_evap = potential_evap[1]
-
-        # =================================================================
-        #               	 Daily leaf area index
-        # =================================================================
-        # Initialising leaf area index data for computing  leaf area index
-        # in parallel
-        initialize_leaf_area_index = leafareaindex.\
-            LeafAreaIndex(temperature, precipitation,
-                          self.forcings_static.static_data)
-
-        daily_leaf_area_index = initialize_leaf_area_index.\
-            get_daily_leaf_area_index(self.lai_days, self.growth_status,
-                                      self.cum_precipitation)
-
-        # ouputs from the get_daily_leaf_area_index" are
-        # 0 = daily leaf area index (-),
-        # 1 = days since start leaf area index profile (days),
-        # 2 = cumulative precipitation (mm/day)  and 3 = growth status(-)
-        # ouput(1-3)  get updated per time step.
-
-        leaf_area_index = daily_leaf_area_index[0]
-        self.lai_days = daily_leaf_area_index[1]
-        self.cum_precipitation = daily_leaf_area_index[2]
-        self.growth_status = daily_leaf_area_index[3]
-
         # =====================================================================
-        #               Canopy Water Balance
+        # compute vertical waterbalance
         # =====================================================================
-        daily_canopy_storage = canopy.\
-            canopy_balance(self.canopy_storage,
-                           leaf_area_index,
-                           daily_potential_evap, precipitation,
-                           current_landarea_frac, landareafrac_ratio,
-                           self.parameters.max_storage_coefficient,
-                           self.minstorage_volume)
+        output = vb_numba.\
+            vert_water_balance(self.rout_order, temperature,
+                               down_shortwave_radiation,
+                               down_longwave_radiation,
+                               self.snow_water_storage,
+                               self.parameters.snow_albedo_thresh,
+                               self.parameters.openwater_albedo,
+                               self.snow_albedo, self.albedo, self.emissivity,
+                               self.humid_arid, self.parameters.pt_coeff_arid,
+                               self.parameters.pt_coeff_humid,
+                               self.growth_status, self.lai_days,
+                               self.lai_param.initial_days,
+                               self.cum_precipitation, precipitation,
+                               self.lai_param.min_leaf_area_index,
+                               self.lai_param.max_leaf_area_index,
+                               self.land_cover, self.canopy_storage,
+                               current_landarea_frac, landareafrac_ratio,
+                               self.parameters.max_storage_coefficient,
+                               self.minstorage_volume,
+                               self.daily_storage_transfer,
+                               self.snow_water_storage_subgrid,
+                               self.degreeday, self.elevation,
+                               self.parameters.adiabatic_lapse_rate,
+                               self.parameters.snow_freeze_temp,
+                               self.parameters.snow_melt_temp,
+                               self.parameters.runoff_frac_builtup,
+                               self.builtup_area, self.soil_water_content,
+                               self.parameters.gamma,
+                               self.parameters.max_daily_pet,
+                               self.soil_texture, self.drainage_direction,
+                               self.max_groundwater_recharge,
+                               self.groundwater_recharge_factor,
+                               self.parameters.critcal_gw_precipitation,
+                               self.max_soil_water_content,
+                               self.parameters.areal_corr_factor)
 
-        # ouputs from the  daily_canopy_storage are
-        # 0 = canopy_storage (mm), 1 = throughfall (mm/day),
-        # 2 = canopy_evap (mm/day) , 3 = pet_to_soil (mm/day),
-        # 4 = land_storage_change_sum (mm)
-        # 5 = daily_storage_tranfer (mm/day)
+        # Radiation and PET output
+        net_radiation = output[0]
+        daily_potential_evap = output[2]
+        openwater_potential_evap = output[3]
 
-        self.canopy_storage = daily_canopy_storage[0]
-        throughfall = daily_canopy_storage[1]
-        canopy_evap = daily_canopy_storage[2]
-        pet_to_soil = daily_canopy_storage[3]
-        land_storage_change_sum = daily_canopy_storage[4]
-        daily_storage_transfer = daily_canopy_storage[5]
+        # Leaf area index ouput
+        leaf_area_index = output[4]
+        self.lai_days = output[5]
+        self.cum_precipitation = output[6]
+        self.growth_status = output[7]
 
-        # =====================================================================
-        #               Snow Water Balance
-        # =====================================================================
-        initialize_snow_storage = \
-            snow.Snow(self.forcings_static.static_data, precipitation)
+        # Canopy output
+        self.canopy_storage = output[8]
+        throughfall = output[9]
+        canopy_evap = output[10]
 
-        daily_snow_storage = initialize_snow_storage.\
-            snow_balance(current_landarea_frac, landareafrac_ratio,
-                         temperature, throughfall, self.snow_water_storage,
-                         pet_to_soil, land_storage_change_sum,
-                         self.snow_water_storage_subgrid,
-                         daily_storage_transfer,
-                         self.parameters.adiabatic_lapse_rate,
-                         self.parameters.snow_freeze_temp,
-                         self.parameters.snow_melt_temp,
-                         self.minstorage_volume)
+        # Snow ouput
+        self.snow_water_storage = output[12]
+        self.snow_water_storage_subgrid = output[13]
+        snow_fall = output[14]
+        sublimation = output[15]
+        snow_melt = output[16]
 
-        # ouputs from the  daily_snow_storage  are
-        # 0 = snow_water_storage (mm), 1 = snow_water_storage_subgrid (mm),
-        # 2 = snow_fall (mm/day), 3 = sublimation (mm/day),
-        # 4 = snow_melt (mm/day)
-        # 5 = effective_precipitation (mm/day), 6 = max_elev_temp(K),
-        # 7 = land_storage_change_sum (mm),  8 = daily_storage_tranfer (mm/day)
+        # Soil output
+        self.soil_water_content = output[17]
+        groundwater_recharge_from_soil_mm = output[18]
+        surface_runoff = output[19]
 
-        self.snow_water_storage = daily_snow_storage[0]
-        self.snow_water_storage_subgrid = daily_snow_storage[1]
-        snow_fall = daily_snow_storage[2]
-        sublimation = daily_snow_storage[3]
-        snow_melt = daily_snow_storage[4]
-        effective_precipitation = daily_snow_storage[5]
-        max_temp_elev = daily_snow_storage[6]
-        land_storage_change_sum = daily_snow_storage[7]
-        daily_storage_transfer = daily_snow_storage[8]
+        # update daily storage transfer
+        self.daily_storage_transfer = output[21]
 
-        # =====================================================================
-        #                       Soil Water Balance
-        # =====================================================================
-        initilaize_soil_storage = \
-            soil.Soil(self.forcings_static.static_data, self.parameters)
-
-        # Modified effective precipitation and immediate runoff
-        modified_effective_precipitation = \
-            initilaize_soil_storage.immediate_runoff(effective_precipitation)
-
-        # ouputs from the  modified_effective_precipitation are
-        # 0 = effective_precipitation (mm/day): this is wriiten out **
-        # 1 = immediate_runoff (mm/day)
-        effective_precipitation_corr = modified_effective_precipitation[0]
-        immediate_runoff = modified_effective_precipitation[1]
-
-        # compute daily soil water balance.
-        daily_soil_storage = initilaize_soil_storage.\
-            soil_balance(self.soil_water_content, pet_to_soil,
-                         current_landarea_frac, landareafrac_ratio,
-                         max_temp_elev, canopy_evap,
-                         effective_precipitation_corr, precipitation,
-                         immediate_runoff, land_storage_change_sum,
-                         sublimation, daily_storage_transfer,
-                         self.parameters.snow_freeze_temp,
-                         self.minstorage_volume)
-
-        # ouputs from the  daily_soil_storage  are
-        # 0 = soil_water_content (mm),
-        # 1 = groundwater_recharge_from_soil_mm (mm),
-        # 2 = actual_soil_evap (mm/day), 3 =  soil_saturation (-),
-        # 4 = surface_runoff (mm/day) , 5 = daily_storage_tranfer (mm/day)
-        # 6 =  (RL) potential runoff from landcells including the amount of
-        # gw-recharge (mm/day)
-        # 7 = (R3) daily runoff from soil (mm/day)
-        # 8 = (R2) soil overflow runoff from landcells (mm/day)
-        # 9 = (R1) urban runoff from landcells (mm/day) : (accounts only
-        # for built-up area)
-
-        self.soil_water_content = daily_soil_storage[0]
-        groundwater_recharge_from_soil_mm = daily_soil_storage[1]
-        surface_runoff = daily_soil_storage[4]
-        daily_storage_transfer = daily_soil_storage[5]
-
+        # print(throughfall[17, 192], output[11][17, 192], self.snow_water_storage[17, 192])
         # =====================================================================
         # Getting all storages
         # =====================================================================
@@ -312,26 +313,28 @@ class VerticalWaterBalance:
         # =====================================================================
 
         VerticalWaterBalance.fluxes.\
-            update({'netrad': radiation_for_potevap.net_radiation,
-                    'potevap': daily_potential_evap,
-                    'lai': leaf_area_index,
-                    'canopy_evap': canopy_evap * per_contfrac,
-                    'throughfall': throughfall * per_contfrac,
-                    'snow_fall': snow_fall * per_contfrac,
-                    'snow_melt': snow_melt * per_contfrac,
-                    'snow_evap': sublimation * per_contfrac,
+            update({'netrad': net_radiation,
+                    'potevap':  daily_potential_evap,
+                    'lai-total':  leaf_area_index,
+                    'canopy_evap':  canopy_evap * per_contfrac,
+                    'throughfall':  throughfall * per_contfrac,
+                    'snow_fall':  snow_fall * per_contfrac,
+                    'snow_melt':  snow_melt * per_contfrac,
+                    'snow_evap':  sublimation * per_contfrac,
 
-                    # Variable_out is used to differenciate the same variable
-                    # which are inputs to the lateral waterbalance.
-                    # variable_out is the wriiten out as netcdf
-                    'groundwater_recharge_out':
-                        groundwater_recharge_from_soil_mm * per_contfrac,
-                    'surface_runoff_out': surface_runoff * per_contfrac,
+                    # Groundwater recharge (qr) and surface runoff(qs)
+                    # are writtem out as netcdf and not used for lateral water
+                    # balance calculation.
+                    'qr':  groundwater_recharge_from_soil_mm * per_contfrac,
+                    'qs':  surface_runoff * per_contfrac,
 
+                    # Variables here are used for lateral water balance
+                    # calculation. Note: 'groundwater_recharge' and
+                    # 'surface_runoff' are not wriiten out.
                     'groundwater_recharge': groundwater_recharge_from_soil_mm,
                     'surface_runoff': surface_runoff,
                     'openwater_PET': openwater_potential_evap,
-                    'daily_storage_transfer': daily_storage_transfer,
+                    'daily_storage_transfer': self.daily_storage_transfer,
                     'daily_precipitation': precipitation})
 
     def get_storages_and_fluxes(self):
