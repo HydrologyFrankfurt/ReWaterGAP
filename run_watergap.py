@@ -170,7 +170,7 @@ def run():
     #                  ||   Main Loop for all processes  ||
     #                  ====================================
     while True:
-        print('Spin up phase: ' + colored(spin_up, 'cyan'))
+        print('Spin up phase: ' + colored(str(spin_up), 'cyan'))
         if spin_up == 0:
             print(colored('Spin up phase over. Starting simulation from ' +
                           cm.start + ':' + cm.end + '\n', 'cyan'))
