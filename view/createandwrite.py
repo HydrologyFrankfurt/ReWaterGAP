@@ -15,14 +15,14 @@
 # =============================================================================
 
 from controller import configuration_module as cm
-from view import data_output_handler as do
+from view import data_output_handler as doh
+from view import output_var_info as var_info
 
 
 class CreateandWritetoVariables:
-    """ Create and write daily ouputs to  storage and flux varibales."""
+    """Create and write daily ouputs to  storage and flux varibales."""
 
     def __init__(self, grid_coords):
-
         # =====================================================================
         # create ouput variable
         # =====================================================================
@@ -35,49 +35,49 @@ class CreateandWritetoVariables:
         self.vb_storages = {}
         self.vb_fluxes = {}
 
-        potential_evap = do.\
-            OuputVariable('potevap', cm.vb_fluxes.get('potevap'), grid_coords)
+        potential_evap = doh.OuputVariable("potevap",  cm.vb_fluxes.
+                                           get('pot_evap'), grid_coords)
 
-        net_radiation = do.OuputVariable('netrad', cm.vb_fluxes.get('netrad'),
-                                         grid_coords)
-        leaf_area_index = do.OuputVariable('lai', cm.vb_fluxes.get('lai'),
-                                           grid_coords)
+        net_radiation = doh.OuputVariable("netrad", cm.vb_fluxes.
+                                          get('net_rad'), grid_coords)
 
-        canopy_storage = do.OuputVariable('canopystor',
-                                          cm.vb_storages.get('canopystor'),
-                                          grid_coords)
+        leaf_area_index = doh.OuputVariable("lai-total", cm.vb_fluxes.
+                                            get('leaf_area_index'), grid_coords)
 
-        canopy_evap = do.OuputVariable('canopy_evap',
-                                       cm.vb_fluxes.get('canopy_evap'),
-                                       grid_coords)
+        canopy_storage = doh.OuputVariable("canopystor", cm.vb_storages.
+                                           get('canopy_storage'), grid_coords)
 
-        throughfall = do.OuputVariable('throughfall',
-                                       cm.vb_fluxes.get('throughfall'),
-                                       grid_coords)
+        canopy_evap = doh.OuputVariable("canopy_evap",
+                                        cm.vb_fluxes.get('canopy_evap'),
+                                        grid_coords)
 
-        snow_water_storage = do.OuputVariable('swe', cm.vb_storages.get('swe'),
-                                              grid_coords)
+        throughfall = doh.OuputVariable("throughfall", cm.vb_fluxes.
+                                        get('throughfall'), grid_coords)
 
-        snow_fall = do.OuputVariable('snow_fall', cm.vb_fluxes.
-                                     get('snow_fall'), grid_coords)
+        snow_water_storage = \
+            doh.OuputVariable("swe", cm.vb_storages.get('snow_water_equiv'),
+                              grid_coords)
 
-        snow_melt = do.OuputVariable('snow_melt', cm.vb_fluxes.
-                                     get('snow_melt'), grid_coords)
+        snow_fall = doh.OuputVariable("snow_fall", cm.vb_fluxes.
+                                      get('snow_fall'), grid_coords)
 
-        sublimation = do.OuputVariable('snow_evap', cm.vb_fluxes.
-                                       get('snow_evap'), grid_coords)
+        snow_melt = doh.OuputVariable("snow_melt", cm.vb_fluxes.
+                                      get('snow_melt'), grid_coords)
 
-        soil_water_storage = do.OuputVariable('soilmoist',
-                                              cm.vb_storages.get('soilmoist'),
-                                              grid_coords)
+        sublimation = doh.OuputVariable("snow_evap", cm.vb_fluxes.
+                                        get('snow_evap'), grid_coords)
+
+        soil_water_storage = \
+            doh.OuputVariable("soilmoist", cm.vb_storages.get('soil_moisture'),
+                              grid_coords)
 
         groundwater_recharge = \
-            do.OuputVariable('groundwater_recharge',
-                             cm.vb_fluxes.get('groundwater_recharge'),
-                             grid_coords)
-        surface_runoff = do.\
-            OuputVariable('surface_runoff', cm.vb_fluxes.get('surface_runoff'),
-                          grid_coords)
+            doh.OuputVariable("qr", cm.vb_fluxes.get('groundwater_recharge'),
+                              grid_coords)
+
+        surface_runoff = \
+            doh.OuputVariable("qs", cm.vb_fluxes.get('surface_runoff'),
+                              grid_coords)
 
         # =====================================================================
         # Grouping all vertical water balance variables
@@ -88,16 +88,16 @@ class CreateandWritetoVariables:
                                  'soilmoist': soil_water_storage})
         # Fluxes
         self.vb_fluxes.\
-            update({'netrad': net_radiation,
-                    'potevap': potential_evap,
-                    'lai': leaf_area_index,
-                    'canopy_evap': canopy_evap,
-                    'throughfall': throughfall,
-                    'snow_fall': snow_fall,
-                    'snow_melt': snow_melt,
-                    'snow_evap': sublimation,
-                    'groundwater_recharge': groundwater_recharge,
-                    'surface_runoff': surface_runoff})
+            update({"netrad": net_radiation,
+                    "potevap": potential_evap,
+                    "lai-total": leaf_area_index,
+                    "canopy_evap": canopy_evap,
+                    "throughfall": throughfall,
+                    "snow_fall": snow_fall,
+                    "snow_melt": snow_melt,
+                    "snow_evap": sublimation,
+                    "qr": groundwater_recharge,
+                    "qs": surface_runoff})
 
         # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         #         #  Lateral Water Balance (lb)
@@ -106,85 +106,74 @@ class CreateandWritetoVariables:
         self.lb_fluxes = {}
 
         groundwater_storage = \
-            do.OuputVariable('groundwater_storage',
-                             cm.lb_storages.get('groundwater_storage'),
-                             grid_coords)
+            doh.OuputVariable("groundwstor", cm.lb_storages.
+                              get('groundwater_storage'), grid_coords)
 
         groundwater_discharge = \
-            do.OuputVariable('groundwater_discharge',
-                             cm.lb_fluxes.get('groundwater_discharge'),
-                             grid_coords)
+            doh.OuputVariable("qg", cm.lb_fluxes.
+                              get('groundwater_discharge'), grid_coords)
 
         loclake_storage = \
-            do.OuputVariable('locallake_storage',
-                             cm.lb_storages.get('locallake_storage'),
-                             grid_coords)
+            doh.OuputVariable("locallakestor", cm.lb_storages.
+                              get('local_lake_storage'), grid_coords)
 
         loclake_outflow = \
-            do.OuputVariable('locallake_outflow',
-                             cm.lb_fluxes.get('locallake_outflow'),
-                             grid_coords)
+            doh.OuputVariable("locallake_outflow", cm.lb_fluxes.
+                              get('local_lake_outflow'),  grid_coords)
 
         locwet_storage = \
-            do.OuputVariable('localwetland_storage',
-                             cm.lb_storages.get('localwetland_storage'),
-                             grid_coords)
+            doh.OuputVariable("localwetlandstor", cm.lb_storages.
+                              get('local_wetland_storage'), grid_coords)
         locwet_outflow = \
-            do.OuputVariable('localwetland_outflow',
-                             cm.lb_fluxes.get('localwetland_outflow'),
-                             grid_coords)
+            doh.OuputVariable("localwetland_outflow", cm.lb_fluxes.
+                              get('local_wetland_outflow'),  grid_coords)
 
         glolake_storage = \
-            do.OuputVariable('globallake_storage',
-                             cm.lb_storages.get('globallake_storage'),
-                             grid_coords)
+            doh.OuputVariable("globallakestor", cm.lb_storages.
+                              get('global_lake_storage'), grid_coords)
 
         glolake_outflow = \
-            do.OuputVariable('globallake_outflow',
-                             cm.lb_fluxes.get('globallake_outflow'),
-                             grid_coords)
+            doh.OuputVariable("globallake_outflow",
+                              cm.lb_fluxes.get('global_lake_outflow'),
+                              grid_coords)
 
         glowet_storage = \
-            do.OuputVariable('globalwetland_storage',
-                             cm.lb_storages.get('globalwetland_storage'),
-                             grid_coords)
+            doh.OuputVariable("globalwetlandstor", cm.lb_storages.
+                              get('global_wetland_storage'), grid_coords)
 
         glowet_outflow = \
-            do.OuputVariable('globalwetland_outflow',
-                             cm.lb_fluxes.get('globalwetland_outflow'),
-                             grid_coords)
+            doh.OuputVariable("globalwetland_outflow", cm.lb_fluxes.
+                              get('global_wetland_outflow'), grid_coords)
+
         river_storage = \
-            do.OuputVariable('river_storage',
-                             cm.lb_storages.get('river_storage'),
-                             grid_coords)
+            doh.OuputVariable("riverstor", cm.lb_storages.
+                              get('river_storage'), grid_coords)
         streamflow = \
-            do.OuputVariable('streamflow',
-                             cm.lb_fluxes.get('streamflow'),
-                             grid_coords)
+            doh.OuputVariable("dis", cm.lb_fluxes.get('streamflow'),
+                              grid_coords)
 
         actual_net_abstraction_gw = \
-            do.OuputVariable('actual_net_abstraction_gw',
-                             cm.lb_fluxes.get('actual_net_abstraction_gw'),
-                             grid_coords)
+            doh.OuputVariable("actual_net_abstraction_gw", cm.lb_fluxes.
+                              get('actual_net_abstr_groundwater'), grid_coords)
         # =====================================================================
         # Grouping all lateral water balance variables
         # =====================================================================
         # Storages
-        self.lb_storages.update({'groundwater_storage': groundwater_storage,
-                                 'locallake_storage': loclake_storage,
-                                 'localwetland_storage': locwet_storage,
-                                 'globallake_storage': glolake_storage,
-                                 'globalwetland_storage': glowet_storage,
-                                 'river_storage': river_storage})
+        self.lb_storages.update({"groundwstor": groundwater_storage,
+                                 "locallakestor": loclake_storage,
+                                 "localwetlandstor": locwet_storage,
+                                 "globallakestor": glolake_storage,
+                                 "globalwetlandstor": glowet_storage,
+                                 "riverstor": river_storage})
 
         # Fluxes
-        self.lb_fluxes.update({'groundwater_discharge': groundwater_discharge,
-                               'locallake_outflow': loclake_outflow,
-                               'localwetland_outflow': locwet_outflow,
-                               'globallake_outflow': glolake_outflow,
-                               'globalwetland_outflow': glowet_outflow,
-                               'streamflow': streamflow,
-                               'actual_net_abstraction_gw': actual_net_abstraction_gw})
+        self.lb_fluxes.update({"qg": groundwater_discharge,
+                               "locallake_outflow": loclake_outflow,
+                               "localwetland_outflow": locwet_outflow,
+                               "globallake_outflow": glolake_outflow,
+                               "globalwetland_outflow": glowet_outflow,
+                               "dis": streamflow,
+                               "actual_net_abstraction_gw": actual_net_abstraction_gw})
 
     def verticalbalance_write_daily_var(self, value, time_step):
         """
@@ -225,8 +214,8 @@ class CreateandWritetoVariables:
         self.vb_fluxes['potevap'].\
             write_daily_ouput(fluxes_var['potevap'], time_step)
 
-        self.vb_fluxes['lai'].\
-            write_daily_ouput(fluxes_var['lai'], time_step)
+        self.vb_fluxes['lai-total'].\
+            write_daily_ouput(fluxes_var['lai-total'], time_step)
 
         self.vb_fluxes['canopy_evap'].\
             write_daily_ouput(fluxes_var['canopy_evap'], time_step)
@@ -243,12 +232,9 @@ class CreateandWritetoVariables:
         self.vb_fluxes['snow_evap'].\
             write_daily_ouput(fluxes_var['snow_evap'], time_step)
 
-        self.vb_fluxes['groundwater_recharge'].\
-            write_daily_ouput(fluxes_var['groundwater_recharge_out'],
-                              time_step)
+        self.vb_fluxes['qr'].write_daily_ouput(fluxes_var['qr'], time_step)
 
-        self.vb_fluxes['surface_runoff'].\
-            write_daily_ouput(fluxes_var['surface_runoff_out'], time_step)
+        self.vb_fluxes['qs'].write_daily_ouput(fluxes_var['qs'], time_step)
 
     def lateralbalance_write_daily_var(self, value, time_step):
         """
@@ -272,29 +258,28 @@ class CreateandWritetoVariables:
         # =================================================================
         # Storages
         storage_var = value[0]
-        self.lb_storages['groundwater_storage'].\
-            write_daily_ouput(storage_var['groundwater_storage'], time_step)
+        self.lb_storages['groundwstor'].\
+            write_daily_ouput(storage_var['groundwstor'], time_step)
 
-        self.lb_storages['locallake_storage'].\
-            write_daily_ouput(storage_var['locallake_storage'], time_step)
+        self.lb_storages['locallakestor'].\
+            write_daily_ouput(storage_var['locallakestor'], time_step)
 
-        self.lb_storages['localwetland_storage'].\
-            write_daily_ouput(storage_var['localwetland_storage'], time_step)
+        self.lb_storages['localwetlandstor'].\
+            write_daily_ouput(storage_var['localwetlandstor'], time_step)
 
-        self.lb_storages['globallake_storage'].\
-            write_daily_ouput(storage_var['globallake_storage'], time_step)
+        self.lb_storages['globallakestor'].\
+            write_daily_ouput(storage_var['globallakestor'], time_step)
 
-        self.lb_storages['globalwetland_storage'].\
-            write_daily_ouput(storage_var['globalwetland_storage'], time_step)
+        self.lb_storages['globalwetlandstor'].\
+            write_daily_ouput(storage_var['globalwetlandstor'], time_step)
 
-        self.lb_storages['river_storage'].\
-            write_daily_ouput(storage_var['river_storage'], time_step)
+        self.lb_storages['riverstor'].\
+            write_daily_ouput(storage_var['riverstor'], time_step)
 
         # Fluxes
         fluxes_var = value[1]
 
-        self.lb_fluxes['groundwater_discharge'].\
-            write_daily_ouput(fluxes_var['groundwater_discharge'], time_step)
+        self.lb_fluxes['qg'].write_daily_ouput(fluxes_var['qg'], time_step)
 
         self.lb_fluxes['locallake_outflow'].\
             write_daily_ouput(fluxes_var['locallake_outflow'], time_step)
@@ -308,8 +293,7 @@ class CreateandWritetoVariables:
         self.lb_fluxes['globalwetland_outflow'].\
             write_daily_ouput(fluxes_var['globalwetland_outflow'], time_step)
 
-        self.lb_fluxes['streamflow'].\
-            write_daily_ouput(fluxes_var['streamflow'], time_step)
+        self.lb_fluxes['dis'].write_daily_ouput(fluxes_var['dis'], time_step)
 
         self.lb_fluxes['actual_net_abstraction_gw'].\
             write_daily_ouput(fluxes_var['actual_net_abstraction_gw'],
@@ -334,21 +318,21 @@ class CreateandWritetoVariables:
             to_netcdf('soil_water_storage_' + end_date)
 
         # Lateral Water Balance
-        self.lb_storages['groundwater_storage'].\
+        self.lb_storages['groundwstor'].\
             to_netcdf('groundwater_storage_' + end_date)
 
-        self.lb_storages['locallake_storage'].\
+        self.lb_storages['locallakestor'].\
             to_netcdf('locallake_storage_' + end_date)
 
-        self.lb_storages['localwetland_storage'].\
+        self.lb_storages['localwetlandstor'].\
             to_netcdf('localwetland_storage_' + end_date)
 
-        self.lb_storages['globallake_storage'].\
+        self.lb_storages['globallakestor'].\
             to_netcdf('globallake_storage_' + end_date)
-        self.lb_storages['globalwetland_storage'].\
+        self.lb_storages['globalwetlandstor'].\
             to_netcdf('globalwetland_storage_' + end_date)
 
-        self.lb_storages['river_storage'].\
+        self.lb_storages['riverstor'].\
             to_netcdf('river_storage_' + end_date)
 
         # =====================================================================
@@ -357,20 +341,19 @@ class CreateandWritetoVariables:
         # Vertical Water Balance
         self.vb_fluxes['netrad'].to_netcdf('net_radiation_' + end_date)
         self.vb_fluxes['potevap'].to_netcdf('pet_taylor_' + end_date)
-        self.vb_fluxes['lai'].to_netcdf('leaf_area_index_' + end_date)
+        self.vb_fluxes['lai-total'].to_netcdf('leaf_area_index_' + end_date)
         self.vb_fluxes['canopy_evap'].to_netcdf('canopy_evap_' + end_date)
         self.vb_fluxes['throughfall'].to_netcdf('throughfall_' + end_date)
         self.vb_fluxes['snow_fall'].to_netcdf('snow_fall_' + end_date)
         self.vb_fluxes['snow_melt'].to_netcdf('snow_melt_' + end_date)
         self.vb_fluxes['snow_evap'].to_netcdf('sublimation_' + end_date)
-        self.vb_fluxes['groundwater_recharge'].\
+        self.vb_fluxes['qr'].\
             to_netcdf('groundwater_recharge_' + end_date)
-        self.vb_fluxes['surface_runoff'].\
+        self.vb_fluxes['qs'].\
             to_netcdf('surface_runoff_' + end_date)
 
         # Lateral Water Balance
-        self.lb_fluxes['groundwater_discharge'].\
-            to_netcdf('groundwater_discharge_' + end_date)
+        self.lb_fluxes['qg'].to_netcdf('groundwater_discharge_' + end_date)
 
         self.lb_fluxes['locallake_outflow'].\
             to_netcdf('locallake_outflow_' + end_date)
@@ -384,6 +367,6 @@ class CreateandWritetoVariables:
         self.lb_fluxes['globalwetland_outflow'].\
             to_netcdf('globalwetland_outflow_' + end_date)
 
-        self.lb_fluxes['streamflow'].to_netcdf('streamflow_' + end_date)
+        self.lb_fluxes['dis'].to_netcdf('streamflow_' + end_date)
         self.lb_fluxes['actual_net_abstraction_gw'].\
             to_netcdf('actual_net_abstraction_gw_' + end_date)

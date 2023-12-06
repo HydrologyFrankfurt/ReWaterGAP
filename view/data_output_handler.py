@@ -9,7 +9,7 @@ import numpy as np
 import datetime as dt
 from misc import watergap_version
 from controller import configuration_module as cm
-from view import var_info 
+from view import output_var_info as var_info
 
 
 class OuputVariable:
