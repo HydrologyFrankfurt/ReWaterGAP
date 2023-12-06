@@ -154,7 +154,7 @@ class LateralWaterBalance:
                                                   river_length, bankfull_flow,
                                                   continental_fraction)
 
-        # Initiliase routing order and respective outflow cell
+        # Initialise routing order and respective outflow cell
         rout_order = self.static_data.rout_order
         self.rout_order = rout_order[['Lat_index_routorder',
                                       'Lon_index_routorder']].to_numpy()
@@ -476,7 +476,7 @@ class LateralWaterBalance:
         first_day = current_year_mon_day[2]
 
         # Only consider abstraction in anthropogenic run.
-        if cm.ant is True and cm.subtract_use is True:
+        if cm.subtract_use is True:
             for month, num_of_days in days_in_month.items():
                 if month == int(pd.to_datetime(simulation_date).month) and \
                         first_day == 1:
@@ -541,7 +541,7 @@ class LateralWaterBalance:
         # abstraction from surface water and and daily_unsatisfied_pot_nas* in
         # this module below)
 
-        if cm.delayed_use is True:
+        if cm.subtract_use is True and cm.delayed_use is True:
             self.accumulated_unsatisfied_potential_netabs_sw += \
                 self.potential_net_abstraction_sw
         else:
@@ -660,12 +660,12 @@ class LateralWaterBalance:
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         self.accumulated_unsatisfied_potential_netabs_sw = out[18]
 
-        if cm.delayed_use is True:
+        if cm.subtract_use is True and cm.delayed_use is True:
             end_of_year = [str(pd.to_datetime(simulation_date).month),
                            str(pd.to_datetime(simulation_date).day)]
             # accumulated_unsatisfied_potential_netabs_sw and
             # daily_unsatisfied_pot_nas is zero at the end of the calender year
-            if end_of_year[0] == '12' and end_of_year[1] == '31':
+            if end_of_year[0] == '120' and end_of_year[1] == '310':
                 self.accumulated_unsatisfied_potential_netabs_sw = \
                     np.zeros_like(self.accumulated_unsatisfied_potential_netabs_sw)
                 self.daily_unsatisfied_pot_nas = \
@@ -701,24 +701,24 @@ class LateralWaterBalance:
         mask_con = (self.cell_area/self.cell_area)
 
         LateralWaterBalance.storages.\
-            update({'groundwater_storage': self.groundwater_storage*mask_con,
-                    'locallake_storage': self.loclake_storage*mask_con,
-                    'localwetland_storage': self.locwet_storage*mask_con,
-                    'globallake_storage': self.glolake_storage*mask_con,
-                    'globalwetland_storage': self.glowet_storage*mask_con,
-                    'river_storage': self.river_storage*mask_con})
+            update({'groundwstor': self.groundwater_storage*mask_con,
+                    'locallakestor': self.loclake_storage*mask_con,
+                    'localwetlandstor': self.locwet_storage*mask_con,
+                    'globallakestor': self.glolake_storage*mask_con,
+                    'globalwetlandstor': self.glowet_storage*mask_con,
+                    'riverstor': self.river_storage*mask_con})
 
         # =====================================================================
         # Getting all fluxes
         # =====================================================================
 
         LateralWaterBalance.fluxes.\
-            update({'groundwater_discharge': groundwater_discharge*mask_con,
+            update({'qg': groundwater_discharge*mask_con,
                    'locallake_outflow': loclake_outflow*mask_con,
                     'localwetland_outflow': locwet_outflow*mask_con,
                     'globallake_outflow': glolake_outflow*mask_con,
                     'globalwetland_outflow': glowet_outflow*mask_con,
-                    'streamflow': streamflow*mask_con,
+                    'dis': streamflow*mask_con,
                     'actual_net_abstraction_gw':
                         actual_net_abstraction_gw*mask_con})
 
