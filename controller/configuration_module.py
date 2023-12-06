@@ -66,6 +66,13 @@ def config_handler(filename):
 config_file = config_handler(args.name)
 
 # =============================================================================
+# Get path for climate forcing, water use and static land data
+# =============================================================================
+climate_forcing_path = config_file['FilePath']['inputDir']['climate_forcing']
+water_use_data_path = config_file['FilePath']['inputDir']['water_use_data']
+static_land_data_path = config_file['FilePath']['inputDir']['static_land_data']
+
+# =============================================================================
 # # Initializing Runtime Options (bottleneck to run simulation)
 # =============================================================================
 antnat_opts = \
@@ -74,14 +81,21 @@ antnat_opts = \
 # For Anthropenic run (ant=True) or Naturalised run (ant=false).
 ant = antnat_opts['ant']
 subtract_use = antnat_opts['subtract_use']  # Enable or disable wateruse
-reservior_opt = antnat_opts['res_opt']  # Enable or disable reservoir operation
+
+# Disable wateruse if run is Naturalised
+if ant is False:
+    subtract_use = False
+
+
+# Enable or disable reservoir operation
+reservior_opt = antnat_opts['res_opt']
 
 # Temporal and spatial satisfaction options
 demand_satisfaction_opts = \
     config_file['RuntimeOptions'][0]['SimulationOption']['Demand_satisfaction_opts']
 
 delayed_use = demand_satisfaction_opts['delayed_use']
-neighbouringcell = demand_satisfaction_opts['neighbouringcell']
+neighbouringcell = demand_satisfaction_opts['neighbouring_cell']
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Error Handling
@@ -136,9 +150,9 @@ else:
 # # Selection of ouput variable (fluxes, storages and flows)
 # =============================================================================
 # Vertical Water Balance (vb)
-vb_fluxes = config_file['outputVariable'][0]['VerticalWaterBalanceFluxes']
-vb_storages = config_file['outputVariable'][1]['VerticalWaterBalanceStorages']
+vb_fluxes = config_file['OutputVariable'][0]['VerticalWaterBalanceFluxes']
+vb_storages = config_file['OutputVariable'][1]['VerticalWaterBalanceStorages']
 
 # Lateral Water Balance (lb)
-lb_fluxes = config_file['outputVariable'][2]['LateralWaterBalanceFluxes']
-lb_storages = config_file['outputVariable'][3]['LateralWaterBalanceStorages']
+lb_fluxes = config_file['OutputVariable'][2]['LateralWaterBalanceFluxes']
+lb_storages = config_file['OutputVariable'][3]['LateralWaterBalanceStorages']

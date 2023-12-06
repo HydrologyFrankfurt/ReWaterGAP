@@ -50,20 +50,17 @@ class ClimateForcing:
         # ==============================================================
         # path to climate forcing netcdf data
         # ==============================================================
-        precipitation_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                                      r'climate_forcing/precipitation/*'))
+        precipitation_path = str(Path(cm.climate_forcing_path +
+                                      r'/precipitation/*'))
 
-        longwave_radiation_path = str(Path(cm.config_file['FilePath']
-                                           ['inputDir'] + r'climate_forcing'
-                                           '/rad_longwave/*'))
+        longwave_radiation_path = str(Path(cm.climate_forcing_path +
+                                           r'/rad_longwave/*'))
 
-        shortwave_radiation_path = str(Path(cm.config_file['FilePath']
-                                            ['inputDir'] + r'climate_forcing'
-                                            '/rad_shortwave/*'))
+        shortwave_radiation_path = str(Path(cm.climate_forcing_path +
+                                            r'/rad_shortwave/*'))
 
-        temperature_path = str(Path(cm.config_file['FilePath']
-                                    ['inputDir'] + r'climate_forcing'
-                                    '/temperature/*'))
+        temperature_path = str(Path(cm.climate_forcing_path +
+                                    r'/temperature/*'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================

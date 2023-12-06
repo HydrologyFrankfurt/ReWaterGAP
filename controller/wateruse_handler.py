@@ -64,14 +64,13 @@ class Wateruse:
             # path to Wateruse netcdf data
             # ==============================================================
             potential_net_abstraction_path = \
-                str(Path(cm.config_file['FilePath']['inputDir']
-                         + r'water_use/*'))
+                str(Path(cm.water_use_data_path + r'/*'))
 
-            frgi_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                                 r'static_input/watergap_22d_frgi.nc4'))
+            frgi_path = str(Path(cm.static_land_data_path +
+                                 r'/watergap_22d_frgi.nc4'))
 
-            glwdunits_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                                 r'static_input/watergap_22d_glwdunits.nc'))
+            glwdunits_path = str(Path(cm.static_land_data_path +
+                                 r'/watergap_22d_glwdunits.nc'))
 
             # ==============================================================
             # Loading in Wateruse
@@ -101,7 +100,7 @@ class Wateruse:
                                   'should be NETCDF', args.debug)
                 sys.exit()  # dont run code if file does not exist
             else:
-                print('Water-use input files loaded successfully')
+                print('\nWater-use input files loaded successfully')
 
     def aggregate_riparian_netpotabs(self, lake_area, res_area, netabs):
         """

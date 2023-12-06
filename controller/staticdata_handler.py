@@ -49,57 +49,49 @@ class StaticData:
         # ==============================================================
         # path to climate forcing netcdf data
         # ==============================================================
-        land_cover_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                                   r'static_input/watergap_22d_landcover.nc4'))
+        land_cover_path = str(Path(cm.static_land_data_path +
+                                   r'/watergap_22d_landcover.nc4'))
 
-        humid_arid_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                                   r'static_input/watergap_22e_aridhumid.nc4'))
+        humid_arid_path = str(Path(cm.static_land_data_path +
+                                   r'/watergap_22e_aridhumid.nc4'))
 
-        canopy_snow_soil_parameters_path = str(Path(cm.config_file['FilePath']
-                                               ['inputDir']+r'static_input'
-                                               '/canopy_snow_'
-                                               'parameters.csv'))
+        canopy_snow_soil_parameters_path = \
+            str(Path(cm.static_land_data_path +
+                     r'/canopy_snow_parameters.csv'))
+
         land_surface_waterfraction_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/land_water_fractions/*'))
+            str(Path(cm.static_land_data_path + r'/land_water_fractions/*'))
 
         soil_static_files_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/soil_storage/*'))
+            str(Path(cm.static_land_data_path + r'/soil_storage/*'))
 
         gtopo30_elevation_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/watergap_22e_v001_elevrange.nc4'))
+            str(Path(cm.static_land_data_path +
+                     r'/watergap_22e_v001_elevrange.nc4'))
 
-        cell_area_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/cell_area.nc'))
+        cell_area_path = str(Path(cm.static_land_data_path + r'/cell_area.nc'))
 
         river_static_file_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/river_static_data/*'))
+            str(Path(cm.static_land_data_path + r'/river_static_data/*'))
 
-        reservoir_reglake_file_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/reservior_regulated_lake/*'))
+        reservoir_reglake_file_path = str(Path(cm.static_land_data_path +
+                                               r'/reservior_regulated_lake/*'))
 
         reservoir_frac_file_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/watergap_22d_gloresfrac_1901_2020.nc'))
+            str(Path(cm.static_land_data_path +
+                     r'/watergap_22d_gloresfrac_1901_2020.nc'))
 
-        rout_order_path = str(Path(cm.config_file['FilePath']['inputDir'] +
-                                   r'static_input/routing_order.csv'))
+        rout_order_path = str(Path(cm.static_land_data_path +
+                                   r'/routing_order.csv'))
 
-        alloc_coeff_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/alloc_coeff_by_routorder.csv'))
-        neighbourcells_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/neigbouringcells_latlon.csv'))
+        alloc_coeff_path = str(Path(cm.static_land_data_path +
+                                    r'/alloc_coeff_by_routorder.csv'))
+        neighbourcells_path = str(Path(cm.static_land_data_path +
+                                       r'/neigbouringcells_latlon.csv'))
 
         neighbourcells_outflowcell_path = \
-            str(Path(cm.config_file['FilePath']['inputDir'] +
-                     r'static_input/neigbouringcells_outflow_latlon.csv'))
+            str(Path(cm.static_land_data_path +
+                     r'/neigbouringcells_outflow_latlon.csv'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
