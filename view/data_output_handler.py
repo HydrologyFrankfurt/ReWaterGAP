@@ -76,7 +76,7 @@ class OutputVariable:
 
         # ======================================================================================================
 
-    def write_daily_ouput(self, array, time_step):
+    def write_daily_output(self, array, time_step):
         """
         Write results to output variable  per time step.
 
