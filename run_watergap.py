@@ -20,9 +20,9 @@ from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
 from controller import read_forcings_and_static as rd
 from controller import wateruse_handler as wateruse
-from core.verticalwaterbalance import vertical_waterbalance as vb
-from core.verticalwaterbalance import parameters as pm
-from core.lateralwaterbalance import lateral_waterbalance as lb
+from core.verticalwaterbalance import waterbalance_vertical_init as vb
+from core import parameters as pm
+from core.lateralwaterbalance import waterbalance_lateral as lb
 from core.utility import restart_watergap as restartwatergap
 from view import createandwrite as cw
 
