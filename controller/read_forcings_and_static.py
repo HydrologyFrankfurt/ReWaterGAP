@@ -44,7 +44,7 @@ class InitializeForcingsandStaticdata:
         # temperature variable. the actual temperature forcing is not used here
 
         # Select forcing data for a year if run is less than or equal to a year
-        # This is required to run initialization years for good results.
+        # This is required to run initialization years for good results.**
         if cm.start.split("-")[0] == cm.end.split("-")[0]:
             year_end = cm.end.split('-')[0]+'-12-31'
             self.grid_coords = \

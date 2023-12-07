@@ -16,7 +16,7 @@ import xarray as xr
 import watergap_logger as log
 import misc.cli_args as cli
 from controller import configuration_module as cm
-from core.lateralwaterbalance import aggregate_netabstraction as aggr
+from core.lateralwaterbalance import aggregate_net_abstraction as aggr
 
 # ===============================================================
 # Get module name and remove the .py extension
