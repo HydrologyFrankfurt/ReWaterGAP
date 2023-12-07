@@ -4,6 +4,7 @@ Created on Mon Mar 28 14:24:15 2022.
 
 @author: nyenah
 """
+import dask
 import xarray as xr
 import numpy as np
 import datetime as dt
@@ -115,6 +116,6 @@ class OutputVariable:
                      'chunksizes': [1, 360, 720],
                      "zlib": True, "complevel": 5}}
         if self.create is True:
+
             self.data.to_netcdf(self.path + filename + '.nc',
-                                format='NETCDF4_CLASSIC',
-                                encoding=encoding)
+                                format='NETCDF4_CLASSIC', encoding=encoding)

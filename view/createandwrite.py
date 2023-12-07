@@ -13,7 +13,9 @@
 # =============================================================================
 # This module creates and writes daily ouputs to  storage and flux varibales
 # =============================================================================
-
+import threading
+import concurrent.futures
+import multiprocessing
 from controller import configuration_module as cm
 from view import data_output_handler as doh
 
@@ -169,22 +171,24 @@ class CreateandWritetoVariables:
         None.
 
         """
-        # =====================================================================
-        #                    Vertical Water Balance
-        # =====================================================================
-        # Storages
-        for var_name, var in self.vb_storages.items():
-            var.to_netcdf(f'{var_name}_{end_date}')
-        # Fluxes
-        for var_name, var in self.vb_fluxes.items():
-            var.to_netcdf(f'{var_name}_{end_date}')
-        # =====================================================================
-        #                      Lateral Water Balance
-        # =====================================================================
-        # Storages
-        for var_name, var in self.lb_storages.items():
+        variables = []
+        variables.extend(self.vb_storages.items())
+        variables.extend(self.vb_fluxes.items())
+        variables.extend(self.lb_storages.items())
+        variables.extend(self.lb_fluxes.items())
+
+        # Prepare data with end date
+        variables_with_end_date = \
+            [(var_name, var, end_date) for var_name, var in variables]
+
+        def parallel_save(var_name, var, end_date):
             var.to_netcdf(f'{var_name}_{end_date}')
 
-        # Fluxes
-        for var_name, var in self.lb_fluxes.items():
-            var.to_netcdf(f'{var_name}_{end_date}')
+        processes = []
+        for var_data in variables_with_end_date:
+            p = multiprocessing.Process(target=parallel_save, args=(var_data))
+            p.start()
+            processes.append(p)
+
+        for process in processes:
+            process.join()
