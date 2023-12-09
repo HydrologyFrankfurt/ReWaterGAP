@@ -262,7 +262,8 @@ def run():
             # =================================================================
             # Store ouput variable if selected by user
             # =================================================================
-            create_out_var.save_to_netcdf(str(end_date))
+            print('\nWriting data to NetCDF')
+            create_out_var.save_netcdf_parallel(str(end_date))
 
             break
         else:
