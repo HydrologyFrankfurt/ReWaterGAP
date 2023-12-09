@@ -4,12 +4,10 @@ Created on Mon Mar 28 14:24:15 2022.
 
 @author: nyenah
 """
-import dask
 import xarray as xr
 import numpy as np
 import datetime as dt
 from misc import watergap_version
-from controller import configuration_module as cm
 from view import output_var_info as var_info
 
 
@@ -38,7 +36,6 @@ class OutputVariable:
         self.create = create
         if self.create is True:
             self.grid_coords = grid_coords
-            self.path = cm.config_file['FilePath']['outputDir']
 
             # Geting length of time,lat,lon from grid coordinates (grid_coords)
             lat_length = len(self.grid_coords['lat'].values)
@@ -50,7 +47,8 @@ class OutputVariable:
                                   dtype=np.float32)
 
             # create Xarray dataset for output variable without variable name
-            self.data = xr.Dataset(coords=self.grid_coords)
+            self.data = xr.Dataset(coords=self.grid_coords).\
+                chunk({'time': 1, 'lat': 360, 'lon': 720})
 
             # Add variables names for respective output varaibes
             self.data[self.variable_name] = \
@@ -96,26 +94,3 @@ class OutputVariable:
         if self.create is True:
             self.data[self.variable_name][time_step, :, :] = array
 
-    def to_netcdf(self, filename):
-        """
-        Write output variable to NETCDF.
-
-        Parameters
-        ----------
-        filename : string
-            filename to save dataset.
-
-        Returns
-        -------
-        NETCDF.
-
-        """
-        # I need to add meta data
-        encoding = {self.variable_name:
-                    {'_FillValue': 1e+20,
-                     'chunksizes': [1, 360, 720],
-                     "zlib": True, "complevel": 5}}
-        if self.create is True:
-
-            self.data.to_netcdf(self.path + filename + '.nc',
-                                format='NETCDF4_CLASSIC', encoding=encoding)

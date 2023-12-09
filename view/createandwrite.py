@@ -13,17 +13,36 @@
 # =============================================================================
 # This module creates and writes daily ouputs to  storage and flux varibales
 # =============================================================================
-import threading
 import concurrent.futures
-import multiprocessing
 from controller import configuration_module as cm
 from view import data_output_handler as doh
+
+
+#  write_to_netcdf (used together with save_netcdf_parallel function
+# in CreateandWritetoVariables class)
+def write_to_netcdf(args):
+    """
+    Write variables to NetCDF.
+
+    Parameters
+    ----------
+    args : list of xrray variable, encoding and path to save data
+
+    """
+    var, encoding, path = args
+    try:
+        var.to_netcdf(path, encoding=encoding)
+        return None  # Successful execution
+    except Exception as exc:
+        return exc
 
 
 class CreateandWritetoVariables:
     """Create and write daily ouputs to  storage and flux varibales."""
 
     def __init__(self, grid_coords):
+        # output path
+        self.path = cm.config_file['FilePath']['outputDir']
         # =====================================================================
         # create ouput variable
         # =====================================================================
@@ -162,7 +181,7 @@ class CreateandWritetoVariables:
         for var_name, var in self.lb_fluxes.items():
             var.write_daily_output(fluxes_var[var_name], time_step)
 
-    def save_to_netcdf(self, end_date):
+    def save_netcdf_parallel(self, end_date):
         """
         Save variables to netcdf.
 
@@ -171,24 +190,16 @@ class CreateandWritetoVariables:
         None.
 
         """
-        variables = []
-        variables.extend(self.vb_storages.items())
-        variables.extend(self.vb_fluxes.items())
-        variables.extend(self.lb_storages.items())
-        variables.extend(self.lb_fluxes.items())
+        # Create a list of tuples with arguments for writing
+        write_args = []
+        for var in [self.vb_storages, self.vb_fluxes,
+                    self.lb_storages, self.lb_fluxes]:
+            for key, value in var.items():
+                path = self.path + f'{key}_{end_date}.nc'
+                encoding = {key: {'_FillValue': 1e+20,
+                                  'chunksizes': [1, 360, 720],
+                                  "zlib": True, "complevel": 5}}
+                write_args.append((value.data, encoding, path))
 
-        # Prepare data with end date
-        variables_with_end_date = \
-            [(var_name, var, end_date) for var_name, var in variables]
-
-        def parallel_save(var_name, var, end_date):
-            var.to_netcdf(f'{var_name}_{end_date}')
-
-        processes = []
-        for var_data in variables_with_end_date:
-            p = multiprocessing.Process(target=parallel_save, args=(var_data))
-            p.start()
-            processes.append(p)
-
-        for process in processes:
-            process.join()
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            executor.map(write_to_netcdf, write_args)
