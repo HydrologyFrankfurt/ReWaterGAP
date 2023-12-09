@@ -666,7 +666,7 @@ class LateralWaterBalance:
                            str(pd.to_datetime(simulation_date).day)]
             # accumulated_unsatisfied_potential_netabs_sw and
             # daily_unsatisfied_pot_nas is zero at the end of the calender year
-            if end_of_year[0] == '120' and end_of_year[1] == '310':
+            if end_of_year[0] == '12' and end_of_year[1] == '31':
                 self.accumulated_unsatisfied_potential_netabs_sw = \
                     np.zeros_like(self.accumulated_unsatisfied_potential_netabs_sw)
                 self.daily_unsatisfied_pot_nas = \
