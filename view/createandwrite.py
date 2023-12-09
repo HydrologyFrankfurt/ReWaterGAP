@@ -32,7 +32,7 @@ def write_to_netcdf(args):
     """
     var, encoding, path = args
     try:
-        var.to_netcdf(path, encoding=encoding)
+        var.to_netcdf(path, format='NETCDF4_CLASSIC', encoding=encoding)
         return None  # Successful execution
     except Exception as exc:
         return exc
@@ -208,5 +208,5 @@ class CreateandWritetoVariables:
             with concurrent.futures.ProcessPoolExecutor() as executor:
                 executor.map(write_to_netcdf, write_args)
         else:
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                executor.map(write_to_netcdf, write_args)
+            for i in write_args:
+                write_to_netcdf(i)
