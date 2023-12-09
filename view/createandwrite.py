@@ -14,6 +14,7 @@
 # This module creates and writes daily ouputs to  storage and flux varibales
 # =============================================================================
 import concurrent.futures
+import platform
 from controller import configuration_module as cm
 from view import data_output_handler as doh
 
@@ -201,5 +202,11 @@ class CreateandWritetoVariables:
                                   "zlib": True, "complevel": 5}}
                 write_args.append((value.data, encoding, path))
 
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            executor.map(write_to_netcdf, write_args)
+        # For saving output in parallel, Threading is used for macOS but
+        # multiprocessing is used of Linux, windows, etc
+        if platform.system() != 'Darwin':  # not macOS
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                executor.map(write_to_netcdf, write_args)
+        else:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.map(write_to_netcdf, write_args)
