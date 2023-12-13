@@ -10,14 +10,12 @@ and another function (priestley_taylor), which computes Priestley-Taylor potenti
 
 .. _evaporation: 
 
-Canopy evaporation
+Evapotranspiration
 ===================
-Canopy evaporation :math:`E_c` following Deardorff (1978) [3]_, is calculated as
 
-.. math::
-   E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}
+.. autofunction:: radiation_evapotranspiration.priestley_taylor
 
-where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy storage under :ref:`Outflows <canopy_outflows>` and :math:`{S_c}_{,max}` :math:`[mm]` is the maximum canopy storage. :math:`{E}_{pot}` :math:`[mm/d]` is the potential evapotranspiration calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:
+:math:`{E}_{pot}` :math:`[mm/d]` is the potential evapotranspiration calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:
 
 .. _pot_evap:
 
@@ -26,13 +24,22 @@ where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy sto
 
 :math:`\alpha` is set to 1.26 in humid and to 1.74 in (semi)arid cells (see Appendix B in Müller et al. [2]_). :math:`R` is the net radiation :math:`[mm/d]` that depends on land cover (Table C2, Müller et al. [2]_). :math:`{S_a}` is the slope of the saturation vapor pressure–temperature relationship, and :math:`g` is the psychrometric constant :math:`[{\frac{kPa}{°C}}]`.
 
-Notes
------
+.. note::
 All grid cells with an aridity index AI < 0.75 are defined as semiarid/arid grid cells. Furthermore, all grid cells north of 55° N are defined as humid grid cells.
 For further information on this see Müller et al. [3] Appendix B.
 
+Canopy evaporation :math:`E_c` following Deardorff (1978) [3]_, is calculated as
+
+.. math::
+   E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}
+
+where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy storage under :ref:`Outflows <canopy_outflows>` and :math:`{S_c}_{,max}` :math:`[mm]` is the maximum canopy storage.
+
 Net radiation
 --------------
+
+.. autofunction:: radiation_evapotranspiration.compute_radiation
+
 The calculation of net radiation, is based on Müller Schmied et al., 2016b [1]_. 
 S↓ and L↓ describe the shortwave downward radiation and longwave downward radiation and are provided by meteorological forcings and have the unit :math:`[Wm^-2]`.
 
