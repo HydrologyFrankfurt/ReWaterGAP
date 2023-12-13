@@ -5,28 +5,33 @@ Radiation and Evapotranspiration
 This module contains a function (compute_radiation), which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
 and another function (priestley_taylor), which computes Priestley-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
 
-Radiation
-=========
+Net Radiation
+=============
 
 .. autofunction:: radiation_evapotranspiration.compute_radiation
 
 
 The calculation of net radiation, is based on Müller Schmied et al., 2016b [1]_. 
-S↓ and L↓ describe the shortwave downward radiation and longwave downward radiation and are provided by meteorological forcings and have the unit :math:`[Wm^-2]`.
+Net radiation :math:`R` :math:`[\frac{W}{m^-2}]` is calculated as:
+
+.. math::
+   R = {S}_{net} + {L}_{net}
 
 Net shortwave radiation :math:`{S}_{net}` :math:`[Wm^-2]` is calculated as:
 
 .. math:: 
     {S}_{net} = S↓ (1 − {\alpha}_{LC}),
 
-where :math:`{\alpha}_{LC}` is the albedo :math:`[-]` based on land cover type [Müller, Schmied et al. Table C2 [2]_]. 
+where S↓ describes the shortwave downward radiation :math:`[Wm^-2]`, :math:`{\alpha}_{LC}` is the albedo :math:`[-]` based on land cover type [Müller, Schmied et al. Table C2 [2]_]. 
 Albedo values for WaterGAP are taken from assumptions of the IMAGE model [5]_. 
 In the case of a reasonable snow cover, the albedo value is varying dynamically in WaterGAP to represent the influence of snow cover dynamics on radiation balance [2]_.
 
-Upward shortwave radiation :math:`S↑ [Wm−2]`is calculated as:
+Net longwave radiation :math:`{L}_{net}` :math:`[\frac{W}{m^-2}]` is calculated as:
 
 .. math::
-    S↑ = S↓ − {S}_{net}
+    {L}_{net} = L↓ − L↑.
+
+where L↓(*L↑*) describes the longwave downward(*upward*) radiation :math:`[Wm^-2]`. 
 
 Upward longwave radiation :math:`L↑` :math:`[Wm^-2]` is calculated as:
 
@@ -35,24 +40,20 @@ Upward longwave radiation :math:`L↑` :math:`[Wm^-2]` is calculated as:
 
 where :math:`{ε}_{LC}` is the emissivity :math:`[-]` based on land cover type Table C2) [2]_, :math:`σ` is the Stefan–Boltzmann constant :math:`(5.67 × 10−8 [Wm^-2·K^−4])` and :math:`T` is the temperature in :math:`[K]` . 
 
-Net longwave radiation :math:`{L}_{net}` :math:`[\frac{W}{m^-2}]` is calculated as:
+We also calculate the upward shortwave radiation :math:`S↑ [Wm−2]` as:
 
 .. math::
-    {L}_{net} = L↓ − L↑.
+    S↑ = S↓ − {S}_{net}
 
-Net radiation :math:`R` :math:`[\frac{W}{m^-2}]` is calculated as:
-
-.. math::
-   R = {S}_{net} + {L}_{net}
 
 .. _evapotranspiration: 
 
-Evapotranspiration
-===================
+Potential Evapotranspiration
+============================
 
 .. autofunction:: radiation_evapotranspiration.priestley_taylor
 
-:math:`{E}_{pot}` :math:`[mm/d]` is the potential evapotranspiration calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:
+The potential evapotranspiration :math:`{E}_{pot}` :math:`[mm/d]` is calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:
 
 .. _pot_evap:
 
@@ -63,15 +64,7 @@ Evapotranspiration
 
 .. note::
 	All grid cells with an aridity index AI < 0.75 are defined as semiarid/arid grid cells. Furthermore, all grid cells north of 55° N are defined as humid grid cells.
-For further information on this see Müller et al. [3] Appendix B.
-
-Canopy evaporation :math:`E_c` following Deardorff (1978) [3]_, is calculated as
-
-.. math::
-   E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}
-
-where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy storage under :ref:`Outflows <canopy_outflows>` and :math:`{S_c}_{,max}` :math:`[mm]` is the maximum canopy storage.
-
+	For further information on this see Müller et al. [3] Appendix B.
 
 
 Slope of the saturation and psychrometric constant
