@@ -5,40 +5,11 @@ Radiation and Evapotranspiration
 This module contains a function (compute_radiation), which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
 and another function (priestley_taylor), which computes Priestley-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
 
-.. autofunction:: radiation_evapotranspiration.compute_radiation
-
-
-.. _evaporation: 
-
-Evapotranspiration
-===================
-
-.. autofunction:: radiation_evapotranspiration.priestley_taylor
-
-:math:`{E}_{pot}` :math:`[mm/d]` is the potential evapotranspiration calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:
-
-.. _pot_evap:
-
-.. math::
-   {E}_{pot} = \alpha\Big(\frac{S_a R}{S_a + g}\Big)
-
-:math:`\alpha` is set to 1.26 in humid and to 1.74 in (semi)arid cells (see Appendix B in Müller et al. [2]_). :math:`R` is the net radiation :math:`[mm/d]` that depends on land cover (Table C2, Müller et al. [2]_). :math:`{S_a}` is the slope of the saturation vapor pressure–temperature relationship, and :math:`g` is the psychrometric constant :math:`[{\frac{kPa}{°C}}]`.
-
-.. note::
-All grid cells with an aridity index AI < 0.75 are defined as semiarid/arid grid cells. Furthermore, all grid cells north of 55° N are defined as humid grid cells.
-For further information on this see Müller et al. [3] Appendix B.
-
-Canopy evaporation :math:`E_c` following Deardorff (1978) [3]_, is calculated as
-
-.. math::
-   E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}
-
-where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy storage under :ref:`Outflows <canopy_outflows>` and :math:`{S_c}_{,max}` :math:`[mm]` is the maximum canopy storage.
-
-Net radiation
---------------
+Radiation
+=========
 
 .. autofunction:: radiation_evapotranspiration.compute_radiation
+
 
 The calculation of net radiation, is based on Müller Schmied et al., 2016b [1]_. 
 S↓ and L↓ describe the shortwave downward radiation and longwave downward radiation and are provided by meteorological forcings and have the unit :math:`[Wm^-2]`.
@@ -73,6 +44,34 @@ Net radiation :math:`R` :math:`[\frac{W}{m^-2}]` is calculated as:
 
 .. math::
    R = {S}_{net} + {L}_{net}
+
+.. _evapotranspiration: 
+
+Evapotranspiration
+===================
+
+.. autofunction:: radiation_evapotranspiration.priestley_taylor
+
+:math:`{E}_{pot}` :math:`[mm/d]` is the potential evapotranspiration calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:
+
+.. _pot_evap:
+
+.. math::
+   {E}_{pot} = \alpha\Big(\frac{S_a R}{S_a + g}\Big)
+
+:math:`\alpha` is set to 1.26 in humid and to 1.74 in (semi)arid cells (see Appendix B in Müller et al. [2]_). :math:`R` is the net radiation :math:`[mm/d]` that depends on land cover (Table C2, Müller et al. [2]_). :math:`{S_a}` is the slope of the saturation vapor pressure–temperature relationship, and :math:`g` is the psychrometric constant :math:`[{\frac{kPa}{°C}}]`.
+
+.. note::
+	All grid cells with an aridity index AI < 0.75 are defined as semiarid/arid grid cells. Furthermore, all grid cells north of 55° N are defined as humid grid cells.
+For further information on this see Müller et al. [3] Appendix B.
+
+Canopy evaporation :math:`E_c` following Deardorff (1978) [3]_, is calculated as
+
+.. math::
+   E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}
+
+where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy storage under :ref:`Outflows <canopy_outflows>` and :math:`{S_c}_{,max}` :math:`[mm]` is the maximum canopy storage.
+
 
 
 Slope of the saturation and psychrometric constant
