@@ -5,7 +5,7 @@ Radiation and Evapotranspiration
 This module contains a function (compute_radiation), which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
 and another function (priestley_taylor), which computes Priestley-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
 
-Net Radiation
+Radiation
 =============
 
 .. autofunction:: radiation_evapotranspiration.compute_radiation
@@ -23,7 +23,7 @@ Net shortwave radiation :math:`{S}_{net}` :math:`[Wm^-2]` is calculated as:
     {S}_{net} = S↓ (1 − {\alpha}_{LC}),
 
 where S↓ describes the shortwave downward radiation :math:`[Wm^-2]`, :math:`{\alpha}_{LC}` is the albedo :math:`[-]` based on land cover type [Müller, Schmied et al. Table C2 [2]_]. 
-Albedo values for WaterGAP are taken from assumptions of the IMAGE model [5]_. 
+Albedo values for WaterGAP are taken from assumptions of the IMAGE model [3]_. 
 In the case of a reasonable snow cover, the albedo value is varying dynamically in WaterGAP to represent the influence of snow cover dynamics on radiation balance [2]_.
 
 Net longwave radiation :math:`{L}_{net}` :math:`[\frac{W}{m^-2}]` is calculated as:
@@ -64,7 +64,7 @@ The potential evapotranspiration :math:`{E}_{pot}` :math:`[mm/d]` is calculated 
 
 .. note::
 	All grid cells with an aridity index AI < 0.75 are defined as semiarid/arid grid cells. Furthermore, all grid cells north of 55° N are defined as humid grid cells.
-	For further information on this see Müller et al. [3] Appendix B.
+	For further information on this see Müller et al. [2] Appendix B.
 
 
 Slope of the saturation and psychrometric constant
@@ -102,8 +102,8 @@ Reference
 
 .. [2] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
 
-.. [3] Deardorff, J. W.: Efficient prediction of ground surface temperature and moisture, with inclusion of a layer of vegetation, J. Geophys. Res., 83, 1889, https://doi.org/10.1029/JC083iC04p01889, 1978
+.. [3] Alcamo, J.; Leemans, R.; Kreileman, E. Global Change Scenarios of the 21st Century—Results from the IMAGE 2.1 Model; Pergamon: Oxford, UK, 1998.
 
 .. [4] Shuttleworth, W.: Evaporation, in: Handbook of Hydrology, edited by: Maidment, D., McGraw-Hill, New York, 1–4, 1993
 
-.. [5] Alcamo, J.; Leemans, R.; Kreileman, E. Global Change Scenarios of the 21st Century—Results from the IMAGE 2.1 Model; Pergamon: Oxford, UK, 1998.
+
