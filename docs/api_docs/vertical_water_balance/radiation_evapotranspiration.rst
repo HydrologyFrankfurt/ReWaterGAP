@@ -2,13 +2,11 @@
 
 Radiation and Evapotranspiration
 ++++++++++++++++++++++++++++++++
-This module contains a class and related method, which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
-(computed within Pythons __init__ method) 
-and Priestley-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
+This module contains a function (compute_radiation), which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
+and another function (priestley_taylor), which computes Priestley-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
 
-.. autoclass:: radiation_evapotranspiration.RadiationPotentialEvap
-    :members:
-    :special-members: __init__
+.. autofunction:: radiation_evapotranspiration.compute_radiation
+
 
 .. _evaporation: 
 
