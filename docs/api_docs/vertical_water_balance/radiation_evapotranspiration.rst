@@ -64,7 +64,7 @@ The potential evapotranspiration :math:`{E}_{pot}` :math:`[mm/d]` is calculated 
 
 .. note::
 	All grid cells with an aridity index AI < 0.75 are defined as semiarid/arid grid cells. Furthermore, all grid cells north of 55° N are defined as humid grid cells.
-	For further information on this see Müller et al. [2] Appendix B.
+	For further information on this see Müller et al. [2]_ Appendix B.
 
 
 Slope of the saturation and psychrometric constant
