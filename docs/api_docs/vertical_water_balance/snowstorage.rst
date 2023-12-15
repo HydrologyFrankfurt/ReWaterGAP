@@ -5,32 +5,7 @@ Snow Storage
 .. note::
 	Simulation of the snow dynamics is calculated such that each :math:`0.5° × 0.5°` grid cell is subdivided into 100 non localized subgrids that are assigned different land surface elevations according to GTOPO30 (U.S. Geological Survey, 1996) [1]_. The daily temperature of  each subgrid is calculated from daily temperature at the 0.5◦ × 0.5◦ cell by applying an adiabatic lapse rate of 0.6 :math:`°C/100m` [2]_. The daily snow water balance is computed for each of the subcells such that within a 0.5◦ × 0.5◦ cell there may be subcells with and without snow cover or snowfall [3]_. Subgrid values are then aggregated to 0.5◦ × 0.5◦ cell values. See section 4.3  of Müller Schmied et al 2021 [3]_.
 
-Snow Storage  consists of two modules.
-
-.. _numba:
-
-1.  Numba optimized snow water content 
-======================================
-This module is also made up of two functions.
-
-*A.* numba_snow which computes snow water content for the the 100 subgrid of 0.5 grid in series 
-
-.. autofunction:: snow_subgrid.subgrid_snow_balance
-
-  
-*B.* subgrid_snow_balance_parallel which parallelizes the computation for each 0.5 grid in parallel. 
-   Input data of dimensions 360x720 is divided into *N* chunks for parallel computations (Default is 20 chunks). 
-
-.. autofunction:: snow_subgrid.subgrid_snow_balance_parallel
-
-
-2.  Snow water equivalent 
-==========================
-This module calls the :ref:`numba optimized module <numba>` using the *cal_snow* method to compute snow water storage.
-
-.. autoclass:: snow.Snow
-    :members:
-
+.. autofunction:: snow.subgrid_snow_balance
 
 
 Water balance
@@ -48,7 +23,7 @@ where :math:`{P}_{sn}` is the part of :ref:`throughfall <canopy_outflows>` :math
 
 Inflows
 =======
-Snow fall from throughfall :math:`{P}_{sn}` is  is calculated as
+Snow fall from throughfall :math:`{P}_{sn}` is calculated as
 
 .. math::
 	:nowrap:
@@ -79,7 +54,7 @@ Snow melt :math:`M`  is calculated with a land-cover-specific degreeday factor :
 	\end{cases}
 	\]
 
-Sublimation :math:`{E}_{sn}` is calculated as the fraction of :math:`{E}_{pot}` that remains available after :math:`E_c`. For calculating :math:`{E}_{pot}` , land-cover-specific albedo values are used if :math:`{S}_{sn}` surpasses :math:`3 mm` in the 0.5◦ × 0.5◦ cell (Table C2) [3]_. See potential evapotranspiration under :ref:`Canopy evaporation <evaporation>`.
+Sublimation :math:`{E}_{sn}` is calculated as the fraction of :math:`{E}_{pot}` that remains available after :math:`E_c`. For calculating :math:`{E}_{pot}` , land-cover-specific albedo values are used if :math:`{S}_{sn}` surpasses :math:`3 mm` in the 0.5◦ × 0.5◦ cell (Table C2) [3]_. See potential evapotranspiration under :ref:`Potential evaporation <evapotranspiration>` and canopy evapotranspiration under :ref:`Canopy evaporation <canopy>`.
 
 .. math::
 	:nowrap:
@@ -100,7 +75,7 @@ Sublimation :math:`{E}_{sn}` is calculated as the fraction of :math:`{E}_{pot}` 
 References 
 ==========
 
-.. [1] U.S. Geological Survey: USGS EROS archive – digital elevation– global 30 arc-second elevation (GTOPO30), available at: https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects (last access: 25 MArch 2020), 1996
+.. [1] U.S. Geological Survey: USGS EROS archive – digital elevation– global 30 arc-second elevation (GTOPO30), available at: https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects (last access: 25 March 2020), 1996
 
 .. [2] Schulze, K. and Döll, P.: Neue Ansätze zur Modellierung von Schneeakkumulation und -schmelze im globalen Wassermodell WaterGAP, in: Tagungsband zum 7. Workshop zur großskaligen Modellierung in der Hydrologie, edited by: Ludwig, R., Reichert, D., and Mauser, W., November 2003, 145–154, Kassel University Press, Kassel, 2004
 
