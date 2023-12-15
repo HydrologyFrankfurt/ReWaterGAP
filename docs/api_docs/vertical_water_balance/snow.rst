@@ -1,4 +1,4 @@
-.. _snow_storage:
+.. _snow:
 
 Snow 
 +++++
