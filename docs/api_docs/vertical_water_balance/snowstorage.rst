@@ -1,7 +1,7 @@
 .. _snow_storage:
 
-Snow Storage 
-++++++++++++
+Snow 
++++++
 .. note::
 	Simulation of the snow dynamics is calculated such that each :math:`0.5° × 0.5°` grid cell is subdivided into 100 non localized subgrids that are assigned different land surface elevations according to GTOPO30 (U.S. Geological Survey, 1996) [1]_. The daily temperature of  each subgrid is calculated from daily temperature at the 0.5◦ × 0.5◦ cell by applying an adiabatic lapse rate of 0.6 :math:`°C/100m` [2]_. The daily snow water balance is computed for each of the subcells such that within a 0.5◦ × 0.5◦ cell there may be subcells with and without snow cover or snowfall [3]_. Subgrid values are then aggregated to 0.5◦ × 0.5◦ cell values. See section 4.3  of Müller Schmied et al 2021 [3]_.
 
