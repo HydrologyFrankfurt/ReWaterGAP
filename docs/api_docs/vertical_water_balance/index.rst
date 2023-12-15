@@ -26,21 +26,21 @@ Vertical Water Balance
         :link:  canopy
         :link-type: ref
 
-        Canopy Storage
+        Canopy
 
     .. grid-item-card:: 
         :text-align: center
         :link:  snow
         :link-type: ref
 
-        Snow Storage
+        Snow
 
     .. grid-item-card:: 
         :text-align: center
         :link:  soil
         :link-type: ref
 
-        Soil Storage
+        Soil
 
 .. toctree::
     :maxdepth: 1
