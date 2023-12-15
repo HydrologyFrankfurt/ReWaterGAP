@@ -1,4 +1,4 @@
-.. _canopy_storage:
+.. _canopy:
 
 Canopy 
 ======
