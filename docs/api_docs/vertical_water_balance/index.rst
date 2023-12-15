@@ -23,21 +23,21 @@ Vertical Water Balance
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  canopy_storage
+        :link:  canopy
         :link-type: ref
 
         Canopy Storage
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  snow_storage
+        :link:  snow
         :link-type: ref
 
         Snow Storage
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  soil_storage_header
+        :link:  soil
         :link-type: ref
 
         Soil Storage
@@ -48,6 +48,6 @@ Vertical Water Balance
 
     radiation_evapotranspiration
     leafareaindex
-    canopystorage
-    snowstorage
-    soilstorage
+    canopy
+    snow
+    soil
