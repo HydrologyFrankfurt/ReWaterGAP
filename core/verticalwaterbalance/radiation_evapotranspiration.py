@@ -116,7 +116,8 @@ def compute_radiation(temperature, down_shortwave_radiation,
 
 @njit(cache=True)
 def priestley_taylor(temperature, humid_arid, pt_coeff_arid,
-                     pt_coeff_humid, net_radiation, openwater_net_radiation):
+                     pt_coeff_humid, net_radiation, openwater_net_radiation,
+                     x, y ):
     """
     Compute Priestly-Taylor potential evapotranspiration.
 
@@ -211,5 +212,4 @@ def priestley_taylor(temperature, humid_arid, pt_coeff_arid,
     # Accounting for negative net radiation and setting them to zero
     openwater_pot_evap = np.where(openwater_net_radiation <= 0, 0,
                                   openwater_pot_evap)
-
     return potential_evap, openwater_pot_evap

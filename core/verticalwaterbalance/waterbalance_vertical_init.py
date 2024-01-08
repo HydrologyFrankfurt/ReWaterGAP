@@ -123,7 +123,7 @@ class VerticalWaterBalance:
         parameters_snow = \
             self.forcings_static.static_data.canopy_snow_soil_parameters
         for i in range(len(parameters_snow)):
-           self.degreeday[self.land_cover[:, :] == parameters_snow.loc[i, 'Number']] = \
+            self.degreeday[self.land_cover[:, :] == parameters_snow.loc[i, 'Number']] = \
                parameters_snow.loc[i, 'degree-day']
 
         self.elevation = self.forcings_static.static_data.gtopo30_elevation
@@ -370,8 +370,10 @@ class VerticalWaterBalance:
         self.cum_precipitation = vertbalance_states["cum_precipitation"]
         self.growth_status = vertbalance_states["growth_status"]
 
-        self.canopy_storage = vertbalance_states["canopy_storage_prev"]
-        self.snow_water_storage = vertbalance_states["snow_water_stor_prev"]
+        self.canopy_storage = vertbalance_states["canopy_storage"]
+        self.snow_water_storage = vertbalance_states["snow_water_stor"]
         self.snow_water_storage_subgrid = \
-            vertbalance_states["snow_water_storsubgrid_prev"]
-        self.soil_water_content = vertbalance_states["soil_water_content_prev"]
+            vertbalance_states["snow_water_storsubgrid"]
+        self.soil_water_content = vertbalance_states["soil_water_content"]
+        self.daily_storage_transfer = \
+            vertbalance_states["daily_storage_transfer"]

@@ -109,7 +109,7 @@ def soil_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
                  max_daily_pet, humid_arid, soil_texture, drainage_direction,
                  max_groundwater_recharge, groundwater_recharge_factor,
                  critcal_gw_precipitation, max_soil_water_content,
-                 areal_corr_factor, minstorage_volume):
+                 areal_corr_factor, minstorage_volume, x, y):
     """
     Compute daily soil balance.
 

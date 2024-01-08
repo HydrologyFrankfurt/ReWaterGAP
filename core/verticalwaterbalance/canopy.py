@@ -26,7 +26,7 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
                    precipitation, current_landarea_frac, landareafrac_ratio,
                    max_storage_coefficient, minstorage_volume):
     """
-    Calulate daily canopy balanceincluding canopy storage and water flows
+    Calulate daily canopy balance including canopy storage and water flows
     entering and leaving the canopy storage.
 
     Parameters

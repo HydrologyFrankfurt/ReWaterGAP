@@ -110,7 +110,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                                      pt_coeff_arid[x, y],
                                      pt_coeff_humid[x, y],
                                      net_radiation[x, y],
-                                     openwater_net_radiation[x, y])
+                                     openwater_net_radiation[x, y], x, y)
 
         daily_potential_evap[x, y] = pot_evap.item()
         openwater_potential_evap[x, y] = openwater_evap.item()
@@ -235,7 +235,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                          critcal_gw_precipitation[x, y],
                          max_soil_water_content[x, y],
                          areal_corr_factor[x, y],
-                         minstorage_volume)
+                         minstorage_volume, x, y)
 
         # ouputs from the  daily_soil_storage  are
         # 0 = soil_water_content (mm),
