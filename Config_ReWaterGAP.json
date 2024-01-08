@@ -22,7 +22,7 @@
     {
       "SimilationPeriod": {
         "start": "1901-01-01",
-        "end": "1905-12-31",
+        "end": "1902-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 1905,
         "spinup_years": 0
