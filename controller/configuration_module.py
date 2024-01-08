@@ -68,9 +68,10 @@ config_file = config_handler(args.name)
 # =============================================================================
 # Get path for climate forcing, water use and static land data
 # =============================================================================
-climate_forcing_path = config_file['FilePath']['inputDir']['climate_forcing']
-water_use_data_path = config_file['FilePath']['inputDir']['water_use_data']
-static_land_data_path = config_file['FilePath']['inputDir']['static_land_data']
+input_dir = config_file['FilePath']['inputDir']
+climate_forcing_path = input_dir['climate_forcing']
+water_use_data_path = input_dir['water_use_data']
+static_land_data_path = input_dir['static_land_data']
 
 # =============================================================================
 # # Initializing Runtime Options (bottleneck to run simulation)
@@ -80,13 +81,8 @@ antnat_opts = \
 
 # For Anthropenic run (ant=True) or Naturalised run (ant=false).
 ant = antnat_opts['ant']
-subtract_use = antnat_opts['subtract_use']  # Enable or disable wateruse
-
-# Disable wateruse if run is Naturalised
-if ant is False:
-    subtract_use = False
-
-
+# Enable or disable wateruse
+subtract_use = antnat_opts['subtract_use']
 # Enable or disable reservoir operation
 reservior_opt = antnat_opts['res_opt']
 
@@ -97,9 +93,15 @@ demand_satisfaction_opts = \
 delayed_use = demand_satisfaction_opts['delayed_use']
 neighbouringcell = demand_satisfaction_opts['neighbouring_cell']
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Disable wateruse and reservoir if run is Naturalised
+if ant is False:
+    subtract_use = False
+    reservior_opt = False
+    delayed_use = False
+    neighbouringcell = False
+
 # Error Handling
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Here one forgot to either activate either reservoir operation or
 # substract use in anthropogenic mode
 if ant is True and reservior_opt is False and subtract_use is False:
@@ -108,31 +110,31 @@ if ant is True and reservior_opt is False and subtract_use is False:
           'Please choose an option'
     log.config_logger(logging.ERROR, modname, msg, args.debug)
     sys.exit()  # dont run code if cofiguration file does not exist
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-# Reservoir operation duration
-reservoir_start_year = 1901
-reservoir_end_year = 1905
-
-# create an array of date of only first days from reservior_start_year
-# to reservoir_end_year
-reservoir_opt_years = pd.date_range(str(reservoir_start_year)+"-01-01",
-                                    str(reservoir_end_year)+"-01-01", freq="YS")
-
-# =============================================================================
-# # Save and restart WaterGAP state
-# =============================================================================
-restart = config_file['RuntimeOptions'][1]['RestartOptions']['restart']
-save_states = config_file['RuntimeOptions'][1]['RestartOptions']['save_model_states_for_restart']
 
 # =============================================================================
 # # Initializing  simulation and spinup period
 # =============================================================================
-start = config_file['RuntimeOptions'][2]['SimilationPeriod']['start']
-end = config_file['RuntimeOptions'][2]['SimilationPeriod']['end']
-spinup_years = \
-    config_file['RuntimeOptions'][2]['SimilationPeriod']['spinup_years']
+sim_period = config_file['RuntimeOptions'][2]['SimilationPeriod']
 
+start = sim_period['start']
+end = sim_period['end']
+spinup_years = sim_period['spinup_years']
+
+# +++++++++++++++++++++++++++++++
+# Reservoir operation duration
+# +++++++++++++++++++++++++++++++
+if reservior_opt is True:
+    reservoir_start_year = sim_period["reservoir_start_year"]
+    reservoir_end_year = sim_period["reservoir_end_year"]
+
+    # create an array of date of only first days from reservior_start_year
+    # to reservoir_end_year
+    reservoir_opt_years = \
+        pd.date_range(str(reservoir_start_year)+"-01-01",
+                      str(reservoir_end_year)+"-01-01", freq="YS")
+    reservoir_opt_years = reservoir_opt_years.values.astype('datetime64[D]')
+else:
+    reservoir_opt_years = 0
 # =============================================================================
 # # Temporal resoulution
 # =============================================================================
@@ -156,3 +158,10 @@ vb_storages = config_file['OutputVariable'][1]['VerticalWaterBalanceStorages']
 # Lateral Water Balance (lb)
 lb_fluxes = config_file['OutputVariable'][2]['LateralWaterBalanceFluxes']
 lb_storages = config_file['OutputVariable'][3]['LateralWaterBalanceStorages']
+
+# =============================================================================
+# # Save and restart WaterGAP state
+# =============================================================================
+resart_save_option = config_file['RuntimeOptions'][1]['RestartOptions']
+restart = resart_save_option['restart']
+save_states = resart_save_option['save_model_states_for_restart']
