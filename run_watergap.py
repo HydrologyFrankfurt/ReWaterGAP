@@ -15,6 +15,7 @@
 # =============================================================================
 
 import numpy as np
+import pandas as pd
 from termcolor import colored
 from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
@@ -22,6 +23,7 @@ from controller import read_forcings_and_static as rd
 from controller import wateruse_handler as wateruse
 from core.verticalwaterbalance import waterbalance_vertical_init as vb
 from core import parameters as pm
+from core import land_surfacewater_fraction_init as lwf
 from core.lateralwaterbalance import waterbalance_lateral as lb
 from core.utility import restart_watergap as restartwatergap
 from view import createandwrite as cw
@@ -58,7 +60,8 @@ def run():
             msg = 'Delayed water supply'
         elif cm.neighbouringcell:
             msg = 'Neighboring cell water supply'
-
+        else:
+            msg = 'none (Delayed water supply & Neighboring cell water supply)'
         satisfaction_option =\
             f"Riparian water supply (default) & {msg} option activated."
         print(colored('Demand satisfaction option: ' + satisfaction_option,
@@ -92,6 +95,11 @@ def run():
     potential_net_abstraction = wateruse.Wateruse(cm.subtract_use, grid_coords)
     parameters = pm.Parameters()
 
+    # initialize Land surface water Fraction
+    land_water_frac = \
+        lwf.LandsurfacewaterFraction(initialize_forcings_static.static_data,
+                                     cm.reservior_opt)
+
     # =====================================================================
     #  Create and write to ouput variable if selected by user
     # =====================================================================
@@ -108,7 +116,10 @@ def run():
     # =====================================================================
     lateral_waterbalance = \
         lb.LateralWaterBalance(initialize_forcings_static,
-                               potential_net_abstraction, parameters)
+                               potential_net_abstraction, parameters,
+                               land_water_frac.global_lake_area,
+                               land_water_frac.glolake_frac,
+                               land_water_frac.loclake_frac)
 
     # ====================================================================
     # Get time range for Loop
@@ -126,6 +137,18 @@ def run():
     # getting time range from time input (including the first day).
     timerange_main = round((end_date - start_date + 1)/np.timedelta64(1, 'D'))
     date_main = grid_coords['time'].values
+
+    # Get the first available day for each month (required to load in wateruse
+    # data once each month)
+    date_df = pd.DataFrame({'dates': pd.to_datetime(date_main)})
+    # Extract the year and month to group by month
+    date_df['year'] = date_df['dates'].dt.year
+    date_df['month'] = date_df['dates'].dt.month
+    first_day_of_month = date_df.groupby(['year', 'month']).min()
+    first_day_of_month = first_day_of_month.reset_index(drop=True)
+    first_day_of_month.rename(columns={'dates': 'First Day'}, inplace=True)
+    first_day_of_month = \
+        first_day_of_month['First Day'].values.astype('datetime64[D]')
 
     #               #====================
     #               #   *** Spin up ***
@@ -152,20 +175,22 @@ def run():
     # Update model paramters for restart if option is selected
     # =================================================================
     if restart is True:
-        previous_date = str(start_date - np.timedelta64(1, 'D'))
-        restart_data = restart_model.load_restart_info(previous_date)
+        date_before_restart = str(start_date - np.timedelta64(1, 'D'))
+        restart_year = pd.to_datetime(start_date).year
+        restart_data = restart_model.load_restart_info(date_before_restart)
         print(colored('Date of previous WaterGAP run: ' +
                       str(restart_data["last_date"]), 'blue'))
         print(colored('Restart date: ' +
                       str(start_date) + '\n', 'green'))
 
-        initialize_forcings_static.\
+        land_water_frac.\
             update_landfrac_for_restart(restart_data["landfrac_state"])
         vertical_waterbalance.\
             update_vertbal_for_restart(restart_data["vert_bal_states"])
         lateral_waterbalance.\
             update_latbal_for_restart(restart_data["lat_bal_states"])
-
+    else:
+        restart_year = 0
     #                  ====================================
     #                  ||   Main Loop for all processes  ||
     #                  ====================================
@@ -181,19 +206,30 @@ def run():
             #  Get Land area fraction and reservoirs respective years
             # =================================================================
             # Get Land area fraction
-            initialize_forcings_static.\
-                landareafrac_with_reservior(date, cm.reservoir_opt_years)
+            land_water_frac.\
+                landareafrac_with_reservior(date, cm.reservoir_opt_years,
+                                            time_step, restart, restart_year)
+
             # Activate reservoirs for current year
             lateral_waterbalance.\
-                activate_res_area_storage_capacity(date, cm.reservoir_opt_years)
+                activate_res_area_storage_capacity(date, cm.reservoir_opt_years,
+                                                   restart_year)
+
+            # Adapt global reservoir storage and land area fraction
+            # due to net change in land fraction
+            lateral_waterbalance.glores_storage = land_water_frac.\
+                adapt_glores_storage(vertical_waterbalance.canopy_storage,
+                                     vertical_waterbalance.snow_water_storage,
+                                     vertical_waterbalance.soil_water_content,
+                                     lateral_waterbalance.glores_area,
+                                     lateral_waterbalance.glores_storage)
 
             # =================================================================
             #  Computing vertical water balance
             # =================================================================
             vertical_waterbalance.\
-                calculate(date,
-                          initialize_forcings_static.current_landareafrac,
-                          initialize_forcings_static.landareafrac_ratio)
+                calculate(date, land_water_frac.current_landareafrac,
+                          land_water_frac.landareafrac_ratio)
 
             # =================================================================
             #  Computing lateral water balance
@@ -204,20 +240,24 @@ def run():
                           vertical_waterbalance.fluxes['daily_precipitation'],
                           vertical_waterbalance.fluxes['surface_runoff'],
                           vertical_waterbalance.fluxes['daily_storage_transfer'],
-                          initialize_forcings_static.current_landareafrac,
-                          initialize_forcings_static.previous_landareafrac,
-                          date)
+                          land_water_frac.current_landareafrac,
+                          land_water_frac.previous_landareafrac,
+                          date, first_day_of_month)
             if spin_up == 0:
                 # =============================================================
                 # Write vertical and lateralbalacne variables to file
                 # =============================================================
+                sim_month = pd.to_datetime(date).month
+                sim_day = pd.to_datetime(date).day
+                sim_year = pd.to_datetime(date).year
                 # Getting daily storages and fluxes and writing to variables
                 vb_storages_and_fluxes = \
                     vertical_waterbalance.get_storages_and_fluxes()
 
                 create_out_var.\
                     verticalbalance_write_daily_var(vb_storages_and_fluxes,
-                                                    time_step)
+                                                    time_step, sim_year,
+                                                    sim_month, sim_day)
 
                 # Getting daily storages and fluxes and writing to variables
                 lb_storages_and_fluxes = \
@@ -225,12 +265,25 @@ def run():
 
                 create_out_var.\
                     lateralbalance_write_daily_var(lb_storages_and_fluxes,
-                                                   time_step)
+                                                   time_step, sim_year,
+                                                   sim_month, sim_day)
+
+                # =============================================================
+                # Store ouput variable if selected by user
+                # =============================================================
+                #  store data yearly or if end date of simulation period is
+                # reached (eg. is data is less than a year)
+                if (pd.to_datetime(date).month == 12 and
+                        pd.to_datetime(date).day == 31) or end_date == \
+                        date.astype('datetime64[D]'):
+                    save_year = date.astype('datetime64[D]')
+                    print(f'\nWriting data for {save_year} to NetCDF\n')
+                    create_out_var.save_netcdf_parallel(str(save_year))
             # =================================================================
             #  Update Land Area Fraction
             # =================================================================
             land_swb_fraction = lateral_waterbalance.get_new_swb_fraction()
-            initialize_forcings_static.update_landareafrac(land_swb_fraction)
+            land_water_frac.update_landareafrac(land_swb_fraction)
 
         if end_date == date.astype('datetime64[D]') and spin_up == 0:
             print('Status:' + colored(' complete', 'cyan'))
@@ -241,10 +294,13 @@ def run():
             if savestate_for_restart is True:
                 restart_model.\
                     savestate(date,
-                              initialize_forcings_static.current_landareafrac,
-                              initialize_forcings_static.previous_landareafrac,
-                              initialize_forcings_static.landareafrac_ratio,
-                              initialize_forcings_static.previous_swb_frac,
+                              land_water_frac.current_landareafrac,
+                              land_water_frac.previous_landareafrac,
+                              land_water_frac.landareafrac_ratio,
+                              land_water_frac.previous_swb_frac,
+                              land_water_frac.glores_frac_prevyear,
+                              land_water_frac.gloresfrac_change,
+
                               vertical_waterbalance.lai_days,
                               vertical_waterbalance.cum_precipitation,
                               vertical_waterbalance.growth_status,
@@ -252,18 +308,27 @@ def run():
                               vertical_waterbalance.snow_water_storage,
                               vertical_waterbalance.snow_water_storage_subgrid,
                               vertical_waterbalance.soil_water_content,
+                              vertical_waterbalance.daily_storage_transfer,
+
                               lateral_waterbalance.groundwater_storage,
                               lateral_waterbalance.loclake_storage,
                               lateral_waterbalance.locwet_storage,
                               lateral_waterbalance.glolake_storage,
                               lateral_waterbalance.glowet_storage,
-                              lateral_waterbalance.river_storage)
+                              lateral_waterbalance.river_storage,
 
-            # =================================================================
-            # Store ouput variable if selected by user
-            # =================================================================
-            print('\nWriting data to NetCDF')
-            create_out_var.save_netcdf_parallel(str(end_date))
+                              lateral_waterbalance.glores_storage,
+                              lateral_waterbalance.k_release,
+                              lateral_waterbalance.unsatisfied_potential_netabs_riparian,
+                              lateral_waterbalance.unsat_potnetabs_sw_from_demandcell,
+                              lateral_waterbalance.unsat_potnetabs_sw_to_supplycell,
+                              lateral_waterbalance.accumulated_unsatisfied_potential_netabs_sw, 
+
+                              lateral_waterbalance.daily_unsatisfied_pot_nas,
+                              lateral_waterbalance.prev_accumulated_unsatisfied_potential_netabs_sw,
+                              lateral_waterbalance.prev_potential_water_withdrawal_sw_irri,
+                              lateral_waterbalance.prev_potential_consumptive_use_sw_irri
+                              )
 
             break
         else:

@@ -10,19 +10,21 @@
     {
       "SimulationOption": {
         "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": false},
-        "Demand_satisfaction_opts": {"delayed_use": true, "neighbouring_cell": false}
+        "Demand_satisfaction_opts": {"delayed_use": true, "neighbouring_cell": true}
       }
     },
     {
     "RestartOptions":{
         "restart": false,
-        "save_model_states_for_restart": false
+        "save_model_states_for_restart": true
         }
     },
     {
       "SimilationPeriod": {
         "start": "1901-01-01",
-        "end": "1902-12-31",
+        "end": "1905-12-31",
+        "reservoir_start_year": 1901,
+        "reservoir_end_year": 1905,
         "spinup_years": 0
       }
     },
@@ -62,7 +64,8 @@
     	"global_lake_outflow":true,
         "global_wetland_outflow":true,
         "streamflow":true,
-        "actual_net_abstr_groundwater": true
+        "actual_net_abstr_groundwater": true,
+        "satisfied_demand_neigbhourcell": true
       }
     },
     {
@@ -72,7 +75,8 @@
         "local_wetland_storage":true,
     	"global_lake_storage": true,
     	"global_wetland_storage":true,
-    	"river_storage": true
+    	"river_storage": true,
+    	"global_reservoir_storage": true
       }
     }
   ]
