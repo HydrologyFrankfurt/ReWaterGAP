@@ -42,12 +42,21 @@ class RestartState:
         self.state = {}
 
     def savestate(self, date, current_landarea_frac, previous_landarea_frac,
-                  landareafrac_ratio, previous_swb_frac,
-                  lai_days_since_start, lai_cum_precipitation,
-                  lai_growth_status, canopy_storage, snow_storage,
-                  snow_storage_subgrid, soil_water_content,
-                  groundwater_storage, loclake_storage, locwet_storage,
-                  glolake_storage, glowet_storage, river_storage):
+                  landareafrac_ratio, previous_swb_frac, glores_frac_prevyear,
+                  gloresfrac_change, lai_days_since_start,
+                  lai_cum_precipitation, lai_growth_status, canopy_storage,
+                  snow_storage, snow_storage_subgrid, soil_water_content,
+                  daily_storage_transfer, groundwater_storage, loclake_storage,
+                  locwet_storage,  glolake_storage, glowet_storage,
+                  river_storage, glores_storage, k_release,
+                  unsatisfied_potential_netabs_riparian,
+                  unsat_potnetabs_sw_from_demandcell,
+                  unsat_potnetabs_sw_to_supplycell,
+                  accumulated_unsatisfied_potential_netabs_sw,
+                  daily_unsatisfied_pot_nas,
+                  prev_accumulated_unsatisfied_potential_netabs_sw,
+                  prev_potential_water_withdrawal_sw_irri,
+                  prev_potential_consumptive_use_sw_irri):
         """
         Write variable to file for only a day before the restart date.
 
@@ -87,24 +96,46 @@ class RestartState:
         landfrac_state = {"current_landareafrac": current_landarea_frac,
                           "previous_landareafrac": previous_landarea_frac,
                           "landareafrac_ratio": landareafrac_ratio,
-                          "previous_swb_frac": previous_swb_frac}
+                          "previous_swb_frac": previous_swb_frac,
+                          "glores_frac_prevyear": glores_frac_prevyear,
+                          "gloresfrac_change": gloresfrac_change
+                          }
 
         vert_bal_states = {"lai_days_since_start": lai_days_since_start,
                            "cum_precipitation": lai_cum_precipitation,
                            "growth_status": lai_growth_status,
 
                            # storages before restart date
-                           "canopy_storage_prev": canopy_storage,
-                           "snow_water_stor_prev": snow_storage,
-                           "snow_water_storsubgrid_prev": snow_storage_subgrid,
-                           "soil_water_content_prev": soil_water_content}
+                           "canopy_storage": canopy_storage,
+                           "snow_water_stor": snow_storage,
+                           "snow_water_storsubgrid": snow_storage_subgrid,
+                           "soil_water_content": soil_water_content,
+                           "daily_storage_transfer": daily_storage_transfer}
 
-        lat_bal_states = {"groundwater_storage_prev": groundwater_storage,
-                          "loclake_storage_prev": loclake_storage,
-                          "locwet_storage_prev": locwet_storage,
-                          "glolake_storage_prev": glolake_storage,
-                          "glowet_storage_prev": glowet_storage,
-                          "river_storage_prev": river_storage}
+        lat_bal_states = {"groundwater_storage": groundwater_storage,
+                          "loclake_storage": loclake_storage,
+                          "locwet_storage": locwet_storage,
+                          "glolake_storage": glolake_storage,
+                          "glowet_storage": glowet_storage,
+                          "river_storage": river_storage,
+                          "glores_storage": glores_storage,
+                          "k_release": k_release,
+                          "unsatisfied_potential_netabs_riparian":
+                              unsatisfied_potential_netabs_riparian,
+                          "unsat_potnetabs_sw_from_demandcell":
+                              unsat_potnetabs_sw_from_demandcell,
+                          "unsat_potnetabs_sw_to_supplycell":
+                              unsat_potnetabs_sw_to_supplycell,
+                          "accumulated_unsatisfied_potential_netabs_sw":
+                              accumulated_unsatisfied_potential_netabs_sw,
+                          "daily_unsatisfied_pot_nas":
+                              daily_unsatisfied_pot_nas,
+                          "prev_accumulated_unsatisfied_potential_netabs_sw":
+                              prev_accumulated_unsatisfied_potential_netabs_sw,
+                          "prev_potential_water_withdrawal_sw_irri":
+                              prev_potential_water_withdrawal_sw_irri,
+                          "prev_potential_consumptive_use_sw_irri":
+                              prev_potential_consumptive_use_sw_irri}
 
         self.state.update({"last_date": date,
                           "landfrac_state": landfrac_state,
