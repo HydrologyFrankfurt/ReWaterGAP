@@ -33,6 +33,7 @@ def write_to_netcdf(args):
     var, encoding, path = args
     try:
         var.to_netcdf(path, format='NETCDF4_CLASSIC', encoding=encoding)
+        del var
         return None  # Successful execution
     except Exception as exc:
         return exc
@@ -105,15 +106,17 @@ class CreateandWritetoVariables:
             "globalwetlandstor": "global_wetland_storage",
             "globalwetland_outflow": "global_wetland_outflow",
             "riverstor": "river_storage",
+            "glores_stor": "global_reservoir_storage",
             "dis": "streamflow",
-            "actual_net_abstraction_gw": "actual_net_abstr_groundwater"
+            "actual_net_abstraction_gw": "actual_net_abstr_groundwater",
+            "satisfied_demand_neigbhourcell": "satisfied_demand_neigbhourcell"
         }
 
         # Initialize output variables for lateral water balance
         for var_name, cm_var in lb_output_vars.items():
             if var_name in {'groundwstor', "locallakestor", "localwetlandstor",
                             "globallakestor", "globalwetlandstor",
-                            "riverstor"}:
+                            "riverstor", "glores_stor"}:
                 var = doh.OutputVariable(var_name, cm.lb_storages.get(cm_var),
                                          grid_coords)
                 self.lb_storages[var_name] = var
@@ -122,7 +125,8 @@ class CreateandWritetoVariables:
                                          grid_coords)
                 self.lb_fluxes[var_name] = var
 
-    def verticalbalance_write_daily_var(self, value, time_step):
+    def verticalbalance_write_daily_var(self, value, time_step, sim_year,
+                                        sim_month, sim_day):
         """
         Write values to variable for vertical water balance.
 
@@ -145,14 +149,17 @@ class CreateandWritetoVariables:
         # Storages
         storage_var = value[0]
         for var_name, var in self.vb_storages.items():
-            var.write_daily_output(storage_var[var_name], time_step)
+            var.write_daily_output(storage_var[var_name], time_step, sim_year,
+                                   sim_month, sim_day)
 
         # Fluxes
         fluxes_var = value[1]
         for var_name, var in self.vb_fluxes.items():
-            var.write_daily_output(fluxes_var[var_name], time_step)
+            var.write_daily_output(fluxes_var[var_name], time_step, sim_year,
+                                   sim_month, sim_day)
 
-    def lateralbalance_write_daily_var(self, value, time_step):
+    def lateralbalance_write_daily_var(self, value, time_step, sim_year,
+                                       sim_month, sim_day):
         """
         Write values to variable for lateral water balance.
 
@@ -175,12 +182,14 @@ class CreateandWritetoVariables:
         # Storages
         storage_var = value[0]
         for var_name, var in self.lb_storages.items():
-            var.write_daily_output(storage_var[var_name], time_step)
+            var.write_daily_output(storage_var[var_name], time_step, sim_year,
+                                   sim_month, sim_day)
 
         # Fluxes
         fluxes_var = value[1]
         for var_name, var in self.lb_fluxes.items():
-            var.write_daily_output(fluxes_var[var_name], time_step)
+            var.write_daily_output(fluxes_var[var_name], time_step, sim_year,
+                                   sim_month, sim_day)
 
     def save_netcdf_parallel(self, end_date):
         """

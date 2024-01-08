@@ -40,19 +40,22 @@ class OutputVariable:
             # Geting length of time,lat,lon from grid coordinates (grid_coords)
             lat_length = len(self.grid_coords['lat'].values)
             lon_length = len(self.grid_coords['lon'].values)
-            time_length = len(self.grid_coords['time'].values)
+            time_length = len(self.grid_coords['time'][:365].values)
 
             # Create dummy data for variable
-            dummy_data = np.zeros((time_length, lat_length, lon_length),
-                                  dtype=np.float32)
+            dummy_data = np.full((time_length, lat_length, lon_length), np.nan,
+                                 dtype=np.float32)
+            dummy_coords = {"time": self.grid_coords['time'][:365].values,
+                            "lat": self.grid_coords['lat'].values,
+                            "lon": self.grid_coords['lon'].values}
 
             # create Xarray dataset for output variable without variable name
-            self.data = xr.Dataset(coords=self.grid_coords).\
+            self.data = xr.Dataset(coords=dummy_coords).\
                 chunk({'time': 1, 'lat': 360, 'lon': 720})
 
             # Add variables names for respective output varaibes
             self.data[self.variable_name] = \
-                xr.DataArray(dummy_data, coords=self.grid_coords,
+                xr.DataArray(dummy_data, coords=dummy_coords,
                              dims=('time', 'lat', 'lon'),
                              )
             # Add variable metadata
@@ -72,10 +75,10 @@ class OutputVariable:
                 'Creation_date':
                     dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     }
-
+            del dummy_data  # delete dummy data to free memory
         # ======================================================================================================
 
-    def write_daily_output(self, array, time_step):
+    def write_daily_output(self, array, time_step, year, month, day):
         """
         Write results to output variable  per time step.
 
@@ -92,5 +95,15 @@ class OutputVariable:
 
         """
         if self.create is True:
-            self.data[self.variable_name][time_step, :, :] = array
+            # Check if it's a new year (time to update the dataset time values)
+            if month == 1 and day == 1:
+                # Get right dates  for data, year may be a leap year
+                next_year_time = \
+                    self.grid_coords['time'].sel(time=str(year))
+                # Update the time coordinate in self.data
+                self.data = self.data.reindex(time=next_year_time)
+
+            # reset counter to zero after each year
+            mod_time_step = time_step % len(self.data['time'])
+            self.data[self.variable_name][mod_time_step, :, :] = array
 

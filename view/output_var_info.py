@@ -35,6 +35,9 @@ modelvars = {
     "actual_net_abstraction_gw": {"long": "actual net abstraction from "
                                   "groundwater", "unit": "km3/day"},
 
+    "satisfied_demand_neigbhourcell":
+        {"long": "satisfied_demand_neigbhourcell",  "unit": "km3/day"},
+
     # VerticalWaterBalanceStorages
     "canopystor": {"long": "Canopy storage", "unit": "mm"},
     "swe": {"long": "Snow water equivalent", "unit": "mm"},
@@ -46,5 +49,6 @@ modelvars = {
     "localwetlandstor": {"long": "Localwetland storage", "unit": "km3"},
     "globallakestor": {"long": "Globallake storage", "unit": "km3"},
     "globalwetlandstor": {"long": "Globalwetland storage", "unit": "km3"},
-    "riverstor": {"long": "River storage",  "unit": "km3"}
+    "riverstor": {"long": "River storage",  "unit": "km3"},
+    "glores_stor": {"long": "Global reservoir storage",  "unit": "km3"}
 }
