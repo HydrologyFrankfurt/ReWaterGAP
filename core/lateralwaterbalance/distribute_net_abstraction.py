@@ -80,12 +80,24 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
     # (after global lake and or reservoir storage)  and the sum of
     # previous accumulated unsatisfied potential net abstraction from
     # surface water and the distributed demand to supply cell if there is
-    # neigbouring cell water supply option.
+    # neigbouring cell water supply option(current cell is suuply cell).
     # (prev_accumulated_unsatisfied_potential_netabs_sw +
     # unsat_potnetabs_sw_to_supplycell)
 
     prev_accu_supplycell_demad = unsat_potnetabs_sw_to_supplycell + \
         prev_accumulated_unsatisfied_potential_netabs_sw
+
+    # ------------------------------------------------------------------
+    # Special condition!!!:
+    # ------------------------------------------------------------------
+    # if glwdunit (riparian cells) of current is 1 (the current cell itself),
+    # unsatisfied demand after global lake balance is maintained else
+    # its distributed to various riparian cell.
+    accum_uns_potnetabs_after_distribution = \
+        accumulated_unsatisfied_potential_netabs_sw
+    # Note that accum_uns_potnetabs_after_distribution will change if there
+    # are 2 or more riparian cell (glwdunit >=2)
+    # ------------------------------------------------------------------
 
     # Note! x,y is index of outflow cell of a global lake or reservoir
     for i in range(len(rout_order)):

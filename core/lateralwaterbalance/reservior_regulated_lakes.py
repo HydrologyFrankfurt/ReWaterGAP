@@ -33,7 +33,11 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                                  res_start_month, simulation_momth_day,
                                  k_release, reservoir_type,
                                  allocation_coeff, monthly_demand,
-                                 mean_annual_demand, mean_annual_inflow,):
+                                 mean_annual_demand, mean_annual_inflow,
+                                 glolake_area,
+                                 accumulated_unsatisfied_potential_netabs_sw,
+                                 accumulated_unsatisfied_potential_netabs_glolake,
+                                 ):
     # ************************************************************************
     # Note: To estimate the water demand of 5 cells downstream from a
     # reservoir, the reservoir area for all grid cells is read in and the
@@ -130,28 +134,38 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
     # =========================================================================
     total_inflow = inflow_to_swb + precipitation * reservior_area[x, y]
 
-    # *****************************************
+    # *************************************************************************
     # If both global lake and reservoir are found in the same outflow cell.
     # The demand is shared equally(50%) between.
     # If the global lake cannot meet the water demand, the reservoir tries to
     # fuffill this demand.
-    # *****************************************
+    # *************************************************************************
+    if glolake_area > 0:
+        accumulated_unsatisfied_potential_netabs_res = \
+            accumulated_unsatisfied_potential_netabs_sw * 0.5 + \
+            accumulated_unsatisfied_potential_netabs_glolake
+    else:
+        accumulated_unsatisfied_potential_netabs_res = \
+            accumulated_unsatisfied_potential_netabs_sw
+
+    # Needed To compute daily actual use
+    acc_unsatisfied_potnetabs_res_start = \
+        accumulated_unsatisfied_potential_netabs_res
+
+    # Note: Evaporation and  groundwater recharge can occur until storage = 0,
+    # but not for abstractions. Abstractions can only occur until the level
+    # is 10% of the capacity. So, for reservoirs, evaporation and recharge have
+    # priority over abstractions.
 
     # =========================================================================
     # Combininig  open water PET and point source recharge into petgwr(km3/day)
     # =========================================================================
-    # petgwr will change for Global lake if water-use is considerd ******
     petgwr = openwater_evapo_cor * reservior_area[x, y] + gwr_reservior
 
     # petgwr_max is the maximum amount of openwater_evapo_cor + gwr_reservior
     # to ensure that reservior storage does not fall below 10% of the storage
     # capacity.
     petgwr_max = storage_prevstep + total_inflow
-
-    # Note: Evaporation and  groundwater recharge can occur until storage = 0,
-    # but not for abstractions. Abstractions can only occur until the level
-    # is 10% of the capacity. So, for reservoirs, evaporation and recharge have
-    # priority over abstractions.
 
     # Reduce point source recharge and open water evaporation when
     # petgwr >  petgwr_max. (check for zero division)
@@ -166,6 +180,24 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
         # reservior water balance  is solved numerically.
         storage = storage_prevstep + total_inflow - petgwr
 
+    # Water abstraction can now occur after satisfying PET and gwr_reservior
+    if accumulated_unsatisfied_potential_netabs_res < 0:
+        # Here potential net abstraction from surface water is negative (return
+        # flows) and hence used to increase reservoir storage
+        storage -= accumulated_unsatisfied_potential_netabs_res
+        accumulated_unsatisfied_potential_netabs_res = 0
+    else:
+        if storage > (0.1 * stor_capacity):
+            if accumulated_unsatisfied_potential_netabs_res < \
+                    (storage - (0.1 * stor_capacity)):
+                storage -= accumulated_unsatisfied_potential_netabs_res
+                accumulated_unsatisfied_potential_netabs_res = 0.
+            else:
+                accumulated_unsatisfied_potential_netabs_res -= \
+                    (storage - (0.1 * stor_capacity))
+                storage = 0.1 * stor_capacity
+
+    # compute relase from Hanasaki algorithm
     release, k_release_new = hanaski.\
         hanasaki_res_reslease(storage, stor_capacity, res_start_month,
                               simulation_momth_day, k_release, reservoir_type,
@@ -191,7 +223,8 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
     # substract outflow from storage
     storage -= outflow
 
-    # reduce G_gloResStorage to maximum storage capacity
+    # reduce reservoir storage to maximum storage capacity is storage > maximum
+    # reservoir storage
     if storage > max_storage:
         outflow += (storage - max_storage)
         # updating storage
@@ -201,7 +234,8 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
         outflow += storage
         storage = 0
 
-    if x==99 and y==610:
-        print(storage,  outflow)
+    actual_use_sw = acc_unsatisfied_potnetabs_res_start - \
+        accumulated_unsatisfied_potential_netabs_res
 
-    return storage, outflow, gwr_reservior, k_release_new
+    return storage, outflow, gwr_reservior, k_release_new, \
+        accumulated_unsatisfied_potential_netabs_res, actual_use_sw

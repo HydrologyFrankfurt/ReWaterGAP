@@ -219,6 +219,7 @@ def lake_wetland_balance(rout_order, routflow_looper,
         gwr_lakewet = np.where((aridity == 1) & (drainage_direction >= 0),
                                groundwater_recharge_constant * m_to_km *
                                lake_wet_area * evapo_redfactor, 0)
+
     else:  # local lakes and global and local wetlands
         gwr_lakewet = np.where((aridity == 1) & (drainage_direction >= 0),
                                groundwater_recharge_constant * m_to_km *
@@ -228,7 +229,9 @@ def lake_wetland_balance(rout_order, routflow_looper,
     # Combine inflow and open water precipitation total_inflow (km3/day)
     # =========================================================================
     total_inflow = inflow_to_swb + precipitation * lake_wet_area
-
+    # if x==146 and y==522:
+    #     if choose_swb == "local lake":
+    #         print(inflow_to_swb,  storage)
     # =========================================================================
     # Combine openwater PET, potential net abstraction from surface water
     # and point source recharge into petgwr_netabs_sw(km3/day).
@@ -380,6 +383,8 @@ def lake_wetland_balance(rout_order, routflow_looper,
         else:
             outflow = 0
 
+        # if x==84 and y==116:
+        #     print(swb_outflow_coeff, which_storge, max_storage, exp_factor)
         storage -= outflow
 
         # # update outflow

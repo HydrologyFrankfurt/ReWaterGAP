@@ -20,6 +20,7 @@
 # =============================================================================
 
 from numba import njit
+import numpy as np
 
 # =============================================================================
 # Distribution of unstaified potential net abstraction to neighbouring cells
@@ -39,9 +40,12 @@ def allocate_unsat_demand_to_demandcell(x, y,
                                         unsat_potnetabs_sw_to_supplycell,
                                         total_demand_sw_noallocation,
                                         actual_net_abstraction_sw,
-                                        total_unsatisfied_demand_ripariancell):
+                                        total_unsatisfied_demand_ripariancell,
+                                        rout_order,
+                                        returned_demand_from_supplycell,
+                                        current_mon_day):
     """
-    Allocate unsatisfied demand from a demand cell to neighboring supply cells.
+    Distribute unsatisfied demand from supply cell to a demand cell.
 
     Parameters
     ----------
@@ -56,7 +60,7 @@ def allocate_unsat_demand_to_demandcell(x, y,
         from river or local lake (if any) , Unit: [km^3/day]
     unsat_potnetabs_sw_from_demandcell : array
        Unsatisfied potential net abstraction from demand cell, Unit: [km^3/day]
-    unsat_potnetabs_sw_to_supplycell : array
+    unsat_potnetabs_sw_to_supplycell : float
        Unsatisfied potential net abstraction to supply cell, Unit: [km^3/day]
     total_demand_sw_noallocation : float
         Total demand without demand allocation (include only previous
@@ -74,56 +78,58 @@ def allocate_unsat_demand_to_demandcell(x, y,
         returned unsatisfied demand from Supplycell, Unit: [km^3/day]
 
     """
-    if unsat_potnetabs_sw_to_supplycell[x, y] > 0:
-        if accumulated_unsatisfied_potential_netabs_sw[x, y] > 0:
+
+    if unsat_potnetabs_sw_to_supplycell > 0:
+        if accumulated_unsatisfied_potential_netabs_sw > 0:
             if total_demand_sw_noallocation > 0:
 
                 # unsatisfied use of the supplycell with use allocated from
                 # demand cell
-                unsat_potnetabs_sw_withalloc = \
-                    accumulated_unsatisfied_potential_netabs_sw[x, y]
+                unsat_potnetabs_sw_withalloc = accumulated_unsatisfied_potential_netabs_sw
 
                 # accumulated unsatisfied use of the supply cell without use
-                # allocated from a demand cell
-                accumulated_unsatisfied_potential_netabs_sw[x, y] = \
+                # allocated from a demand cell (unsatisfied use of supply cell
+                # to be allocated)
+                accumulated_unsatisfied_potential_netabs_sw  = \
                     total_demand_sw_noallocation - actual_net_abstraction_sw -\
                     total_unsatisfied_demand_ripariancell
 
                 # Reset accumulated unsatisfied potential net abstraction if it
                 # becomes negative. This is because "actual_net_abstraction_sw"
                 #  can exceed "total_demand_sw_noallocation"
-                if accumulated_unsatisfied_potential_netabs_sw[x, y] < 0:
-                    accumulated_unsatisfied_potential_netabs_sw[x, y] = 0.
+                if accumulated_unsatisfied_potential_netabs_sw < 0:
+                    accumulated_unsatisfied_potential_netabs_sw = 0.
 
                 # unsatisfied use to be allocated to demand cell
                 unsat_potnetabs_sw_supplycell_to_demandcell = \
-                    unsat_potnetabs_sw_withalloc - \
-                    accumulated_unsatisfied_potential_netabs_sw[x, y]
+                    unsat_potnetabs_sw_withalloc - accumulated_unsatisfied_potential_netabs_sw
 
             else:
                 # In this case, the accumulated_unsatisfied_potential_netabs_sw
                 #  at this point only stems from the respective neighboring
-                # cells.
+                # cells. (Note that here, daily potential net abstraction from
+                # surface water is negative.)
                 unsat_potnetabs_sw_supplycell_to_demandcell = \
-                    accumulated_unsatisfied_potential_netabs_sw[x, y]
+                    accumulated_unsatisfied_potential_netabs_sw
 
                 # Here the unsatisfied usefrom supply cell is set to zero since
                 # unsatisfied use will been returned to demand cell
-                accumulated_unsatisfied_potential_netabs_sw[x, y] = 0
+                accumulated_unsatisfied_potential_netabs_sw = 0
         else:
             unsat_potnetabs_sw_supplycell_to_demandcell = 0
 
-        # Get demand cell for supply cell
-        demandcell_lat = neighbouring_cells_map[x, y][0]
-        demandcell_lon = neighbouring_cells_map[x, y][1]
+        # Distribute unstisfied demand from supply to demmand cell**
+        for i in range(len(rout_order)):
+            nb_x, nb_y = rout_order[i]
+            if neighbouring_cells_map[nb_x, nb_y][0] == x and\
+                    neighbouring_cells_map[nb_x, nb_y][1] == y:
 
-        if (demandcell_lat != 0) & (demandcell_lon != 0):
-            accumulated_unsatisfied_potential_netabs_sw[demandcell_lat, demandcell_lon] =\
-                unsat_potnetabs_sw_supplycell_to_demandcell *\
-                unsat_potnetabs_sw_from_demandcell[demandcell_lat, demandcell_lon] * \
-                (1 / unsat_potnetabs_sw_to_supplycell[x, y])
+                returned_demand_from_supplycell[nb_x, nb_y] =\
+                    unsat_potnetabs_sw_supplycell_to_demandcell *\
+                    unsat_potnetabs_sw_from_demandcell[nb_x, nb_y] * \
+                    (1 / unsat_potnetabs_sw_to_supplycell)
 
-    return accumulated_unsatisfied_potential_netabs_sw
+    return accumulated_unsatisfied_potential_netabs_sw, returned_demand_from_supplycell
 
 
 # ==============================================================================
@@ -135,7 +141,8 @@ def get_neighbouringcell(neigbourcells_for_demandcell,
                          river_storage, loclake_storage, glolake_storage,
                          max_loclake_storage, max_glolake_storage,
                          accumulated_unsatisfied_potential_netabs_sw,
-                         x, y):
+                         reservoir_operation, glores_storage, x, y, current_mon_day,
+                         cell_calculated):
     """
     Identify neighboring cells that could supply water to the demand cell.
 
@@ -184,35 +191,40 @@ def get_neighbouringcell(neigbourcells_for_demandcell,
             neighbourcell_outflowcell_lat, neighbourcell_outflowcell_lon = \
                 outflowcell_for_neigbourcells[i], outflowcell_for_neigbourcells[i+1]
 
-            # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            # Select the neighbour cell only if it's not directly upstream of
-            # the current cell. This is because: 1) extracting water from an
-            # upstream cell would reduce water in the downstream cell, and 2)
-            # downstream cells typically have more water than upstream cells
-            # (except in rare cases).
-
-            if (neighbourcell_outflowcell_lat == x) & \
-                    (neighbourcell_outflowcell_lon == y):
-                continue
-
-            # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
             # Ignore the cells which are not neighbours
             if (neighbourcell_lat == 0) & (neighbourcell_lon == 0):
-                continue
+                pass
+            else:
+                cell_storage = river_storage[neighbourcell_lat, neighbourcell_lon] +\
+                    loclake_storage[neighbourcell_lat, neighbourcell_lon] + \
+                    glolake_storage[neighbourcell_lat, neighbourcell_lon] + \
+                    max_loclake_storage[neighbourcell_lat, neighbourcell_lon] + \
+                    max_glolake_storage[neighbourcell_lat, neighbourcell_lon]
 
-            cell_storage = river_storage[neighbourcell_lat, neighbourcell_lon] +\
-                loclake_storage[neighbourcell_lat, neighbourcell_lon] + \
-                glolake_storage[neighbourcell_lat, neighbourcell_lon] + \
-                max_loclake_storage[neighbourcell_lat, neighbourcell_lon] + \
-                max_glolake_storage[neighbourcell_lat, neighbourcell_lon]
+                if reservoir_operation is True:
+                    cell_storage += glores_storage[neighbourcell_lat,
+                                                   neighbourcell_lon]
+    
+                if cell_storage > largest_storage_neighbour:
+                    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    # Select the neighbour cell only if it's not directly upstream of
+                    # the current cell. This is because: 1) extracting water from an
+                    # upstream cell would reduce water in the downstream cell, and 2)
+                    # downstream cells typically have more water than upstream cells
+                    # (except in rare cases).
+                    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    if (neighbourcell_outflowcell_lat == x) & \
+                            (neighbourcell_outflowcell_lon == y):
+                        pass
+                    else:
+                        largest_storage_neighbour = cell_storage
+                        neigbour_cell_x, neigbour_cell_y = \
+                            neighbourcell_lat, neighbourcell_lon
+                demand_for_supply_cell = \
+                    accumulated_unsatisfied_potential_netabs_sw
 
-            # if cm.res_opt is True:
-            #     cell_storage += global_reservior_storage[cell_lat, cell_lon]
-
-            if cell_storage > largest_storage_neighbour:
-                largest_storage_neighbour = cell_storage
-                neigbour_cell_x, neigbour_cell_y = \
-                    neighbourcell_lat, neighbourcell_lon
+        if current_mon_day[0] == 12 and current_mon_day[1] == 31:
+            if cell_calculated[neigbour_cell_x, neigbour_cell_y] > cell_calculated[x, y]:
+                neigbour_cell_x, neigbour_cell_y = 0, 0
 
     return neigbour_cell_x, neigbour_cell_y

@@ -58,7 +58,7 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
         # each reservoir if any else calculate demand to the next reserviour
         # for the available downstream cells.
 
-        monthly_downstream_demand = monthly_demand[x, y]  # km3/month
+        monthly_downstream_demand = monthly_demand[x, y]  # m3/month
         mean_annual_downstream_demand = mean_annual_demand[x, y]
 
         # downstream cell looper (dsc)
@@ -84,6 +84,9 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
         # =====================================================================
         #         # compute provisional monthly release [m3/s]
         # =====================================================================
+        # convert monthly_downstream_demand to m3/s
+        m3_per_s = 1/86400
+        monthly_downstream_demand = monthly_downstream_demand * m3_per_s
         # see eqn 3 of  Hanasaki et al 2006
         if mean_annual_downstream_demand >= (0.5 * mean_annual_inflow):
             prov_rel =\
@@ -96,7 +99,7 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     elif reservoir_type == 2:
         prov_rel = mean_annual_inflow  # [m3/s]
     else:
-        print("unknown reservoir type in gcrcNumber")
+        print("unknown reservoir type")
 
     # =====================================================================
     # calculate monthly release [m3/s]. see eqn 7 of  Hanasaki et al 2006
@@ -105,7 +108,15 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     # Reservoir capacity(stor_capacity) = km3  and mean_annual_inflow = m3/s
     # hence mean_annual_inflow should be converted to km3
     to_km3 = (31536000/1e9)  # (31536000 = 365 * 24 * 60 * 60)
-    c_ratio = stor_capacity/(mean_annual_inflow * to_km3)
+
+    # old code didnt account for division by zero, hence i am imitating the
+    # same error for comparison. i will correct it here later.
+    # (check gcrc 46162, x=140, y=157)******
+    if mean_annual_inflow == 0:
+        c_ratio = np.inf
+    else:
+        c_ratio = stor_capacity/(mean_annual_inflow * to_km3)
+
     if c_ratio >= 0.5:
         release = k_release * prov_rel
     else:
