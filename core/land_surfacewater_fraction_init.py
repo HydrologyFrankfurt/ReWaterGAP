@@ -21,25 +21,13 @@ class LandsurfacewaterFraction:
     def __init__(self, static_data, reservior_opt):
         self.static_data = static_data
         self.reservior_opt = reservior_opt
-        # =====================================================================
-        # Get initial fractions for local lakes, local and global wetland
-        # =====================================================================
-        self.previous_loclakefrac = self.static_data.\
-            land_surface_water_fraction.loclak[0].values.astype(np.float64)/100
-        self.previous_locwetfrac = self.static_data.\
-            land_surface_water_fraction.locwet[0].values.astype(np.float64)/100
-        self.previous_glowetfrac = self.static_data.\
-            land_surface_water_fraction.glowet[0].values.astype(np.float64)/100
-
-        self.previous_swb_frac = self.previous_loclakefrac + \
-            self.previous_locwetfrac + self.previous_glowetfrac
-        self.current_swb_frac = 0
 
         # =====================================================================
         # Initialize fraction variables for reservoir
         # =====================================================================
         self.glores_frac_prevyear = 0
         self.gloresfrac_change = 0
+        self.current_swb_frac = 0
 
         # =====================================================================
         # initialize land area fracion variables
@@ -61,6 +49,11 @@ class LandsurfacewaterFraction:
         locres_frac = self.static_data.\
             land_surface_water_fraction.locres[0].values.astype(np.float64)
 
+        locwet_frac = self.static_data.\
+            land_surface_water_fraction.locwet[0].values.astype(np.float64)
+        glowet_frac = self.static_data.\
+            land_surface_water_fraction.glowet[0].values.astype(np.float64)
+
         if self.reservior_opt is False:
             # land area fraction is computed without reservior fraction. land
             # area fraction is calulated once at model start and updated daily.
@@ -77,14 +70,24 @@ class LandsurfacewaterFraction:
                 np.zeros(self.current_landareafrac.shape).astype(np.float64)
 
             self.glolake_frac += reglake_frac
+
+            # self.previous_swb_frac will be used to update daily land area
+            # fraction  see "update_landareafrac" function below
+            self.previous_swb_frac = \
+                (self.loclake_frac + locwet_frac + glowet_frac)/100
         else:
             self.loclake_frac += locres_frac
+
+            # compute swb fraction after local res is added to local lake
+            self.previous_swb_frac = \
+                (self.loclake_frac + locwet_frac + glowet_frac)/100
 
         # =====================================================================
         # Get global lake area
         # =====================================================================
         self.global_lake_area = \
             lsf.get_glolake_area(self.static_data.land_surface_water_fraction)
+        # =====================================================================
 
     def landareafrac_with_reservior(self, date, reservoir_opt_year,
                                     time_step, restart, restart_year):
@@ -135,6 +138,7 @@ class LandsurfacewaterFraction:
 
                     self.current_landareafrac = lsf_out[0]
                     self.gloresfrac_change = lsf_out[1]
+                    # print(self.gloresfrac_change[117, 419])
 
                 if time_step == 0 and restart != True:
                     self.landareafrac_ratio = \
@@ -225,7 +229,7 @@ class LandsurfacewaterFraction:
                                   cell_area * (-1 * landareafrac_change)), 0)
 
                     # Add previous storage to reservoir storage volume located
-                    # in outflow cell,
+                    # in outflow cell, (needs to be checked***)
                     glores_storage = \
                         np.where(glores_area > 0, (glores_storage +
                                  canopy_watercontent_change_km3 +

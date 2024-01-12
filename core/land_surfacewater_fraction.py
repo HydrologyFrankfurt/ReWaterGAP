@@ -100,7 +100,7 @@ def compute_landareafrac(landwater_frac, land_area_frac,
                 # storage and land area fraction.
                 # see function adapt_glores_storage in module
                 # land_surfacewater_fraction_init.py)
-                glores_frac_change = 0
+                glores_frac_change = np.zeros_like(land_area_frac)
             else:
                 # Compute the change in global reservoir fraction every year to
                 # adapt land area fraction. The numpy equivalent of the if else
