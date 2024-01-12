@@ -75,7 +75,6 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
         if np.abs(canopy_storage) <= minstorage_volume:
             canopy_storage = 0
 
-        # print(landareafrac_ratio[116, 454])
         # Initial storage to calulate change in canopy_storage.
         initial_storage = canopy_storage
 
