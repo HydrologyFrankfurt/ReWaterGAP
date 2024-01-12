@@ -25,7 +25,8 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
                           rout_order, outflow_cell, routflow_looper,
                           reservior_area, allocation_coeff, monthly_demand,
                           mean_annual_demand, mean_annual_inflow,
-                          inflow_to_swb):
+                          inflow_to_swb, num_days_in_month,
+                          all_reservoir_and_regulated_lake_area):
 
     # Index to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
@@ -58,20 +59,31 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
         # each reservoir if any else calculate demand to the next reserviour
         # for the available downstream cells.
 
-        monthly_downstream_demand = monthly_demand[x, y]  # m3/month
-        mean_annual_downstream_demand = mean_annual_demand[x, y]
+        monthly_downstream_demand = monthly_demand[x, y]  # km3/month
+        mean_annual_downstream_demand = mean_annual_demand[x, y]  # m3/yr
 
         # downstream cell looper (dsc)
         dsc = 0
         # corresponing outflow cell for current cell[x, y]
         m, n = outflow_cell[routflow_looper]
+
+        # *********************************************************************
+        stop_mean_annual_calculation = False  # Flag to stop mean annual demand
+        # calulation if the next downstream cell has a reservoir
+        # *********************************************************************
         while dsc < 5 and reservior_area[m, n] <= 0 and m > 0 and n > 0:
 
             monthly_downstream_demand += monthly_demand[m, n] * \
                  allocation_coeff[routflow_looper][dsc]
 
-            mean_annual_downstream_demand += mean_annual_demand[m, n] * \
-                allocation_coeff[routflow_looper][dsc]
+            # Mean annual demand is computed considering all reservior area
+            # in simulation
+            if not stop_mean_annual_calculation:
+                if all_reservoir_and_regulated_lake_area[m, n] <= 0:
+                    mean_annual_downstream_demand += mean_annual_demand[m, n] * \
+                        allocation_coeff[routflow_looper][dsc]
+                else:
+                    stop_mean_annual_calculation = True
 
             prev_ds_cell = np.array([m, n])
             # getting the next downstream cell.
@@ -84,9 +96,14 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
         # =====================================================================
         #         # compute provisional monthly release [m3/s]
         # =====================================================================
-        # convert monthly_downstream_demand to m3/s
-        m3_per_s = 1/86400
+        # convert monthly_downstream_demand from km3/month to m3/s
+        m3_per_s = 1e9 * 1/(86400 * num_days_in_month)
         monthly_downstream_demand = monthly_downstream_demand * m3_per_s
+        # convert mean_annual_downstream_demand from m3/yr to m3/s
+        year_to_s = 31536000
+        mean_annual_downstream_demand = \
+            mean_annual_downstream_demand / year_to_s
+
         # see eqn 3 of  Hanasaki et al 2006
         if mean_annual_downstream_demand >= (0.5 * mean_annual_inflow):
             prov_rel =\

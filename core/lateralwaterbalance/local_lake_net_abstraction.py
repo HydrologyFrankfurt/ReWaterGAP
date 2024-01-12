@@ -12,7 +12,8 @@ from core.lateralwaterbalance import storage_reduction_factor as rf
 @njit(cache=True)
 def abstract_from_local_lake(storage, max_storage, lake_frac,
                              reduction_exponent_lakewet,
-                             accumulated_unsatisfied_potential_netabs_sw):
+                             accumulated_unsatisfied_potential_netabs_sw,
+                             x, y):
     """
     Abstraction from local lake.
 
@@ -28,6 +29,10 @@ def abstract_from_local_lake(storage, max_storage, lake_frac,
     accumulated_unsatisfied_potential_netabs_sw : float
         Accumulated unsatified potential net abstraction after satisfaction
         from river, Unit: [km^3/day]
+     x : int
+         Latitude index of cell
+     y : int
+         Longitude index of cell
 
     Returns
     -------

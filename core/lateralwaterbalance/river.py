@@ -21,7 +21,7 @@ from numba import njit
 
 
 @njit(cache=True)
-def river_velocity(rout_order, routflow_looper,
+def river_velocity(x, y,
                    river_storage, river_length, river_bottom_width,
                    roughness, roughness_multiplier, river_slope):
     """
@@ -29,10 +29,10 @@ def river_velocity(rout_order, routflow_looper,
 
     Parameters
     ----------
-    rout_order : array
-        Routing order of cells
-    routflow_looper : int
-        looper that goes through the routing order.
+    x : int
+        Latitude index of cell
+    y : int
+        Longitude index of cell
     river_storage : float
         Daily river storage, Unit: [km^3/day]
     river_length : float
@@ -54,9 +54,8 @@ def river_velocity(rout_order, routflow_looper,
         River outflow constant (river_velocity / river_length), Unit: [1/day]
 
     """
-    # Index to  print out varibales of interest
+    # Index(x, y) to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
-    x, y = rout_order[routflow_looper]
 
     # =========================================================================
     # Compute river velocity.
@@ -104,7 +103,7 @@ def river_velocity(rout_order, routflow_looper,
 
 
 @njit(cache=True)
-def river_water_balance(rout_order, routflow_looper,
+def river_water_balance(x, y,
                         river_storage, river_inflow, outflow_constant,
                         stat_corr_fact,
                         accumulated_unsatisfied_potential_netabs_sw,
@@ -114,10 +113,10 @@ def river_water_balance(rout_order, routflow_looper,
 
     Parameters
     ----------
-    rout_order : array
-        Routing order of cells
-    routflow_looper : int
-        looper that goes through the routing order.
+    x : int
+        Latitude index of cell
+    y : int
+        Longitude index of cell
     river_storage : float
         Daily river storage, Unit: [km^3/day]
     river_inflow : float
@@ -137,9 +136,8 @@ def river_water_balance(rout_order, routflow_looper,
        Daily streamflow, Unit: [km^3/day]
 
     """
-    # Index to  print out varibales of interest
+    # Index(x, y) to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
-    x, y = rout_order[routflow_looper]
 
     #                  ======================================
     #                  ||            River balance         ||
@@ -178,8 +176,9 @@ def river_water_balance(rout_order, routflow_looper,
         # There is not enough  storage to satisfy potential net asbraction from
         # suracface water
         if accumulated_unsatisfied_potential_netabs_sw > 0:
-            accumulated_unsatisfied_potential_netabs_sw -= accumulated_unsatisfied_potential_netabs_sw * \
-                (riverevap_netabs_max / riverevap_netabs)
+            accumulated_unsatisfied_potential_netabs_sw -= \
+                (accumulated_unsatisfied_potential_netabs_sw *
+                 (riverevap_netabs_max / riverevap_netabs))
         else:
             accumulated_unsatisfied_potential_netabs_sw = 0
 

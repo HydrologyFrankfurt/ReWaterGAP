@@ -74,7 +74,7 @@ def update_netabs_gw(potential_net_abstraction_gw,
                      prev_potential_consumptive_use_sw_irri,
                      daily_unsatisfied_pot_nas,
                      frac_irri_returnflow_to_gw,
-                     rout_order, routflow_looper):
+                     x, y):
     """
     Update net groundwater abstraction.
 
@@ -93,10 +93,10 @@ def update_netabs_gw(potential_net_abstraction_gw,
         Units : [km3/day]
     frac_irri_returnflow_to_gw : float
        fraction of return flow from irrigation, Units : [-]
-    rout_order : array
-        Routing order of cells
-    routflow_looper : int
-        Looper that goes through the routing order.
+     x : int
+         Latitude index of cell
+     y : int
+         Longitude index of cell
 
     Returns
     -------
@@ -104,9 +104,8 @@ def update_netabs_gw(potential_net_abstraction_gw,
         actual net groundwater abstraction , Units : [km3/day]
 
     """
-    # Index to  print out varibales of interest
+    # Index(x,y) to print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
-    x, y = rout_order[routflow_looper]
 
     if daily_unsatisfied_pot_nas > 0:
         if prev_potential_water_withdrawal_sw_irri > 0:

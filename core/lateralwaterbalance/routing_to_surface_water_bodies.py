@@ -21,7 +21,7 @@ from numba import njit
 
 
 @njit(cache=True)
-def frac_routing(rout_order, routflow_looper,
+def frac_routing(x, y,
                  surface_runoff, groundwater_discharge, loclake_frac,
                  locwet_frac, glowet_frac, glolake_frac,
                  reglake_frac, headwater_cell, drainage_direction,
@@ -31,10 +31,10 @@ def frac_routing(rout_order, routflow_looper,
 
     Parameters
     ----------
-    rout_order : array
-        Routing order of cells
-    routflow_looper : int
-        looper that goes through the routing order.
+     x : int
+         Latitude index of cell
+     y : int
+         Longitude index of cell
     surface_runoff : float
         Daily volumetric surface runoff, unit: [km3/day].
     groundwater_discharge : float
@@ -68,7 +68,7 @@ def frac_routing(rout_order, routflow_looper,
     """
     # Index to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
-    x, y = rout_order[routflow_looper]
+
     # =========================================================================
     #  Computing fractional routing factor(fswb_catchment)
     # =========================================================================

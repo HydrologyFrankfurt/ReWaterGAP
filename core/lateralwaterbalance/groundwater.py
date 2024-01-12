@@ -28,7 +28,7 @@ from core.lateralwaterbalance import groundwater_adapt_net_abstraction as \
 
 
 @njit(cache=True)
-def compute_groundwater_balance(rout_order, routflow_looper,
+def compute_groundwater_balance(x, y,
                                 aridity_or_inlandsink, groundwater_storage,
                                 diffuse_gw_recharge,
                                 potential_net_abstraction_gw,
@@ -42,10 +42,10 @@ def compute_groundwater_balance(rout_order, routflow_looper,
 
     Parameters
     ----------
-    rout_order : array
-        Routing order of cells
-    routflow_looper : int
-        Looper that goes through the routing order.
+    x : int
+        Latitude index of cell
+    y : int
+        Longitude index of cell
     aridiity : string
         Compute groundwater for "Humid" or "Arid" region
     groundwater_storage : float
@@ -71,9 +71,8 @@ def compute_groundwater_balance(rout_order, routflow_looper,
     actual_net_abstraction_gw: float
         Actual Net abstraction from groundwater, Unit: [km^3/day]
     """
-    # Index to  print out varibales of interest
+    # Index (x, y) to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
-    x, y = rout_order[routflow_looper]
 
     #                  ======================================
     #                  ||  groundwaterwater balance    ||
@@ -105,7 +104,7 @@ def compute_groundwater_balance(rout_order, routflow_looper,
                                   prev_potential_consumptive_use_sw_irri,
                                   daily_unsatisfied_pot_nas,
                                   frac_irri_returnflow_to_gw,
-                                  rout_order, routflow_looper),
+                                  x, y),
                  potential_net_abstraction_gw)
 
     # Updating net groundwater recharge (netgw_in [km3])

@@ -37,7 +37,9 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                                  glolake_area,
                                  accumulated_unsatisfied_potential_netabs_sw,
                                  accumulated_unsatisfied_potential_netabs_glolake,
-                                 ):
+                                 num_days_in_month,
+                                 all_reservoir_and_regulated_lake_area,
+                                 reg_lake_redfactor_firstday):
     # ************************************************************************
     # Note: To estimate the water demand of 5 cells downstream from a
     # reservoir, the reservoir area for all grid cells is read in and the
@@ -68,10 +70,11 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
     # evaporation and not area since area is assumed not to be dynamic.
     # This would prevent continuous decline of storage levels in some regions
     # i.e. ((semi)arid regions)
-
-    evapo_redfactor = \
-        rf.swb_redfactor(storage_prevstep, max_storage, reduction_exponent_res)
-
+    if reg_lake_redfactor_firstday == 1:
+        evapo_redfactor = 0
+    else:
+        evapo_redfactor = \
+            rf.swb_redfactor(storage_prevstep, max_storage, reduction_exponent_res)
     # =========================================================================
     # Computing reservior or regulated lake corrected evaporation
     # (openwater_evapo_cor[km3/day])
@@ -204,7 +207,8 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                               rout_order, outflow_cell, routflow_looper,
                               reservior_area, allocation_coeff, monthly_demand,
                               mean_annual_demand, mean_annual_inflow,
-                              inflow_to_swb)
+                              inflow_to_swb, num_days_in_month,
+                              all_reservoir_and_regulated_lake_area)
 
     # Reservoirs release (outflow) water based on their current level [S(t)]
     # convert release from m3/s to km3/day since temporal resultion is daily

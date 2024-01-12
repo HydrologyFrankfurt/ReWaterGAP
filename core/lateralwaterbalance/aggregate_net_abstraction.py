@@ -57,8 +57,11 @@ def aggregate_potnetabs(glwdunits, lake_area, res_area, netabs,
                      (glwdunits == unique_glwdunits[i]) & (res_area > 0))
 
         # get index of lakes and reservior with values in index array
+        # If there are multiple outflow cells (reservoir or lakes), select the
+        # cell with the highest index (or last reservoir or lake).
+        # This avoid double counting of demand.
         if outflowcell_index[0].shape[0] != 0:
-            x, y = outflowcell_index[0][0], outflowcell_index[1][0]
+            x, y = outflowcell_index[0][-1], outflowcell_index[1][-1]
 
             # get positive net abstraction values of lake or reservior riparian
             # cells

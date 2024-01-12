@@ -23,7 +23,7 @@ from core.lateralwaterbalance import storage_reduction_factor as rf
 
 
 @njit(cache=True)
-def lake_wetland_balance(rout_order, routflow_looper,
+def lake_wetland_balance(x, y,
                          choose_swb, storage, precipitation,
                          openwater_pot_evap, aridity, drainage_direction,
                          inflow_to_swb, swb_outflow_coeff,
@@ -39,10 +39,10 @@ def lake_wetland_balance(rout_order, routflow_looper,
 
     Parameters
     ----------
-    rout_order : array
-        Routing order of cells
-    routflow_looper : int
-        looper that goes through the routing order.
+     x : int
+         Latitude index of cell
+     y : int
+         Longitude index of cell
     choose_swb : string
         Select surface waterbody (global and local lakes and wetlands)
     storage : float
@@ -116,9 +116,8 @@ def lake_wetland_balance(rout_order, routflow_looper,
     actual_use_sw: float
         Accumulated actual net abstraction from surface water, Unit: [km^3/day]
     """
-    # Index to  print out varibales of interest
+    # Index (x,y) to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
-    x, y = rout_order[routflow_looper]
 
     # =========================================================================
     #     Parameters for respective surface waterbody.
@@ -229,9 +228,7 @@ def lake_wetland_balance(rout_order, routflow_looper,
     # Combine inflow and open water precipitation total_inflow (km3/day)
     # =========================================================================
     total_inflow = inflow_to_swb + precipitation * lake_wet_area
-    # if x==146 and y==522:
-    #     if choose_swb == "local lake":
-    #         print(inflow_to_swb,  storage)
+
     # =========================================================================
     # Combine openwater PET, potential net abstraction from surface water
     # and point source recharge into petgwr_netabs_sw(km3/day).
@@ -383,11 +380,9 @@ def lake_wetland_balance(rout_order, routflow_looper,
         else:
             outflow = 0
 
-        # if x==84 and y==116:
-        #     print(swb_outflow_coeff, which_storge, max_storage, exp_factor)
         storage -= outflow
 
-        # # update outflow
+        # update outflow
         if storage > max_storage:
             outflow += (storage - max_storage)
             # updating storage

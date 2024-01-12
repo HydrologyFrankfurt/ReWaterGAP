@@ -98,7 +98,7 @@ def allocate_unsat_demand_to_demandcell(x, y,
                 # becomes negative. This is because "actual_net_abstraction_sw"
                 #  can exceed "total_demand_sw_noallocation"
                 if accumulated_unsatisfied_potential_netabs_sw < 0:
-                    accumulated_unsatisfied_potential_netabs_sw = 0.
+                    accumulated_unsatisfied_potential_netabs_sw = 0
 
                 # unsatisfied use to be allocated to demand cell
                 unsat_potnetabs_sw_supplycell_to_demandcell = \
