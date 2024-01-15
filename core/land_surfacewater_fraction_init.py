@@ -89,6 +89,15 @@ class LandsurfacewaterFraction:
             lsf.get_glolake_area(self.static_data.land_surface_water_fraction)
         # =====================================================================
 
+        # ---------------------------------------------------------------------
+        # Variables needed tp adapt global reservoir storage due to  net change
+        # in land fraction. see  "adapt_glores_storage" function
+        self.outflow_cell_assignment = self.static_data.res_reg_files.\
+            outflowcell_assignment_glores.values
+        self.unique_outflow_cell_assignment = \
+            np.unique(self.outflow_cell_assignment)[1:-1]
+        # ---------------------------------------------------------------------
+
     def landareafrac_with_reservior(self, date, reservoir_opt_year,
                                     time_step, restart, restart_year):
         """
@@ -228,14 +237,31 @@ class LandsurfacewaterFraction:
                                  (snow_water_storage * mm_to_km *
                                   cell_area * (-1 * landareafrac_change)), 0)
 
-                    # Add previous storage to reservoir storage volume located
-                    # in outflow cell, (needs to be checked***)
-                    glores_storage = \
-                        np.where(glores_area > 0, (glores_storage +
-                                 canopy_watercontent_change_km3 +
-                                 soil_watercontent_change_km3 +
-                                 snow_watercontent_change_km3),
-                                 glores_storage)
+                    # ---------------------------------------------------------
+                    # Add previous storage to reservoir storage volume
+                    # located in assinged outflow cell according to the
+                    # glwdunits
+                    # ---------------------------------------------------------
+                    for i in range(len(self.unique_outflow_cell_assignment)):
+                        assinged_outflowcell_index = \
+                            np.where((self.outflow_cell_assignment ==
+                                      self.unique_outflow_cell_assignment[i]) &
+                                     (glores_area > 0))
+
+                        if assinged_outflowcell_index[0].shape[0] != 0:
+                            lat_x, lon_y = assinged_outflowcell_index[0][0],\
+                                assinged_outflowcell_index[1][0]
+
+                            all_storage = \
+                                np.where(self.outflow_cell_assignment ==
+                                         self.unique_outflow_cell_assignment[i],
+                                         canopy_watercontent_change_km3 +
+                                         soil_watercontent_change_km3 +
+                                         snow_watercontent_change_km3, 0)
+
+                            glores_storage[lat_x, lon_y] += all_storage.sum()
+                    # ---------------------------------------------------------
+                    # print(glores_storage[152, 512], "1st")
 
                     # Assigning current reservoir year to previous year.
                     glores_frac_currentyear = self.static_data.resyear_frac.\
