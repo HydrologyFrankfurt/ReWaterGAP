@@ -210,7 +210,7 @@ class LateralWaterBalance:
         # Units was converted from km3/month to m3/s
         # 31536000=(365 * 24 * 60 * 60)
         year_to_s = 31536000
-        self.mean_annaul_inflow_res = self.static_data.res_reg_files.\
+        self.mean_annual_inflow_res = self.static_data.res_reg_files.\
             mean_inflow[0].values.astype(np.float64) * 12 * 1e9 / year_to_s
 
         # Monthly demand for reservoir release compution (km3/month)
@@ -378,54 +378,7 @@ class LateralWaterBalance:
         """
         if cm.ant is True and cm.reservior_opt is True:
 
-            if simulation_date.astype('datetime64[D]') == pd.to_datetime(cm.start):
-                simu_start_year = pd.to_datetime(cm.start).year
-                m_to_km = 0.001
-
-                # If run is a restart run, saved storage is used
-                if simu_start_year != restart_year:
-
-                    # Note!: Storages are activated on the 1st day of the year
-
-                    # -----------------
-                    # Reservoir Storage
-                    # -----------------
-                    # # Initialize newly activated reservior storage in
-                    # the current year to maximum,  Units : km3
-                    # Keep storage values of already activate reservoirs
-                    glores_storage_active = self.static_data.\
-                        res_reg_files.stor_cap[0].values.astype(np.float64)
-
-                    self.glores_storage = \
-                        np.where(simu_start_year >= self.glores_startyear ,
-                                 glores_storage_active,
-                                 self.glores_storage)
-
-                    # -------------------------
-                    # Regulated Lake Storage
-                    # -----------------------
-                    # For regulated lake: if it's not yet operational
-                    # increase reservoir storage by multiplying the area with 
-                    # lake depth (Treat it as a global lake)
-                    self.glores_storage =\
-                        np.where((simu_start_year < self.glores_startyear ) &
-                                 (self.regulated_lake_status == 1),
-                                 (self.all_reservoir_and_regulated_lake_area *
-                                  self.parameters.activelake_depth * m_to_km)
-                                 + self.glores_storage,
-                                 self.glores_storage)
-
-                    self.reg_lake_redfactor_firstday = \
-                        np.where((simu_start_year < self.glores_startyear) &
-                                 (self.regulated_lake_status == 1), 1,
-                                 0)
-
-                    self.reg_lake_redfactor_firstday = \
-                        np.where((self.glores_storage == glores_storage_active) &
-                                 (self.regulated_lake_status == 1), 0,
-                                 self.reg_lake_redfactor_firstday)
-
-                    print(self.glores_storage[85, 202])
+            m_to_km = 0.001
             # Activate  area and capacity of reservoir and regulated lake that
             # are  active in current year
             if simulation_date.astype('datetime64[D]') in reservoir_opt_year:
@@ -461,9 +414,81 @@ class LateralWaterBalance:
                 # Units : km3, Keep capacity values of already activate
                 # reservoirs
                 self.glores_capacity = \
-                    np.where(resyear >=self.glores_startyear,
+                    np.where(resyear >= self.glores_startyear,
                              glores_capacity_active, self.glores_capacity)
 
+                # ------------------------------------------------------
+                # Reservoir area is added to global lake if
+                # mean_annual_inflow_res = 0. reservoir area has to be set
+                #  to zero after.
+                # -------------------------------------------------------
+                self.glolake_area =\
+                    np.where((self.glores_area > 0)
+                             & (resyear >= self.glores_startyear)
+                             & (self.mean_annual_inflow_res == 0),
+                             self.glores_area + self.glolake_area,
+                             self.glolake_area)
+
+                self.glores_area =\
+                    np.where((self.glores_area > 0)
+                             & (resyear >= self.glores_startyear)
+                             & (self.mean_annual_inflow_res == 0), 0,
+                             self.glores_area)
+
+                # update maximum storage of global lake if reservoir becomes
+                # global lake due to mean_annual_inflow_res = 0.
+                self.max_glolake_storage = self.glolake_area * \
+                    self.parameters.activelake_depth * m_to_km
+
+            if simulation_date.astype('datetime64[D]') == pd.to_datetime(cm.start):
+                simu_start_year = pd.to_datetime(cm.start).year
+
+                # If run is a restart run, saved storage is used
+                if simu_start_year != restart_year:
+
+                    # Note!: Storages are activated on the 1st day of the year
+
+                    # -----------------
+                    # Reservoir Storage
+                    # -----------------
+                    # # Initialize newly activated reservior storage in
+                    # the current year to maximum,  Units : km3
+                    # Keep storage values of already activate reservoirs
+                    glores_storage_active = self.static_data.\
+                        res_reg_files.stor_cap[0].values.astype(np.float64)
+
+                    self.glores_storage = \
+                        np.where(simu_start_year >= self.glores_startyear,
+                                 glores_storage_active,
+                                 self.glores_storage)
+
+                    # -------------------------
+                    # Regulated Lake Storage
+                    # -----------------------
+                    # For regulated lake: if it's not yet operational
+                    # increase reservoir storage by multiplying the area with
+                    # lake depth (Treat it as a global lake)
+                    self.glores_storage =\
+                        np.where((simu_start_year < self.glores_startyear) &
+                                 (self.regulated_lake_status == 1),
+                                 (self.all_reservoir_and_regulated_lake_area *
+                                  self.parameters.activelake_depth * m_to_km)
+                                 + self.glores_storage,
+                                 self.glores_storage)
+
+                    self.reg_lake_redfactor_firstday = \
+                        np.where((simu_start_year < self.glores_startyear) &
+                                 (self.regulated_lake_status == 1), 1,
+                                 0)
+
+                    self.reg_lake_redfactor_firstday = \
+                        np.where((self.glores_storage == glores_storage_active) &
+                                 (self.regulated_lake_status == 1), 0,
+                                 self.reg_lake_redfactor_firstday)
+
+                    # update initial storage of global lake if reservoir
+                    # becomes global lake due to mean_annual_inflow_res = 0.
+                    self.glolake_storage = self.max_glolake_storage
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # Calculate Lateral Water Balance
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -581,7 +606,6 @@ class LateralWaterBalance:
 
                     #  coverted to units = km3/day
                     self.unagregrgated_potential_netabs_sw = self.potential_net_abstraction_sw.copy()/(num_of_days * m3_to_km3)
-                    print("unag",self.unagregrgated_potential_netabs_sw[85,202])
 
                     self.potential_net_abstraction_sw = self.get_aggr_func.\
                         aggregate_riparian_netpotabs(self.glolake_area,
@@ -594,7 +618,6 @@ class LateralWaterBalance:
                     #  coverted to units = km3/day
                     self.potential_net_abstraction_sw = \
                         self.potential_net_abstraction_sw / (num_of_days * m3_to_km3)
-                    print("ag", self.potential_net_abstraction_sw[85,202])
 
                     # *********************************************************
                     # load in Potential water withdrawal from surfacewater and
@@ -689,7 +712,7 @@ class LateralWaterBalance:
                       self.roughness_multiplier, river_slope,
                       glwdunits, self.glores_startmonth, current_mon_day,
                       self.k_release, self.glores_type, self.allocation_coeff,
-                      self.mean_annual_demand_res, self.mean_annaul_inflow_res,
+                      self.mean_annual_demand_res, self.mean_annual_inflow_res,
                       self.potential_net_abstraction_gw,
                       self.potential_net_abstraction_sw,
                       self.unagregrgated_potential_netabs_sw,
@@ -708,7 +731,7 @@ class LateralWaterBalance:
                       cm.subtract_use,
                       cm.neighbouringcell, cm.reservior_opt,
                       self.num_days_in_month,
-                      self.all_reservoir_and_regulated_lake_area, 
+                      self.all_reservoir_and_regulated_lake_area,
                       self.reg_lake_redfactor_firstday)
 
         # update variables for next timestep or output.
@@ -744,8 +767,8 @@ class LateralWaterBalance:
         self.get_neighbouring_cells_map = out[26]
         check_daily_unsatisfied_pot_nas = out[27]
 
-        # print(self.glores_storage[139, 154],  self.glores_area[139,154],
-        #       glores_outflow[139, 154])
+        # print(self.glores_storage[139, 154],  self.glores_area[139, 154])
+        # print(self.glores_storage[152, 512],  self.glores_area[152, 512], "ok")
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.

@@ -75,6 +75,7 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
     else:
         evapo_redfactor = \
             rf.swb_redfactor(storage_prevstep, max_storage, reduction_exponent_res)
+
     # =========================================================================
     # Computing reservior or regulated lake corrected evaporation
     # (openwater_evapo_cor[km3/day])

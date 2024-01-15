@@ -52,7 +52,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
          river_length, river_bottom_width, roughness, roughness_multiplier,
          river_slope, glwdunits, glores_startmonth, current_mon_day, k_release,
          glores_type, allocation_coeff, mean_annual_demand_res,
-         mean_annaul_inflow_res, potential_net_abstraction_gw,
+         mean_annual_inflow_res, potential_net_abstraction_gw,
          potential_net_abstraction_sw,  unagregrgated_potential_netabs_sw,
          accumulated_unsatisfied_potential_netabs_sw,
          prev_accumulated_unsatisfied_potential_netabs_sw,
@@ -124,7 +124,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
     # Global reservior and regulated lake  groundwater recharge, Unit : km3/day
     gwr_glores = np.zeros(groundwater_storage.shape)
     # Reservoir reselease coefficient. Unit: (-)
-    k_release_out = np.zeros(groundwater_storage.shape)
+    k_release_out = k_release.copy()
 
     #                  =================================
     #                  ||        Global wetland       ||
@@ -340,11 +340,9 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
             gwr_loclake[x, y] = recharge.item()
             dyn_loclake_frac[x, y] = frac.item()
 
-            # if x==88  and y==220:
-            #     print(loclake_storage_out[x, y], inflow_to_swb, "b4")
             # update inflow to surface water bodies
             inflow_to_swb = outflow
-            
+
     #                  =================================
     #                  || Local wetland waterbalance ||
     #                  =================================
@@ -428,7 +426,6 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
 
             # update inflow to surface water bodies
             inflow_to_swb = outflow
-        
 
     #                  ==================================================
     #                  || Reserviour and regulated lake waterbalance   ||
@@ -463,7 +460,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                                              allocation_coeff,
                                              monthly_potential_net_abstraction_sw,
                                              mean_annual_demand_res,
-                                             mean_annaul_inflow_res[x, y],
+                                             mean_annual_inflow_res[x, y],
                                              glolake_area[x, y],
                                              accumulated_unsatisfied_potential_netabs_sw[x, y],
                                              accu_unsatisfied_pot_netabstr_glolake,
@@ -483,9 +480,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
 
             # update inflow to surface water bodies
             inflow_to_swb = outflow
-        
-        if x==85  and y==202:
-            print(glores_storage_out[x, y], accumulated_unsatisfied_potential_netabs_sw[x, y],  accu_unsatisfied_pot_netabstr_glores)
+
         # Update accumulated_unsatisfied_potential_netabs_sw  after global lake
         # and reservior abstraction since a cell may contain both.
         if glores_area[x, y] > 0:
@@ -694,7 +689,6 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
             #    || lake storage is above negative max_storage.              ||
             #    ||                                                          ||
             #    -----------------------------------------------------------------
-            stert_d = accumulated_unsatisfied_potential_netabs_sw[x, y]
             if (loclake_frac[x, y] > 0) and \
                     (accumulated_unsatisfied_potential_netabs_sw[x, y] > 0):
                 if (loclake_storage_out[x, y] >
@@ -735,10 +729,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                                                         rout_order,
                                                         returned_demand_from_supply_cell,
                                                         current_mon_day)
-                # if x==117  and y==419:
-                #     print(stert_d, accumulated_unsatisfied_potential_netabs_sw[x, y], 
-                #           actual_daily_netabstraction_sw[x, y])
-                
+
                 # water taken from  neigbour cell for demand satisfaction
                 water_demand_satis_neigbhourcell[x, y] = \
                   unsat_potnetabs_sw_to_supplycell[x, y] - returned_demand_from_supply_cell[x, y]
