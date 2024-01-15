@@ -9,7 +9,7 @@
   "RuntimeOptions": [
     {
       "SimulationOption": {
-        "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": true},
+        "AntNat_opts": {"ant": false,  "subtract_use": true, "res_opt": true},
         "Demand_satisfaction_opts": {"delayed_use": true, "neighbouring_cell": true}
       }
     },
@@ -22,9 +22,9 @@
     {
       "SimilationPeriod": {
         "start": "1909-01-01",
-        "end": "1910-12-31",
+        "end": "1909-12-31",
         "reservoir_start_year": 1909,
-        "reservoir_end_year": 1910,
+        "reservoir_end_year": 1909,
         "spinup_years": 0
       }
     },
