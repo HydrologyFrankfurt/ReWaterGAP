@@ -649,7 +649,8 @@ class LateralWaterBalance:
         # (see section *Update accumulated unsatisfied potential net
         # abstraction from surface water and and daily_unsatisfied_pot_nas* in
         # this module below)
-
+        accumulated_unsatisfied_potential_netabs_sw = \
+            np.zeros_like(self.potential_net_abstraction_sw)
         if cm.subtract_use is True:
             if cm.delayed_use is True:
                 accumulated_unsatisfied_potential_netabs_sw =  \
