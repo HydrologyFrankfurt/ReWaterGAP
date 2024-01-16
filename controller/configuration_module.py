@@ -114,7 +114,7 @@ if ant is True and reservior_opt is False and subtract_use is False:
 # =============================================================================
 # # Initializing  simulation and spinup period
 # =============================================================================
-sim_period = config_file['RuntimeOptions'][2]['SimilationPeriod']
+sim_period = config_file['RuntimeOptions'][2]['SimulationPeriod']
 
 start = sim_period['start']
 end = sim_period['end']
