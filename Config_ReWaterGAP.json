@@ -20,7 +20,7 @@
         }
     },
     {
-      "SimilationPeriod": {
+      "SimulationPeriod": {
         "start": "1909-01-01",
         "end": "1909-12-31",
         "reservoir_start_year": 1909,
