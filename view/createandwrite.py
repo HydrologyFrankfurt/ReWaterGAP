@@ -78,13 +78,15 @@ class CreateandWritetoVariables:
         # Initialize output variables for vertical water balance
         for var_name, cm_var in vb_output_vars.items():
             if var_name in {'canopystor', 'swe', 'soilmoist'}:
-                var = doh.OutputVariable(var_name, cm.vb_storages.get(cm_var),
-                                         grid_coords)
-                self.vb_storages[var_name] = var
+                if cm.vb_storages.get(cm_var) is True:
+                    var = doh.OutputVariable(var_name, cm.vb_storages.get(cm_var),
+                                             grid_coords)
+                    self.vb_storages[var_name] = var
             else:
-                var = doh.OutputVariable(var_name, cm.vb_fluxes.get(cm_var),
-                                         grid_coords)
-                self.vb_fluxes[var_name] = var
+                if cm.vb_fluxes.get(cm_var) is True:
+                    var = doh.OutputVariable(var_name, cm.vb_fluxes.get(cm_var),
+                                             grid_coords)
+                    self.vb_fluxes[var_name] = var
 
         # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         #         #  Lateral Water Balance (lb)
@@ -117,13 +119,15 @@ class CreateandWritetoVariables:
             if var_name in {'groundwstor', "locallakestor", "localwetlandstor",
                             "globallakestor", "globalwetlandstor",
                             "riverstor", "glores_stor"}:
-                var = doh.OutputVariable(var_name, cm.lb_storages.get(cm_var),
-                                         grid_coords)
-                self.lb_storages[var_name] = var
+                if cm.lb_storages.get(cm_var) is True:
+                    var = doh.OutputVariable(var_name, cm.lb_storages.get(cm_var),
+                                             grid_coords)
+                    self.lb_storages[var_name] = var
             else:
-                var = doh.OutputVariable(var_name, cm.lb_fluxes.get(cm_var),
-                                         grid_coords)
-                self.lb_fluxes[var_name] = var
+                if cm.lb_fluxes.get(cm_var) is True:
+                    var = doh.OutputVariable(var_name, cm.lb_fluxes.get(cm_var),
+                                             grid_coords)
+                    self.lb_fluxes[var_name] = var
 
     def verticalbalance_write_daily_var(self, value, time_step, sim_year,
                                         sim_month, sim_day):
