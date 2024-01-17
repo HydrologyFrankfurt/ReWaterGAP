@@ -15,14 +15,15 @@
     },
     {
     "RestartOptions":{
-        "restart": false,
-        "save_model_states_for_restart": true
+        "restart": true,
+        "save_model_states_for_restart": true,
+        "save_and_read_states_dir": "output_data/"
         }
     },
     {
       "SimulationPeriod": {
-        "start": "1909-01-01",
-        "end": "1909-12-31",
+        "start": "1909-01-03",
+        "end": "1909-01-04",
         "reservoir_start_year": 1909,
         "reservoir_end_year": 1909,
         "spinup_years": 0
@@ -37,46 +38,46 @@
   "OutputVariable": [
     {
       "VerticalWaterBalanceFluxes": {
-        "pot_evap":true,
-        "net_rad":true,
-        "leaf_area_index":true,
-        "canopy_evap":true,
-        "throughfall":true,
-        "snow_fall":true,
-        "snow_melt":true,
-        "snow_evap":true,
-        "groundwater_recharge":true,
-        "surface_runoff":true
+        "pot_evap":false,
+        "net_rad":false,
+        "leaf_area_index":false,
+        "canopy_evap":false,
+        "throughfall":false,
+        "snow_fall":false,
+        "snow_melt":false,
+        "snow_evap":false,
+        "groundwater_recharge":false,
+        "surface_runoff":false
       }
     },
     {
       "VerticalWaterBalanceStorages": {
-        "canopy_storage":true,
-        "snow_water_equiv":true,
-        "soil_moisture":true
+        "canopy_storage":false,
+        "snow_water_equiv":false,
+        "soil_moisture":false
       }
     },
     {
       "LateralWaterBalanceFluxes": {
-        "groundwater_discharge":true,
-        "local_lake_outflow":true,
-        "local_wetland_outflow":true,
-    	"global_lake_outflow":true,
-        "global_wetland_outflow":true,
+        "groundwater_discharge":false,
+        "local_lake_outflow":false,
+        "local_wetland_outflow":false,
+    	"global_lake_outflow":false,
+        "global_wetland_outflow":false,
         "streamflow":true,
-        "actual_net_abstr_groundwater": true,
-        "satisfied_demand_neigbhourcell": true
+        "actual_net_abstr_groundwater": false,
+        "satisfied_demand_neigbhourcell": false
       }
     },
     {
       "LateralWaterBalanceStorages": {
-        "groundwater_storage":true,
-        "local_lake_storage": true,
-        "local_wetland_storage":true,
-    	"global_lake_storage": true,
-    	"global_wetland_storage":true,
-    	"river_storage": true,
-    	"global_reservoir_storage": true
+        "groundwater_storage":false,
+        "local_lake_storage": false,
+        "local_wetland_storage":false,
+    	"global_lake_storage": false,
+    	"global_wetland_storage":false,
+    	"river_storage": false,
+    	"global_reservoir_storage": false
       }
     }
   ]

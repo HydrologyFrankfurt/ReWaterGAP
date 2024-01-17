@@ -83,7 +83,7 @@ def run():
     # =====================================================================
     # Initialize Restart module for possible restart of WaterGAP
     # =====================================================================
-    restart_model = restartwatergap.RestartState()
+    restart_model = restartwatergap.RestartState(cm.save_and_read_states_path)
     savestate_for_restart = cm.save_states
     restart = cm.restart
     # =====================================================================
