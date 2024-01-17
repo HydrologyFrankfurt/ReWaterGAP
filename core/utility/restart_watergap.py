@@ -21,6 +21,7 @@ import glob
 import watergap_logger as log
 import misc.cli_args as cli
 import pandas as pd
+from pathlib import Path
 
 # ===============================================================
 # Get module name and remove the .py extension
@@ -38,10 +39,12 @@ args = cli.parse_cli()
 class RestartState:
     """Collect the restart states at the end of the simulation."""
 
-    def __init__(self):
+    def __init__(self, save_and_read_states_path):
         self.state = {}
+        self.save_and_read_states_path = str(Path(save_and_read_states_path))
 
-    def savestate(self, date, current_landarea_frac, previous_landarea_frac,
+    def savestate(self, date,
+                  current_landarea_frac, previous_landarea_frac,
                   landareafrac_ratio, previous_swb_frac, glores_frac_prevyear,
                   gloresfrac_change, lai_days_since_start,
                   lai_cum_precipitation, lai_growth_status, canopy_storage,
@@ -142,7 +145,10 @@ class RestartState:
                            "vert_bal_states": vert_bal_states,
                            "lat_bal_states": lat_bal_states})
 
-        with open('restartwatergap_'+str(date)+'.pickle', 'wb') as file:
+        file_path = os.path.join(self.save_and_read_states_path,
+                                 'restartwatergap_' + str(date) + '.pickle')
+
+        with open(file_path, 'wb') as file:
             pickle.dump(self.state, file)
 
     def load_restart_info(self, prev_date):
@@ -156,7 +162,9 @@ class RestartState:
 
         """
         try:
-            path = glob.glob("*"+prev_date+".pickle")
+            read_path = os.path.join(self.save_and_read_states_path,
+                                     "*"+prev_date+".pickle")
+            path = glob.glob(read_path)
             with open(path[0], 'rb') as rf:
                 restart_data = pickle.load(rf)
         except IndexError:
