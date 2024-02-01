@@ -168,7 +168,8 @@ class VerticalWaterBalance:
             np.zeros((self.forcings_static.lat_length,
                       self.forcings_static.lon_length))
 
-    def calculate(self, date, current_landarea_frac, landareafrac_ratio):
+    def calculate(self, date, current_landarea_frac, landareafrac_ratio, 
+                  region):
         """
         Calculate vertical waterbalance.
 
@@ -264,7 +265,8 @@ class VerticalWaterBalance:
                                self.groundwater_recharge_factor,
                                self.parameters.critcal_gw_precipitation,
                                self.max_soil_water_content,
-                               self.parameters.areal_corr_factor)
+                               self.parameters.areal_corr_factor, 
+                               region)
 
         # Radiation and PET output
         net_radiation = output[0]
