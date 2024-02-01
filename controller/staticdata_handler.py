@@ -12,6 +12,7 @@ import sys
 import numpy as np
 import xarray as xr
 import pandas as pd
+import geopandas as gpd
 import watergap_logger as log
 import misc.cli_args as cli
 from controller import configuration_module as cm
@@ -92,6 +93,13 @@ class StaticData:
         neighbourcells_outflowcell_path = \
             str(Path(cm.static_land_data_path +
                      r'/neigbouringcells_outflow_latlon.csv'))
+            
+        super_basins_shapefile = \
+            str(Path(cm.static_land_data_path +
+                r'/super_basins/WLM_superbasins_names_outflowcellcoords_upstreamarea.shp'))
+            
+        station_path =  str(Path(cm.path_to_stations_file +
+                               r'/stations.csv'))   
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
@@ -153,6 +161,13 @@ class StaticData:
             self.neighbourcells = pd.read_csv(neighbourcells_path)
             self.neighbourcells_outflowcell = \
                 pd.read_csv(neighbourcells_outflowcell_path)
+            
+            # To select region or basin.
+            self.mask_watergap = cell_area.cell_area.copy() # needed to create a mask
+            self.super_basins = gpd.read_file(super_basins_shapefile)
+            self.stations = pd.read_csv(station_path)
+                
+                
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Static data '

@@ -149,6 +149,13 @@ else:
 
 
 # =============================================================================
+# # Simulation Extent
+# =============================================================================
+extent_options = config_file['RuntimeOptions'][4]['SimulationExtent']
+run_region = extent_options["run_region"]
+path_to_stations_file = extent_options['path_to_stations_file']
+
+# =============================================================================
 # # Selection of ouput variable (fluxes, storages and flows)
 # =============================================================================
 # Vertical Water Balance (vb)
