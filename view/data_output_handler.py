@@ -43,38 +43,56 @@ class OutputVariable:
             time_length = len(self.grid_coords['time'][:365].values)
 
             # Create dummy data for variable
-            dummy_data = np.full((time_length, lat_length, lon_length), np.nan,
+            if self.variable_name == "get_neighbouring_cells_map":
+                dummy_data = np.zeros((time_length, lat_length, lon_length, 2), 
+                                      dtype=np.int32)
+                self.data =  xr.Dataset(
+                        {
+                            'get_neighbouring_cells_map': (['time', 'lat', 'lon', 'dim2'], dummy_data)
+                        },
+                    coords={
+                        'time': self.grid_coords['time'][:365].values,
+                        'lat': self.grid_coords['lat'].values,
+                        'lon': self.grid_coords['lon'].values,
+                        # Adding a new dimension 'dim2'
+                        'dim2': np.arange(2)})                                     
+            else:
+                dummy_data = np.full((time_length, lat_length, lon_length), np.nan,
                                  dtype=np.float32)
-            dummy_coords = {"time": self.grid_coords['time'][:365].values,
+            
+            
+                dummy_coords = {"time": self.grid_coords['time'][:365].values,
                             "lat": self.grid_coords['lat'].values,
                             "lon": self.grid_coords['lon'].values}
 
-            # create Xarray dataset for output variable without variable name
-            self.data = xr.Dataset(coords=dummy_coords).\
-                chunk({'time': 1, 'lat': 360, 'lon': 720})
 
-            # Add variables names for respective output varaibes
-            self.data[self.variable_name] = \
-                xr.DataArray(dummy_data, coords=dummy_coords,
-                             dims=('time', 'lat', 'lon'),
-                             )
-            # Add variable metadata
-            self.data[self.variable_name].attrs = {
-                "standard_name": self.variable_name,
-                "long_name": var_info.modelvars[self.variable_name]['long'],
-                "units": var_info.modelvars[self.variable_name]['unit'],
-                }
+                # create Xarray dataset for output variable without variable name
+                self.data = xr.Dataset(coords=dummy_coords).\
+                    chunk({'time': 1, 'lat': 360, 'lon': 720})
+            
+                # Add variables names for respective output varaibes
+                self.data[self.variable_name] = \
+                    xr.DataArray(dummy_data, coords=dummy_coords,
+                                 dims=('time', 'lat', 'lon'),
+                                 )
 
-            # Add global metadata
-            self.data.attrs = {
-                'title': "WaterGAP"+" "+watergap_version.__version__ + ' model ouptput',
-                'institution': watergap_version.__institution__,
-                'contact': "hannes.mueller.schmied@em.uni-frankfurt.de",
-                'model_version':  "WaterGAP"+" "+watergap_version.__version__,
-                "reference": watergap_version.__reference__,
-                'Creation_date':
-                    dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                # Add variable metadata
+                self.data[self.variable_name].attrs = {
+                    "standard_name": self.variable_name,
+                    "long_name": var_info.modelvars[self.variable_name]['long'],
+                    "units": var_info.modelvars[self.variable_name]['unit'],
                     }
+    
+                # Add global metadata
+                self.data.attrs = {
+                    'title': "WaterGAP"+" "+watergap_version.__version__ + ' model ouptput',
+                    'institution': watergap_version.__institution__,
+                    'contact': "hannes.mueller.schmied@em.uni-frankfurt.de",
+                    'model_version':  "WaterGAP"+" "+watergap_version.__version__,
+                    "reference": watergap_version.__reference__,
+                    'Creation_date':
+                        dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        }
             del dummy_data  # delete dummy data to free memory
         # ======================================================================================================
 
@@ -105,5 +123,9 @@ class OutputVariable:
 
             # reset counter to zero after each year
             mod_time_step = time_step % len(self.data['time'])
-            self.data[self.variable_name][mod_time_step, :, :] = array
+            if self.variable_name == "get_neighbouring_cells_map":
+                fill_date =self.data.time[mod_time_step]
+                self.data[self.variable_name].loc[dict(time=fill_date)]= array
+            else:
+                self.data[self.variable_name][mod_time_step, :, :] = array
 

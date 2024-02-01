@@ -34,10 +34,26 @@ modelvars = {
     "dis": {"long": "Streamflow or River discharge", "unit": "km3/day"},
     "actual_net_abstraction_gw": {"long": "actual net abstraction from "
                                   "groundwater", "unit": "km3/day"},
+    "demand_satisfied_by_cell": {"long": "demand satisfied by cell", 
+                                 "unit": "km3/day"},
+    "total_demand": {"long": "total demand", "unit": "km3/day"},
 
-    "satisfied_demand_neigbhourcell":
-        {"long": "satisfied_demand_neigbhourcell",  "unit": "km3/day"},
-
+    "unsat_potnetabs_sw_from_demandcell": {"long": "unsatisfied potential"
+                                           "demand from demandcell in surfacewater", 
+                                           "unit": "km3/day"},
+    "unsat_potnetabs_sw_to_supplycell": {"long": "unsatisfied potential"
+                                           "demand to supplycell in surfacewater", 
+                                           "unit": "km3/day"},
+    
+    "returned_demand_from_supply_cell": {"long": "returned demand from supply cell", "unit": "km3/day"},
+    "prev_returned_demand_from_supply_cell": {"long": "returned demand from supply cell previous time step", "unit": "km3/day"},
+    
+    "unsatisfied_potential_netabs_riparian": {"long": "unsatisfied potential"
+                                           "demand to ripariancell in surfacewater", "unit": "km3/day"},
+    
+    "accumulated_unsatisfied_potential_netabs_sw":
+        {"long": "accumulated unsatisfied potential net abstraction from surfacewater",  "unit": "km3/day"},
+    "get_neighbouring_cells_map": {"long": "neighbouring cells map", "unit": "-"},
     # VerticalWaterBalanceStorages
     "canopystor": {"long": "Canopy storage", "unit": "mm"},
     "swe": {"long": "Snow water equivalent", "unit": "mm"},

@@ -111,7 +111,19 @@ class CreateandWritetoVariables:
             "glores_stor": "global_reservoir_storage",
             "dis": "streamflow",
             "actual_net_abstraction_gw": "actual_net_abstr_groundwater",
-            "satisfied_demand_neigbhourcell": "satisfied_demand_neigbhourcell"
+            "demand_satisfied_by_cell":
+                "demand_satisfied_by_cell",
+            "total_demand": "total_demand",
+            "unsat_potnetabs_sw_from_demandcell": "unsat_potnetabs_sw_from_demandcell",
+            "unsat_potnetabs_sw_to_supplycell": "unsat_potnetabs_sw_to_supplycell",
+            "returned_demand_from_supply_cell": 
+                "returned_demand_from_supply_cell",
+            "prev_returned_demand_from_supply_cell":
+                "prev_returned_demand_from_supply_cell",
+            "unsatisfied_potential_netabs_riparian": "unsatisfied_potential_netabs_riparian",
+            "accumulated_unsatisfied_potential_netabs_sw":
+                "accumulated_unsatisfied_potential_netabs_sw",
+            "get_neighbouring_cells_map":"get_neighbouring_cells_map"
         }
 
         # Initialize output variables for lateral water balance
@@ -210,9 +222,15 @@ class CreateandWritetoVariables:
                     self.lb_storages, self.lb_fluxes]:
             for key, value in var.items():
                 path = self.path + f'{key}_{end_date}.nc'
-                encoding = {key: {'_FillValue': 1e+20,
-                                  'chunksizes': [1, 360, 720],
-                                  "zlib": True, "complevel": 5}}
+                
+                if key=="get_neighbouring_cells_map":
+                    encoding = {key: {'chunksizes': [1, 360, 720, 2],
+                                      "zlib": True, 
+                                      "complevel": 5}}
+                else:
+                    encoding = {key: {'_FillValue': 1e+20,
+                                      'chunksizes': [1, 360, 720],
+                                      "zlib": True, "complevel": 5}}
                 write_args.append((value.data, encoding, path))
 
         # For saving output in parallel, Threading is used for macOS but
