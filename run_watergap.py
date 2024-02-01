@@ -15,7 +15,10 @@
 # =============================================================================
 
 import numpy as np
+from tqdm import tqdm
+import sys
 import pandas as pd
+import region_or_basin as basin
 from termcolor import colored
 from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
@@ -27,6 +30,7 @@ from core import land_surfacewater_fraction_init as lwf
 from core.lateralwaterbalance import waterbalance_lateral as lb
 from core.utility import restart_watergap as restartwatergap
 from view import createandwrite as cw
+
 
 
 @check_time
@@ -70,6 +74,8 @@ def run():
         print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
         print('Temporal resolution:' +
               colored(' %s' % (cm.temporal_res), 'green'))
+        print('Run basin or region:' +
+              colored(' %s' % (cm.run_region), 'green'))
     else:
         print('\n' + colored('+++ Naturalised Run +++', 'cyan'))
         print('Note:' + colored(' 1. Reserviors, abstraction from surface and'
@@ -79,6 +85,8 @@ def run():
         print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
         print('Temporal resolution:' +
               colored(' %s' % (cm.temporal_res), 'green'))
+        print('Run basin or region:' +
+              colored(' %s' % (cm.run_region), 'green'))
 
     # =====================================================================
     # Initialize Restart module for possible restart of WaterGAP
@@ -121,6 +129,15 @@ def run():
                                land_water_frac.glolake_frac,
                                land_water_frac.loclake_frac)
 
+    # =====================================================================
+    # Initialize selected basin or region 
+    # =====================================================================
+    watergap_region = \
+        basin.Select_region(cm.run_region,
+                            initialize_forcings_static.static_data.mask_watergap,
+                            initialize_forcings_static.static_data.super_basins,
+                            initialize_forcings_static.static_data.stations)
+    #print(watergap_region.region)
     # ====================================================================
     # Get time range for Loop
     # ====================================================================
@@ -128,19 +145,22 @@ def run():
     end_date = np.datetime64(cm.end)
 
     # check if user inputs larger time period than dataset
-    if (grid_coords['time'][-1].values.astype('datetime64[D]') < end_date) or \
-            (grid_coords['time'][0].values.astype('datetime64[D]') < start_date):
-        raise ValueError(colored('Start or end date of simulation period '
-                                 'is not included in the data. '
-                                 'Please select valid period', 'red'))
+    # if (grid_coords['time'][-1].values.astype('datetime64[D]') < end_date) or \
+    #         (grid_coords['time'][0].values.astype('datetime64[D]') < start_date):
+    #     raise ValueError(colored('Start or end date of simulation period '
+    #                              'is not included in the data. '
+    #                              'Please select valid period', 'red'))
 
     # getting time range from time input (including the first day).
     timerange_main = round((end_date - start_date + 1)/np.timedelta64(1, 'D'))
-    date_main = grid_coords['time'].values
+    
+    # format main date for simulation. 
+    date_main = grid_coords['time'].values.astype('datetime64[D]')
 
     # Get the first available day for each month (required to load in wateruse
     # data once each month)
     date_df = pd.DataFrame({'dates': pd.to_datetime(date_main)})
+
     # Extract the year and month to group by month
     date_df['year'] = date_df['dates'].dt.year
     date_df['month'] = date_df['dates'].dt.month
@@ -160,11 +180,11 @@ def run():
     time_range = \
         round((end_spinup - start_date + 1)/np.timedelta64(1, 'D'))
 
-    spin_start = np.where(grid_coords['time'].values.astype('datetime64[D]') == start_date)[0].item()
-    spin_end = 1 + np.where(grid_coords['time'].values.astype('datetime64[D]') == end_spinup)[0].item()
+    spin_start = np.where(date_main == start_date)[0].item()
+    spin_end = 1 + np.where(date_main == end_spinup)[0].item()
 
     #  if there is spinup, simulation date will start with the spinup years.
-    simulation_date = grid_coords['time'].values[spin_start:spin_end]
+    simulation_date = date_main[spin_start:spin_end]
 
     # *********************************************************************
     print('\n' + '++++++++++++++++++++++++++++++++++++++++++++' + '\n' +
@@ -194,6 +214,7 @@ def run():
     #                  ====================================
     #                  ||   Main Loop for all processes  ||
     #                  ====================================
+    end_main_loop = False
     while True:
         print('Spin up phase: ' + colored(str(spin_up), 'cyan'))
         if spin_up == 0:
@@ -201,14 +222,17 @@ def run():
                           cm.start + ':' + cm.end + '\n', 'cyan'))
             time_range = timerange_main
             simulation_date = date_main
-        for time_step, date in zip(range(time_range), simulation_date):
+        for time_step, date in tqdm(zip(range(time_range), simulation_date),
+                                    total=(time_range-1), desc="Processing",
+                                    disable=False):
+
             # =================================================================
             #  Get Land area fraction and reservoirs respective years
             # =================================================================
             # Get Land area fraction
             land_water_frac.\
                 landareafrac_with_reservior(date, cm.reservoir_opt_years,
-                                            time_step, restart, restart_year)
+                                            restart, restart_year)
 
             # Activate reservoirs for current year
             lateral_waterbalance.\
@@ -229,7 +253,8 @@ def run():
             # =================================================================
             vertical_waterbalance.\
                 calculate(date, land_water_frac.current_landareafrac,
-                          land_water_frac.landareafrac_ratio)
+                          land_water_frac.landareafrac_ratio, 
+                          watergap_region.region)
 
             # =================================================================
             #  Computing lateral water balance
@@ -242,7 +267,14 @@ def run():
                           vertical_waterbalance.fluxes['daily_storage_transfer'],
                           land_water_frac.current_landareafrac,
                           land_water_frac.previous_landareafrac,
-                          date, first_day_of_month)
+                          date, first_day_of_month, watergap_region.region)
+
+            # =================================================================
+            #  Update Land Area Fraction
+            # =================================================================
+            land_swb_fraction = lateral_waterbalance.get_new_swb_fraction()
+            land_water_frac.update_landareafrac(land_swb_fraction)
+
             if spin_up == 0:
                 # =============================================================
                 # Write vertical and lateralbalacne variables to file
@@ -279,61 +311,63 @@ def run():
                     save_year = date.astype('datetime64[D]')
                     print(f'\nWriting data for {save_year} to NetCDF\n')
                     create_out_var.save_netcdf_parallel(str(save_year))
-            # =================================================================
-            #  Update Land Area Fraction
-            # =================================================================
-            land_swb_fraction = lateral_waterbalance.get_new_swb_fraction()
-            land_water_frac.update_landareafrac(land_swb_fraction)
 
-        if end_date == date.astype('datetime64[D]') and spin_up == 0:
-            print('Status:' + colored(' complete', 'cyan'))
+                # =============================================================
+                #  Get restart information if restart is needed.
+                # =============================================================
+                if (pd.to_datetime(date).month == 12 and
+                        pd.to_datetime(date).day == 31) or end_date == date.astype('datetime64[D]'):
+                    if savestate_for_restart is True:
+                        restart_model.\
+                            savestate(date,
+                                      land_water_frac.current_landareafrac,
+                                      land_water_frac.previous_landareafrac,
+                                      land_water_frac.landareafrac_ratio,
+                                      land_water_frac.previous_swb_frac,
+                                      land_water_frac.glores_frac_prevyear,
+                                      land_water_frac.gloresfrac_change,
 
-            # =================================================================
-            #  Get restart information if restart is needed.
-            # =================================================================
-            if savestate_for_restart is True:
-                restart_model.\
-                    savestate(date,
-                              land_water_frac.current_landareafrac,
-                              land_water_frac.previous_landareafrac,
-                              land_water_frac.landareafrac_ratio,
-                              land_water_frac.previous_swb_frac,
-                              land_water_frac.glores_frac_prevyear,
-                              land_water_frac.gloresfrac_change,
+                                      vertical_waterbalance.lai_days,
+                                      vertical_waterbalance.cum_precipitation,
+                                      vertical_waterbalance.growth_status,
+                                      vertical_waterbalance.canopy_storage,
+                                      vertical_waterbalance.snow_water_storage,
+                                      vertical_waterbalance.snow_water_storage_subgrid,
+                                      vertical_waterbalance.soil_water_content,
+                                      vertical_waterbalance.daily_storage_transfer,
 
-                              vertical_waterbalance.lai_days,
-                              vertical_waterbalance.cum_precipitation,
-                              vertical_waterbalance.growth_status,
-                              vertical_waterbalance.canopy_storage,
-                              vertical_waterbalance.snow_water_storage,
-                              vertical_waterbalance.snow_water_storage_subgrid,
-                              vertical_waterbalance.soil_water_content,
-                              vertical_waterbalance.daily_storage_transfer,
+                                      lateral_waterbalance.groundwater_storage,
+                                      lateral_waterbalance.loclake_storage,
+                                      lateral_waterbalance.locwet_storage,
+                                      lateral_waterbalance.glolake_storage,
+                                      lateral_waterbalance.glowet_storage,
+                                      lateral_waterbalance.river_storage,
 
-                              lateral_waterbalance.groundwater_storage,
-                              lateral_waterbalance.loclake_storage,
-                              lateral_waterbalance.locwet_storage,
-                              lateral_waterbalance.glolake_storage,
-                              lateral_waterbalance.glowet_storage,
-                              lateral_waterbalance.river_storage,
+                                      lateral_waterbalance.glores_storage,
+                                      lateral_waterbalance.k_release,
+                                      lateral_waterbalance.unsatisfied_potential_netabs_riparian,
+                                      lateral_waterbalance.unsat_potnetabs_sw_from_demandcell,
+                                      lateral_waterbalance.unsat_potnetabs_sw_to_supplycell,
+                                      lateral_waterbalance.accumulated_unsatisfied_potential_netabs_sw, 
 
-                              lateral_waterbalance.glores_storage,
-                              lateral_waterbalance.k_release,
-                              lateral_waterbalance.unsatisfied_potential_netabs_riparian,
-                              lateral_waterbalance.unsat_potnetabs_sw_from_demandcell,
-                              lateral_waterbalance.unsat_potnetabs_sw_to_supplycell,
-                              lateral_waterbalance.accumulated_unsatisfied_potential_netabs_sw, 
+                                      lateral_waterbalance.daily_unsatisfied_pot_nas,
+                                      lateral_waterbalance.prev_accumulated_unsatisfied_potential_netabs_sw,
+                                      lateral_waterbalance.prev_potential_water_withdrawal_sw_irri,
+                                      lateral_waterbalance.prev_potential_consumptive_use_sw_irri
+                                      )
 
-                              lateral_waterbalance.daily_unsatisfied_pot_nas,
-                              lateral_waterbalance.prev_accumulated_unsatisfied_potential_netabs_sw,
-                              lateral_waterbalance.prev_potential_water_withdrawal_sw_irri,
-                              lateral_waterbalance.prev_potential_consumptive_use_sw_irri
-                              )
+                if end_date == date.astype('datetime64[D]'):
+                    end_main_loop = True
+                    break
 
-            break
-        else:
+        if spin_up != 0:
             spin_up -= 1
+
+        if end_main_loop is True:
+            print('Status:' + colored(' complete', 'cyan'))
+            break
 
 
 if __name__ == "__main__":
     run()
+
