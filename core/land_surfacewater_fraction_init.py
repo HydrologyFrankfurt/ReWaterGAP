@@ -21,6 +21,7 @@ class LandsurfacewaterFraction:
     def __init__(self, static_data, reservior_opt):
         self.static_data = static_data
         self.reservior_opt = reservior_opt
+        self.init_landfrac_ratio_flag = True
 
         # =====================================================================
         # Initialize fraction variables for reservoir
@@ -63,13 +64,19 @@ class LandsurfacewaterFraction:
             self.current_landareafrac = \
                 lsf.compute_landareafrac(self.static_data.
                                          land_surface_water_fraction,
+
                                          self.current_landareafrac)
-            self.landareafrac_ratio = \
-                np.ones(self.current_landareafrac.shape).astype(np.float64)
+            self.current_landareafrac[self.current_landareafrac<0]=0
+            # if initial land area fraction is zero (surface waterbody
+            # fraction is 100 % ) set initial landareafrac_ratio (prev/current)
+            # to zero
+            self.landareafrac_ratio = np.where(self.current_landareafrac==0,
+                                               0, 1)
+            
             self.previous_landareafrac = \
                 np.zeros(self.current_landareafrac.shape).astype(np.float64)
 
-            self.glolake_frac += reglake_frac
+            self.glolake_frac += reglake_frac 
 
             # self.previous_swb_frac will be used to update daily land area
             # fraction  see "update_landareafrac" function below
@@ -99,7 +106,7 @@ class LandsurfacewaterFraction:
         # ---------------------------------------------------------------------
 
     def landareafrac_with_reservior(self, date, reservoir_opt_year,
-                                    time_step, restart, restart_year):
+                                    restart, restart_year):
         """
         Get land area fraction.
 
@@ -143,20 +150,25 @@ class LandsurfacewaterFraction:
                                                  self.current_landareafrac,
                                                  self.static_data.resyear_frac,
                                                  self.resyear,
-                                                 self.glores_frac_prevyear)
+                                                 self.glores_frac_prevyear,
+                                                 self.init_landfrac_ratio_flag)
 
                     self.current_landareafrac = lsf_out[0]
+                    self.current_landareafrac[self.current_landareafrac<0]=0
                     self.gloresfrac_change = lsf_out[1]
-                    # print(self.gloresfrac_change[117, 419])
-
-                if time_step == 0 and restart != True:
+                    
+                if self.init_landfrac_ratio_flag and restart != True:
+                    # if initial land area fraction is zero (surface waterbody
+                    # fraction is 100 %) set initial landareafrac_ratio 
+                    # (prev/current) to zero
                     self.landareafrac_ratio = \
-                        np.ones(self.current_landareafrac.shape).\
-                        astype(np.float64)
+                        np.where(self.current_landareafrac==0, 0, 1)
+
                     self.previous_landareafrac = \
                         np.zeros(self.current_landareafrac.shape).\
                         astype(np.float64)
 
+                self.init_landfrac_ratio_flag = False
     # =========================================================================
     # Adjusting Reservoir Storage Based on Changes in Land Fraction
     # =========================================================================
@@ -261,7 +273,6 @@ class LandsurfacewaterFraction:
 
                             glores_storage[lat_x, lon_y] += all_storage.sum()
                     # ---------------------------------------------------------
-                    # print(glores_storage[152, 512], "1st")
 
                     # Assigning current reservoir year to previous year.
                     glores_frac_currentyear = self.static_data.resyear_frac.\
