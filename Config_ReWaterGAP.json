@@ -9,31 +9,36 @@
   "RuntimeOptions": [
     {
       "SimulationOption": {
-        "AntNat_opts": {"ant": false,  "subtract_use": true, "res_opt": true},
+        "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": true},
         "Demand_satisfaction_opts": {"delayed_use": true, "neighbouring_cell": true}
       }
     },
     {
     "RestartOptions":{
-        "restart": true,
+        "restart": false,
         "save_model_states_for_restart": true,
-        "save_and_read_states_dir": "output_data/"
+        "save_and_read_states_dir": "./"
         }
     },
     {
       "SimulationPeriod": {
-        "start": "1909-01-03",
-        "end": "1909-01-04",
-        "reservoir_start_year": 1909,
-        "reservoir_end_year": 1909,
-        "spinup_years": 0
+        "start": "1990-01-01",
+        "end": "1990-12-31",
+        "reservoir_start_year": 1990,
+        "reservoir_end_year": 2019,
+        "spinup_years": 5
       }
     },
     {
       "TimeStep": {
         "daily": true
       }
-    }
+    },
+    {
+    "SimulationExtent": { 
+     "run_region": true,
+     "path_to_stations_file": "input_data/static_input/"}
+     }
   ],
   "OutputVariable": [
     {
@@ -64,20 +69,28 @@
         "local_wetland_outflow":false,
     	"global_lake_outflow":false,
         "global_wetland_outflow":false,
-        "streamflow":true,
-        "actual_net_abstr_groundwater": false,
-        "satisfied_demand_neigbhourcell": false
+        "streamflow":false,
+        "actual_net_abstr_groundwater":false,
+         "demand_satisfied_by_cell":false,
+         "total_demand":false,
+         "unsat_potnetabs_sw_from_demandcell":false,
+         "unsat_potnetabs_sw_to_supplycell":false,
+         "returned_demand_from_supply_cell": false,
+         "prev_returned_demand_from_supply_cell":false,
+         "unsatisfied_potential_netabs_riparian": false,
+         "accumulated_unsatisfied_potential_netabs_sw":false,
+         "get_neighbouring_cells_map": false
       }
     },
     {
       "LateralWaterBalanceStorages": {
-        "groundwater_storage":false,
-        "local_lake_storage": false,
-        "local_wetland_storage":false,
-    	"global_lake_storage": false,
-    	"global_wetland_storage":false,
-    	"river_storage": false,
-    	"global_reservoir_storage": false
+        "groundwater_storage":true,
+        "local_lake_storage": true,
+        "local_wetland_storage":true,
+    	"global_lake_storage": true,
+    	"global_wetland_storage":true,
+    	"river_storage": true,
+    	"global_reservoir_storage": true
       }
     }
   ]
