@@ -12,6 +12,8 @@ Getting started
 
     .. grid-item-card:: 
         :img-top: ../images/introduction.svg
+        :width: 40pt
+        :height: 40pt
         :text-align: center
         :link: introduction
         :link-type: ref
