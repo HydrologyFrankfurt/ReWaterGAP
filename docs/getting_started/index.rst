@@ -25,7 +25,7 @@ Getting started
         :link: model_framework
         :link-type: ref
 
-        :octicon:`apps;10em`
+        :octicon:`app;10em`
 
         Model Framework
 
