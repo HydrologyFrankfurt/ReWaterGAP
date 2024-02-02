@@ -1,4 +1,4 @@
-.. _reservoir_regulated_lakes:
+.. _reservoir:
 
 ==============================
 Reservoirs and regulated lakes
