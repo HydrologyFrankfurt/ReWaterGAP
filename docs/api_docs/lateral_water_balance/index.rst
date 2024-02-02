@@ -28,6 +28,13 @@ Lateral Water Balance
 
         Net Abstractions
 
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  river
+        :link-type: ref
+
+        River Storage
+
 .. toctree::
     :maxdepth: 1
     :hidden:
@@ -35,3 +42,4 @@ Lateral Water Balance
     groundwater_storage
     lakes_wetlands_storage
     net_abstractions
+    river
