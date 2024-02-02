@@ -12,6 +12,7 @@ Getting started
 
     .. grid-item-card:: 
         :img-top: ../images/introduction.svg
+        :class-card: intro-card
         :text-align: center
         :link: introduction
         :link-type: ref
