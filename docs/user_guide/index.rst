@@ -23,13 +23,6 @@ User Guide
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  https://hydrologyfrankfurt.github.io/ReWaterGAP/_modules/canopy.html#canopy_balance
-        :link-type: url
-
-        Learn how the WaterGAP code works? Find our commented code here. 
-
-    .. grid-item-card:: 
-        :text-align: center
         :link: contributers_guide
         :link-type: ref
 
