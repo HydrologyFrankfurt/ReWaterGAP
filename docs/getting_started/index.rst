@@ -19,7 +19,6 @@ Getting started
 
         Introduction
 
-
     .. grid-item-card:: 
         :text-align: center
         :link: model_framework
