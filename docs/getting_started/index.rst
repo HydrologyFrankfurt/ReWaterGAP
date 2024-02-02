@@ -11,11 +11,10 @@ Getting started
     :gutter: 1
 
     .. grid-item-card:: 
+        :img-top: _../../introduction.svg
         :text-align: center
         :link: introduction
         :link-type: ref
-
-        :octicon:`arrow-down;10em`
 
         Introduction
 
