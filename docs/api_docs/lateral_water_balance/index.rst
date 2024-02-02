@@ -23,7 +23,7 @@ Lateral Water Balance
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  reservoir_regulated_lakes
+        :link:  reservoir
         :link-type: ref
 
         Reservoir and Regulated lakes
