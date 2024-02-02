@@ -11,20 +11,21 @@ Getting started
     :gutter: 1
 
     .. grid-item-card:: 
-        :img-top: ../images/introduction.svg
-        :class-card: intro-card
         :text-align: center
         :link: introduction
         :link-type: ref
 
+        :octicon:`home-fill;10em`
+
         Introduction
+
 
     .. grid-item-card:: 
         :text-align: center
         :link: model_framework
         :link-type: ref
 
-        :octicon:`arrow-right;10em`
+        :octicon:`apps;10em`
 
         Model Framework
 
@@ -33,7 +34,7 @@ Getting started
         :link: five_minute_guide
         :link-type: ref
 
-        :octicon:`arrow-right;10em`
+        :octicon:`clock;10em`
 
         5 Minute Guide
 
