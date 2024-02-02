@@ -7,12 +7,6 @@ API Reference
 .. grid:: 1
     :gutter: 1
 
-    .. grid-item-card:: WaterGAP Schematic Diagram
-        :text-align: center
-        :link: rewatergap_schematic
-        :link-type: ref
-
-        :octicon:`cpu;10em`
 
     .. grid-item-card:: Vertical Water Balance
         :text-align: center
@@ -33,7 +27,6 @@ API Reference
     :maxdepth: 2
     :hidden:
 
-    rewatergap_schematic/index
     vertical_water_balance/index
     lateral_water_balance/index
     
