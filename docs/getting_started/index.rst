@@ -4,9 +4,6 @@
 Getting started
 ===============
 
-.. figure:: ../../misc/watergap_logo.png
-
-
 .. grid:: 1
     :gutter: 1
 
