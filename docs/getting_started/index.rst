@@ -11,7 +11,7 @@ Getting started
     :gutter: 1
 
     .. grid-item-card:: 
-        :img-top: ../../introduction.svg
+        :img-top: ../../images/introduction.svg
         :text-align: center
         :link: introduction
         :link-type: ref
