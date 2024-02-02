@@ -39,7 +39,7 @@ Lateral Water Balance
     :maxdepth: 1
     :hidden:
 
-    groundwater_storage
-    lakes_wetlands_storage
+    groundwater
+    lakes_wetlands
     river
     net_abstractions
