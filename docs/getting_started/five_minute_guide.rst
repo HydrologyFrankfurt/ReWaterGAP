@@ -1,3 +1,5 @@
+.. _five_minute_guide:
+
 5 minute guide to WaterGAP
 --------------------------
 
