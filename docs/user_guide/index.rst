@@ -40,8 +40,4 @@ User Guide
     :hidden:
 
 
-    docs/getting_started/index
-    docs/user_guide/index
-    docs/api_docs/index
-    docs/contributers_guide/index
-    docs/whatsnew/index
+    tutorials
