@@ -35,7 +35,7 @@ where :math:`{P}_{eff}` is effective precipitation :math:`(mm/d)`, :math:`{R}_{l
 
 Inflows
 -------
-Effective precipitation :math:`{P}_{eff}` is  is calculated as
+Effective precipitation :math:`{P}_{eff}` is calculated as
 
 .. _effective_precipitation:
 
@@ -44,20 +44,9 @@ Effective precipitation :math:`{P}_{eff}` is  is calculated as
 
 where :math:`{P}_{t}` is throughfall :math:`(mm/d)`, :math:`{P}_{sn}` is snowfall :math:`(mm/d)` and :math:`M` is snow melt :math:`(mm/d)`.
 
-.. note::
-   In urban areas (defined from MODIS data) :math:`50 \%` of :math:`{P}_{eff}` is directly turned into immediate runoff and is calculated as:
-
-.. _immediate_runoff:
-
-   .. math::
-     {immediate \: runoff} = 0.5 \times {P}_{eff}  \times fraction \: of \: build \: up \: area
-
-   Next, effective precipitation is reduced by the immediate runoff. The resulting effective precipitation used to compute the soil water balance. 
-   See function **immediate runoff** : in source code. 
-
 Outflows
 --------
-Actual evapotranspiration :math:`{E}_{s}`  from soil :math:`(mm/d)` is calculated as
+Actual evapotranspiration :math:`{E}_{s}` from soil :math:`(mm/d)` is calculated as
 
 .. _Actual_evapotranspiration:
 
@@ -73,7 +62,16 @@ Total daily runoff from land (RL) is calculated as:
 .. math::
   RL = R1 + R3 + R2
 
-where soil water overflow (R2) is calculated as:
+where immegiate runoff from urban areas (R1) is computed as  
+
+.. _immediate_runoff:
+
+ .. math::
+     {immediate \: runoff} = 0.5 \times {P}_{eff}  \times fraction \: of \: build \: up \: area
+
+
+
+and where soil water overflow (R2) is calculated as:
 
 .. _overflow:
 
@@ -130,7 +128,7 @@ substituting RL from equation 2 into equation 1 :
  
 where P: precipitation (mm/day)
 
-
+**Surface runoff is finally calculated as total daily runoff from land minus groundwater recharge.**
 
 References 
 ----------
