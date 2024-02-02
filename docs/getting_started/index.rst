@@ -10,29 +10,32 @@ Getting started
 .. grid:: 1
     :gutter: 1
 
-    .. grid-item-card:: Introduction
+    .. grid-item-card:: 
         :text-align: center
-        :link: vertical_water_balance
+        :link: introduction
         :link-type: ref
 
         :octicon:`arrow-down;10em`
 
+        Introduction
 
-    .. grid-item-card:: Model Framework
+    .. grid-item-card:: 
         :text-align: center
-        :link: lateral_water_balance
+        :link: model_framework
         :link-type: ref
 
         :octicon:`arrow-right;10em`
 
+        Model Framework
 
-    .. grid-item-card:: 5 Minute Guide
+    .. grid-item-card:: 
         :text-align: center
         :link: five_minute_guide
         :link-type: ref
 
         :octicon:`arrow-right;10em`
 
+        5 Minute Guide
 
 .. toctree::
     :maxdepth: 2
