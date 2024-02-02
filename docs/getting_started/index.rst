@@ -24,7 +24,7 @@ For a detailed information on the WaterGap Framework see the `associated publica
 
 .. _Figure1_framework:
 
-<Figure 1 here>
+.. figure:: ../images/Figure1_framework.png
 
 	*Figure 1: The WaterGAP 2.2d framework with its water use models and the linking module GWSWUSE that provides potential net water abstraction from groundwater and surface water as input to the WaterGAP Global Hydrology Model (WGHM). Figure adapted from Müller Schmied et al. (2014).*
 
@@ -42,7 +42,7 @@ The WaterGAP Global Hydrology Model is developed based on the schematic [1]_ pre
 .. figure:: ../images/watergap_schematic.png
    :align: center
    
-   *Schematic of WGHM in WaterGAP 2.2d: Boxes represent water storage compartments, and arrows represent water flows. Green (red) color indicates processes that occur only in grid cells with humid ((semi)arid) climate*
+   *Figure 2: Schematic of WGHM in WaterGAP 2.2d: Boxes represent water storage compartments, and arrows represent water flows. Green (red) color indicates processes that occur only in grid cells with humid ((semi)arid) climate*
 
 
 **Model processes**
