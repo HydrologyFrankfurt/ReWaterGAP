@@ -12,8 +12,6 @@ ReWaterGAP documentation
 
 :mod:`ReWaterGAP` is an open source, GNU-GPL 3-licensed hydrological simulation software for quantifying water flows and storages on all continents of the Earth.
 
-.. figure:: ../misc/watergap_logo.png
-
 .. grid:: 2
     :gutter: 1
 
