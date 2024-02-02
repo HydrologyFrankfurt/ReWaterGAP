@@ -1,3 +1,5 @@
+.. _model_framework:
+
 Model Framework
 ---------------
 WaterGAP 2 is composed of global water use models, the linking model Groundwater-Surface Water Use (GWSWUSE), and the WaterGAP Global Hydrology Model (WGHM) (see :ref:`Figure 1 <Figure1_framework>`).
