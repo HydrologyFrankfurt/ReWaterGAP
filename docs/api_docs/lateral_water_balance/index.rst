@@ -23,6 +23,13 @@ Lateral Water Balance
 
     .. grid-item-card:: 
         :text-align: center
+        :link:  reservoir_regulated_lakes
+        :link-type: ref
+
+        Reservoir and Regulated lakes
+
+    .. grid-item-card:: 
+        :text-align: center
         :link:  river
         :link-type: ref
 
@@ -41,5 +48,6 @@ Lateral Water Balance
 
     groundwater
     lakes_wetlands
+    reservoir_regulated_lakes
     river
     net_abstractions
