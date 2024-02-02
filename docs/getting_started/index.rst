@@ -13,20 +13,55 @@ Recent focus has been on quantifying the impact of climate change on the global 
 WaterGAP is an open-source software with the aim of increasing reproducibility among researchers.
 
 
-WaterGAP has been generally categorized into two sections: 
+Model Framework
+---------------
+WaterGAP 2 is composed of global water use models, the linking model Groundwater-Surface Water Use (GWSWUSE), and the WaterGAP Global Hydrology Model (WGHM) (See Figure 1 ). 
 
-#. **WaterGAP framework** which consists of:
-  
-   * *WaterGAPUse* which includes the five sectoral water use models. 
-   
-   * *WaterGapCore* which includes the linking model Groundwater-Surface Water Use (GWSWUSE) and the WaterGAP Global Hydrology Model (WGHM).
+Five global water use models, including irrigation, calculate consumptive use (CU) and water withdrawal use (WU) (22d paper). Consumptive water use refers to the part of the withdrawn (or abstracted) water that evapotranspirates during use (22d paper).
 
-#. **WaterGAPTools** consisting of *pre-processing* (input-generation) and *standard calibration* (against mean annual streamflow).
+GWSWUSE distinguishes water use from groundwater and surface water, generating monthly time series of net abstractions (NApot,s and NApot,g) from the two sources (22d paper). These time series are input into the WGHM, impacting daily water flows and storages globally.
+For a detailed information on the WaterGap Framework see: https://gmd.copernicus.org/articles/14/1037/2021/#section2).
 
-.. figure:: ../images/overview_watergap_components.png
+
+<Figure 1 here>
+
+	*Figure 1: The WaterGAP 2.2d framework with its water use models and the linking module GWSWUSE that provides potential net water abstraction from groundwater and surface water as input to the WaterGAP Global Hydrology Model (WGHM). Figure adapted from Müller Schmied et al. (2014).*
+
+Water Use Models and GWSWUSE (Linking Model)
+++++++++++++++++++++++++++++++++++++++++++++
+
+For more information on the water use models see the associated publication (https://gmd.copernicus.org/articles/14/1037/2021/#section3)
+
+
+WaterGAP Global Hydrology Model (WGHM)
+++++++++++++++++++++++++++++++++++++++
+
+The WaterGAP Global Hydrology Model is developed based on the schematic [1]_ presented below. 
+
+.. figure:: ../../images/watergap_schematic.png
    :align: center
    
-   *WaterGAP Components*
+   *Schematic of WGHM in WaterGAP 2.2d: Boxes represent water storage compartments, and arrows represent water flows. Green (red) color indicates processes that occur only in grid cells with humid ((semi)arid) climate*
+
+
+**Model processes**
+Processes are categorized as vertical water balance and lateral water balance
+
+:ref:`Vertical Water balance <vertical_water_balance>`
+- Canopy
+- Snow
+- Soil
+
+:ref:`Lateral Water balance <lateral_water_balance>`
+- Groundwater
+- Lakes and Wetland Storage
+- Reservoirs and regulated lakes
+- Rivers
+- Water Abstractions
+
+Important Things
+Lateral routing of water through the storage compartments is based on the so-called fractional routing scheme and differs between (semi)arid and humid grid cells (2.2d paper).
+
 
 
 5 minute guide to WaterGAP
@@ -143,7 +178,10 @@ You can find the necessary climate forcing data at `ISIMIP <https://data.isimip.
 
 	$ python3 run_watergap.py Config_ReWaterGAP.json
 	
-	
+
+Acknowledgement of funding
+--------------------------
+ReWaterGap receives funding from the German Research Foundation (DFG). For further information, see the official project description `here <https://gepris.dfg.de/gepris/projekt/443183317?language=en>`__. 	
 
 
 
