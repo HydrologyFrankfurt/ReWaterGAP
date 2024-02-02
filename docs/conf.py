@@ -81,7 +81,7 @@ html_theme = 'pydata_sphinx_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = []
 
-
+html_logo = "../misc/watergap_logo.png"
 
 # -- Options for HTMLHelp output ------------------------------------------
 
