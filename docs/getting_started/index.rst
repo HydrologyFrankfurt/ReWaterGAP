@@ -15,7 +15,7 @@ Getting started
         :link: introduction
         :link-type: ref
 
-        :octicon:`home-fill;10em`
+        :octicon:`info;10em`
 
         Introduction
 
