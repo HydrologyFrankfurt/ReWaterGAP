@@ -24,7 +24,7 @@ Getting started
         :link: model_framework
         :link-type: ref
 
-        :octicon:`apps`
+        :octicon:`workflow;10em`
 
         Model Framework
 
