@@ -4,7 +4,7 @@ Groundwater
 ===========
 Groundwater storage and related fluxes are calculated based on section 4.5 of Müller Schmied et al 2021 [1]_.
 
-.. autofunction:: groundwaterstorage.compute_groundwater_balance
+.. autofunction:: groundwater.compute_groundwater_balance
 
 
 Water balance
