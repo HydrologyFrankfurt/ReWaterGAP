@@ -9,14 +9,14 @@ Lateral Water Balance
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  groundwater_storage
+        :link:  groundwater
         :link-type: ref
 
         Groundwater Storage
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  lakes_wetlands_storage
+        :link:  lakes_wetlands
         :link-type: ref
 
         Lakes and Wetlands Storage
