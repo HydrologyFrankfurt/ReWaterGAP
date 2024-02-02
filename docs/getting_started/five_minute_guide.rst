@@ -88,8 +88,8 @@ The following data should be provided by the User in NetCDF format:
 
 Climate Forcing
 	- precipitation
-	- longwave radiation
-	- shortwave radiation
+	- downward longwave radiation
+	- downward shortwave radiation
 	- temperature
 
 Water Use
