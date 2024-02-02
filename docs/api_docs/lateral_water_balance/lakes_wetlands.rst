@@ -11,7 +11,7 @@ The location, area, and other attributes of these water bodies are defined using
    the outflow from the groundwater compartment (under a humid climate) and of the fast surface and subsurface outflow . The outflow from the local lake becomes inflow to the 
    local wetland if it exists, otherwise to the global lake
 
-.. autofunction:: lakes_and_wetlands.lake_wetland_balance
+.. autofunction:: lakes_wetlands.lake_wetland_balance
 
 Water balance
 -------------
