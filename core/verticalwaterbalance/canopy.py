@@ -137,7 +137,7 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
     else:
         # =========================================================================
         # Check if  current_landarea_frac == 0 , then add previous storage to
-        # daily_storage_tranfer. This storage will then  added to runoff.
+        # daily_storage_tranfer. This storage will then be added to runoff.
         # (e.g. island)
         # =========================================================================
         daily_storage_transfer = canopy_storage

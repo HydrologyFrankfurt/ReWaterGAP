@@ -36,7 +36,7 @@ def get_leaf_area_index(temperature, growth_status, days, initial_days,
         Growth status per grid cell shows whether a specific land cover
         is (not) growing (value=0) or fully grown (value=1).
         Initially all landcovers are not growing
-        This variable gets updated per time step..
+        This variable gets updated per time step.
     days : float
         Days since start of leaf area index profile (counter for days with
         growing conditions), Units: [day]
@@ -75,12 +75,12 @@ def get_leaf_area_index(temperature, growth_status, days, initial_days,
     -----
     A day is defined as part of the growing season when daily temperature is
     above 8◦C(281.15 K) for a land-cover-specific number of initial days
-    (Table C1) and cumulative precipitation from the day where growing season
+    (Table C1) and cumulative precipitation from the day when growing season
     starts reaches at least 40 mm [1]_.
 
     In the beginning of the growing season, LAI increases linearly for 30 days
     until it reaches maximum LAI. For (semi)arid cells, at least 0.5 mm of
-    daily precipitation is required to keep the growing season on-going.
+    daily precipitation is required to keep the growing season ongoing.
     LAI then stays constant for the stated land-cover-specific number of days
     and when growing season conditions are not fulfilled anymore, a senescence
     phase is initiated and LAI linearly decreases to minimum within the next 30
@@ -102,7 +102,7 @@ def get_leaf_area_index(temperature, growth_status, days, initial_days,
         # ======================
         # Plant can only start growing if daily temperature is above
         # 8◦C(281.15 K) for a land-cover-specific number of initial days (See
-        # Table C1 in (Müller Schmied et al. (2021)). Note that 'days' variable
+        # Table C1 in (Müller Schmied et al. 2021). Note that 'days' variable
         # is a counter for days with growing conditions
         # Initially growth staus is zero (landcover is not growing yet).
         if temperature > 281.15:

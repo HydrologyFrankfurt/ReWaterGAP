@@ -115,8 +115,8 @@ def compute_radiation(temperature, down_shortwave_radiation,
 
 
 @njit(cache=True)
-def priestley_taylor(temperature, humid_arid, pt_coeff_arid,
-                     pt_coeff_humid, net_radiation, openwater_net_radiation,
+def priestley_taylor(temperature, pt_coeff_humid_arid, 
+                     net_radiation, openwater_net_radiation,
                      x, y ):
     """
     Compute Priestly-Taylor potential evapotranspiration.
@@ -125,12 +125,8 @@ def priestley_taylor(temperature, humid_arid, pt_coeff_arid,
     ----------
     temperature : float
         Daily air tempeature, Units : [K]
-    humid_arid : int
-        Humid-arid calssification(array) based on  Müller Schmied et al. 2021
-    pt_coeff_arid : float
-        Priestley-Taylor coefficient  for arid cells (alpha), Units: [-]
-    pt_coeff_humid : TYPE
-        Priestley-Taylor coefficient  for humid cells (alpha), Units: [-]
+    pt_coeff_humid_arid : TYPE
+        Priestley-Taylor coefficient  for humid and arid cells (alpha), Units: [-]
     net_radiation : float
         Net radiation  according to Müller Schmied et al., 2016., Units: [Wm−2]
     openwater_net_radiation : float
@@ -182,16 +178,13 @@ def priestley_taylor(temperature, humid_arid, pt_coeff_arid,
     # and to 1.74 in (semi)arid cells
     # Humid-arid calssification based on Müller Schmied et al. 2021
 
-    alpha_pt_coefficient = np.where(humid_arid == 1, pt_coeff_arid,
-                                    pt_coeff_humid)
-
     # Coverting net radiation to mm/day
     # Note!!!, I deliberately did not attach "self"  here so I dont
-    # convert the final net radiation ouput to  mm/day. please take note.
+    # convert the final net radiation output to  mm/day. 
     net_radiation = (net_radiation * 0.0864) / latent_heat
 
     # Actual name: Potential evapotranspiration,	Units:  mmd-1
-    potential_evap = alpha_pt_coefficient * ((slope_of_sat * net_radiation)
+    potential_evap = pt_coeff_humid_arid * ((slope_of_sat * net_radiation)
                                              / (slope_of_sat + psy_const))
 
     # Accounting for negative net radiation and setting them to zero
@@ -206,7 +199,7 @@ def priestley_taylor(temperature, humid_arid, pt_coeff_arid,
 
     # Actual name: Open water potential evapotranspiration,	Units:  mmd-1
     openwater_pot_evap = \
-        alpha_pt_coefficient * ((slope_of_sat * openwater_net_radiation) /
+       pt_coeff_humid_arid * ((slope_of_sat * openwater_net_radiation) /
                                 (slope_of_sat + psy_const))
 
     # Accounting for negative net radiation and setting them to zero

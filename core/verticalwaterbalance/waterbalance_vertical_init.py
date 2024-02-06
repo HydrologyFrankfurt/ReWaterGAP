@@ -32,7 +32,7 @@ class VerticalWaterBalance:
         self.forcings_static = forcings_static
         self.cont_frac = self.forcings_static.static_data.\
             land_surface_water_fraction.contfrac.values.astype(np.float64)/100
-        self.parameters = parameters
+        self.parameters = parameters.global_params
 
         # Initialise routing order
         rout_order = self.forcings_static.static_data.rout_order
@@ -236,11 +236,11 @@ class VerticalWaterBalance:
                                down_shortwave_radiation,
                                down_longwave_radiation,
                                self.snow_water_storage,
-                               self.parameters.snow_albedo_thresh,
-                               self.parameters.openwater_albedo,
+                               self.parameters.snow_albedo_thresh.values,
+                               self.parameters.openwater_albedo.values,
                                self.snow_albedo, self.albedo, self.emissivity,
-                               self.humid_arid, self.parameters.pt_coeff_arid,
-                               self.parameters.pt_coeff_humid,
+                               self.humid_arid, 
+                               self.parameters.pt_coeff_humid_arid.values,
                                self.growth_status, self.lai_days,
                                self.lai_param.initial_days,
                                self.cum_precipitation, precipitation,
@@ -248,24 +248,24 @@ class VerticalWaterBalance:
                                self.lai_param.max_leaf_area_index,
                                self.land_cover, self.canopy_storage,
                                current_landarea_frac, landareafrac_ratio,
-                               self.parameters.max_storage_coefficient,
+                               self.parameters.max_storage_coefficient.values,
                                self.minstorage_volume,
                                self.daily_storage_transfer,
                                self.snow_water_storage_subgrid,
                                self.degreeday, self.elevation,
-                               self.parameters.adiabatic_lapse_rate,
-                               self.parameters.snow_freeze_temp,
-                               self.parameters.snow_melt_temp,
-                               self.parameters.runoff_frac_builtup,
+                               self.parameters.adiabatic_lapse_rate.values,
+                               self.parameters.snow_freeze_temp.values,
+                               self.parameters.snow_melt_temp.values,
+                               self.parameters.runoff_frac_builtup.values,
                                self.builtup_area, self.soil_water_content,
-                               self.parameters.gamma,
-                               self.parameters.max_daily_pet,
+                               self.parameters.gamma.values,
+                               self.parameters.max_daily_pet.values,
                                self.soil_texture, self.drainage_direction,
                                self.max_groundwater_recharge,
                                self.groundwater_recharge_factor,
-                               self.parameters.critcal_gw_precipitation,
+                               self.parameters.critcal_gw_precipitation.values,
                                self.max_soil_water_content,
-                               self.parameters.areal_corr_factor, 
+                               self.parameters.areal_corr_factor.values, 
                                region)
 
         # Radiation and PET output

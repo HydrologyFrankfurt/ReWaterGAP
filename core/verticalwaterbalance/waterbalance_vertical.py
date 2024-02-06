@@ -23,8 +23,8 @@ from core.verticalwaterbalance import soil
 def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        down_longwave_radiation, snow_water_storage,
                        snow_albedo_thresh, openwater_albedo, snow_albedo,
-                       albedo, emissivity, humid_arid, pt_coeff_arid,
-                       pt_coeff_humid, growth_status, lai_days, initial_days,
+                       albedo, emissivity, humid_arid, pt_coeff_humid_arid, 
+                       growth_status, lai_days, initial_days,
                        cum_precipitation, precipitation, min_leaf_area_index,
                        max_leaf_area_index, land_cover, canopy_storage,
                        current_landarea_frac, landareafrac_ratio,
@@ -108,9 +108,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     
             pot_evap, openwater_evap = \
                 rad_pet.priestley_taylor(temperature[x, y],
-                                         humid_arid[x, y],
-                                         pt_coeff_arid[x, y],
-                                         pt_coeff_humid[x, y],
+                                         pt_coeff_humid_arid[x, y],
                                          net_radiation[x, y],
                                          openwater_net_radiation[x, y], x, y)
     
@@ -208,7 +206,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             # Modified effective precipitation and immediate runoff
             modified_effective_precipitation = \
                 soil.immediate_runoff(effective_precipitation[x, y],
-                                      runoff_frac_builtup,
+                                      runoff_frac_builtup[x, y],
                                       builtup_area[x, y])
     
             # ouputs from the  modified_effective_precipitation are
