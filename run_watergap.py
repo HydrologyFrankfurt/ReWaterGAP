@@ -18,7 +18,7 @@ import numpy as np
 from tqdm import tqdm
 import sys
 import pandas as pd
-import region_or_basin as basin
+from core.utility import region_or_basin as basin
 from termcolor import colored
 from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
@@ -224,7 +224,7 @@ def run():
             simulation_date = date_main
         for time_step, date in tqdm(zip(range(time_range), simulation_date),
                                     total=(time_range-1), desc="Processing",
-                                    disable=False):
+                                    disable=True):
 
             # =================================================================
             #  Get Land area fraction and reservoirs respective years
@@ -233,7 +233,7 @@ def run():
             land_water_frac.\
                 landareafrac_with_reservior(date, cm.reservoir_opt_years,
                                             restart, restart_year)
-
+            
             # Activate reservoirs for current year
             lateral_waterbalance.\
                 activate_res_area_storage_capacity(date, cm.reservoir_opt_years,
@@ -247,7 +247,8 @@ def run():
                                      vertical_waterbalance.soil_water_content,
                                      lateral_waterbalance.glores_area,
                                      lateral_waterbalance.glores_storage)
-
+            
+            # print('hi2', print(np.nanmax(land_water_frac.current_landareafrac)))
             # =================================================================
             #  Computing vertical water balance
             # =================================================================

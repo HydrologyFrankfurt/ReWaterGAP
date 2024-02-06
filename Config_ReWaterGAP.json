@@ -15,18 +15,18 @@
     },
     {
     "RestartOptions":{
-        "restart": false,
+        "restart": true,
         "save_model_states_for_restart": true,
         "save_and_read_states_dir": "./"
         }
     },
     {
       "SimulationPeriod": {
-        "start": "1990-01-01",
+        "start": "1990-07-01",
         "end": "1990-12-31",
         "reservoir_start_year": 1990,
         "reservoir_end_year": 2019,
-        "spinup_years": 5
+        "spinup_years": 0
       }
     },
     {
@@ -36,7 +36,7 @@
     },
     {
     "SimulationExtent": { 
-     "run_region": true,
+     "run_region": false,
      "path_to_stations_file": "input_data/static_input/"}
      }
   ],
