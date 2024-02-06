@@ -88,11 +88,11 @@ class ClimateForcing:
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Climate forcing '
                               'not found', args.debug)
-            sys.exit()  # dont run code if file does not exist
+            sys.exit()  # don't run code if file does not exist
         except ValueError:
             log.config_logger(logging.ERROR, modname, 'File(s) extension '
                               'should be NETCDF', args.debug)
-            sys.exit()  # dont run code if file does not exist
+            sys.exit()  # don't run code if file does not exist
         else:
             print('Climate forcing loaded successfully')
 
@@ -153,7 +153,7 @@ class ClimateForcing:
                 log.config_logger(logging.ERROR, modname, units +
                                   ' is not a known cf convention unit.'
                                   ' Plesae check data units', args.debug)
-                sys.exit()  # dont run code if units does not exist
+                sys.exit()  # don't run code if units does not exist
 
     # =========================================================================
     #     mask climate forcing
@@ -166,7 +166,7 @@ class ClimateForcing:
         Returns
         -------
         data range : xarray
-            Masked climate forcing..
+            Masked climate forcing.
 
         """
         return None

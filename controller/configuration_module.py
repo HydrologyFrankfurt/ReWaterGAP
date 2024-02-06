@@ -57,7 +57,7 @@ def config_handler(filename):
     except FileNotFoundError:
         log.config_logger(logging.ERROR, modname, 'Configuration file '
                           'not found', args.debug)
-        sys.exit()  # dont run code if cofiguration file does not exist
+        sys.exit()  # don't run code if cofiguration file does not exist
     else:
         print('Configuration loaded successfully')
     return config_content
@@ -102,14 +102,14 @@ if ant is False:
     neighbouringcell = False
 
 # Error Handling
-# Here one forgot to either activate either reservoir operation or
+# Here one forgot to either activate  reservoir operation or
 # substract use in anthropogenic mode
 if ant is True and reservior_opt is False and subtract_use is False:
     msg = ' None of the variant in anthropogenic run is ' + \
           'activated (reservoir opetration , wateruse or both). ' + \
           'Please choose an option'
     log.config_logger(logging.ERROR, modname, msg, args.debug)
-    sys.exit()  # dont run code if cofiguration file does not exist
+    sys.exit()  # don't run code if cofiguration file does not exist
 
 # =============================================================================
 # # Initializing  simulation and spinup period
@@ -145,7 +145,7 @@ if dailyRes is True:
 else:
     log.config_logger(logging.ERROR, modname, 'WaterGAP currently has only '
                       'daily resolution ', args.debug)
-    sys.exit()  # dont run code if cofiguration file does not exist
+    sys.exit()  # don't run code if cofiguration file does not exist
 
 
 # =============================================================================
