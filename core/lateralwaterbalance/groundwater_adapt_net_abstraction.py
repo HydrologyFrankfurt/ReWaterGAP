@@ -45,7 +45,7 @@
 # than demanded can be taken from surface water on day t-1
 # [potential_net_abstraction_sw(t-1) > actual_net_abstraction_sw(t-1)].
 # potential_net_abstraction_gw(t) is adapted. Here, return flow change(t-1)
-# from surafce  water for irrigation to ground water is subtsracted from
+# from surafce  water for irrigation to groundwater is subtsracted from
 # potential_net_abstraction_gw(t) to get actual_net_abstraction_gw(t).
 # This also means return flow(t) to ground water is decreased.
 # [potential_net_abstraction_gw(t) < actual_net_abstraction_gw(t)]
@@ -57,7 +57,7 @@
 # If daily_unsatisfied_pot_nas(t-1) is negative, it means that due to delayed
 # satisfaction, more surface water is net abstracted on day t-1 than demanded.
 # [potential_net_abstraction_sw(t-1) < actual_net_abstraction_sw(t-1)].
-# potential_net_abstraction_gw(t) is adapted. Return flow (t) is increased).
+# potential_net_abstraction_gw(t) is adapted. Return flow (t) is increased
 # [potential_net_abstraction_gw(t) > actual_net_abstraction_gw(t)]
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -105,7 +105,7 @@ def update_netabs_gw(potential_net_abstraction_gw,
 
     """
     # Index(x,y) to print out varibales of interest
-    # e.g  if x==65 and y==137: print(prev_gw_storage)
+    # e.g.  if x==65 and y==137: print(prev_gw_storage)
 
     if daily_unsatisfied_pot_nas > 0:
         if prev_potential_water_withdrawal_sw_irri > 0:
@@ -161,7 +161,7 @@ def update_netabs_gw(potential_net_abstraction_gw,
         if prev_potential_water_withdrawal_sw_irri > 0:
             # Due to delayed satisfaction the actual net abstraction from
             # surface water of the previous day was larger than potential net
-            # abstraction from surface water. Return flow to ground water will
+            # abstraction from surface water. Return flow to groundwater will
             # be increased.
             wateruse_eff_irri = prev_potential_consumptive_use_sw_irri / prev_potential_water_withdrawal_sw_irri 
 

@@ -72,7 +72,7 @@ def compute_groundwater_balance(x, y,
         Actual Net abstraction from groundwater, Unit: [km^3/day]
     """
     # Index (x, y) to  print out varibales of interest
-    # e.g  if x==65 and y==137: print(prev_gw_storage)
+    # e.g.  if x==65 and y==137: print(prev_gw_storage)
 
     #                  ======================================
     #                  ||  groundwaterwater balance    ||

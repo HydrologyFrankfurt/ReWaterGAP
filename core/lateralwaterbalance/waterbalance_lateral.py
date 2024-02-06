@@ -43,7 +43,7 @@ class LateralWaterBalance:
         self.cell_area = self.static_data.cell_area.\
             astype(np.float64)
 
-        self.parameters = parameters
+        self.parameters = parameters.global_params
         self.aridhumid = self.static_data.humid_arid
         self.drainage_direction = \
             self.static_data.soil_static_files.drainage_direction[0].values
@@ -67,7 +67,7 @@ class LateralWaterBalance:
         self.max_loclake_area = self.cell_area * self.loclake_frac
 
         self.max_loclake_storage = self.max_loclake_area * \
-            self.parameters.activelake_depth * m_to_km
+            self.parameters.activelake_depth.values * m_to_km
 
         self.loclake_storage = self.max_loclake_storage
 
@@ -82,7 +82,7 @@ class LateralWaterBalance:
         # Local wetland area and storage,  Units : km2 & km3 respectively
         self.max_locwet_area = self.cell_area * self.locwet_frac
         self.max_locwet_storage = self.max_locwet_area * \
-            self.parameters.activewetland_depth * m_to_km
+            self.parameters.activewetland_depth.values * m_to_km
 
         self.locwet_storage = self.max_locwet_storage
 
@@ -96,7 +96,7 @@ class LateralWaterBalance:
 
         # Initializing global lake storage to maximum,  Units : km3
         self.max_glolake_storage = self.glolake_area * \
-            self.parameters.activelake_depth * m_to_km
+            self.parameters.activelake_depth.values * m_to_km
         self.glolake_storage = self.max_glolake_storage
 
         #                  =================================
@@ -109,7 +109,7 @@ class LateralWaterBalance:
         # Global wetland area and storage,  Units : km2 & km3 respectively
         self.max_glowet_area = self.cell_area * self.glowet_frac
         self.max_glowet_storage = self.max_glowet_area * \
-            self.parameters.activewetland_depth * m_to_km
+            self.parameters.activewetland_depth.values * m_to_km
         self.glowet_storage = self.max_glowet_storage
 
         #                  =================================
@@ -386,7 +386,8 @@ class LateralWaterBalance:
             m_to_km = 0.001
             # Activate  area and capacity of reservoir and regulated lake that
             # are  active in current year
-            if simulation_date.astype('datetime64[D]') in reservoir_opt_year:
+            if simulation_date.astype('datetime64[D]') in reservoir_opt_year \
+                or self.set_res_storage_flag == True:
                 resyear = pd.to_datetime(simulation_date).year
 
                 # Initialize reservior and regulated lake capacity, Units : km3
@@ -453,9 +454,9 @@ class LateralWaterBalance:
                 # initial storage))--->> 
                 
                 self.max_glolake_storage = self.glolake_area * \
-                    self.parameters.activelake_depth * m_to_km 
+                    self.parameters.activelake_depth.values * m_to_km 
                     
-                                  
+                    
             # Note!: Storages are activated on the 1st day of the year
             if self.set_res_storage_flag == True:
 
@@ -488,7 +489,7 @@ class LateralWaterBalance:
                         np.where((simu_start_year < self.glores_startyear) &
                                  (self.regulated_lake_status == 1),
                                  (self.all_reservoir_and_regulated_lake_area *
-                                  self.parameters.activelake_depth * m_to_km)
+                                  self.parameters.activelake_depth.values * m_to_km)
                                  + self.glores_storage,
                                  self.glores_storage)
 
@@ -701,6 +702,7 @@ class LateralWaterBalance:
         roughness = self.get_river_prop.roughness
         river_slope = self.get_river_prop.river_slope
         neighbouring_cells_map = self.get_neighbouring_cells_map.copy()
+        
         # =====================================================================
         # Routing (Routing function is optimised for with numba)
         # =====================================================================
@@ -722,16 +724,16 @@ class LateralWaterBalance:
                       self.loclake_frac, self.locwet_frac,
                       self.glowet_frac, self.glolake_frac,
                       self.reglake_frac, self.headwatercell,
-                      self.parameters.gw_dis_coeff,
-                      self.parameters.swb_drainage_area_factor,
-                      self.parameters.swb_outflow_coeff,
-                      self.parameters.gw_recharge_constant,
-                      self.parameters.reduction_exponent_lakewet,
-                      self.parameters.reduction_exponent_res,
-                      self.parameters.lake_out_exp,
-                      self.parameters.wetland_out_exp,
-                      self.parameters.areal_corr_factor,
-                      self.parameters.stat_corr_fact,
+                      self.parameters.gw_dis_coeff.values,
+                      self.parameters.swb_drainage_area_factor.values,
+                      self.parameters.swb_outflow_coeff.values,
+                      self.parameters.gw_recharge_constant.values,
+                      self.parameters.reduction_exponent_lakewet.values,
+                      self.parameters.reduction_exponent_res.values,
+                      self.parameters.lake_out_exp.values,
+                      self.parameters.wetland_out_exp.values,
+                      self.parameters.areal_corr_factor.values,
+                      self.parameters.stat_corr_fact.values,
                       river_length, river_bottom_width, roughness,
                       self.roughness_multiplier, river_slope,
                       glwdunits, self.glores_startmonth, current_mon_day,
@@ -803,15 +805,7 @@ class LateralWaterBalance:
         #       prev_returned_demand_from_supply_cell[117, 421],
         #       self.accumulated_unsatisfied_potential_netabs_sw[117, 421])
         
-        #  Sudan
-        # print(self.potential_net_abstraction_sw[154, 424],  
-        #       actual_daily_netabstraction_sw[154, 424], 
-        #       self.unsat_potnetabs_sw_from_demandcell[154, 424], 
-        #       self.unsat_potnetabs_sw_to_supplycell[154, 424],
-        #       returned_demand_from_supply_cell[154, 424], 
-        #       prev_returned_demand_from_supply_cell[154, 424],
-        #       self.accumulated_unsatisfied_potential_netabs_sw[154, 424])
-        
+
         #  Morocco
         # print(total_demand[115, 343],
         #        actual_daily_netabstraction_sw[115, 343], 
@@ -821,7 +815,7 @@ class LateralWaterBalance:
         #        prev_returned_demand_from_supply_cell[115, 343],
         #        self.accumulated_unsatisfied_potential_netabs_sw[115, 343])
 
-        # print(self.glolake_storage[140, 157], glolake_outflow[140, 157], self.glolake_area[140, 157], "yea")
+        print(self.glolake_storage[117, 482], glolake_outflow[117, 482], self.glolake_area[117, 482], "yea")
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.
@@ -914,11 +908,14 @@ class LateralWaterBalance:
         # =====================================================================
         # Getting all fluxes
         # =====================================================================
-        unsat_potnetabs_sw_to_supplycell =  self.unsat_potnetabs_sw_to_supplycell.copy() # need fix
-        unsat_potnetabs_sw_from_demandcell =  self.unsat_potnetabs_sw_from_demandcell.copy() # need fix
-        out_accumulated_unsatisfied_potential_netabs_sw = self.accumulated_unsatisfied_potential_netabs_sw.copy() # need fix
-        unsatisfied_potential_netabs_riparian = self.unsatisfied_potential_netabs_riparian.copy() # need fix
-        get_neighbouring_cells_map = self.get_neighbouring_cells_map.copy()# need fix
+        # Note that these variables are directly changed in the "rout"
+        # function and hence they are copied to prevent variables from being 
+        # overwritten when writing out.
+        unsat_potnetabs_sw_to_supplycell =  self.unsat_potnetabs_sw_to_supplycell.copy() 
+        unsat_potnetabs_sw_from_demandcell =  self.unsat_potnetabs_sw_from_demandcell.copy() 
+        out_accumulated_unsatisfied_potential_netabs_sw = self.accumulated_unsatisfied_potential_netabs_sw.copy() 
+        unsatisfied_potential_netabs_riparian = self.unsatisfied_potential_netabs_riparian.copy() 
+        get_neighbouring_cells_map = self.get_neighbouring_cells_map.copy()
         
         LateralWaterBalance.fluxes.\
             update({'qg': groundwater_discharge*mask_con,

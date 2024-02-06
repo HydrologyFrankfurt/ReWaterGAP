@@ -92,7 +92,7 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
     # ------------------------------------------------------------------
     # if glwdunit (riparian cells) of current is 1 (the current cell itself),
     # unsatisfied demand after global lake balance is maintained else
-    # its distributed to various riparian cell.
+    # it's distributed to various riparian cell.
     accum_uns_potnetabs_after_distribution = \
         accumulated_unsatisfied_potential_netabs_sw
     # Note that accum_uns_potnetabs_after_distribution will change if there
@@ -113,7 +113,7 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
                 # distribution to riparian cell is done separately.
 
                 if unagregrgated_potential_netabs_sw[x, y] <= 0:
-                    # if current demand of outflow cell itself is negative(i.e
+                    # if current demand of outflow cell itself is negative(i.e.
                     # return flow to increase storage of outflow cell), then
                     # the unsatisfied demand of outflow cell itself is the
                     # prev_accu_supplycell_demad.
@@ -136,7 +136,7 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
                 else:
                     # Note: The 'accum_uns_potnetabs_after_distribution' value
                     # for a global lake or reservoir outflowcell itself will
-                    # now comprise of its distributed contibution  long with
+                    # now consist of its distributed contibution  long with
                     # prev_accu_supplycell_demad
                     accum_uns_potnetabs_after_distribution = \
                         (unagregrgated_potential_netabs_sw[x, y] / potential_netabs_sw) * \

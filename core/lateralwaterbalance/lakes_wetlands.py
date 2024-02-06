@@ -74,7 +74,7 @@ def lake_wetland_balance(x, y,
     max_area: float,
         Maximum area of surface waterbody, Unit: km2.
         Note!!! Global lake area has absolute lake area (including that of
-        riparian cells) in the outflow cell. Hence the outflow cell is used for
+        riparian cells) in the outflow cell. Hence, the outflow cell is used for
         waterbalance calulation.
     lake_outflow_exp: float
         Lake outflow exponent taken from Eqn 27 [1]_, Units: [-].
@@ -117,7 +117,7 @@ def lake_wetland_balance(x, y,
         Accumulated actual net abstraction from surface water, Unit: [km^3/day]
     """
     # Index (x,y) to  print out varibales of interest
-    # e.g  if x==65 and y==137: print(prev_gw_storage)
+    # e.g.  if x==65 and y==137: print(prev_gw_storage)
 
     # =========================================================================
     #     Parameters for respective surface waterbody.
