@@ -15,7 +15,7 @@ reservoir_operation = cm.reservior_opt
 def compute_landareafrac(landwater_frac, land_area_frac,
                          resyear_frac=None, res_year=None,
                          glores_frac_prevyear=None,
-                         init_landfrac_ratio_flag=None):
+                         init_landfrac_res_flag=None):
     """
     Compute land area fraction.
 
@@ -84,7 +84,7 @@ def compute_landareafrac(landwater_frac, land_area_frac,
             # ================================================================
             # Compute land area fraction at model start and subsequent years
             # ===============================================================
-            if init_landfrac_ratio_flag is True:  # computed once
+            if init_landfrac_res_flag is True:  # computed once
                 # Read in local reservior.
                 locres_frac = landwater_frac.locres[0].values.astype(np.float64)
                 # local reservoir are added to local lakes based on section 4.1

@@ -21,7 +21,7 @@ class LandsurfacewaterFraction:
     def __init__(self, static_data, reservior_opt):
         self.static_data = static_data
         self.reservior_opt = reservior_opt
-        self.init_landfrac_ratio_flag = True
+        self.init_landfrac_res_flag = True
 
         # =====================================================================
         # Initialize fraction variables for reservoir
@@ -39,7 +39,7 @@ class LandsurfacewaterFraction:
 
         # Note!!! if run is naturalised or reservoirs are not considered
         # (in anthropogenic run) regulated lakes becomes global lakes.
-        # Also if reservoirs are considered in anthropogenic run, local
+        # Also, if reservoirs are considered in anthropogenic run, local
         # reservoirs are added to local lakes
         self.glolake_frac = self.static_data.\
             land_surface_water_fraction.glolak[0].values.astype(np.float64)
@@ -127,7 +127,7 @@ class LandsurfacewaterFraction:
 
         """
         # Here land area fraction considers reservoir fraction which is read in
-        # yearly. Hence Land area area fraction is recalulated every year.
+        # yearly. Hence, Land area fraction is recalulated every year.
         # Note!!! that land area fraction is also updated daily after yearly
         # calulation. (see update_landareafrac function)
         if self.reservior_opt is True:
@@ -135,7 +135,9 @@ class LandsurfacewaterFraction:
             self.reservoir_opt_year = reservoir_opt_year
             self.restart_year = restart_year
 
-            if self.date in self.reservoir_opt_year:
+            if self.date in self.reservoir_opt_year or \
+                self.init_landfrac_res_flag is True:
+                    
                 self.resyear = str(pd.to_datetime(self.date).year)
                 # =============================================================
                 # Get land area fracion
@@ -143,7 +145,6 @@ class LandsurfacewaterFraction:
                 # Use saved current_landareafrac and glores_frac_prevyear,
                 # if run is a restart run
                 if self.resyear != str(self.restart_year):
-
                     lsf_out = \
                         lsf.compute_landareafrac(self.static_data.
                                                  land_surface_water_fraction,
@@ -151,13 +152,13 @@ class LandsurfacewaterFraction:
                                                  self.static_data.resyear_frac,
                                                  self.resyear,
                                                  self.glores_frac_prevyear,
-                                                 self.init_landfrac_ratio_flag)
+                                                 self.init_landfrac_res_flag)
 
                     self.current_landareafrac = lsf_out[0]
                     self.current_landareafrac[self.current_landareafrac<0]=0
                     self.gloresfrac_change = lsf_out[1]
                     
-                if self.init_landfrac_ratio_flag and restart != True:
+                if self.init_landfrac_res_flag and restart != True:
                     # if initial land area fraction is zero (surface waterbody
                     # fraction is 100 %) set initial landareafrac_ratio 
                     # (prev/current) to zero
@@ -168,7 +169,7 @@ class LandsurfacewaterFraction:
                         np.zeros(self.current_landareafrac.shape).\
                         astype(np.float64)
 
-                self.init_landfrac_ratio_flag = False
+                self.init_landfrac_res_flag = False
     # =========================================================================
     # Adjusting Reservoir Storage Based on Changes in Land Fraction
     # =========================================================================
@@ -216,7 +217,7 @@ class LandsurfacewaterFraction:
                     # less water is routed from land to the various surface
                     # water bodies (Note: reservoirs are not included in
                     # fractional routing as there also upstream inflow is
-                    # involved). Also this happens only in edge cases
+                    # involved). Also, this happens only in edge cases
                     # (the positive land area frac changes)
                     mask_positive_laf_change = (self.gloresfrac_change > 0) & \
                         (landareafrac_change >= 0)
