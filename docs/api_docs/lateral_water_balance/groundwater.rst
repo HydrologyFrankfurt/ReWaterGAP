@@ -27,13 +27,13 @@ Inflows
 -------
 
 Diffuse groundwater recharge from soil [:math:`m^3 {d}^{-1}`] is the main inflow in humid cells
-and point groundwater recharge from surface water bodies (lakes, reservoirs and wetlands) :math:`{R}_{gl,res,w} [:math:`m^3 {d}^{-1}`] is the main inflow in (semi)arid
+and point groundwater recharge from surface water bodies (lakes, reservoirs and wetlands) :math:`{R}_{gl,res,w} :math:`[m^3 {d}^{-1}]` is the main inflow in (semi)arid
 grid cells. :math:`{R}_{gl,res,w}` varies temporally with the area of the surface water body, which depends on the respective water storage.
 
 
 Outflows
 --------
-Groundwater discharge, :math:`Q_g ([m^3 {d}^{-1}])` to surface waterbodies is an outflow which is computed as:
+Groundwater discharge, :math:`Q_g [m^3 {d}^{-1}]` to surface waterbodies is an outflow which is computed as:
 
 .. math::
    {Q}_{g} = {k}_{g} \times {S}_{g}
