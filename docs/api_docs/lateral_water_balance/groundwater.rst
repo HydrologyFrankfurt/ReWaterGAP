@@ -9,37 +9,37 @@ Groundwater storage and related fluxes are calculated based on section 4.5 of M�
 
 Water balance
 -------------
-Groundwater storage :math:`S_g` :math:`(m^3)` is computated as
+Groundwater storage :math:`S_g` :math:`[m^3]` is computed as
 
 .. _groundwater_balance:
 
 .. math::
-   \frac{dS_g}{d_t} =  {R}_{g} − {R}_{gl,res,w}− {Q}_{g}- {NA}_{g}
+   \frac{dS_g}{d_t} =  {R}_{g} − {R}_{gl,res,w}− {Q}_{g} - {NA}_{g}
 
-where :math:`R_g` is diffuse groundwater recharge from soil (:math:`m^3 {d}^{-1}`).
+where :math:`{R}_{g}` is diffuse groundwater recharge from soil [:math:`m^3 {d}^{-1}`].
 :math:`{R}_{gl,res,w}` is point groundwater recharge from surface
 water bodies (lakes, reservoirs and wetlands) in (semi)arid
-areas (:math:`m^3 {d}^{-1}`), :math:`Q_g` is groundwater discharge (:math:`m^3 {d}^{-1}`) and :math:`NA_g` is net abstraction from groundwater
-(:math:`m^3 {d}^{-1}`)
+areas [:math:`m^3 {d}^{-1}`], :math:`{Q}_{g}` is groundwater discharge [:math:`m^3 {d}^{-1}`] and :math:`{NA}_{g}` is net abstraction from groundwater
+[:math:`m^3 {d}^{-1}`].
 
 
 Inflows
 -------
 
-Diffuse groundwater recharge from soil  :math:`R_g (m^3 {d}^{-1})` is the main inflow in humid cells
-and point groundwater recharge from surface water bodies (lakes, reservoirs and wetlands) :math:`{R}_{gl,res,w} (m^3 {d}^{-1})` is the main inflow in (semi)arid
+Diffuse groundwater recharge from soil [:math:`m^3 {d}^{-1}`] is the main inflow in humid cells
+and point groundwater recharge from surface water bodies (lakes, reservoirs and wetlands) :math:`{R}_{gl,res,w} [:math:`m^3 {d}^{-1}`] is the main inflow in (semi)arid
 grid cells. :math:`{R}_{gl,res,w}` varies temporally with the area of the surface water body, which depends on the respective water storage.
 
 
 Outflows
 --------
-Groundwater discharge, :math:`Q_g (m^3 {d}^{-1})` to surface waterbodies is an outflow which is computed as:
+Groundwater discharge, :math:`Q_g ([m^3 {d}^{-1}])` to surface waterbodies is an outflow which is computed as:
 
 .. math::
-   {Q}_{g} =  {k}_{g} \times {S}_{g}
+   {Q}_{g} = {k}_{g} \times {S}_{g}
 
 
-WaterGAP computes actual net abstraction from groundwater, :math:`NA_g (m^3 {d}^{-1})` from the potential net groundwater abstraction. 
+WaterGAP computes actual net abstraction from groundwater, :math:`NA_g [m^3 {d}^{-1}]` from the potential net groundwater abstraction. 
 The potential net abstraction from groundwater is computed from the Groundwater-Surface Water Use (GWSWUSE) model (see section 2 of Müller Schmied et al 2021 [1]_).
 Details on the computation of the actual net abstaction groundwater can be found in the **Water Abstraction** section. 
 
