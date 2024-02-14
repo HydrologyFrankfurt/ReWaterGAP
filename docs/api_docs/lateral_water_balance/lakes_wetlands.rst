@@ -32,7 +32,7 @@ The area of these surface water bodies (except global lakes) varies temporally a
 
 where :math:`r` is the reduction factor :math:`[–]`, and :math:`{A}_{max}` is the maximum extent
 of the water body :math:`[m^2]` and is computed as the :math:`{A}_{grid} \times {A}_{fraction,l}`.
-:math:`{A}_{grid}` is the area of :math: `0.5\degree \times 0.5\degree` grid cell and :math:`{A}_{fraction,l}` is the area fraction of the surface waterbody :math:`[m^2]`.
+:math:`{A}_{grid}` is the area of :math: `0.5° \times 0.5°` grid cell and :math:`{A}_{fraction,l}` is the area fraction of the surface waterbody :math:`[m^2]`.
 
 
 The reduction factor is applied differently for local and global lakes. 
