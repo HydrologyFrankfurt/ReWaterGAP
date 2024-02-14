@@ -3,19 +3,19 @@
 Snow 
 +++++
 .. note::
-	Simulation of the snow dynamics is calculated such that each :math:`0.5° × 0.5°` grid cell is subdivided into 100 non localized subgrids that are assigned different land surface elevations according to GTOPO30 (U.S. Geological Survey, 1996) [1]_. The daily temperature of  each subgrid is calculated from daily temperature at the 0.5◦ × 0.5◦ cell by applying an adiabatic lapse rate of 0.6 :math:`°C/100m` [2]_. The daily snow water balance is computed for each of the subcells such that within a 0.5◦ × 0.5◦ cell there may be subcells with and without snow cover or snowfall [3]_. Subgrid values are then aggregated to 0.5◦ × 0.5◦ cell values. See section 4.3  of Müller Schmied et al 2021 [3]_.
+	Simulation of the snow dynamics is calculated such that each :math:`0.5° \times 0.5°` grid cell is subdivided into 100 non-localized subgrids that are assigned different land surface elevations according to GTOPO30 (U.S. Geological Survey, 1996) [1]_. The daily temperature of each subgrid is calculated from the daily temperature at the :math`0.5° \times 0.5°` cell by applying an adiabatic lapse rate of 0.6 :math:`°C/100m` [2]_. The daily snow water balance is computed for each of the subcells such that within a :math:`0.5° \times 0.5°` cell there may be subcells with and without snow cover or snowfall [3]_. Subgrid values are then aggregated to :math:`0.5° \times 0.5°` cell values. See section 4.3  of Müller Schmied et al 2021 [3]_.
 
 .. autofunction:: snow.subgrid_snow_balance
 
 
 Water balance
 =============
-Snow storage :math:`S_sn` :math:`(mm)` is calculated as:
+Snow storage :math:`{S}_{sn}` :math:`[mm]` is calculated as:
 
 .. math::
    \frac{dS_sn}{d_t} =  {P}_{sn} − M − {E}_{sn}
 
-where :math:`{P}_{sn}` is the part of :ref:`throughfall <canopy_outflows>` :math:`(P_t)` that falls as snow :math:`(mm/d)`, :math:`M` is snowmelt :math:`(mm/d)` and :math:`{E}_{sn}` is  sublimation :math:`(mm/d)`.
+where :math:`{P}_{sn}` is the part of :ref:`throughfall <canopy_outflows>` :math:`({P}_{t})` that falls as snow :math:`[mm/d]`, :math:`M` is snowmelt :math:`[mm/d]` and :math:`{E}_{sn}` is sublimation :math:`[mm/d]`.
 
 .. note::
    Snow storage is also corrected with land area fraction.
@@ -23,7 +23,7 @@ where :math:`{P}_{sn}` is the part of :ref:`throughfall <canopy_outflows>` :math
 
 Inflows
 =======
-Snow fall from throughfall :math:`{P}_{sn}` is calculated as
+Snow fall from throughfall :math:`{P}_{sn}` is calculated as:
 
 .. math::
 	:nowrap:
@@ -36,12 +36,12 @@ Snow fall from throughfall :math:`{P}_{sn}` is calculated as
 	\end{cases}
 	\]
 
-where :math:`T` is daily air temperature :math:`(°C)`, and :math:`T_f` is snow freeze temperature, set to :math:`0 °C` . In order to prevent excessive snow
-accumulation, when snow storage :math:`{S}_{sn}` reaches :math:`1000 mm` in a subcell, the temperature in this subcell is increased to the temperature in the highest subcell with a temperature above :math:`T_f` [2]_.
+where :math:`T` is daily air temperature :math:`[°C]`, and :math:`{T}_{f}` is snow freeze temperature, set to :math:`0 °C`. To prevent excessive snow
+accumulation, when snow storage :math:`{S}_{sn}` reaches :math:`1000 mm` in a subcell, the temperature in this subcell is increased to the temperature in the highest subcell with a temperature above :math:`{T}_{f}` [2]_.
 
 Outflows
 ========
-Snow melt :math:`M`  is calculated with a land-cover-specific degreeday factor :math:`D_F (mmd^−1 °C^-1)` (Table C2) [3]_ when the temperature :math:`T` in a subgrid surpasses melting temperature :math:`T_m = 0 (◦C)` as
+Snow melt :math:`{M}` is calculated with a land-cover-specific degreeday factor :math:`{D}_{F}` :math:`[{mmd^−1} {°C^-1})` (Table C2) [3]_ when the temperature :math:`T` in a subgrid surpasses melting temperature :math:`T_m = 0 (°C)` as:
 
 .. math::
 	:nowrap:
@@ -54,7 +54,7 @@ Snow melt :math:`M`  is calculated with a land-cover-specific degreeday factor :
 	\end{cases}
 	\]
 
-Sublimation :math:`{E}_{sn}` is calculated as the fraction of :math:`{E}_{pot}` that remains available after :math:`E_c`. For calculating :math:`{E}_{pot}` , land-cover-specific albedo values are used if :math:`{S}_{sn}` surpasses :math:`3 mm` in the 0.5◦ × 0.5◦ cell (Table C2) [3]_. See potential evapotranspiration under :ref:`Potential evaporation <evapotranspiration>` and canopy evapotranspiration under :ref:`Canopy evaporation <canopy>`.
+Sublimation :math:`{E}_{sn}` is calculated as the fraction of :math:`{E}_{pot}` that remains available after :math:`{E}_{c}`. For calculating :math:`{E}_{pot}`, land-cover-specific albedo values are used if :math:`{S}_{sn}` surpasses :math:`3 mm` in the :math:`0.5° \times 0.5°` cell (Table C2) [3]_. See potential evapotranspiration under :ref:`Potential evaporation <evapotranspiration>` and canopy evapotranspiration under :ref:`Canopy evaporation <canopy>`.
 
 .. math::
 	:nowrap:
