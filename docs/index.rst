@@ -20,7 +20,6 @@ ReWaterGAP documentation
         :link:  getting_started
         :link-type: ref
         :img-top: images/test.svg
-            :scale: 50%
 
         +++
         New to *ReWaterGAP*? Check out the getting started guides. They contain an
