@@ -46,8 +46,9 @@ class RestartState:
     def savestate(self, date,
                   current_landarea_frac, previous_landarea_frac,
                   landareafrac_ratio, previous_swb_frac, glores_frac_prevyear,
-                  gloresfrac_change, lai_days_since_start,
-                  lai_cum_precipitation, lai_growth_status, canopy_storage,
+                  gloresfrac_change, init_landfrac_res_flag, 
+                  lai_days_since_start, lai_cum_precipitation, 
+                  lai_growth_status, canopy_storage,
                   snow_storage, snow_storage_subgrid, soil_water_content,
                   daily_storage_transfer, groundwater_storage, loclake_storage,
                   locwet_storage,  glolake_storage, glowet_storage,
@@ -55,11 +56,13 @@ class RestartState:
                   unsatisfied_potential_netabs_riparian,
                   unsat_potnetabs_sw_from_demandcell,
                   unsat_potnetabs_sw_to_supplycell,
+                  neighbouring_cells_map,
                   accumulated_unsatisfied_potential_netabs_sw,
                   daily_unsatisfied_pot_nas,
                   prev_accumulated_unsatisfied_potential_netabs_sw,
                   prev_potential_water_withdrawal_sw_irri,
-                  prev_potential_consumptive_use_sw_irri):
+                  prev_potential_consumptive_use_sw_irri,
+                  set_res_storage_flag):
         """
         Write variable to file for only a day before the restart date.
 
@@ -101,7 +104,8 @@ class RestartState:
                           "landareafrac_ratio": landareafrac_ratio,
                           "previous_swb_frac": previous_swb_frac,
                           "glores_frac_prevyear": glores_frac_prevyear,
-                          "gloresfrac_change": gloresfrac_change
+                          "gloresfrac_change": gloresfrac_change,
+                          "init_landfrac_res_flag": init_landfrac_res_flag
                           }
 
         vert_bal_states = {"lai_days_since_start": lai_days_since_start,
@@ -129,6 +133,7 @@ class RestartState:
                               unsat_potnetabs_sw_from_demandcell,
                           "unsat_potnetabs_sw_to_supplycell":
                               unsat_potnetabs_sw_to_supplycell,
+                          "neighbouring_cells_map" : neighbouring_cells_map, 
                           "accumulated_unsatisfied_potential_netabs_sw":
                               accumulated_unsatisfied_potential_netabs_sw,
                           "daily_unsatisfied_pot_nas":
@@ -138,7 +143,8 @@ class RestartState:
                           "prev_potential_water_withdrawal_sw_irri":
                               prev_potential_water_withdrawal_sw_irri,
                           "prev_potential_consumptive_use_sw_irri":
-                              prev_potential_consumptive_use_sw_irri}
+                              prev_potential_consumptive_use_sw_irri, 
+                          "set_res_storage_flag": set_res_storage_flag }
 
         self.state.update({"last_date": date,
                           "landfrac_state": landfrac_state,

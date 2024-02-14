@@ -72,5 +72,5 @@ def to_kelvin(temperature):
     if temperature.units == "K" or temperature.units == "k":
         converted = temperature.values.astype(np.float64)
     else:
-        converted = temperature.values.astype(np.float64) - 273.15
+        converted = temperature.values.astype(np.float64) + 273.15
     return converted
