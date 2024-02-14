@@ -19,7 +19,7 @@ ReWaterGAP documentation
         :text-align: center
         :link:  getting_started
         :link-type: ref
-        :img-top: _images/test.svg
+        :img-top: images/test.svg
 
         +++
         New to *ReWaterGAP*? Check out the getting started guides. They contain an
