@@ -139,7 +139,7 @@ Neglecting all water uses except surface water use for irrigation, Eq. 1 is simp
 .. math::
    {NA}_{pot,g} = -{f}_{rgi}*({1}-{eff})*{WA}_{pot,s,irri}
 
-Then, the change in return flow to groundwater due to changes from :math:`{WA}_{pot,s,irri}` to :math:`[W}_{s,irr}` is computed as:
+Then, the change in return flow to groundwater due to changes from :math:`{WA}_{pot,s,irri}` to :math:`{W}_{s,irr}` is computed as:
 
 .. math::
    returnflow\:change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) 
