@@ -19,8 +19,8 @@ ReWaterGAP documentation
         :text-align: center
         :link:  getting_started
         :link-type: ref
+        :img-top: _images/test.svg
 
-        :octicon:`play;10em`
         +++
         New to *ReWaterGAP*? Check out the getting started guides. They contain an
         introduction to *ReWaterGAP's* main concepts and links to additional tutorials.
