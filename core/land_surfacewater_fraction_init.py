@@ -72,7 +72,7 @@ class LandsurfacewaterFraction:
             # to zero
             self.landareafrac_ratio = np.where(self.current_landareafrac==0,
                                                0, 1)
-            
+
             self.previous_landareafrac = \
                 np.zeros(self.current_landareafrac.shape).astype(np.float64)
 
@@ -105,8 +105,7 @@ class LandsurfacewaterFraction:
             np.unique(self.outflow_cell_assignment)[1:-1]
         # ---------------------------------------------------------------------
 
-    def landareafrac_with_reservior(self, date, reservoir_opt_year,
-                                    restart, restart_year):
+    def landareafrac_with_reservior(self, date, reservoir_opt_year):
         """
         Get land area fraction.
 
@@ -117,8 +116,6 @@ class LandsurfacewaterFraction:
         reservoir_opt_year : TYPE
             DESCRIPTION.
         timestep: TYPE
-            DESCRIPTION.
-        restart: TYPE
             DESCRIPTION.
 
         Returns
@@ -133,7 +130,7 @@ class LandsurfacewaterFraction:
         if self.reservior_opt is True:
             self.date = date.astype('datetime64[D]')
             self.reservoir_opt_year = reservoir_opt_year
-            self.restart_year = restart_year
+
 
             if self.date in self.reservoir_opt_year or \
                 self.init_landfrac_res_flag is True:
@@ -144,21 +141,20 @@ class LandsurfacewaterFraction:
                 # =============================================================
                 # Use saved current_landareafrac and glores_frac_prevyear,
                 # if run is a restart run
-                if self.resyear != str(self.restart_year):
-                    lsf_out = \
-                        lsf.compute_landareafrac(self.static_data.
-                                                 land_surface_water_fraction,
-                                                 self.current_landareafrac,
-                                                 self.static_data.resyear_frac,
-                                                 self.resyear,
-                                                 self.glores_frac_prevyear,
-                                                 self.init_landfrac_res_flag)
+                lsf_out = \
+                    lsf.compute_landareafrac(self.static_data.
+                                             land_surface_water_fraction,
+                                             self.current_landareafrac,
+                                             self.static_data.resyear_frac,
+                                             self.resyear,
+                                             self.glores_frac_prevyear,
+                                             self.init_landfrac_res_flag)
 
-                    self.current_landareafrac = lsf_out[0]
-                    self.current_landareafrac[self.current_landareafrac<0]=0
-                    self.gloresfrac_change = lsf_out[1]
+                self.current_landareafrac = lsf_out[0]
+                self.current_landareafrac[self.current_landareafrac<0]=0
+                self.gloresfrac_change = lsf_out[1]
                     
-                if self.init_landfrac_res_flag and restart != True:
+                if self.init_landfrac_res_flag:
                     # if initial land area fraction is zero (surface waterbody
                     # fraction is 100 %) set initial landareafrac_ratio 
                     # (prev/current) to zero
@@ -206,81 +202,80 @@ class LandsurfacewaterFraction:
         """
         if self.reservior_opt is True:
             if self.date in self.reservoir_opt_year:
-                if self.resyear != str(self.restart_year):
 
-                    landareafrac_change = \
-                        self.current_landareafrac - self.previous_landareafrac
+                landareafrac_change = \
+                    self.current_landareafrac - self.previous_landareafrac
 
-                    # The case when landareafrac_change >= 0 :
-                    # Increased land area fraction has nothing to do with added
-                    # reservoirs. In the fractional routing, it could be that
-                    # less water is routed from land to the various surface
-                    # water bodies (Note: reservoirs are not included in
-                    # fractional routing as there also upstream inflow is
-                    # involved). Also, this happens only in edge cases
-                    # (the positive land area frac changes)
-                    mask_positive_laf_change = (self.gloresfrac_change > 0) & \
-                        (landareafrac_change >= 0)
+                # The case when landareafrac_change >= 0 :
+                # Increased land area fraction has nothing to do with added
+                # reservoirs. In the fractional routing, it could be that
+                # less water is routed from land to the various surface
+                # water bodies (Note: reservoirs are not included in
+                # fractional routing as there also upstream inflow is
+                # involved). Also, this happens only in edge cases
+                # (the positive land area frac changes)
+                mask_positive_laf_change = (self.gloresfrac_change > 0) & \
+                    (landareafrac_change >= 0)
 
-                    self.current_landareafrac = \
-                        np.where(mask_positive_laf_change,
-                                 self.previous_landareafrac,
-                                 self.current_landareafrac)
+                self.current_landareafrac = \
+                    np.where(mask_positive_laf_change,
+                             self.previous_landareafrac,
+                             self.current_landareafrac)
 
-                    # The case when landareafrac_change < 0 :
-                    # Calculate absolute storage volume in km3 from reduced
-                    # ("lost") land surface fraction
-                    cell_area = self.static_data.cell_area.astype(np.float64)
-                    mm_to_km = 1e-6
-                    mask_negative_laf_change = (self.gloresfrac_change > 0) & \
-                        (landareafrac_change < 0)
+                # The case when landareafrac_change < 0 :
+                # Calculate absolute storage volume in km3 from reduced
+                # ("lost") land surface fraction
+                cell_area = self.static_data.cell_area.astype(np.float64)
+                mm_to_km = 1e-6
+                mask_negative_laf_change = (self.gloresfrac_change > 0) & \
+                    (landareafrac_change < 0)
 
-                    canopy_watercontent_change_km3 = \
-                        np.where(mask_negative_laf_change,
-                                 (canopy_storage * mm_to_km * cell_area *
-                                  (-1 * landareafrac_change)), 0)
+                canopy_watercontent_change_km3 = \
+                    np.where(mask_negative_laf_change,
+                             (canopy_storage * mm_to_km * cell_area *
+                              (-1 * landareafrac_change)), 0)
 
-                    soil_watercontent_change_km3 = \
-                        np.where(mask_negative_laf_change,
-                                 (soil_water_content * mm_to_km *
-                                  cell_area * (-1 * landareafrac_change)), 0)
+                soil_watercontent_change_km3 = \
+                    np.where(mask_negative_laf_change,
+                             (soil_water_content * mm_to_km *
+                              cell_area * (-1 * landareafrac_change)), 0)
 
-                    snow_watercontent_change_km3 = \
-                        np.where(mask_negative_laf_change,
-                                 (snow_water_storage * mm_to_km *
-                                  cell_area * (-1 * landareafrac_change)), 0)
+                snow_watercontent_change_km3 = \
+                    np.where(mask_negative_laf_change,
+                             (snow_water_storage * mm_to_km *
+                              cell_area * (-1 * landareafrac_change)), 0)
 
-                    # ---------------------------------------------------------
-                    # Add previous storage to reservoir storage volume
-                    # located in assinged outflow cell according to the
-                    # glwdunits
-                    # ---------------------------------------------------------
-                    for i in range(len(self.unique_outflow_cell_assignment)):
-                        assinged_outflowcell_index = \
-                            np.where((self.outflow_cell_assignment ==
-                                      self.unique_outflow_cell_assignment[i]) &
-                                     (glores_area > 0))
+                # ---------------------------------------------------------
+                # Add previous storage to reservoir storage volume
+                # located in assinged outflow cell according to the
+                # glwdunits
+                # ---------------------------------------------------------
+                for i in range(len(self.unique_outflow_cell_assignment)):
+                    assinged_outflowcell_index = \
+                        np.where((self.outflow_cell_assignment ==
+                                  self.unique_outflow_cell_assignment[i]) &
+                                 (glores_area > 0))
 
-                        if assinged_outflowcell_index[0].shape[0] != 0:
-                            lat_x, lon_y = assinged_outflowcell_index[0][0],\
-                                assinged_outflowcell_index[1][0]
+                    if assinged_outflowcell_index[0].shape[0] != 0:
+                        lat_x, lon_y = assinged_outflowcell_index[0][0],\
+                            assinged_outflowcell_index[1][0]
 
-                            all_storage = \
-                                np.where(self.outflow_cell_assignment ==
-                                         self.unique_outflow_cell_assignment[i],
-                                         canopy_watercontent_change_km3 +
-                                         soil_watercontent_change_km3 +
-                                         snow_watercontent_change_km3, 0)
+                        all_storage = \
+                            np.where(self.outflow_cell_assignment ==
+                                     self.unique_outflow_cell_assignment[i],
+                                     canopy_watercontent_change_km3 +
+                                     soil_watercontent_change_km3 +
+                                     snow_watercontent_change_km3, 0)
 
-                            glores_storage[lat_x, lon_y] += all_storage.sum()
-                    # ---------------------------------------------------------
+                        glores_storage[lat_x, lon_y] += all_storage.sum()
+                # ---------------------------------------------------------
 
-                    # Assigning current reservoir year to previous year.
-                    glores_frac_currentyear = self.static_data.resyear_frac.\
-                        glores_frac.sel(time=self.resyear).values.\
-                        astype(np.float64)
-                    glores_frac_currentyear = glores_frac_currentyear[0]
-                    self.glores_frac_prevyear = glores_frac_currentyear
+                # Assigning current reservoir year to previous year.
+                glores_frac_currentyear = self.static_data.resyear_frac.\
+                    glores_frac.sel(time=self.resyear).values.\
+                    astype(np.float64)
+                glores_frac_currentyear = glores_frac_currentyear[0]
+                self.glores_frac_prevyear = glores_frac_currentyear
 
         return glores_storage
 
@@ -345,3 +340,4 @@ class LandsurfacewaterFraction:
         self.previous_swb_frac = landfrac_state["previous_swb_frac"]
         self.glores_frac_prevyear = landfrac_state["glores_frac_prevyear"]
         self.gloresfrac_change = landfrac_state["gloresfrac_change"]
+        self.init_landfrac_res_flag = landfrac_state["init_landfrac_res_flag"]
