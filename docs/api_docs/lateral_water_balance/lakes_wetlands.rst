@@ -61,7 +61,8 @@ In the case of local and global wetlands, the reduction factor is used to reduce
 
 where :math:`S_w` is the volume of the water :math:`m^3` stored in the wetlands at time step t :math:`days`, :math:`{S}_{w,max}` is the maximum storage of the wetland :math:`m^3`.  Reduction exponent p sis also et to 3.32 [1]_. 
 
-**Note:** Also by the  :ref:`wetland reduction factor equation <wetland_red>`, the area is reduced by :math:`10 \%` if :math:`S_w = 50 \% \times {S}_{w,max}`, 
+.. note: 
+   Also by the  :ref:`wetland reduction factor equation <wetland_red>`, the area is reduced by :math:`10 \%` if :math:`S_w = 50 \% \times {S}_{w,max}`, 
 by :math:`70 \%` if :math:`S_w = 10 \% \times {S}_{w,max}`.
 
 
