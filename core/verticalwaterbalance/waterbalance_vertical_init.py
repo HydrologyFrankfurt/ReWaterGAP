@@ -227,7 +227,7 @@ class VerticalWaterBalance:
                 time=str(date))
         down_longwave_radiation = \
             down_longwave_radiation.rlds.values.astype(np.float64)
-
+            
         # =====================================================================
         # compute vertical waterbalance
         # =====================================================================
@@ -298,7 +298,7 @@ class VerticalWaterBalance:
 
         # update daily storage transfer
         self.daily_storage_transfer = output[21]
-        # print(self.snow_water_storage[85, 202])
+        # print(self.snow_water_storage[94, 538])
         # =====================================================================
         # Getting all storages
         # =====================================================================

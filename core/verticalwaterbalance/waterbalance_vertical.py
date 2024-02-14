@@ -56,7 +56,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     #                  =================================
     #                  ||    Canopy (Intercrption)    ||
     #                  =================================
-    canopy_storage_out = region.copy()
+    canopy_storage_out = region.copy() + canopy_storage.copy()
     throughfall = region.copy()
     canopy_evap = region.copy()
     pet_to_soil = region.copy()
@@ -65,8 +65,8 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     #                  =================================
     #                  ||           Snow              ||
     #                  =================================
-    snow_water_storage_out = region.copy()
-    snow_water_storage_subgrid_out = np.zeros(elevation[1:].shape)
+    snow_water_storage_out = region.copy() + snow_water_storage.copy()
+    snow_water_storage_subgrid_out = snow_water_storage_subgrid.copy()
     snow_fall = region.copy()
     sublimation = region.copy()
     snow_melt = region.copy()
@@ -76,7 +76,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     #                  =================================
     #                  ||           Soil             ||
     #                  =================================
-    soil_water_content_out = region.copy()
+    soil_water_content_out = region.copy() + soil_water_content.copy()
     immediate_runoff = region.copy()
     groundwater_recharge_from_soil_mm = region.copy()
     surface_runoff = region.copy()
