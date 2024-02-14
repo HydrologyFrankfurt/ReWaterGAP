@@ -22,7 +22,7 @@ Net shortwave radiation :math:`{S}_{net}` :math:`[Wm^-2]` is calculated as:
 .. math:: 
     {S}_{net} = S↓ (1 − {\alpha}_{LC}),
 
-where S↓ describes the shortwave downward radiation :math:`[Wm^-2]`, :math:`{\alpha}_{LC}` is the albedo :math:`[-]` based on land cover type [Müller, Schmied et al. Table C2 [2]_]. 
+where :math:`S↓` describes the shortwave downward radiation :math:`[Wm^-2]`, :math:`{\alpha}_{LC}` is the albedo :math:`[-]` based on land cover type (Müller, Schmied et al. Table C2 [2]_). 
 Albedo values for WaterGAP are taken from assumptions of the IMAGE model [3]_. 
 In the case of a reasonable snow cover, the albedo value is varying dynamically in WaterGAP to represent the influence of snow cover dynamics on radiation balance [2]_.
 
@@ -38,7 +38,7 @@ Upward longwave radiation :math:`L↑` :math:`[Wm^-2]` is calculated as:
 .. math::
     L↑ = {ε}_{LC}σT^4,
 
-where :math:`{ε}_{LC}` is the emissivity :math:`[-]` based on land cover type Table C2) [2]_, :math:`σ` is the Stefan–Boltzmann constant :math:`(5.67 × 10−8 [Wm^-2·K^−4])` and :math:`T` is the temperature in :math:`[K]` . 
+where :math:`{ε}_{LC}` is the emissivity :math:`[-]` based on land cover type Table C2) [2]_, :math:`σ` is the Stefan–Boltzmann constant :math:`(5.67 × 10−8 [Wm^-2·K^−4])` and :math:`T` is the temperature in :math:`[K]`. 
 
 We also calculate the upward shortwave radiation :math:`S↑ [Wm−2]` as:
 
@@ -69,7 +69,7 @@ The potential evapotranspiration :math:`{E}_{pot}` :math:`[mm/d]` is calculated 
 
 Slope of the saturation and psychrometric constant
 ---------------------------------------------------
-:math:`s_a` is the slope of the saturation vapor pressure–temperature relationship :math:`[\frac{kPa}{°C}]` defined as:
+:math:`s_a` is the slope of the saturation vapor pressure-temperature relationship :math:`[\frac{kPa}{°C}]` defined as:
 
 .. math::
    s_a = \frac{4098 (0.6108 e^\frac{17.27T}{T + 237.3})}{(T + 237.3)^2}
