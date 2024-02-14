@@ -8,12 +8,12 @@ Canopy storage and related fluxes are calculated based on section 4.2 of Müller
 
 Water balance
 -------------
-The canopy storage :math:`S_c` :math:`(mm)` is calculated as:
+The canopy storage :math:`S_c` :math:`[mm]` is calculated as:
 
 .. math::
    \frac{dS_c}{d_t} =  P − P_t − E_c
 
-where :math:`P` is precipitation :math:`(mm/d)` , :math:`P_t` is throughfall, the fraction of :math:`P` that reaches the soil :math:`(mm/d)` and :math:`E_c` is evaporation from the canopy :math:`(mm/d)`.
+where :math:`P` is precipitation :math:`[mm/d]`, :math:`{P}_{t}` is throughfall, the fraction of :math:`P` that reaches the soil :math:`[mm/d]` and :math:`{E}_{c}` is evaporation from the canopy :math:`[mm/d]`.
 
 .. note::
    Canopy storage is also a function of land area fraction. 
@@ -40,14 +40,14 @@ Throughfall :math:`P_t` is calculated as
 	\end{cases}
 	\]
 
-where :math:`{S_c}_{,max}` is maximum canopy storage calculated as
+where :math:`{S_c}_{,max}` is the maximum canopy storage calculated as:
 
 .. math::
-    {S_c}_{,max} = m_c · L 
+    {S_c}_{,max} = m_c \times L 
 
-where :math:`m_c` is `0.3 mm` [2]_, and :math:`L (-)` is the oneside leaf area index. :math:`L` is a function of daily temperature and
-precipitation and limited to minimum or maximum values. Maximum :math:`L` values per land cover class (Table C1) [1]_,
-whereas minimum :math:`L` values are calculated as
+where :math:`m_c` is `0.3 mm` [2]_, and :math:`L [-]` is the oneside leaf area index. :math:`L` is a function of daily temperature and
+precipitation and is limited to minimum or maximum values. Maximum :math:`L` values per land cover class (Table C1) [1]_,
+whereas minimum :math:`L` values are calculated as:
 
 .. math::
    {L}_{min} = 0.1{f_d}_{,lc} + (1 − {f_d}_{,lc}){c_e}_{,lc}{L}_{max}
@@ -55,7 +55,7 @@ whereas minimum :math:`L` values are calculated as
 where :math:`{f_d}_{,lc}` is the fraction of deciduous plants and :math:`{c_e}_{,lc}` is
 the reduction factor for evergreen plants per land cover type (Table C1) [1]_. See :ref:`Lead Area Index <leafareaindex>` section under API reference for leaf Area index calculation. 
 
-Canopy evaporation :math:`E_c` following Deardorff (1978) [2]_, is calculated as
+Canopy evaporation :math:`E_c` following Deardorff (1978) [2]_, is calculated as:
 
 .. math::
    E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}
