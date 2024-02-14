@@ -20,8 +20,7 @@ ReWaterGAP documentation
         :link:  getting_started
         :link-type: ref
 
-        :octicon:'play;10em`
-
+        :octicon:`play;10em`
         +++
         New to *ReWaterGAP*? Check out the getting started guides. They contain an
         introduction to *ReWaterGAP's* main concepts and links to additional tutorials.
