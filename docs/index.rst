@@ -20,6 +20,7 @@ ReWaterGAP documentation
         :link:  getting_started
         :link-type: ref
         :img-top: images/test.svg
+            :scale: 50%
 
         +++
         New to *ReWaterGAP*? Check out the getting started guides. They contain an
@@ -31,6 +32,11 @@ ReWaterGAP documentation
         :link:  user_guide
         :link-type: ref
 
+        .. figure:: /images/test.png
+
+   :alt: Logo
+   :align: center
+   :width: 240px
         :octicon:`book;10em`
         +++
         The user guide provides in-depth information on the
