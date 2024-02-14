@@ -32,9 +32,6 @@ ReWaterGAP documentation
         :link:  user_guide
         :link-type: ref
 
-   :alt: Logo
-   :align: center
-   :width: 240px
         :octicon:`book;10em`
         +++
         The user guide provides in-depth information on the
