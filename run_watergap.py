@@ -196,7 +196,6 @@ def run():
     # =================================================================
     if restart is True:
         date_before_restart = str(start_date - np.timedelta64(1, 'D'))
-        restart_year = pd.to_datetime(start_date).year
         restart_data = restart_model.load_restart_info(date_before_restart)
         print(colored('Date of previous WaterGAP run: ' +
                       str(restart_data["last_date"]), 'blue'))
@@ -209,8 +208,7 @@ def run():
             update_vertbal_for_restart(restart_data["vert_bal_states"])
         lateral_waterbalance.\
             update_latbal_for_restart(restart_data["lat_bal_states"])
-    else:
-        restart_year = 0
+
     #                  ====================================
     #                  ||   Main Loop for all processes  ||
     #                  ====================================
@@ -224,20 +222,19 @@ def run():
             simulation_date = date_main
         for time_step, date in tqdm(zip(range(time_range), simulation_date),
                                     total=(time_range-1), desc="Processing",
-                                    disable=True):
+                                    disable=False):
 
             # =================================================================
             #  Get Land area fraction and reservoirs respective years
             # =================================================================
             # Get Land area fraction
             land_water_frac.\
-                landareafrac_with_reservior(date, cm.reservoir_opt_years,
-                                            restart, restart_year)
+                landareafrac_with_reservior(date, cm.reservoir_opt_years)
             
             # Activate reservoirs for current year
             lateral_waterbalance.\
                 activate_res_area_storage_capacity(date, cm.reservoir_opt_years,
-                                                   restart_year)
+                                                   restart)
 
             # Adapt global reservoir storage and land area fraction
             # due to net change in land fraction
@@ -327,6 +324,7 @@ def run():
                                       land_water_frac.previous_swb_frac,
                                       land_water_frac.glores_frac_prevyear,
                                       land_water_frac.gloresfrac_change,
+                                      land_water_frac.init_landfrac_res_flag,
 
                                       vertical_waterbalance.lai_days,
                                       vertical_waterbalance.cum_precipitation,
@@ -349,12 +347,14 @@ def run():
                                       lateral_waterbalance.unsatisfied_potential_netabs_riparian,
                                       lateral_waterbalance.unsat_potnetabs_sw_from_demandcell,
                                       lateral_waterbalance.unsat_potnetabs_sw_to_supplycell,
+                                      lateral_waterbalance.get_neighbouring_cells_map,
                                       lateral_waterbalance.accumulated_unsatisfied_potential_netabs_sw, 
 
                                       lateral_waterbalance.daily_unsatisfied_pot_nas,
                                       lateral_waterbalance.prev_accumulated_unsatisfied_potential_netabs_sw,
                                       lateral_waterbalance.prev_potential_water_withdrawal_sw_irri,
-                                      lateral_waterbalance.prev_potential_consumptive_use_sw_irri
+                                      lateral_waterbalance.prev_potential_consumptive_use_sw_irri,
+                                      lateral_waterbalance.set_res_storage_flag
                                       )
 
                 if end_date == date.astype('datetime64[D]'):
