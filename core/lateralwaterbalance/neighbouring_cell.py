@@ -78,31 +78,33 @@ def allocate_unsat_demand_to_demandcell(x, y,
         returned unsatisfied demand from Supplycell, Unit: [km^3/day]
 
     """
+    accumulated_unsatisfied_potnetabs_no_alloc = accumulated_unsatisfied_potential_netabs_sw # *** incase no use is allocated to it.
+    
 
     if unsat_potnetabs_sw_to_supplycell > 0:
         if accumulated_unsatisfied_potential_netabs_sw > 0:
             if total_demand_sw_noallocation > 0:
 
                 # unsatisfied use of the supplycell with use allocated from
-                # demand cell
+                # demand cell    
                 unsat_potnetabs_sw_withalloc = accumulated_unsatisfied_potential_netabs_sw
 
                 # accumulated unsatisfied use of the supply cell without use
                 # allocated from a demand cell (unsatisfied use of supply cell
                 # to be allocated)
-                accumulated_unsatisfied_potential_netabs_sw  = \
+                accumulated_unsatisfied_potnetabs_no_alloc = \
                     total_demand_sw_noallocation - actual_net_abstraction_sw -\
                     total_unsatisfied_demand_ripariancell
 
                 # Reset accumulated unsatisfied potential net abstraction if it
                 # becomes negative. This is because "actual_net_abstraction_sw"
                 #  can exceed "total_demand_sw_noallocation"
-                if accumulated_unsatisfied_potential_netabs_sw < 0:
-                    accumulated_unsatisfied_potential_netabs_sw = 0
+                if accumulated_unsatisfied_potnetabs_no_alloc  < 0:
+                    accumulated_unsatisfied_potnetabs_no_alloc  = 0
 
                 # unsatisfied use to be allocated to demand cell
                 unsat_potnetabs_sw_supplycell_to_demandcell = \
-                    unsat_potnetabs_sw_withalloc - accumulated_unsatisfied_potential_netabs_sw
+                    unsat_potnetabs_sw_withalloc - accumulated_unsatisfied_potnetabs_no_alloc
 
             else:
                 # In this case, the accumulated_unsatisfied_potential_netabs_sw
@@ -112,11 +114,13 @@ def allocate_unsat_demand_to_demandcell(x, y,
                 unsat_potnetabs_sw_supplycell_to_demandcell = \
                     accumulated_unsatisfied_potential_netabs_sw
 
-                # Here the unsatisfied usefrom supply cell is set to zero since
+                # Here the unsatisfied use from supply cell is set to zero since
                 # unsatisfied use will been returned to demand cell
-                accumulated_unsatisfied_potential_netabs_sw = 0
+                accumulated_unsatisfied_potnetabs_no_alloc = 0
         else:
             unsat_potnetabs_sw_supplycell_to_demandcell = 0
+            accumulated_unsatisfied_potnetabs_no_alloc = 0
+    
 
         # Distribute unstisfied demand from supply to demmand cell**
         for i in range(len(rout_order)):
@@ -128,8 +132,8 @@ def allocate_unsat_demand_to_demandcell(x, y,
                     unsat_potnetabs_sw_supplycell_to_demandcell *\
                     unsat_potnetabs_sw_from_demandcell[nb_x, nb_y] * \
                     (1 / unsat_potnetabs_sw_to_supplycell)
-
-    return accumulated_unsatisfied_potential_netabs_sw, returned_demand_from_supplycell
+                
+    return accumulated_unsatisfied_potnetabs_no_alloc, returned_demand_from_supplycell
 
 
 # ==============================================================================
@@ -204,8 +208,13 @@ def get_neighbouringcell(neigbourcells_for_demandcell,
                 if reservoir_operation is True:
                     cell_storage += glores_storage[neighbourcell_lat,
                                                    neighbourcell_lon]
-    
+                
+                
+                if cell_storage < 1e-12: #to counter numerical inaccuracies
+                     cell_storage = 0
+
                 if cell_storage > largest_storage_neighbour:
+                    
                     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     # Select the neighbour cell only if it's not directly upstream of
                     # the current cell. This is because: 1) extracting water from an
@@ -220,9 +229,7 @@ def get_neighbouringcell(neigbourcells_for_demandcell,
                         largest_storage_neighbour = cell_storage
                         neigbour_cell_x, neigbour_cell_y = \
                             neighbourcell_lat, neighbourcell_lon
-                demand_for_supply_cell = \
-                    accumulated_unsatisfied_potential_netabs_sw
-
+                
         if current_mon_day[0] == 12 and current_mon_day[1] == 31:
             if cell_calculated[neigbour_cell_x, neigbour_cell_y] > cell_calculated[x, y]:
                 neigbour_cell_x, neigbour_cell_y = 0, 0

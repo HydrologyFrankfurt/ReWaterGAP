@@ -17,6 +17,7 @@
 # =============================================================================
 
 from numba import njit
+import numpy as np
 
 
 @njit(cache=True)
@@ -26,6 +27,7 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
                              unagregrgated_potential_netabs_sw,
                              potential_netabs_sw, glwdunits, rout_order,
                              unsatisfied_potnetabs_riparian,
+                             prev_returned_demand_from_supply_cell,
                              x, y):
     """
     Distribute unsatisfied demand of global lake/reservoir to riparian cells.
@@ -79,14 +81,27 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
     # between accumulated_unsatisfied_potential_netabs_sw
     # (after global lake and or reservoir storage)  and the sum of
     # previous accumulated unsatisfied potential net abstraction from
-    # surface water and the distributed demand to supply cell if there is
+    # surface water or prev_returned_demand_from_supply_cell (if demand is satisfied in next time step by neighbour cell)
+    # and the distributed demand to supply cell if there is
     # neigbouring cell water supply option(current cell is suuply cell).
     # (prev_accumulated_unsatisfied_potential_netabs_sw +
     # unsat_potnetabs_sw_to_supplycell)
 
-    prev_accu_supplycell_demad = unsat_potnetabs_sw_to_supplycell + \
-        prev_accumulated_unsatisfied_potential_netabs_sw
+    # =========================================================================
+    prev_accu_supplycell_demad = unsat_potnetabs_sw_to_supplycell 
 
+    if np.nansum(np.array(prev_returned_demand_from_supply_cell)) == 0:
+        prev_accu_supplycell_demad += prev_accumulated_unsatisfied_potential_netabs_sw
+        
+    else:
+        # logic: if demand is satisfied in next time step by neighbour cell use 
+        # returned demand from this neighbour (prev_returned_demand_from_supply_cell)
+        # else use the unstatisfied demand from previous day 
+        # (prev_accumulated_unsatisfied_potential_netabs_sw)
+        prev_accu_supplycell_demad += np.nansum(np.array(prev_returned_demand_from_supply_cell)) 
+
+    # =========================================================================
+    
     # ------------------------------------------------------------------
     # Special condition!!!:
     # ------------------------------------------------------------------
@@ -97,6 +112,7 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
         accumulated_unsatisfied_potential_netabs_sw
     # Note that accum_uns_potnetabs_after_distribution will change if there
     # are 2 or more riparian cell (glwdunit >=2)
+
     # ------------------------------------------------------------------
 
     # Note! x,y is index of outflow cell of a global lake or reservoir

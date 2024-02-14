@@ -246,6 +246,11 @@ class LateralWaterBalance:
         # To help initialize reservoir and regulated lake storage only once
         # at simiulation start or spin up.
         self.set_res_storage_flag = True
+        
+        # To help make sure that reservior and regalated lake area and capacity 
+        # are initiallized once each year
+        self.check_res_area_flag = cm.restart
+        
         #
         #                  =================================
         #                  ||    Head water cells         ||
@@ -363,7 +368,7 @@ class LateralWaterBalance:
     #                  ||  Activcate Reservior and Regulated lake storage ||
     #                  =====================================================
     def activate_res_area_storage_capacity(self, simulation_date,
-                                           reservoir_opt_year, restart_year):
+                                           reservoir_opt_year, restart):
         """
         Activate storage,area and capacity of reservoir in current year.
 
@@ -387,7 +392,9 @@ class LateralWaterBalance:
             # Activate  area and capacity of reservoir and regulated lake that
             # are  active in current year
             if simulation_date.astype('datetime64[D]') in reservoir_opt_year \
-                or self.set_res_storage_flag == True:
+                or self.set_res_storage_flag == True or \
+                    self.check_res_area_flag == True:
+                
                 resyear = pd.to_datetime(simulation_date).year
 
                 # Initialize reservior and regulated lake capacity, Units : km3
@@ -455,6 +462,10 @@ class LateralWaterBalance:
                 
                 self.max_glolake_storage = self.glolake_area * \
                     self.parameters.activelake_depth.values * m_to_km 
+                
+                # This is set should be set to false to enable that 
+                # reservoir and regulated lake are initiallised once each year 
+                self.check_res_area_flag = False
                     
                     
             # Note!: Storages are activated on the 1st day of the year
@@ -463,49 +474,47 @@ class LateralWaterBalance:
                 simu_start_year = pd.to_datetime(cm.start).year
 
                 # If run is a restart run, saved storage is used
-                if simu_start_year != restart_year:
+                # -----------------
+                # Reservoir Storage
+                # -----------------
+                # # Initialize newly activated reservior storage in
+                # the current year to maximum,  Units : km3
+                # Keep storage values of already activate reservoirs
+                glores_storage_active = self.static_data.\
+                    res_reg_files.stor_cap[0].values.astype(np.float64)
 
-                    # -----------------
-                    # Reservoir Storage
-                    # -----------------
-                    # # Initialize newly activated reservior storage in
-                    # the current year to maximum,  Units : km3
-                    # Keep storage values of already activate reservoirs
-                    glores_storage_active = self.static_data.\
-                        res_reg_files.stor_cap[0].values.astype(np.float64)
+                self.glores_storage = \
+                    np.where(simu_start_year >= self.glores_startyear,
+                             glores_storage_active,
+                             self.glores_storage)
 
-                    self.glores_storage = \
-                        np.where(simu_start_year >= self.glores_startyear,
-                                 glores_storage_active,
-                                 self.glores_storage)
+                # -------------------------
+                # Regulated Lake Storage
+                # -----------------------
+                # For regulated lake: if it's not yet operational
+                # increase reservoir storage by multiplying the area with
+                # lake depth (Treat it as a global lake)- changed by mohammed 
+                self.glores_storage =\
+                    np.where((simu_start_year < self.glores_startyear) &
+                             (self.regulated_lake_status == 1),
+                             (self.all_reservoir_and_regulated_lake_area *
+                              self.parameters.activelake_depth.values * m_to_km)
+                             + self.glores_storage,
+                             self.glores_storage)
 
-                    # -------------------------
-                    # Regulated Lake Storage
-                    # -----------------------
-                    # For regulated lake: if it's not yet operational
-                    # increase reservoir storage by multiplying the area with
-                    # lake depth (Treat it as a global lake)- changed by mohammed 
-                    self.glores_storage =\
-                        np.where((simu_start_year < self.glores_startyear) &
-                                 (self.regulated_lake_status == 1),
-                                 (self.all_reservoir_and_regulated_lake_area *
-                                  self.parameters.activelake_depth.values * m_to_km)
-                                 + self.glores_storage,
-                                 self.glores_storage)
+                self.reg_lake_redfactor_firstday = \
+                    np.where((simu_start_year < self.glores_startyear) &
+                             (self.regulated_lake_status == 1), 1,
+                             0)
 
-                    self.reg_lake_redfactor_firstday = \
-                        np.where((simu_start_year < self.glores_startyear) &
-                                 (self.regulated_lake_status == 1), 1,
-                                 0)
+                self.reg_lake_redfactor_firstday = \
+                    np.where((self.glores_storage == glores_storage_active) &
+                             (self.regulated_lake_status == 1), 0,
+                             self.reg_lake_redfactor_firstday)
 
-                    self.reg_lake_redfactor_firstday = \
-                        np.where((self.glores_storage == glores_storage_active) &
-                                 (self.regulated_lake_status == 1), 0,
-                                 self.reg_lake_redfactor_firstday)
-
-                    # update initial storage of global lake if reservoir
-                    # becomes global lake due to mean_annual_inflow_res = 0.
-                    self.glolake_storage = self.max_glolake_storage
+                # update initial storage of global lake if reservoir
+                # becomes global lake due to mean_annual_inflow_res = 0.
+                self.glolake_storage = self.max_glolake_storage
 
                 # set initialization flag to False
                 self.set_res_storage_flag = False
@@ -680,7 +689,6 @@ class LateralWaterBalance:
                     self.potential_net_abstraction_sw + \
                     self.accumulated_unsatisfied_potential_netabs_sw
             else:
-                pass
                 accumulated_unsatisfied_potential_netabs_sw =  \
                      self.potential_net_abstraction_sw.copy()
         total_demand = accumulated_unsatisfied_potential_netabs_sw.copy()
@@ -758,7 +766,7 @@ class LateralWaterBalance:
                       cm.neighbouringcell, cm.reservior_opt,
                       self.num_days_in_month,
                       self.all_reservoir_and_regulated_lake_area,
-                      self.reg_lake_redfactor_firstday, region)
+                      self.reg_lake_redfactor_firstday, region, cm.delayed_use)
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]
@@ -778,7 +786,6 @@ class LateralWaterBalance:
         
 
         # Streamflow is only stored for all cells except inland sinks
-        # print(out[13][89, 487])
         streamflow = np.where(self.drainage_direction >= 0, out[13], np.nan)
 
         updated_locallake_fraction = out[15]
@@ -815,7 +822,6 @@ class LateralWaterBalance:
         #        prev_returned_demand_from_supply_cell[115, 343],
         #        self.accumulated_unsatisfied_potential_netabs_sw[115, 343])
 
-        print(self.glolake_storage[117, 482], glolake_outflow[117, 482], self.glolake_area[117, 482], "yea")
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.
@@ -845,13 +851,14 @@ class LateralWaterBalance:
                      returned_demand_from_supply_cell,
                      self.accumulated_unsatisfied_potential_netabs_sw)
 
-        self.prev_accumulated_unsatisfied_potential_netabs_sw = \
-            np.where(~np.isnan(prev_returned_demand_from_supply_cell),
-                     prev_returned_demand_from_supply_cell,
-                     self.prev_accumulated_unsatisfied_potential_netabs_sw)
-
         if cm.subtract_use is True:
             if cm.delayed_use is True:
+                
+                self.prev_accumulated_unsatisfied_potential_netabs_sw = \
+                    np.where(~np.isnan(prev_returned_demand_from_supply_cell),
+                             prev_returned_demand_from_supply_cell,
+                             self.prev_accumulated_unsatisfied_potential_netabs_sw)
+                
                 end_of_year = [str(pd.to_datetime(simulation_date).month),
                                str(pd.to_datetime(simulation_date).day)]
                 # accumulated_unsatisfied_potential_netabs_sw and
@@ -865,17 +872,20 @@ class LateralWaterBalance:
                 else:
                     self.daily_unsatisfied_pot_nas = \
                         np.where(~np.isnan(check_daily_unsatisfied_pot_nas),
-                                 self.accumulated_unsatisfied_potential_netabs_sw - 
-                                 self.prev_accumulated_unsatisfied_potential_netabs_sw,
-                                 0)
+                                  self.accumulated_unsatisfied_potential_netabs_sw - 
+                                  self.prev_accumulated_unsatisfied_potential_netabs_sw,
+                                  0)
+                        
+                self.prev_accumulated_unsatisfied_potential_netabs_sw = \
+                    np.where(~np.isnan(check_daily_unsatisfied_pot_nas),
+                             self.accumulated_unsatisfied_potential_netabs_sw.copy(),
+                             self.prev_accumulated_unsatisfied_potential_netabs_sw)
+                        
             else:
                 self.daily_unsatisfied_pot_nas = \
                     self.accumulated_unsatisfied_potential_netabs_sw.copy()
 
-        self.prev_accumulated_unsatisfied_potential_netabs_sw = \
-            np.where(~np.isnan(check_daily_unsatisfied_pot_nas),
-                     self.accumulated_unsatisfied_potential_netabs_sw.copy(),
-                     self.prev_accumulated_unsatisfied_potential_netabs_sw,)
+        
 
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # The ff. variables also needed to  adapt potential net abstraction
@@ -893,17 +903,14 @@ class LateralWaterBalance:
         # =====================================================================
         # Getting all storages
         # =====================================================================
-        # Remove ocean cells from data
-        mask_con = (self.cell_area/self.cell_area)
-
         LateralWaterBalance.storages.\
-            update({'groundwstor': self.groundwater_storage*mask_con,
-                    'locallakestor': self.loclake_storage*mask_con,
-                    'localwetlandstor': self.locwet_storage*mask_con,
-                    'globallakestor': self.glolake_storage*mask_con,
-                    'globalwetlandstor': self.glowet_storage*mask_con,
-                    'riverstor': self.river_storage*mask_con,
-                    "glores_stor": self.glores_storage*mask_con})
+            update({'groundwstor': self.groundwater_storage,
+                    'locallakestor': self.loclake_storage,
+                    'localwetlandstor': self.locwet_storage,
+                    'globallakestor': self.glolake_storage,
+                    'globalwetlandstor': self.glowet_storage,
+                    'riverstor': self.river_storage,
+                    "glores_stor": self.glores_storage})
 
         # =====================================================================
         # Getting all fluxes
@@ -911,37 +918,37 @@ class LateralWaterBalance:
         # Note that these variables are directly changed in the "rout"
         # function and hence they are copied to prevent variables from being 
         # overwritten when writing out.
-        unsat_potnetabs_sw_to_supplycell =  self.unsat_potnetabs_sw_to_supplycell.copy() 
-        unsat_potnetabs_sw_from_demandcell =  self.unsat_potnetabs_sw_from_demandcell.copy() 
-        out_accumulated_unsatisfied_potential_netabs_sw = self.accumulated_unsatisfied_potential_netabs_sw.copy() 
-        unsatisfied_potential_netabs_riparian = self.unsatisfied_potential_netabs_riparian.copy() 
-        get_neighbouring_cells_map = self.get_neighbouring_cells_map.copy()
+        unsat_potnetabs_sw_to_supplycell_out =  self.unsat_potnetabs_sw_to_supplycell.copy() 
+        unsat_potnetabs_sw_from_demandcell_out =  self.unsat_potnetabs_sw_from_demandcell.copy() 
+        accumulated_unsatisfied_potential_netabs_sw_out = self.accumulated_unsatisfied_potential_netabs_sw.copy() 
+        unsatisfied_potential_netabs_riparian_out = self.unsatisfied_potential_netabs_riparian.copy() 
+        get_neighbouring_cells_map_out = self.get_neighbouring_cells_map.copy()
         
         LateralWaterBalance.fluxes.\
-            update({'qg': groundwater_discharge*mask_con,
-                   'locallake_outflow': loclake_outflow*mask_con,
-                    'localwetland_outflow': locwet_outflow*mask_con,
-                    'globallake_outflow': glolake_outflow*mask_con,
-                    'globalwetland_outflow': glowet_outflow*mask_con,
-                    'dis': streamflow*mask_con,
+            update({'qg': groundwater_discharge,
+                   'locallake_outflow': loclake_outflow,
+                    'localwetland_outflow': locwet_outflow,
+                    'globallake_outflow': glolake_outflow,
+                    'globalwetland_outflow': glowet_outflow,
+                    'dis': streamflow,
                     'actual_net_abstraction_gw':
-                        actual_net_abstraction_gw*mask_con,
+                        actual_net_abstraction_gw,
                     "demand_satisfied_by_cell":
-                        actual_daily_netabstraction_sw*mask_con,
-                    "total_demand": total_demand*mask_con,
+                        actual_daily_netabstraction_sw,
+                    "total_demand": total_demand,
                     "unsat_potnetabs_sw_from_demandcell":
-                        unsat_potnetabs_sw_from_demandcell*mask_con,
+                        unsat_potnetabs_sw_from_demandcell_out,
                     "returned_demand_from_supply_cell": 
-                        returned_demand_from_supply_cell*mask_con,
+                        returned_demand_from_supply_cell,
                     "prev_returned_demand_from_supply_cell":
-                        prev_returned_demand_from_supply_cell*mask_con,
+                        prev_returned_demand_from_supply_cell,
                     "accumulated_unsatisfied_potential_netabs_sw":
-                        out_accumulated_unsatisfied_potential_netabs_sw*mask_con,
+                        accumulated_unsatisfied_potential_netabs_sw_out,
                     "unsat_potnetabs_sw_to_supplycell": 
-                        unsat_potnetabs_sw_to_supplycell*mask_con, 
+                        unsat_potnetabs_sw_to_supplycell_out, 
                     "unsatisfied_potential_netabs_riparian":
-                        unsatisfied_potential_netabs_riparian*mask_con,
-                    "get_neighbouring_cells_map": get_neighbouring_cells_map})
+                        unsatisfied_potential_netabs_riparian_out,
+                    "get_neighbouring_cells_map": get_neighbouring_cells_map_out})
             
         # =====================================================================
         #  Get dynamic area fraction for local lakes and local and
@@ -1014,7 +1021,10 @@ class LateralWaterBalance:
         self.unsat_potnetabs_sw_from_demandcell = \
             latbalance_states["unsat_potnetabs_sw_from_demandcell"]
         self.unsat_potnetabs_sw_to_supplycell =  \
-            latbalance_states["unsat_potnetabs_sw_to_supplycell"]
+            latbalance_states["unsat_potnetabs_sw_to_supplycell"]      
+        self.get_neighbouring_cells_map = \
+            latbalance_states["neighbouring_cells_map"]
+            
         self.accumulated_unsatisfied_potential_netabs_sw = \
             latbalance_states["accumulated_unsatisfied_potential_netabs_sw"]
         self.daily_unsatisfied_pot_nas = \
@@ -1026,3 +1036,5 @@ class LateralWaterBalance:
             latbalance_states["prev_potential_water_withdrawal_sw_irri"]
         self.prev_potential_consumptive_use_sw_irri = \
             latbalance_states["prev_potential_consumptive_use_sw_irri"]
+        
+        self.set_res_storage_flag = latbalance_states["set_res_storage_flag"]
