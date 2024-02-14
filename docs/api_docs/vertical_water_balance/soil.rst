@@ -53,7 +53,7 @@ Actual evapotranspiration :math:`{E}_{s}` from soil :math:`[mm/d]` is calculated
 .. math::
     {E}_{s} = min\biggl(({E}_{pot} - E_c) , ({E}_{pot,max} - E_c) \times \frac{S_s}{S_s,max} \biggr)  
 
-where :math:`{E}_{pot}` is potential evapotranspiration :math:`[mm/d]`, :math:`{E}_{c}` is canopy evaporation :math:`(mm/d)` and :math:`{S}_{s,max}` is the maximum soil water content :math:`[mm]` derived as a product of total available water capacity in the upper meter of the soil [2]_ and land-cover-specific rooting depth (Table C2 [1]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 {mm}/{d}` globally. 
+where :math:`{E}_{pot}` is potential evapotranspiration :math:`[mm/d]`, :math:`{E}_{c}` is canopy evaporation :math:`[mm/d]` and :math:`{S}_{s,max}` is the maximum soil water content :math:`[mm]` derived as a product of total available water capacity in the upper meter of the soil [2]_ and land-cover-specific rooting depth (Table C2 [1]_). The maximum potential evapotranspiration :math:`{E}_{pot,max}` is set to :math:`15 {mm}/{d}` globally. 
 
 Total daily runoff from land (RL) is calculated as:
 
@@ -66,9 +66,8 @@ where immediate runoff from urban areas (R1) is computed as:
 
 .. _immediate_runoff:
 
- .. math::
-     {immediate \: runoff} = 0.5 \times {P}_{eff}  \times fraction \: of \: build \: up \: area
-
+.. math::
+   {immediate \: runoff} = 0.5 \times {P}_{eff} \times fraction \: of \: build \: up \: area
 
 
 and where soil water overflow (R2) is calculated as:
@@ -82,7 +81,7 @@ and where soil water overflow (R2) is calculated as:
   0, & \text{otherwise}
   \end{cases}
 
-where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S_s,max}` is :ref:`soil storage <soil_storage>`
+where :math:`{P}_{eff}` is :ref:`effective precipitation <effective_precipitation>`, :math:`{S}_{s,p}` and :math:`{S}_{s,max}` is :ref:`soil storage <soil_storage>`
 of the previous day and maximum soil storage respectively.
 
 Daily runoff from soil (:math:`{R3}`) :math:`[mm/day]` is calculated following Bergström (1995) [3]_ as:
