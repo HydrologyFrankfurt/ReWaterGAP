@@ -35,6 +35,8 @@ Outflows
 --------
 Groundwater discharge, :math:`Q_g [m^3 {d}^{-1}]` to surface waterbodies is an outflow which is computed as:
 
+.. _groundwater_discharge:
+
 .. math::
    {Q}_{g} = {k}_{g} \times {S}_{g}
 
