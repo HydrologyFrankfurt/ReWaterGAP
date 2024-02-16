@@ -74,7 +74,32 @@ html_theme = 'pydata_sphinx_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+
+html_theme_options = {
+    "external_links": [],
+    "footer_start": ["pandas_footer", "sphinx-version"],
+    "github_url": "https://github.com/pandas-dev/pandas",
+    "twitter_url": "https://twitter.com/pandas_dev",
+    "analytics": {
+        "plausible_analytics_domain": "pandas.pydata.org",
+        "plausible_analytics_url": "https://views.scientific-python.org/js/script.js",
+    },
+    "logo": {"image_dark": "https://pandas.pydata.org/static/img/pandas_white.svg"},
+    "navbar_align": "left",
+    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
+    "switcher": {
+        "json_url": "https://pandas.pydata.org/versions.json",
+        "version_match": switcher_version,
+    },
+    "show_version_warning_banner": True,
+    "icon_links": [
+        {
+            "name": "Mastodon",
+            "url": "https://fosstodon.org/@pandas_dev",
+            "icon": "fa-brands fa-mastodon",
+        },
+    ],
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
