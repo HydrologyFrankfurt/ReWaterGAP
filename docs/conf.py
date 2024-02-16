@@ -77,8 +77,8 @@ html_theme = 'pydata_sphinx_theme'
 
 html_theme_options = {
     "external_links": [],
-    "github_url": "https://github.com/pandas-dev/pandas",
-    "twitter_url": "https://twitter.com/pandas_dev",
+    "github_url": "https://github.com/HydrologyFrankfurt/ReWaterGAP",
+    "twitter_url": "https://twitter.com/HydroFrankfurt",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
