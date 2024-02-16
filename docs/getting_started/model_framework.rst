@@ -26,6 +26,8 @@ WaterGAP Global Hydrology Model (WGHM)
 
 The WaterGAP Global Hydrology Model is developed based on the schematic [1]_ presented below. 
 
+.. _model_schematic:
+
 .. figure:: ../images/watergap_schematic.png
    :align: center
    
