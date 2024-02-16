@@ -10,14 +10,14 @@ River storage and related fluxes are calculated based on section 4.7 of Müller 
 
 Water balance
 -------------
-River storage :math:`S_r` :math:`(m^3)` is computated as
+River storage :math:`S_r` :math:`[m^3]` is computated as
 
 .. _river_balance:
 
 .. math::
    \frac{dS_r}{d_t} =  {Q}_{r,in} − {Q}_{r,out} − {NA}_{s,r}
 
-where :math:`{Q}_{r,in}` is inflow into the river compartment (:math:`{m}^{3} {d}^{-1}`), :math:`{Q}_{r,out}` is the streamflow (:math:`{m}^{3} {d}^{-1}`), and :math:`{NA}_{s,r}` is the net abstraction of surface water from the river (:math:`{m}^{3} {d}^{-1}`).
+where :math:`{Q}_{r,in}` is inflow into the river compartment [:math:`{m}^{3} {d}^{-1}`], :math:`{Q}_{r,out}` is the streamflow [:math:`{m}^{3} {d}^{-1}`], and :math:`{NA}_{s,r}` is the net abstraction of surface water from the river [:math:`{m}^{3} {d}^{-1}`].
 
 
 Inflows
@@ -35,17 +35,17 @@ Outflows
 It is calculated as:
 
 .. math::
-	{Q}_{r,out} = /frac{V}{I} * {S}_{r} 
+	{Q}_{r,out} = \frac{V}{I} * {S}_{r} 
 
-where :math:`{v}` :math:`[m/s]`is river flow velocity, and :math:`{l}` is the river length :math:`[m]`. :math:`{l}` is calculated as the product of the cell's river segment length, derived from the HydroSHEDS drainage direction map (Lehner et al., 2008) _[2], and a meandering ratio specific to that cell (method described in Verzano et al., 2012) _[3]. :math:`{v}` is calculated according to the Manning–Strickler equation as:
+where :math:`{v}` :math:`[m/s]` is river flow velocity, and :math:`{l}` is the river length :math:`[m]`. :math:`{l}` is calculated as the product of the cell's river segment length, derived from the HydroSHEDS drainage direction map (Lehner et al., 2008) [2]_, and a meandering ratio specific to that cell (method described in Verzano et al., 2012)[3]_. :math:`{v}` is calculated according to the Manning–Strickler equation as:
 
 .. math::
-	{v} = {n}^-1 * {R}_{h}/frac{3}{2} * {s}/frac{1}{2}
+	{v} = {n}^{-1} * {R}_{h}^{\frac{3}{2}} * {s}^{frac{1}{2}}
 
 
-where :math:`{n}` is river bed roughness :math:`[–]`, :math:`{R}_{h}` is the hydraulic radius of the river channel :math:`[m]` and :math:`{s}` is river bed slope :math:`({m}*{m}^{-1})`. Calculation of :math:`{s}` is based on high-resolution elevation data (SRTM30), the HydroSHEDS drainage direction map and an individual meandering ratio. The predefined minimum :math:`{s}` is 0.0001 :math:`({m}*{m}^{-1})`.
+where :math:`{n}` is river bed roughness :math:`[–]`, :math:`{R}_{h}` is the hydraulic radius of the river channel :math:`[m]` and :math:`{s}` is river bed slope :math:`({m}*{m}^{-1})`. Calculation of :math:`{s}` is based on high-resolution elevation data (SRTM30), the HydroSHEDS drainage direction map and an individual meandering ratio. The predefined minimum :math:`{s}` is 0.0001 :math:`[{m}*{m}^{-1}]`.
 
-To compute the daily varying :math:`{R}_{h}`, a trapezoidal river cross section with a slope of 0.5 is assumed such that it can be calculated as a function of daily varying river depth :math:`{D}_{r}` and temporally constant bottom width :math:`{W}_{r,bottom}` _[3]. Allen et al. (1994) empirically derived equations relating river depth, river top width and streamflow for bankfull conditions _[3]. In former model versions, these equations were also applied at each time step, even if streamflow was not bankfull, to determine river width and depth required to compute :math:`{R}_{h}` and thus :math:`{v}`. As usage of these functions for any streamflow below bankfull is not backed by the data and method of Allen et al. (1994), WaterGAP 2.2d implements a consistent method for determining daily width and depth as a function of river water storage.
+To compute the daily varying :math:`{R}_{h}`, a trapezoidal river cross section with a slope of 0.5 is assumed such that it can be calculated as a function of daily varying river depth :math:`{D}_{r}` and temporally constant bottom width :math:`{W}_{r,bottom}` [3]_. Allen et al. (1994) empirically derived equations relating river depth, river top width and streamflow for bankfull conditions [3]_. In former model versions, these equations were also applied at each time step, even if streamflow was not bankfull, to determine river width and depth required to compute :math:`{R}_{h}` and thus :math:`{v}`. As usage of these functions for any streamflow below bankfull is not backed by the data and method of Allen et al. (1994), WaterGAP 2.2d implements a consistent method for determining daily width and depth as a function of river water storage.
 
 As bankfull conditions are assumed to occur at the initial time step, the initial volume of water stored in the river is computed as:
 
@@ -57,9 +57,9 @@ where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in t
 .. math::
 	{D}_{r} = 
 
-Using the equation for a trapezoid with a slope of 0.5, :math:`{R}_{h}` is then calculated from :math:`{W}_{r,bottom}` and Dr. Bankfull flow is assumed to correspond to the maximum annual daily flow with a return period of 1.5 years _[5] and is derived from daily streamflow time series.
+Using the equation for a trapezoid with a slope of 0.5, :math:`{R}_{h}` is then calculated from :math:`{W}_{r,bottom}` and Dr. Bankfull flow is assumed to correspond to the maximum annual daily flow with a return period of 1.5 years [5]_ and is derived from daily streamflow time series.
 
-The roughness coefficient :math:`{n}` of each grid cell is calculated according to Verzano et al. (2012), who modeled :math:`{n}` as a function of various spatial characteristics (e.g., urban or rural area, vegetation in river bed, obstructions) and a river sinuosity factor to achieve an optimal fit to streamflow observations. Because of the implementation of a new algorithm to calculate :math:`{D}_{r}`, we had to adjust their gridded :math:`{n}` values to avoid excessively high river velocities _[6]. By trial and error, we determined optimal n-multipliers at the scale of 13 large river basins that lead to a good fit to monthly streamflow time series at the most downstream stations and basin-average total water storage anomalies from GRACE. We found that in 9 out of 13 basins, multiplying :math:`{n}` by 3 resulted in the best fit between observed and modeled data. We therefore set the multiplier to 3 globally, except for the remaining four basins, where other values proved to be more adequate; this concerns the Lena basin, where :math:`{n}` is multiplied by 2; the Amazon basin, where :math:`{n}` is multiplied by 10; and the Huang He and Yangtze basins, where :math:`{n}` is kept at its original value (Fig. S1).
+The roughness coefficient :math:`{n}` of each grid cell is calculated according to Verzano et al. (2012), who modeled :math:`{n}` as a function of various spatial characteristics (e.g., urban or rural area, vegetation in river bed, obstructions) and a river sinuosity factor to achieve an optimal fit to streamflow observations. Because of the implementation of a new algorithm to calculate :math:`{D}_{r}`, we had to adjust their gridded :math:`{n}` values to avoid excessively high river velocities [6]_. By trial and error, we determined optimal n-multipliers at the scale of 13 large river basins that lead to a good fit to monthly streamflow time series at the most downstream stations and basin-average total water storage anomalies from GRACE. We found that in 9 out of 13 basins, multiplying :math:`{n}` by 3 resulted in the best fit between observed and modeled data. We therefore set the multiplier to 3 globally, except for the remaining four basins, where other values proved to be more adequate; this concerns the Lena basin, where :math:`{n}` is multiplied by 2; the Amazon basin, where :math:`{n}` is multiplied by 10; and the Huang He and Yangtze basins, where :math:`{n}` is kept at its original value (Fig. S1).
 
 Net cell runoff :math:`{R}_{n,c}` :math:`({m}*{m*d}^{-1})`, the part of the cell precipitation that has neither been evapotranspirated nor stored with a time step, is calculated as:
 
