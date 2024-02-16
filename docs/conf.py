@@ -77,14 +77,8 @@ html_theme = 'pydata_sphinx_theme'
 
 html_theme_options = {
     "external_links": [],
-    "footer_start": ["pandas_footer", "sphinx-version"],
     "github_url": "https://github.com/pandas-dev/pandas",
     "twitter_url": "https://twitter.com/pandas_dev",
-
-    "logo": {"image_dark": "https://pandas.pydata.org/static/img/pandas_white.svg"},
-    "navbar_align": "left",
-    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
-    "show_version_warning_banner": True,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
