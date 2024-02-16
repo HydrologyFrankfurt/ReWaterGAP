@@ -23,7 +23,7 @@ where :math:`{Q}_{r,in}` is inflow into the river compartment (:math:`{m}^{3} {d
 Inflows **(Come back later)
 -------
 
-If there are no surface water bodies in a grid cell, :math:`{Q}_{r,in}` is the sum of :math:`{R}_{s}`, :math:`{Q}_{g}` and streamflow from existing upstream cell(s). Otherwise, part of :math:`{R}_{s}`, and in the case of humid cells also part of :math:`{Q}_{g}`, is routed through the surface water bodies (Reference Schematic). The outflow from the surface water body preceding the river compartment then becomes part of :math:`{Q}_{r,in}`. In addition, negative :math:`{NA}_{s}` values due to high return flows from irrigation with groundwater lead to a net increase in storage. Thus, if no surface water bodies exist in the cell, negative NAs is added to :math:`{Q}_{r,in}` (reference figure 2).
+If there are no surface water bodies in a grid cell, :math:`{Q}_{r,in}` is the sum of :ref:`surface runoff from soil :math:`({R}_{s})` <surface_runoff>`, :ref:`groundwater discharge :math:`({Q}_{g})`` <groundwater_discharge>` and streamflow from existing upstream cell(s). Otherwise, part of :math:`{R}_{s}`, and in the case of humid cells also part of :math:`{Q}_{g}`, is routed through the surface water bodies (Reference Schematic). The outflow from the surface water body preceding the river compartment then becomes part of :math:`{Q}_{r,in}`. In addition, negative :math:`{NA}_{s}` values due to high return flows from irrigation with groundwater lead to a net increase in storage. Thus, if no surface water bodies exist in the cell, negative NAs is added to :math:`{Q}_{r,in}` (reference figure 2).
 
 Outflows
 --------
