@@ -19,7 +19,7 @@ This module computes soil storage and related fluxes for all grid cells based on
 
    **Note**: Total daily runoff from land is corrected with an areal correction factor (CFA) (if gamma is insufficient to fit simulated discharge). To conserve 
    water balance, :ref:`actual evapotranspiration <corrected_evap>` is also corrected with CFA. After evapotranspiration correction, soil storage, total daily runoff from 
-   land and groundwater recharge are adjusted as well. Finally, *Surface runoff* is calculated as total daily runoff from land minus groundwater recharge.
+   land and groundwater recharge are adjusted as well. Finally, *Surface runoff* :math:`({R}_{s})` is calculated as total daily runoff from land minus groundwater recharge.
 
 
 Water balance
@@ -127,8 +127,10 @@ substituting :math:`RL` from equation 2 into equation 1:
  
 where :math:`{P}` is precipitation :math:`[mm/day]`.
 
+.. _surface_runoff:
+
 .. note::
-   Surface runoff is finally calculated as total daily runoff from land minus groundwater recharge.
+   Surface runoff :math:`({R}_{s})` is finally calculated as total daily runoff from land minus groundwater recharge.
 
 References 
 ----------
