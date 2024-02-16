@@ -127,7 +127,8 @@ substituting :math:`RL` from equation 2 into equation 1:
  
 where :math:`{P}` is precipitation :math:`[mm/day]`.
 
-**Surface runoff is finally calculated as total daily runoff from land minus groundwater recharge.**
+.. note::
+   Surface runoff is finally calculated as total daily runoff from land minus groundwater recharge.
 
 References 
 ----------
