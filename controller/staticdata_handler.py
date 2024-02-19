@@ -12,7 +12,6 @@ import sys
 import numpy as np
 import xarray as xr
 import pandas as pd
-import geopandas as gpd
 import watergap_logger as log
 import misc.cli_args as cli
 from controller import configuration_module as cm
@@ -94,9 +93,16 @@ class StaticData:
             str(Path(cm.static_land_data_path +
                      r'/neigbouringcells_outflow_latlon.csv'))
             
-        super_basins_shapefile = \
+        lat_lon_arcid_path = \
             str(Path(cm.static_land_data_path +
-                r'/super_basins/WLM_superbasins_names_outflowcellcoords_upstreamarea.shp'))
+                r'/ArcID_GCRC_Lon_Lat.txt'))
+
+        upstream_cells_path = \
+            str(Path(cm.static_land_data_path +
+                r'/upstream_cells_for_grid_arcid.csv'))
+        
+        arc_id_path = \
+            str(Path(cm.static_land_data_path + r'/arc_id.nc'))
             
         station_path =  str(Path(cm.path_to_stations_file +
                                r'/stations.csv'))   
@@ -163,10 +169,11 @@ class StaticData:
                 pd.read_csv(neighbourcells_outflowcell_path)
             
             # To select region or basin.
-            self.mask_watergap = cell_area.cell_area.copy() # needed to create a mask
-            self.super_basins = gpd.read_file(super_basins_shapefile)
+            self.arc_id = xr.open_dataarray(arc_id_path, decode_times=False)
+            self.upstream_cells =pd.read_csv(upstream_cells_path)
+            self.lat_lon_arcid =pd.read_csv(lat_lon_arcid_path)
             self.stations = pd.read_csv(station_path)
-                
+  
                 
 
         except FileNotFoundError:
