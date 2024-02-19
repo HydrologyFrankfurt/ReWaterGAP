@@ -134,9 +134,10 @@ def run():
     # =====================================================================
     watergap_region = \
         basin.Select_region(cm.run_region,
-                            initialize_forcings_static.static_data.mask_watergap,
-                            initialize_forcings_static.static_data.super_basins,
-                            initialize_forcings_static.static_data.stations)
+                            initialize_forcings_static.static_data.arc_id ,
+                            initialize_forcings_static.static_data.stations,
+                            initialize_forcings_static.static_data.lat_lon_arcid,
+                            initialize_forcings_static.static_data.upstream_cells)
     #print(watergap_region.region)
     # ====================================================================
     # Get time range for Loop
@@ -227,14 +228,16 @@ def run():
             # =================================================================
             #  Get Land area fraction and reservoirs respective years
             # =================================================================
-            # Get Land area fraction
-            land_water_frac.\
-                landareafrac_with_reservior(date, cm.reservoir_opt_years)
-            
             # Activate reservoirs for current year
             lateral_waterbalance.\
                 activate_res_area_storage_capacity(date, cm.reservoir_opt_years,
                                                    restart)
+                
+            # Get Land area fraction
+            land_water_frac.\
+                landareafrac_with_reservior(date, cm.reservoir_opt_years,
+                                            lateral_waterbalance.glores_area)
+                       
 
             # Adapt global reservoir storage and land area fraction
             # due to net change in land fraction

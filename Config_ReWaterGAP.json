@@ -9,7 +9,7 @@
   "RuntimeOptions": [
     {
       "SimulationOption": {
-        "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": false},
+        "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": true},
         "Demand_satisfaction_opts": {"delayed_use": true, "neighbouring_cell": true}
       }
     },
@@ -22,11 +22,11 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1990-01-01",
-        "end": "1990-12-31",
+        "start": "2001-01-01",
+        "end": "2001-12-31",
         "reservoir_start_year": 1990,
         "reservoir_end_year": 2019,
-        "spinup_years": 2
+        "spinup_years": 0
       }
     },
     {
@@ -36,7 +36,7 @@
     },
     {
     "SimulationExtent": { 
-     "run_region": false,
+     "run_region": true,
      "path_to_stations_file": "input_data/static_input/"}
      }
   ],
@@ -69,7 +69,7 @@
         "local_wetland_outflow":false,
     	"global_lake_outflow":false,
         "global_wetland_outflow":false,
-        "streamflow":false,
+        "streamflow":true,
         "actual_net_abstr_groundwater":false,
          "demand_satisfied_by_cell":false,
          "total_demand":false,
