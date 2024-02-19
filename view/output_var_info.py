@@ -36,7 +36,7 @@ modelvars = {
                                   "groundwater", "unit": "km3/day"},
     "demand_satisfied_by_cell": {"long": "demand satisfied by cell", 
                                  "unit": "km3/day"},
-    "total_demand": {"long": "total demand", "unit": "km3/day"},
+    "demand_with_delayed_use": {"long": "demand_with_delayed_use", "unit": "km3/day"},
 
     "unsat_potnetabs_sw_from_demandcell": {"long": "unsatisfied potential"
                                            "demand from demandcell in surfacewater", 

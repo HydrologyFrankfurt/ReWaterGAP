@@ -113,7 +113,7 @@ class CreateandWritetoVariables:
             "actual_net_abstraction_gw": "actual_net_abstr_groundwater",
             "demand_satisfied_by_cell":
                 "demand_satisfied_by_cell",
-            "total_demand": "total_demand",
+            "demand_with_delayed_use": "demand_with_delayed_use",
             "unsat_potnetabs_sw_from_demandcell": "unsat_potnetabs_sw_from_demandcell",
             "unsat_potnetabs_sw_to_supplycell": "unsat_potnetabs_sw_to_supplycell",
             "returned_demand_from_supply_cell": 
