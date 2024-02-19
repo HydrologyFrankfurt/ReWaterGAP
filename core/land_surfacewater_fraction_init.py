@@ -105,7 +105,7 @@ class LandsurfacewaterFraction:
             np.unique(self.outflow_cell_assignment)[1:-1]
         # ---------------------------------------------------------------------
 
-    def landareafrac_with_reservior(self, date, reservoir_opt_year):
+    def landareafrac_with_reservior(self, date, reservoir_opt_year, glores_area):
         """
         Get land area fraction.
 
@@ -148,12 +148,13 @@ class LandsurfacewaterFraction:
                                              self.static_data.resyear_frac,
                                              self.resyear,
                                              self.glores_frac_prevyear,
+                                             glores_area,
                                              self.init_landfrac_res_flag)
 
                 self.current_landareafrac = lsf_out[0]
                 self.current_landareafrac[self.current_landareafrac<0]=0
                 self.gloresfrac_change = lsf_out[1]
-                    
+                
                 if self.init_landfrac_res_flag:
                     # if initial land area fraction is zero (surface waterbody
                     # fraction is 100 %) set initial landareafrac_ratio 
@@ -202,7 +203,8 @@ class LandsurfacewaterFraction:
         """
         if self.reservior_opt is True:
             if self.date in self.reservoir_opt_year:
-
+                
+                
                 landareafrac_change = \
                     self.current_landareafrac - self.previous_landareafrac
 
@@ -215,7 +217,7 @@ class LandsurfacewaterFraction:
                 # involved). Also, this happens only in edge cases
                 # (the positive land area frac changes)
                 mask_positive_laf_change = (self.gloresfrac_change > 0) & \
-                    (landareafrac_change >= 0)
+                    (landareafrac_change >= 0) 
 
                 self.current_landareafrac = \
                     np.where(mask_positive_laf_change,
@@ -228,7 +230,7 @@ class LandsurfacewaterFraction:
                 cell_area = self.static_data.cell_area.astype(np.float64)
                 mm_to_km = 1e-6
                 mask_negative_laf_change = (self.gloresfrac_change > 0) & \
-                    (landareafrac_change < 0)
+                    (landareafrac_change < 0) 
 
                 canopy_watercontent_change_km3 = \
                     np.where(mask_negative_laf_change,

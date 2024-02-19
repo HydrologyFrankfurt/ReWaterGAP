@@ -15,6 +15,7 @@ reservoir_operation = cm.reservior_opt
 def compute_landareafrac(landwater_frac, land_area_frac,
                          resyear_frac=None, res_year=None,
                          glores_frac_prevyear=None,
+                         glores_area=None,
                          init_landfrac_res_flag=None):
     """
     Compute land area fraction.
@@ -80,7 +81,7 @@ def compute_landareafrac(landwater_frac, land_area_frac,
                 values.astype(np.float64)
             # changing data dimension from (1,360,720) to (360,720)
             glores_frac = glores_frac[0]
-
+            
             # ================================================================
             # Compute land area fraction at model start and subsequent years
             # ===============================================================
@@ -118,17 +119,20 @@ def compute_landareafrac(landwater_frac, land_area_frac,
 
                 mask_zero = glores_frac_prevyear == 0
                 mask_greater = glores_frac > glores_frac_prevyear
+                
                 diff = glores_frac - glores_frac_prevyear
 
                 glores_frac_change = np.where(mask_zero, glores_frac,
                                               np.where(mask_greater, diff, 0))
 
+                glores_frac_change=np.where(glores_area>0, glores_frac_change , 0)
+               
                 # Recompute land area fraction to account for the changes in
                 #  reservoir fraction.
                 land_area_frac = land_area_frac - (glores_frac_change/100)
 
                 land_area_frac[land_area_frac < 0] = 0
-
+                
             return land_area_frac, glores_frac_change
         else:
             # regulated lakes becomes global lakes (global lake fraction is
