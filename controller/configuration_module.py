@@ -152,7 +152,7 @@ else:
 # # Simulation Extent
 # =============================================================================
 extent_options = config_file['RuntimeOptions'][4]['SimulationExtent']
-run_region = extent_options["run_region"]
+run_basin = extent_options["run_basin"]
 path_to_stations_file = extent_options['path_to_stations_file']
 
 # =============================================================================
