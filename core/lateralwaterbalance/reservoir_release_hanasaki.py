@@ -129,6 +129,7 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     # old code didnt account for division by zero, hence i am imitating the
     # same error for comparison. i will correct it here later.
     # (check gcrc 46162, x=140, y=157)******
+    
     if mean_annual_inflow == 0:
         c_ratio = np.inf
     else:

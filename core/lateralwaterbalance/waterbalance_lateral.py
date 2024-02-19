@@ -822,6 +822,8 @@ class LateralWaterBalance:
         #        prev_returned_demand_from_supply_cell[115, 343],
         #        self.accumulated_unsatisfied_potential_netabs_sw[115, 343])
 
+        # x,y=179, 426
+        # print(self.glores_storage[x, y], glores_outflow[x, y], current_landarea_frac[x, y])
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.

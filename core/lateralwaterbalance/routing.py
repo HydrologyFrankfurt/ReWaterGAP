@@ -382,7 +382,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
     
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
-    
+
         #                  =================================
         #                  || Global lake waterbalance    ||
         #                  =================================
@@ -393,7 +393,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
             # Inflow from upstream river and outflow from local lakes becomes.
             # inflow into global lake.
             inflow_from_upstream = river_inflow[x, y]
-            inflow_to_swb += river_inflow[x, y]
+            inflow_to_swb += river_inflow[x, y] 
     
             if glolake_area[x, y] > 0:
                 daily_glolake_balance = lw.\
@@ -466,7 +466,8 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                                                  accu_unsatisfied_pot_netabstr_glolake,
                                                  num_days_in_month,
                                                  all_reservoir_and_regulated_lake_area,
-                                                 reg_lake_redfactor_firstday[x, y])
+                                                 reg_lake_redfactor_firstday[x, y],
+                                                 minstorage_volume)
     
                 storage, outflow, recharge, res_k_release, accum_unpot_netabs_sw, actual_use =\
                     daily_res_reg_balance
@@ -477,9 +478,11 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                 k_release_out[x, y] = res_k_release.item()
                 actual_daily_netabstraction_sw[x, y] += actual_use.item()
                 accu_unsatisfied_pot_netabstr_glores = accum_unpot_netabs_sw.item()
-    
+                
+                
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
+            
             
             # Update accumulated_unsatisfied_potential_netabs_sw  after global lake
             # and reservior abstraction since a cell may contain both.

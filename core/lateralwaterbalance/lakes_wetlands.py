@@ -376,7 +376,7 @@ def lake_wetland_balance(x, y,
             else:
                 if outflow > storage:
                     outflow = storage
-
+                    
         else:
             outflow = 0
 

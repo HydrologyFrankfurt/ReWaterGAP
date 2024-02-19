@@ -39,7 +39,7 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                                  accumulated_unsatisfied_potential_netabs_glolake,
                                  num_days_in_month,
                                  all_reservoir_and_regulated_lake_area,
-                                 reg_lake_redfactor_firstday):
+                                 reg_lake_redfactor_firstday, minstorage_volume):
     # ************************************************************************
     # Note: To estimate the water demand of 5 cells downstream from a
     # reservoir, the reservoir area for all grid cells is read in and the
@@ -75,6 +75,7 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
     else:
         evapo_redfactor = \
             rf.swb_redfactor(storage_prevstep, max_storage, reduction_exponent_res)
+    
 
     # =========================================================================
     # Computing reservior or regulated lake corrected evaporation
@@ -195,12 +196,15 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
             if accumulated_unsatisfied_potential_netabs_res < \
                     (storage - (0.1 * stor_capacity)):
                 storage -= accumulated_unsatisfied_potential_netabs_res
-                accumulated_unsatisfied_potential_netabs_res = 0.
+                accumulated_unsatisfied_potential_netabs_res = 0
             else:
                 accumulated_unsatisfied_potential_netabs_res -= \
                     (storage - (0.1 * stor_capacity))
                 storage = 0.1 * stor_capacity
 
+    
+    if np.abs(storage) <= minstorage_volume:
+        storage= 0
     # compute relase from Hanasaki algorithm
     release, k_release_new = hanaski.\
         hanasaki_res_reslease(storage, stor_capacity, res_start_month,
