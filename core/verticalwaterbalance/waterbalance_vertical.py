@@ -36,50 +36,50 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        gamma, max_daily_pet, soil_texture, drainage_direction,
                        max_groundwater_recharge, groundwater_recharge_factor,
                        critcal_gw_precipitation, max_soil_water_content,
-                       areal_corr_factor, region):
+                       areal_corr_factor, basin):
     # =========================================================================
     #   Creating outputs for storages, fluxes and factors
     # =========================================================================
     #                  =================================
     #                  ||    Radiation and PET        ||
     #                  =================================
-    net_radiation = region.copy()
-    openwater_net_radiation = region.copy()
-    daily_potential_evap = region.copy()
-    openwater_potential_evap = region.copy()
+    net_radiation = basin.copy()
+    openwater_net_radiation = basin.copy()
+    daily_potential_evap = basin.copy()
+    openwater_potential_evap = basin.copy()
 
     #                  =================================
     #                  ||    Leaf area index          ||
     #                  =================================
-    leaf_area_index = region.copy()
+    leaf_area_index = basin.copy()
 
     #                  =================================
     #                  ||    Canopy (Intercrption)    ||
     #                  =================================
-    canopy_storage_out = region.copy() + canopy_storage.copy()
-    throughfall = region.copy()
-    canopy_evap = region.copy()
-    pet_to_soil = region.copy()
-    land_storage_change_sum = region.copy()
+    canopy_storage_out = basin.copy() + canopy_storage.copy()
+    throughfall = basin.copy()
+    canopy_evap = basin.copy()
+    pet_to_soil = basin.copy()
+    land_storage_change_sum = basin.copy()
 
     #                  =================================
     #                  ||           Snow              ||
     #                  =================================
-    snow_water_storage_out = region.copy() + snow_water_storage.copy()
+    snow_water_storage_out = basin.copy() + snow_water_storage.copy()
     snow_water_storage_subgrid_out = snow_water_storage_subgrid.copy()
-    snow_fall = region.copy()
-    sublimation = region.copy()
-    snow_melt = region.copy()
-    effective_precipitation = region.copy()
-    max_temp_elev = region.copy()
+    snow_fall = basin.copy()
+    sublimation = basin.copy()
+    snow_melt = basin.copy()
+    effective_precipitation = basin.copy()
+    max_temp_elev = basin.copy()
 
     #                  =================================
     #                  ||           Soil             ||
     #                  =================================
-    soil_water_content_out = region.copy() + soil_water_content.copy()
-    immediate_runoff = region.copy()
-    groundwater_recharge_from_soil_mm = region.copy()
-    surface_runoff = region.copy()
+    soil_water_content_out = basin.copy() + soil_water_content.copy()
+    immediate_runoff = basin.copy()
+    groundwater_recharge_from_soil_mm = basin.copy()
+    surface_runoff = basin.copy()
 
     # =====================================================================
     # Loop through rout order
@@ -88,7 +88,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
         # Get invidividual cells based on routing order
         x, y = rout_order[routflow_looper]
         
-        if np.isnan(region[x, y ]) == False:
+        if np.isnan(basin[x, y ]) == False:
             # =================================================================
             #       Radiation compononents and Priestley-Taylor PET
             # =================================================================
