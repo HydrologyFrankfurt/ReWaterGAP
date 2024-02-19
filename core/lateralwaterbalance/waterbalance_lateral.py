@@ -526,7 +526,7 @@ class LateralWaterBalance:
     def calculate(self, diffuse_gw_recharge, openwater_pot_evap, precipitation,
                   surface_runoff, daily_storage_transfer,
                   current_landarea_frac, previous_landarea_frac,
-                  simulation_date, first_day_of_month, region):
+                  simulation_date, first_day_of_month, basin):
         """
         Calculate lateral water balance.
 
@@ -691,7 +691,7 @@ class LateralWaterBalance:
             else:
                 accumulated_unsatisfied_potential_netabs_sw =  \
                      self.potential_net_abstraction_sw.copy()
-        total_demand = accumulated_unsatisfied_potential_netabs_sw.copy()
+        demand_with_delayed_use = accumulated_unsatisfied_potential_netabs_sw.copy()
         # =====================================================================
         #   Additional  input variables for river routing
         # =====================================================================
@@ -766,7 +766,7 @@ class LateralWaterBalance:
                       cm.neighbouringcell, cm.reservior_opt,
                       self.num_days_in_month,
                       self.all_reservoir_and_regulated_lake_area,
-                      self.reg_lake_redfactor_firstday, region, cm.delayed_use)
+                      self.reg_lake_redfactor_firstday, basin, cm.delayed_use)
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]
@@ -937,7 +937,7 @@ class LateralWaterBalance:
                         actual_net_abstraction_gw,
                     "demand_satisfied_by_cell":
                         actual_daily_netabstraction_sw,
-                    "total_demand": total_demand,
+                    "demand_with_delayed_use": demand_with_delayed_use,
                     "unsat_potnetabs_sw_from_demandcell":
                         unsat_potnetabs_sw_from_demandcell_out,
                     "returned_demand_from_supply_cell": 

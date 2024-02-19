@@ -64,7 +64,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
          unsat_potnetabs_sw_to_supplycell, neighbouring_cells_map,
          subtract_use_option, neighbouringcell_option, reservoir_operation,
          num_days_in_month, all_reservoir_and_regulated_lake_area,
-         reg_lake_redfactor_firstday, region, delayed_use_option):
+         reg_lake_redfactor_firstday, basin, delayed_use_option):
 
     # Volume at which storage is set to zero, units: [km3]
     minstorage_volume = 1e-15
@@ -76,98 +76,98 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
     #                  ||           Groundwater       ||
     #                  =================================
     # Groundwater storage, Unit : km3
-    groundwater_storage_out = region.copy() + groundwater_storage.copy()
+    groundwater_storage_out = basin.copy() + groundwater_storage.copy()
     # Groundwater discharge, Unit : km3/day
-    groundwater_discharge = region.copy()
+    groundwater_discharge = basin.copy()
 
     #                  =================================
     #                  ||           Local lake        ||
     #                  =================================
     # Local lake storage, Unit : km3
-    loclake_storage_out = region.copy() + loclake_storage.copy()
+    loclake_storage_out = basin.copy() + loclake_storage.copy()
     # Local lake outflow, Unit : km3/day
-    loclake_outflow = region.copy()
+    loclake_outflow = basin.copy()
     # Local lake groundwater recharge, Unit : km3/day
-    gwr_loclake = region.copy()
+    gwr_loclake = basin.copy()
     # Dynamic local lake fraction, Unit : (-)
-    dyn_loclake_frac = region.copy()
+    dyn_loclake_frac = basin.copy()
 
     #                  =================================
     #                  ||        Local wetland        ||
     #                  =================================
     # Local wetland storage, Unit : km3
-    locwet_storage_out = region.copy() + locwet_storage.copy()
+    locwet_storage_out = basin.copy() + locwet_storage.copy()
     # Local wetland outflow, Unit : km3/day
-    locwet_outflow = region.copy()
+    locwet_outflow = basin.copy()
     # Local wetland groundwater recharge, Unit : km3/day
-    gwr_locwet = region.copy()
+    gwr_locwet = basin.copy()
     # Dynamic local wetland fraction, Unit : (-)
-    dyn_locwet_frac = region.copy()
+    dyn_locwet_frac = basin.copy()
 
     #                  =================================
     #                  ||           Global lake       ||
     #                  =================================
     # Global lake storage, Unit : km3
-    glolake_storage_out = region.copy() + glolake_storage.copy()
+    glolake_storage_out = basin.copy() + glolake_storage.copy()
     # Global lake outflow, Unit : km3/day
-    glolake_outflow = region.copy()
+    glolake_outflow = basin.copy()
     # Global lake groundwater recharge, Unit : km3/day
-    gwr_glolake = region.copy()
+    gwr_glolake = basin.copy()
 
     #                  ==============================================
     #                  ||   Global reservior and regulated lake    ||
     #                  ==============================================
     # Global reservior and regulated lake  storage, Unit : km3
-    glores_storage_out =  region.copy() + glores_storage.copy() 
+    glores_storage_out =  basin.copy() + glores_storage.copy() 
     # Global reservior and regulated lake  outflow, Unit : km3/day
-    glores_outflow = region.copy()
+    glores_outflow = basin.copy()
     # Global reservior and regulated lake  groundwater recharge, Unit : km3/day
-    gwr_glores = region.copy()
+    gwr_glores = basin.copy()
     # Reservoir reselease coefficient. Unit: (-)
-    k_release_out = k_release.copy() + region.copy()
+    k_release_out = k_release.copy() + basin.copy()
 
     #                  =================================
     #                  ||        Global wetland       ||
     #                  =================================
     # Global wetland storage, Unit : km3
-    glowet_storage_out = region.copy() + glowet_storage.copy()
+    glowet_storage_out = basin.copy() + glowet_storage.copy()
     # Global wetland outflow, Unit : km3/day
-    glowet_outflow = region.copy()
+    glowet_outflow = basin.copy()
     # Global wetland groundwater recharge, Unit : km3/day
-    gwr_glowet = region.copy()
+    gwr_glowet = basin.copy()
     # Dynamic global wetland fraction, Unit : (-)
-    dyn_glowet_frac = region.copy()
+    dyn_glowet_frac = basin.copy()
 
     #                  =================================
     #                  ||           River             ||
     #                  =================================
     # River storage, Unit : km3
-    river_storage_out = region.copy() + river_storage.copy()
+    river_storage_out = basin.copy() + river_storage.copy()
     # River streamflow, Unit : km3/day
-    river_streamflow = region.copy()
+    river_streamflow = basin.copy()
     # River inflow, Unit : km3/day
-    river_inflow = region.copy()
+    river_inflow = basin.copy()
     # Cell runoff, Unit : km3/day
-    cellrunoff = region.copy()
+    cellrunoff = basin.copy()
 
     #                  =================================
     #                  ||           WaterUSe         ||
     #                  =================================
-    actual_net_abstraction_gw = region.copy()
-    actual_daily_netabstraction_sw = region.copy()
+    actual_net_abstraction_gw = basin.copy()
+    actual_daily_netabstraction_sw = basin.copy()
 
     #                  =================================
     #                  ||          Neigbouring cell    ||
     #                  =================================
-    total_demand_sw_noallocation =region.copy()
-    total_unsatisfied_demand_ripariancell = region.copy()
+    total_demand_sw_noallocation =basin.copy()
+    total_unsatisfied_demand_ripariancell = basin.copy()
     # water taken from  neigbour cell for demand satisfaction
-    water_demand_satis_neigbhourcell = region.copy()
+    water_demand_satis_neigbhourcell = basin.copy()
 
     returned_demand_from_supply_cell = \
-        region.copy()*np.nan
+        basin.copy()*np.nan
     prev_returned_demand_from_supply_cell = \
-        region.copy()*np.nan
+        basin.copy()*np.nan
 
     # =========================================================================
     # Routing is calulated according to the routing order for individual cells
@@ -176,7 +176,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
         # Get invidividual cells based on routing order
         x, y = rout_order[routflow_looper]
         
-        if np.isnan(region[x, y ]) == False:
+        if np.isnan(basin[x, y ]) == False:
         # Get respective outflow cell for routing ordered cells.
             m, n = outflow_cell[routflow_looper]
     
