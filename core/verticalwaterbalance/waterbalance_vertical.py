@@ -100,7 +100,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                                   snow_albedo_thresh[x, y],
                                   openwater_albedo[x, y],
                                   snow_albedo[x, y], albedo[x, y],
-                                  emissivity[x, y])
+                                  emissivity[x, y], x, y)
     
             net_rad, openwater_net_rad = radiation_for_potevap
             net_radiation[x, y] = net_rad

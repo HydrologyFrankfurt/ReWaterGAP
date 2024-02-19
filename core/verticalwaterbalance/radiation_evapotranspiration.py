@@ -31,7 +31,7 @@ from numba import njit
 def compute_radiation(temperature, down_shortwave_radiation,
                       down_longwave_radiation, snow_water_storage,
                       snow_albedo_thresh, openwater_albedo,
-                      snow_albedo, albedo, emissivity):
+                      snow_albedo, albedo, emissivity, x, y):
     """
     Compute Radition  according to Müller Schmied et al., 2016.
 

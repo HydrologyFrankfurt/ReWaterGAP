@@ -298,7 +298,7 @@ class VerticalWaterBalance:
 
         # update daily storage transfer
         self.daily_storage_transfer = output[21]
-        # print(self.snow_water_storage[94, 538])
+
         # =====================================================================
         # Getting all storages
         # =====================================================================
