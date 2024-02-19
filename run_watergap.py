@@ -18,7 +18,7 @@ import numpy as np
 from tqdm import tqdm
 import sys
 import pandas as pd
-from core.utility import region_or_basin as basin
+from core.utility import get_upstream_basin as get_basin
 from termcolor import colored
 from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
@@ -74,8 +74,8 @@ def run():
         print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
         print('Temporal resolution:' +
               colored(' %s' % (cm.temporal_res), 'green'))
-        print('Run basin or region:' +
-              colored(' %s' % (cm.run_region), 'green'))
+        print('Run basin:' +
+              colored(' %s' % (cm.run_basin), 'green'))
     else:
         print('\n' + colored('+++ Naturalised Run +++', 'cyan'))
         print('Note:' + colored(' 1. Reserviors, abstraction from surface and'
@@ -85,8 +85,8 @@ def run():
         print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
         print('Temporal resolution:' +
               colored(' %s' % (cm.temporal_res), 'green'))
-        print('Run basin or region:' +
-              colored(' %s' % (cm.run_region), 'green'))
+        print('Run basin:' +
+              colored(' %s' % (cm.run_basin), 'green'))
 
     # =====================================================================
     # Initialize Restart module for possible restart of WaterGAP
@@ -132,12 +132,12 @@ def run():
     # =====================================================================
     # Initialize selected basin or region 
     # =====================================================================
-    watergap_region = \
-        basin.Select_region(cm.run_region,
-                            initialize_forcings_static.static_data.arc_id ,
-                            initialize_forcings_static.static_data.stations,
-                            initialize_forcings_static.static_data.lat_lon_arcid,
-                            initialize_forcings_static.static_data.upstream_cells)
+    watergap_basin = get_basin.\
+        Select_upstream_basin(cm.run_basin,
+                              initialize_forcings_static.static_data.arc_id ,
+                              initialize_forcings_static.static_data.stations,
+                              initialize_forcings_static.static_data.lat_lon_arcid,
+                              initialize_forcings_static.static_data.upstream_cells)
     #print(watergap_region.region)
     # ====================================================================
     # Get time range for Loop
@@ -255,7 +255,7 @@ def run():
             vertical_waterbalance.\
                 calculate(date, land_water_frac.current_landareafrac,
                           land_water_frac.landareafrac_ratio, 
-                          watergap_region.region)
+                          watergap_basin.upstream_basin)
 
             # =================================================================
             #  Computing lateral water balance
@@ -268,7 +268,7 @@ def run():
                           vertical_waterbalance.fluxes['daily_storage_transfer'],
                           land_water_frac.current_landareafrac,
                           land_water_frac.previous_landareafrac,
-                          date, first_day_of_month, watergap_region.region)
+                          date, first_day_of_month, watergap_basin.upstream_basin)
 
             # =================================================================
             #  Update Land Area Fraction

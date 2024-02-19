@@ -16,17 +16,17 @@
     {
     "RestartOptions":{
         "restart": false,
-        "save_model_states_for_restart": false,
+        "save_model_states_for_restart": true,
         "save_and_read_states_dir": "./"
         }
     },
     {
       "SimulationPeriod": {
-        "start": "2001-01-01",
-        "end": "2001-12-31",
+        "start": "1990-01-01",
+        "end": "1990-12-31",
         "reservoir_start_year": 1990,
         "reservoir_end_year": 2019,
-        "spinup_years": 0
+        "spinup_years": 5
       }
     },
     {
@@ -36,7 +36,7 @@
     },
     {
     "SimulationExtent": { 
-     "run_region": true,
+     "run_basin": false,
      "path_to_stations_file": "input_data/static_input/"}
      }
   ],
@@ -72,7 +72,7 @@
         "streamflow":true,
         "actual_net_abstr_groundwater":false,
          "demand_satisfied_by_cell":false,
-         "total_demand":false,
+         "demand_with_delayed_use":true,
          "unsat_potnetabs_sw_from_demandcell":false,
          "unsat_potnetabs_sw_to_supplycell":false,
          "returned_demand_from_supply_cell": false,
