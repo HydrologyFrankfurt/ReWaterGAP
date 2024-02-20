@@ -11,39 +11,36 @@ class Select_upstream_basin:
         if run_upstream_basin is True: 
 
             # check if arc_id are present 
-            if np.nansum(stations["station_arcid"].values)==0:
-                lat_lon_arcid = lat_lon_arcid.round(2) # round data to 2 decimal place (eg. -46.7499999999999 = -46.75)
+            lat_lon_arcid = lat_lon_arcid.round(2) # round data to 2 decimal place (eg. -46.7499999999999 = -46.75)
+            
+            # Example lists of latitude and longitude
+            latitudes = stations["lat"].values.tolist()  
+            longitudes = stations["lon"].values.tolist()
+            
+            # Create an empty list to store results
+            selected_arcids = []
+            
+            # Iterate through the lists of latitude and longitude
+            for lat, lon in zip(latitudes, longitudes):
+                # Select the arcid for the current latitude and longitude
+                selected_row =  \
+                    lat_lon_arcid[(lat_lon_arcid['Lon'] == lon) & (lat_lon_arcid['Lat'] == lat)]['ArcID']
                 
-                # Example lists of latitude and longitude
-                latitudes = stations["lat"].values.tolist()  
-                longitudes = stations["lon"].values.tolist()
-                
-                # Create an empty list to store results
-                selected_arcids = []
-                
-                # Iterate through the lists of latitude and longitude
-                for lat, lon in zip(latitudes, longitudes):
-                    # Select the arcid for the current latitude and longitude
-                    selected_row =  \
-                        lat_lon_arcid[(lat_lon_arcid['Lon'] == lon) & (lat_lon_arcid['Lat'] == lat)]['ArcID']
-                    
-                    # Check if there is a match
-                    if not selected_row.empty:
-                        selected_arcids.append(selected_row.iloc[0])
-                    else:
-                        selected_arcids.append(None)
-                
-                # Print the results
-                for i, (lat, lon) in enumerate(zip(latitudes, longitudes)):
-                    arcid = selected_arcids[i]
-                    if arcid is not None:
-                       pass
-                    else:
-                        print(f"No matching arcid found for latitude {lat} and longitude {lon}")
+                # Check if there is a match
+                if not selected_row.empty:
+                    selected_arcids.append(selected_row.iloc[0])
+                else:
+                    selected_arcids.append(None)
+            
+            # Print the results
+            for i, (lat, lon) in enumerate(zip(latitudes, longitudes)):
+                arcid = selected_arcids[i]
+                if arcid is not None:
+                   pass
+                else:
+                    print(f"No matching arcid found for latitude {lat} and longitude {lon}")
 
-            else:
-                selected_arcids =  stations["station_arcid"].values.tolist()
-                
+            
                 
             # get upstream cell data 
             inflow_cell.set_index('Arc_ID', inplace=True)
