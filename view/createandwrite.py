@@ -113,17 +113,21 @@ class CreateandWritetoVariables:
             "actual_net_abstraction_gw": "actual_net_abstr_groundwater",
             "demand_satisfied_by_cell":
                 "demand_satisfied_by_cell",
-            "demand_with_delayed_use": "demand_with_delayed_use",
+            "total_demand_into_cell": "total_demand_into_cell",
             "unsat_potnetabs_sw_from_demandcell": "unsat_potnetabs_sw_from_demandcell",
-            "unsat_potnetabs_sw_to_supplycell": "unsat_potnetabs_sw_to_supplycell",
+
             "returned_demand_from_supply_cell": 
                 "returned_demand_from_supply_cell",
             "prev_returned_demand_from_supply_cell":
                 "prev_returned_demand_from_supply_cell",
-            "unsatisfied_potential_netabs_riparian": "unsatisfied_potential_netabs_riparian",
+            "total_unsatisfied_demand_ripariancell": "total_unsatisfied_demand_ripariancell",
             "accumulated_unsatisfied_potential_netabs_sw":
                 "accumulated_unsatisfied_potential_netabs_sw",
-            "get_neighbouring_cells_map":"get_neighbouring_cells_map"
+            "get_neighbouring_cells_map":"get_neighbouring_cells_map",
+
+            "total_unsatisfied_demand_from_supply_to_all_demand_cell":
+                "total_unsatisfied_demand_from_supply_to_all_demand_cell",
+            
         }
 
         # Initialize output variables for lateral water balance
