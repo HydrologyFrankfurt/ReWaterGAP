@@ -22,11 +22,11 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1992-01-01",
-        "end": "1992-12-31",
+        "start": "1990-01-01",
+        "end": "1991-12-31",
         "reservoir_start_year": 1990,
         "reservoir_end_year": 2019,
-        "spinup_years": 0
+        "spinup_years": 5
       }
     },
     {
@@ -69,17 +69,17 @@
         "local_wetland_outflow":false,
     	"global_lake_outflow":false,
         "global_wetland_outflow":false,
-        "streamflow":true,
-        "actual_net_abstr_groundwater":false,
+        "streamflow": false,
+        "actual_net_abstr_groundwater": false,
          "demand_satisfied_by_cell":false,
-         "demand_with_delayed_use":true,
+         "total_demand_into_cell":false,
          "unsat_potnetabs_sw_from_demandcell":false,
-         "unsat_potnetabs_sw_to_supplycell":false,
          "returned_demand_from_supply_cell": false,
          "prev_returned_demand_from_supply_cell":false,
-         "unsatisfied_potential_netabs_riparian": false,
+         "total_unsatisfied_demand_ripariancell": false,
          "accumulated_unsatisfied_potential_netabs_sw":false,
-         "get_neighbouring_cells_map": false
+         "get_neighbouring_cells_map": false,
+         "total_unsatisfied_demand_from_supply_to_all_demand_cell": false
       }
     },
     {
