@@ -80,6 +80,8 @@ def allocate_unsat_demand_to_demandcell(x, y,
     """
     accumulated_unsatisfied_potnetabs_no_alloc = accumulated_unsatisfied_potential_netabs_sw # *** incase no use is allocated to it.
     
+    # inititialize variable
+    unsat_potnetabs_sw_supplycell_to_demandcell = 0
 
     if unsat_potnetabs_sw_to_supplycell > 0:
         if accumulated_unsatisfied_potential_netabs_sw > 0:
@@ -133,7 +135,8 @@ def allocate_unsat_demand_to_demandcell(x, y,
                     unsat_potnetabs_sw_from_demandcell[nb_x, nb_y] * \
                     (1 / unsat_potnetabs_sw_to_supplycell)
                 
-    return accumulated_unsatisfied_potnetabs_no_alloc, returned_demand_from_supplycell
+    return accumulated_unsatisfied_potnetabs_no_alloc, returned_demand_from_supplycell, \
+        unsat_potnetabs_sw_supplycell_to_demandcell
 
 
 # ==============================================================================

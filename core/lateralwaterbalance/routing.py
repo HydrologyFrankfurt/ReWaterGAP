@@ -164,11 +164,13 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
     # water taken from  neigbour cell for demand satisfaction
     water_demand_satis_neigbhourcell = basin.copy()
 
-    returned_demand_from_supply_cell = \
-        basin.copy()*np.nan
-    prev_returned_demand_from_supply_cell = \
-        basin.copy()*np.nan
+    returned_demand_from_supply_cell =  basin.copy()*np.nan
 
+    prev_returned_demand_from_supply_cell =  basin.copy()*np.nan
+    
+    # for water use check and output purpose only 
+    total_demand_into_cell = basin.copy()
+    total_unsatisfied_demand_from_supply_to_all_demand_cell = basin.copy()
     # =========================================================================
     # Routing is calulated according to the routing order for individual cells
     # =========================================================================
@@ -229,7 +231,10 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                 # allocated from demand cell to supply cell
                 accumulated_unsatisfied_potential_netabs_sw[x, y] += \
                     unsat_potnetabs_sw_to_supplycell[x, y]
-    
+
+            # for water use check and output purpose only 
+            total_demand_into_cell[x, y] = accumulated_unsatisfied_potential_netabs_sw[x, y]
+                
         #                  =================================
         #                  ||   Groundwater  balance      ||
         #                  =================================
@@ -726,7 +731,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                     #         # Allocation of usatisfied demand  back to demandcell
                     #         # +++++++++++++++++++++++++++++++++++++++++++++++++++
                     
-                    accum_unpot_netabs_sw, returned_demand_from_supply_cell = nbcell.\
+                    accum_unpot_netabs_sw, returned_demand_from_supply_cell, total_unsat_demand_supply_to_demand_cell = nbcell.\
                         allocate_unsat_demand_to_demandcell(x, y,
                                                             neighbouring_cells_map,
                                                             accumulated_unsatisfied_potential_netabs_sw[x, y],
@@ -738,7 +743,11 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                                                             rout_order,
                                                             returned_demand_from_supply_cell,
                                                             current_mon_day)
-    
+                    
+                    # for water use check and output purpose only 
+                    total_unsatisfied_demand_from_supply_to_all_demand_cell[x, y] = \
+                        total_unsat_demand_supply_to_demand_cell
+                        
                     # water taken from  neigbour cell for demand satisfaction
                     # cases A:  1 supply -1 demand cell  
                     # cases B : 1supply - 2 or more demand cell 
@@ -748,6 +757,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                     accumulated_unsatisfied_potential_netabs_sw[x, y] = \
                         accum_unpot_netabs_sw
     
+                    
                     # +++set to zero after allocation***
                     if unsat_potnetabs_sw_to_supplycell[x, y] > 0:
                         unsat_potnetabs_sw_to_supplycell[x, y] = 0
@@ -785,12 +795,12 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                         # cells in the  same timestep hence the '+=' instead of '='
                         unsat_potnetabs_sw_to_supplycell[nbcell_lat, nbcell_lon] += \
                             unsat_potnetabs_sw_from_demandcell[x, y]
-    
+                           
                         if cell_calculated[nbcell_lat, nbcell_lon] > cell_calculated[x, y]:
                            daily_unsatisfied_pot_nas[x, y] = np.nan
                     else:
                         unsat_potnetabs_sw_from_demandcell[x, y] = 0
-                    
+
                 # ***************************************
                 cell_calculated[x, y] = 1
                 # ***************************************
@@ -806,7 +816,10 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
         water_demand_satis_neigbhourcell, returned_demand_from_supply_cell,\
         prev_returned_demand_from_supply_cell, neighbouring_cells_map,\
         daily_unsatisfied_pot_nas, glores_outflow, \
-        actual_daily_netabstraction_sw
+        actual_daily_netabstraction_sw, total_demand_into_cell, \
+        total_unsatisfied_demand_from_supply_to_all_demand_cell, \
+        total_unsatisfied_demand_ripariancell
+
 
 
 

@@ -691,7 +691,7 @@ class LateralWaterBalance:
             else:
                 accumulated_unsatisfied_potential_netabs_sw =  \
                      self.potential_net_abstraction_sw.copy()
-        demand_with_delayed_use = accumulated_unsatisfied_potential_netabs_sw.copy()
+
         # =====================================================================
         #   Additional  input variables for river routing
         # =====================================================================
@@ -802,6 +802,10 @@ class LateralWaterBalance:
         self.get_neighbouring_cells_map = out[26]
         check_daily_unsatisfied_pot_nas = out[27]
         actual_daily_netabstraction_sw = out[29]
+        total_demand_into_cell = out[30]
+        total_unsatisfied_demand_from_supply_to_all_demand_cell = out[31]
+        total_unsatisfied_demand_ripariancell =  out[32]
+ 
 
         # Egypt 
         # print(self.potential_net_abstraction_sw[117, 421],  
@@ -853,6 +857,14 @@ class LateralWaterBalance:
                      returned_demand_from_supply_cell,
                      self.accumulated_unsatisfied_potential_netabs_sw)
 
+
+        # Note for output purpose only 
+        # ==============================================================================================================
+        unsat_potnetabs_sw_from_demandcell_out =  self.unsat_potnetabs_sw_from_demandcell.copy() 
+        accumulated_unsatisfied_potential_netabs_sw_out = self.accumulated_unsatisfied_potential_netabs_sw.copy() 
+        get_neighbouring_cells_map_out = self.get_neighbouring_cells_map.copy()
+        # ==============================================================================================================
+        
         if cm.subtract_use is True:
             if cm.delayed_use is True:
                 
@@ -917,14 +929,7 @@ class LateralWaterBalance:
         # =====================================================================
         # Getting all fluxes
         # =====================================================================
-        # Note that these variables are directly changed in the "rout"
-        # function and hence they are copied to prevent variables from being 
-        # overwritten when writing out.
-        unsat_potnetabs_sw_to_supplycell_out =  self.unsat_potnetabs_sw_to_supplycell.copy() 
-        unsat_potnetabs_sw_from_demandcell_out =  self.unsat_potnetabs_sw_from_demandcell.copy() 
-        accumulated_unsatisfied_potential_netabs_sw_out = self.accumulated_unsatisfied_potential_netabs_sw.copy() 
-        unsatisfied_potential_netabs_riparian_out = self.unsatisfied_potential_netabs_riparian.copy() 
-        get_neighbouring_cells_map_out = self.get_neighbouring_cells_map.copy()
+        
         
         LateralWaterBalance.fluxes.\
             update({'qg': groundwater_discharge,
@@ -937,20 +942,25 @@ class LateralWaterBalance:
                         actual_net_abstraction_gw,
                     "demand_satisfied_by_cell":
                         actual_daily_netabstraction_sw,
-                    "demand_with_delayed_use": demand_with_delayed_use,
+                    "total_demand_into_cell": total_demand_into_cell,
+                    
                     "unsat_potnetabs_sw_from_demandcell":
                         unsat_potnetabs_sw_from_demandcell_out,
                     "returned_demand_from_supply_cell": 
                         returned_demand_from_supply_cell,
                     "prev_returned_demand_from_supply_cell":
                         prev_returned_demand_from_supply_cell,
+                    
+                    "total_unsatisfied_demand_ripariancell":
+                         total_unsatisfied_demand_ripariancell,
+                        
                     "accumulated_unsatisfied_potential_netabs_sw":
                         accumulated_unsatisfied_potential_netabs_sw_out,
-                    "unsat_potnetabs_sw_to_supplycell": 
-                        unsat_potnetabs_sw_to_supplycell_out, 
-                    "unsatisfied_potential_netabs_riparian":
-                        unsatisfied_potential_netabs_riparian_out,
-                    "get_neighbouring_cells_map": get_neighbouring_cells_map_out})
+                   
+                    "get_neighbouring_cells_map": get_neighbouring_cells_map_out,
+        
+                    "total_unsatisfied_demand_from_supply_to_all_demand_cell": 
+                        total_unsatisfied_demand_from_supply_to_all_demand_cell})
             
         # =====================================================================
         #  Get dynamic area fraction for local lakes and local and
