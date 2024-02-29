@@ -113,6 +113,9 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
                 (last access: 25 MArch 2020), 1996
 
     """
+    # Index (x, y) to  print out varibales of interest
+    # e.g.  if x==65 and y==137: print(mean_elevation)
+
     # =====================================================================
     # Extracting elevation and mean elevation  for subcells,  Units = m
     # =====================================================================

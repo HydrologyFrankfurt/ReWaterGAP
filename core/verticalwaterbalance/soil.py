@@ -167,6 +167,7 @@ def soil_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
         Areal correction factor-CFA for correcting runoff,  Units:  [-]
     minstorage_volume : float
         Volume at which storage is set to zero, Units: [km3]
+     x, y : Latititude and longitude indexes of grid cells.
 
     Returns
     -------
@@ -194,6 +195,9 @@ def soil_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
         runoff from urban areas or immediate runoff (R1), Units: [mm/day]
 
     """
+    # Index (x, y) to  print out varibales of interest
+    # e.g.  if x==65 and y==137: print(current_landarea_frac)
+    
     if current_landarea_frac > 0:
         # =====================================================================
         # Calculating soil water overflow (R2) (mm) and soil water content(mm).

@@ -58,6 +58,10 @@ def compute_radiation(temperature, down_shortwave_radiation,
     emissivity : float
         Emisivity per landcover (Müller Schmied et al 2014, Table A2),
         Units: [-]
+    x : int
+        Latitude index of cell
+    y : int
+        Longitude index of cell
 
     Returns
     -------
@@ -68,6 +72,9 @@ def compute_radiation(temperature, down_shortwave_radiation,
        Units: [Wm−2]
 
     """
+    # Index (x, y) to  print out varibales of interest
+    # e.g.  if x==65 and y==137: print(albedo)
+
     # snow_water_storage > 3mm, snow abledo is used for shortwave
     # radiation calulation
     albedo = np.where(snow_water_storage > snow_albedo_thresh, snow_albedo,
@@ -132,6 +139,10 @@ def priestley_taylor(temperature, pt_coeff_humid_arid,
     openwater_net_radiation : float
         Open water radiation  according to Müller Schmied et al., 2016.,
         Units: [Wm−2]
+     x : int
+         Latitude index of cell
+     y : int
+         Longitude index of cell
 
     Returns
     -------
@@ -141,6 +152,8 @@ def priestley_taylor(temperature, pt_coeff_humid_arid,
         Open water potential evapotranspiration, Units: [mm/day]
 
     """
+    # Index (x, y) to  print out varibales of interest
+    # e.g.  if x==65 and y==137: print(net_radiation)
     # =====================================================================
     # Slope of the saturation kPa°C-1
     # =====================================================================
