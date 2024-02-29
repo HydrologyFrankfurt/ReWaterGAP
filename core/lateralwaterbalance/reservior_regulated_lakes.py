@@ -27,7 +27,7 @@ from core.lateralwaterbalance import reservoir_release_hanasaki as hanaski
 def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                                  storage, stor_capacity, precipitation,
                                  openwater_pot_evap, aridity, drainage_direction,
-                                 inflow_to_swb, swb_outflow_coeff,
+                                 inflow_to_swb,
                                  groundwater_recharge_constant, reservior_area,
                                  reduction_exponent_res, areal_corr_factor,
                                  res_start_month, simulation_momth_day,
@@ -40,6 +40,106 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                                  num_days_in_month,
                                  all_reservoir_and_regulated_lake_area,
                                  reg_lake_redfactor_firstday, minstorage_volume):
+    """
+    
+    Compute water balance for reservoirs and regulated lakes.
+
+    Parameters
+    ----------
+    rout_order : array
+        Routing order for the grid cells.
+    routflow_looper : int
+        Routing flow looper.
+    outflow_cell : array
+        Outflow cells (downstream cell) for respective grid cells.
+    storage : float
+        Current storage in the reservoir, Unit: [km^3].
+    stor_capacity : float
+        Storage capacity of the reservoir, Unit: [km^3].
+    precipitation : float
+        Daily precipitation, Unit: [km^3/day].
+    openwater_pot_evap : float
+        Potential evaporation from open water, Unit: [km^3/day].
+    aridity : array
+        Integer which differentiates arid(aridity=1) from
+        humid(aridity=0) regions taken from  [1]_ , Units: [-]
+    drainage_direction : array
+        Drainage direction for each grid cell, Units: [-]
+    inflow_to_swb : float
+        Inflow to surface water bodies, Unit: [km^3/day].
+    groundwater_recharge_constant : float
+       Groundwater recharge constant below lakes, reserviors & wetlands (=0.01)
+       Eqn 26 [1]_, Unit: [m/day]
+    reservior_area : array
+        Reservoir area for each grid cell, Unit: [km^2].
+    reduction_exponent_res : float
+        Reduction exponent for reservoirs (= 2.81383) Eqn 25 [1]_, Units: [-]
+    areal_corr_factor : float
+        Areal correction factor for grid cell.
+    res_start_month : int
+        Start month for reservoir operations.
+    simulation_momth_day : array
+        array indicating the current month and day of simulation.
+    k_release : float
+        Release coefficient for Hanasaki algorithm Eqn 29 [1]_, Units: [-]
+    reservoir_type : int
+        Type of reservoir (irrigation or non irrigation).
+    allocation_coeff : float
+        Allocation coefficient for water release Eqn 6 [2]_.
+    monthly_demand : array
+        Monthly demand for each grid cell, Unit: [km^3/day].
+    mean_annual_demand : array
+        Mean annual demand for each grid cell, Unit: [km^3/day].
+    mean_annual_inflow : array
+        Mean annual inflow for each grid cell, Unit: [km^3/day].
+    glolake_area : float
+        Global lake area, Unit: [km^2].
+    accumulated_unsatisfied_potential_netabs_sw : float
+        Accumulated unsatisfied potential net abstraction from surface water, Unit: [km^3/day].
+    accumulated_unsatisfied_potential_netabs_glolake : float
+        Accumulated unsatisfied potential net abstraction from global lake, Unit: [km^3/day].
+    num_days_in_month : int
+        Number of days in the current month.
+    all_reservoir_and_regulated_lake_area : array
+        all reservoirs and regulated lakes areas in simulation, Unit: [km^2].
+    reg_lake_redfactor_firstday : int
+        Indicator for the first day to compute regulated lake reduction factor.
+    minstorage_volume : float
+        Minimum storage volume for the reservoir, Unit: [km^3].
+    
+    References.
+
+    .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,
+                Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,
+                Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,
+                Telteu, C.E., Trautmann, T., & Döll, P. (2021).
+                The global water resources and use model WaterGAP v2.2d:
+                model description and evaluation. Geoscientific Model
+                Development, 14(2), 1037–1079.
+                https://doi.org/10.5194/gmd-14-1037-2021
+    
+    .. [2] Naota Hanasaki, Shinjiro Kanae, Taikan Oki, A reservoir operation 
+            scheme for global river routing models, Journal of Hydrology,
+            Volume 327, Issues 1–2, 2006,
+            Pages 22-41, ISSN 0022-1694,
+            https://doi.org/10.1016/j.jhydrol.2005.11.011.
+
+    Returns
+    -------
+    storage : float
+        Updated storage in the reservoir after the water balance, Unit: [km^3].
+    outflow : float
+        Outflow from the reservoir, Unit: [km^3/day].
+    gwr_reservior : float
+        Groundwater recharge for the reservoir, Unit: [km^3/day].
+    k_release_new : float
+        Updated release coefficient for Hanasaki algorithm.
+    accumulated_unsatisfied_potential_netabs_res : float
+        Updated accumulated unsatisfied potential net abstraction from reservoir, Unit: [km^3/day].
+    actual_use_sw : float
+        Actual netabstraction  from reservoir, Unit: [km^3/day].
+
+    """
     # ************************************************************************
     # Note: To estimate the water demand of 5 cells downstream from a
     # reservoir, the reservoir area for all grid cells is read in and the

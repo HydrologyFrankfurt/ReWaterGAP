@@ -27,6 +27,54 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
                           mean_annual_demand, mean_annual_inflow,
                           inflow_to_swb, num_days_in_month,
                           all_reservoir_and_regulated_lake_area):
+    """
+    
+
+    Parameters
+    ----------
+    storage : float
+        Current storage in the reservoir, Unit: [km^3].
+    stor_capacity : float
+        Storage capacity of the reservoir, Unit: [km^3].
+    res_start_month : int
+       Start month for reservoir operations.
+    simulation_momth_day : array
+       array indicating the current month and day of simulation.
+    k_release : float
+        Release coefficient for reservoir, Hanasaki algorithm Eqn 29 [1]_, Units: [-]
+    reservoir_type : int
+        Type of reservoir (irrigation or non irrigation).
+    rout_order : array
+        Routing order for the grid cells.
+    outflow_cell : array
+        Outflow cells (downstream cell) for respective grid cells.
+    routflow_looper : int
+        Routing flow looper.
+    reservior_area : array
+        Reservoir area for each grid cell, Unit: [km^2].
+    allocation_coeff : float
+        Allocation coefficient for water release Eqn 6 [2]_.
+    monthly_demand : array
+        Monthly demand for each grid cell, Unit: [km^3/day].
+    mean_annual_demand : array
+        Mean annual demand for each grid cell, Unit: [km^3/day].
+    mean_annual_inflow : array
+        Mean annual inflow for each grid cell, Unit: [km^3/day].
+    inflow_to_swb : float
+        Inflow to surface water bodies, Unit: [km^3/day].
+    num_days_in_month : int
+        Number of days in the current month.
+    all_reservoir_and_regulated_lake_area : array
+        all reservoirs and regulated lakes areas in simulation, Unit: [km^2].
+
+    Returns
+    -------
+    release : float
+        Reservoir relase [m^3/s]
+    k_release : float
+        Updated release coefficient, Units: [-]
+
+    """
 
     # Index to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)

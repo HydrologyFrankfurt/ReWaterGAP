@@ -53,7 +53,11 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
         routing order
     unsatisfied_potnetabs_riparian : array
         Unsatisfied potential net abstraction from global lake or reservoir
-        outflow cell to riparian cell, [km^3/day]
+        outflow cell to riparian cell, Unit: [km^3/day]
+    prev_returned_demand_from_supply_cell
+        Retured demand from supply to demand cell.  This is computed in the 
+        next time step by supply cell if supply cell water balance is  
+        computed before demand cell, Unit: [km^3/day]
     x : int
         Latitude index of cell
     y : int

@@ -57,7 +57,11 @@ def compute_groundwater_balance(x, y,
     daily_unsatisfied_pot_nas : float
         Daily unsatisfied water use, Unit: [km^3/day]
     gw_dis_coeff : float
-        Groundwater discharge coefficient (Döll et al., 2014)
+        Groundwater discharge coefficient (=0.01),Eqn 21 Müller Schmied et al. (2021), Unit: [1/day]
+    prev_potential_water_withdrawal_sw_irri : float
+        Previous potential water withdrawal from surface water for irrigation, Unit: [km^3/day]   
+    prev_potential_consumptive_use_sw_irri: float
+        Previous potential consumptive use from irrigation using surface water, Unit: [km^3/day]  
     point_source_recharge : float
         Sum of all point groundwater recharge from surface waterboides in
         arid regions, Unit: [km^3/day]

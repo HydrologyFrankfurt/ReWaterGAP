@@ -806,28 +806,6 @@ class LateralWaterBalance:
         total_unsatisfied_demand_from_supply_to_all_demand_cell = out[31]
         total_unsatisfied_demand_ripariancell =  out[32]
  
-
-        # Egypt 
-        # print(self.potential_net_abstraction_sw[117, 421],  
-        #       actual_daily_netabstraction_sw[117, 421], 
-        #       self.unsat_potnetabs_sw_from_demandcell[117, 421], 
-        #       self.unsat_potnetabs_sw_to_supplycell[117, 421],
-        #       returned_demand_from_supply_cell[117, 421], 
-        #       prev_returned_demand_from_supply_cell[117, 421],
-        #       self.accumulated_unsatisfied_potential_netabs_sw[117, 421])
-        
-
-        #  Morocco
-        # print(total_demand[115, 343],
-        #        actual_daily_netabstraction_sw[115, 343], 
-        #        self.unsat_potnetabs_sw_from_demandcell[115, 343], 
-        #        self.unsat_potnetabs_sw_to_supplycell[115, 343],
-        #        returned_demand_from_supply_cell[115, 343], 
-        #        prev_returned_demand_from_supply_cell[115, 343],
-        #        self.accumulated_unsatisfied_potential_netabs_sw[115, 343])
-
-        # x,y=179, 426
-        # print(self.glores_storage[x, y], glores_outflow[x, y], current_landarea_frac[x, y])
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.

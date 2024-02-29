@@ -20,7 +20,9 @@ def abstract_from_local_lake(storage, max_storage, lake_frac,
     Parameters
     ----------
     storage : float
-       Local Lake storage, Unit: [km^3/day]
+        Local Lake storage, Unit: [km^3]
+    max_storage
+        Maximum local Lake storage, Unit: [km^3]
     lake_frac : TYPE
         Local lake area fraction, Unit: [-].
     reduction_exponent_lakewet : float

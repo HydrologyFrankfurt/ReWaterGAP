@@ -20,7 +20,6 @@
 # =============================================================================
 
 from numba import njit
-import numpy as np
 
 # =============================================================================
 # Distribution of unstaified potential net abstraction to neighbouring cells
@@ -71,12 +70,23 @@ def allocate_unsat_demand_to_demandcell(x, y,
         accumulated actual net abstraction from surface water, Unit: [km^3/day]
     total_unsatisfied_demand_ripariancell : float
         Sum of daily unstaisfied ripariancell demand, Unit: [km^3/day]
+    rout_order : array
+        order of routing.
+    returned_demand_from_supplycell : float
+        Demand returned from the supply cell, Unit: [km^3/day].
+    current_mon_day : array
+        Array indicating the current month and day.
 
     Returns
     -------
-    accumulated_unsatisfied_potential_netabs_sw : array
-        returned unsatisfied demand from Supplycell, Unit: [km^3/day]
+    accumulated_unsatisfied_potnetabs_no_alloc : array
+        Unsatisfied demand of Supplycell itself to be allocated to neigbouring cell, Unit: [km^3/day]
 
+    returned_demand_from_supplycell: array
+        Returned unsatisfied demand from Supplycell to respective demand cell, Unit: [km^3/day]
+    unsat_potnetabs_sw_supplycell_to_demandcell: float
+       Total or sum of  of all demand to be returned to respective demand cell, 
+       Unit: [km^3/day]
     """
     accumulated_unsatisfied_potnetabs_no_alloc = accumulated_unsatisfied_potential_netabs_sw # *** incase no use is allocated to it.
     
@@ -160,23 +170,31 @@ def get_neighbouringcell(neigbourcells_for_demandcell,
     outflowcell_for_neigbourcells : array
         outflow cells for Neigbouring cells
     river_storage : float
-        Daily river storage, Unit: [km^3/day]
+        Daily river storage, Unit: [km^3]
     loclake_storage : float
-        daily local lake storage, Unit: [km3]
+        daily local lake storage, Unit: [km^3]
     glolake_storage : float
-        daily global lake storage, Unit: [km3]
+        daily global lake storage, Unit: [km^3]
     max_loclake_storage : float
-        Maximum local lake storage, Unit: [km3]
+        Maximum local lake storage, Unit: [km^3]
     max_glolake_storage : float
-        Maximum global lake storage, Unit: [km3]
+        Maximum global lake storage, Unit: [km^3]
     accumulated_unsatisfied_potential_netabs_sw : TYPE
         Accumulated unsatified potential net abstraction after satisfaction
         from river or local lake (if any) , Unit: [km^3/day]
+    reservoir_operation : boolean 
+      True when reservoir are activated in simulation else false.
+    glores_storage : float
+        Global reservoir storage, Unit: [km^3].
     x : int
         Latitude index of cell
     y : int
         Longitude index of cell
-
+    current_mon_day : array
+        Array indicating the current month and day.
+    cell_calculated : array
+        Indicator if a cell has already been calculated.
+    
     Returns
     -------
     neigbour_cell_x : int

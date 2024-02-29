@@ -86,8 +86,8 @@ def update_netabs_gw(potential_net_abstraction_gw,
         Previous Potential water withdrawal from surfacewater for irrigation,
         Units : [km3/day]
     prev_potential_consumptive_use_sw_irri : float
-        Previous potential water consumptive use from surfacewater for
-        irrigation, Units : [km3/day]
+        Previous potential water consumptive use from irrigation using surface 
+        water, Units : [km3/day]
     daily_unsatisfied_pot_nas : float
         Daily unstaisfied potential net abstraction from surface water,
         Units : [km3/day]

@@ -48,7 +48,7 @@ def lake_wetland_balance(x, y,
     storage : float
         Daily surface waterbody storage, Unit: [km3]
     lakewet_frac : float
-        Fraction of surface waterbody, Unit: [%]
+        Fraction of surface waterbody, Unit: [-]
     precipitation : float
         Daily precipitation, Unit: [km/day]
     openwater_pot_evap : float
@@ -61,12 +61,12 @@ def lake_wetland_balance(x, y,
     inflow_to_swb : float
         Inflow into selected surface waterbody, Unit: [km3/day]
     swb_outflow_coeff: float
-        Surface water outflow coefficient , Unit: [1/day]
+        Surface water outflow coefficient (=0.01) Eqn 27 [1]_, Unit: [1/day]
     groundwater_recharge_constant: float
-        Groundwater recharge constant below lakes, reserviors & wetlands,
-        Unit: [m/day]
+        Groundwater recharge constant below lakes, reserviors & wetlands (=0.01)
+        Eqn 26 [1]_, Unit: [m/day]
     reduction_exponent_lakewet: float
-        Reduction exponent taken from Eqn 24 and 25 [1]_ , Units: [-].
+        Reduction exponent (= 3.32193) taken from Eqn 24 and 25 [1]_ , Units: [-].
     areal_corr_factor: float
         Areal correction factor
     max_storage: float
@@ -77,9 +77,9 @@ def lake_wetland_balance(x, y,
         riparian cells) in the outflow cell. Hence, the outflow cell is used for
         waterbalance calulation.
     lake_outflow_exp: float
-        Lake outflow exponent taken from Eqn 27 [1]_, Units: [-].
+        Lake outflow exponent(=1.5) taken from Eqn 27 [1]_, Units: [-].
     wetland_outflow_exp: float
-        Wetland outflow exponent taken from Eqn 27 [1]_, Units: [-].
+        Wetland outflow exponent(=2.5) taken from Eqn 27 [1]_, Units: [-].
     reservoir_area: float
         Reservoir Area (required to split water demand 50%  between reservoir
         and global lake), Unit: [km2]
@@ -114,7 +114,7 @@ def lake_wetland_balance(x, y,
         Accumulated unsatified potential net abstraction after global lake
         satisfaction, Unit: [km^3/day]
     actual_use_sw: float
-        Accumulated actual net abstraction from surface water, Unit: [km^3/day]
+        Actual net abstraction from lakes and wetlands, Unit: [km^3/day]
     """
     # Index (x,y) to  print out varibales of interest
     # e.g.  if x==65 and y==137: print(prev_gw_storage)

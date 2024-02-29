@@ -34,7 +34,7 @@ def river_velocity(x, y,
     y : int
         Longitude index of cell
     river_storage : float
-        Daily river storage, Unit: [km^3/day]
+        Daily river storage, Unit: [km^3]
     river_length : float
         River length, Unit: [km]
     river_bottom_width : float
@@ -118,22 +118,28 @@ def river_water_balance(x, y,
     y : int
         Longitude index of cell
     river_storage : float
-        Daily river storage, Unit: [km^3/day]
+        Daily river storage, Unit: [km^3]
     river_inflow : float
         Daily river inflow, Unit: [km^3/day]
     outflow_constant : float
         River outflow constant (river_velocity / river_length), Unit: [1/day]
     stat_corr_fact : TYPE
         Station correction factor to correct streamflow values, Unit: [-]
+    accumulated_unsatisfied_potential_netabs_sw: float
+        Accumulated unsatisfied potential net abstraction from surface water, Unit: [km^3/day].
     minstorage_volume: float
         Volumes at which storage is set to zero, units: [km3]
 
     Returns
     -------
     river_storage :  float
-        Daily river storage, Unit: [km^3/day]
+        Daily river storage, Unit: [km^3]
     streamflow :  float
-       Daily streamflow, Unit: [km^3/day]
+        Daily streamflow, Unit: [km^3/day]
+    accumulated_unsatisfied_potential_netabs_sw: float
+        Accumulated unsatisfied potential net abstraction after satisfaction from river, Unit: [km^3/day].
+    actual_use_sw: float
+        Actual netabstraction  from river storage, Unit: [km^3/day].
 
     """
     # Index(x, y) to  print out varibales of interest
