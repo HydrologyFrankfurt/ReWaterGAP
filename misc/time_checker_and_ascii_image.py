@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Jul 26 14:05:03 2022.
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+""" Logo and runtime measurement."""
+
 import time
 from termcolor import colored
 from misc import watergap_version
