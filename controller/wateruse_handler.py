@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
-"""
-ReWaterGAP.
+# =============================================================================
+# This file is part of WaterGAP.
 
-Created on Thu Mar  3 18:21:35 2022
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
 
-@author: nyenah
-"""
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+
+"""Water-use handler"""
+
 import logging
 import numpy as np
 from pathlib import Path
@@ -104,21 +109,23 @@ class Wateruse:
 
     def aggregate_riparian_netpotabs(self, lake_area, res_area, netabs):
         """
-        Aggregate riparian potential net abstractiion to outflowcell.
+        Aggregate riparian potential net abstractiion to outflowcell of lake or reservoir.
 
         Parameters
         ----------
-        lake_area : TYPE
-            DESCRIPTION.
+        lake_area : array
+           Lake area, Unit: [km^2]
         res_area : TYPE
-            DESCRIPTION.
+            Regulated lake and resevoir area, Unit: [km^2]
         netabs : TYPE
-            DESCRIPTION.
+            Potential net abstraction from surface water (NAs), Unit: [m^3/month]
 
         Returns
         -------
         aggreagted_potnet_abstraction : TYPE
-            DESCRIPTION.
+            Potential net abstraction from surface water (NAs) aggregated 
+            from all riparian cells to outflow cell of lake or reservoir, 
+            Unit: [m^3/month]
 
         """
         unique_glwdunits = np.unique(self.glwdunits)[1:-1]

@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue May 10 13:15:40 2022.
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+
+"""Static data parser."""
 
 import logging
 from pathlib import Path
@@ -190,11 +196,22 @@ class StaticData:
 
     def soil_static_data(self):
         """
-        Update land area fraction.
+        Parse soil static data needed for soil water balance.
 
         Returns
         -------
-        None.
+        builtup_area : array
+            Built up area, Unit: [-]
+        total_avail_water_content : array
+            Total available water content,  Unit: [mm]
+        drainage_direction : array
+            Drainage direction of grid cell, Unit: [mm]
+        max_groundwater_recharge : array
+            Maxumum ground water recharge, Unit: [mm]
+        soil_texture : array
+           Soil texture, Unit: [-]
+        groundwater_recharge_factor : array
+           groundwater recharge factor with Missipi corrected,  Unit: [-]
 
         """
         # Built up area, units = (-)

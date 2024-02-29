@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
-"""
-ReWaterGAP.
+# =============================================================================
+# This file is part of WaterGAP.
 
-Created on Thu Mar  3 18:21:35 2022
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
 
-@author: nyenah
-"""
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+
+"""Climate forcing handler."""
+
+
 import logging
 import json
 from pathlib import Path
@@ -154,19 +160,3 @@ class ClimateForcing:
                                   ' is not a known cf convention unit.'
                                   ' Plesae check data units', args.debug)
                 sys.exit()  # don't run code if units does not exist
-
-    # =========================================================================
-    #     mask climate forcing
-    # =========================================================================
-
-    def mask_forcings(self):
-        """
-        Mask climate forcing.
-
-        Returns
-        -------
-        data range : xarray
-            Masked climate forcing.
-
-        """
-        return None

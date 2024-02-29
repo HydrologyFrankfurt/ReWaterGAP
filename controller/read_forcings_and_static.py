@@ -9,7 +9,7 @@
 # if not see <https://www.gnu.org/licenses/lgpl-3.0>
 # =============================================================================
 
-"Parameters"
+"Read forcings and check units and varible names according to ISIMIP convention"
 
 # =============================================================================
 #  This module reads in climate forcings and static data. Its also gets the
