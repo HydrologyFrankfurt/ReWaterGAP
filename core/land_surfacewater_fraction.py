@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Jun  4 19:09:21 2022.
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+""" Compute Land area fraction with or without reservoir."""
 import numpy as np
 from controller import configuration_module as cm
 # For anthropogenic run , cm.ant=True , else naturalised run is activated
@@ -23,18 +28,25 @@ def compute_landareafrac(landwater_frac, land_area_frac,
     Parameters
     ----------
     landwater_frac : array
-        DESCRIPTION.
-    resyear_frac : Tarray
-        DESCRIPTION.
+       Surface water body and  continental fractions  to compute land area fraction, Unit: [-]
+    land_area_frac : array
+        current land area fraction, Unit: [-]
+    resyear_frac : array
+        All Reservoir fraction considered between start and end reservoir year, Unit: [-]
     res_year : array
-        DESCRIPTION.
+        Active reservoir year , Unit: [year]
     glores_frac_prevyear : array
-        DESCRIPTION.
+       Global reservoir fraction of previous year, Unit: [-]
+    glores_area: array
+        Global reservoir area, Unit: [km^2]
+    init_landfrac_res_flag: boolean
+        This Flag compute land area fraction at  start day of simulation  
+        when reservoirs are active.
 
     Returns
     -------
-    land_area_frac : TYPE
-        DESCRIPTION.
+    land_area_frac : array
+        current land area fraction, Unit: [-]
 
     """
     # continental fraction
@@ -155,13 +167,14 @@ def get_glolake_area(landwater_frac):
 
     Parameters
     ----------
-    static_data : TYPE
-        DESCRIPTION.
+    landwater_frac : array
+        variable which contains global lake area, regulated area and status.
+        to compute global lake area with or without reservior being active
 
     Returns
     -------
-    glo_lake_area : TYPE
-        DESCRIPTION.
+    glo_lake_area : array
+        Global lake area, Unit: [km^2]
 
     """
     global_lake_area = landwater_frac.global_lake_area[0].values.\

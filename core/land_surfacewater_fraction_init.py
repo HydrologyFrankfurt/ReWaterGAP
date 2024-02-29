@@ -111,12 +111,13 @@ class LandsurfacewaterFraction:
 
         Parameters
         ----------
-        date : TYPE
-            DESCRIPTION.
-        reservoir_opt_year : TYPE
-            DESCRIPTION.
-        timestep: TYPE
-            DESCRIPTION.
+        date : datetime
+            Simulation date
+        reservoir_opt_year : integer
+            List of years for all operational reservoir from start year to 
+            end year.
+        glores_area: array
+            Global reservoir area, Unit: [km^2]
 
         Returns
         -------
@@ -184,21 +185,21 @@ class LandsurfacewaterFraction:
 
         Parameters
         ----------
-        canopy_storage : TYPE
-            DESCRIPTION.
-        soil_water_content : TYPE
-            DESCRIPTION.
-        snow_water_storage : TYPE
-            DESCRIPTION.
-        glores_area : TYPE
-            DESCRIPTION.
-        glores_storage : TYPE
-            DESCRIPTION.
+        canopy_storage : array
+           Canopy storage,  Units: [mm]
+        soil_water_content : array
+            Soil water storage, Units: [mm].
+        snow_water_storage : array
+            Snow water storage, Units: [mm]
+        glores_area : array
+           Global reservoir area, Unit: [km^2]
+        glores_storage : array
+            Global reservoir storage, Unit: [km^3]
 
         Returns
         -------
-        glores_storage : TYPE
-            DESCRIPTION.
+        glores_storage : array
+            Global reservoir storage, Unit: [km^3]
 
         """
         if self.reservior_opt is True:
@@ -287,8 +288,9 @@ class LandsurfacewaterFraction:
 
         Parameters
         ----------
-        land_surface_frac : TYPE
-            DESCRIPTION.
+        land_swb_fraction : array
+           updated surafce water bodies fracion (local lake and local and global 
+                                                 wetland)
 
         Returns
         -------
@@ -328,8 +330,8 @@ class LandsurfacewaterFraction:
 
         Parameters
         ----------
-        landfrac_state : TYPE
-            DESCRIPTION.
+        landfrac_state : array
+            State varibles to update land area fraction
 
         Returns
         -------
