@@ -8,7 +8,7 @@
 # You should have received a copy of the LGPLv3 License along with WaterGAP.
 # if not see <https://www.gnu.org/licenses/lgpl-3.0>
 # =============================================================================
-
+"Write variables to NetCDF"
 
 # =============================================================================
 # This module creates and writes daily ouputs to  storage and flux varibales
@@ -156,6 +156,13 @@ class CreateandWritetoVariables:
             Dictionary of storages and fluxes for vertical water balance.
         time_step : int
             Daily timestep.
+        sim_year: : int
+            Simulation year
+        sim_month : int 
+            Simulation month 
+        sim_day : int
+            Simulation day
+                                            
 
         Returns
         -------
@@ -187,9 +194,14 @@ class CreateandWritetoVariables:
         ----------
         value : dict
             Dictionary of storages and fluxes for lateral water balance.
-        time_step : int
-            Daily timestep.
-
+         time_step : int
+             Daily timestep.
+         sim_year: : int
+             Simulation year
+         sim_month : int 
+             Simulation month 
+         sim_day : int
+             Simulation day
         Returns
         -------
         None.
@@ -214,6 +226,9 @@ class CreateandWritetoVariables:
     def save_netcdf_parallel(self, end_date):
         """
         Save variables to netcdf.
+        
+        end_date: datetime
+            Date for end of simulation
 
         Returns
         -------

@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 28 14:24:15 2022.
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+"""Create ouput variables."""
+
 import xarray as xr
 import numpy as np
 import datetime as dt
@@ -22,10 +28,10 @@ class OutputVariable:
         ----------
         variable_name : string
             Variable name for output variable.
-        grid_coords : xarray coordinate
-            Contains coordinates to create output variable.
         create : boolean
              Create and write to empty data set for variable if True.
+        grid_coords : xarray coordinate
+            Contains coordinates to create output variable.
 
         Returns
         -------
@@ -104,12 +110,18 @@ class OutputVariable:
         ----------
         array : numpy array
             results (array) to be wriiten to vaiable per time step.
-        time_step : TYPE
-           time step for writing ouput variable.
-
+       time_step : int
+           Daily timestep.
+       year: : int
+           Simulation year
+       month : int 
+           Simulation month 
+       day : int
+           Simulation day
+         
         Returns
         -------
-        array.
+        None.
 
         """
         if self.create is True:
