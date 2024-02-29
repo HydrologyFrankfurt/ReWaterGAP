@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Aug 26 08:12:56 2022.
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+"""Check negative precipitation values and convert forcing units."""
+
 import numpy as np
 from termcolor import colored
 
@@ -20,7 +26,7 @@ def check_neg_precipitation(precipitation):
     Parameters
     ----------
     precipitation : array
-        precipitation
+        precipitation, Unit: [mm/day]
 
     Returns
     -------
@@ -39,8 +45,8 @@ def to_mm_per_day(precipitation):
 
     Parameters
     ----------
-    forcing : array
-        Climate forcing
+    precipitation : array
+        precipitation, Unit: [kg m-2 s-1]
 
     Returns
     -------
@@ -57,16 +63,16 @@ def to_mm_per_day(precipitation):
 
 def to_kelvin(temperature):
     """
-    Convert temperature to K.
+    Convert temperature from degree celcius to Kelvin.
 
     Parameters
     ----------
     temperature : array
-        Temperature
+        Temperature, Unit: [°C]
 
     Returns
     -------
-    Temperature with converted units.
+    Temperature with converted units to Kelvin.
 
     """
     if temperature.units == "K" or temperature.units == "k":

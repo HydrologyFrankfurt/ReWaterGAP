@@ -1,8 +1,17 @@
-import numpy as np
-import pandas as pd 
-import xarray as xr
+# -*- coding: utf-8 -*-
+# =============================================================================
+# This file is part of WaterGAP.
+
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
 
 """Select Upstream Basin."""
+
+import numpy as np
 
 class Select_upstream_basin:
     """Select upstream basin of interest based on outflow station."""
@@ -57,6 +66,24 @@ class Select_upstream_basin:
         
     @staticmethod
     def get_all_upstream_cells_arcid(arcid_list, inflow_cell, upstream_cells):
+        """
+        Get all upstream cells
+
+        Parameters
+        ----------
+        arcid_list : array
+            List of cells ArcID (identifier).
+        inflow_cell : TYPE
+            Array  of cell and corresponding  upstream cells (9 per downstream cell in a row)
+        upstream_cells : TYPE
+            Array to store all select upstream cell of a chosen downstream cell 
+
+        Returns
+        -------
+        upstream_cells : TYPE
+            Updated upstream cells of a chosen downstream cell 
+
+        """
         temp_upstream_cell =[]
         for i in arcid_list:
             next_cells = inflow_cell.loc[i][inflow_cell.loc[i]>0]

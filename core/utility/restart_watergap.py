@@ -8,7 +8,7 @@
 # You should have received a copy of the LGPLv3 License along with WaterGAP.
 # if not see <https://www.gnu.org/licenses/lgpl-3.0>
 # =============================================================================
-"""Restart."""
+"""Restart from saved state."""
 # =============================================================================
 # This module saves restart information to file
 # =============================================================================
@@ -67,29 +67,71 @@ class RestartState:
         Write variable to file for only a day before the restart date.
 
         Parameters
-        ----------
-        date : TYPE
-            DESCRIPTION.
-        current_landarea_frac : TYPE
-            DESCRIPTION.
-        previous_landarea_frac : TYPE
-            DESCRIPTION.
-        landareafrac_ratio : TYPE
-            DESCRIPTION.
-        lai_days_since_start : TYPE
-            DESCRIPTION.
-        lai_cum_precipitation : TYPE
-            DESCRIPTION.
-        lai_growth_status : TYPE
-            DESCRIPTION.
-        canopy_storage : TYPE
-            DESCRIPTION.
-        snow_storage : TYPE
-            DESCRIPTION.
-        snow_storage_subgrid : TYPE
-            DESCRIPTION.
-        soil_water_content : TYPE
-            DESCRIPTION.
+            ----------
+        date : datetime
+            The date for which the model state is being saved.
+        current_landarea_frac : array
+            The current fraction of land area, Unit: [-] 
+        previous_landarea_frac : array
+            The fraction of land area in the previous day,  Unit: [-] 
+        landareafrac_ratio : array
+            The ratio of land area fractions (prev/current),  Unit: [-]    
+        lai_days_since_start : int
+            The number of days since the start of the model simulation for LAI, 
+            Unit: [days] 
+        lai_cum_precipitation : array
+            Cumulative precipitation for LAI calulation,  Unit: [mm/day]    
+        lai_growth_status : str
+            Growth status for LAI calulation, Unit: [-]   
+        canopy_storage : array
+            Storage of water in the canopy,  Unit: [mm]   
+        snow_storage : array
+            Snow storage, Unit: [mm]   
+        snow_storage_subgrid : array
+            The subgrid-specific snow storage, Unit: [mm]    
+        soil_water_content : array
+            Water content in the soil, Unit: [mm]    
+        daily_storage_transfer : array
+            The daily storage transfer for land when land area fraction is zero,
+            Unit: [mm]    
+        groundwater_storage : array
+            Groundwater storage, Unit: [km^3].   
+        loclake_storage : array
+            Local lake storage, Unit: [km^3].    
+        locwet_storage : array
+            Local wetland storage, Unit: [km^3].    
+        glolake_storage : array
+            Global lake storage, Unit: [km^3]. 
+        glowet_storage : array
+            Global wetland storage, Unit: [km^3].   
+        river_storage : array
+            River storage, Unit: [km^3].   
+        glores_storage : array
+            Global reservoir, Unit: [km^3].  
+        k_release : array
+            The release factor for reservoir operation, Unit: [-]    
+        unsatisfied_potential_netabs_riparian : array
+            Unsatisfied potential net abstraction for riparian cells, Unit: [km^3/day].
+        unsat_potnetabs_sw_from_demandcell : array
+            Unsatisfied potential net abstraction of surface water from demand cells
+            to be given to the supply cells, Unit: [km^3/day]. 
+        unsat_potnetabs_sw_to_supplycell : array
+            Unsatisfied potential net abstraction to supply cell (multiple 
+            demand cell can supply to one supply cell), Unit: [km^3/day]
+        neighbouring_cells_map : array
+            A map of neighboring cells.   
+        accumulated_unsatisfied_potential_netabs_sw : array
+            Accumulated unsatisfied potential net abstraction of surface water, Unit: [km^3/day]
+        daily_unsatisfied_pot_nas : array
+            Daily unsatisfied potential net abstraction from surface water, Unit: [km^3/day]   
+        prev_accumulated_unsatisfied_potential_netabs_sw : array
+            Previous accumulated unsatisfied potential net abstraction of surface water, Unit: [km^3/day]   
+        prev_potential_water_withdrawal_sw_irri : array
+            Previous potential water withdrawal from surface water for irrigation, Unit: [km^3/day]   
+        prev_potential_consumptive_use_sw_irri : array
+            Previous potential consumptive use from irrigation using surface water, Unit: [km^3/day]  
+        set_res_storage_flag : bool
+            Flag indicating whether to set reservoir storage.
 
         Returns
         -------
@@ -163,8 +205,8 @@ class RestartState:
 
         Returns
         -------
-        restart_data : TYPE
-            DESCRIPTION.
+        prev_date : datetime
+            Previous day of simulation.
 
         """
         try:
