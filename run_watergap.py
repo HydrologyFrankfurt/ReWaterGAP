@@ -316,8 +316,7 @@ def run():
                 # =============================================================
                 #  Get restart information if restart is needed.
                 # =============================================================
-                if (pd.to_datetime(date).month == 12 and
-                        pd.to_datetime(date).day == 31) or end_date == date.astype('datetime64[D]'):
+                if end_date == date.astype('datetime64[D]'):
                     if savestate_for_restart is True:
                         restart_model.\
                             savestate(date,
