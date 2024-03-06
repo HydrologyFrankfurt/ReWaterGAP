@@ -89,16 +89,16 @@ Navigate to the ReWaterGAP folder in the terminal using the following command.
 The following data should be provided by the User in NetCDF format:
 
 Climate Forcing
-	- precipitation
-	- downward longwave radiation
-	- downward shortwave radiation
-	- temperature
+	- precipitation (kg m-2 s-1)
+	- downward longwave radiation (Wm-2)
+	- downward shortwave radiation (Wm-2)
+	- temperature (K)
 
 Water Use
-	- potential consumptive use from irrigation (monthly)
-	- potential water withdrawal use from irrigation (monthly)
-	- potential net abstractions from surface water (monthly)
-	- potential net abstractions from groundwater (monthly)
+	- potential consumptive use from irrigation (m3/month)
+	- potential water withdrawal use from irrigation (m3/month)
+	- potential net abstractions from surface water (m3/month)
+	- potential net abstractions from groundwater (m3/month)
 
 
 The files need to be copied to their respective folders in ../ReWaterGAP/input_data (see picture):
