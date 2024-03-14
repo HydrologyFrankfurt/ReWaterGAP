@@ -86,15 +86,18 @@ Navigate to the ReWaterGAP folder in the terminal using the following command.
 
 **5. Get Input Data**
 
-The following data should be provided by the User in NetCDF format:
+The User should provide the following data in NetCDF format. WaterGAP operates with daily temporal resolution. 
 
-Climate Forcing
+Note: WaterGAP does consider for leap days (29th February), so these days should be excluded from the climate forcings data. 
+Additionally, water use data (potential net abstractions) is provided in monthly timesteps, and thus, it's assumed that the potential net abstractions per day in a month is the same.
+
+Climate Forcing (Daily data)
 	- precipitation (kg m-2 s-1)
 	- downward longwave radiation (Wm-2)
 	- downward shortwave radiation (Wm-2)
 	- temperature (K)
-
-Water Use
+	
+Water Use  (Monthly data)
 	- potential consumptive use from irrigation (m3/month)
 	- potential water withdrawal use from irrigation (m3/month)
 	- potential net abstractions from surface water (m3/month)
