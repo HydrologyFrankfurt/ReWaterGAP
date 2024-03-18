@@ -67,7 +67,7 @@ The roughness coefficient :math:`{n}` of each grid cell is calculated according 
 Net cell runoff :math:`{R}_{n,c}` :math:`({m}*{m*d}^{-1})`, the part of the cell precipitation that has neither been evapotranspirated nor stored with a time step, is calculated as:
 
 .. math::
-	{R}_{n,c} = 
+	{R}_{n,c} = \frac{{{Q}_{r,in}-{Q}_{r,out}}{{A}_{cont}}}*{10}^{9}
 
 where :math:`{A}_{cont}` is the continental area (0.5° \times 0.5° grid cell area minus ocean area) of the grid cell (:math:`[m^2]`). Renewable water resources are calculated as long-term mean annual :math:`{R}_{nc}` computed under naturalized conditions (Sect. 4.1). Renewable water resources can be negative if evapotranspiration in a grid cell is higher than precipitation due to evapotranspiration from global lakes, reservoirs or wetlands that receive water from upstream cells.
 
