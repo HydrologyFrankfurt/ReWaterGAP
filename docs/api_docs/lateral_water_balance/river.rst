@@ -56,7 +56,7 @@ WaterGAP implements a consistent method for determining daily width and depth as
 where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in the river at bankfull depth :math:`[{m}^3]`, :math:`{D}_{r,bf}` :math:`[{m}]` and :math:`{W}_{r,bf}` :math:`[{m}]` are river depth and top width at bankfull conditions, respectively, and :math:`{W}_{r,bottom}` is river bottom width :math:`[{m}]`. River water depth :math:`{D}_{r}` :math:`[{m}]` is simulated to change at each time step with actual :math:`{S}_{r}` as:
 
 .. math::
-	{D}_{r} = - \frac{{{W}_{r,bottom}}{4}} + \sqrt{{{W}_{r,bottom} * \frac{{{{W}_{r,bottom}}{16}}+0,5 * \frac{{{S}_{r}}{l}}}
+	{D}_{r} = - \frac{{{W}_{r,bottom}}{4}} + \sqrt{{W}_{r,bottom}*\frac{{{{W}_{r,bottom}}{16}}+0,5*\frac{{{S}_{r}}{l}}}}
 
 **to be continued**
 
@@ -74,8 +74,8 @@ where :math:`{A}_{cont}` is the continental area (0.5° \times 0.5° grid cell a
 References 
 ----------
 .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
-.. [2] Lehner et al., 2008
-.. [3] Verzano et al., 2012
-.. [4] Allen et al. (1994)
-.. [5] Schneider et al., 2011
-.. [6] Schulze et al., 2005
+.. [2] Lehner, B., K. Verdin, and A. Jarvis (2008), New Global Hydrography Derived From Spaceborne Elevation Data, Eos Trans. AGU, 89(10), 93–94, doi:10.1029/2008EO100001.
+.. [3] Verzano, K., Bärlund, I., Flörke, M., Lehner, B., Kynast, E., Voß, F., and Alcamo, J.: Modeling variable river flow velocity on continental scale: Current situation and climate change impacts in Europe, J. Hydrol., 424–425, 238–251, https://doi.org/10.1016/j.jhydrol.2012.01.005, 2012
+.. [4] Allen, P. M., Arnold, J. C., and Byars, B. W.: Downstream channel geometry for use in planning level models, J. Am. Water Resour. As., 30, 663–671, https://doi.org/10.1111/j.1752-1688.1994.tb03321.x, 1994
+.. [5] Schneider, C., Flörke, M., Eisner, S., and Voss, F.: Large scale modelling of bankfull flow: An example for Europe, J. Hydrol., 408, 235–245, https://doi.org/10.1016/j.jhydrol.2011.08.004, 2011
+.. [6] Schulze, K., Hunger, M., and Döll, P.: Simulating river flow velocity on global scale, Adv. Geosci., 5, 133–136, https://doi.org/10.5194/adgeo-5-133-2005, 2005
