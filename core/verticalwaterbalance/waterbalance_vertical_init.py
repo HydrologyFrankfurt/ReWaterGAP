@@ -169,16 +169,26 @@ class VerticalWaterBalance:
                       self.forcings_static.lon_length))
 
     def calculate(self, date, current_landarea_frac, landareafrac_ratio, 
-                  basin):
+                  basin, water_freq, land_freq):
         """
         Calculate vertical waterbalance.
 
         Parameters
         ----------
-        time_step : int
-            Daily timestep.
         date : numpy.datetime64
             Timestamp or date of a daily simulation.
+        current_landarea_frac : array
+            The current fraction of land area, Unit: [-] 
+        landareafrac_ratio : array
+            The ratio of land area fractions (prev/current),  Unit: [-] 
+        basin: array
+            Array  which contains selected basin(or global)
+        water_freq: array
+            Water fraction is sum of global lake, local lake, & global 
+            reservoir (includes regulated lake) fraction, Unit: [-] 
+        land_freq: array
+            land fraction is (continental fraction minus water_freq) and 
+            contains wetlands, Unit: [-]  
 
         Returns
         -------
@@ -272,7 +282,9 @@ class VerticalWaterBalance:
         net_radiation = output[0]
         daily_potential_evap = output[2]
         openwater_potential_evap = output[3]
-
+        total_potential_evap = (land_freq * daily_potential_evap) + \
+            (water_freq * openwater_potential_evap)
+        
         # Leaf area index ouput
         leaf_area_index = output[4]
         self.lai_days = output[5]
@@ -295,10 +307,13 @@ class VerticalWaterBalance:
         self.soil_water_content = output[17]
         groundwater_recharge_from_soil_mm = output[18]
         surface_runoff = output[19]
+        
 
         # update daily storage transfer
         self.daily_storage_transfer = output[21]
-
+        # corrected land actual evap including canopy and snow
+        land_aet_corr = output[22]
+        snowcover_frac = output[23]
         # =====================================================================
         # Getting all storages
         # =====================================================================
@@ -308,7 +323,8 @@ class VerticalWaterBalance:
         VerticalWaterBalance.storages.\
             update({'canopystor': self.canopy_storage * per_contfrac,
                     'swe': self.snow_water_storage * per_contfrac,
-                    'soilmoist':  self.soil_water_content * per_contfrac})
+                    'soilmoist':  self.soil_water_content * per_contfrac,
+                    'smax': self.max_soil_water_content})
 
         # =====================================================================
         # Getting all fluxes
@@ -316,28 +332,33 @@ class VerticalWaterBalance:
 
         VerticalWaterBalance.fluxes.\
             update({'netrad': net_radiation,
-                    'potevap':  daily_potential_evap,
+                    'potevap':  total_potential_evap,
                     'lai-total':  leaf_area_index,
                     'canopy_evap':  canopy_evap * per_contfrac,
                     'throughfall':  throughfall * per_contfrac,
                     'snow_fall':  snow_fall * per_contfrac,
                     'snow_melt':  snow_melt * per_contfrac,
                     'snow_evap':  sublimation * per_contfrac,
-
+                    'snowcover_frac': snowcover_frac * per_contfrac,
                     # Groundwater recharge (qr) and surface runoff(qs)
                     # are writtem out as netcdf and not used for lateral water
                     # balance calculation.
-                    'qr':  groundwater_recharge_from_soil_mm * per_contfrac,
+                    'qrd':  groundwater_recharge_from_soil_mm * per_contfrac,
                     'qs':  surface_runoff * per_contfrac,
 
                     # Variables here are used for lateral water balance
-                    # calculation. Note: 'groundwater_recharge' and
-                    # 'surface_runoff' are not wriiten out.
+                    # calculation. 
                     'groundwater_recharge': groundwater_recharge_from_soil_mm,
                     'surface_runoff': surface_runoff,
                     'openwater_PET': openwater_potential_evap,
                     'daily_storage_transfer': self.daily_storage_transfer,
-                    'daily_precipitation': precipitation})
+                    'daily_precipitation': precipitation,
+                    'land_aet_corr':land_aet_corr,
+
+                    #  for total water storages only
+                    'sum_canopy_snow_soil_storage':  (self.canopy_storage + 
+                                        self.snow_water_storage + 
+                                        self.soil_water_content)})
 
     def get_storages_and_fluxes(self):
         """

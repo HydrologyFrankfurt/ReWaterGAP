@@ -72,6 +72,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     snow_melt = basin.copy()
     effective_precipitation = basin.copy()
     max_temp_elev = basin.copy()
+    snowcover_frac = basin.copy()
 
     #                  =================================
     #                  ||           Soil             ||
@@ -80,6 +81,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     immediate_runoff = basin.copy()
     groundwater_recharge_from_soil_mm = basin.copy()
     surface_runoff = basin.copy()
+    land_aet_corr = basin.copy() 
 
     # =====================================================================
     # Loop through rout order
@@ -140,7 +142,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             # =================================================================
             #               Canopy Water Balance
             # =================================================================
-            daily_canopy_storage = canopy.\
+            daily_canopy_balance = canopy.\
                 canopy_balance(canopy_storage[x, y],
                                leaf_area_index[x, y],
                                daily_potential_evap[x, y],
@@ -150,23 +152,23 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                                max_storage_coefficient[x, y],
                                minstorage_volume)
     
-            # ouputs from the  daily_canopy_storage are
+            # ouputs from the  daily_canopy_balance are
             # 0 = canopy_storage (mm), 1 = throughfall (mm/day),
             # 2 = canopy_evap (mm/day) , 3 = pet_to_soil (mm/day),
             # 4 = land_storage_change_sum (mm)
             # 5 = daily_storage_tranfer (mm/day)
     
-            canopy_storage_out[x, y] = daily_canopy_storage[0]
-            throughfall[x, y] = daily_canopy_storage[1]
-            canopy_evap[x, y] = daily_canopy_storage[2]
-            pet_to_soil[x, y] = daily_canopy_storage[3]
-            land_storage_change_sum[x, y] = daily_canopy_storage[4]
-            daily_storage_transfer[x, y] = daily_canopy_storage[5]
+            canopy_storage_out[x, y] = daily_canopy_balance[0]
+            throughfall[x, y] = daily_canopy_balance[1]
+            canopy_evap[x, y] = daily_canopy_balance[2]
+            pet_to_soil[x, y] = daily_canopy_balance[3]
+            land_storage_change_sum[x, y] = daily_canopy_balance[4]
+            daily_storage_transfer[x, y] = daily_canopy_balance[5]
     
             # =================================================================
             #               Snow Water Balance
             # =================================================================
-            daily_snow_storage = \
+            daily_snow_balance = \
                 snow.subgrid_snow_balance(snow_water_storage[x, y],
                                           snow_water_storage_subgrid[:, x, y],
                                           temperature[x, y],
@@ -183,7 +185,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                                           snow_freeze_temp[x, y],
                                           snow_melt_temp[x, y],
                                           minstorage_volume, x, y)
-            # ouputs from the  daily_snow_storage  are
+            # ouputs from the  daily_snow_balance  are
             # 0 = snow_water_storage (mm), 1 = snow_water_storage_subgrid (mm),
             # 2 = snow_fall (mm/day), 3 = sublimation (mm/day),
             # 4 = snow_melt (mm/day)
@@ -191,15 +193,16 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             # 7 = land_storage_change_sum (mm),  8 = daily_storage_tranfer (mm/day)
             # 9 = snow cover fraction (-)
     
-            snow_water_storage_out[x, y] = daily_snow_storage[0]
-            snow_water_storage_subgrid_out[:, x, y] = daily_snow_storage[1]
-            snow_fall[x, y] = daily_snow_storage[2]
-            sublimation[x, y] = daily_snow_storage[3]
-            snow_melt[x, y] = daily_snow_storage[4]
-            effective_precipitation[x, y] = daily_snow_storage[5]
-            max_temp_elev[x, y] = daily_snow_storage[6]
-            land_storage_change_sum[x, y] = daily_snow_storage[7]
-            daily_storage_transfer[x, y] = daily_snow_storage[8]
+            snow_water_storage_out[x, y] = daily_snow_balance[0]
+            snow_water_storage_subgrid_out[:, x, y] = daily_snow_balance[1]
+            snow_fall[x, y] = daily_snow_balance[2]
+            sublimation[x, y] = daily_snow_balance[3]
+            snow_melt[x, y] = daily_snow_balance[4]
+            effective_precipitation[x, y] = daily_snow_balance[5]
+            max_temp_elev[x, y] = daily_snow_balance[6]
+            land_storage_change_sum[x, y] = daily_snow_balance[7]
+            daily_storage_transfer[x, y] = daily_snow_balance[8]
+            snowcover_frac[x, y] = daily_snow_balance[9]
             # # ===================================================================
             # #                       Soil Water Balance
             # # ===================================================================
@@ -216,7 +219,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             immediate_runoff[x, y] = modified_effective_precipitation[1]
     
             # compute daily soil water balance.
-            daily_soil_storage = soil.\
+            daily_soil_balance = soil.\
                 soil_balance(soil_water_content[x, y], pet_to_soil[x, y],
                              current_landarea_frac[x, y],
                              landareafrac_ratio[x, y],
@@ -237,10 +240,11 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                              areal_corr_factor[x, y],
                              minstorage_volume, x, y)
     
-            # ouputs from the  daily_soil_storage  are
+            # ouputs from the  daily_soil_balance  are
             # 0 = soil_water_content (mm),
             # 1 = groundwater_recharge_from_soil_mm (mm),
-            # 2 = actual_soil_evap (mm/day), 3 =  soil_saturation (-),
+            # 2 = actual_soil_evap (mm/day) without canopy and snow evap, 
+            # 3 =  soil_saturation (-),
             # 4 = surface_runoff (mm/day) , 5 = daily_storage_tranfer (mm/day)
             # 6 =  (RL) potential runoff from landcells including the amount of
             # gw-recharge (mm/day)
@@ -248,11 +252,13 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             # 8 = (R2) soil overflow runoff from landcells (mm/day)
             # 9 = (R1) urban runoff from landcells (mm/day) : (accounts only
             # for built-up area)
+            # 10 = corrected land actual evap including canopy and snow (mm/day)
     
-            soil_water_content_out[x, y] = daily_soil_storage[0]
-            groundwater_recharge_from_soil_mm[x, y] = daily_soil_storage[1]
-            surface_runoff[x, y] = daily_soil_storage[4]
-            daily_storage_transfer[x, y] = daily_soil_storage[5]
+            soil_water_content_out[x, y] = daily_soil_balance[0]
+            groundwater_recharge_from_soil_mm[x, y] = daily_soil_balance[1]
+            surface_runoff[x, y] = daily_soil_balance[4]
+            daily_storage_transfer[x, y] = daily_soil_balance[5]
+            land_aet_corr[x, y] =   daily_soil_balance[10]
 
     return net_radiation, openwater_net_radiation, daily_potential_evap,\
         openwater_potential_evap, leaf_area_index, lai_days, cum_precipitation,\
@@ -260,7 +266,8 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
         pet_to_soil, snow_water_storage_out, snow_water_storage_subgrid_out, \
         snow_fall, sublimation, snow_melt, soil_water_content_out, \
         groundwater_recharge_from_soil_mm, surface_runoff, \
-        land_storage_change_sum, daily_storage_transfer
+        land_storage_change_sum, daily_storage_transfer, land_aet_corr, \
+        snowcover_frac 
 
 
 

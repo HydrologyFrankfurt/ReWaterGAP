@@ -431,4 +431,4 @@ def soil_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
     return soil_water_content, groundwater_recharge_from_soil_mm, \
         actual_soil_evap, soil_saturation, surface_runoff,  \
         daily_storage_transfer, total_daily_runoff, daily_runoff, \
-        soil_water_overflow, immediate_runoff
+        soil_water_overflow, immediate_runoff, corr_land_aet
