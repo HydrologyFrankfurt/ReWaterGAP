@@ -347,4 +347,5 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
         accumulated_unsatisfied_potential_netabs_res
 
     return storage, outflow, gwr_reservior, k_release_new, \
-        accumulated_unsatisfied_potential_netabs_res, actual_use_sw
+        accumulated_unsatisfied_potential_netabs_res, actual_use_sw, \
+            openwater_evapo_cor

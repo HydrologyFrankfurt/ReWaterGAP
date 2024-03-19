@@ -406,4 +406,4 @@ def lake_wetland_balance(x, y,
 
     return storage, outflow, gwr_lakewet, lake_wet_newfraction,\
         accumulated_unsatisfied_potential_netabs_glolake, \
-        actual_use_sw
+        actual_use_sw, openwater_evapo_cor
