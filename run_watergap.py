@@ -237,7 +237,9 @@ def run():
             land_water_frac.\
                 landareafrac_with_reservior(date, cm.reservoir_opt_years,
                                             lateral_waterbalance.glores_area)
-                       
+            
+            # Get land and water fractions (used to calculate total PET)
+            land_water_frac.get_land_and_water_freq(date)
 
             # Adapt global reservoir storage and land area fraction
             # due to net change in land fraction
@@ -255,7 +257,9 @@ def run():
             vertical_waterbalance.\
                 calculate(date, land_water_frac.current_landareafrac,
                           land_water_frac.landareafrac_ratio, 
-                          watergap_basin.upstream_basin)
+                          watergap_basin.upstream_basin,
+                          land_water_frac.water_freq,
+                          land_water_frac.land_freq)
 
             # =================================================================
             #  Computing lateral water balance
@@ -266,9 +270,12 @@ def run():
                           vertical_waterbalance.fluxes['daily_precipitation'],
                           vertical_waterbalance.fluxes['surface_runoff'],
                           vertical_waterbalance.fluxes['daily_storage_transfer'],
+                          vertical_waterbalance.fluxes['land_aet_corr'],
                           land_water_frac.current_landareafrac,
                           land_water_frac.previous_landareafrac,
-                          date, first_day_of_month, watergap_basin.upstream_basin)
+                          land_water_frac.landwaterfrac_excl_glolake_res,
+                          date, first_day_of_month, watergap_basin.upstream_basin,
+                          vertical_waterbalance.fluxes['sum_canopy_snow_soil_storage'])
 
             # =================================================================
             #  Update Land Area Fraction
@@ -327,6 +334,11 @@ def run():
                                       land_water_frac.glores_frac_prevyear,
                                       land_water_frac.gloresfrac_change,
                                       land_water_frac.init_landfrac_res_flag,
+                                      land_water_frac.landwaterfrac_excl_glolake_res,
+                                      land_water_frac.land_and_water_freq_flag,
+                                      land_water_frac.water_freq,
+                                      land_water_frac.land_freq,
+                                      land_water_frac.updated_loclake_frac,
 
                                       vertical_waterbalance.lai_days,
                                       vertical_waterbalance.cum_precipitation,
