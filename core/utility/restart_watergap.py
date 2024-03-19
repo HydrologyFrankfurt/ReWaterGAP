@@ -46,7 +46,9 @@ class RestartState:
     def savestate(self, date,
                   current_landarea_frac, previous_landarea_frac,
                   landareafrac_ratio, previous_swb_frac, glores_frac_prevyear,
-                  gloresfrac_change, init_landfrac_res_flag, 
+                  gloresfrac_change, init_landfrac_res_flag,
+                  landwaterfrac_excl_glolake_res, land_and_water_freq_flag, 
+                  water_freq, land_freq, updated_loclake_frac,
                   lai_days_since_start, lai_cum_precipitation, 
                   lai_growth_status, canopy_storage,
                   snow_storage, snow_storage_subgrid, soil_water_content,
@@ -62,7 +64,7 @@ class RestartState:
                   prev_accumulated_unsatisfied_potential_netabs_sw,
                   prev_potential_water_withdrawal_sw_irri,
                   prev_potential_consumptive_use_sw_irri,
-                  set_res_storage_flag):
+                  set_res_storage_flag ):
         """
         Write variable to file for only a day before the restart date.
 
@@ -75,7 +77,29 @@ class RestartState:
         previous_landarea_frac : array
             The fraction of land area in the previous day,  Unit: [-] 
         landareafrac_ratio : array
-            The ratio of land area fractions (prev/current),  Unit: [-]    
+            The ratio of land area fractions (prev/current),  Unit: [-] 
+        previous_swb_frac: array
+            Previous sum of surafce water bodies fracion (local lake and local 
+            and global  wetland), Unit: [-] 
+        glores_frac_prevyear: array
+            Global reservoirs/regulated lakes fraction of previous year,  Unit: [-] 
+        gloresfrac_change:  array
+            Change in global reservoirs/regulated lakes fraction,  Unit: [-] 
+        init_landfrac_res_flag: 
+            Flag to compute land area fraction with reservoir or regulated 
+            once at model start, Unit: [-] 
+        landwaterfrac_excl_glolake_res : array
+            Land water fracion without  global lakes and reservoirs/regulated lakes. 
+        land_and_water_freq_flag: array
+            Flag to compute land and water fractions,  Unit: [-] 
+        water_freq: array
+            Water fraction is sum of global lake, local lake, & global 
+            reservoir (includes regulated lake) fraction, Unit: [-] 
+        land_freq: array
+            land fraction is (continental fraction minus water_freq) and 
+            contains wetlands, Unit: [-]  
+        updated_loclake_frac: array
+            updated local lake fraction based on area reduction factor,  Unit: [-] 
         lai_days_since_start : int
             The number of days since the start of the model simulation for LAI, 
             Unit: [days] 
@@ -132,7 +156,8 @@ class RestartState:
             Previous potential consumptive use from irrigation using surface water, Unit: [km^3/day]  
         set_res_storage_flag : bool
             Flag indicating whether to set reservoir storage.
-
+        
+                   
         Returns
         -------
         None.
@@ -147,7 +172,13 @@ class RestartState:
                           "previous_swb_frac": previous_swb_frac,
                           "glores_frac_prevyear": glores_frac_prevyear,
                           "gloresfrac_change": gloresfrac_change,
-                          "init_landfrac_res_flag": init_landfrac_res_flag
+                          "init_landfrac_res_flag": init_landfrac_res_flag,
+                          "landwaterfrac_excl_glolake_res": 
+                              landwaterfrac_excl_glolake_res,
+                        "land_and_water_freq_flag": land_and_water_freq_flag, 
+                        "water_freq": water_freq,
+                        "land_freq" : land_freq,
+                        "updated_loclake_frac": updated_loclake_frac,
                           }
 
         vert_bal_states = {"lai_days_since_start": lai_days_since_start,
