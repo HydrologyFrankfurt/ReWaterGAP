@@ -14,28 +14,38 @@
 
 modelvars = {
     # VerticalWaterBalanceFluxes
-    "potevap": {"long": "Potential evapotranspiration", "unit": "mm/day"},
+    "potevap": {"long": " Total potential evapotranspiration", "unit": "mm/day"},
     "netrad": {"long": "Net radiation", "unit": "mm/day"},
-    "lai-total": {"long": "Leaf area index", "unit": "mm/day"},
+    "lai-total": {"long": "Leaf area index", "unit": "-"},
     "canopy_evap":  {"long": "Canopy evaporation", "unit": "mm/day"},
     "throughfall": {"long": "Throughfall", "unit": "mm/day"},
     "snow_fall":  {"long": "Snowfall", "unit": "mm/day"},
     "snow_melt": {"long": "Snowmelt", "unit": "mm/day"},
     "snow_evap": {"long": "Snow evaporation", "unit": "mm/day"},
-    "qr": {"long": "Groundwater recharge", "unit": "mm/day"},
+    "snowcover_frac": {"long": "Snow cover fraction ", "unit": "-"},
+    "qrd": {"long": "Diffuse groundwater recharge", "unit": "mm/day"},
     "qs": {"long": "Surface runoff", "unit": "mm/day"},
 
     # LateralWaterBalanceFluxes
+    "consistent_precipitation": {"long": "modified or consistent precipitation", "unit": "km3/day"},
     "qg": {"long": "Groundwater discharge", "unit": "km3/day"},
+    "qtot": {"long": "Total runoff (sum of surrface runoff and groundwater discharge)", "unit": "km3/day"},
+    "qrf": {"long": "Focussed groundwater recharge below surface water bodies", "unit": "km3/day"},
+    "qr": {"long": "sum of diffuse groundwater recharge + groundwater recharge from surfacewater bodies", "unit": "km3/day"},
     "locallake_outflow": {"long": "Locallake outflow", "unit": "km3/day"},
     "localwetland_outflow": {"long": "Localwetland outflow", "unit": "km3/day"},
     "globallake_outflow": {"long": "Globallake outflow", "unit": "km3/day"},
     "globalwetland_outflow": {"long": "Globalwetland outflow", "unit": "km3/day"},
     "dis": {"long": "Streamflow or River discharge", "unit": "km3/day"},
-    "actual_net_abstraction_gw": {"long": "actual net abstraction from "
-                                  "groundwater", "unit": "km3/day"},
-    "demand_satisfied_by_cell": {"long": "demand satisfied by cell", 
+    "dis_from_upstream":{"long": "Streamflow or River discharge from upstream cell", "unit": "km3/day"},
+    
+    "atotuse_gw": {"long": "actual net abstraction from  groundwater", "unit": "km3/day"},
+    "atotuse_sw": {"long": "actual net abstraction from suurface water", "unit": "km3/day"},
+    "atotuse":{"long": "Total Actual Water Consumption (all sectors)", "unit": "km3/day"},
+    
+    "evap-total":{"long": "Potential consumptive use(NAg+NAs) and total actual evaporation from land", 
                                  "unit": "km3/day"},
+
     "total_demand_into_cell": {"long": "total dailay demand into cell", "unit": "km3/day"},
 
     "unsat_potnetabs_sw_from_demandcell": {"long": "unsatisfied potential"
@@ -54,12 +64,16 @@ modelvars = {
     
     "total_unsatisfied_demand_from_supply_to_all_demand_cell":
         {"long": "total unsatisfied demand from supply to all demand_cell",  "unit": "km3/day"},
-        
+    
+    "ncrun":  {"long": "Net cell runoff (river discharge - upstream river disharge)",  "unit": "km3/day"}, 
+     "river_velocity": {"long": "River velocity",  "unit": "km/day"}, 
+    "land_area_fraction": {"long": "Daily land area fraction",  "unit": "-"}, 
     
     # VerticalWaterBalanceStorages
     "canopystor": {"long": "Canopy storage", "unit": "mm"},
     "swe": {"long": "Snow water equivalent", "unit": "mm"},
     "soilmoist": {"long": "Soil moisture", "unit": "mm"},
+    "smax": {"long": "Maximum soil moisture", "unit": "mm"},
 
     # LateralWaterBalanceStorages
     "groundwstor": {"long": "Groundwater storage", "unit": "km3"},
@@ -68,5 +82,6 @@ modelvars = {
     "globallakestor": {"long": "Globallake storage", "unit": "km3"},
     "globalwetlandstor": {"long": "Globalwetland storage", "unit": "km3"},
     "riverstor": {"long": "River storage",  "unit": "km3"},
-    "glores_stor": {"long": "Global reservoir storage",  "unit": "km3"}
+    "reservoirstor": {"long": "Global reservoir storage",  "unit": "km3"},
+    "tws": {"long": "Total water storage",  "unit": "km3"}
 }

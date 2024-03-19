@@ -70,8 +70,10 @@ class CreateandWritetoVariables:
             "snow_fall": "snow_fall",
             "snow_melt": "snow_melt",
             "snow_evap": "snow_evap",
+            "snowcover_frac": "snowcover_frac",
             "soilmoist": "soil_moisture",
-            "qr": "groundwater_recharge",
+            "smax": "maximum_soil_moisture",
+            "qrd": "groundwater_recharge",
             "qs": "surface_runoff"
         }
 
@@ -97,8 +99,12 @@ class CreateandWritetoVariables:
         # Lateral Water Balance Variables
         # output variable name : name in config file
         lb_output_vars = {
+            "consistent_precipitation" : "consistent_precipitation",
             "groundwstor": "groundwater_storage",
             "qg": "groundwater_discharge",
+            "qtot": "total_runoff", 
+            "qrf": "groundwater_recharge_swb",
+            "qr": "total_groundwater_recharge",
             "locallakestor": "local_lake_storage",
             "locallake_outflow": "local_lake_outflow",
             "localwetlandstor": "local_wetland_storage",
@@ -108,11 +114,17 @@ class CreateandWritetoVariables:
             "globalwetlandstor": "global_wetland_storage",
             "globalwetland_outflow": "global_wetland_outflow",
             "riverstor": "river_storage",
-            "glores_stor": "global_reservoir_storage",
+            "reservoirstor": "global_reservoir_storage",
+            "tws": "total_water_storage",
+
             "dis": "streamflow",
-            "actual_net_abstraction_gw": "actual_net_abstr_groundwater",
-            "demand_satisfied_by_cell":
-                "demand_satisfied_by_cell",
+            "dis_from_upstream":"streamflow_from_upstream",
+            
+            "atotuse_gw": "actual_net_abstr_groundwater",
+            "atotuse_sw": "actual_net_abstr_surfacewater",
+            "atotuse" : "actual_water_consumption",
+            "evap-total": "cell_aet_consuse",
+            
             "total_demand_into_cell": "total_demand_into_cell",
             "unsat_potnetabs_sw_from_demandcell": "unsat_potnetabs_sw_from_demandcell",
 
@@ -124,17 +136,18 @@ class CreateandWritetoVariables:
             "accumulated_unsatisfied_potential_netabs_sw":
                 "accumulated_unsatisfied_potential_netabs_sw",
             "get_neighbouring_cells_map":"get_neighbouring_cells_map",
-
             "total_unsatisfied_demand_from_supply_to_all_demand_cell":
                 "total_unsatisfied_demand_from_supply_to_all_demand_cell",
-            
+            "ncrun":  "net_cell_runoff",
+            "river_velocity": "river_velocity",
+            "land_area_fraction":  "land_area_fraction",
         }
 
         # Initialize output variables for lateral water balance
         for var_name, cm_var in lb_output_vars.items():
             if var_name in {'groundwstor', "locallakestor", "localwetlandstor",
                             "globallakestor", "globalwetlandstor",
-                            "riverstor", "glores_stor"}:
+                            "riverstor", "reservoirstor", "tws"}:
                 if cm.lb_storages.get(cm_var) is True:
                     var = doh.OutputVariable(var_name, cm.lb_storages.get(cm_var),
                                              grid_coords)
