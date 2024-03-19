@@ -23,6 +23,7 @@ class LandsurfacewaterFraction:
         self.reservior_opt = reservior_opt
         self.init_landfrac_res_flag = True
 
+
         # =====================================================================
         # Initialize fraction variables for reservoir
         # =====================================================================
@@ -36,6 +37,19 @@ class LandsurfacewaterFraction:
         self.current_landareafrac = 0
         self.landareafrac_ratio = 0
         self.previous_landareafrac = 0
+        self.landwaterfrac_excl_glolake_res = 0
+        self.cont_frac = self.static_data.land_surface_water_fraction.\
+            contfrac.values.astype(np.float64)
+        
+        # Land and water fractions (used to calculate total PET)
+        # water_freq is sum of glolake, loclake, & glores (includes reglake)
+        # land_freq is (cont_frac - waterfreq) and contains wetlands 
+        self.water_freq = 0  
+        self.land_freq =  0 
+        # updated_loclake_frac is local lake fraction * reduction factor
+        self.updated_loclake_frac = 0 
+        self.land_and_water_freq_flag = True
+
 
         # Note!!! if run is naturalised or reservoirs are not considered
         # (in anthropogenic run) regulated lakes becomes global lakes.
@@ -82,6 +96,14 @@ class LandsurfacewaterFraction:
             # fraction  see "update_landareafrac" function below
             self.previous_swb_frac = \
                 (self.loclake_frac + locwet_frac + glowet_frac)/100
+                
+            # =====================================================================
+            # Get land area fraction without global lake & reservoirs/regulated lakes. 
+            # This variable will be used to compute consistent precipitation
+            # =====================================================================
+            self.landwaterfrac_excl_glolake_res = (self.cont_frac - self.glolake_frac)/100
+            self.landwaterfrac_excl_glolake_res[self.landwaterfrac_excl_glolake_res < 0] = 0
+
         else:
             self.loclake_frac += locres_frac
 
@@ -89,6 +111,7 @@ class LandsurfacewaterFraction:
             self.previous_swb_frac = \
                 (self.loclake_frac + locwet_frac + glowet_frac)/100
 
+        
         # =====================================================================
         # Get global lake area
         # =====================================================================
@@ -168,6 +191,18 @@ class LandsurfacewaterFraction:
                         astype(np.float64)
 
                 self.init_landfrac_res_flag = False
+
+
+                # =============================================================
+                # Get land water fracion without  global lakes and 
+                # reservoirs/regulated lakes. 
+                # =============================================================
+                res_year_lakewet_frac = str(pd.to_datetime(self.date).year)
+                glores_frac_currentyear = self.static_data.resyear_frac.glores_frac.\
+                    sel(time=res_year_lakewet_frac).values.astype(np.float64)
+            
+                self.landwaterfrac_excl_glolake_res = (self.cont_frac - self.glolake_frac - glores_frac_currentyear[0])/100
+                self.landwaterfrac_excl_glolake_res[self.landwaterfrac_excl_glolake_res < 0] = 0
     # =========================================================================
     # Adjusting Reservoir Storage Based on Changes in Land Fraction
     # =========================================================================
@@ -282,6 +317,49 @@ class LandsurfacewaterFraction:
 
         return glores_storage
 
+
+    def get_land_and_water_freq(self, date):
+        """
+        Land and water fractions (used to calculate total PET)
+
+        Parameters
+        ----------
+        date : datetime
+            Simulation date
+        update_loclake_frac : array
+            updated local lake fraction
+
+        Returns
+        -------
+        None.
+
+        """
+        if self.land_and_water_freq_flag is True: # start of simulation 
+            if self.reservior_opt is True:
+                res_year_lakewet_frac = str(pd.to_datetime(date).year)
+                glores_frac_currentyear = self.static_data.resyear_frac.glores_frac.\
+                    sel(time=res_year_lakewet_frac).values.astype(np.float64)
+            else: 
+                glores_frac_currentyear = 0
+                
+            self.water_freq = self.glolake_frac + self.loclake_frac +  glores_frac_currentyear[0]
+            self.land_freq =  self.cont_frac - self.water_freq
+            self.land_and_water_freq_flag = False 
+
+        else:  
+            if (pd.to_datetime(date).month == 1) and (pd.to_datetime(date).day == 1):
+                if self.reservior_opt is True:
+                    res_year_lakewet_frac = str(pd.to_datetime(date).year)
+                    glores_frac_currentyear = self.static_data.resyear_frac.glores_frac.\
+                        sel(time=res_year_lakewet_frac).values.astype(np.float64)
+                else: 
+                    glores_frac_currentyear = 0
+                    
+                self.water_freq = self.glolake_frac + \
+                    (self.updated_loclake_frac*100) +  glores_frac_currentyear[0]
+                self.land_freq = self.cont_frac - self.water_freq
+
+
     def update_landareafrac(self, land_swb_fraction):
         """
         Update land area fraction.
@@ -302,7 +380,9 @@ class LandsurfacewaterFraction:
         loclake_frac = land_swb_fraction["new_locallake_fraction"]
         locwet_frac = land_swb_fraction["new_localwetland_fraction"]
         glowet_frac = land_swb_fraction["new_globalwetland_fraction"]
-
+        
+        self.updated_loclake_frac = loclake_frac # required for computing land_freq and water_freq 
+        
         # compute change in fraction based on previous and current
         # local lakes and local and global wetland fractions
 
@@ -345,3 +425,8 @@ class LandsurfacewaterFraction:
         self.glores_frac_prevyear = landfrac_state["glores_frac_prevyear"]
         self.gloresfrac_change = landfrac_state["gloresfrac_change"]
         self.init_landfrac_res_flag = landfrac_state["init_landfrac_res_flag"]
+        self.landwaterfrac_excl_glolake_res = landfrac_state["landwaterfrac_excl_glolake_res"]
+        self.land_and_water_freq_flag = landfrac_state["land_and_water_freq_flag"]
+        self.water_freq = landfrac_state["water_freq"]
+        self.land_freq =  landfrac_state["land_freq"] 
+        self.updated_loclake_frac = landfrac_state["updated_loclake_frac"]
