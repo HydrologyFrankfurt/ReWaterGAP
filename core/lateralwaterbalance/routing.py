@@ -186,11 +186,11 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
     daily_total_aet = basin.copy() #  Unit : km3/day
     total_open_water_aet = basin.copy() # Unit : km3/day
     
-    loclake_evapo = basin.copy() # Unit : km/day 
-    locwet_evapo = basin.copy() # Unit : km/day 
-    glolake_evapo = basin.copy() # Unit : km/day 
-    glores_evapo = basin.copy() # Unit : km/day 
-    glowet_evapo = basin.copy() # Unit : km/day
+    loclake_evapo = basin.copy() # Unit : km3/day 
+    locwet_evapo = basin.copy() # Unit : km3/day 
+    glolake_evapo = basin.copy() # Unit : km3/day 
+    glores_evapo = basin.copy() # Unit : km3/day 
+    glowet_evapo = basin.copy() # Unit : km3/day
     
     
     #                  =================================
@@ -858,15 +858,13 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
 
             # compute total actual evaporation from land (inlcuding open water
             # evaporation) km3/day
-            total_open_water_aet[x, y] = (loclake_evapo[x, y] * max_loclake_area[x, y]) + \
-                            (locwet_evapo[x, y] * max_locwet_area[x, y]) + \
-                            (glolake_evapo[x, y] * glolake_area[x, y]) + \
-                            (glores_evapo[x, y] * glores_area[x, y]) + \
-                            (glowet_evapo[x, y] * max_glowet_area[x, y])
+            total_open_water_aet[x, y] = \
+                (loclake_evapo[x, y] +  locwet_evapo[x, y] + 
+                 glolake_evapo[x, y] + glores_evapo[x, y] + glowet_evapo[x, y])
             
             if (drainage_direction[x, y] < 0):
                  total_open_water_aet[x, y] += evaporated_streamflow_inlandsink 
-                 
+            
             daily_total_aet[x, y] = land_aet_corr[x, y] + total_open_water_aet[x, y]
                                      
             # cell_aet_consuse (km3/day) = Potential consumptive use(NAg+NAs) +  

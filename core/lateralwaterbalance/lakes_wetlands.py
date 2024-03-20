@@ -202,7 +202,7 @@ def lake_wetland_balance(x, y,
         (areal_corr_factor * openwater_pet)
 
     openwater_evapo_cor = np.where(openwater_evapo_cor < 0, 0,
-                                   openwater_evapo_cor)
+                                   openwater_evapo_cor)  # km/day
 
     # =========================================================================
     # Calculating lake or wetland  groundwater recharge[gwr_lakewet (km3/day)]
@@ -376,7 +376,7 @@ def lake_wetland_balance(x, y,
             else:
                 if outflow > storage:
                     outflow = storage
-                    
+
         else:
             outflow = 0
 
@@ -403,7 +403,10 @@ def lake_wetland_balance(x, y,
     # Daily actual net use
     actual_use_sw = acc_unsatisfied_potnetabs_glolake_start - \
         accumulated_unsatisfied_potential_netabs_glolake
-
+    
+    # convert open water evaporation for swb from km/day to km3/day (output purpose)
+    openwater_evapo_cor_km3 = openwater_evapo_cor * lake_wet_area
+    
     return storage, outflow, gwr_lakewet, lake_wet_newfraction,\
         accumulated_unsatisfied_potential_netabs_glolake, \
-        actual_use_sw, openwater_evapo_cor
+        actual_use_sw, openwater_evapo_cor_km3

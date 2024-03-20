@@ -345,7 +345,10 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
 
     actual_use_sw = acc_unsatisfied_potnetabs_res_start - \
         accumulated_unsatisfied_potential_netabs_res
-
+        
+    # convert open water evaporation for swb from km/day to km3/day (output purpose)
+    openwater_evapo_cor_km3 = openwater_evapo_cor * reservior_area[x, y]
+    
     return storage, outflow, gwr_reservior, k_release_new, \
         accumulated_unsatisfied_potential_netabs_res, actual_use_sw, \
-            openwater_evapo_cor
+            openwater_evapo_cor_km3
