@@ -56,7 +56,7 @@ WaterGAP implements a consistent method for determining daily width and depth as
 where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in the river at bankfull depth :math:`[{m}^3]`, :math:`{D}_{r,bf}` :math:`[{m}]` and :math:`{W}_{r,bf}` :math:`[{m}]` are river depth and top width at bankfull conditions, respectively, and :math:`{W}_{r,bottom}` is river bottom width :math:`[{m}]`. River water depth :math:`{D}_{r}` :math:`[{m}]` is simulated to change at each time step with actual :math:`{S}_{r}` as:
 
 .. math::
-	{D}_{r} = \frac{{{W}_{r,bottom}}{4}}
+	{D}_{r} = - \frac{{W}{4}}
 
 **to be continued**  + \sqrt{{W}_{r,bottom}*\frac{{{W}_{r,bottom}}{16}}+0,5*\frac{{{S}_{r}}{l}}}
 
