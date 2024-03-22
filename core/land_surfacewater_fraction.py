@@ -20,7 +20,6 @@ reservoir_operation = cm.reservior_opt
 def compute_landareafrac(landwater_frac, land_area_frac,
                          resyear_frac=None, res_year=None,
                          glores_frac_prevyear=None,
-                         glores_area=None,
                          init_landfrac_res_flag=None):
     """
     Compute land area fraction.
@@ -37,8 +36,6 @@ def compute_landareafrac(landwater_frac, land_area_frac,
         Active reservoir year , Unit: [year]
     glores_frac_prevyear : array
        Global reservoir fraction of previous year, Unit: [-]
-    glores_area: array
-        Global reservoir area, Unit: [km^2]
     init_landfrac_res_flag: boolean
         This Flag compute land area fraction at  start day of simulation  
         when reservoirs are active.
@@ -117,32 +114,21 @@ def compute_landareafrac(landwater_frac, land_area_frac,
                 glores_frac_change = np.zeros_like(land_area_frac)
             else:
                 # Compute the change in global reservoir fraction every year to
-                # adapt land area fraction. The numpy equivalent of the if else
-                # statement is written below.
+                # adapt land area fraction. 
 
-                # if glores_frac_prevyear == 0:
-                #     glores_frac_change = glores_frac
-                # elif glores_frac > glores_frac_prevyear:
-                #     # In this case a grid cell has more than one reservoir
-                #     # fraction but different operational year
-                #     glores_frac_change = glores_frac - glores_frac_prevyear
-                # else:
-                #     glores_frac_change = 0
-
-                mask_zero = glores_frac_prevyear == 0
-                mask_greater = glores_frac > glores_frac_prevyear
+                glores_frac_change = glores_frac - glores_frac_prevyear
                 
-                diff = glores_frac - glores_frac_prevyear
-
-                glores_frac_change = np.where(mask_zero, glores_frac,
-                                              np.where(mask_greater, diff, 0))
-
-                glores_frac_change=np.where(glores_area>0, glores_frac_change , 0)
-               
-                # Recompute land area fraction to account for the changes in
-                #  reservoir fraction.
-                land_area_frac = land_area_frac - (glores_frac_change/100)
-
+                # In case there was already a reservoir fraction, adapt only 
+                # the changes else reservoir fraction increased from 0
+                new_land_area_frac = \
+                    np.where(glores_frac_prevyear > 0,  
+                             land_area_frac - (glores_frac_change/100),
+                             land_area_frac - (glores_frac/100))
+                
+                #  Perform changes only if a new reservoir started operation
+                land_area_frac = np.where(glores_frac_change > 0, 
+                                          new_land_area_frac, land_area_frac)
+                                                                                              
                 land_area_frac[land_area_frac < 0] = 0
                 
             return land_area_frac, glores_frac_change
