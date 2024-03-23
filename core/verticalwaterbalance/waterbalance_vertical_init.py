@@ -332,7 +332,7 @@ class VerticalWaterBalance:
 
         VerticalWaterBalance.fluxes.\
             update({'netrad': net_radiation,
-                    'potevap':  total_potential_evap,
+                    'potevap':  total_potential_evap * per_contfrac,
                     'lai-total':  leaf_area_index,
                     'canopy_evap':  canopy_evap * per_contfrac,
                     'throughfall':  throughfall * per_contfrac,
