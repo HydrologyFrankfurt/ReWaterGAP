@@ -16,15 +16,15 @@
     {
     "RestartOptions":{
         "restart": false,
-        "save_model_states_for_restart": true,
+        "save_model_states_for_restart": false,
         "save_and_read_states_dir": "./"
         }
     },
     {
       "SimulationPeriod": {
-        "start": "1990-01-01",
+        "start": "1989-01-01",
         "end": "1990-12-31",
-        "reservoir_start_year": 1990,
+        "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
         "spinup_years": 0
       }

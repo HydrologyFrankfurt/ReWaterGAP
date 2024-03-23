@@ -235,8 +235,7 @@ def run():
                 
             # Get Land area fraction
             land_water_frac.\
-                landareafrac_with_reservior(date, cm.reservoir_opt_years,
-                                            lateral_waterbalance.glores_area)
+                landareafrac_with_reservior(date, cm.reservoir_opt_years)
             
             # Get land and water fractions (used to calculate total PET)
             land_water_frac.get_land_and_water_freq(date)
