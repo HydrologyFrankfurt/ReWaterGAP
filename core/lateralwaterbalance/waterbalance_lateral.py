@@ -791,7 +791,6 @@ class LateralWaterBalance:
         total_runoff = groundwater_discharge + surface_runoff
         actual_water_consumption = actual_net_abstraction_gw + actual_net_abstraction_sw
         
-        # print(cell_aet_consuse[132, 500])
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.
