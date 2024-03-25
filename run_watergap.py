@@ -316,7 +316,13 @@ def run():
                         pd.to_datetime(date).day == 31) or end_date == \
                         date.astype('datetime64[D]'):
                     save_year = date.astype('datetime64[D]')
+                    
                     print(f'\nWriting data for {save_year} to NetCDF\n')
+                    
+                    create_out_var.base_units(initialize_forcings_static.static_data.cell_area,
+                                              initialize_forcings_static.static_data.
+                                              land_surface_water_fraction.contfrac)
+                                                              
                     create_out_var.save_netcdf_parallel(str(save_year))
 
                 # =============================================================
