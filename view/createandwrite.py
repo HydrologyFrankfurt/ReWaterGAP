@@ -13,6 +13,7 @@
 # =============================================================================
 # This module creates and writes daily ouputs to  storage and flux varibales
 # =============================================================================
+import numpy as np
 import concurrent.futures
 import platform
 from controller import configuration_module as cm
@@ -79,7 +80,7 @@ class CreateandWritetoVariables:
 
         # Initialize output variables for vertical water balance
         for var_name, cm_var in vb_output_vars.items():
-            if var_name in {'canopystor', 'swe', 'soilmoist'}:
+            if var_name in {'canopystor', 'swe', 'soilmoist', 'smax'}:
                 if cm.vb_storages.get(cm_var) is True:
                     var = doh.OutputVariable(var_name, cm.vb_storages.get(cm_var),
                                              grid_coords)
@@ -235,7 +236,64 @@ class CreateandWritetoVariables:
         for var_name, var in self.lb_fluxes.items():
             var.write_daily_output(fluxes_var[var_name], time_step, sim_year,
                                    sim_month, sim_day)
+            
+    
+    def base_units(self, cell_area, contfrac):
+        """
+        Convert units of model outputs and aggregate to  monthly if specified.
+        
+        Parameters
+        ----------
+        cell_area : array
+            Area of the grid cell,  Unit: [km^2]
+        contfrac : array
+            continental fraction (land and surfacewater bodies), Unit: [-]
+        month_daily_aggr : string
+            Specifies the aggregation method, either "month" for monthly averages 
+            or "daily" for daily values.
+    
+        Returns
+        -------
+        None.
+    
+        """
+        cell_area = cell_area.astype(np.float64)
+        contfrac = contfrac.values.astype(np.float64)
+        
+        km3_to_mm = 1e6/(cell_area *( contfrac/100))
+        days_to_s = 86400
+        km_to_m =  1e3
+        km3_to_m3 = 1e9
+        ouptputs =[ self.vb_storages, self.vb_fluxes, self.lb_storages, self.lb_fluxes]
+        for i in range(4):
+            for key, value in ouptputs[i].items():
+                if i== 0:
+                    # already in mm or  kg m-2
+                    converted_data =  value.data[key].values
+                
+                elif i == 1:
+                    # convert from mm/day to mm/s or  kg m-2 s-1
+                    converted_data = value.data[key].values / days_to_s 
+                    
+                elif i== 2:   
+                    # convert from km3 to mm or  kg m-2
+                    converted_data = value.data[key].values * km3_to_mm 
+                    
+                elif i ==3: 
+                    if key == "get_neighbouring_cells_map": 
+                        converted_data =  value.data[key].values
+                    # convert to m3/s  for discharge and m/s for velocity
+                    elif (key == "dis") or  (key == "dis_from_upstream"):
+                        converted_data = (value.data[key].values * km3_to_m3) / days_to_s 
+                    elif (key == "river_velocity"):
+                        converted_data = (value.data[key].values * km_to_m) / days_to_s 
+                    else: # convert from km3/day to mm/s or  kg m-2 s-1
+                        converted_data = (value.data[key].values * km3_to_mm) / days_to_s
 
+                # converted and aggreagated data 
+                value.data[key][:] = converted_data        
+            
+            
     def save_netcdf_parallel(self, end_date):
         """
         Save variables to netcdf.

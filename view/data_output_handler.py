@@ -127,7 +127,7 @@ class OutputVariable:
         if self.create is True:
             # Check if it's a new year (time to update the dataset time values)
             if month == 1 and day == 1:
-                # Get right dates  for data, year may be a leap year
+                # Get right dates  for data
                 next_year_time = \
                     self.grid_coords['time'].sel(time=str(year))
                 # Update the time coordinate in self.data
