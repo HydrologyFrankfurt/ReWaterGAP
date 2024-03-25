@@ -480,7 +480,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
         # for each cell. See section 4.6.1 of Müller Schmied et al. (2021)
         # ** need to compute actual use from here too** (to be done**)
         # =========================================================================
-        
+            check_grid_inflow = inflow_to_swb
             if glores_area[x, y] > 0:
     
                 daily_res_reg_balance = res_reg.\
@@ -528,7 +528,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
             
-            
+
             # Update accumulated_unsatisfied_potential_netabs_sw  after global lake
             # and reservior abstraction since a cell may contain both.
             if glores_area[x, y] > 0:

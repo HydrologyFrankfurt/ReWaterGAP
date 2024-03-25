@@ -691,6 +691,7 @@ class LateralWaterBalance:
         roughness = self.get_river_prop.roughness
         river_slope = self.get_river_prop.river_slope
         neighbouring_cells_map = self.get_neighbouring_cells_map.copy()
+
         # =====================================================================
         # Routing (Routing function is optimised for with numba)
         # =====================================================================
@@ -767,7 +768,7 @@ class LateralWaterBalance:
         locwet_outflow = out[10]
         glolake_outflow = out[11]
         glowet_outflow = out[12]
-        streamflow = np.where(self.drainage_direction >= 0, out[13], np.nan)
+        streamflow = np.where(self.drainage_direction < 0, 0 , out[13])
         net_cell_runoff = out[14]
         updated_locallake_fraction = out[15]
         updated_localwetland_fraction = out[16]
