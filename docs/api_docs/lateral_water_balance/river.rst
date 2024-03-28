@@ -56,9 +56,9 @@ WaterGAP implements a consistent method for determining daily width and depth as
 where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in the river at bankfull depth :math:`[{m}^3]`, :math:`{D}_{r,bf}` :math:`[{m}]` and :math:`{W}_{r,bf}` :math:`[{m}]` are river depth and top width at bankfull conditions, respectively, and :math:`{W}_{r,bottom}` is river bottom width :math:`[{m}]`. River water depth :math:`{D}_{r}` :math:`[{m}]` is simulated to change at each time step with actual :math:`{S}_{r}` as:
 
 .. math::
-	{S}_{r,max} = \frac{{1}{2}}*{l}*{D}_{r,bf}*({W}_{r,bottom}+{W}_{r,bf})
+	{D}_{r} = \frac{{W}{4}} + \sqrt{{W}_{r,bottom}*\frac{{{W}_{r,bottom}}{16}}+0,5*\frac{{{S}_{r}}{l}}}
 
-**to be continued**  {D}_{r} = \frac{{W}{4}} + \sqrt{{W}_{r,bottom}*\frac{{{W}_{r,bottom}}{16}}+0,5*\frac{{{S}_{r}}{l}}}
+**to be continued**  
 W_{r,bottom}
 Using the equation for a trapezoid with a slope of 0.5, :math:`{R}_{h}` is then calculated from :math:`{W}_{r,bottom}` and :math:`{D}_{r}`. Bankfull flow is assumed to correspond to the maximum annual daily flow with a return period of 1.5 years [5]_ and is derived from daily streamflow time series.
 
