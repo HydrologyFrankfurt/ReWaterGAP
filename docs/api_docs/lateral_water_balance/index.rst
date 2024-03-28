@@ -33,7 +33,7 @@ Lateral Water Balance
         :link:  river
         :link-type: ref
 
-        River Storage
+        River
 
     .. grid-item-card:: 
         :text-align: center
