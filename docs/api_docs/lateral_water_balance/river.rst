@@ -17,12 +17,12 @@ River storage :math:`S_r` :math:`[m^3]` is computated as
 .. math::
    \frac{dS_r}{d_t} =  {Q}_{r,in} − {Q}_{r,out} − {NA}_{s,r}
 
-where :math:`{Q}_{r,in}` is inflow into the river compartment [:math:`{m}^{3} {d}^{-1}`], :math:`{Q}_{r,out}` is the streamflow [:math:`{m}^{3} {d}^{-1}`], and :math:`{NA}_{s,r}` is the net abstraction of surface water from the river [:math:`{m}^{3} {d}^{-1}`].
+where :math:`{Q}_{r,in}` is inflow into the river compartment [:math:`{m}^{3} {d}^{-1}`], :math:`{Q}_{r,out}` is the streamflow [:math:`{m}^{3} {d}^{-1}`], and :math:`{NA}_{s,r}` is the :ref:`net abstractions <net_abstractions>` of surface water from the river [:math:`{m}^{3} {d}^{-1}`].
 
 
 Inflows
 -------
-The inflow :math:`{Q}_{r,in}` into the river compartment (if there are no surface water bodies) is the sum of :ref:`soil surface runoff <surface_runoff>` :math:`({R}_{s})`, :ref:`groundwater discharge <groundwater_discharge>` :math:`({Q}_{g})`, and upstream streamflow. Otherwise fraction of :math:`{R}_{s}` and :math:`{Q}_{g}` (in humid cells) is routed through the surface water bodies :ref:`(See: Model schematic) <model_schematic>`.  The outflow from the surface water body preceding the river compartment then becomes part of :math:`{Q}_{r,in}`. In addition, negative :ref:`net abstractions <net_abstractions>` :math:`({NA}_{s})` values due to high return flows from irrigation with groundwater lead to a net increase in storage. Thus, if no surface water bodies exist in the cell, negative :math:`{NA}_{s}` is added to :math:`{Q}_{r,in}`.
+The inflow :math:`{Q}_{r,in}` into the river compartment (if there are no surface water bodies) is the sum of :ref:`soil surface runoff <surface_runoff>` :math:`({R}_{s})`, :ref:`groundwater discharge <groundwater_discharge>` :math:`({Q}_{g})`, and upstream streamflow. Otherwise fraction of :math:`{R}_{s}` and :math:`{Q}_{g}` (in humid cells) is routed through the surface water bodies :ref:`(See: Model schematic) <model_schematic>`.  The outflow from the surface water body preceding the river compartment then becomes part of :math:`{Q}_{r,in}`. In addition, negative net abstractions :math:`({NA}_{s})` values due to high return flows from irrigation with groundwater lead to a net increase in storage. Thus, if no surface water bodies exist in the cell, negative :math:`{NA}_{s}` is added to :math:`{Q}_{r,in}`.
 
 
 Outflows
@@ -56,7 +56,14 @@ WaterGAP implements a consistent method for determining daily width and depth as
 where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in the river at bankfull depth :math:`[{m}^3]`, :math:`{D}_{r,bf}` :math:`[{m}]` and :math:`{W}_{r,bf}` :math:`[{m}]` are river depth and top width at bankfull conditions, respectively, and :math:`{W}_{r,bottom}` is river bottom width :math:`[{m}]`. River water depth :math:`{D}_{r}` :math:`[{m}]` is simulated to change at each time step with actual :math:`{S}_{r}` as:
 
 .. math::
-	{D}_{r} = {\frac{W}{4}} + {\sqrt{W}_{r,bottom} * {\frac{{W}_{r,bottom}}{16}} + {0.5} * {\frac{{S}_{r}}{l}}}
+	{D}_{r} = - {\frac{{W}_{r,bottom}}{4}} + {\sqrt{{{W}_{r,bottom}} * {\frac{{W}_{r,bottom}}{16}} + {0.5} * {\frac{{S}_{r}}{l}}}}
+
+WaterGap also computes net cell runoff :math:`{R}_{n,c}` :math:`({m}*{m*d}^{-1})`, which is the part of the cell precipitation that has neither been evapotranspirated nor stored. It is calculated as:
+
+.. math::
+	{R}_{n,c} = \frac{{{Q}_{r,in}-{Q}_{r,out}}{{A}_{cont}}} * {10}^{9}
+
+where :math:`{A}_{cont}` is the continental area (0.5° \times 0.5° grid cell area minus ocean area) of the grid cell (:math:`[m^2]`). Renewable water resources are calculated as long-term annual mean :math:`{R}_{nc}` under naturalized conditions (without human impact). It is possible for renewable water resources to be negative if evapotranspiration in a grid cell is higher than precipitation due to evapotranspiration from global lakes, reservoirs or wetlands that receive water from upstream cells.
 
 References 
 ----------
