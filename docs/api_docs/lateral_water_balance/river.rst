@@ -1,8 +1,8 @@
 .. _river:
 
-=============
-River Storage
-=============
+=====
+River
+=====
 
 River storage and related fluxes are calculated based on section 4.7 of Müller Schmied et al 2021 [1]_.
 
