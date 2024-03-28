@@ -42,21 +42,21 @@ where :math:`{v}` :math:`[m/s]` is the velocity of the river flow, and :math:`{l
 The velocity :math:`{v}` is calculated using the Manning–Strickler equation:
 
 .. math::
-	{v} = {n}^{-1} * {R}_{h}^{\frac{3}{2}} * {s}^{frac{1}{2}}
+	{v} = {n}^{-1} * {R}_{h}^{\frac{3}{2}} * {s}^{\frac{1}{2}}
 
 
-where :math:`{n}` is river bed roughness :math:`[–]`, :math:`{R}_{h}` is the hydraulic radius of the river channel :math:`[m]` and :math:`{s}` is river bed slope :math:`({m}*{m}^{-1})`. Calculation of :math:`{s}` is based on high-resolution elevation data (SRTM30), the HydroSHEDS drainage direction map and an individual meandering ratio. The predefined minimum :math:`{s}` is 0.0001 :math:`[{m}*{m}^{-1}]`.
+where :math:`{n}` is river bed roughness :math:`[–]`, :math:`{R}_{h}` is the hydraulic radius of the river channel :math:`[m]` and :math:`{s}` is river bed slope :math:`({m}*{m}^{-1})` [1]_ .
 
 Daily varying :math:`{R}_{h}` is calculated assuming a trapezoidal river cross section with a slope of 0.5. :math:`{R}_{h}` then can be calculated as a function of daily varying river depth :math:`{D}_{r}` and temporally constant bottom width :math:`{W}_{r,bottom}` [3]_. 
 WaterGAP implements a consistent method for determining daily width and depth as a function of river water storage. As bankfull conditions are assumed to occur at the initial time step, the initial volume of water stored in the river is computed as:
 
 .. math::
-	{S}_{r,max} = \frac{{1}{2}}*{l}*{D}_{r,bf}*({W}_{r,bottom}+{W}_{r,bf})
+	{S}_{r,max} = {\frac{{1}{2}}} *{l}*{D}_{r,bf}*({W}_{r,bottom}+{W}_{r,bf})
 
 where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in the river at bankfull depth :math:`[{m}^3]`, :math:`{D}_{r,bf}` :math:`[{m}]` and :math:`{W}_{r,bf}` :math:`[{m}]` are river depth and top width at bankfull conditions, respectively, and :math:`{W}_{r,bottom}` is river bottom width :math:`[{m}]`. River water depth :math:`{D}_{r}` :math:`[{m}]` is simulated to change at each time step with actual :math:`{S}_{r}` as:
 
 .. math::
-	{D}_{r} = \frac{{W}{4}} + \sqrt{{W}_{r,bottom}*\frac{{{W}_{r,bottom}}{16}}+0,5*\frac{{{S}_{r}}{l}}}
+	{D}_{r} = {\frac{{W}{4}}} + {\sqrt{{W}_{r,bottom}}*{\frac{{{W}_{r,bottom}}{16}}}+0,5*{\frac{{{S}_{r}}{l}}}}
 
 **to be continued**  
 
