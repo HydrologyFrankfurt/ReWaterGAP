@@ -35,7 +35,7 @@ Outflows
 This is calculated as:
 
 .. math::
-	{Q}_{r,out} = \frac{V}{I} * {S}_{r} 
+	{Q}_{r,out} = \frac{v}{l} * {S}_{r} 
 
 where :math:`{v}` :math:`[m/s]` is the velocity of the river flow, and :math:`{l}` is the river length :math:`[m]`. :math:`{l}` is calculated as the product of the cell's river segment length, derived from the HydroSHEDS drainage direction map [2]_, and a meandering ratio specific to that cell described in Verzano et al., 2012 [3]_. 
 
@@ -59,7 +59,7 @@ where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in t
 	{D}_{r} = \frac{{W}{4}} + \sqrt{{W}_{r,bottom}*\frac{{{W}_{r,bottom}}{16}}+0,5*\frac{{{S}_{r}}{l}}}
 
 **to be continued**  
-W_{r,bottom}
+
 Using the equation for a trapezoid with a slope of 0.5, :math:`{R}_{h}` is then calculated from :math:`{W}_{r,bottom}` and :math:`{D}_{r}`. Bankfull flow is assumed to correspond to the maximum annual daily flow with a return period of 1.5 years [5]_ and is derived from daily streamflow time series.
 
 The roughness coefficient :math:`{n}` of each grid cell is calculated according to Verzano et al. (2012), who modeled :math:`{n}` as a function of various spatial characteristics (e.g., urban or rural area, vegetation in river bed, obstructions) and a river sinuosity factor to achieve an optimal fit to streamflow observations. Because of the implementation of a new algorithm to calculate :math:`{D}_{r}`, we had to adjust their gridded :math:`{n}` values to avoid excessively high river velocities [6]_. By trial and error, we determined optimal n-multipliers at the scale of 13 large river basins that lead to a good fit to monthly streamflow time series at the most downstream stations and basin-average total water storage anomalies from GRACE. We found that in 9 out of 13 basins, multiplying :math:`{n}` by 3 resulted in the best fit between observed and modeled data. We therefore set the multiplier to 3 globally, except for the remaining four basins, where other values proved to be more adequate; this concerns the Lena basin, where :math:`{n}` is multiplied by 2; the Amazon basin, where :math:`{n}` is multiplied by 10; and the Huang He and Yangtze basins, where :math:`{n}` is kept at its original value (Fig. S1).
