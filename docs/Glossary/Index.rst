@@ -9,7 +9,7 @@ Standard Output Variables
 
 .. csv-table::
    :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (in NetCDF) [1]_ ", "Description", "Unit"
-   :width: 25, 25, 15, 20, 15
+   :widths: 25, 25, 15, 20, 15
 
    "streamflow", "Discharge", "dis", "river discharge or streamflow", "m3 s-1"
    "total_runoff", "Total Runoff", "qtot", "total runoff (sum of qs and qg)", "kg m-2 s-1"
