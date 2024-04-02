@@ -4,7 +4,7 @@
 Glossary
 ========
 
-.. csv-table:: Variables
+.. csv-table:: Standard Output Variables
    :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit (Base according to ISIMIP)"
    :header-rows: 1
 
@@ -51,6 +51,11 @@ Glossary
    "snow_evap", "Snow Evaporation", "snow_evap", "Evaporation from snow", "kg m-2 s-1"
    "snowcover_frac", "Snowcover Fraction", "snowcover_frac", "Fraction of snow cover", "-"
    "maximum_soil_moisture", "Maximum Soil Moisture", "smax", "Maximum Soil Moisture", "kg m-2"
+
+.. csv-table:: Other Variables (Water Use)
+   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit (Base according to ISIMIP)"
+   :header-rows: 1
+
    "total_demand_into_cell","","","",""
    "unsat_potnetabs_sw_from_demandcell","","","",""
    "returned_demand_from_supply_cell","","","",""
