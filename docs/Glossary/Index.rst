@@ -61,6 +61,7 @@ Other Variables (Water Use)
 
 .. csv-table:: 
    :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (in NetCDF) [1]_ ", "Description", "Unit"
+   :widths: 20, 20, 15, 30, 15
 
    "total_demand_into_cell","","","","kg m-2 s-1"
    "unsat_potnetabs_sw_from_demandcell","","","",""
