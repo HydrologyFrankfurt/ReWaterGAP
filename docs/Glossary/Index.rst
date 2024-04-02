@@ -8,7 +8,7 @@ Standard Output Variables
 -------------------------
 
 .. csv-table::
-   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit"
+   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (in NetCDF) [1]_ ", "Description", "Unit"
 
    "streamflow", "Discharge", "dis", "river discharge or streamflow", "m3 s-1"
    "total_runoff", "Total Runoff", "qtot", "total runoff (sum of qs and qg)", "kg m-2 s-1"
@@ -59,7 +59,7 @@ Other Variables (Water Use)
 -------------------------
 
 .. csv-table:: 
-   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit"
+   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (in NetCDF) [1]_ ", "Description", "Unit"
 
    "total_demand_into_cell","","","","kg m-2 s-1"
    "unsat_potnetabs_sw_from_demandcell","","","",""
@@ -71,3 +71,7 @@ Other Variables (Water Use)
    "total_unsatisfied_demand_from_supply_to_all_demand_cell","","","",""
 
 ToDo: All kg m-2 s-1
+
+
+
+.. [1] Output variables are named according to the ISIMIP simulation protocol. See section 4 Output data: https://protocol.isimip.org/ 
