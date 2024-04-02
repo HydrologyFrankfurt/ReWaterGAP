@@ -61,7 +61,7 @@ where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in t
 WaterGap also computes net cell runoff :math:`{R}_{n,c}` :math:`[{m}*{m*d}^{-1}]`, which is the part of the cell precipitation that has neither been evapotranspirated nor stored. It is calculated as:
 
 .. math::
-	{R}_{n,c} = \frac{{{Q}_{r,in}-{Q}_{r,out}}{{A}_{cont}}} * {10}^{9}
+	{R}_{n,c} = {\frac{{Q}_{r,in}-{Q}_{r,out}}{{A}_{cont}}} * {10}^{9}
 
 where :math:`{A}_{cont}` is the continental area (0.5° \times 0.5° grid cell area minus ocean area) of the grid cell (:math:`[m^2]`). Renewable water resources are calculated as long-term annual mean :math:`{R}_{nc}` under naturalized conditions (without human impact). It is possible for renewable water resources to be negative if evapotranspiration in a grid cell is higher than precipitation due to evapotranspiration from global lakes, reservoirs or wetlands that receive water from upstream cells.
 
