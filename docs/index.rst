@@ -62,8 +62,7 @@ ReWaterGAP documentation
         :link: glossary
         :link-type: ref
 
-        :octicon:`book;10em`
-        +++
+        :octicon:`search;10em`
 
 .. toctree::
     :maxdepth: 1
