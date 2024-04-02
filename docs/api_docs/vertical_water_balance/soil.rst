@@ -98,7 +98,7 @@ Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` t
      If the sum of :math:`{P}_{eff}` and :math:`{S}_{s}` of the previous day exceed :math:`{S}_{s,max}`, the overflow :math:`{R2}` is added to 
      daily runoff :math:`{R3}` and immediate runoff :math:`{R1}` to total daily runoff from land :math:`{R}_{L}`.
 
-:math:`{R3}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}` and diffuse groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <watergap_scheme>`.
+:math:`{R3}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}` and diffuse groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <model_schematic>`.
 
 .. _diffuse_groundwater_recharge:
 
