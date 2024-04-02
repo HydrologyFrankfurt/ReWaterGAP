@@ -75,4 +75,4 @@ ToDo: All kg m-2 s-1
 
 
 
-.. [1] Output variables are named according to the ISIMIP simulation protocol. See section 4 Output data: https://protocol.isimip.org/ 
+.. [1] Output variables are named according to the ISIMIP simulation protocol. See section 4 Output data: https://protocol.isimip.org/#4-output-data
