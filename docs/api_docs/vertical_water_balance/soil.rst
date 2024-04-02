@@ -92,13 +92,13 @@ Daily runoff from soil (:math:`{R3}`) :math:`[mm/day]` is calculated following B
    R3 = {P}_{eff} \biggl(\frac{S_s}{S_s,max}\biggr)^\Gamma
 
 where \Gamma is the runoff coefficient :math:`[–]`. This parameter, which varies between :math`0.1` and :math:`5.0`, is used for calibration.
-Together with soil saturation, it determines the fraction of math:`{P}_{eff}` that becomes :math:`{R3}`.
+Together with soil saturation, it determines the fraction of :math:`{P}_{eff}` that becomes :math:`{R3}`.
 
 .. note::
      If the sum of :math:`{P}_{eff}` and :math:`{S}_{s}` of the previous day exceed :math:`{S}_{s,max}`, the overflow :math:`{R2}` is added to 
      daily runoff :math:`{R3}` and immediate runoff :math:`{R1}` to total daily runoff from land :math:`{R}_{L}`.
 
-:math:`{R3}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}` and diffuse groundwater recharge :math:`{R}_{g}` according to the:ref:`heuristic scheme <watergap_scheme>`.
+:math:`{R3}` is partitioned into fast surface and subsurface runoff :math:`{R}_{s}` and diffuse groundwater recharge :math:`{R}_{g}` according to the :ref:`heuristic scheme <watergap_scheme>`.
 
 .. _diffuse_groundwater_recharge:
 
