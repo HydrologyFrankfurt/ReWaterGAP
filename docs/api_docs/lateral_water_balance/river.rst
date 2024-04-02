@@ -58,7 +58,7 @@ where :math:`{S}_{r,max}` is the maximum volume of water that can be stored in t
 .. math::
 	{D}_{r} = - {\frac{{W}_{r,bottom}}{4}} + {\sqrt{{{W}_{r,bottom}} * {\frac{{W}_{r,bottom}}{16}} + {0.5} * {\frac{{S}_{r}}{l}}}}
 
-WaterGap also computes net cell runoff :math:`{R}_{n,c}` :math:`({m}*{m*d}^{-1})`, which is the part of the cell precipitation that has neither been evapotranspirated nor stored. It is calculated as:
+WaterGap also computes net cell runoff :math:`{R}_{n,c}` :math:`[{m}*{m*d}^{-1}]`, which is the part of the cell precipitation that has neither been evapotranspirated nor stored. It is calculated as:
 
 .. math::
 	{R}_{n,c} = \frac{{{Q}_{r,in}-{Q}_{r,out}}{{A}_{cont}}} * {10}^{9}
