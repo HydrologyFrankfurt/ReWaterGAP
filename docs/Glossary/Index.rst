@@ -56,7 +56,7 @@ Glossary
    :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit (Base according to ISIMIP)"
    :header-rows: 1
 
-   "total_demand_into_cell","","","",""
+   "total_demand_into_cell","","","","kg m-2 s-1"
    "unsat_potnetabs_sw_from_demandcell","","","",""
    "returned_demand_from_supply_cell","","","",""
    "prev_returned_demand_from_supply_cell","","","",""
@@ -64,3 +64,5 @@ Glossary
    "accumulated_unsatisfied_potential_netabs_sw","","","",""
    "get_neighbouring_cells_map","","","",""
    "total_unsatisfied_demand_from_supply_to_all_demand_cell","","","",""
+
+ToDo: All kg m-2 s-1
