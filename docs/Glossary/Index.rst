@@ -5,8 +5,7 @@ Glossary
 ========
 
 .. csv-table:: Standard Output Variables
-   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit (Base according to ISIMIP)"
-   :header-rows: 1
+   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit"
 
    "streamflow", "Discharge", "dis", "river discharge or streamflow", "m3 s-1"
    "total_runoff", "Total Runoff", "qtot", "total runoff (sum of qs and qg)", "kg m-2 s-1"
@@ -53,8 +52,7 @@ Glossary
    "maximum_soil_moisture", "Maximum Soil Moisture", "smax", "Maximum Soil Moisture", "kg m-2"
 
 .. csv-table:: Other Variables (Water Use)
-   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit (Base according to ISIMIP)"
-   :header-rows: 1
+   :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit"
 
    "total_demand_into_cell","","","","kg m-2 s-1"
    "unsat_potnetabs_sw_from_demandcell","","","",""
