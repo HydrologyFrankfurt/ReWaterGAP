@@ -11,13 +11,13 @@ Tutorial
 Running WaterGAP
 ================
 
-Standard WaterGap calibration
------------------------------
+.. dropdown:: Standard WaterGap calibration
 
-Running the simulation for a global basin
------------------------------------------
+   And some content!
 
-Running with different options (use/no use, reservoir yes/no, period)
+.. dropdown:: Running the simulation for a global basin
+
+   Running with different options (use/no use, reservoir yes/no, period)
 
 
 Running the simulation for a particular basin
