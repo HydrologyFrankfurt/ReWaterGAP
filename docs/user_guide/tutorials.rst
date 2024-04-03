@@ -50,7 +50,7 @@ Styling Guide
 
 The ReWater Gap documentation consists of a number of rst files referencing each other and being compiled into a readable website by Sphinx [reference]. To ensure the function of the documentation, individual docs follow a styling guide described hereafter.
 
-[Insert picture]
+.. figure:: ../images/Style_guide.png
 
 1. Creating a new page
     Any API doc has the file type .rst and as such uses reStructured Text syntax to render. 
@@ -73,10 +73,26 @@ The ReWater Gap documentation consists of a number of rst files referencing each
 5. Describe any relevant formulas and calculations
     For this a number of styling options are available. A detailed list can be found on the pydata sphinx theme `here <https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html>`_. A guide on rst syntax can be found `here <https://bashtage.github.io/sphinx-material/rst-cheatsheet/rst-cheatsheet.html>`_ .
 
+6. Credit your sources
+    To create a reference list create a new section of the document beginning with 
 
-======
-Header
-======
+.. code-block:: bash
+    ======
+    References
+    ======
+
+To create a new reference use 
+
+.. code-block:: bash
+    .. [1] your reference goes here
+
+To call the reference from any point within the same document use the syntax:
+
+.. code-block:: bash
+    [1]_
+
+
+
 
 Add GWSWUSE API to API
 ----------------------
