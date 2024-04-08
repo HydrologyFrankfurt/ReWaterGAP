@@ -109,7 +109,7 @@ The files need to be copied to their respective folders in ../ReWaterGAP/input_d
 .. figure:: ../images/getting_started/input_data.png
 
 
-You can find the necessary climate forcing data at `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3b/SecondaryInputData/climate/atmosphere/mri-esm2-0/>`__ .
+You can find the necessary climate forcing data at `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3b/SecondaryInputData/climate/atmosphere/mri-esm2-0/>`__ 
 and the water use data at `Zenodo <https://zenodo.org/records/10939926>`__ .
 
 **6: Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
