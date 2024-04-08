@@ -20,7 +20,7 @@ To check if the installation process has worked you can create a naturalizd run 
 	$ python3 run_watergap.py Config_ReWaterGAP.json
 
 Standard WaterGap calibration
------------------------------
+=============================
 
 When running WaterGap you can calibrate the program to your specific needs by defining them in the master config file [here](../../Config_ReWaterGAP.json)
 
@@ -83,6 +83,7 @@ Running with different options (use/no use, reservoir yes/no, period)
 
 Running the simulation for a particular basin
 ---------------------------------------------
+
 
 Standard anthropogenic run
 **************************
