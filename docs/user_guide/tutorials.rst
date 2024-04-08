@@ -11,9 +11,18 @@ Tutorial
 Running WaterGAP
 ================
 
+The first step to running WaterGap is the download of all relevant data, code, dependencies and the creation of an environment. Find a detailed explanation on how to do this `here <five_minute_guide>`_ .
+
+To check if the installation process has worked you can create a naturalizd run using this code:
+
+.. code-block:: bash
+
+	$ python3 run_watergap.py Config_ReWaterGAP.json
+
 Standard WaterGap calibration
 -----------------------------
 
+When running WaterGap you can calibrate the program to your specific needs by defining them in the master config file
 
 
 Running the simulation for a global basin
