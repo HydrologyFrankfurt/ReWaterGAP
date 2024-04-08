@@ -52,44 +52,44 @@ The ReWater Gap documentation consists of a number of rst files referencing each
 
 .. figure:: ../images/Style_guide.png
 
-1. Creating a new page
-    Any API doc has the file type .rst and as such uses reStructured Text syntax to render. 
+**1. Creating a new page**
 
-2. Create a unique name for the doc with which it can be called from any other doc
-    After creating a new page, give it a name that allows other pages to link to the newly created one from anywhere. To do this, add the following syntax to the first line of the document:
+Any API doc has the file type .rst and as such uses reStructured Text syntax to render. 
 
-.. code:: console
-    .. name:: (e.g. .. snow_storage:: for a document on snow storage)
+**2. Create a unique name for the doc with which it can be called from any other doc**
 
-3. Creating a header
-    The page needs a name which can be identified quickly out of a table of contents and found easily using the search function of the documentation. We use names such as "Snow" or "River" for API Docs relating to the storage of Snow and Rivers respectively. Also give a short description of what the doc is about, that helps a user determine if they found what they were looking for.
+After creating a new page, give it a name that allows other pages to link to the newly created one from anywhere. To do this, add the following syntax to the first line of the document::
 
-4. Link the function which is being described
-    Calling a function into the documentation to give users an overview of parameters can be accomplished using the "autofunction" function
+.. name:: (e.g. .. snow_storage:: for a document on snow storage)
 
-.. code-block:: bash
-    .. autofunction:: snow.subgrid_snow_balance
+**3. Creating a header**
 
-5. Describe any relevant formulas and calculations
-    For this a number of styling options are available. A detailed list can be found on the pydata sphinx theme `here <https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html>`_. A guide on rst syntax can be found `here <https://bashtage.github.io/sphinx-material/rst-cheatsheet/rst-cheatsheet.html>`_ .
+The page needs a name which can be identified quickly out of a table of contents and found easily using the search function of the documentation. We use names such as "Snow" or "River" for API Docs relating to the storage of Snow and Rivers respectively. Also give a short description of what the doc is about, that helps a user determine if they found what they were looking for.
 
-6. Credit your sources
-    To create a reference list create a new section of the document beginning with 
+**4. Link the function which is being described**
 
-.. code-block:: bash
-    ======
+Calling a function into the documentation to give users an overview of parameters can be accomplished using the "autofunction" function::
+
+.. autofunction:: snow.subgrid_snow_balance
+
+**5. Describe any relevant formulas and calculations**
+
+For this a number of styling options are available. A detailed list can be found on the pydata sphinx theme `here <https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html>`_. A guide on rst syntax can be found `here <https://bashtage.github.io/sphinx-material/rst-cheatsheet/rst-cheatsheet.html>`_ .
+
+**6. Credit your sources**
+
+To create a reference list create a new section of the document beginning with::
+
     References
-    ======
+    ==========
 
-To create a new reference use 
+To create a new reference use::
 
-.. code-block:: bash
-    .. [1] your reference goes here
+.. [1] your reference goes here
 
-To call the reference from any point within the same document use the syntax:
+To call the reference from any point within the same document use the syntax::
 
-.. code-block:: bash
-    [1]_
+[1]_
 
 
 
