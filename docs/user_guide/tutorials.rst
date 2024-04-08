@@ -42,13 +42,10 @@ Running WaterGAP with GWSWUSE
 Contributing to WaterGAP
 ========================
 
-How to create an API page (e.g. River)
---------------------------------------
+How to create an API page
+*************************
 
-Styling Guide
-*************
-
-The ReWater Gap documentation consists of a number of rst files referencing each other and being compiled into a readable website by Sphinx [reference]. To ensure the function of the documentation, individual docs follow a styling guide described hereafter.
+The ReWater Gap documentation consists of a number of rst files referencing each other and being compiled into a readable website by Sphinx [reference]. To ensure the function of the documentation, individual docs follow a styling guide described hereafter. For an example API page: :ref:`click here <river>`
 
 .. figure:: ../images/Style_guide.png
 
