@@ -22,8 +22,38 @@ To check if the installation process has worked you can create a naturalizd run 
 Standard WaterGap calibration
 -----------------------------
 
-When running WaterGap you can calibrate the program to your specific needs by defining them in the master config file
+When running WaterGap you can calibrate the program to your specific needs by defining them in the master config file [here](../../Config_ReWaterGAP.json)
 
+Simulation Options
+******************
+
+:AntNat_opts:
+Description
+	- subtract_use: Description. Expected value: (true/false) 
+	- res_opt: Description. Expected value: (true/false) 
+
+:Demand_satisfaction_opts:
+Description
+	- delayed_use: Description. Expected value: (true/false) 
+	- neighbouring_cell: Description. Expected value: (true/false) 
+
+Restart Options
+***************
+
+Description
+	- restart: Description. Expected value: (true/false) 
+	- save_model_states_for_restart: Description. Expected value: (true/false) 
+        - save_and_read_states_dir: Description. Expected value: (file path "./")
+
+SimulationPeriod
+****************
+
+Description
+        - start: Description. Expected value: (date in "YYYY-MM.DD") 
+        - end: Description. Expected value: (date in "YYYY-MM.DD") 
+        - reservoir_start_year: Description. Expected value: (date in "YYYY") 
+        - reservoir_end_year: Description. Expected value: (date in "YYYY") 
+        - spinup_years: Description. Expected value: (Number "0") 
 
 Running the simulation for a global basin
 -----------------------------------------
