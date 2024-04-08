@@ -55,6 +55,26 @@ Description
         - reservoir_end_year: Description. Expected value: (date in "YYYY") 
         - spinup_years: Description. Expected value: (Number "0") 
 
+TimeStep
+********
+
+Description
+        - daily: Description. Expected value: (true/false) 
+
+Simulation Extent
+*****************
+
+Description
+	- run_basin: Description. Expected value: (true/false) 
+	- path_to_stations_file: Description. Expected value: (file path "input_data/static_input/")
+
+OutputVariable
+*****************
+
+Description
+
+
+
 Running the simulation for a global basin
 -----------------------------------------
 
