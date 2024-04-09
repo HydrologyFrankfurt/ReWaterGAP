@@ -149,7 +149,11 @@ Calling a function into the documentation to give users an overview of parameter
 
 For this a number of styling options are available. A detailed list can be found on the pydata sphinx theme `here <https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html>`_. A guide on rst syntax can be found `here <https://bashtage.github.io/sphinx-material/rst-cheatsheet/rst-cheatsheet.html>`_ .
 
-Call math functions using::
+When calling a math function in a text, like so: :math:`{Q}_{1}` , use::
+
+	:math:`function here`
+
+To call a standalone math functions use::
 
 	.. math::
 
