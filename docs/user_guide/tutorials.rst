@@ -22,7 +22,7 @@ To check if the installation process has worked you can create a naturalizd run 
 Standard WaterGap calibration
 =============================
 
-When running WaterGap you can calibrate the program to your specific needs by defining them in the master config file [here](../../Config_ReWaterGAP.json)
+When running WaterGap you can calibrate the program to your specific needs by defining them in the master config file [here](../../Config_ReWaterGAP.json). If you change nothing you can run the simulation in its standard calibration. Alternatively you can change any number of options to calibrate to your specific needs. The following is a list of options, which may be changed.
 
 Simulation Options
 ******************
@@ -68,25 +68,48 @@ Description
 	- run_basin: Description. Expected value: (true/false) 
 	- path_to_stations_file: Description. Expected value: (file path "input_data/static_input/")
 
-OutputVariable
-*****************
+Output Variables
+****************
 
 Description
 
 
-
 Running the simulation for a global basin
 -----------------------------------------
+**What does this achieve?**
+
+**Which specific input data is needed?**
+
+**Which configuration options need to be changed?**
 
 Running with different options (use/no use, reservoir yes/no, period)
+
+**What data is outputted?**
+
+
 
 
 Running the simulation for a particular basin
 ---------------------------------------------
 
+**What does this achieve?**
+
+**Which specific input data is needed?**
+
+**Which configuration options need to be changed?**
+
+**What data is outputted?**
 
 Standard anthropogenic run
 **************************
+
+**What does this achieve?**
+
+**Which specific input data is needed?**
+
+**Which configuration options need to be changed?**
+
+**What data is outputted?**
 
 human use of reservoir
 
