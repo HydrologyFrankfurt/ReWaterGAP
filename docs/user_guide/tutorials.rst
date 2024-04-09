@@ -123,6 +123,22 @@ After creating a new page, give it a name that allows other pages to link to the
 
 The page needs a name which can be identified quickly out of a table of contents and found easily using the search function of the documentation. We use names such as "Snow" or "River" for API Docs relating to the storage of Snow and Rivers respectively. Also give a short description of what the doc is about, that helps a user determine if they found what they were looking for.
 
+Structure your page using headers::
+
+	########	
+	Header 1
+	########
+
+::
+	
+	Header 2
+	========
+
+::
+
+	Header 3
+	********
+
 **4. Link the function which is being described**
 
 Calling a function into the documentation to give users an overview of parameters can be accomplished using the "autofunction" function::
@@ -133,6 +149,37 @@ Calling a function into the documentation to give users an overview of parameter
 
 For this a number of styling options are available. A detailed list can be found on the pydata sphinx theme `here <https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html>`_. A guide on rst syntax can be found `here <https://bashtage.github.io/sphinx-material/rst-cheatsheet/rst-cheatsheet.html>`_ .
 
+Call math functions using::
+
+	.. math::
+
+Relevant syntax includes but is not limited to
+
+.. math::
+	{\frac{1}2}
+
+
+::
+
+{\frac{1}2}
+
+.. math::
+	{\sqrt2}
+
+
+::
+
+{\sqrt2}
+
+.. math::
+	{Q}_{1}
+
+
+::
+
+{Q}_{1}
+
+
 **6. Credit your sources**
 
 To create a reference list create a new section of the document beginning with::
@@ -142,7 +189,7 @@ To create a reference list create a new section of the document beginning with::
 
 To create a new reference use::
 
-.. [1] your reference goes here
+.. [1] Your reference goes here
 
 To call the reference from any point within the same document use the syntax::
 
@@ -153,6 +200,7 @@ To call the reference from any point within the same document use the syntax::
 
 Add GWSWUSE API to API
 ----------------------
+
 
 
 
