@@ -2,7 +2,7 @@
 
 
 ########
-Tutorial
+Tutorial (Under Development. please take note)
 ########
 
 .. contents:: 
@@ -27,46 +27,24 @@ When running WaterGap you can calibrate the program to your specific needs by de
 Simulation Options
 ******************
 
-:AntNat_opts:
-Description
-	- subtract_use: Description. Expected value: (true/false) 
-	- res_opt: Description. Expected value: (true/false) 
 
-:Demand_satisfaction_opts:
-Description
-	- delayed_use: Description. Expected value: (true/false) 
-	- neighbouring_cell: Description. Expected value: (true/false) 
 
 Restart Options
 ***************
 
-Description
-	- restart: Description. Expected value: (true/false) 
-	- save_model_states_for_restart: Description. Expected value: (true/false) 
-        - save_and_read_states_dir: Description. Expected value: (file path "./")
 
 SimulationPeriod
 ****************
 
-Description
-        - start: Description. Expected value: (date in "YYYY-MM.DD") 
-        - end: Description. Expected value: (date in "YYYY-MM.DD") 
-        - reservoir_start_year: Description. Expected value: (date in "YYYY") 
-        - reservoir_end_year: Description. Expected value: (date in "YYYY") 
-        - spinup_years: Description. Expected value: (Number "0") 
+
 
 TimeStep
 ********
 
-Description
-        - daily: Description. Expected value: (true/false) 
 
 Simulation Extent
 *****************
 
-Description
-	- run_basin: Description. Expected value: (true/false) 
-	- path_to_stations_file: Description. Expected value: (file path "input_data/static_input/")
 
 Output Variables
 ****************
