@@ -23,7 +23,7 @@ User Guide
 
     .. grid-item-card:: 
         :text-align: center
-        :link: #tutorials#
+        :link: tutorials (i change)
         :link-type: ref
 
         Run WaterGAP using your own input data, run the model for a specific basin, region, period, configuration or change temporal resolution? Find our guide here. 
