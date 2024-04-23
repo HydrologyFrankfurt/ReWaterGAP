@@ -1,8 +1,8 @@
 .. _tutorials:
 
 
-#############################################
-Tutorial (Under Development. please take note)
+##############################################
+Tutorial (Under Development. Please take note)
 ##############################################
 
 .. contents:: 
