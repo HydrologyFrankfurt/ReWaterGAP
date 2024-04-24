@@ -25,7 +25,7 @@ Naturalized Run
 
 This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.
 
-To run Water Gap in a naturalized mode, see :ref:`our five minute guide <naturalized_run>`.
+To run Water Gap in a naturalized mode, see :ref:`here <naturalized_run>`.
 
 Human Water Use only 
 ********************
