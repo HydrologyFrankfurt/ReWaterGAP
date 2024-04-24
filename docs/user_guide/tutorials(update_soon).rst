@@ -9,7 +9,7 @@ Tutorial (Under Development)
     :depth: 4
 
 .. note::
-	Before following this tutorial, please follow the five minute guide found `here <five_minute_guide>`_ .
+	Before following this tutorial, please follow the five minute guide found :ref:`here <five_minute_guide>`.
 
 
 Running Water Gap with different simulation options (other model configurations)
@@ -25,7 +25,7 @@ Naturalized Run
 
 This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.
 
-To run Water Gap in a naturalized mode, see `our five minute guide <five_minute_guide>`_ .
+To run Water Gap in a naturalized mode, see :ref:`our five minute guide <five_minute_guide>` .
 
 Human Water Use only 
 ********************
