@@ -39,5 +39,4 @@ User Guide
     :maxdepth: 2
     :hidden:
 
-
     tutorials
