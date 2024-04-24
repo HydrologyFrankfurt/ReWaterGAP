@@ -1,9 +1,9 @@
 .. _tutorials:
 
 
-##############################################
-Tutorial (Under Development. Please take note)
-##############################################
+############################
+Tutorial (Under Development)
+############################
 
 .. contents:: 
     :depth: 4
