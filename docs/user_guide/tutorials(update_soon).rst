@@ -8,100 +8,40 @@ Tutorial (Under Development. Please take note)
 .. contents:: 
     :depth: 4
 
-Running WaterGAP
-================
-
-The first step to running WaterGap is the download of all relevant data, code, dependencies and the creation of an environment. Find a detailed explanation on how to do this `here <five_minute_guide>`_ .
-
-To check if the installation process has worked you can create a naturalizd run using this code:
-
-.. code-block:: bash
-
-	$ python3 run_watergap.py Config_ReWaterGAP.json
-
-Standard WaterGap calibration
-=============================
-
-When running WaterGap you can calibrate the program to your specific needs by defining them in the master config file [here](../../Config_ReWaterGAP.json). If you change nothing you can run the simulation in its standard calibration. Alternatively you can change any number of options to calibrate to your specific needs. The following is a list of options, which may be changed.
-
-Simulation Options
-******************
+.. note::
+	Before following this tutorial, please follow the five minute guide found `here <five_minute_guide>`_ .
 
 
+Running Water Gap with different simulation options (other model configurations)
+================================================================================
 
-Restart Options
-***************
-
-
-SimulationPeriod
-****************
-
-
-
-TimeStep
-********
-
-
-Simulation Extent
-*****************
-
-
-Output Variables
-****************
-
-Description
-
-
-Running the simulation for a global basin
------------------------------------------
-**What does this achieve?**
-
-**Which specific input data is needed?**
-
-**Which configuration options need to be changed?**
-
-Running with different options (use/no use, reservoir yes/no, period)
-
-**What data is outputted?**
-
-
-
-
-Running the simulation for a particular basin
----------------------------------------------
-
-**What does this achieve?**
-
-**Which specific input data is needed?**
-
-**Which configuration options need to be changed?**
-
-**What data is outputted?**
-
-Standard anthropogenic run
+Standard anthropogenic Run
 **************************
 
-**What does this achieve?**
+The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
-**Which specific input data is needed?**
+Naturalized Run
+***************
 
-**Which configuration options need to be changed?**
+This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.
 
-**What data is outputted?**
+To run Water Gap in a naturalized mode, see `our five minute guide <five_minute_guide>`_ .
 
-human use of reservoir
+Human Water Use only 
+********************
 
-How to Restart WaterGap
------------------------
+This simulation includes human water use but excludes global man-made reservoirs/regulated lakes.
 
-(save file and continue simulation)
-Standard anthropogenic run for restart run (month and year)
+Reservoirs only
+***************
 
-Running WaterGAP with GWSWUSE
------------------------------
-
-
+This simulation excludes human water use but includes global man-made reservoirs/regulated lakes.
 
 
 
+How to Restart WaterGap from saved state
+========================================
+
+Running WaterGAP with GWSWUSE (under development)
+=================================================
 
