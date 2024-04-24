@@ -115,7 +115,7 @@ and the water use data at  *link here soon*.
 **6: Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
 
 Note:  For the Naturalised run, make sure that anthropogenic run is set to false (**"ant": false**) in the **Config_ReWaterGAP.json** file (see image below).
-See *Tutorials* (link will soon be provided) to run other model configurations.
+See :ref:`Tutorials <tutorials>` to run other model configurations.
 
 .. figure:: ../images/getting_started/natuatlised_run.PNG
 
