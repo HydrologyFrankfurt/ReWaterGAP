@@ -112,6 +112,8 @@ The files need to be copied to their respective folders in ../ReWaterGAP/input_d
 You can find the necessary climate forcing data at `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3b/SecondaryInputData/climate/atmosphere/mri-esm2-0/>`__ 
 and the water use data at  *link here soon*.
 
+.. _naturalized_run:
+
 **6: Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
 
 Note:  For the Naturalised run, make sure that anthropogenic run is set to false (**"ant": false**) in the **Config_ReWaterGAP.json** file (see image below).
