@@ -40,4 +40,4 @@ User Guide
     :hidden:
 
 
-    #tutorials#
+    tutorials
