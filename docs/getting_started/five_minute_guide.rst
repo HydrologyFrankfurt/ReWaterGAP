@@ -13,8 +13,25 @@ Go to the `Mamba Website <https://github.com/conda-forge/miniforge>`__ , choose 
 	
 	
 Open your terminal and navigate to the downloaded file (it has the name "Miniforge3-(OSname)-(architecture).sh")
-	
-	
+
+To navigate, open the terminal. It will open in your home directory. To see a list of your directories and files in the current directory use the command:
+
+.. code-block:: bash
+
+	$ ls
+
+To navigate to a directory use the command
+
+.. code-block:: bash
+
+	$ cd
+
+If your downloaded .sh file is in your downloads folder for example, use 
+
+.. code-block:: bash
+
+	$ cd downloads
+
 Install Mamba by running the following command and follow the installation prompts. The prompt will notify you where to install Mamba (see :ref:`image <mamba_licence_location>` below). The created folder will be called "miniforge3".
 
 
@@ -33,7 +50,6 @@ After the installation is complete, you will see the :ref:`Mamba logo <installat
 .. _installation_complete:
 
 .. figure:: ../images/getting_started/installation_complete.png
-
 
 
 Navigate to the "bin" folder in the newly created "miniforge3" folder.
@@ -68,28 +84,34 @@ Navigate to the ReWaterGAP folder in the terminal using the following command.
 	$ cd user/…/ReWaterGAP
 	
 
-	Create an environment (e.g. with the name "watergap") and install the required packages from the requirements.txt file by running the following command.
+Create an environment (e.g. with the name "watergap") and install the required packages from the requirements.txt file by running the following command.
 
 .. code-block:: bash
 
 	example
 	$ mamba create --name watergap --file requirements.txt
 
-	Activate the WaterGAP environment using the following command.
+If the installation went correctly you will see a list with all downloaded packages followed by the commands to activate or deactivate the environment.
+
+.. figure:: ../images/getting_started/mamba_create_environment.png
+
+Activate the WaterGAP environment using the following command.
 
 .. code-block:: bash
 
 	example
 	$ mamba activate watergap
 
+To verify that the environment has been successfully activated, you will see (base) changing to (name of your environment) (here: watergap).
 
+.. figure:: ../images/getting_started/active_environment.png
 
 **5. Get Input Data**
 
 The User should provide the following data in NetCDF format.  
 
 Note: WaterGAP operates with daily temporal resolution. The model does consider leap days (29th February) in computations, so these *specific days* should be excluded from the climate forcings. 
-Additionally, water use data (potential net abstractions) is provided in monthly timesteps, and thus, it's assumed in WaterGAP that the potential net abstractions per day in a month is the same.
+Additionally, water use data (potential net abstractions) is provided in monthly timesteps, and thus, it's assumed in WaterGAP that the potential net abstractions per day in a month are the same.
 
 Climate Forcing (Daily data)
 	- precipitation (kg m-2 s-1)
