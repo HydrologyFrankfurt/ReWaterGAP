@@ -14,24 +14,6 @@ Go to the `Mamba Website <https://github.com/conda-forge/miniforge>`__ , choose 
 	
 Open your terminal and navigate to the downloaded file (it has the name "Miniforge3-(OSname)-(architecture).sh")
 
-To navigate, open the terminal. It will open in your home directory. To see a list of your directories and files in the current directory use the command:
-
-.. code-block:: bash
-
-	$ ls
-
-To navigate to a directory use the command
-
-.. code-block:: bash
-
-	$ cd
-
-If your downloaded .sh file is in your downloads folder for example, use 
-
-.. code-block:: bash
-
-	$ cd downloads
-
 Install Mamba by running the following command and follow the installation prompts. The prompt will notify you where to install Mamba (see :ref:`image <mamba_licence_location>` below). The created folder will be called "miniforge3".
 
 
@@ -91,20 +73,12 @@ Create an environment (e.g. with the name "watergap") and install the required p
 	example
 	$ mamba create --name watergap --file requirements.txt
 
-If the installation went correctly you will see a list with all downloaded packages followed by the commands to activate or deactivate the environment.
-
-.. figure:: ../images/getting_started/mamba_create_environment.png
-
 Activate the WaterGAP environment using the following command.
 
 .. code-block:: bash
 
 	example
 	$ mamba activate watergap
-
-To verify that the environment has been successfully activated, you will see (base) changing to (name of your environment) (here: watergap).
-
-.. figure:: ../images/getting_started/active_environment.png
 
 **5. Get Input Data**
 
