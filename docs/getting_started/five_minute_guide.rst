@@ -80,6 +80,8 @@ Activate the WaterGAP environment using the following command.
 	example
 	$ mamba activate watergap
 
+.. _get_input_data:
+
 **5. Get Input Data**
 
 The User should provide the following data in NetCDF format.  
