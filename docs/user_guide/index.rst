@@ -40,3 +40,4 @@ User Guide
     :hidden:
 
     tutorials
+    configuration_file
