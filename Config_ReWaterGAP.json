@@ -9,7 +9,7 @@
   "RuntimeOptions": [
     {
       "SimulationOption": {
-        "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": true},
+        "AntNat_opts": {"ant": false,  "subtract_use": true, "res_opt": true},
         "Demand_satisfaction_opts": {"delayed_use": true, "neighbouring_cell": true}
       }
     },
@@ -22,8 +22,8 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1989-01-01",
-        "end": "1990-12-31",
+        "start": "1901-01-01",
+        "end": "1901-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
         "spinup_years": 0
@@ -68,18 +68,18 @@
       "LateralWaterBalanceFluxes": {
         "consistent_precipitation": true,
         "groundwater_discharge":false,
-        "total_runoff": true,
-        "groundwater_recharge_swb": true,
-        "total_groundwater_recharge": true,
+        "total_runoff": false,
+        "groundwater_recharge_swb": false,
+        "total_groundwater_recharge": false,
         "local_lake_outflow":false,
         "local_wetland_outflow":false,
     	"global_lake_outflow":false,
         "global_wetland_outflow":false,
         "streamflow": true,
         "streamflow_from_upstream": true,
-        "actual_net_abstr_groundwater": true,
+        "actual_net_abstr_groundwater": false,
         "actual_net_abstr_surfacewater": true,
-        "actual_water_consumption": true,
+        "actual_water_consumption": false,
         "cell_aet_consuse": true,
                 
          "total_demand_into_cell": true,
@@ -90,9 +90,9 @@
          "accumulated_unsatisfied_potential_netabs_sw": true,
          "get_neighbouring_cells_map": true,
          "total_unsatisfied_demand_from_supply_to_all_demand_cell": true,
-         "net_cell_runoff": true,
-         "river_velocity":true,
-         "land_area_fraction": true
+         "net_cell_runoff": false,
+         "river_velocity": false,
+         "land_area_fraction": false
       }
     },
     {
