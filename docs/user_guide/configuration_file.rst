@@ -5,7 +5,8 @@ Configuration File
 ==================
 
 .. contents:: 
-   :depth: 4
+  	:depth: 4
+	:start: 2
   
 Component of the configuration file
 ************************************
@@ -16,7 +17,7 @@ Users can change the path to the climate forcings, water use data and static lan
 
 .. figure:: ../images/user_guide/file_path.png
 
-..note::
+.. note::
 	The climate forcing directory should follow the folder structure as described in the :ref:`five minute guide <get_input_data>`.
 
 Runtime Options
