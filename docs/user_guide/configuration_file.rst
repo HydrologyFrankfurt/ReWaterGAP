@@ -53,7 +53,7 @@ WaterGap satisfies surface water demand spatially using three options:
 
 The neighboring cell and delayed use water supply option can either or both be activated (set to "true") or deactivated (set to "false") in the "Demand_satisfaction_opts" as shown in the picture below:
  
-picture Demand_satisfaction_opts.png
+.. figure:: ../images/user_guide/Demand_satisfaction_opts.png
 
 For more details on these water satisfaction options read :ref: net abstractions. 
 
