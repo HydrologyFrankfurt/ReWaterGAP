@@ -5,8 +5,8 @@ Configuration File
 ==================
 
 .. contents:: 
-  	:depth: 4
-	:start: 2
+   :depth: 4
+   :start: 2
   
 Component of the configuration file
 ************************************
@@ -30,16 +30,17 @@ Simulation Options
 
 "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": true} as shown in the [link above image] image, simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages and is referred to as a standard anthropogenic run.
 
-The following options in „AntNat_opts“ can be turned off and on to simulate 
-a) a naturalized run (without human impact). For a tutorial on how naturalized runs work see here (tutorial)
+The following options in „AntNat_opts“ can be turned off and on to simulate:
+
+(a) a naturalized run (without human impact). For a tutorial on how naturalized runs work see here (tutorial)
 
 .. figure:: ../images/user_guide/naturalized_run.png
 
-b) human water use only (simulation excludes reservoir impact). For a tutorial on how naturalized runs work see here (tutorial)
+(b) human water use only (simulation excludes reservoir impact). For a tutorial on how naturalized runs work see here (tutorial)
 
 .. figure:: ../images/user_guide/use_only_run.png
 
-c) reservoirs only (simulation excludes human water use). For a tutorial on how naturalized runs work see here (tutorial)
+(c) reservoirs only (simulation excludes human water use). For a tutorial on how naturalized runs work see here (tutorial)
 
 .. figure:: ../images/user_guide/reservoirs_only_run.png
 
