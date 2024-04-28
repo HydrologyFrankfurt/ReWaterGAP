@@ -43,6 +43,8 @@ Reservoirs only
 
 This simulation excludes human water use but includes global man-made reservoirs/regulated lakes.
 
+.. _restart_from_saved_state:
+
 How to Restart WaterGap from saved state
 ========================================
 
