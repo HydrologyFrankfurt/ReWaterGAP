@@ -20,6 +20,8 @@ Standard anthropogenic Run
 
 The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
+.. _naturalized_run:
+
 Naturalized Run
 ***************
 
@@ -27,10 +29,14 @@ This simulation computes naturalized flows and storages that would occur if ther
 
 To run Water Gap in a naturalized mode, see :ref:`here <naturalized_run>`.
 
+.. _human_water_use_only:
+
 Human Water Use only 
 ********************
 
 This simulation includes human water use but excludes global man-made reservoirs/regulated lakes.
+
+.. _reservoirs_only:
 
 Reservoirs only
 ***************
