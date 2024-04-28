@@ -89,7 +89,7 @@ SimulationExtent
 
 Setting the "run_basin" to "true" will prompt WaterGAP to run for a particular basin. You can define the downstream grid cell using the "path_to_stations_file". An example file (stations.csv) can be found in the static_input folder [link].
 
-For a tutorial on how to run WaterGAP for a particular basin, see here [tutorial].
+For a tutorial on how to run WaterGAP for a particular basin, see :ref:`here <stations>`.
 
 Output Variables
 ################
