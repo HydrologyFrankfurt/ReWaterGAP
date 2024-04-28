@@ -13,6 +13,7 @@ Component of the configuration file
 
 File Path
 #########
+
 Users can change the path to the climate forcings, water use data and static land data required by WaterAP in NetCDF format in the "inputDir". The path to the output data can be changed in the "outputDir".
 
 .. figure:: ../images/user_guide/file_path.png
@@ -32,23 +33,23 @@ Simulation Options
 
 The following options in „AntNat_opts“ can be turned off and on to simulate:
 
-(a) a naturalized run (without human impact). For a tutorial on how naturalized runs work see here (tutorial)
+(a) a naturalized run (without human impact). For a tutorial on how naturalized runs work, see :ref:`here <naturalized_run>`.
 
 .. figure:: ../images/user_guide/naturalized_run.png
 
-(b) human water use only (simulation excludes reservoir impact). For a tutorial on how naturalized runs work see here (tutorial)
+(b) human water use only (simulation excludes reservoir impact). For a tutorial on how naturalized runs work, see :ref:`here <human_water_use_only>`.
 
 .. figure:: ../images/user_guide/use_only_run.png
 
-(c) reservoirs only (simulation excludes human water use). For a tutorial on how naturalized runs work see here (tutorial)
+(c) reservoirs only (simulation excludes human water use). For a tutorial on how naturalized runs work, see :ref:`here <reservoirs_only>`.
 
 .. figure:: ../images/user_guide/reservoirs_only_run.png
 
 
 WaterGap satisfies surface water demand spatially using three options:
-- riparian water supply option which by default is always enabled and can not be disabled.
-- neighboring cell water supply option 
-- delayed water supply option
+	- riparian water supply option which by default is always enabled and can not be disabled.
+	- neighboring cell water supply option 
+	- delayed water supply option
 
 The neighboring cell and delayed use water supply option can either or both be activated (set to "true") or deactivated (set to "false") in the "Demand_satisfaction_opts" as shown in the picture below:
  
