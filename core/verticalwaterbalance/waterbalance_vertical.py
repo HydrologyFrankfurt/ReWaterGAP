@@ -37,6 +37,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        max_groundwater_recharge, groundwater_recharge_factor,
                        critcal_gw_precipitation, max_soil_water_content,
                        areal_corr_factor, basin):
+    
     # =========================================================================
     #   Creating outputs for storages, fluxes and factors
     # =========================================================================
@@ -82,7 +83,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     groundwater_recharge_from_soil_mm = basin.copy()
     surface_runoff = basin.copy()
     land_aet_corr = basin.copy() 
-
+    
     # =====================================================================
     # Loop through rout order
     # =====================================================================
@@ -94,6 +95,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             # =================================================================
             #       Radiation compononents and Priestley-Taylor PET
             # =================================================================
+            
             radiation_for_potevap = rad_pet.\
                 compute_radiation(temperature[x, y],
                                   down_shortwave_radiation[x, y],
@@ -103,11 +105,12 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                                   openwater_albedo[x, y],
                                   snow_albedo[x, y], albedo[x, y],
                                   emissivity[x, y], x, y)
-    
+            
             net_rad, openwater_net_rad = radiation_for_potevap
-            net_radiation[x, y] = net_rad
-            openwater_net_radiation[x, y] = openwater_net_rad
-    
+            net_radiation[x, y] = net_rad.item()
+            openwater_net_radiation[x, y] = openwater_net_rad.item()
+            
+            
             pot_evap, openwater_evap = \
                 rad_pet.priestley_taylor(temperature[x, y],
                                          pt_coeff_humid_arid[x, y],
@@ -116,7 +119,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     
             daily_potential_evap[x, y] = pot_evap.item()
             openwater_potential_evap[x, y] = openwater_evap.item()
-    
+
             # =================================================================
             #               	 Daily leaf area index
             # =================================================================
@@ -259,6 +262,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             surface_runoff[x, y] = daily_soil_balance[4]
             daily_storage_transfer[x, y] = daily_soil_balance[5]
             land_aet_corr[x, y] =   daily_soil_balance[10]
+
 
     return net_radiation, openwater_net_radiation, daily_potential_evap,\
         openwater_potential_evap, leaf_area_index, lai_days, cum_precipitation,\

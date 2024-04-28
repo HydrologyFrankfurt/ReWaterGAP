@@ -202,6 +202,7 @@ class VerticalWaterBalance:
         #                  ==================================
         #                  ||     Precipitation (mm/day)   ||
         #                  ==================================
+        
         precipitation = self.forcings_static.climate_forcing.precipitation.sel(
             time=str(date))
 
@@ -216,7 +217,7 @@ class VerticalWaterBalance:
         #                  =============================
         temperature = self.forcings_static.climate_forcing.temperature.sel(
             time=str(date))
-
+        
         # Covert air tempeature from degree celcius to Kelvin
         temperature = check_or_convert.to_kelvin(temperature.tas)
 
@@ -238,6 +239,16 @@ class VerticalWaterBalance:
         down_longwave_radiation = \
             down_longwave_radiation.rlds.values.astype(np.float64)
             
+        # check data dimension make sure dimensions are 360*720 for 0.5 degree
+        if precipitation.shape != basin.shape:
+            precipitation = precipitation[0]
+        if temperature.shape != basin.shape:
+            temperature = temperature[0]
+        if down_shortwave_radiation != basin.shape:
+            down_shortwave_radiation = down_shortwave_radiation[0] 
+        if down_longwave_radiation != basin.shape:
+            down_longwave_radiation = down_longwave_radiation[0]
+         
         # =====================================================================
         # compute vertical waterbalance
         # =====================================================================

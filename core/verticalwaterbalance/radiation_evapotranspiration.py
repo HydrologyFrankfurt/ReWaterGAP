@@ -72,6 +72,7 @@ def compute_radiation(temperature, down_shortwave_radiation,
        Units: [Wm−2]
 
     """
+
     # Index (x, y) to  print out varibales of interest
     # e.g.  if x==65 and y==137: print(albedo)
 
@@ -117,7 +118,7 @@ def compute_radiation(temperature, down_shortwave_radiation,
         (1 - openwater_albedo)
     openwater_net_radiation = openwater_net_shortwave_radiation + \
         net_longwave_radiation
-
+    
     return net_radiation, openwater_net_radiation
 
 
