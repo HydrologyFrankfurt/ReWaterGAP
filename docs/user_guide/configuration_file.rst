@@ -67,7 +67,7 @@ Setting "restart" to "true" will prompt WaterGAP to restart from a previously sa
 To create a saved state, the "save_model_states_for_restart" option must be set to "true".
 The directory to save saved states (storages, fluxes, etc.) can be defined in the "save_and_read_states_dir" option.
 
-For a tutorial on how to restart WaterGAP from a saved state, see here [tutorial].
+For a tutorial on how to restart WaterGAP from a saved state, see :ref:`here <restart_from_saved_state>`.
 
 SimulationPeriod
 ++++++++++++++++
