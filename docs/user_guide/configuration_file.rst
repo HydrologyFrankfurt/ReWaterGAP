@@ -61,7 +61,7 @@ The neighboring cell and delayed use water supply option can either or both be a
 
 .. figure:: ../images/user_guide/Demand_satisfaction_opts.png
 
-For more details on these water satisfaction options read :ref: 'net abstractions <net_abstractions>`. 
+For more details on these water satisfaction options read :ref: `net abstractions <net_abstractions>`. 
 
 
 Restart Options
@@ -93,14 +93,20 @@ At the moment WaterGAP simulations only use daily temporal resolution. Always le
 
 SimulationExtent
 ++++++++++++++++
-.. figure:: ../images/user_guide/time_step.png
 
-Setting the "run_basin" to "true" will prompt WaterGAP to run for a particular basin. You can define the downstream grid cell using the "path_to_stations_file". An example file (stations.csv) can be found in the static_input folder [https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/input_data/static_input/stations.csv].
+.. _sim_extent: 
+
+.. figure:: ../images/user_guide/simulation_extent.png
+
+Setting the "run_basin" to "true" will prompt WaterGAP to run for a particular basin. By chosing a downstream grid cell, WaterGAP defines a corresponding upstream basin.  To define the downstream grid cell the location of the grid cell (in degree latitude and longitude) defined in a station.csv file.  The path to such file is passsed to WaterGAP using the "path_to_stations_file" (see :ref:`image <sim_extent>`). An example file (stations.csv) can be found in the static_input folder [https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/input_data/static_input/stations.csv].
 
 For a tutorial on how to run WaterGAP for a particular basin, see :ref:`here <stations>`.
 
 Output Variables
 ################
-  
+
+.. _out_var: 
+
 .. figure:: ../images/user_guide/output_variables.png
-A comprehensive list of the output variables can be found in the :ref:`glossary <glossary>`. Each output can be toggled on (set to "true") or off (set to "false") in the "OutputVariable" options.
+
+A comprehensive list of the output variables in the :ref:`image <out_var>` above can be found in the :ref:`glossary <glossary>`. Each output can be toggled on (set to "true") or off (set to "false") in the "OutputVariable" options.
