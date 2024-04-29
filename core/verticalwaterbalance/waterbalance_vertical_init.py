@@ -244,11 +244,11 @@ class VerticalWaterBalance:
             precipitation = precipitation[0]
         if temperature.shape != basin.shape:
             temperature = temperature[0]
-        if down_shortwave_radiation != basin.shape:
+        if down_shortwave_radiation.shape != basin.shape:
             down_shortwave_radiation = down_shortwave_radiation[0] 
-        if down_longwave_radiation != basin.shape:
+        if down_longwave_radiation.shape != basin.shape:
             down_longwave_radiation = down_longwave_radiation[0]
-         
+        
         # =====================================================================
         # compute vertical waterbalance
         # =====================================================================
