@@ -14,7 +14,7 @@ Component of the configuration file
 File Path
 #########
 
-Users can change the path to the climate forcings, water use data and static land data required by WaterAP in NetCDF format in the "inputDir" (see :ref:`image <file_pathk>` below).. The path to the output data can be changed in the "outputDir".
+Users can change the path to the climate forcings, water use data and static land data required by WaterAP in NetCDF format in the "inputDir" (see :ref:`image <file_path>` below).. The path to the output data can be changed in the "outputDir".
 
 .. _file_path: 
 
