@@ -75,8 +75,8 @@ The directory to save saved states (storages, fluxes, etc.) can be defined in th
 
 For a tutorial on how to restart WaterGAP from a saved state, see :ref:`here <restart_from_saved_state>`.
 
-SimulationPeriod
-++++++++++++++++
+Simulation Period
++++++++++++++++++
 
 Users can change the start and end dates of the simulation, the start and end operational years for reservoirs, as well as model spinup years (see :ref:`image <simulation_period>` below).
 
@@ -91,8 +91,8 @@ Time Step
 
 At the moment WaterGAP simulations only use daily temporal resolution. Always leave it set to "true".
 
-SimulationExtent
-++++++++++++++++
+Simulation Extent
++++++++++++++++++
 
 .. _sim_extent: 
 
