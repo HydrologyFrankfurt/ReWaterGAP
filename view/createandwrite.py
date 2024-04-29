@@ -240,7 +240,7 @@ class CreateandWritetoVariables:
     
     def base_units(self, cell_area, contfrac):
         """
-        Convert units of model outputs and aggregate to  monthly if specified.
+        Convert units of model outputs.
         
         Parameters
         ----------
