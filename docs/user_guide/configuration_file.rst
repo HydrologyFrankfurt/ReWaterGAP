@@ -61,7 +61,7 @@ The neighboring cell and delayed use water supply option can either or both be a
 
 .. figure:: ../images/user_guide/Demand_satisfaction_opts.png
 
-For more details on these water satisfaction options read :ref: `net abstractions <net_abstractions>`. 
+For more details on these water satisfaction options read :ref:`net abstractions <net_abstractions>`. 
 
 
 Restart Options
