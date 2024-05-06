@@ -22,8 +22,8 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1990-01-01",
-        "end": "1990-12-31",
+        "start": "1989-01-01",
+        "end": "1989-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
         "spinup_years": 0
@@ -77,9 +77,10 @@
         "global_wetland_outflow":false,
         "streamflow": true,
         "streamflow_from_upstream": true,
-        "actual_net_abstr_groundwater": false,
+        "streamflow_from_inland_sink": true,
+        "actual_net_abstr_groundwater": true,
         "actual_net_abstr_surfacewater": true,
-        "actual_water_consumption": false,
+        "actual_water_consumption": true ,
         "cell_aet_consuse": true,
                 
          "total_demand_into_cell": true,
