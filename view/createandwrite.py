@@ -120,6 +120,7 @@ class CreateandWritetoVariables:
 
             "dis": "streamflow",
             "dis_from_upstream":"streamflow_from_upstream",
+            "dis_from_inland_sink": "streamflow_from_inland_sink",
             
             "atotuse_gw": "actual_net_abstr_groundwater",
             "atotuse_sw": "actual_net_abstr_surfacewater",
@@ -142,6 +143,7 @@ class CreateandWritetoVariables:
             "ncrun":  "net_cell_runoff",
             "river_velocity": "river_velocity",
             "land_area_fraction":  "land_area_fraction",
+            
         }
 
         # Initialize output variables for lateral water balance
@@ -283,7 +285,7 @@ class CreateandWritetoVariables:
                     if key == "get_neighbouring_cells_map": 
                         converted_data =  value.data[key].values
                     # convert to m3/s  for discharge and m/s for velocity
-                    elif (key == "dis") or  (key == "dis_from_upstream"):
+                    elif (key == "dis") or  (key == "dis_from_upstream") or (key == "dis_from_inland_sink"):
                         converted_data = (value.data[key].values * km3_to_m3) / days_to_s 
                     elif (key == "river_velocity"):
                         converted_data = (value.data[key].values * km_to_m) / days_to_s 

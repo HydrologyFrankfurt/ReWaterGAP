@@ -38,6 +38,7 @@ modelvars = {
     "globalwetland_outflow": {"long": "Globalwetland outflow", "unit": " kg m-2 s-1"},
     "dis": {"long": "Streamflow or River discharge", "unit": "m3 s-1"},
     "dis_from_upstream":{"long": "Streamflow or River discharge from upstream cell", "unit": "m3 s-1"},
+    "dis_from_inland_sink" : {"long": "Stream flow from inland sink",  "unit": " m3 s-1"},
     
     "atotuse_gw": {"long": "actual net abstraction from  groundwater", "unit": " kg m-2 s-1"},
     "atotuse_sw": {"long": "actual net abstraction from suurface water", "unit": " kg m-2 s-1"},
@@ -67,7 +68,9 @@ modelvars = {
     
     "ncrun":  {"long": "Net cell runoff (river discharge - upstream river disharge)",  "unit": " kg m-2 s-1"}, 
      "river_velocity": {"long": "River velocity",  "unit": "m s-1"}, 
-    "land_area_fraction": {"long": "Daily land area fraction",  "unit": "-"}, 
+    "land_area_fraction": {"long": "Daily land area fraction",  "unit": "-"},
+    
+    
     
     # VerticalWaterBalanceStorages
     "canopystor": {"long": "Canopy storage", "unit": "kg m-2"},
