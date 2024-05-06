@@ -768,6 +768,7 @@ class LateralWaterBalance:
         locwet_outflow = out[10]
         glolake_outflow = out[11]
         glowet_outflow = out[12]
+        streamflow_from_inlandsink = np.where(self.drainage_direction < 0, out[13], 0)
         streamflow = np.where(self.drainage_direction < 0, 0 , out[13])
         net_cell_runoff = out[14]
         updated_locallake_fraction = out[15]
@@ -921,7 +922,8 @@ class LateralWaterBalance:
                         total_unsatisfied_demand_from_supply_to_all_demand_cell,
                     "ncrun": net_cell_runoff, 
                     "river_velocity": river_velocity, 
-                    "land_area_fraction":  current_landarea_frac})
+                    "land_area_fraction":  current_landarea_frac,
+                    "dis_from_inland_sink": streamflow_from_inlandsink})
 
         LateralWaterBalance.land_swb_fraction.update({
             "current_landareafrac": current_landarea_frac,

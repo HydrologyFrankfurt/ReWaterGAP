@@ -172,6 +172,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
     # River velocity, Unit : km/day
     river_velocity = basin.copy()
 
+
     #                  =================================
     #                  ||           WaterUSe         ||
     #                  =================================
@@ -862,7 +863,7 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                  glolake_evapo[x, y] + glores_evapo[x, y] + glowet_evapo[x, y])
             
             if (drainage_direction[x, y] < 0):
-                 total_open_water_aet[x, y] += evaporated_streamflow_inlandsink 
+                 total_open_water_aet[x, y] += evaporated_streamflow_inlandsink
             
             daily_total_aet[x, y] = land_aet_corr[x, y] + total_open_water_aet[x, y]
                                      
