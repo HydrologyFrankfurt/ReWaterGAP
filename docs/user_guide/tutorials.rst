@@ -15,17 +15,17 @@ Tutorial (Under Development)
 Running Water Gap with different simulation options (other model configurations)
 ================================================================================
 
-Standard anthropogenic Run
-**************************
-
-The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
-
 Naturalized Run
 ***************
 
 This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.
 
 To run Water Gap in a naturalized mode, see :ref:`here <naturalized_run>`.
+
+Standard anthropogenic Run
+**************************
+
+The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
 .. _human_water_use_only:
 
