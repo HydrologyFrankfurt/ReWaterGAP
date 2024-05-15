@@ -20,8 +20,6 @@ Standard anthropogenic Run
 
 The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
-.. _naturalized_run:
-
 Naturalized Run
 ***************
 
