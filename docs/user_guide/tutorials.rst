@@ -27,49 +27,99 @@ Standard anthropogenic Run
 
 The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
-The example below shows a step-by-step guide on how you can create a standard run for one year (1901).
+In the example below, we will create a standard run for one year (1901) and go through the necessary steps step-by-step.
 
-1) Download the climate forcing data of your choice. In this example we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP<https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are in groups of 10 years. We will be using the group of 1901 to 1910 in this example.
+Prerequisites: You will need to clone WaterGAP and create an environment to run it in. If you haven't done so already follow the :ref:`five minute guide <five_minute_guide>` for this.
+
+**1) Download the climate forcing data of your choice.**
+
+In this example, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP<https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1901 to 1910 as our example year of 1901 is in this group.
 The forcings required are:
-	- precipitation (kg m-2 s-1); `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1901_1910.nc>`_ ;
-	- downward longwave radiation (Wm-2); `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1901_1910.nc>`_ ;
-	- downward shortwave radiation (Wm-2); `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1901_1910.nc>`_ ;
-	- temperature (K); `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1901_1910.nc>`_ ;
+	- precipitation :math:`[kg m-2 s-1]`; `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1901_1910.nc>`_ ;
+	- downward longwave radiation :math:`[Wm-2]`; `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1901_1910.nc>`_ ;
+	- downward shortwave radiation :math:`[Wm-2]`; `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1901_1910.nc>`_ ;
+	- temperature :math:`[K]`; `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1901_1910.nc>`_ ;
 
-2) Download the water use data
+**2) Download the water use data.**
+
 The forcings required are:
-	- potential consumptive use from irrigation using surface water (m3/month)
-	- potential water withdrawal use from irrigation using surface water (m3/month)
-	- potential net abstractions from surface water (m3/month)
-	- potential net abstractions from groundwater (m3/month)
-A download link will be made available at a later date. If you require the data, request a download link by sending us an <email>.
+	- potential consumptive use from irrigation using surface water :math:`[m3/month]`
+	- potential water withdrawal use from irrigation using surface water :math:`[m3/month]`
+	- potential net abstractions from surface water :math:`[m3/month]`
+	- potential net abstractions from groundwater :math:`[m3/month]`
 
-3) Place the downloaded files, as seen in the <5 minute guide (image)>, in the correct folders in <input_data>.
+Due to licensing, a download link will be made available at a later date. If you require the data, you may request a download link by sending us an [Email](mailto:Nyenah@em.uni-frankfurt.de).
 
-<picture>
+**3) Place the downloaded data into their correct folders in the repository.**
 
-4) Modify the configuration file required to run a standard run.
-	- Go to Runtime Options in the confiog file. Then to Simulation Options. Set all options under "AntNat_opts" to "true", as shown <here picture from config>. Set all options under "Demand_satisfaction_opts" to "true". For more details see the <config file>
+In your WaterGAP repository, navigate to "input_data" and place the downloaded files for climate forcings and water use in their correct folders as seen in the picture below.
 
-5) Under Restart Options in the configuration file, make sure erverything is "false" as seen here <>. WaterGap will not be restarted from a previous state in this run.
-	
-6) Under "SimulationPeriod" in the configuration file, change the "start" date to "1901-01-01" and the "end" date to "1901-12-31". For reservoir operational year set the start and end years to "1901". as shown <below picture>.
-Note: We will be using no spin up years in this example. Usually we will be running the simulation for a peroid of 5 years, with an additional 5 year spin up.
+.. figure:: ../images/getting_started/input_data.png
 
-<picture>
+**4) Modify the configuration file to set up a standard run.**
 
-Time step daily
-We are not running for basin so leave "false"
-Output Variables we will be writing out are:
-	- streamflow; set to "true" in config
-This can also be done for any number of other variables of choice. For a detailed explanation on which variables can be written out see the <glossary>. In this example we will only be looking at streamflow.
+In your WaterGAP repository, navigate to "Config_ReWaterGAP.json". 
 
-Save config
+**4.1) File Paths**
 
-Run the simulation 
-	- copy terminal commands from 5 min guide
+The first options in the onfiguration file regard input and output file paths. In this example we will leave them unmodified.
 
-If successful it shbould look like this:
+.. figure:: ../images/getting_started/tutorials/input_options.png
+
+**4.2) Runtime Options**
+
+In the configuration file find the runtime options. Then find the simulation options. Set all options under "AntNat_opts" to "true". Set all options under "Demand_satisfaction_opts" to "true". 
+
+.. figure:: ../images/getting_started/tutorials/runtime_options_standard_run.png
+
+**4.3) Restart Options**
+
+In this run, WaterGap will not restart from a previous state. Under "restart_options" make sure each option is set to "false".
+
+.. figure:: ../images/getting_started/tutorials/restart_options_standard_run.png
+
+**4.3) Simulation Period Options**
+
+Next up the chosen timeframe for the simulation needs to be set. Under "SimulationPeriod" change the "start" date to "1901-01-01" and the "end" date to "1901-12-31".
+For the reservoir operational years set the start and end years to "1901".
+
+..Note: 
+	We will be using no spin-up years in this example. Usually, we will be simulating for a period of 5 years, with an additional 5-year spin-up.
+
+.. figure:: ../images/getting_started/tutorials/simulation_period_options_standard_run.png
+
+**4.4) Time step**
+
+Under "time_step" leave the resolution set to "daily"
+
+.. figure:: ../images/getting_started/tutorials/time_step_options_standard_run.png
+
+**4.5) Simulation Extend**
+
+We will not be running WaterGAP for a basin in this example so leave the "run_basin" option under "SimulationExtent" set to "false".
+
+**4.6) Output Variables**
+
+Any number of variables may be written out. In this example, we will only want to write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the <glossary>.
+
+.. figure:: ../images/getting_started/tutorials/output_variables_standard_run.png
+
+**4.7) Save the configuration file
+
+**5) Run the simulation**
+
+To run WaterGAP, use the following command in your terminal:
+
+.. code-block:: bash
+
+	$ python3 run_watergap.py Config_ReWaterGAP.json
+
+In case of a problem find help in the :ref:`five minute guide<five_minute_guide>`_ .
+
+If your run has been successful it should look like this:
+
+.. figure:: ../images/getting_started/tutorials/standard_run_successful.png
+
 <picture terminal>
 <picture panopoly>
 	plot of river discharge + plot control for one day
