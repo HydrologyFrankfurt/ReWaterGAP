@@ -116,15 +116,19 @@ To run WaterGAP, use the following command in your terminal:
 
 In case of a problem find help in the :ref:`five minute guide<five_minute_guide>`_ .
 
-If your run has been successful it should look like this:
+If your run has been successful, your Terminal should look like this:
 
 .. figure:: ../images/getting_started/tutorials/standard_run_successful.png
 
-<picture terminal>
-<picture panopoly>
-	plot of river discharge + plot control for one day
+In your WaterGAP repository under "output_data" you will find a file named "dis_1901-12-31.nc". 
 
+**6) Visualizing your results using Panopoly**
 
+To visualize the output of this standard run we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. To start click on "file"-> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1901-12-31.nc". Click on "open".
+
+You should now see your data set. Double click the "dis" file in "Geo2D" format and click create.
+
+.. figure:: ../images/getting_started/tutorials/standard_run_successful_panopoly.png
 
 
 
