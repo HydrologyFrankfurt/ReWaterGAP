@@ -29,16 +29,16 @@ The standard run in WaterGAP simulates the effects of both human water use and m
 
 In the example below, we will create a standard run for one year (1901) and go through the necessary steps step-by-step.
 
-Prerequisites: You will need to clone WaterGAP and create an environment to run it in. If you haven't done so already follow the :ref:`five minute guide <five_minute_guide>` for this.
+**Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so already follow the :ref:`five minute guide <five_minute_guide>` for this.
 
 **1) Download the climate forcing data of your choice.**
 
-In this example, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP<https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1901 to 1910 as our example year of 1901 is in this group.
+In this example, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1901 to 1910 as our example year of 1901 is in this group.
 The forcings required are:
-	- precipitation :math:`[kg m-2 s-1]`; `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1901_1910.nc>`_ ;
-	- downward longwave radiation :math:`[Wm-2]`; `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1901_1910.nc>`_ ;
-	- downward shortwave radiation :math:`[Wm-2]`; `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1901_1910.nc>`_ ;
-	- temperature :math:`[K]`; `Link in ISIMIP<https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1901_1910.nc>`_ ;
+	- precipitation :math:`[kg m-2 s-1]`; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1901_1910.nc>`_ ;
+	- downward longwave radiation :math:`[Wm-2]`; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1901_1910.nc>`_ ;
+	- downward shortwave radiation :math:`[Wm-2]`; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1901_1910.nc>`_ ;
+	- temperature :math:`[K]`; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1901_1910.nc>`_ ;
 
 **2) Download the water use data.**
 
@@ -83,7 +83,7 @@ In this run, WaterGap will not restart from a previous state. Under "restart_opt
 Next up the chosen timeframe for the simulation needs to be set. Under "SimulationPeriod" change the "start" date to "1901-01-01" and the "end" date to "1901-12-31".
 For the reservoir operational years set the start and end years to "1901".
 
-..Note: 
+.. note::
 	We will be using no spin-up years in this example. Usually, we will be simulating for a period of 5 years, with an additional 5-year spin-up.
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_options_standard_run.png
