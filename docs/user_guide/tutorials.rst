@@ -41,6 +41,8 @@ The forcings required are:
 - downward shortwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1901_1910.nc>`_ 
 - temperature [K]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1901_1910.nc>`_ 
 
+*Make sure to remove the leap days (29th February) from climate forcings incase you are using  a different year(s) for this tutorial* 
+
 **2) Download the water use data.**
 
 The forcings required are:
