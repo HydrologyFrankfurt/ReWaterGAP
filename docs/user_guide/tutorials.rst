@@ -130,6 +130,9 @@ You should now see your data set. Double-click the "dis" file in "Geo2D" format 
 
 .. figure:: ../images/getting_started/tutorials/standard_run_successful_panopoly.png
 
+Once you see a world map, labeled "Streamflow or River discharge" go to "Window" -> "Plot Controls" where you will see the time set to "1" of "365". By increasing the time you will see the River discharge change visually on the map.
+
+.. figure:: ../images/getting_started/tutorials/panopoly_plot_controls.png
 
 
 .. _human_water_use_only:
