@@ -128,7 +128,7 @@ To visualize the output of this standard run we suggest using `Panopoly <https:/
 
 You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
 
-.. figure:: ../images/getting_started/tutorials/standard_run_successful_panopoly.png
+.. figure:: ../images/getting_started/tutorials/
 
 Once you see a world map, labeled "Streamflow or River discharge" go to "Window" -> "Plot Controls" where you will see the time set to "1" of "365". By increasing the time you will see the River discharge change visually on the map.
 
