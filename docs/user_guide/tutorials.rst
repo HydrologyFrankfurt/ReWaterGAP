@@ -35,20 +35,22 @@ In the example below, we will create a standard run for one year (1901) and go t
 
 In this example, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1901 to 1910 as our example year of 1901 is in this group.
 The forcings required are:
-	- precipitation :math:`[kg m-2 s-1]`; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1901_1910.nc>`_ ;
-	- downward longwave radiation :math:`[Wm-2]`; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1901_1910.nc>`_ ;
-	- downward shortwave radiation :math:`[Wm-2]`; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1901_1910.nc>`_ ;
-	- temperature :math:`[K]`; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1901_1910.nc>`_ ;
+
+- precipitation [kg m-2 s-1]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1901_1910.nc>`_ 
+- downward longwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1901_1910.nc>`_ 
+- downward shortwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1901_1910.nc>`_ 
+- temperature [K]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1901_1910.nc>`_ 
 
 **2) Download the water use data.**
 
 The forcings required are:
-	- potential consumptive use from irrigation using surface water :math:`[m3/month]`
-	- potential water withdrawal use from irrigation using surface water :math:`[m3/month]`
-	- potential net abstractions from surface water :math:`[m3/month]`
-	- potential net abstractions from groundwater :math:`[m3/month]`
 
-Due to licensing, a download link will be made available at a later date. If you require the data, you may request a download link by sending us an [Email](mailto:Nyenah@em.uni-frankfurt.de).
+- potential consumptive use from irrigation using surface water :math:`[m3/month]`
+- potential water withdrawal use from irrigation using surface water :math:`[m3/month]`
+- potential net abstractions from surface water :math:`[m3/month]`
+- potential net abstractions from groundwater :math:`[m3/month]`
+
+Due to licensing, a download link will be made available at a later date. If you require the data, you may request a download link by sending us an `Email <mailto:Nyenah@em.uni-frankfurt.de>`_ .
 
 **3) Place the downloaded data into their correct folders in the repository.**
 
@@ -92,8 +94,6 @@ For the reservoir operational years set the start and end years to "1901".
 
 Under "time_step" leave the resolution set to "daily"
 
-.. figure:: ../images/getting_started/tutorials/time_step_options_standard_run.png
-
 **4.5) Simulation Extend**
 
 We will not be running WaterGAP for a basin in this example so leave the "run_basin" option under "SimulationExtent" set to "false".
@@ -104,7 +104,7 @@ Any number of variables may be written out. In this example, we will only want t
 
 .. figure:: ../images/getting_started/tutorials/output_variables_standard_run.png
 
-**4.7) Save the configuration file
+**4.7) Save the configuration file**
 
 **5) Run the simulation**
 
@@ -114,7 +114,7 @@ To run WaterGAP, use the following command in your terminal:
 
 	$ python3 run_watergap.py Config_ReWaterGAP.json
 
-In case of a problem find help in the :ref:`five minute guide<five_minute_guide>`_ .
+In case of a problem find help in the `five minute guide <five_minute_guide>`_ .
 
 If your run has been successful, your Terminal should look like this:
 
@@ -124,9 +124,9 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 
 **6) Visualizing your results using Panopoly**
 
-To visualize the output of this standard run we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. To start click on "file"-> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1901-12-31.nc". Click on "open".
+To visualize the output of this standard run we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Download and install it. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1901-12-31.nc". Click on "open".
 
-You should now see your data set. Double click the "dis" file in "Geo2D" format and click create.
+You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
 
 .. figure:: ../images/getting_started/tutorials/standard_run_successful_panopoly.png
 
