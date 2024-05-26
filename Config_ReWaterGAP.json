@@ -23,10 +23,10 @@
     {
       "SimulationPeriod": {
         "start": "1989-01-01",
-        "end": "1989-12-31",
+        "end": "2019-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
-        "spinup_years": 0
+        "spinup_years": 5
       }
     },
     {
@@ -53,7 +53,7 @@
         "snow_evap":false,
         "groundwater_recharge_diffuse":true,
         "surface_runoff":false,
-        "snowcover_frac": true
+        "snowcover_frac": false
       }
     },
     {
@@ -61,7 +61,7 @@
         "canopy_storage":false,
         "snow_water_equiv":false,
         "soil_moisture":false,
-        "maximum_soil_moisture": true
+        "maximum_soil_moisture": false
       }
     },
     {
