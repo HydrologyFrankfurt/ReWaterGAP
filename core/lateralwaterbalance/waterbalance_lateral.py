@@ -645,13 +645,13 @@ class LateralWaterBalance:
                     # load in Potential water withdrawal from surfacewater and
                     #  consumptive use and convert  from m3/ month to km3/day
                     # *********************************************************
-                    self.potential_water_withdrawal_sw_irri = self.potential_net_abstraction.pirrig_ww.\
+                    self.potential_water_withdrawal_sw_irri = self.potential_net_abstraction.pirrig_ww_sw.\
                         sel(time=date)[0].values.astype(np.float64)
 
                     self.potential_water_withdrawal_sw_irri = \
                         self.potential_water_withdrawal_sw_irri / (num_of_days * m3_to_km3)
 
-                    self.potential_consumptive_use_sw_irri = self.potential_net_abstraction.pirrig_cu.\
+                    self.potential_consumptive_use_sw_irri = self.potential_net_abstraction.pirrig_cu_sw.\
                         sel(time=date)[0].values.astype(np.float64)
 
                     self.potential_consumptive_use_sw_irri = \
