@@ -33,15 +33,15 @@ In the example below, we will create a standard run for one year (1901) and go t
 
 **1) Download the climate forcing data of your choice.**
 
-In this example, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1901 to 1910 as our example year of 1901 is in this group.
+In this example, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1981 to 1990 as our example year of 1989 is in this group.
 The forcings required are:
 
-- precipitation [kg m-2 s-1]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1901_1910.nc>`_ 
-- downward longwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1901_1910.nc>`_ 
-- downward shortwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1901_1910.nc>`_ 
-- temperature [K]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1901_1910.nc>`_ 
+- precipitation [kg m-2 s-1]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1981_1990.nc>`_ 
+- downward longwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1981_1990.nc>`_ 
+- downward shortwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1981_1990.nc>`_ 
+- temperature [K]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1981_1990.nc>`_ 
 
-*Make sure to remove the leap days (29th February) from climate forcings incase you are using  a different year(s) for this tutorial* 
+*Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days)* 
 
 **2) Download the water use data.**
 
@@ -82,31 +82,31 @@ In this run, WaterGap will not restart from a previous state. Under "restart_opt
 
 .. figure:: ../images/getting_started/tutorials/restart_options_standard_run.png
 
-**4.3) Simulation Period Options**
+**4.4) Simulation Period Options**
 
-Next up the chosen timeframe for the simulation needs to be set. Under "SimulationPeriod" change the "start" date to "1901-01-01" and the "end" date to "1901-12-31".
-For the reservoir operational years set the start and end years to "1901".
+Next up the chosen timeframe for the simulation needs to be set. Under "SimulationPeriod" change the "start" date to "1989-01-01" and the "end" date to "1989-12-31".
+For the reservoir operational years set the start and end years to "1989".
 
 .. note::
-	We will be using no spin-up years in this example. Usually, we will be simulating for a period of 5 years, with an additional 5-year spin-up.
+	We will be using a five year spin-up period in this example.
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_options_standard_run.png
 
-**4.4) Time step**
+**4.5) Time step**
 
 Under "time_step" leave the resolution set to "daily"
 
-**4.5) Simulation Extend**
+**4.6) Simulation Extend**
 
 We will not be running WaterGAP for a basin in this example so leave the "run_basin" option under "SimulationExtent" set to "false".
 
-**4.6) Output Variables**
+**4.7) Output Variables**
 
 Any number of variables may be written out. In this example, we will only want to write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the <glossary>.
 
 .. figure:: ../images/getting_started/tutorials/output_variables_standard_run.png
 
-**4.7) Save the configuration file**
+**4.8) Save the configuration file**
 
 **5) Run the simulation**
 
@@ -122,11 +122,11 @@ If your run has been successful, your Terminal should look like this:
 
 .. figure:: ../images/getting_started/tutorials/standard_run_successful.png
 
-In your WaterGAP repository under "output_data" you will find a file named "dis_1901-12-31.nc". 
+In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
 **6) Visualizing your results using Panopoly**
 
-To visualize the output of this standard run we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Download and install it. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1901-12-31.nc". Click on "open".
+To visualize the output of this standard run we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Download and install it. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-12-31.nc". Click on "open".
 
 You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
 
