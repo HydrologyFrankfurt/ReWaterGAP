@@ -85,10 +85,8 @@ In this run, WaterGap will not restart from a previous state. Under "restart_opt
 **4.4) Simulation Period Options**
 
 Next up the chosen timeframe for the simulation needs to be set. Under "SimulationPeriod" change the "start" date to "1989-01-01" and the "end" date to "1989-12-31".
-For the reservoir operational years set the start and end years to "1989".
-
-.. note::
-	We will be using a five year spin-up period in this example.
+For the reservoir operational years set the start and end years to "1989". We will be using a five year spin-up period in this example. Change "spinup_years"
+	
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_options_standard_run.png
 
