@@ -100,7 +100,7 @@ We will not be running WaterGAP for a basin in this example so leave the "run_ba
 
 **4.7) Output Variables**
 
-Any number of variables may be written out. In this example, we will only want to write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the <glossary>.
+Any number of variables may be written out. In this example, we will only want to write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the :ref:`glossary <glossary>`.
 
 .. figure:: ../images/getting_started/tutorials/output_variables_standard_run.png
 
