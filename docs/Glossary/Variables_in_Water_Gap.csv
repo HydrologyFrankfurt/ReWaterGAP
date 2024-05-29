@@ -1,3 +1,5 @@
+.. _glossary:
+
 "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (ISIMIP)", "Description", "Unit (Base according to ISIMIP)"
 "streamflow", "Discharge", "dis", "river discharge or streamflow", "m3 s-1"
 "total_runoff", "Total Runoff", "qtot", "total runoff (sum of qs and qg)", "kg m-2 s-1"
