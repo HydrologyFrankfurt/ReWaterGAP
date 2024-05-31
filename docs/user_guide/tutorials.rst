@@ -78,7 +78,7 @@ The first options in the configuration file regard input and output file paths. 
 
 In the configuration file find the runtime options. Then find the simulation options. Set all options under "AntNat_opts" to "true". Set all options under "Demand_satisfaction_opts" to "true". 
 
-.. figure:: ../images/getting_started/tutorials/standard_run.png
+.. figure:: ../images/user_guide/standard_run.png
 
 **4.3) Restart Options**
 
