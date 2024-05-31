@@ -199,7 +199,7 @@ Download all required climate forcing and water use data, remove all leap days, 
 
 **2) Modify the configuration file to set up a reservoirs-only run.**
 
-The only difference between a standard and a human-water-use-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "false" and "res_opt" to "true" as seen in the picture :ref:`below <reservoirs_only_run_example_picture>`.
+The only difference between a standard and a reservoirs-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "false" and "res_opt" to "true" as seen in the picture :ref:`below <reservoirs_only_run_example_picture>`.
 
 .. _reservoirs_only_run_example_picture:
 
