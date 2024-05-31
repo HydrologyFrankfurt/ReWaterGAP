@@ -146,13 +146,13 @@ Once you see a world map, labeled "Streamflow or River discharge" go to "Window"
 Human Water Use only 
 ********************
 
-This simulation includes human water use but excludes global man-made reservoirs/regulated lakes. When creating a human-water-use-only run, the setup follows the standard run in all but one steps. In the example below, we will create a human-water-use-only run for one year (1989) and go through the necessary steps step-by-step.
+This simulation includes human water use but excludes global man-made reservoirs/regulated lakes. When creating a human-water-use-only run, the setup follows the standard run in all but one step. In the example below, we will create a human-water-use-only run for one year (1989) and go through the steps step-by-step.
 
-**Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so already follow the :ref:`five minute guide <five_minute_guide>` for this.
+**Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so, follow the :ref:`five minute guide <five_minute_guide>` for this.
 
 **1) Prepare the input data.**
 
-Download all required climate forcing and water use data, remove all leap days and place the data in the input_data fodler in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
+Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
 **2) Modify the configuration file to set up a human-water-use-only run.**
 
@@ -189,7 +189,42 @@ For a brief guide on using Panopoly for data visualization see `above <visualize
 Reservoirs only
 ***************
 
-This simulation excludes human water use but includes global man-made reservoirs/regulated lakes.
+This simulation excludes human water use but includes global man-made reservoirs/regulated lakes. When creating a reservoirs-only run, the setup follows the standard run in all but one step. In the example below, we will create a reservoirs-only run for one year (1989) and go through the steps step-by-step.
+
+**Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so, follow the :ref:`five minute guide <five_minute_guide>` for this.
+
+**1) Prepare the input data.**
+
+Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
+
+**2) Modify the configuration file to set up a reservoirs-only run.**
+
+The only difference between a standard and a human-water-use-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "false" and "res_opt" to "true" as seen in the picture :ref:`below <reservoirs_only_run_example_picture>`.
+
+.. _reservoirs_only_run_example_picture:
+
+.. figure:: ../images/user_guide/reservoirs_only_run.png
+
+Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
+
+**3) Run the simulation**
+
+To run WaterGAP, use the following command in your terminal:
+
+.. code-block:: bash
+
+	$ python3 run_watergap.py Config_ReWaterGAP.json
+
+In case of a problem find help in the `five minute guide <five_minute_guide>`_ .
+
+In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
+
+**4) Visualizing your results using Panopoly**
+
+For a brief guide on using Panopoly for data visualization see `above <visualize_using_panopoly>`_.
+
+.. figure:: ../images/getting_started/tutorials/panopoly_map_reservoir_use_tutorial.png
+
 
 .. _restart_from_saved_state:
 
