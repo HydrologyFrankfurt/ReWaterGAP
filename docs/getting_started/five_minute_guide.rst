@@ -96,8 +96,8 @@ Climate Forcing (Daily data)
 	- temperature (K)
 	
 Water Use  (Monthly data)
-	- potential consumptive use from irrigation using surface water  (m3/month)
-	- potential water withdrawal use from irrigation using surface water  (m3/month)
+	- potential consumptive use for irrigation using surface water  (m3/month)
+	- potential  abstraction (water withdrawal) use for irrigation using surface water  (m3/month)
 	- potential net abstractions from surface water (m3/month)
 	- potential net abstractions from groundwater (m3/month)
 
