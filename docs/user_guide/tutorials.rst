@@ -22,6 +22,8 @@ This simulation computes naturalized flows and storages that would occur if ther
 
 To run Water Gap in a naturalized mode, see :ref:`here <naturalized_run>`.
 
+.. standard_anthropogenic_run:
+
 Standard anthropogenic Run
 **************************
 
@@ -231,16 +233,32 @@ For a brief guide on using Panopoly for data visualization see `above <visualize
 How to Restart WaterGap from saved state
 ========================================
 
-To run Watergap from saved state, firstly you must save data from a previous simulation. Therefore, in the configuration file “save_model_states_for_restart” must be set to true and the direction to the folder where the restart data will be saved must be defined (e.g. /home/user/Restart_data):
+To run Watergap from a saved state, you must first save data from a previous simulation. After this data has been saved you can restart the simulation from this saved state. In this tutorial, we will be looking at the previous example, where we ran the simulation for the year 1989, create a saved state and then restart the simulation from this data.
 
 **1) Creating a saved state**
 
+Therefore, in the configuration file “save_model_states_for_restart” must be set to true and the direction to the folder where the restart data will be saved must be defined (e.g. /home/user/Restart_data):
+
+Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to "Config_ReWaterGAP.json". Under "RestartOptions", set "restart" to "false" and "save_model_states_for_restart" to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. We recommend using a directory outside of Users/ReWaterGap, in case you need to reclone ReWaterGap. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set "save_and_read_states_dir" to the created directory.
+
+All other options and steps to run the simulation will remain as they are described under :ref:`standard anthropogenic run <standard_anthropogenic_run>`. 
+
 .. figure:: ../images/getting_started/tutorials/saving_for_restart.png
+
 .. figure:: ../images/getting_started/tutorials/simulation_period_before_restart.png
+
+If you run the simulation, you will find the output data in the output_data directory and your file "name here" under "Users/username/restart_data".
 
 **2) Running the simulation from saved data**
 
+To run the simulation from a previously saved state go to the configuration file and navigate to "RestartOptions". Set "restart" to "true" and "save_model_states_for_restart" to "false", as this is the run we will be using the saved data for. Under "save_and_read_states_dir" set the path to the previously created directory holding your saved data.
+
 .. figure:: ../images/getting_started/tutorials/restart_from_saved_path.png
+
+When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it for the time after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends.
+
+All other options will remain as they are described under :ref:`standard anthropogenic run <standard_anthropogenic_run>`.
+
 .. figure:: ../images/getting_started/tutorials/simulation_period_after_restart.png
 
 
