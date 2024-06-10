@@ -231,6 +231,19 @@ For a brief guide on using Panopoly for data visualization see `above <visualize
 How to Restart WaterGap from saved state
 ========================================
 
+To run Watergap from saved state, firstly you must save data from a previous simulation. Therefore, in the configuration file “save_model_states_for_restart” must be set to true and the direction to the folder where the restart data will be saved must be defined (e.g. /home/user/Restart_data):
+
+**1) Creating a saved state**
+
+.. figure:: ../images/getting_started/tutorials/saving_for_restart.png
+.. figure:: ../images/getting_started/tutorials/simulation_period_before_restart.png
+
+**2) Running the simulation from saved data**
+
+.. figure:: ../images/getting_started/tutorials/restart_from_saved_path.png
+.. figure:: ../images/getting_started/tutorials/simulation_period_after_restart.png
+
+
 Running WaterGAP with GWSWUSE (under development)
 =================================================
 
