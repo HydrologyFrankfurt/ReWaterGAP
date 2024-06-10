@@ -233,11 +233,9 @@ For a brief guide on using Panopoly for data visualization see `above <visualize
 How to Restart WaterGap from saved state
 ========================================
 
-To run Watergap from a saved state, you must first save data from a previous simulation. After this data has been saved you can restart the simulation from this saved state. In this tutorial, we will be looking at the previous example, where we ran the simulation for the year 1989, create a saved state and then restart the simulation from this data.
+To run Watergap from a saved state, you must first save data from a previous simulation. In this tutorial, we will be looking at the previous example, where we ran the simulation for the year 1989, create a saved state and then restart the simulation from this data.
 
 **1) Creating a saved state**
-
-Therefore, in the configuration file “save_model_states_for_restart” must be set to true and the direction to the folder where the restart data will be saved must be defined (e.g. /home/user/Restart_data):
 
 Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to "Config_ReWaterGAP.json". Under "RestartOptions", set "restart" to "false" and "save_model_states_for_restart" to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. We recommend using a directory outside of Users/ReWaterGap, in case you need to reclone ReWaterGap. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set "save_and_read_states_dir" to the created directory.
 
