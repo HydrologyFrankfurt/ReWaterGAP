@@ -245,7 +245,7 @@ All other options and steps to run the simulation will remain as they are descri
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_before_restart.png
 
-If you run the simulation, you will find the output data in the output_data directory and your file "name here" under "Users/username/restart_data".
+If you run the simulation, you will find the output data in the output_data directory and your file "restartwatergap_1989-12-31.pickle" under "Users/username/restart_data".
 
 **2) Running the simulation from saved data**
 
