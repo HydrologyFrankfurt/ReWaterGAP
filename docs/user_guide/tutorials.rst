@@ -241,9 +241,11 @@ To run Watergap from a saved state, you must first save data from a previous sim
 
 **1) Creating a saved state**
 
-Restarting the simulation works for any of the simulation options (`standard Run <standard_anthropogenic_run>`_, `Naturalized Run <naturalized_run>`_, `Human Water Use <human_water_use_only>`_and Reservoirs only). In this example, we will be creating a saved state for a `standard anthropogenic run <standard_anthropogenic_run>`_.
+Restarting the simulation works for any of the simulation options (`Standard Run <standard_anthropogenic_run>`_, `Naturalized Run <naturalized_run>`_, `Human Water Use <human_water_use_only>`_ and `Reservoirs only <reservoirs_only>`_). In this example, we will be creating a saved state for a `standard anthropogenic run <standard_anthropogenic_run>`_.
 
-Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to "**Config_ReWaterGAP.json**". Under "**RestartOptions**", set "**restart**" to "false" and "**save_model_states_for_restart**" to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set "**save_and_read_states_dir**" to the created directory, as shown in the <image below>.
+Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to "**Config_ReWaterGAP.json**". Under "**RestartOptions**", set "**restart**" to "false" and "**save_model_states_for_restart**" to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set "**save_and_read_states_dir**" to the created directory, as shown in the `image below <saving_for_restart>`_ .
+
+.. _saving_for_restart:
 
 .. figure:: ../images/getting_started/tutorials/saving_for_restart.png
 
