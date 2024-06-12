@@ -15,6 +15,8 @@ Tutorial (Under Development)
 Running Water Gap with different simulation options (other model configurations)
 ================================================================================
 
+.. naturalized_run:
+
 Naturalized Run
 ***************
 
@@ -239,7 +241,7 @@ To run Watergap from a saved state, you must first save data from a previous sim
 
 **1) Creating a saved state**
 
-Restarting the simulation works for any of the simulation options (Standard Run, Naturalized Run, Human Water Use and Reservoirs only). In this example, we will be creating a saved state for a :ref:`standard anthropogenic run <standard_anthropogenic_run>`.
+Restarting the simulation works for any of the simulation options (`standard Run <standard_anthropogenic_run>`_, `Naturalized Run <naturalized_run>`_, `Human Water Use <human_water_use_only>`_and Reservoirs only). In this example, we will be creating a saved state for a `standard anthropogenic run <standard_anthropogenic_run>`_.
 
 Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to "**Config_ReWaterGAP.json**". Under "**RestartOptions**", set "**restart**" to "false" and "**save_model_states_for_restart**" to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set "**save_and_read_states_dir**" to the created directory, as shown in the <image below>.
 
@@ -249,7 +251,7 @@ Then set your "**SimulationPeriod**" to the preferred year (In this example 1989
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_before_restart.png
 
-All other options and steps to run the simulation will remain as they are described under :ref:`standard anthropogenic run <standard_anthropogenic_run>`.
+All other options and steps to run the simulation will remain as they are described under `standard anthropogenic run <standard_anthropogenic_run>`_.
 
 .. figure:: ../images/getting_started/tutorials/restart_run_config_file.png
 
@@ -267,7 +269,7 @@ To run the simulation from a previously saved state go to the configuration file
 
 When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it starting the day after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends.
 
-All other options will remain as they are described under :ref:`creating a saved state <creating_a_saved_state>`.
+All other options will remain as they are described under `creating a saved state <creating_a_saved_state>`_.
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_after_restart.png
 
