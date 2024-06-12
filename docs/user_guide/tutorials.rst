@@ -241,11 +241,11 @@ To run Watergap from a saved state, you must first save data from a previous sim
 
 Restarting the simulation works for any of the simulation options (Standard Run, Naturalized Run, Human Water Use and Reservoirs only). In this example, we will be creating a saved state for a :ref:`standard anthropogenic run <standard_anthropogenic_run>`.
 
-Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to **Config_ReWaterGAP.json**. Under **RestartOptions**, set **restart** to "false" and **save_model_states_for_restart** to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set **save_and_read_states_dir** to the created directory, as shown in the <image below>.
+Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to "**Config_ReWaterGAP.json**". Under "**RestartOptions**", set "**restart**" to "false" and "**save_model_states_for_restart**" to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set "**save_and_read_states_dir**" to the created directory, as shown in the <image below>.
 
 .. figure:: ../images/getting_started/tutorials/saving_for_restart.png
 
-Then set your **SimulationPeriod** to the preferred year (In this example 1989) and the **spinup_years** to 5.
+Then set your "**SimulationPeriod**" to the preferred year (In this example 1989) and the "**spinup_years**" to 5.
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_before_restart.png
 
@@ -261,7 +261,7 @@ Run the simulation. You will then find your saved state data file "restartwaterg
 
 In this step we will be running the simulation from the previously saved state, for the year 1990, starting one day after the last day saved in the saved state. It is possible to run the simulation for any time period even beyond the one year used here.
 
-To run the simulation from a previously saved state go to the configuration file and navigate to **RestartOptions**. Set **restart** to "true" and **save_model_states_for_restart** to "false", as this is the run we will be using the saved data for. Under **save_and_read_states_dir** set the path to the previously created directory holding your saved data (in this example under "Users/username/restart_data").
+To run the simulation from a previously saved state go to the configuration file and navigate to **RestartOptions**. Set **restart** to "true" and "**save_model_states_for_restart**" to "false", as this is the run we will be using the saved data for. Under **save_and_read_states_dir** set the path to the previously created directory holding your saved data (in this example under "Users/username/restart_data").
 
 .. figure:: ../images/getting_started/tutorials/restart_from_saved_path.png
 
