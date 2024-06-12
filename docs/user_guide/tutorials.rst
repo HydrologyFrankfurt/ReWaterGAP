@@ -271,6 +271,10 @@ All other options will remain as they are described under :ref:`creating a saved
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_after_restart.png
 
+Lastly, run the simulation with these options.
+
+.. figure:: ../images/getting_started/tutorials/terminal_restart_run_successful.png
+
 
 Running WaterGAP with GWSWUSE (under development)
 =================================================
