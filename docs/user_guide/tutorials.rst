@@ -271,7 +271,7 @@ All other options will remain as they are described under :ref:`creating a saved
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_after_restart.png
 
-Lastly, run the simulation with these options.
+Lastly, run the simulation with these options. To verify that everything is running as intended, you should receive this message in the terminal:
 
 .. figure:: ../images/getting_started/tutorials/terminal_restart_run_successful.png
 
