@@ -263,7 +263,7 @@ Run the simulation. You will then find your saved state data file "restartwaterg
 
 In this step we will be running the simulation from the previously saved state, for the year 1990, starting one day after the last day saved in the saved state. It is possible to run the simulation for any time period even beyond the one year used here.
 
-To run the simulation from a previously saved state go to the configuration file and navigate to **RestartOptions**. Set **restart** to "true" and "**save_model_states_for_restart**" to "false", as this is the run we will be using the saved data for. Under **save_and_read_states_dir** set the path to the previously created directory holding your saved data (in this example under "Users/username/restart_data").
+To run the simulation from a previously saved state go to the configuration file and navigate to "**RestartOptions**". Set **restart** to "true" and "**save_model_states_for_restart**" to "false", as this is the run we will be using the saved data for. Under "**save_and_read_states_dir**" set the path to the previously created directory holding your saved data (in this example under "Users/username/restart_data").
 
 .. figure:: ../images/getting_started/tutorials/restart_from_saved_path.png
 
