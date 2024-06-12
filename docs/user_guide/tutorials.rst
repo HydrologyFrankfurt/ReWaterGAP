@@ -269,7 +269,7 @@ To run the simulation from a previously saved state go to the configuration file
 
 .. figure:: ../images/getting_started/tutorials/restart_from_saved_path.png
 
-When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it starting the day after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends.
+When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it starting the day after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends and without a spin up, as the saved state already includes this data.
 
 All other options will remain as they are described under `creating a saved state <creating_a_saved_state>`_.
 
