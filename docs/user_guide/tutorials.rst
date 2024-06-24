@@ -31,7 +31,7 @@ Standard anthropogenic Run
 
 The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
-In the example below, we will create a standard run for one year (1989) and go through the necessary steps step-by-step.
+In the example below, we will create a standard run for one year (1989) and go through the necessary steps, step-by-step.
 
 **Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so already follow the :ref:`five minute guide <five_minute_guide>` for this.
 
@@ -47,7 +47,7 @@ The forcings required are:
 - downward shortwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1981_1990.nc>`_ 
 - temperature [K]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1981_1990.nc>`_ 
 
-*Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days)* 
+*Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days)*.
 
 **2) Download the water use data.**
 
@@ -70,7 +70,9 @@ In your WaterGAP repository, navigate to "input_data" and place the downloaded f
 
 **4) Modify the configuration file to set up a standard run.**
 
-In your WaterGAP repository, navigate to "Config_ReWaterGAP.json". 
+WaterGAP can be setup for your specific usecase. In this part we will be going through the various configuration options as well as the available output options and configuring the simulation for a standard anthropogenic run without restart. For a detailed description on the possible settings see our .:ref:`guide to the configuration file <configuration_file>`
+
+To configure WaterGAP, firstly go to your WaterGAP repository and navigate to "Config_ReWaterGAP.json". 
 
 **4.1) File Paths**
 
@@ -94,13 +96,13 @@ In this run, WaterGap will not restart from a previous state. Under "restart_opt
 
 Next up the chosen timeframe for the simulation needs to be set. Under "SimulationPeriod" change the "start" date to "1989-01-01" and the "end" date to "1989-12-31".
 For the reservoir operational years set the start and end years to "1989". We will be using a five year spin-up period in this example. Change "spinup_years"
-	
+
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_options_standard_run.png
 
 **4.5) Time step**
 
-Under "time_step" leave the resolution set to "daily"
+Under "time_step" set the resolution to "daily".
 
 **4.6) Simulation Extend**
 
@@ -108,11 +110,13 @@ We will not be running WaterGAP for a basin in this example so leave the "run_ba
 
 **4.7) Output Variables**
 
-Any number of variables may be written out. In this example, we will only want to write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the :ref:`glossary <glossary>`.
+Any number of variables may be written out. In this example, we will only write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the :ref:`glossary <glossary>`.
 
 .. figure:: ../images/getting_started/tutorials/output_variables_standard_run.png
 
 **4.8) Save the configuration file**
+
+Save the configuration file
 
 **5) Run the simulation**
 
@@ -134,7 +138,7 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 
 **6) Visualizing your results using Panopoly**
 
-To visualize the output of this standard run we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Download and install it. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-12-31.nc". Click on "open".
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Here we will be using it to visulaize the output of our standard run. Download and install Panopoly. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-12-31.nc". Click on "open".
 
 You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
 
