@@ -21,7 +21,7 @@ Preparing Input Data
 In your WaterGap repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this Tutorial we will be running the simulation for the year 1989.
 
 1) Download the climate forcing data of your choice.
-************************************************************
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To begin running WaterGAP we must download the necessary climate forcing data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . 
 
@@ -37,7 +37,7 @@ The forcings required are:
 	Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days).
 
 2) Download the water use data.
-*******************************
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Next up we will need to download the necessary water use data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from the Goethe-Universität Frankfurt.
 
@@ -60,7 +60,7 @@ Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrolog
 Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and GSWP3-W5E5 climate forcing under historical setup of direct human impacts, https://doi.org/10.25716/GUDE.0296-3FD7, 19 June 2024e.
 
 3) Place the downloaded data into their correct folders in the repository.
-**************************************************************************
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to "input_data" and place the downloaded files in their correct folders as seen in the picture below:
 
@@ -98,7 +98,6 @@ In the example below, we will create a standard run for one year (1989) and go t
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
-
 
 .. _modify_the_configuration_file_tutorial:
 
@@ -159,13 +158,7 @@ Save the configuration file
 3) Run the simulation
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Navigate to your ReWaterGAP folder in the terminal, then activate your environment using the following command. In this example it is named "watergap".
-
-.. code-block:: bash
-
-	$ mamba activate watergap
-
-To run WaterGAP, use the following command:
+Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:
 
 .. code-block:: bash
 
@@ -182,7 +175,11 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 4) Visualize your results
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Find our guide to Panopoly here.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`_.
+
+For the year 1989 the result should look like this:
+
+.. figure:: ../images/getting_started/tutorials/output_standard_run_tutorial_panopoly.png
 
 
 .. _human_water_use_only:
@@ -211,9 +208,9 @@ The only difference between a standard and a human-water-use-only run are the si
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
 3) Run the simulation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
 
-To run WaterGAP, use the following command in your terminal:
+Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:
 
 .. code-block:: bash
 
@@ -221,7 +218,7 @@ To run WaterGAP, use the following command in your terminal:
 
 In case of a problem find help in the `five minute guide <five_minute_guide>`_ .
 
-In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
+In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc".  
 
 4) Visualizing your results using Panopoly
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -229,8 +226,6 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 For a brief guide on using Panopoly for data visualization see `above <visualize_using_panopoly>`_.
 
 .. figure:: ../images/getting_started/tutorials/panopoly_map_human_water_use_only_tutorial.png
-
-
 
 .. _reservoirs_only:
 
@@ -257,9 +252,9 @@ The only difference between a standard and a reservoirs-only run are the simulat
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
 3) Run the simulation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
 
-To run WaterGAP, use the following command in your terminal:
+Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:
 
 .. code-block:: bash
 
