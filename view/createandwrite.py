@@ -65,13 +65,13 @@ class CreateandWritetoVariables:
             "netrad": "net_rad",
             "lai-total": "leaf_area_index",
             "canopystor": "canopy_storage",
-            "canopy_evap": "canopy_evap",
+            "canopy-evap": "canopy_evap",
             "throughfall": "throughfall",
             "swe": "snow_water_equiv",
-            "snow_fall": "snow_fall",
-            "snow_melt": "snow_melt",
-            "snow_evap": "snow_evap",
-            "snowcover_frac": "snowcover_frac",
+            "snowfall": "snow_fall",
+            "snm": "snow_melt",
+            "snow-evap": "snow_evap",
+            "snowcover-frac": "snowcover_frac",
             "soilmoist": "soil_moisture",
             "smax": "maximum_soil_moisture",
             "qrd": "groundwater_recharge",
@@ -100,30 +100,30 @@ class CreateandWritetoVariables:
         # Lateral Water Balance Variables
         # output variable name : name in config file
         lb_output_vars = {
-            "consistent_precipitation" : "consistent_precipitation",
+            "consistent-precipitation" : "consistent_precipitation",
             "groundwstor": "groundwater_storage",
             "qg": "groundwater_discharge",
             "qtot": "total_runoff", 
             "qrf": "groundwater_recharge_swb",
             "qr": "total_groundwater_recharge",
             "locallakestor": "local_lake_storage",
-            "locallake_outflow": "local_lake_outflow",
+            "locallake-outflow": "local_lake_outflow",
             "localwetlandstor": "local_wetland_storage",
-            "localwetland_outflow": "local_wetland_outflow",
+            "localwetland-outflow": "local_wetland_outflow",
             "globallakestor": "global_lake_storage",
-            "globallake_outflow": "global_lake_outflow",
+            "globallake-outflow": "global_lake_outflow",
             "globalwetlandstor": "global_wetland_storage",
-            "globalwetland_outflow": "global_wetland_outflow",
+            "globalwetland-outflow": "global_wetland_outflow",
             "riverstor": "river_storage",
             "reservoirstor": "global_reservoir_storage",
             "tws": "total_water_storage",
 
             "dis": "streamflow",
-            "dis_from_upstream":"streamflow_from_upstream",
-            "dis_from_inland_sink": "streamflow_from_inland_sink",
+            "dis-from-upstream":"streamflow_from_upstream",
+            "dis-from-inlandsink": "streamflow_from_inland_sink",
             
-            "atotuse_gw": "actual_net_abstr_groundwater",
-            "atotuse_sw": "actual_net_abstr_surfacewater",
+            "atotusegw": "actual_net_abstr_groundwater",
+            "atotusesw": "actual_net_abstr_surfacewater",
             "atotuse" : "actual_water_consumption",
             "evap-total": "cell_aet_consuse",
             
@@ -141,8 +141,9 @@ class CreateandWritetoVariables:
             "total_unsatisfied_demand_from_supply_to_all_demand_cell":
                 "total_unsatisfied_demand_from_supply_to_all_demand_cell",
             "ncrun":  "net_cell_runoff",
-            "river_velocity": "river_velocity",
-            "land_area_fraction":  "land_area_fraction",
+            "river-velocity": "river_velocity",
+            "land-area-fraction":  "land_area_fraction",
+            "pot_cell_runoff": "pot_cell_runoff"
             
         }
 

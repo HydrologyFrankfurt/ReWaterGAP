@@ -17,31 +17,31 @@ modelvars = {
     "potevap": {"long": " Total potential evapotranspiration", "unit": " kg m-2 s-1"},
     "netrad": {"long": "Net radiation", "unit": " kg m-2 s-1"},
     "lai-total": {"long": "Leaf area index", "unit": "-"},
-    "canopy_evap":  {"long": "Canopy evaporation", "unit": " kg m-2 s-1"},
+    "canopy-evap":  {"long": "Canopy evaporation", "unit": " kg m-2 s-1"},
     "throughfall": {"long": "Throughfall", "unit": " kg m-2 s-1"},
-    "snow_fall":  {"long": "Snowfall", "unit": " kg m-2 s-1"},
-    "snow_melt": {"long": "Snowmelt", "unit": " kg m-2 s-1"},
-    "snow_evap": {"long": "Snow evaporation", "unit": " kg m-2 s-1"},
-    "snowcover_frac": {"long": "Snow cover fraction ", "unit": "-"},
+    "snowfall":  {"long": "Snowfall", "unit": " kg m-2 s-1"},
+    "snm": {"long": "Snowmelt", "unit": " kg m-2 s-1"},
+    "snow-evap": {"long": "Snow evaporation", "unit": " kg m-2 s-1"},
+    "snowcover-frac": {"long": "Snow cover fraction ", "unit": "-"},
     "qrd": {"long": "Diffuse groundwater recharge", "unit": " kg m-2 s-1"},
     "qs": {"long": "Surface runoff", "unit": " kg m-2 s-1"},
 
     # LateralWaterBalanceFluxes
-    "consistent_precipitation": {"long": "modified or consistent precipitation", "unit": " kg m-2 s-1"},
+    "consistent-precipitation": {"long": "modified or consistent precipitation", "unit": " kg m-2 s-1"},
     "qg": {"long": "Groundwater discharge", "unit": " kg m-2 s-1"},
     "qtot": {"long": "Total runoff (sum of surrface runoff and groundwater discharge)", "unit": " kg m-2 s-1"},
     "qrf": {"long": "Focussed groundwater recharge below surface water bodies", "unit": " kg m-2 s-1"},
     "qr": {"long": "sum of diffuse groundwater recharge + groundwater recharge from surfacewater bodies", "unit": " kg m-2 s-1"},
-    "locallake_outflow": {"long": "Locallake outflow", "unit": " kg m-2 s-1"},
-    "localwetland_outflow": {"long": "Localwetland outflow", "unit": " kg m-2 s-1"},
-    "globallake_outflow": {"long": "Globallake outflow", "unit": " kg m-2 s-1"},
-    "globalwetland_outflow": {"long": "Globalwetland outflow", "unit": " kg m-2 s-1"},
+    "locallake-outflow": {"long": "Locallake outflow", "unit": " kg m-2 s-1"},
+    "localwetland-outflow": {"long": "Localwetland outflow", "unit": " kg m-2 s-1"},
+    "globallake-outflow": {"long": "Globallake outflow", "unit": " kg m-2 s-1"},
+    "globalwetland-outflow": {"long": "Globalwetland outflow", "unit": " kg m-2 s-1"},
     "dis": {"long": "Streamflow or River discharge", "unit": "m3 s-1"},
-    "dis_from_upstream":{"long": "Streamflow or River discharge from upstream cell", "unit": "m3 s-1"},
-    "dis_from_inland_sink" : {"long": "Stream flow from inland sink",  "unit": " m3 s-1"},
+    "dis-from-upstream":{"long": "Streamflow or River discharge from upstream cell", "unit": "m3 s-1"},
+    "dis-from-inlandsink" : {"long": "Stream flow from inland sink",  "unit": " m3 s-1"},
     
-    "atotuse_gw": {"long": "actual net abstraction from  groundwater", "unit": " kg m-2 s-1"},
-    "atotuse_sw": {"long": "actual net abstraction from suurface water", "unit": " kg m-2 s-1"},
+    "atotusegw": {"long": "actual net abstraction from  groundwater", "unit": " kg m-2 s-1"},
+    "atotusesw": {"long": "actual net abstraction from suurface water", "unit": " kg m-2 s-1"},
     "atotuse":{"long": "Total Actual Water Consumption (all sectors)", "unit": " kg m-2 s-1"},
     
     "evap-total":{"long": "Potential consumptive use(NAg+NAs) and total actual evaporation from land", 
@@ -67,9 +67,9 @@ modelvars = {
         {"long": "total unsatisfied demand from supply to all demand_cell",  "unit": " kg m-2 s-1"},
     
     "ncrun":  {"long": "Net cell runoff (river discharge - upstream river disharge)",  "unit": " kg m-2 s-1"}, 
-     "river_velocity": {"long": "River velocity",  "unit": "m s-1"}, 
-    "land_area_fraction": {"long": "Daily land area fraction",  "unit": "-"},
-    
+     "river-velocity": {"long": "River velocity",  "unit": "m s-1"}, 
+    "land-area-fraction": {"long": "Daily land area fraction",  "unit": "-"},
+    "pot_cell_runoff":  {"long": "Potential runoff (sum of surrface runoff and groundwater discharge and runoff from surface waterbodies)", "unit": " kg m-2 s-1"},
     
     
     # VerticalWaterBalanceStorages
