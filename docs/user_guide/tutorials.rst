@@ -126,7 +126,7 @@ In this run, WaterGap will not restart from a previous state. Under "restart_opt
 
 .. figure:: ../images/getting_started/tutorials/restart_options_standard_run.png
 
-To find more information on restart options find a tutorial on how to save and restart WaterGAP :ref:`here <restart_from_saved_state>`
+To find more information on restart options find a tutorial on how to save and restart WaterGAP :ref:`here <restart_from_saved_state>`.
 
 **2.4) Simulation Period Options**
 
@@ -164,7 +164,7 @@ Navigate to your ReWaterGAP folder in the terminal, activate your environment, a
 
 	$ python3 run_watergap.py Config_ReWaterGAP.json
 
-In case of a problem find help in the `five minute guide <five_minute_guide>`_ .
+In case of a problem find help in the :ref:`five minute guide <five_minute_guide>`.
 
 If your run has been successful, your Terminal should look like this:
 
@@ -175,7 +175,7 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 4) Visualize your results
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly `here <visualize_using_panopoly>`_.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
 For the year 1989 the result should look like this:
 
@@ -216,14 +216,14 @@ Navigate to your ReWaterGAP folder in the terminal, activate your environment, a
 
 	$ python3 run_watergap.py Config_ReWaterGAP.json
 
-In case of a problem find help in the `five minute guide <five_minute_guide>`_ .
+In case of a problem find help in the :ref:`five minute guide <five_minute_guide>`.
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc".  
 
 4) Visualizing your results using Panopoly
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly `here <visualize_using_panopoly>`_.
+To visualize the output of any given simulation we suggest using :ref:`Panopoly <https://www.giss.nasa.gov/tools/panoply/>`. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
 For the year 1989 the result should look like this:
 
@@ -262,14 +262,14 @@ Navigate to your ReWaterGAP folder in the terminal, activate your environment, a
 
 	$ python3 run_watergap.py Config_ReWaterGAP.json
 
-In case of a problem find help in the `five minute guide <five_minute_guide>`_ .
+In case of a problem find help in the :ref:`five minute guide <five_minute_guide>` .
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
 4) Visualizing your results using Panopoly
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly `here <visualize_using_panopoly>`_.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
 For the year 1989 the result should look like this:
 
@@ -287,7 +287,7 @@ To run Watergap from a saved state, you must first save data from a previous sim
 
 1) Creating a saved state
 ******************************
-Restarting the simulation works for any of the simulation options (`Standard Run <standard_anthropogenic_run>`_, `Naturalized Run <naturalized_run>`_, `Human Water Use <human_water_use_only>`_ and `Reservoirs only <reservoirs_only>`_). In this example, we will be creating a saved state for a `standard anthropogenic run <standard_anthropogenic_run>`_.
+Restarting the simulation works for any of the simulation options (:ref:`Standard Run <standard_anthropogenic_run>`, :ref:`Naturalized Run <naturalized_run>`, :ref:`Human Water Use <human_water_use_only>` and :ref:`Reservoirs only <reservoirs_only>`). In this example, we will be creating a saved state for a :ref:`standard anthropogenic run <standard_anthropogenic_run>`.
 
 Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to "**Config_ReWaterGAP.json**". Under "**RestartOptions**", set "**restart**" to "false" and "**save_model_states_for_restart**" to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set "**save_and_read_states_dir**" to the created directory, as shown in the `image below <saving_for_restart>`_ .
 
@@ -318,7 +318,7 @@ To run the simulation from a previously saved state go to the configuration file
 
 When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it starting the day after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends and without a spin up, as the saved state already includes this data.
 
-All other options will remain as they are described under `creating a saved state <creating_a_saved_state>`_.
+All other options will remain as they are described under :ref:`creating a saved state <creating_a_saved_state>`.
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_after_restart.png
 
@@ -331,7 +331,7 @@ Lastly, run the simulation with these options. To verify that everything is runn
 Vizualizing your results using Panopoly
 ========================================
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. You can use it to open the input files in NetCDF format or your output files after the simulation has finished running. In this Tutorial we will be using Panopoly to vizualize the output data of the `standard anthropogenic run <standard_anthropogenic_run>`_ for the year 1989.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. You can use it to open the input files in NetCDF format or your output files after the simulation has finished running. In this Tutorial we will be using Panopoly to vizualize the output data of the :ref:`standard anthropogenic run <standard_anthropogenic_run>` for the year 1989.
 
 Begin by downloading and installing Panopoly. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-12-31.nc". Click on "open".
 
