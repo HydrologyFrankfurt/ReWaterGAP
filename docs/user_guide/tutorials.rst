@@ -1,12 +1,12 @@
 .. _tutorials:
 
 
-****************************
+############################
 Tutorial (Under Development)
-****************************
+############################
 
 .. contents:: 
-    :depth: 2
+    :depth: 3
     :backlinks: entry
 
 .. note::
@@ -17,6 +17,7 @@ Running Water Gap with different simulation options (other model configurations)
 ================================================================================
 
 .. naturalized_run:
+
 
 Naturalized Run
 ***************
@@ -51,7 +52,8 @@ The forcings required are:
 
 *Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days)*.
 
-**2) Download the water use data.**
+2) Download the water use data.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The forcings required are:
 
@@ -62,7 +64,8 @@ The forcings required are:
 
 Due to licensing, a download link will be made available at a later date. If you require the data, you may request a download link by sending us an `Email <mailto:Nyenah@em.uni-frankfurt.de>`_ .
 
-**3) Place the downloaded data into their correct folders in the repository.**
+3) Place the downloaded data into their correct folders in the repository.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In your WaterGAP repository, navigate to "input_data" and place the downloaded files for climate forcings and water use in their correct folders as seen in the picture below.
 
@@ -70,7 +73,8 @@ In your WaterGAP repository, navigate to "input_data" and place the downloaded f
 
 .. _modify_the_configuration_file_tutorial:
 
-**4) Modify the configuration file to set up a standard run.**
+4) Modify the configuration file to set up a standard run.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 WaterGAP can be setup for your specific usecase. In this part we will be going through the various configuration options as well as the available output options and configuring the simulation for a standard anthropogenic run without restart. For a detailed description on the possible settings see our .:ref:`guide to the configuration file <configuration_file>`
 
@@ -120,7 +124,8 @@ Any number of variables may be written out. In this example, we will only write 
 
 Save the configuration file
 
-**5) Run the simulation**
+5) Run the simulation
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To run WaterGAP, use the following command in your terminal:
 
@@ -138,7 +143,8 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 
 .. _visualize_using_panopoly:
 
-**6) Visualizing your results using Panopoly**
+6) Visualizing your results using Panopoly
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Here we will be using it to visulaize the output of our standard run. Download and install Panopoly. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-12-31.nc". Click on "open".
 
