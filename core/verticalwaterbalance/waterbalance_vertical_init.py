@@ -217,7 +217,7 @@ class VerticalWaterBalance:
         #                  =============================
         temperature = self.forcings_static.climate_forcing.temperature.sel(
             time=str(date))
-        
+
         # Covert air tempeature from degree celcius to Kelvin
         temperature = check_or_convert.to_kelvin(temperature.tas)
 
@@ -227,8 +227,10 @@ class VerticalWaterBalance:
         down_shortwave_radiation = \
             self.forcings_static.climate_forcing.down_shortwave_radiation.sel(
                 time=str(date))
+
         down_shortwave_radiation = \
             down_shortwave_radiation.rsds.values.astype(np.float64)
+        
 
         #                  =========================================
         #                  ||  Downward longwave radiation (Wm−2) ||
@@ -236,9 +238,10 @@ class VerticalWaterBalance:
         down_longwave_radiation = \
             self.forcings_static.climate_forcing.down_longwave_radiation.sel(
                 time=str(date))
+
         down_longwave_radiation = \
             down_longwave_radiation.rlds.values.astype(np.float64)
-            
+ 
         # check data dimension make sure dimensions are 360*720 for 0.5 degree
         if precipitation.shape != basin.shape:
             precipitation = precipitation[0]
@@ -345,12 +348,12 @@ class VerticalWaterBalance:
             update({'netrad': net_radiation,
                     'potevap':  total_potential_evap * per_contfrac,
                     'lai-total':  leaf_area_index,
-                    'canopy_evap':  canopy_evap * per_contfrac,
+                    'canopy-evap':  canopy_evap * per_contfrac,
                     'throughfall':  throughfall * per_contfrac,
-                    'snow_fall':  snow_fall * per_contfrac,
-                    'snow_melt':  snow_melt * per_contfrac,
-                    'snow_evap':  sublimation * per_contfrac,
-                    'snowcover_frac': snowcover_frac * per_contfrac,
+                    'snowfall':  snow_fall * per_contfrac,
+                    'snm':  snow_melt * per_contfrac,
+                    'snow-evap':  sublimation * per_contfrac,
+                    'snowcover-frac': snowcover_frac * per_contfrac,
                     # Groundwater recharge (qr) and surface runoff(qs)
                     # are writtem out as netcdf and not used for lateral water
                     # balance calculation.
