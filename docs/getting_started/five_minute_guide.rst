@@ -1,21 +1,25 @@
 .. _five_minute_guide:
 
+###########################
 5 minute guide to WaterGAP
---------------------------
+###########################
 
-**1: Download and Install Python** (Skip this step if python is already installed)
+1: Download and Install Python
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+(Skip this step if python is already installed)
 	
 Download the current Python version for your OS from `the official Python Website <https://www.python.org/downloads/>`__ and install.
 
-**2: Download and Install the package manager "Mamba"** (Skip this step if mamba is already installed)
-	
+2: Download and Install the package manager "Mamba"
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Skip this step if mamba is already installed)
+
 Go to the `Mamba Website <https://github.com/conda-forge/miniforge>`__ , choose your OS (Linux or MacOS) and download the installation file (the downloaded file has an ".sh" extension)
-	
 	
 Open your terminal and navigate to the downloaded file (it has the name "Miniforge3-(OSname)-(architecture).sh")
 
 Install Mamba by running the following command and follow the installation prompts. The prompt will notify you where to install Mamba (see :ref:`image <mamba_licence_location>` below). The created folder will be called "miniforge3".
-
 
 .. code-block:: bash
 		
@@ -25,14 +29,11 @@ Install Mamba by running the following command and follow the installation promp
 
 .. figure:: ../images/getting_started/mamba_licence_location.png
 
-
 After the installation is complete, you will see the :ref:`Mamba logo <installation_complete>` .
-
 
 .. _installation_complete:
 
 .. figure:: ../images/getting_started/installation_complete.png
-
 
 Navigate to the "bin" folder in the newly created "miniforge3" folder.
 
@@ -47,8 +48,8 @@ Navigate to the "bin" folder in the newly created "miniforge3" folder.
 		$ source activate
 
 
-**3: Clone the WaterGAP repository**
-
+3: Clone the WaterGAP repository
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Using the Terminal, navigate to the directory of choice where the WaterGAP folder will be copied into. Then use the following command to clone the repository.
 
 .. code-block:: bash
@@ -57,7 +58,8 @@ Using the Terminal, navigate to the directory of choice where the WaterGAP folde
 
 Find more information in the official GitHub documentation `here <https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository>`__ .
 
-**4: Create an environment to run ReWaterGAP in**
+4: Create an environment to run ReWaterGAP in
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Navigate to the ReWaterGAP folder in the terminal using the following command.
 
@@ -82,8 +84,8 @@ Activate the WaterGAP environment using the following command.
 
 .. _get_input_data:
 
-**5. Get Input Data**
-
+5. Get Input Data
+^^^^^^^^^^^^^^^^^^
 The User should provide the following data in NetCDF format.  
 
 Note: WaterGAP operates with daily temporal resolution. The model does consider leap days (29th February) in computations, so these *specific days* should be excluded from the climate forcings. 
@@ -112,13 +114,13 @@ and the water use data at  *link here soon*.
 
 .. _naturalized_run:
 
-**6: Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run**
+6: Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Note:  For the Naturalised run, make sure that anthropogenic run is set to false (**"ant": false**) in the **Config_ReWaterGAP.json** file (see image below).
 See :ref:`Tutorials <tutorials>` to run other model configurations.
 
 .. figure:: ../images/getting_started/natuatlised_run.PNG
-
 
 Lastly, run the command below to start WaterGAP:
 
