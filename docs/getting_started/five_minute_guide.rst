@@ -120,7 +120,7 @@ See :ref:`Tutorials <tutorials>` to run other model configurations.
 .. figure:: ../images/getting_started/natuatlised_run.PNG
 
 
-Finally run the command below
+Lastly, run the command below to start WaterGAP:
 
 .. code-block:: bash
 
