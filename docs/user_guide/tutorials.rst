@@ -175,7 +175,7 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 4) Visualize your results
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`_.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly `here <visualize_using_panopoly>`_.
 
 For the year 1989 the result should look like this:
 
