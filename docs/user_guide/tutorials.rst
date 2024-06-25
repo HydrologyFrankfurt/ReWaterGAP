@@ -6,7 +6,7 @@ Tutorial (Under Development)
 ****************************
 
 .. contents:: 
-    :depth: 4
+    :depth: 2
     :backlinks: entry
 
 .. note::
