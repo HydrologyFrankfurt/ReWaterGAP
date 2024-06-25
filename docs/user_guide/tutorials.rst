@@ -243,8 +243,9 @@ This simulation excludes human water use but includes global man-made reservoirs
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
-2) Modify the configuration file to set up a reservoirs-only run.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2) Set up the configuration file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 The only difference between a standard and a reservoirs-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "false" and "res_opt" to "true" as seen in the picture :ref:`below <reservoirs_only_run_example_picture>`.
 
 .. _reservoirs_only_run_example_picture:
@@ -267,7 +268,7 @@ In case of a problem find help in the :ref:`five minute guide <five_minute_guide
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
 4) Visualizing your results using Panopoly
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
