@@ -38,7 +38,8 @@ In the example below, we will create a standard run for one year (1989) and go t
 
 .. _prepare_input_data:
 
-**1) Download the climate forcing data of your choice.**
+1) Download the climate forcing data of your choice.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In this example, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1981 to 1990 as our example year of 1989 is in this group.
 The forcings required are:
