@@ -17,6 +17,7 @@ from pathlib import Path
 import glob
 import os
 import sys
+import pandas as pd 
 import xarray as xr
 import watergap_logger as log
 import misc.cli_args as cli
@@ -87,8 +88,16 @@ class Wateruse:
                                      os.path.basename(fpath)]
 
                 self.potential_net_abstraction = \
-                    xr.open_mfdataset( filtered_abstraction_path,
-                                      chunks={'time': 365})
+                    xr.open_mfdataset(filtered_abstraction_path, decode_times=False)
+                
+                # Fix date issues.
+                units, reference_date = self.potential_net_abstraction.time.attrs["units"].split("since")
+                self.potential_net_abstraction["time"] = \
+                    pd.date_range(start=reference_date, 
+                                  periods=self.potential_net_abstraction.sizes["time"], 
+                                  freq="MS")
+            
+                # only for calibration run
                 self.actual_net_abstraction = None
                 if  run_calib==True:
                     actual_use_path = [fpath for fpath in 
