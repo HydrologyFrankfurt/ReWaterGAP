@@ -1,28 +1,36 @@
 {
   "FilePath": {
-    "inputDir": {"climate_forcing": "input_data/climate_forcing/",
-                 "water_use_data": "input_data/water_use/",
-                 "static_land_data": "input_data/static_input/"},
-                
+    "inputDir": {
+      "climate_forcing": "input_data/climate_forcing/",
+      "water_use_data": "input_data/water_use/",
+      "static_land_data": "input_data/static_input/"
+    },
     "outputDir": "output_data/"
   },
   "RuntimeOptions": [
     {
       "SimulationOption": {
-        "AntNat_opts": {"ant": true,  "subtract_use": true, "res_opt": true},
-        "Demand_satisfaction_opts": {"delayed_use": true, "neighbouring_cell": true}
+        "AntNat_opts": {
+          "ant": true,
+          "subtract_use": true,
+          "res_opt": true
+        },
+        "Demand_satisfaction_opts": {
+          "delayed_use": true,
+          "neighbouring_cell": true
+        }
       }
     },
     {
-    "RestartOptions":{
+      "RestartOptions": {
         "restart": false,
         "save_model_states_for_restart": false,
         "save_and_read_states_dir": "./"
-        }
+      }
     },
     {
       "SimulationPeriod": {
-        "start": "1989-01-01",
+        "start": "1961-01-01",
         "end": "2019-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
@@ -35,79 +43,84 @@
       }
     },
     {
-    "SimulationExtent": { 
-     "run_basin": false,
-     "path_to_stations_file": "input_data/static_input/"}
-     }
+      "SimulationExtent": {
+        "run_basin": false,
+        "path_to_stations_file": "input_data/static_input/"
+      }
+    },
+    {
+      "Calibrate WaterGAP": {
+        "run_calib": false,
+        "path_to_observed_discharge": "../test_wateruse/json_annual/"
+      }
+    }
   ],
   "OutputVariable": [
     {
       "VerticalWaterBalanceFluxes": {
-        "pot_evap":true,
-        "net_rad":false,
-        "leaf_area_index":false,
-        "canopy_evap":false,
-        "throughfall":false,
-        "snow_fall":false,
-        "snow_melt":false,
-        "snow_evap":false,
-        "groundwater_recharge_diffuse":true,
-        "surface_runoff":false,
+        "pot_evap": false,
+        "net_rad": false,
+        "leaf_area_index": false,
+        "canopy_evap": false,
+        "throughfall": false,
+        "snow_fall": false,
+        "snow_melt": false,
+        "snow_evap": false,
+        "groundwater_recharge_diffuse": false,
+        "surface_runoff": false,
         "snowcover_frac": false
       }
     },
     {
       "VerticalWaterBalanceStorages": {
-        "canopy_storage":false,
-        "snow_water_equiv":false,
-        "soil_moisture":false,
+        "canopy_storage": false,
+        "snow_water_equiv": false,
+        "soil_moisture": false,
         "maximum_soil_moisture": false
       }
     },
     {
       "LateralWaterBalanceFluxes": {
-        "consistent_precipitation": true,
-        "groundwater_discharge":false,
+        "consistent_precipitation": false,
+        "groundwater_discharge": false,
         "total_runoff": false,
+        "pot_cell_runoff": false,
         "groundwater_recharge_swb": false,
         "total_groundwater_recharge": false,
-        "local_lake_outflow":false,
-        "local_wetland_outflow":false,
-    	"global_lake_outflow":false,
-        "global_wetland_outflow":false,
-        "streamflow": true,
-        "streamflow_from_upstream": true,
-        "streamflow_from_inland_sink": true,
+        "local_lake_outflow": false,
+        "local_wetland_outflow": false,
+        "global_lake_outflow": false,
+        "global_wetland_outflow": false,
+        "streamflow": false,
+        "streamflow_from_upstream": false,
+        "streamflow_from_inland_sink": false,
         "actual_net_abstr_groundwater": true,
         "actual_net_abstr_surfacewater": true,
-        "actual_water_consumption": true ,
-        "cell_aet_consuse": true,
-                
-         "total_demand_into_cell": true,
-         "unsat_potnetabs_sw_from_demandcell":true,
-         "returned_demand_from_supply_cell": true,
-         "prev_returned_demand_from_supply_cell": true,
-         "total_unsatisfied_demand_ripariancell": true,
-         "accumulated_unsatisfied_potential_netabs_sw": true,
-         "get_neighbouring_cells_map": true,
-         "total_unsatisfied_demand_from_supply_to_all_demand_cell": true,
-         "net_cell_runoff": false,
-         "river_velocity": false,
-         "land_area_fraction": false
+        "actual_water_consumption": false,
+        "cell_aet_consuse": false,
+        "total_demand_into_cell": false,
+        "unsat_potnetabs_sw_from_demandcell": false,
+        "returned_demand_from_supply_cell": false,
+        "prev_returned_demand_from_supply_cell": false,
+        "total_unsatisfied_demand_ripariancell": false,
+        "accumulated_unsatisfied_potential_netabs_sw": false,
+        "get_neighbouring_cells_map": false,
+        "total_unsatisfied_demand_from_supply_to_all_demand_cell": false,
+        "net_cell_runoff": false,
+        "river_velocity": false,
+        "land_area_fraction": false
       }
     },
     {
       "LateralWaterBalanceStorages": {
-        "groundwater_storage":false,
+        "groundwater_storage": false,
         "local_lake_storage": false,
-        "local_wetland_storage":false,
-    	"global_lake_storage": false,
-    	"global_wetland_storage":false,
-    	"river_storage": false,
-    	"global_reservoir_storage": false,
-	    "total_water_storage": true
-
-
+        "local_wetland_storage": false,
+        "global_lake_storage": false,
+        "global_wetland_storage": false,
+        "river_storage": false,
+        "global_reservoir_storage": false,
+        "total_water_storage": false
       }
     }
   ]

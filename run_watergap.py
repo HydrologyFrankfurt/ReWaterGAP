@@ -33,8 +33,9 @@ from view import createandwrite as cw
 
 
 
-@check_time
-def run():
+
+
+def run(calib_station=None, watergap_basin=None):
     """
     Run WaterGAP.
 
@@ -43,6 +44,7 @@ def run():
     None.
 
     """
+    
     if cm.ant is True:
         print('\n' + colored('+++ Antropogenic Run +++', 'cyan'))
         if cm.reservior_opt is False:
@@ -87,6 +89,10 @@ def run():
               colored(' %s' % (cm.temporal_res), 'green'))
         print('Run basin:' +
               colored(' %s' % (cm.run_basin), 'green'))
+        
+ 
+    # Flag to run WaterGAP calibration 
+    run_calib = cm.run_calib
 
     # =====================================================================
     # Initialize Restart module for possible restart of WaterGAP
@@ -98,9 +104,9 @@ def run():
     # Initialize static data, climate forcings , wateruse data
     # and get data dimensions
     # =====================================================================
-    initialize_forcings_static = rd.InitializeForcingsandStaticdata()
+    initialize_forcings_static = rd.InitializeForcingsandStaticdata(run_calib)
     grid_coords = initialize_forcings_static.grid_coords
-    potential_net_abstraction = wateruse.Wateruse(cm.subtract_use, grid_coords)
+    potential_net_abstraction = wateruse.Wateruse(cm.subtract_use, grid_coords, run_calib)
     parameters = pm.Parameters()
 
     # initialize Land surface water Fraction
@@ -132,25 +138,25 @@ def run():
     # =====================================================================
     # Initialize selected basin or region 
     # =====================================================================
-    watergap_basin = get_basin.\
-        Select_upstream_basin(cm.run_basin,
-                              initialize_forcings_static.static_data.arc_id ,
-                              initialize_forcings_static.static_data.stations,
-                              initialize_forcings_static.static_data.lat_lon_arcid,
-                              initialize_forcings_static.static_data.upstream_cells)
-    #print(watergap_region.region)
+    if run_calib == True and cm.run_basin==True: 
+        # calibration run 
+        pass
+    else:  
+        # run WaterGAP is basin of choice
+        streamflow_station = initialize_forcings_static.static_data.stations
+        watergap_basin = get_basin.\
+            Select_upstream_basin(cm.run_basin,
+                                  initialize_forcings_static.static_data.arc_id ,
+                                  streamflow_station,
+                                  initialize_forcings_static.static_data.lat_lon_arcid,
+                                  initialize_forcings_static.static_data.upstream_cells)
+
+
     # ====================================================================
     # Get time range for Loop
     # ====================================================================
     start_date = np.datetime64(cm.start)
     end_date = np.datetime64(cm.end)
-
-    # check if user inputs larger time period than dataset
-    # if (grid_coords['time'][-1].values.astype('datetime64[D]') < end_date) or \
-    #         (grid_coords['time'][0].values.astype('datetime64[D]') < start_date):
-    #     raise ValueError(colored('Start or end date of simulation period '
-    #                              'is not included in the data. '
-    #                              'Please select valid period', 'red'))
 
     # getting time range from time input (including the first day).
     timerange_main = round((end_date - start_date + 1)/np.timedelta64(1, 'D'))
@@ -213,6 +219,8 @@ def run():
     #                  ====================================
     #                  ||   Main Loop for all processes  ||
     #                  ====================================
+    get_annual_streamflow=[]# for calibration purpose only
+    get_annual_pot_cell_runoff=[]# for calibration purpose only
     end_main_loop = False
     while True:
         print('Spin up phase: ' + colored(str(spin_up), 'cyan'))
@@ -223,7 +231,7 @@ def run():
             simulation_date = date_main
         for time_step, date in tqdm(zip(range(time_range), simulation_date),
                                     total=(time_range-1), desc="Processing",
-                                    disable=False):
+                                    disable=run_calib):
 
             # =================================================================
             #  Get Land area fraction and reservoirs respective years
@@ -274,7 +282,8 @@ def run():
                           land_water_frac.previous_landareafrac,
                           land_water_frac.landwaterfrac_excl_glolake_res,
                           date, first_day_of_month, watergap_basin.upstream_basin,
-                          vertical_waterbalance.fluxes['sum_canopy_snow_soil_storage'])
+                          vertical_waterbalance.fluxes['sum_canopy_snow_soil_storage'],
+                          run_calib)
 
             # =================================================================
             #  Update Land Area Fraction
@@ -317,13 +326,23 @@ def run():
                         date.astype('datetime64[D]'):
                     save_year = date.astype('datetime64[D]')
                     
-                    print(f'\nWriting data for {save_year} to NetCDF\n')
-                    
-                    create_out_var.base_units(initialize_forcings_static.static_data.cell_area,
-                                              initialize_forcings_static.static_data.
-                                              land_surface_water_fraction.contfrac)
-                                                              
-                    create_out_var.save_netcdf_parallel(str(save_year))
+                    if run_calib == True: 
+                        annual_streamflow = create_out_var.lb_fluxes['dis'].data.sel(lat=calib_station["lat"].values, lon=calib_station["lon"].values)
+                        annual_streamflow = annual_streamflow.dis.resample(time='Y').sum().values  # km3/year for station
+                        get_annual_streamflow.append(annual_streamflow[0][0][0])
+                        
+                        annual_pot_cell_runoff = create_out_var.lb_fluxes['pot_cell_runoff'].data
+                        annual_pot_cell_runoff = annual_pot_cell_runoff.pot_cell_runoff.resample(time='Y').sum(skipna=False)
+                        annual_pot_cell_runoff.attrs['units']="km3/year"
+                        get_annual_pot_cell_runoff.append(annual_pot_cell_runoff)
+                    else:
+                        print(f'\nWriting data for {save_year} to NetCDF\n')
+                        
+                        create_out_var.base_units(initialize_forcings_static.static_data.cell_area,
+                                                  initialize_forcings_static.static_data.
+                                                  land_surface_water_fraction.contfrac)
+                                                                  
+                        create_out_var.save_netcdf_parallel(str(save_year))
 
                 # =============================================================
                 #  Get restart information if restart is needed.
@@ -386,8 +405,15 @@ def run():
         if end_main_loop is True:
             print('Status:' + colored(' complete', 'cyan'))
             break
-
-
+        
+        
+    if run_calib == True:
+        sim_data_calib  = {"sim_dis": get_annual_streamflow, 
+                          "pot_cell_runoff": get_annual_pot_cell_runoff}
+        return sim_data_calib 
+    
 if __name__ == "__main__":
-    run()
+    run_with_time_check = check_time(run)
+    run_with_time_check()
+
 
