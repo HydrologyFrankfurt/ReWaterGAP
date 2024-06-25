@@ -166,11 +166,13 @@ This simulation includes human water use but excludes global man-made reservoirs
 
 **Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so, follow the :ref:`five minute guide <five_minute_guide>` for this.
 
-**1) Prepare the input data.**
+1) Prepare the input data.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
-**2) Modify the configuration file to set up a human-water-use-only run.**
+2) Modify the configuration file to set up a human-water-use-only run.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The only difference between a standard and a human-water-use-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "true" and "res_opt" to "false" as seen in the picture :ref:`below <use_only_run_example_picture>`.
 
@@ -180,7 +182,8 @@ The only difference between a standard and a human-water-use-only run are the si
 
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
-**3) Run the simulation**
+3) Run the simulation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To run WaterGAP, use the following command in your terminal:
 
@@ -192,7 +195,8 @@ In case of a problem find help in the `five minute guide <five_minute_guide>`_ .
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
-**4) Visualizing your results using Panopoly**
+4) Visualizing your results using Panopoly
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For a brief guide on using Panopoly for data visualization see `above <visualize_using_panopoly>`_.
 
@@ -209,12 +213,13 @@ This simulation excludes human water use but includes global man-made reservoirs
 
 **Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so, follow the :ref:`five minute guide <five_minute_guide>` for this.
 
-**1) Prepare the input data.**
+1) Prepare the input data.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
-**2) Modify the configuration file to set up a reservoirs-only run.**
-
+2) Modify the configuration file to set up a reservoirs-only run.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The only difference between a standard and a reservoirs-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "false" and "res_opt" to "true" as seen in the picture :ref:`below <reservoirs_only_run_example_picture>`.
 
 .. _reservoirs_only_run_example_picture:
@@ -223,7 +228,8 @@ The only difference between a standard and a reservoirs-only run are the simulat
 
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
-**3) Run the simulation**
+3) Run the simulation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To run WaterGAP, use the following command in your terminal:
 
@@ -235,7 +241,8 @@ In case of a problem find help in the `five minute guide <five_minute_guide>`_ .
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
-**4) Visualizing your results using Panopoly**
+4) Visualizing your results using Panopoly
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For a brief guide on using Panopoly for data visualization see `above <visualize_using_panopoly>`_.
 
@@ -251,8 +258,8 @@ To run Watergap from a saved state, you must first save data from a previous sim
 
 .. _creating_a_saved_state:
 
-**1) Creating a saved state**
-
+1) Creating a saved state
+******************************
 Restarting the simulation works for any of the simulation options (`Standard Run <standard_anthropogenic_run>`_, `Naturalized Run <naturalized_run>`_, `Human Water Use <human_water_use_only>`_ and `Reservoirs only <reservoirs_only>`_). In this example, we will be creating a saved state for a `standard anthropogenic run <standard_anthropogenic_run>`_.
 
 Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to "**Config_ReWaterGAP.json**". Under "**RestartOptions**", set "**restart**" to "false" and "**save_model_states_for_restart**" to "true", as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. In this example, we will be using a folder under "Users/username/restart_data". In your configuration file, set "**save_and_read_states_dir**" to the created directory, as shown in the `image below <saving_for_restart>`_ .
@@ -273,7 +280,8 @@ Run the simulation. You will then find your saved state data file "restartwaterg
 
 .. figure:: ../images/getting_started/tutorials/saved_state_pickle_file.png
 
-**2) Running the simulation from saved data**
+2) Running the simulation from saved data
+****************************************************
 
 In this step we will be running the simulation from the previously saved state, for the year 1990, starting one day after the last day saved in the saved state. It is possible to run the simulation for any time period even beyond the one year used here.
 
