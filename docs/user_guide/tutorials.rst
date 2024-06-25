@@ -13,6 +13,61 @@ Tutorial (Under Development)
 	Before following this tutorial, please follow the five minute guide found :ref:`here <five_minute_guide>`.
 
 
+.. _prepare_input_data:
+
+Preparing Input Data
+====================
+
+In your WaterGap repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this Tutorial we will be running the simulation for the year 1989.
+
+1) Download the climate forcing data of your choice.
+************************************************************
+
+To begin running WaterGAP we must download the necessary climate forcing data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . 
+
+The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1981 to 1990 as our example year of 1989 is in this group.
+The forcings required are:
+
+- precipitation [kg m-2 s-1]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1981_1990.nc>`_ 
+- downward longwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1981_1990.nc>`_ 
+- downward shortwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1981_1990.nc>`_ 
+- temperature [K]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1981_1990.nc>`_ 
+
+.. note::
+	Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days).
+
+2) Download the water use data.
+*******************************
+
+Next up we will need to download the necessary water use data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from the Goethe-Universität Frankfurt.
+
+The forcings required are:
+
+- potential consumptive use from irrigation using surface water :math:`[m3/month]`
+- potential water withdrawal use from irrigation using surface water :math:`[m3/month]`
+- potential net abstractions from surface water :math:`[m3/month]`
+- potential net abstractions from groundwater :math:`[m3/month]`
+
+
+Müller Schmied, H. and Nyenah, E.: Climate forcing GSWP3-ERA5 as input for the global hydrological model WaterGAP, https://doi.org/10.25716/GUDE.0H3E-SBWV, 19 June 2024a.
+
+Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and 20CRv3-ERA5 climate forcing under historical setup of direct human impacts, https://doi.org/10.25716/GUDE.1BGX-87AA, 19 June 2024b.
+
+Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and 20CRv3-W5E5 climate forcing under historical setup of direct human impacts, https://doi.org/10.25716/GUDE.0H6A-SR8Q, 19 June 2024c.
+
+Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and GSWP3-ERA5 climate forcing under historical setup of direct human impacts, https://doi.org/10.25716/GUDE.1VNN-DYCV, 19 June 2024d.
+
+Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and GSWP3-W5E5 climate forcing under historical setup of direct human impacts, https://doi.org/10.25716/GUDE.0296-3FD7, 19 June 2024e.
+
+3) Place the downloaded data into their correct folders in the repository.
+**************************************************************************
+
+Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to "input_data" and place the downloaded files in their correct folders as seen in the picture below:
+
+.. figure:: ../images/getting_started/input_data.png
+
+
+
 Running Water Gap with different simulation options (other model configurations)
 ================================================================================
 
@@ -39,95 +94,78 @@ In the example below, we will create a standard run for one year (1989) and go t
 
 .. _prepare_input_data:
 
-1) Download the climate forcing data of your choice.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1) Prepare the input data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this example, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1981 to 1990 as our example year of 1989 is in this group.
-The forcings required are:
+Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
-- precipitation [kg m-2 s-1]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1981_1990.nc>`_ 
-- downward longwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1981_1990.nc>`_ 
-- downward shortwave radiation [Wm-2]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1981_1990.nc>`_ 
-- temperature [K]; `Link in ISIMIP <https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1981_1990.nc>`_ 
-
-*Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days)*.
-
-2) Download the water use data.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The forcings required are:
-
-- potential consumptive use from irrigation using surface water :math:`[m3/month]`
-- potential water withdrawal use from irrigation using surface water :math:`[m3/month]`
-- potential net abstractions from surface water :math:`[m3/month]`
-- potential net abstractions from groundwater :math:`[m3/month]`
-
-Due to licensing, a download link will be made available at a later date. If you require the data, you may request a download link by sending us an `Email <mailto:Nyenah@em.uni-frankfurt.de>`_ .
-
-3) Place the downloaded data into their correct folders in the repository.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-In your WaterGAP repository, navigate to "input_data" and place the downloaded files for climate forcings and water use in their correct folders as seen in the picture below.
-
-.. figure:: ../images/getting_started/input_data.png
 
 .. _modify_the_configuration_file_tutorial:
 
-4) Modify the configuration file to set up a standard run.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2) Set up the configuration file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-WaterGAP can be setup for your specific usecase. In this part we will be going through the various configuration options as well as the available output options and configuring the simulation for a standard anthropogenic run without restart. For a detailed description on the possible settings see our .:ref:`guide to the configuration file <configuration_file>`
+WaterGAP can be setup for your specific usecase. In the following we will be going through the various configuration options as well as the available output options and configuring the simulation for a standard anthropogenic run without restart. For a detailed description on the possible settings see our :ref:`guide to the configuration file <configuration_file>`.
 
-To configure WaterGAP, firstly go to your WaterGAP repository and navigate to "Config_ReWaterGAP.json". 
+To configure WaterGAP, go to your WaterGAP repository and navigate to "Config_ReWaterGAP.json" and open the configuration file. 
 
-**4.1) File Paths**
+**2.1) File Paths**
 
-The first options in the configuration file regard input and output file paths. In this example, we will leave them unmodified.
+The first options in the configuration file regard input and output file paths. In this example, we will leave them unmodified. The locations for input and output data can be seen in the picture below.
 
 .. figure:: ../images/getting_started/tutorials/input_options.png
 
-**4.2) Runtime Options**
+**2.2) Runtime Options**
 
-In the configuration file find the runtime options. Then find the simulation options. Set all options under "AntNat_opts" to "true". Set all options under "Demand_satisfaction_opts" to "true". 
+In the configuration file find the runtime options. Then find the simulation options. Set all options under "AntNat_opts" to "true" and all options under "Demand_satisfaction_opts" to "true" to set up a standard anthropogenic run.
 
 .. figure:: ../images/user_guide/standard_run.png
 
-**4.3) Restart Options**
+**2.3) Restart Options**
 
 In this run, WaterGap will not restart from a previous state. Under "restart_options" make sure each option is set to "false".
 
 .. figure:: ../images/getting_started/tutorials/restart_options_standard_run.png
 
-**4.4) Simulation Period Options**
+To find more information on restart options find a tutorial on how to save and restart WaterGAP :ref:`here <restart_from_saved_state>`
 
-Next up the chosen timeframe for the simulation needs to be set. Under "SimulationPeriod" change the "start" date to "1989-01-01" and the "end" date to "1989-12-31".
-For the reservoir operational years set the start and end years to "1989". We will be using a five year spin-up period in this example. Change "spinup_years"
+**2.4) Simulation Period Options**
 
+In this example we are running the simulation for the year 1989. Under "SimulationPeriod" change the "start" date to "1989-01-01" and the "end" date to "1989-12-31".
+For the reservoir operational years set the start and end years to "1989". 
+
+We will be using a five year spin-up period in this example. Set "spinup_years" to "5".
 
 .. figure:: ../images/getting_started/tutorials/simulation_period_options_standard_run.png
 
-**4.5) Time step**
+**2.5) Time step**
 
 Under "time_step" set the resolution to "daily".
 
-**4.6) Simulation Extend**
+**2.6) Simulation Extend**
 
-We will not be running WaterGAP for a basin in this example so leave the "run_basin" option under "SimulationExtent" set to "false".
+We will not be running WaterGAP for a basin in this example so set the "run_basin" option under "SimulationExtent" to "false".
 
-**4.7) Output Variables**
+**2.7) Output Variables**
 
 Any number of variables may be written out. In this example, we will only write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the :ref:`glossary <glossary>`.
 
 .. figure:: ../images/getting_started/tutorials/output_variables_standard_run.png
 
-**4.8) Save the configuration file**
+**2.8) Save the configuration file**
 
 Save the configuration file
 
-5) Run the simulation
-^^^^^^^^^^^^^^^^^^^^^^^^^
+3) Run the simulation
+^^^^^^^^^^^^^^^^^^^^^^
 
-To run WaterGAP, use the following command in your terminal:
+Navigate to your ReWaterGAP folder in the terminal, then activate your environment using the following command. In this example it is named "watergap".
+
+.. code-block:: bash
+
+	$ mamba activate watergap
+
+To run WaterGAP, use the following command:
 
 .. code-block:: bash
 
@@ -141,20 +179,10 @@ If your run has been successful, your Terminal should look like this:
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
-.. _visualize_using_panopoly:
+4) Visualize your results
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-6) Visualizing your results using Panopoly
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Here we will be using it to visulaize the output of our standard run. Download and install Panopoly. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-12-31.nc". Click on "open".
-
-You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
-
-.. figure:: ../images/getting_started/tutorials/panopoly_map.png
-
-Once you see a world map, labeled "Streamflow or River discharge" go to "Window" -> "Plot Controls" where you will see the time set to "1" of "365". By increasing the time you will see the River discharge change visually on the map. We recommend changing the color scheme to "GMT_hot.cpt" under "Window" -> "Color Tables Browser".
-
-.. figure:: ../images/getting_started/tutorials/panopoly_plot_controls.png
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. Find our guide to Panopoly here.
 
 
 .. _human_water_use_only:
@@ -171,8 +199,8 @@ This simulation includes human water use but excludes global man-made reservoirs
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
-2) Modify the configuration file to set up a human-water-use-only run.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2) Set up the configuration file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The only difference between a standard and a human-water-use-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "true" and "res_opt" to "false" as seen in the picture :ref:`below <use_only_run_example_picture>`.
 
@@ -299,6 +327,22 @@ Lastly, run the simulation with these options. To verify that everything is runn
 
 .. figure:: ../images/getting_started/tutorials/terminal_restart_run_successful.png
 
+.. _visualize_using_panopoly:
+
+Vizualizing your results using Panopoly
+========================================
+
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. You can use it to open the input files in NetCDF format or your output files after the simulation has finished running. In this Tutorial we will be using Panopoly to vizualize the output data of the `standard anthropogenic run <standard_anthropogenic_run>`_ for the year 1989.
+
+Begin by downloading and installing Panopoly. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-12-31.nc". Click on "open".
+
+You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
+
+.. figure:: ../images/getting_started/tutorials/panopoly_map.png
+
+Once you see a world map, labeled "Streamflow or River discharge" go to "Window" -> "Plot Controls" where you will see the time set to "1" of "365". By increasing the time you will see the River discharge change visually on the map. We recommend changing the color scheme to "GMT_hot.cpt" under "Window" -> "Color Tables Browser".
+
+.. figure:: ../images/getting_started/tutorials/panopoly_plot_controls.png
 
 Running WaterGAP with GWSWUSE (under development)
 =================================================
