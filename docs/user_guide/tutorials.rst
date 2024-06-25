@@ -223,9 +223,11 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 4) Visualizing your results using Panopoly
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For a brief guide on using Panopoly for data visualization see `above <visualize_using_panopoly>`_.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly `here <visualize_using_panopoly>`_.
 
-.. figure:: ../images/getting_started/tutorials/panopoly_map_human_water_use_only_tutorial.png
+For the year 1989 the result should look like this:
+
+.. figure:: ../images/getting_started/tutorials/output_human_use_tutorial_panopoly.png
 
 .. _reservoirs_only:
 
@@ -267,9 +269,11 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 4) Visualizing your results using Panopoly
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For a brief guide on using Panopoly for data visualization see `above <visualize_using_panopoly>`_.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly `here <visualize_using_panopoly>`_.
 
-.. figure:: ../images/getting_started/tutorials/panopoly_map_reservoir_use_tutorial.png
+For the year 1989 the result should look like this:
+
+.. figure:: ../images/getting_started/tutorials/output_reservoirs_only_tutorial_panopoly.png
 
 
 .. _restart_from_saved_state:
