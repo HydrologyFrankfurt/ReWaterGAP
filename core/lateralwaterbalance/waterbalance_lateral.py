@@ -264,7 +264,8 @@ class LateralWaterBalance:
         # abstraction data
         self.potential_net_abstraction = pot_net_abstraction.\
             potential_net_abstraction
-
+        
+        self.actual_net_abstraction = pot_net_abstraction.actual_net_abstraction
         # Get aggregation function and glwdunits from the pot_net_abstraction
         # class
         self.get_aggr_func = pot_net_abstraction
@@ -515,7 +516,7 @@ class LateralWaterBalance:
                   current_landarea_frac, previous_landarea_frac,
                   landwaterfrac_excl_glolake_res,
                   simulation_date, first_day_of_month, basin, 
-                  sum_canopy_snow_soil_storage):
+                  sum_canopy_snow_soil_storage, run_calib):
         """
         Calculate lateral water balance.
 
@@ -543,7 +544,8 @@ class LateralWaterBalance:
         sum_canopy_snow_soil_storage: array
             Sum  of canopy soil and snow storages for total water storage 
             calulation,  unit: mm/day
-            
+        run_calib: flag to run WaterGAP calibration    
+        
         Returns
         -------
         None.
@@ -609,9 +611,19 @@ class LateralWaterBalance:
 
                 # Only consider abstraction in anthropogenic run.
                 if cm.subtract_use is True:         
-                    # data unit read in =m3/month
-                    self.potential_net_abstraction_gw = self.potential_net_abstraction.pnag.\
-                        sel(time=date)[0].values.astype(np.float64)
+                    # Read in pnas and pnag in =m3/month
+                    if run_calib==False: 
+                        self.potential_net_abstraction_gw = self.potential_net_abstraction.pnag.\
+                            sel(time=date)[0].values.astype(np.float64)
+                        
+                        self.potential_net_abstraction_sw = self.potential_net_abstraction.pnas.\
+                            sel(time=date)[0].values.astype(np.float64)
+                    else: 
+                        self.potential_net_abstraction_gw = self.actual_net_abstraction.atotusegw.\
+                            sel(time=date)[0].values.astype(np.float64)
+                        
+                        self.potential_net_abstraction_sw = self.actual_net_abstraction.atotusesw.\
+                            sel(time=date)[0].values.astype(np.float64)
 
                     # coverted to units = km3/day
                     self.potential_net_abstraction_gw = \
@@ -621,9 +633,7 @@ class LateralWaterBalance:
                     # Aggregate potential net abstaraction of riparaian cell to
                     # outflow cell and convert from m3/month to km3/day
                     # *********************************************************
-                    self.potential_net_abstraction_sw = self.potential_net_abstraction.pnas.\
-                        sel(time=date)[0].values.astype(np.float64)
-
+                    
                     # Monthly demand for reservoir release compution (km3/month)
                     self.monthly_potential_net_abstraction_sw = \
                         self.potential_net_abstraction_sw.copy()/m3_to_km3
@@ -645,13 +655,13 @@ class LateralWaterBalance:
                     # load in Potential water withdrawal from surfacewater and
                     #  consumptive use and convert  from m3/ month to km3/day
                     # *********************************************************
-                    self.potential_water_withdrawal_sw_irri = self.potential_net_abstraction.pirrig_ww_sw.\
+                    self.potential_water_withdrawal_sw_irri = self.potential_net_abstraction["pirrwwsw"].\
                         sel(time=date)[0].values.astype(np.float64)
 
                     self.potential_water_withdrawal_sw_irri = \
                         self.potential_water_withdrawal_sw_irri / (num_of_days * m3_to_km3)
 
-                    self.potential_consumptive_use_sw_irri = self.potential_net_abstraction.pirrig_cu_sw.\
+                    self.potential_consumptive_use_sw_irri = self.potential_net_abstraction["pirrusesw"].\
                         sel(time=date)[0].values.astype(np.float64)
 
                     self.potential_consumptive_use_sw_irri = \
@@ -769,8 +779,9 @@ class LateralWaterBalance:
         glolake_outflow = out[11]
         glowet_outflow = out[12]
         streamflow_from_inlandsink = np.where(self.drainage_direction < 0, out[13], np.nan)
-        streamflow = np.where(self.drainage_direction < 0, 0 , out[13])
+        streamflow = np.where(self.drainage_direction < 0, np.nan , out[13])
         net_cell_runoff = out[14]
+        
         updated_locallake_fraction = out[15]
         updated_localwetland_fraction = out[16]
         updated_globalwetland_fraction = out[17]
@@ -793,6 +804,13 @@ class LateralWaterBalance:
         total_runoff = groundwater_discharge + surface_runoff
         actual_water_consumption = actual_net_abstraction_gw + actual_net_abstraction_sw
         
+        # compute potential cell runoff: required for calibration purpose only
+        swb_balance = (precipitation - openwater_pot_evap) * self.parameters.areal_corr_factor.values
+        swb_area_total = (self.glores_area + self.glolake_area + 
+                          self.max_loclake_area + self.max_locwet_area +
+                          self.max_glowet_area)
+
+        pot_cell_runoff = total_runoff + (swb_balance * (swb_area_total))
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Update accumulated unsatisfied potential net abstraction from
         # surface water and daily_unsatisfied_pot_nas.
@@ -891,19 +909,19 @@ class LateralWaterBalance:
                     "tws": total_water_storage})
  
         LateralWaterBalance.fluxes.\
-            update({"consistent_precipitation": consistent_precip,
+            update({"consistent-precipitation": consistent_precip,
                     'qg': groundwater_discharge,
                     'qtot': total_runoff,
                     'qrf': groundwater_recharge_swb, 
                     'qr': total_groundwater_recharge,
-                   'locallake_outflow': loclake_outflow,
-                    'localwetland_outflow': locwet_outflow,
-                    'globallake_outflow': glolake_outflow,
-                    'globalwetland_outflow': glowet_outflow,
+                   'locallake-outflow': loclake_outflow,
+                    'localwetland-outflow': locwet_outflow,
+                    'globallake-outflow': glolake_outflow,
+                    'globalwetland-outflow': glowet_outflow,
                     'dis': streamflow,
-                    "dis_from_upstream": streamflow_from_upstream,                    
-                    'atotuse_gw': actual_net_abstraction_gw,
-                    "atotuse_sw": actual_net_abstraction_sw,
+                    "dis-from-upstream": streamflow_from_upstream,                    
+                    'atotusegw': actual_net_abstraction_gw,
+                    "atotusesw": actual_net_abstraction_sw,
                     "atotuse": actual_water_consumption,
                     "evap-total" : cell_aet_consuse,
                     "total_demand_into_cell": total_demand_into_cell,
@@ -921,9 +939,10 @@ class LateralWaterBalance:
                     "total_unsatisfied_demand_from_supply_to_all_demand_cell": 
                         total_unsatisfied_demand_from_supply_to_all_demand_cell,
                     "ncrun": net_cell_runoff, 
-                    "river_velocity": river_velocity, 
-                    "land_area_fraction":  current_landarea_frac,
-                    "dis_from_inland_sink": streamflow_from_inlandsink})
+                    "river-velocity": river_velocity, 
+                    "land-area-fraction":  current_landarea_frac,
+                    "dis-from-inlandsink": streamflow_from_inlandsink, 
+                    "pot_cell_runoff": pot_cell_runoff})
 
         LateralWaterBalance.land_swb_fraction.update({
             "current_landareafrac": current_landarea_frac,
