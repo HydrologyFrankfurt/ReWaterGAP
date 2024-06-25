@@ -44,7 +44,7 @@ args = cli.parse_cli()
 class ClimateForcing:
     """Handles climate forcing data."""
 
-    def __init__(self):
+    def __init__(self, run_calib):
         """
         Get file path.
 
@@ -100,7 +100,8 @@ class ClimateForcing:
                               'should be NETCDF', args.debug)
             sys.exit()  # don't run code if file does not exist
         else:
-            print('Climate forcing loaded successfully')
+            if run_calib==False: 
+                print('Climate forcing loaded successfully')
 
             self.var_name = [list(self.precipitation.data_vars)[0],
                              list(self.down_longwave_radiation.data_vars)[0],

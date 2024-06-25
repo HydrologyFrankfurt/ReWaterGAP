@@ -173,3 +173,11 @@ resart_save_option = config_file['RuntimeOptions'][1]['RestartOptions']
 restart = resart_save_option['restart']
 save_states = resart_save_option['save_model_states_for_restart']
 save_and_read_states_path = resart_save_option["save_and_read_states_dir"]
+
+
+# =============================================================================
+# Run WaterGAP calibration
+# =============================================================================
+calibration_options = config_file['RuntimeOptions'][5]["Calibrate WaterGAP"]
+run_calib = calibration_options["run_calib"]
+observed_discharge_filepath = calibration_options["path_to_observed_discharge"]

@@ -43,7 +43,7 @@ args = cli.parse_cli()
 class Wateruse:
     """Handles water use and relevant static data."""
 
-    def __init__(self,  subtract_use, grid_coords):
+    def __init__(self,  subtract_use, grid_coords, run_calib):
         """
         Get file path and read in water use data.
 
@@ -81,9 +81,24 @@ class Wateruse:
             # Loading in Wateruse
             # ==============================================================
             try:
+                filtered_abstraction_path = [fpath for fpath in 
+                                    glob.glob(potential_net_abstraction_path) 
+                                     if 'atotuse' not in 
+                                     os.path.basename(fpath)]
+
                 self.potential_net_abstraction = \
-                    xr.open_mfdataset(glob.glob(potential_net_abstraction_path),
+                    xr.open_mfdataset( filtered_abstraction_path,
                                       chunks={'time': 365})
+                self.actual_net_abstraction = None
+                if  run_calib==True:
+                    actual_use_path = [fpath for fpath in 
+                                        glob.glob(potential_net_abstraction_path) 
+                                         if 'atotuse' in os.path.basename(fpath)]
+
+                    self.actual_net_abstraction =  \
+                        xr.open_mfdataset(actual_use_path, chunks={'time': 365})
+
+
                 # Fraction of return flow from irrigation to groundwater
                 # See Döll et al 2012, eqn 1
                 frac_irri_returnflow_to_gw = \
@@ -97,15 +112,16 @@ class Wateruse:
                 self.glwdunits = glwdunits.glwdunits.values
 
             except FileNotFoundError:
-                log.config_logger(logging.ERROR, modname, 'Climate forcing '
+                log.config_logger(logging.ERROR, modname, 'Water use data '
                                   'not found', args.debug)
                 sys.exit()  # dont run code if file does not exist
             except ValueError:
                 log.config_logger(logging.ERROR, modname, 'File(s) extension '
-                                  'should be NETCDF', args.debug)
+                                  'should be NETCDF or Water use data not found', args.debug)
                 sys.exit()  # dont run code if file does not exist
             else:
-                print('\nWater-use input files loaded successfully')
+                if run_calib==False:
+                    print('\nWater-use input files loaded successfully')
 
     def aggregate_riparian_netpotabs(self, lake_area, res_area, netabs):
         """

@@ -43,7 +43,7 @@ args = cli.parse_cli()
 class StaticData:
     """Handles static data."""
 
-    def __init__(self):
+    def __init__(self, run_calib):
         """
         Get file path.
 
@@ -192,7 +192,8 @@ class StaticData:
                               'parameters', args.debug)
             sys.exit()  # dont run code if file does not exist
         else:
-            print('\n'+'Static data loaded successfully')
+            if run_calib==False: 
+                print('\n'+'Static data loaded successfully')
 
     def soil_static_data(self):
         """

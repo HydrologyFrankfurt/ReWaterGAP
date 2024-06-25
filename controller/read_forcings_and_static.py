@@ -19,19 +19,21 @@
 from controller import climateforcing_handler as cf
 from controller import staticdata_handler as sd
 from controller import configuration_module as cm
-
+from termcolor import colored
+import numpy as np
 
 class InitializeForcingsandStaticdata:
     """Reads in climate forcings and static data."""
 
-    def __init__(self):
+    def __init__(self, run_calib):
         # =====================================================================
         # Get static data and climate forcing
         # Please see staticdata and climateforcing handlers for varibale units
         # =====================================================================
-        self.static_data = sd.StaticData()
-        self.climate_forcing = cf.ClimateForcing()
-        self.climate_forcing.check_unitandvarname()
+        self.static_data = sd.StaticData(run_calib)
+        self.climate_forcing = cf.ClimateForcing(run_calib)
+        if run_calib==False:
+            self.climate_forcing.check_unitandvarname()
 
         # =====================================================================
         # Get grid to create ouput variable
@@ -41,17 +43,37 @@ class InitializeForcingsandStaticdata:
         # I am only selecting the coordinates(lat, lon and time) of the
         # temperature variable. the actual temperature forcing is not used here
 
-        # Select forcing data for a year if run is less than or equal to a year
-        # This is required to run initialization years for good results.
-        if cm.start.split("-")[0] == cm.end.split("-")[0]:
-            year_end = cm.end.split('-')[0]+'-12-31'
-            self.grid_coords = \
-                self.climate_forcing.temperature.\
-                sel(time=slice(cm.start, year_end)).coords
+        # Make sure user date is in valid within the data date
+        data_start_date = self.climate_forcing.temperature.time[0].values.astype('datetime64[D]')
+        data_end_date = self.climate_forcing.temperature.time[-1].values.astype('datetime64[D]')
+
+
+        user_start_date = np.datetime64(cm.start)
+        user_end_date = np.datetime64(cm.end)
+
+        date_in_range = (data_start_date <= user_start_date <= data_end_date) and\
+            (data_start_date <= user_end_date <= data_end_date)
+        
+
+        
+        if date_in_range == True: 
+            # Select forcing data for a year if run is less than or equal to a year
+            # This is required to run initialization years for good results.
+            if cm.start.split("-")[0] == cm.end.split("-")[0]:
+                year_end = cm.end.split('-')[0]+'-12-31'
+                self.grid_coords = \
+                    self.climate_forcing.temperature.\
+                    sel(time=slice(cm.start, year_end)).coords
+            else:
+                self.grid_coords = \
+                    self.climate_forcing.temperature.sel(time=slice(cm.start,
+                                                                    cm.end)).coords
         else:
-            self.grid_coords = \
-                self.climate_forcing.temperature.sel(time=slice(cm.start,
-                                                                cm.end)).coords
+            raise ValueError(colored('Start or end date of simulation period '
+                                  'is not included in the data. '
+                                  'Please select valid period', 'red'))
+            
+                       
 
         # Geting length of lat,lon from grid coordinates (grid_coords)
         # to create temporary data.
