@@ -52,7 +52,9 @@ class Select_upstream_basin:
             
                 
             # get upstream cell data 
-            inflow_cell.set_index('Arc_ID', inplace=True)
+            if inflow_cell.index.name != 'Arc_ID':
+                inflow_cell.set_index('Arc_ID', inplace=True)
+
             upstream_cells  = selected_arcids.copy()
             all_upstream = Select_upstream_basin.get_all_upstream_cells_arcid(selected_arcids, inflow_cell, upstream_cells)
 
