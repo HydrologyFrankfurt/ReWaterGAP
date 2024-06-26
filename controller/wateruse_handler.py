@@ -99,6 +99,7 @@ class Wateruse:
                                   freq="MS")
             
                 # only for calibration run
+                self.actual_net_abstraction = None
                 if  run_calib==True:
                     actual_use_path = [fpath for fpath in 
                                         glob.glob(potential_net_abstraction_path) 
