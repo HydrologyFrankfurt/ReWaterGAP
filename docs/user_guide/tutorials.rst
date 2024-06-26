@@ -1,12 +1,11 @@
 .. _tutorials:
 
-
 ############################
 Tutorial (Under Development)
 ############################
 
 .. contents:: 
-    :depth: 3
+    :depth: 2
     :backlinks: entry
 
 .. note::
@@ -281,6 +280,7 @@ For the year 1989 the result should look like this:
 
 .. _restart_from_saved_state:
 
+
 *****************************************
 How to Restart WaterGap from saved state
 *****************************************
@@ -364,5 +364,4 @@ References
 .. [4] Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and GSWP3-ERA5 climate forcing under historical setup of direct human impacts, https://doi.org/10.25716/GUDE.1VNN-DYCV, 19 June 2024d.
 
 .. [5] Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and GSWP3-W5E5 climate forcing under historical setup of direct human impacts, https://doi.org/10.25716/GUDE.0296-3FD7, 19 June 2024e.
-
 
