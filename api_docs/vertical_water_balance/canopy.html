@@ -1,0 +1,673 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Canopy &#8212; ReWaterGAP  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_docs/vertical_water_balance/canopy';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Snow" href="snow.html" />
+    <link rel="prev" title="Leaf Area Index" href="leafareaindex.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP  documentation - Home"/>
+    <script>document.write(`<img src="../../_static/watergap_logo.png" class="logo__image only-dark" alt="ReWaterGAP  documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributers_guide/index.html">
+    Contributers Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributers_guide/index.html">
+    Contributers Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Vertical Water Balance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="radiation_evapotranspiration.html">Radiation and Evapotranspiration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="leafareaindex.html">Leaf Area Index</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Canopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snow.html">Snow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="soil.html">Soil</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../lateral_water_balance/index.html">Lateral Water Balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../lateral_water_balance/groundwater.html">Groundwater</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lateral_water_balance/lakes_wetlands.html">Lakes and wetlands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lateral_water_balance/reservoir_regulated_lakes.html">Reservoirs and regulated lakes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lateral_water_balance/river.html">River</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lateral_water_balance/net_abstractions.html">Net abstractions</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Vertical Water Balance</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Canopy</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="canopy">
+<span id="id1"></span><h1>Canopy<a class="headerlink" href="#canopy" title="Link to this heading">#</a></h1>
+<p>Canopy storage and related fluxes are calculated based on section 4.2 of Müller Schmied et al 2021 <a class="footnote-reference brackets" href="#id7" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="canopy.canopy_balance">
+<span class="sig-prename descclassname"><span class="pre">canopy.</span></span><span class="sig-name descname"><span class="pre">canopy_balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canopy_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_leaf_area_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">potential_evap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precipitation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_landarea_frac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">landareafrac_ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_storage_coefficient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minstorage_volume</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/canopy.html#canopy_balance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#canopy.canopy_balance" title="Link to this definition">#</a></dt>
+<dd><p>Calulate daily canopy balance including canopy storage and water flows
+entering and leaving the canopy storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>canopy_storage</strong><span class="classifier">float</span></dt><dd><p>Daily canopy storage,  Units: [mm]</p>
+</dd>
+<dt><strong>daily_leaf_area_index</strong><span class="classifier">float</span></dt><dd><p>Daily leaf area index  Units: [-]</p>
+</dd>
+<dt><strong>potential_evap</strong><span class="classifier">float</span></dt><dd><p>Daily potential  evapotranspiration,  Units: [mm/day]</p>
+</dd>
+<dt><strong>precipitation</strong><span class="classifier">float</span></dt><dd><p>Daily precipitation,  Units: [mm/day]</p>
+</dd>
+<dt><strong>current_landarea_frac</strong><span class="classifier">float</span></dt><dd><p>Land area fraction of current time step,  Units: [-]</p>
+</dd>
+<dt><strong>landareafrac_ratio</strong><span class="classifier">float</span></dt><dd><p>Ratio of land area fraction of previous to current time step, Units: [-]</p>
+</dd>
+<dt><strong>max_storage_coefficient:</strong></dt><dd><p>coefficient for computing maximum canopy storage, Units: [-]</p>
+</dd>
+<dt><strong>minstorage_volume: float</strong></dt><dd><p>Volumes at which storage is set to zero, units: [km3]</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>canopy_storage</strong><span class="classifier">float</span></dt><dd><p>Updated daily canopy stroage,  Units: [mm]</p>
+</dd>
+<dt><strong>throughfall</strong><span class="classifier">float</span></dt><dd><p>Throughfall,  Units: [mm/day]</p>
+</dd>
+<dt><strong>canopy_evap</strong><span class="classifier">float</span></dt><dd><p>Canopy evaporation,  Units: [mm/day]</p>
+</dd>
+<dt><strong>pet_to_soil</strong><span class="classifier">float</span></dt><dd><p>Remaining energy for addtional soil evaporation, Units: [mm/day]</p>
+</dd>
+<dt><strong>land_storage_change_sum</strong><span class="classifier">float</span></dt><dd><p>Sum of change in vertical balance storages, Units: [mm]</p>
+</dd>
+<dt><strong>daily_storage_transfer</strong><span class="classifier">float</span></dt><dd><p>Storage to be transfered to runoff when land area fraction of current
+time step is zero, Units: [mm]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="water-balance">
+<h2>Water balance<a class="headerlink" href="#water-balance" title="Link to this heading">#</a></h2>
+<p>The canopy storage <span class="math notranslate nohighlight">\(S_c\)</span> <span class="math notranslate nohighlight">\([mm]\)</span> is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dS_c}{d_t} =  P − P_t − E_c\]</div>
+<p>where <span class="math notranslate nohighlight">\(P\)</span> is precipitation <span class="math notranslate nohighlight">\([mm/d]\)</span>, <span class="math notranslate nohighlight">\({P}_{t}\)</span> is throughfall, the fraction of <span class="math notranslate nohighlight">\(P\)</span> that reaches the soil <span class="math notranslate nohighlight">\([mm/d]\)</span> and <span class="math notranslate nohighlight">\({E}_{c}\)</span> is evaporation from the canopy <span class="math notranslate nohighlight">\([mm/d]\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Canopy storage is also a function of land area fraction.</p>
+</div>
+</section>
+<section id="inflows">
+<h2>Inflows<a class="headerlink" href="#inflows" title="Link to this heading">#</a></h2>
+<p>Daily precipitation <span class="math notranslate nohighlight">\(P\)</span> is read in from the selected climate
+forcing (see <a class="reference internal" href="../../data_docs/data.html#forcings"><span class="std std-ref">Climate Forcing</span></a> in Data section).</p>
+</section>
+<section id="outflows">
+<span id="canopy-outflows"></span><h2>Outflows<a class="headerlink" href="#outflows" title="Link to this heading">#</a></h2>
+<p>Throughfall <span class="math notranslate nohighlight">\(P_t\)</span> is calculated as</p>
+<div class="math notranslate nohighlight">
+\[
+P_t=
+\begin{cases}
+0, &amp; \text{if } P&lt;({S_c}_{,max}- S_c) \\
+P - ({S_c}_{,max} - S_c), &amp; \text{otherwise}
+\end{cases}
+\]</div><p>where <span class="math notranslate nohighlight">\({S_c}_{,max}\)</span> is the maximum canopy storage calculated as:</p>
+<div class="math notranslate nohighlight">
+\[{S_c}_{,max} = m_c \times L\]</div>
+<p>where <span class="math notranslate nohighlight">\(m_c\)</span> is <cite>0.3 mm</cite> <a class="footnote-reference brackets" href="#id8" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, and <span class="math notranslate nohighlight">\(L [-]\)</span> is the oneside leaf area index. <span class="math notranslate nohighlight">\(L\)</span> is a function of daily temperature and
+precipitation and is limited to minimum or maximum values. Maximum <span class="math notranslate nohighlight">\(L\)</span> values per land cover class (Table C1) <a class="footnote-reference brackets" href="#id7" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>,
+whereas minimum <span class="math notranslate nohighlight">\(L\)</span> values are calculated as:</p>
+<div class="math notranslate nohighlight">
+\[{L}_{min} = 0.1{f_d}_{,lc} + (1 − {f_d}_{,lc}){c_e}_{,lc}{L}_{max}\]</div>
+<p>where <span class="math notranslate nohighlight">\({f_d}_{,lc}\)</span> is the fraction of deciduous plants and <span class="math notranslate nohighlight">\({c_e}_{,lc}\)</span> is
+the reduction factor for evergreen plants per land cover type (Table C1) <a class="footnote-reference brackets" href="#id7" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. See <a class="reference internal" href="leafareaindex.html#leafareaindex"><span class="std std-ref">Lead Area Index</span></a> section under API reference for leaf Area index calculation.</p>
+<p>Canopy evaporation <span class="math notranslate nohighlight">\(E_c\)</span> following Deardorff (1978) <a class="footnote-reference brackets" href="#id8" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[E_c = {E}_{pot}\Big(\frac{S_c}{{S_c}_{,max}}\Big)^\frac{2}{3}\]</div>
+<p>where <span class="math notranslate nohighlight">\({S_c}\)</span> <span class="math notranslate nohighlight">\([mm]\)</span> is the canopy storage, calculated in canopy storage under <a class="reference internal" href="#canopy-outflows"><span class="std std-ref">Outflows</span></a> and <span class="math notranslate nohighlight">\({S_c}_{,max}\)</span> <span class="math notranslate nohighlight">\([mm]\)</span> is the maximum canopy storage.</p>
+<p>See <a class="reference internal" href="radiation_evapotranspiration.html#radiation-evap"><span class="std std-ref">Radiation and Evapotranspiration</span></a> section for potential evaporation calculation.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>,<a role="doc-backlink" href="#id5">3</a>)</span>
+<p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. <a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</aside>
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Deardorff, J. W.: Efficient prediction of ground surface temperature and moisture, with inclusion of a layer of vegetation, J. Geophys. Res., 83, 1889, <a class="reference external" href="https://doi.org/10.1029/JC083iC04p01889">https://doi.org/10.1029/JC083iC04p01889</a>, 1978</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="leafareaindex.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Leaf Area Index</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="snow.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Snow</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canopy.canopy_balance"><code class="docutils literal notranslate"><span class="pre">canopy_balance()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#water-balance">Water balance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inflows">Inflows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outflows">Outflows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/api_docs/vertical_water_balance/canopy.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
