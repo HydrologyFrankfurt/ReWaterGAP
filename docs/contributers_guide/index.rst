@@ -1,38 +1,34 @@
 .. _contributers_guide:
 
-====================
+####################################
 Contributers Guide
-====================
+####################################
 
 
 .. toctree::
     :maxdepth: 1
     :hidden:
 
-**************
-Section Header
-**************
+************************************
+Chapter -- Asterisks above and below
+************************************
 
-Text
+with overline, for chapters
 
-Subsection
-##########
+Title -- Number Signs
+#####################
 
-Text
+Suptitle -- Asterisks
+*********************
 
-Numbered Paragraphs
-====================
+Section -- Equal Signs
+======================
 
-Text
+Subsection -- Hyphens
+---------------------
 
-Basically just bold text
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Subsubsection -- Circumflex
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Text
-
-Numbered Paragraphs
-====================
-
-Text
-
-
+Paragraph -- Double Quotes
+""""""""""""""""""""""""""
