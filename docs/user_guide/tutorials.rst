@@ -21,7 +21,7 @@ Preparing Input Data
 In your WaterGap repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this Tutorial we will be running the simulation for the year 1989.
 
 1) Download the climate forcing data of your choice.
-----------------------------------------------------
+######################################################
 
 To begin running WaterGAP we must download the necessary climate forcing data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . 
 
@@ -37,7 +37,7 @@ The forcings required are:
 	Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days).
 
 2) Download the water use data.
---------------------------------
+#######################################
 
 Next up we will need to download the necessary water use data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from the Goethe-Universität Frankfurt.
 
@@ -51,7 +51,7 @@ The forcings required are:
 In the following tutorials we will be using data provided by Müller Schmied, H. and Nyenah, E. via the Goethe University Frankfurt which can be downloaded `here <https://doi.org/10.25716/GUDE.0296-3FD7>`_.
 
 2.1) Goethe University Frankfurt Data Repository
-----------------------------------------------------
+###################################################
 
 A comprehensive list of available data from the Goethe University Frankfurt can be found here:
 
@@ -62,7 +62,7 @@ A comprehensive list of available data from the Goethe University Frankfurt can 
 - `Water use input and GSWP3-W5E5 climate forcing <https://doi.org/10.25716/GUDE.0296-3FD7>`_ [5]_
 
 3) Place the downloaded data into their correct folders in the repository.
-------------------------------------------------------------------------------
+##############################################################################
 
 Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to "input_data" and place the downloaded files in their correct folders as seen in the picture below:
 
@@ -96,14 +96,14 @@ In the example below, we will create a standard run for one year (1989) and go t
 .. _prepare_input_data:
 
 1) Prepare the input data
---------------------------------
+***************************
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
 .. _modify_the_configuration_file_tutorial:
 
 2) Set up the configuration file
---------------------------------
+*********************************
 
 WaterGAP can be setup for your specific usecase. In the following we will be going through the various configuration options as well as the available output options and configuring the simulation for a standard anthropogenic run without restart. For a detailed description on the possible settings see our :ref:`guide to the configuration file <configuration_file>`.
 
@@ -157,7 +157,7 @@ Any number of variables may be written out. In this example, we will only write 
 Save the configuration file
 
 3) Run the simulation
---------------------------------
+*********************
 
 Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:
 
@@ -174,7 +174,7 @@ If your run has been successful, your Terminal should look like this:
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
 4) Visualize your results
---------------------------------
+********************************
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
@@ -193,12 +193,12 @@ This simulation includes human water use but excludes global man-made reservoirs
 **Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so, follow the :ref:`five minute guide <five_minute_guide>` for this.
 
 1) Prepare the input data.
---------------------------------
+********************************
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
 2) Set up the configuration file
---------------------------------
+********************************
 
 The only difference between a standard and a human-water-use-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "true" and "res_opt" to "false" as seen in the picture :ref:`below <use_only_run_example_picture>`.
 
@@ -209,7 +209,7 @@ The only difference between a standard and a human-water-use-only run are the si
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
 3) Run the simulation
---------------------------------
+********************************
 
 Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:
 
@@ -222,7 +222,7 @@ In case of a problem find help in the :ref:`five minute guide <five_minute_guide
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc".  
 
 4) Visualize your results
---------------------------------
+********************************
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
@@ -240,12 +240,12 @@ This simulation excludes human water use but includes global man-made reservoirs
 **Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so, follow the :ref:`five minute guide <five_minute_guide>` for this.
 
 1) Prepare the input data.
---------------------------------
+********************************
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
 2) Set up the configuration file
---------------------------------
+********************************
 
 The only difference between a standard and a reservoirs-only run are the simulation options. In your configuration file, under "SimulationOption" find “AntNat_opts”. Set "ant" to "true," "subtract_use" to "false" and "res_opt" to "true" as seen in the picture :ref:`below <reservoirs_only_run_example_picture>`.
 
@@ -256,7 +256,7 @@ The only difference between a standard and a reservoirs-only run are the simulat
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
 3) Run the simulation
---------------------------------
+********************************
 
 Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:
 
@@ -269,7 +269,7 @@ In case of a problem find help in the :ref:`five minute guide <five_minute_guide
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc".  
 
 4) Visualizing your results using Panopoly
-------------------------------------------------
+************************************************
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
