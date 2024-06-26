@@ -16,7 +16,7 @@ Tutorial (Under Development)
 .. _prepare_input_data:
 
 Preparing Input Data
-====================
+********************
 
 In your WaterGap repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this Tutorial we will be running the simulation for the year 1989.
 
