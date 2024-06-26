@@ -63,6 +63,7 @@ class Wateruse:
             lon_length = len(grid_coords['lon'].values)
             zero_data = np.zeros((lat_length, lon_length))
             self.potential_net_abstraction = zero_data
+            self.actual_net_abstraction = zero_data
             self.frac_irri_returnflow_to_gw = zero_data
             self.glwdunits = zero_data
         else:
@@ -98,7 +99,6 @@ class Wateruse:
                                   freq="MS")
             
                 # only for calibration run
-                self.actual_net_abstraction = None
                 if  run_calib==True:
                     actual_use_path = [fpath for fpath in 
                                         glob.glob(potential_net_abstraction_path) 
