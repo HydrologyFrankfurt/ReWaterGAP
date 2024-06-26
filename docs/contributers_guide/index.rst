@@ -1,31 +1,38 @@
 .. _contributers_guide:
 
-===========
+====================
 Contributers Guide
-===========
+====================
 
 
 .. toctree::
     :maxdepth: 1
     :hidden:
 
-Header 1 #
+**************
+Section Header
+**************
+
+Text
+
+Subsection
 ##########
 
-Header 2 *
-**********
+Text
 
-Header 3 ^
-^^^^^^^^^^
+Numbered Paragraphs
+====================
 
-Header 6 =
-==========
+Text
 
-Header 5 -
-----------
+Basically just bold text
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Text
 
+Numbered Paragraphs
+====================
 
-
+Text
 
 
