@@ -76,7 +76,7 @@ Running Water Gap with different simulation options (other model configurations)
 .. _naturalized_run:
 
 Naturalized Run
-***************
+================
 
 This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.
 
@@ -85,7 +85,7 @@ To run Water Gap in a naturalized mode, find the tutorial in the :ref:`five minu
 .. _standard_anthropogenic_run:
 
 Standard anthropogenic Run
-******************************
+================================
 
 The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
@@ -96,14 +96,14 @@ In the example below, we will create a standard run for one year (1989) and go t
 .. _prepare_input_data:
 
 1) Prepare the input data
-=========================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Download all required climate forcing and water use data, remove all leap days, and place the data in the "input_data" folder in your ReWaterGAP repository as explained :ref:`above <prepare_input_data>`.
 
 .. _modify_the_configuration_file_tutorial:
 
 2) Set up the configuration file
-=================================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 WaterGAP can be setup for your specific usecase. In the following we will be going through the various configuration options as well as the available output options and configuring the simulation for a standard anthropogenic run without restart. For a detailed description on the possible settings see our :ref:`guide to the configuration file <configuration_file>`.
 
