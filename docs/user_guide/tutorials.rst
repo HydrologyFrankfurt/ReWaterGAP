@@ -76,7 +76,7 @@ Running Water Gap with different simulation options (other model configurations)
 .. _naturalized_run:
 
 Naturalized Run
-################
+***************
 
 This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.
 
@@ -85,7 +85,7 @@ To run Water Gap in a naturalized mode, find the tutorial in the :ref:`five minu
 .. _standard_anthropogenic_run:
 
 Standard anthropogenic Run
-###########################
+******************************
 
 The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
@@ -186,7 +186,7 @@ For the year 1989 the result should look like this:
 .. _human_water_use_only:
 
 Human Water Use only 
-#####################
+**********************
 
 This simulation includes human water use but excludes global man-made reservoirs/regulated lakes. When creating a human-water-use-only run, the setup follows the standard run in all but one step. In the example below, we will create a human-water-use-only run for one year (1989) and go through the steps step-by-step.
 
@@ -233,7 +233,7 @@ For the year 1989 the result should look like this:
 .. _reservoirs_only:
 
 Reservoirs only
-################
+***************
 
 This simulation excludes human water use but includes global man-made reservoirs/regulated lakes. When creating a reservoirs-only run, the setup follows the standard run in all but one step. In the example below, we will create a reservoirs-only run for one year (1989) and go through the steps step-by-step.
 
