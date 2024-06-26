@@ -22,7 +22,7 @@ Preparing Input Data
 In your WaterGap repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this Tutorial we will be running the simulation for the year 1989.
 
 1) Download the climate forcing data of your choice.
-#####################################################
+====================================================
 
 To begin running WaterGAP we must download the necessary climate forcing data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//>`_ . 
 
@@ -38,7 +38,7 @@ The forcings required are:
 	Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days).
 
 2) Download the water use data.
-################################
+================================
 
 Next up we will need to download the necessary water use data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from the Goethe-Universität Frankfurt.
 
@@ -52,7 +52,7 @@ The forcings required are:
 In the following tutorials we will be using data provided by Müller Schmied, H. and Nyenah, E. via the Goethe University Frankfurt which can be downloaded `here <https://doi.org/10.25716/GUDE.0296-3FD7>`_.
 
 2.1) Goethe University Frankfurt Data Repository
-######################################################
+==================================================
 
 A comprehensive list of available data from the Goethe University Frankfurt can be found here:
 
@@ -63,7 +63,7 @@ A comprehensive list of available data from the Goethe University Frankfurt can 
 - `Water use input and GSWP3-W5E5 climate forcing <https://doi.org/10.25716/GUDE.0296-3FD7>`_ [5]_
 
 3) Place the downloaded data into their correct folders in the repository.
-############################################################################
+===========================================================================
 
 Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to "input_data" and place the downloaded files in their correct folders as seen in the picture below:
 
@@ -77,7 +77,7 @@ Running Water Gap with different simulation options (other model configurations)
 .. _naturalized_run:
 
 Naturalized Run
-##################
+################
 
 This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.
 
@@ -281,8 +281,9 @@ For the year 1989 the result should look like this:
 
 .. _restart_from_saved_state:
 
+*****************************************
 How to Restart WaterGap from saved state
-########################################
+*****************************************
 
 To run Watergap from a saved state, you must first save data from a previous simulation. In this tutorial, we will be looking at the previous example, where we ran the simulation for a :ref:`standard anthropogenic run <standard_anthropogenic_run>` for the year 1989, create a saved state, and then restart the simulation from this data to continue running for 1990.
 
@@ -331,8 +332,9 @@ Lastly, run the simulation with these options. To verify that everything is runn
 
 .. _visualize_using_panopoly:
 
+****************************************
 Vizualizing your results using Panopoly
-#######################################
+****************************************
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. You can use it to open the input files in NetCDF format or your output files after the simulation has finished running. In this Tutorial we will be using Panopoly to vizualize the output data of the :ref:`standard anthropogenic run <standard_anthropogenic_run>` for the year 1989.
 
@@ -346,8 +348,9 @@ Once you see a world map, labeled "Streamflow or River discharge" go to "Window"
 
 .. figure:: ../images/getting_started/tutorials/panopoly_plot_controls.png
 
+**************************************************
 Running WaterGAP with GWSWUSE (under development)
-######################################################
+**************************************************
 
 
 References 
