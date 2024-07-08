@@ -4,15 +4,19 @@
 5 minute guide to WaterGAP
 ###########################
 
+.. contents:: 
+    :depth: 3
+    :backlinks: entry
+
 1: Download and Install Python
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+##############################
 
 (Skip this step if python is already installed)
 	
 Download the current Python version for your OS from `the official Python Website <https://www.python.org/downloads/>`__ and install.
 
 2: Download and Install the package manager "Mamba"
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+###################################################
 (Skip this step if mamba is already installed)
 
 Go to the `Mamba Website <https://github.com/conda-forge/miniforge>`__ , choose your OS (Linux or MacOS) and download the installation file (the downloaded file has an ".sh" extension)
@@ -49,7 +53,8 @@ Navigate to the "bin" folder in the newly created "miniforge3" folder.
 
 
 3: Clone the WaterGAP repository
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+################################
+
 Using the Terminal, navigate to the directory of choice where the WaterGAP folder will be copied into. Then use the following command to clone the repository.
 
 .. code-block:: bash
@@ -59,7 +64,7 @@ Using the Terminal, navigate to the directory of choice where the WaterGAP folde
 Find more information in the official GitHub documentation `here <https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository>`__ .
 
 4: Create an environment to run ReWaterGAP in
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#############################################
 
 Navigate to the ReWaterGAP folder in the terminal using the following command.
 
@@ -85,7 +90,8 @@ Activate the WaterGAP environment using the following command.
 .. _get_input_data:
 
 5. Get Input Data
-^^^^^^^^^^^^^^^^^^
+#################
+
 The User should provide the following data in NetCDF format.  
 
 Note: WaterGAP operates with daily temporal resolution. The model does consider leap days (29th February) in computations, so these *specific days* should be excluded from the climate forcings. 
@@ -115,7 +121,7 @@ and the water use data at  *link here soon*.
 .. _naturalized_run:
 
 6: Run WaterGAP using the configuration file „Config_ReWaterGAP.json“ - Naturalized run
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#######################################################################################
 
 Note:  For the Naturalised run, make sure that anthropogenic run is set to false (**"ant": false**) in the **Config_ReWaterGAP.json** file (see image below).
 See :ref:`Tutorials <tutorials>` to run other model configurations.
