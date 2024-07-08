@@ -300,19 +300,19 @@ Before running the simulation we have to modify the configuration file. In your 
 
 .. _saving_for_restart:
 
-.. figure:: ../images/getting_started/tutorials/saving_for_restart.png
+.. figure:: ../images/getting_started/tutorials/restart_options_saving.png
 
 Then set your "**SimulationPeriod**" to the preferred year (In this example 1989) and the "**spinup_years**" to 5.
 
-.. figure:: ../images/getting_started/tutorials/simulation_period_before_restart.png
+.. figure:: ../images/getting_started/tutorials/restart_options_simulation_period_before.png
 
 All other options and steps to run the simulation will remain as they are described under `standard anthropogenic run <standard_anthropogenic_run>`_.
 
-.. figure:: ../images/getting_started/tutorials/restart_run_config_file.png
+.. figure:: ../images/getting_started/tutorials/output_variables_tutorial.png
 
 Run the simulation. You will then find your saved state data file "restartwatergap_1989-12-31.pickle" in your saved state directory (in this example under "Users/username/restart_data").
 
-.. figure:: ../images/getting_started/tutorials/saved_state_pickle_file.png
+.. figure:: ../images/getting_started/tutorials/restart_options_output_file.png
 
 Running the simulation from saved data
 ########################################
@@ -321,17 +321,17 @@ In this step we will be running the simulation from the previously saved state, 
 
 To run the simulation from a previously saved state go to the configuration file and navigate to "**RestartOptions**". Set **restart** to "true" and "**save_model_states_for_restart**" to "false", as this is the run we will be using the saved data for. Under "**save_and_read_states_dir**" set the path to the previously created directory holding your saved data (in this example under "Users/username/restart_data").
 
-.. figure:: ../images/getting_started/tutorials/restart_from_saved_path.png
+.. figure:: ../images/getting_started/tutorials/restart_options_restarting.png
 
 When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it starting the day after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends and without a spin up, as the saved state already includes this data.
 
 All other options will remain as they are described under :ref:`creating a saved state <creating_a_saved_state>`.
 
-.. figure:: ../images/getting_started/tutorials/simulation_period_after_restart.png
+.. figure:: ../images/getting_started/tutorials/restart_options_simulation_period_after.png
 
 Lastly, run the simulation with these options. To verify that everything is running as intended, you should receive this message in the terminal:
 
-.. figure:: ../images/getting_started/tutorials/terminal_restart_run_successful.png
+.. figure:: ../images/getting_started/tutorials/restart_options_terminal_restart_run_successful.png
 
 .. _visualize_using_panopoly:
 
