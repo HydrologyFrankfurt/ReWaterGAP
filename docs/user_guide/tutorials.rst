@@ -69,7 +69,7 @@ In the following tutorials we will be using data provided by Müller Schmied, H.
 
 Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to "input_data" and place the downloaded files in their correct folders as seen in the picture below:
 
-.. figure:: ../images/getting_started/input_data_folder.png
+.. figure:: ../images/getting_started/tutorials/input_data_folder.png
 
 
 ********************************************************************************
@@ -122,7 +122,7 @@ The first options in the configuration file regard input and output file paths. 
 
 In the configuration file find the runtime options. Then find the simulation options. Set all options under "AntNat_opts" to "true" and all options under "Demand_satisfaction_opts" to "true" to set up a standard anthropogenic run.
 
-.. figure:: ../images/user_guide/runtime_options_standard_run.png
+.. figure:: ../images/user_guide/tutorials/runtime_options_standard_run.png
 
 **2.3) Restart Options**
 
@@ -208,7 +208,7 @@ The only difference between a standard and a human-water-use-only run are the si
 
 .. _use_only_run_example_picture:
 
-.. figure:: ../images/user_guide/runtime_options_use_only_run.png
+.. figure:: ../images/user_guide/tutorials/runtime_options_use_only_run.png
 
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
@@ -255,7 +255,7 @@ The only difference between a standard and a reservoirs-only run are the simulat
 
 .. _reservoirs_only_run_example_picture:
 
-.. figure:: ../images/user_guide/runtime_options_reservoirs_only_run.png
+.. figure:: ../images/user_guide/tutorials/runtime_options_reservoirs_only_run.png
 
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
