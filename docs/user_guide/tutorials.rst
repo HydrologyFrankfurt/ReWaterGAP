@@ -279,7 +279,7 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 
 For the year 1989 the result should look like this:
 
-.. figure:: ../images/getting_started/tutorials/panopoly_reseroirs_only_run_tutorial.png
+.. figure:: ../images/getting_started/tutorials/panopoly_reservoirs_only_run_tutorial.png
 
 .. _restart_from_saved_state:
 
