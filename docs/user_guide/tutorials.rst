@@ -53,7 +53,7 @@ The forcings required are:
 2) Download the water use data.
 ************************************
 
-Next up we will need to download the necessary water use data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from the Goethe-Universität Frankfurt.
+Next up we will need to download the necessary water use data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from the Goethe University Frankfurt.
 
 The forcings required are:
 
