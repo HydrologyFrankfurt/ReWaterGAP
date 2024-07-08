@@ -18,7 +18,7 @@ Tutorial (Under Development)
 Preparing Input Data
 ********************
 
-In your WaterGap repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this Tutorial we will be running the simulation for the year 1989.
+In your WaterGap repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this tutorial we will be running the simulation for the year 1989.
 
 Goethe University Frankfurt Data Repository
 ##############################################
@@ -50,8 +50,8 @@ The forcings required are:
 .. note::
 	Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days).
 
-2) Download the water use data.
-************************************
+2) Download the water use data
+******************************
 
 Next up we will need to download the necessary water use data. In the following examples, we will be using the forcing "gswp3-w5e5_obsclim" from the Goethe University Frankfurt.
 
@@ -62,10 +62,10 @@ The forcings required are:
 - potential net abstractions from surface water :math:`[m3/month]`
 - potential net abstractions from groundwater :math:`[m3/month]`
 
-In the following tutorials we will be using data provided by Müller Schmied, H. and Nyenah, E. via the Goethe University Frankfurt which can be downloaded `here <https://doi.org/10.25716/GUDE.0296-3FD7>`_.
+In the following tutorials we will be using data provided by Müller Schmied, H. and Nyenah, E. via the Goethe University Frankfurt which can be downloaded `here <https://doi.org/10.25716/GUDE.0296-3FD7>`_. In this data leap days have already been removed.
 
-3) Place the downloaded data into their correct folders in the repository.
-******************************************************************************************
+3) Place the downloaded data into their correct folders in the repository
+*************************************************************************
 
 Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to "input_data" and place the downloaded files in their correct folders as seen in the picture below:
 
@@ -88,7 +88,7 @@ To run Water Gap in a naturalized mode, find the tutorial in the :ref:`five minu
 .. _standard_anthropogenic_run:
 
 Standard anthropogenic Run
-###########################
+##########################
 
 The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
@@ -358,7 +358,7 @@ Running WaterGAP with GWSWUSE (under development)
 
 
 References 
-----------
+##########
 .. [1] Müller Schmied, H. and Nyenah, E.: Climate forcing GSWP3-ERA5 as input for the global hydrological model WaterGAP, https://doi.org/10.25716/GUDE.0H3E-SBWV, 19 June 2024a.
 
 .. [2] Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and 20CRv3-ERA5 climate forcing under historical setup of direct human impacts, https://doi.org/10.25716/GUDE.1BGX-87AA, 19 June 2024b.
