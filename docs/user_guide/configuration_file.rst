@@ -1,13 +1,14 @@
 .. _configuration_file:
 
-==================
+##################
 Configuration File
-==================
+##################
 
 .. contents:: 
-   :depth: 4
-   :start: 2
-  
+    :depth: 3
+    :backlinks: entry
+
+************************************
 Component of the configuration file
 ************************************
 
@@ -27,7 +28,8 @@ Runtime Options
 ###############
 
 Simulation Options
-++++++++++++++++++
+******************
+
 .. _standard_run:
 
 .. figure:: ../images/user_guide/standard_run.png
@@ -65,7 +67,7 @@ For more details on these water satisfaction options read :ref:`net abstractions
 
 
 Restart Options
-+++++++++++++++
+***************
 
 .. figure:: ../images/user_guide/restart_options.png
 
@@ -76,7 +78,7 @@ The directory to save saved states (storages, fluxes, etc.) can be defined in th
 For a tutorial on how to restart WaterGAP from a saved state, see :ref:`here <restart_from_saved_state>`.
 
 Simulation Period
-+++++++++++++++++
+******************
 
 Users can change the start and end dates of the simulation, the start and end operational years for reservoirs, as well as model spinup years (see :ref:`image <simulation_period>` below).
 
@@ -85,14 +87,14 @@ Users can change the start and end dates of the simulation, the start and end op
 .. figure:: ../images/user_guide/simulation_period.png
 
 Time Step
-+++++++++
+*********
                                     
 .. figure:: ../images/user_guide/time_step.png
 
 At the moment WaterGAP simulations only use daily temporal resolution. Always leave it set to "true".
 
 Simulation Extent
-+++++++++++++++++
+*****************
 
 .. _sim_extent: 
 
