@@ -13,18 +13,18 @@ For a detailed information on the WaterGap Framework see the `associated publica
 
 .. _Figure1_framework:
 
-.. figure:: ../images/Figure1_framework.png
+.. figure:: ../images/model_framework.png
 
 	*Figure 1: The WaterGAP 2.2d framework with its water use models and the linking module GWSWUSE that provides potential net water abstraction from groundwater and surface water as input to the WaterGAP Global Hydrology Model (WGHM). Figure adapted from Müller Schmied et al. (2014).*
 
 Water Use Models and GWSWUSE (Linking Model)
-********************************************
+#############################################
 
 For more information on the water use models see the `associated publication <https://gmd.copernicus.org/articles/14/1037/2021/#section3>`__.
 
 
 WaterGAP Global Hydrology Model (WGHM)
-**************************************
+######################################
 
 The WaterGAP Global Hydrology Model is developed based on the schematic [1]_ presented below. 
 
