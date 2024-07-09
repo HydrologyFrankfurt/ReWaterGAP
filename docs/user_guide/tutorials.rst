@@ -69,7 +69,7 @@ In the following tutorials we will be using data provided by Müller Schmied, H.
 
 Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to "input_data" and place the downloaded files in their correct folders as seen in the picture below:
 
-.. figure:: ../images/getting_started/tutorials/input_data_folder.png
+.. figure:: ../images/user_guide/tutorial/input_data_folder.png
 
 
 ********************************************************************************
@@ -116,19 +116,19 @@ To configure WaterGAP, go to your WaterGAP repository and navigate to "Config_Re
 
 The first options in the configuration file regard input and output file paths. In this example, we will leave them unmodified. The locations for input and output data can be seen in the picture below.
 
-.. figure:: ../images/getting_started/tutorials/input_directory_configuration_file.png
+.. figure:: ../images/user_guide/tutorial/input_directory_configuration_file.png
 
 **2.2) Runtime Options**
 
 In the configuration file find the runtime options. Then find the simulation options. Set all options under "AntNat_opts" to "true" and all options under "Demand_satisfaction_opts" to "true" to set up a standard anthropogenic run.
 
-.. figure:: ../images/getting_started/tutorials/runtime_options_standard_run.png
+.. figure:: ../images/user_guide/tutorial/runtime_options_standard_run.png
 
 **2.3) Restart Options**
 
 In this run, WaterGap will not restart from a previous state. Under "restart_options" make sure each option is set to "false".
 
-.. figure:: ../images/getting_started/tutorials/restart_options_no_restart.png
+.. figure:: ../images/user_guide/tutorial/restart_options_no_restart.png
 
 To find more information on restart options find a tutorial on how to save and restart WaterGAP :ref:`here <restart_from_saved_state>`.
 
@@ -139,13 +139,13 @@ For the reservoir operational years set the start and end years to "1989".
 
 We will be using a five year spin-up period in this example. Set "spinup_years" to "5".
 
-.. figure:: ../images/getting_started/tutorials/simulation_period_options_tutorial.png
+.. figure:: ../images/user_guide/tutorial/simulation_period_options_tutorial.png
 
 **2.5) Time step**
 
 Under "time_step" set the resolution to "daily".
 
-.. figure:: ../images/getting_started/tutorials/time_step_daily.png
+.. figure:: ../images/user_guide/tutorial/time_step_daily.png
 
 **2.6) Simulation Extend**
 
@@ -155,7 +155,7 @@ We will not be running WaterGAP for a basin in this example so set the "run_basi
 
 Any number of variables may be written out. In this example, we will only write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the :ref:`glossary <glossary>`.
 
-.. figure:: ../images/getting_started/tutorials/output_variables_tutorial.png
+.. figure:: ../images/user_guide/tutorial/output_variables_tutorial.png
 
 **2.8) Save the configuration file**
 
@@ -174,7 +174,7 @@ In case of a problem find help in the :ref:`five minute guide <five_minute_guide
 
 If your run has been successful, your Terminal should look like this:
 
-.. figure:: ../images/getting_started/tutorials/standard_run_successful_terminal.png
+.. figure:: ../images/user_guide/tutorial/standard_run_successful_terminal.png
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
@@ -185,7 +185,7 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 
 For the year 1989 the result should look like this:
 
-.. figure:: ../images/getting_started/tutorials/panopoly_standard_run_tutorial.png
+.. figure:: ../images/user_guide/tutorial/panopoly_standard_run_tutorial.png
 
 .. _human_water_use_only:
 
@@ -208,7 +208,7 @@ The only difference between a standard and a human-water-use-only run are the si
 
 .. _use_only_run_example_picture:
 
-.. figure:: ../images/getting_started/tutorials//runtime_options_use_only_run.png
+.. figure:: ../images/user_guide/tutorial/runtime_options_use_only_run.png
 
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
@@ -232,7 +232,7 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 
 For the year 1989 the result should look like this:
 
-.. figure:: ../images/getting_started/tutorials/panopoly_use_only_run_tutorial.png
+.. figure:: ../images/user_guide/tutorial/panopoly_use_only_run_tutorial.png
 
 .. _reservoirs_only:
 
@@ -255,7 +255,7 @@ The only difference between a standard and a reservoirs-only run are the simulat
 
 .. _reservoirs_only_run_example_picture:
 
-.. figure:: ../images/getting_started/tutorials//runtime_options_reservoirs_only_run.png
+.. figure:: ../images/user_guide/tutorial/runtime_options_reservoirs_only_run.png
 
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
@@ -279,7 +279,7 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 
 For the year 1989 the result should look like this:
 
-.. figure:: ../images/getting_started/tutorials/panopoly_reservoirs_only_run_tutorial.png
+.. figure:: ../images/user_guide/tutorial/panopoly_reservoirs_only_run_tutorial.png
 
 .. _restart_from_saved_state:
 
@@ -300,19 +300,19 @@ Before running the simulation we have to modify the configuration file. In your 
 
 .. _saving_for_restart:
 
-.. figure:: ../images/getting_started/tutorials/restart_options_saving.png
+.. figure:: ../images/user_guide/tutorial/restart_options_saving.png
 
 Then set your "**SimulationPeriod**" to the preferred year (In this example 1989) and the "**spinup_years**" to 5.
 
-.. figure:: ../images/getting_started/tutorials/restart_options_simulation_period_before.png
+.. figure:: ../images/user_guide/tutorial/restart_options_simulation_period_before.png
 
 All other options and steps to run the simulation will remain as they are described under `standard anthropogenic run <standard_anthropogenic_run>`_.
 
-.. figure:: ../images/getting_started/tutorials/output_variables_tutorial.png
+.. figure:: ../images/user_guide/tutorial/output_variables_tutorial.png
 
 Run the simulation. You will then find your saved state data file "restartwatergap_1989-12-31.pickle" in your saved state directory (in this example under "Users/username/restart_data").
 
-.. figure:: ../images/getting_started/tutorials/restart_options_output_file.png
+.. figure:: ../images/user_guide/tutorial/restart_options_output_file.png
 
 Running the simulation from saved data
 ########################################
@@ -321,17 +321,17 @@ In this step we will be running the simulation from the previously saved state, 
 
 To run the simulation from a previously saved state go to the configuration file and navigate to "**RestartOptions**". Set **restart** to "true" and "**save_model_states_for_restart**" to "false", as this is the run we will be using the saved data for. Under "**save_and_read_states_dir**" set the path to the previously created directory holding your saved data (in this example under "Users/username/restart_data").
 
-.. figure:: ../images/getting_started/tutorials/restart_options_restarting.png
+.. figure:: ../images/user_guide/tutorial/restart_options_restarting.png
 
 When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it starting the day after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends and without a spin up, as the saved state already includes this data.
 
 All other options will remain as they are described under :ref:`creating a saved state <creating_a_saved_state>`.
 
-.. figure:: ../images/getting_started/tutorials/restart_options_simulation_period_after.png
+.. figure:: ../images/user_guide/tutorial/restart_options_simulation_period_after.png
 
 Lastly, run the simulation with these options. To verify that everything is running as intended, you should receive this message in the terminal:
 
-.. figure:: ../images/getting_started/tutorials/restart_options_terminal_restart_run_successful.png
+.. figure:: ../images/user_guide/tutorial/restart_options_terminal_restart_run_successful.png
 
 .. _visualize_using_panopoly:
 
@@ -345,11 +345,11 @@ Begin by downloading and installing Panopoly. Then click on "file" -> "open". Na
 
 You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
 
-.. figure:: ../images/getting_started/tutorials/panopoly_map.png
+.. figure:: ../images/user_guide/tutorial/panopoly_map.png
 
 Once you see a world map, labeled "Streamflow or River discharge" go to "Window" -> "Plot Controls" where you will see the time set to "1" of "365". By increasing the time you will see the River discharge change visually on the map. We recommend changing the color scheme to "GMT_hot.cpt" under "Window" -> "Color Tables Browser".
 
-.. figure:: ../images/getting_started/tutorials/panopoly_plot_controls.png
+.. figure:: ../images/user_guide/tutorial/panopoly_plot_controls.png
 
 **************************************************
 Running WaterGAP with GWSWUSE (under development)
