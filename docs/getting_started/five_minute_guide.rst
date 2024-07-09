@@ -11,13 +11,13 @@
 1: Download and Install Python
 ##############################
 
-(Skip this step if python is already installed)
+(Skip this step if Python is already installed)
 	
 Download the current Python version for your OS from `the official Python Website <https://www.python.org/downloads/>`__ and install.
 
 2: Download and Install the package manager "Mamba"
 ###################################################
-(Skip this step if mamba is already installed)
+(Skip this step if Mamba is already installed)
 
 Go to the `Mamba Website <https://github.com/conda-forge/miniforge>`__ , choose your OS (Linux or MacOS) and download the installation file (the downloaded file has an ".sh" extension)
 	
