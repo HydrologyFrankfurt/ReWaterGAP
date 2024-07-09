@@ -83,12 +83,12 @@ Users can change the start and end dates of the simulation, the start and end op
 
 .. _simulation_period:
 
-.. figure:: ../images/user_guide/configuration_file/rsimulation_period.png
+.. figure:: ../images/user_guide/configuration_file/simulation_period.png
 
 Time Step
 *********
                                     
-.. figure:: ../images/user_guide/configuration_options/time_step.png
+.. figure:: ../images/user_guide/configuration_file/time_step.png
 
 At the moment WaterGAP simulations only use daily temporal resolution. Always leave it set to "true".
 
@@ -97,7 +97,7 @@ Simulation Extent
 
 .. _sim_extent: 
 
-.. figure:: ../images/user_guide/configuration_options/simulation_extent.png
+.. figure:: ../images/user_guide/configuration_file/simulation_extent.png
 
 Setting the "run_basin" to "true" will prompt WaterGAP to run for a particular basin. By chosing a downstream grid cell, WaterGAP defines a corresponding upstream basin.  To define the downstream grid cell the location of the grid cell (in degree latitude and longitude) defined in a station.csv file.  The path to such file is passsed to WaterGAP using the "path_to_stations_file" (see :ref:`image <sim_extent>`). An example file (stations.csv) can be found in the static_input folder [https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/input_data/static_input/stations.csv].
 
