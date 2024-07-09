@@ -40,15 +40,15 @@ The following options in „AntNat_opts“ can be turned off and on to simulate:
 
 (1) a naturalized run (without human impact). For a tutorial on how to simulate a naturalized run, see :ref:`here <naturalized_run>`.
 
-.. figure:: ../images/user_guide/runtime_options_naturalized_run.png
+.. figure:: ../images/getting_started/runtime_options_naturalized_run.png
 
 (2) human water use only (simulation excludes reservoir impact). For a tutorial on how to run WaterGAP simulation with human water use only, see :ref:`here <human_water_use_only>`.
 
-.. figure:: ../images/user_guide/tutorial/simulation_options_use_only_run.png
+.. figure:: ../images/user_guide/tutorial/runtime_options_use_only_run.png
 
 (3) reservoirs only (simulation excludes human water use). For a tutorial on how to run WaterGAP simulation with reservoirs only, see :ref:`here <reservoirs_only>`.
 
-.. figure:: ../images/user_guide/tutorial/simulation_options_reservoirs_only_run.png
+.. figure:: ../images/user_guide/tutorial/runtime_options_reservoirs_only_run.png
 
 WaterGap satisfies surface water demand spatially  using:  
 	- riparian water supply option which by default is always enabled and can not be disabled.
