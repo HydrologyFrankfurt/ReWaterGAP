@@ -60,7 +60,7 @@ The neighboring cell and delayed use water supply option can either or both be a
 
 .. _demand_sat_image:
 
-.. figure:: ../images/user_guide/configuration_file/simulation_options_demand_satisfaction_opts.png
+.. figure:: ../images/user_guide/configuration_file/runtime_options_demand_satisfaction_options.png
 
 For more details on these water satisfaction options read :ref:`net abstractions <net_abstractions>`. 
 
