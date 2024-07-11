@@ -8,7 +8,7 @@
 # You should have received a copy of the LGPLv3 License along with WaterGAP.
 # if not see <https://www.gnu.org/licenses/lgpl-3.0>
 # =============================================================================
-""" Logo and runtime measurement."""
+"""Logo and runtime measurement."""
 
 import time
 from termcolor import colored
