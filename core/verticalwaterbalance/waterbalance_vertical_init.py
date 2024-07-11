@@ -168,7 +168,7 @@ class VerticalWaterBalance:
             np.zeros((self.forcings_static.lat_length,
                       self.forcings_static.lon_length))
 
-    def calculate(self, date, current_landarea_frac, landareafrac_ratio, 
+    def calculate(self, date, current_landarea_frac, landareafrac_ratio,
                   basin, water_freq, land_freq):
         """
         Calculate vertical waterbalance.
@@ -178,17 +178,17 @@ class VerticalWaterBalance:
         date : numpy.datetime64
             Timestamp or date of a daily simulation.
         current_landarea_frac : array
-            The current fraction of land area, Unit: [-] 
+            The current fraction of land area, Unit: [-]
         landareafrac_ratio : array
-            The ratio of land area fractions (prev/current),  Unit: [-] 
+            The ratio of land area fractions (prev/current),  Unit: [-]
         basin: array
             Array  which contains selected basin(or global)
         water_freq: array
-            Water fraction is sum of global lake, local lake, & global 
-            reservoir (includes regulated lake) fraction, Unit: [-] 
+            Water fraction is sum of global lake, local lake, & global
+            reservoir (includes regulated lake) fraction, Unit: [-]
         land_freq: array
-            land fraction is (continental fraction minus water_freq) and 
-            contains wetlands, Unit: [-]  
+            land fraction is (continental fraction minus water_freq) and
+            contains wetlands, Unit: [-]
 
         Returns
         -------
@@ -202,7 +202,7 @@ class VerticalWaterBalance:
         #                  ==================================
         #                  ||     Precipitation (mm/day)   ||
         #                  ==================================
-        
+
         precipitation = self.forcings_static.climate_forcing.precipitation.sel(
             time=str(date))
 
@@ -230,7 +230,6 @@ class VerticalWaterBalance:
 
         down_shortwave_radiation = \
             down_shortwave_radiation.rsds.values.astype(np.float64)
-        
 
         #                  =========================================
         #                  ||  Downward longwave radiation (Wm−2) ||
@@ -241,17 +240,17 @@ class VerticalWaterBalance:
 
         down_longwave_radiation = \
             down_longwave_radiation.rlds.values.astype(np.float64)
- 
+
         # check data dimension make sure dimensions are 360*720 for 0.5 degree
         if precipitation.shape != basin.shape:
             precipitation = precipitation[0]
         if temperature.shape != basin.shape:
             temperature = temperature[0]
         if down_shortwave_radiation.shape != basin.shape:
-            down_shortwave_radiation = down_shortwave_radiation[0] 
+            down_shortwave_radiation = down_shortwave_radiation[0]
         if down_longwave_radiation.shape != basin.shape:
             down_longwave_radiation = down_longwave_radiation[0]
-        
+
         # =====================================================================
         # compute vertical waterbalance
         # =====================================================================
@@ -263,7 +262,7 @@ class VerticalWaterBalance:
                                self.parameters.snow_albedo_thresh.values,
                                self.parameters.openwater_albedo.values,
                                self.snow_albedo, self.albedo, self.emissivity,
-                               self.humid_arid, 
+                               self.humid_arid,
                                self.parameters.pt_coeff_humid_arid.values,
                                self.growth_status, self.lai_days,
                                self.lai_param.initial_days,
@@ -289,7 +288,7 @@ class VerticalWaterBalance:
                                self.groundwater_recharge_factor,
                                self.parameters.critcal_gw_precipitation.values,
                                self.max_soil_water_content,
-                               self.parameters.areal_corr_factor.values, 
+                               self.parameters.areal_corr_factor.values,
                                basin)
 
         # Radiation and PET output
@@ -298,7 +297,7 @@ class VerticalWaterBalance:
         openwater_potential_evap = output[3]
         total_potential_evap = (land_freq * daily_potential_evap) + \
             (water_freq * openwater_potential_evap)
-        
+
         # Leaf area index ouput
         leaf_area_index = output[4]
         self.lai_days = output[5]
@@ -321,7 +320,6 @@ class VerticalWaterBalance:
         self.soil_water_content = output[17]
         groundwater_recharge_from_soil_mm = output[18]
         surface_runoff = output[19]
-        
 
         # update daily storage transfer
         self.daily_storage_transfer = output[21]
@@ -361,7 +359,7 @@ class VerticalWaterBalance:
                     'qs':  surface_runoff * per_contfrac,
 
                     # Variables here are used for lateral water balance
-                    # calculation. 
+                    # calculation.
                     'groundwater_recharge': groundwater_recharge_from_soil_mm,
                     'surface_runoff': surface_runoff,
                     'openwater_PET': openwater_potential_evap,
@@ -370,8 +368,8 @@ class VerticalWaterBalance:
                     'land_aet_corr':land_aet_corr,
 
                     #  for total water storages only
-                    'sum_canopy_snow_soil_storage':  (self.canopy_storage + 
-                                        self.snow_water_storage + 
+                    'sum_canopy_snow_soil_storage':  (self.canopy_storage +
+                                        self.snow_water_storage +
                                         self.soil_water_content)})
 
     def get_storages_and_fluxes(self):

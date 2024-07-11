@@ -197,7 +197,7 @@ def soil_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
     """
     # Index (x, y) to  print out varibales of interest
     # e.g.  if x==65 and y==137: print(current_landarea_frac)
-    
+
     if current_landarea_frac > 0:
         # =====================================================================
         # Calculating soil water overflow (R2) (mm) and soil water content(mm).

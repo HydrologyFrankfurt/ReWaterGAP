@@ -118,12 +118,12 @@ def compute_radiation(temperature, down_shortwave_radiation,
         (1 - openwater_albedo)
     openwater_net_radiation = openwater_net_shortwave_radiation + \
         net_longwave_radiation
-    
+
     return net_radiation, openwater_net_radiation
 
 
 @njit(cache=True)
-def priestley_taylor(temperature, pt_coeff_humid_arid, 
+def priestley_taylor(temperature, pt_coeff_humid_arid,
                      net_radiation, openwater_net_radiation,
                      x, y ):
     """
@@ -194,7 +194,7 @@ def priestley_taylor(temperature, pt_coeff_humid_arid,
 
     # Coverting net radiation to mm/day
     # Note!!!, I deliberately did not attach "self"  here so I dont
-    # convert the final net radiation output to  mm/day. 
+    # convert the final net radiation output to  mm/day.
     net_radiation = (net_radiation * 0.0864) / latent_heat
 
     # Actual name: Potential evapotranspiration,	Units:  mmd-1

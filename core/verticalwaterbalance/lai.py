@@ -251,4 +251,3 @@ def get_leaf_area_index(temperature, growth_status, days, initial_days,
                     leaf_area_index = max_leaf_area_index
 
     return leaf_area_index, days, cum_precipitation, growth_status
-

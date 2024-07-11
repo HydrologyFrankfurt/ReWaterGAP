@@ -92,4 +92,3 @@ class LeafAreaIndex:
         for i in range(len(parameters_lai)):
             self.min_leaf_area_index[land_cover[:, :] == parameters_lai.loc[i, 'Number']] = \
                 parameters_lai.loc[i, 'min_leaf_area_index']
-
