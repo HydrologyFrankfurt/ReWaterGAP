@@ -16,23 +16,19 @@
 
 import numpy as np
 from tqdm import tqdm
-import sys
 import pandas as pd
-from core.utility import get_upstream_basin as get_basin
 from termcolor import colored
 from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
 from controller import read_forcings_and_static as rd
 from controller import wateruse_handler as wateruse
-from core.verticalwaterbalance import waterbalance_vertical_init as vb
 from core import parameters as pm
 from core import land_surfacewater_fraction_init as lwf
 from core.lateralwaterbalance import waterbalance_lateral as lb
 from core.utility import restart_watergap as restartwatergap
+from core.utility import get_upstream_basin as get_basin
+from core.verticalwaterbalance import waterbalance_vertical_init as vb
 from view import createandwrite as cw
-
-
-
 
 
 def run(calib_station=None, watergap_basin=None):
@@ -44,8 +40,7 @@ def run(calib_station=None, watergap_basin=None):
     None.
 
     """
-    
-    if cm.ant is True:
+    if cm.ant:
         print('\n' + colored('+++ Antropogenic Run +++', 'cyan'))
         if cm.reservior_opt is False:
             print(colored('Use only: Human water use without '
@@ -73,25 +68,24 @@ def run(calib_station=None, watergap_basin=None):
         print(colored('Demand satisfaction option: ' + satisfaction_option,
                       'blue'))
 
-        print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
+        print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
         print('Temporal resolution:' +
-              colored(' %s' % (cm.temporal_res), 'green'))
+              colored(f'{cm.temporal_res}', 'green'))
         print('Run basin:' +
-              colored(' %s' % (cm.run_basin), 'green'))
+              colored(f'{cm.run_basin}', 'green'))
     else:
         print('\n' + colored('+++ Naturalised Run +++', 'cyan'))
         print('Note:' + colored(' 1. Reserviors, abstraction from surface and'
                                 ' groundwater are not considered.' + '\n'
                                 + '      2. Regulated lakes are treated as'
                                 '  global lakes ', 'blue'))
-        print('\nPeriod:' + colored(' %s to %s' % (cm.start, cm.end), 'green'))
+        print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
         print('Temporal resolution:' +
-              colored(' %s' % (cm.temporal_res), 'green'))
+              colored(f'{cm.temporal_res}', 'green'))
         print('Run basin:' +
-              colored(' %s' % (cm.run_basin), 'green'))
-        
- 
-    # Flag to run WaterGAP calibration 
+              colored(f'{cm.run_basin}', 'green'))
+
+    # Flag to run WaterGAP calibration
     run_calib = cm.run_calib
 
     # =====================================================================
@@ -136,21 +130,20 @@ def run(calib_station=None, watergap_basin=None):
                                land_water_frac.loclake_frac)
 
     # =====================================================================
-    # Initialize selected basin or region 
+    # Initialize selected basin or region
     # =====================================================================
-    if run_calib == True and cm.run_basin==True: 
-        # calibration run 
+    if run_calib and cm.run_basin:
+        # calibration run
         pass
-    else:  
+    else:
         # run WaterGAP is basin of choice
         streamflow_station = initialize_forcings_static.static_data.stations
         watergap_basin = get_basin.\
-            Select_upstream_basin(cm.run_basin,
-                                  initialize_forcings_static.static_data.arc_id ,
-                                  streamflow_station,
-                                  initialize_forcings_static.static_data.lat_lon_arcid,
-                                  initialize_forcings_static.static_data.upstream_cells)
-
+            SelectUpstreamBasin(cm.run_basin,
+                                initialize_forcings_static.static_data.arc_id,
+                                streamflow_station,
+                                initialize_forcings_static.static_data.lat_lon_arcid,
+                                initialize_forcings_static.static_data.upstream_cells)
 
     # ====================================================================
     # Get time range for Loop
@@ -160,8 +153,8 @@ def run(calib_station=None, watergap_basin=None):
 
     # getting time range from time input (including the first day).
     timerange_main = round((end_date - start_date + 1)/np.timedelta64(1, 'D'))
-    
-    # format main date for simulation. 
+
+    # format main date for simulation.
     date_main = grid_coords['time'].values.astype('datetime64[D]')
 
     # Get the first available day for each month (required to load in wateruse
@@ -201,7 +194,7 @@ def run(calib_station=None, watergap_basin=None):
     # =================================================================
     # Update model paramters for restart if option is selected
     # =================================================================
-    if restart is True:
+    if restart:
         date_before_restart = str(start_date - np.timedelta64(1, 'D'))
         restart_data = restart_model.load_restart_info(date_before_restart)
         print(colored('Date of previous WaterGAP run: ' +
@@ -219,8 +212,8 @@ def run(calib_station=None, watergap_basin=None):
     #                  ====================================
     #                  ||   Main Loop for all processes  ||
     #                  ====================================
-    get_annual_streamflow=[]# for calibration purpose only
-    get_annual_pot_cell_runoff=[]# for calibration purpose only
+    get_annual_streamflow = []  # for calibration purpose only
+    get_annual_pot_cell_runoff = []  # for calibration purpose only
     end_main_loop = False
     while True:
         print('Spin up phase: ' + colored(str(spin_up), 'cyan'))
@@ -240,11 +233,11 @@ def run(calib_station=None, watergap_basin=None):
             lateral_waterbalance.\
                 activate_res_area_storage_capacity(date, cm.reservoir_opt_years,
                                                    restart)
-                
+
             # Get Land area fraction
             land_water_frac.\
                 landareafrac_with_reservior(date, cm.reservoir_opt_years)
-            
+
             # Get land and water fractions (used to calculate total PET)
             land_water_frac.get_land_and_water_freq(date)
 
@@ -256,14 +249,13 @@ def run(calib_station=None, watergap_basin=None):
                                      vertical_waterbalance.soil_water_content,
                                      lateral_waterbalance.glores_area,
                                      lateral_waterbalance.glores_storage)
-            
-            # print('hi2', print(np.nanmax(land_water_frac.current_landareafrac)))
+
             # =================================================================
             #  Computing vertical water balance
             # =================================================================
             vertical_waterbalance.\
                 calculate(date, land_water_frac.current_landareafrac,
-                          land_water_frac.landareafrac_ratio, 
+                          land_water_frac.landareafrac_ratio,
                           watergap_basin.upstream_basin,
                           land_water_frac.water_freq,
                           land_water_frac.land_freq)
@@ -325,30 +317,34 @@ def run(calib_station=None, watergap_basin=None):
                         pd.to_datetime(date).day == 31) or end_date == \
                         date.astype('datetime64[D]'):
                     save_year = date.astype('datetime64[D]')
-                    
-                    if run_calib == True: 
-                        annual_streamflow = create_out_var.lb_fluxes['dis'].data.sel(lat=calib_station["lat"].values, lon=calib_station["lon"].values)
-                        annual_streamflow = annual_streamflow.dis.resample(time='Y').sum().values  # km3/year for station
+
+                    if run_calib:
+                        annual_streamflow = create_out_var.lb_fluxes['dis'].data.\
+                            sel(lat=calib_station["lat"].values, lon=calib_station["lon"].values)
+
+                        # km3/year for station
+                        annual_streamflow = annual_streamflow.dis.resample(time='Y').sum().values
                         get_annual_streamflow.append(annual_streamflow[0][0][0])
-                        
+
                         annual_pot_cell_runoff = create_out_var.lb_fluxes['pot_cell_runoff'].data
-                        annual_pot_cell_runoff = annual_pot_cell_runoff.pot_cell_runoff.resample(time='Y').sum(skipna=False)
-                        annual_pot_cell_runoff.attrs['units']="km3/year"
+                        annual_pot_cell_runoff = annual_pot_cell_runoff.pot_cell_runoff.\
+                            resample(time='Y').sum(skipna=False)
+                        annual_pot_cell_runoff.attrs['units'] = "km3/year"
                         get_annual_pot_cell_runoff.append(annual_pot_cell_runoff)
                     else:
                         print(f'\nWriting data for {save_year} to NetCDF\n')
-                        
+
                         create_out_var.base_units(initialize_forcings_static.static_data.cell_area,
                                                   initialize_forcings_static.static_data.
                                                   land_surface_water_fraction.contfrac)
-                                                                  
+
                         create_out_var.save_netcdf_parallel(str(save_year))
 
                 # =============================================================
                 #  Get restart information if restart is needed.
                 # =============================================================
                 if end_date == date.astype('datetime64[D]'):
-                    if savestate_for_restart is True:
+                    if savestate_for_restart:
                         restart_model.\
                             savestate(date,
                                       land_water_frac.current_landareafrac,
@@ -386,10 +382,12 @@ def run(calib_station=None, watergap_basin=None):
                                       lateral_waterbalance.unsat_potnetabs_sw_from_demandcell,
                                       lateral_waterbalance.unsat_potnetabs_sw_to_supplycell,
                                       lateral_waterbalance.get_neighbouring_cells_map,
-                                      lateral_waterbalance.accumulated_unsatisfied_potential_netabs_sw, 
+                                      lateral_waterbalance.\
+                                          accumulated_unsatisfied_potential_netabs_sw,
 
                                       lateral_waterbalance.daily_unsatisfied_pot_nas,
-                                      lateral_waterbalance.prev_accumulated_unsatisfied_potential_netabs_sw,
+                                      lateral_waterbalance.\
+                                          prev_accumulated_unsatisfied_potential_netabs_sw,
                                       lateral_waterbalance.prev_potential_water_withdrawal_sw_irri,
                                       lateral_waterbalance.prev_potential_consumptive_use_sw_irri,
                                       lateral_waterbalance.set_res_storage_flag
@@ -402,18 +400,16 @@ def run(calib_station=None, watergap_basin=None):
         if spin_up != 0:
             spin_up -= 1
 
-        if end_main_loop is True:
+        if end_main_loop:
             print('Status:' + colored(' complete', 'cyan'))
             break
-        
-        
-    if run_calib == True:
-        sim_data_calib  = {"sim_dis": get_annual_streamflow, 
+
+    if run_calib:
+        sim_data_calib = {"sim_dis": get_annual_streamflow,
                           "pot_cell_runoff": get_annual_pot_cell_runoff}
-        return sim_data_calib 
-    
+        return sim_data_calib
+
+
 if __name__ == "__main__":
     run_with_time_check = check_time(run)
     run_with_time_check()
-
-

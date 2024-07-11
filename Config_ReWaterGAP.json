@@ -12,7 +12,7 @@
       "SimulationOption": {
         "AntNat_opts": {
           "ant": true,
-          "subtract_use": false,
+          "subtract_use": true,
           "res_opt": true
         },
         "Demand_satisfaction_opts": {
