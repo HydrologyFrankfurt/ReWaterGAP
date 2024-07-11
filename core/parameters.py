@@ -43,9 +43,9 @@ class Parameters:
         # read in global parameters
         try:
             # Default
-            # param_path = str(Path('core/WaterGAP_2.2e_global_parameters.nc'))
+            param_path = str(Path('core/WaterGAP_2.2e_global_parameters.nc'))
             # calibration_test
-            param_path = str(Path("../test_wateruse/WaterGAP_2.2e_global_parameters.nc"))
+            # param_path = str(Path("../test_wateruse/WaterGAP_2.2e_global_parameters.nc"))
             self.global_params = xr.open_dataset(param_path, decode_times=False)
 
         except FileNotFoundError:
