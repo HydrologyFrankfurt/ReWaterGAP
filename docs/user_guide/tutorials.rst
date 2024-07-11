@@ -174,7 +174,7 @@ In case of a problem find help in the :ref:`five minute guide <five_minute_guide
 
 If your run has been successful, your Terminal should look like this:
 
-.. figure:: ../images/user_guide/tutorial/standard_run_successful_terminal.png
+.. figure:: #../images/user_guide/tutorial/standard_run_successful_terminal.png
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
@@ -232,7 +232,7 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 
 For the year 1989 the result should look like this:
 
-.. figure:: #../images/user_guide/tutorial/panopoly_use_only_run_tutorial.png
+.. figure:: ../images/user_guide/tutorial/panopoly_use_only_run_tutorial.png
 
 .. _reservoirs_only:
 
