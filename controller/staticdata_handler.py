@@ -27,7 +27,7 @@ from controller import configuration_module as cm
 # Get module name and remove the .py extension
 # Module name is passed to logger
 # ===============================================================
-modname = (os.path.basename(__file__))
+modname = os.path.basename(__file__)
 modname = modname.split('.')[0]
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -98,7 +98,7 @@ class StaticData:
         neighbourcells_outflowcell_path = \
             str(Path(cm.static_land_data_path +
                      r'/neigbouringcells_outflow_latlon.csv'))
-            
+
         lat_lon_arcid_path = \
             str(Path(cm.static_land_data_path +
                 r'/ArcID_GCRC_Lon_Lat.txt'))
@@ -106,12 +106,12 @@ class StaticData:
         upstream_cells_path = \
             str(Path(cm.static_land_data_path +
                 r'/upstream_cells_for_grid_arcid.csv'))
-        
+
         arc_id_path = \
             str(Path(cm.static_land_data_path + r'/arc_id.nc'))
-            
-        station_path =  str(Path(cm.path_to_stations_file +
-                               r'/stations.csv'))   
+
+        station_path = str(Path(cm.path_to_stations_file +
+                                r'/stations.csv'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
@@ -173,14 +173,12 @@ class StaticData:
             self.neighbourcells = pd.read_csv(neighbourcells_path)
             self.neighbourcells_outflowcell = \
                 pd.read_csv(neighbourcells_outflowcell_path)
-            
+
             # To select region or basin.
             self.arc_id = xr.open_dataarray(arc_id_path, decode_times=False)
-            self.upstream_cells =pd.read_csv(upstream_cells_path)
-            self.lat_lon_arcid =pd.read_csv(lat_lon_arcid_path)
+            self.upstream_cells = pd.read_csv(upstream_cells_path)
+            self.lat_lon_arcid = pd.read_csv(lat_lon_arcid_path)
             self.stations = pd.read_csv(station_path)
-  
-                
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Static data '
@@ -192,7 +190,7 @@ class StaticData:
                               'parameters', args.debug)
             sys.exit()  # dont run code if file does not exist
         else:
-            if run_calib==False: 
+            if run_calib is False:
                 print('\n'+'Static data loaded successfully')
 
     def soil_static_data(self):

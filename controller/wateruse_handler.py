@@ -12,12 +12,12 @@
 """Water-use handler"""
 
 import logging
-import numpy as np
 from pathlib import Path
 import glob
 import os
 import sys
-import pandas as pd 
+import numpy as np
+import pandas as pd
 import xarray as xr
 import watergap_logger as log
 import misc.cli_args as cli
@@ -28,7 +28,7 @@ from core.lateralwaterbalance import aggregate_net_abstraction as aggr
 # Get module name and remove the .py extension
 # Module name is passed to logger
 # ===============================================================
-modname = (os.path.basename(__file__))
+modname = os.path.basename(__file__)
 modname = modname.split('.')[0]
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -83,31 +83,31 @@ class Wateruse:
             # Loading in Wateruse
             # ==============================================================
             try:
-                filtered_abstraction_path = [fpath for fpath in 
-                                    glob.glob(potential_net_abstraction_path) 
-                                     if 'atotuse' not in 
-                                     os.path.basename(fpath)]
+                filtered_abstraction_path = [fpath for fpath in
+                                             glob.glob(potential_net_abstraction_path)
+                                             if 'atotuse' not in os.path.basename(fpath)]
 
                 self.potential_net_abstraction = \
                     xr.open_mfdataset(filtered_abstraction_path, decode_times=False)
-                
+
                 # Fix date issues.
-                units, reference_date = self.potential_net_abstraction.time.attrs["units"].split("since")
+                _, reference_date = \
+                    self.potential_net_abstraction.time.attrs["units"].split("since")
+
                 self.potential_net_abstraction["time"] = \
-                    pd.date_range(start=reference_date, 
-                                  periods=self.potential_net_abstraction.sizes["time"], 
+                    pd.date_range(start=reference_date,
+                                  periods=self.potential_net_abstraction.sizes["time"],
                                   freq="MS")
-            
+
                 # only for calibration run
                 self.actual_net_abstraction = None
-                if  run_calib==True:
-                    actual_use_path = [fpath for fpath in 
-                                        glob.glob(potential_net_abstraction_path) 
-                                         if 'atotuse' in os.path.basename(fpath)]
+                if run_calib:
+                    actual_use_path = [fpath for fpath in
+                                       glob.glob(potential_net_abstraction_path)
+                                       if 'atotuse' in os.path.basename(fpath)]
 
                     self.actual_net_abstraction =  \
                         xr.open_mfdataset(actual_use_path, chunks={'time': 365})
-
 
                 # Fraction of return flow from irrigation to groundwater
                 # See Döll et al 2012, eqn 1
@@ -130,7 +130,7 @@ class Wateruse:
                                   'should be NETCDF or Water use data not found', args.debug)
                 sys.exit()  # dont run code if file does not exist
             else:
-                if run_calib==False:
+                if run_calib is False:
                     print('\nWater-use input files loaded successfully')
 
     def aggregate_riparian_netpotabs(self, lake_area, res_area, netabs):

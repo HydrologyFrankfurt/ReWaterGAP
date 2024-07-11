@@ -28,7 +28,7 @@ from controller import configuration_module as cm
 # Get module name and remove the .py extension
 # Module name is passed to logger
 # ===============================================================
-modname = (os.path.basename(__file__))
+modname = os.path.basename(__file__)
 modname = modname.split('.')[0]
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -100,7 +100,7 @@ class ClimateForcing:
                               'should be NETCDF', args.debug)
             sys.exit()  # don't run code if file does not exist
         else:
-            if run_calib==False: 
+            if run_calib is False:
                 print('Climate forcing loaded successfully')
 
             self.var_name = [list(self.precipitation.data_vars)[0],
@@ -130,7 +130,7 @@ class ClimateForcing:
         # ==============================================================
 
         try:
-            with open('cf_conv.json') as cf_info:
+            with open('cf_conv.json', encoding="utf-8") as cf_info:
                 cf_info = json.load(cf_info)
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Cf convention file for'

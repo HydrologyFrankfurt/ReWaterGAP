@@ -23,7 +23,7 @@ import pandas as pd
 # Get module name and remove the .py extension
 # Module name is passed to logger
 # ===============================================================
-modname = (os.path.basename(__file__))
+modname = os.path.basename(__file__)
 modname = modname.split('.')[0]
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -52,7 +52,7 @@ def config_handler(filename):
 
     """
     try:
-        with open(filename) as config:
+        with open(filename, encoding="utf-8") as config:
             config_content = json.load(config)
     except FileNotFoundError:
         log.config_logger(logging.ERROR, modname, 'Configuration file '
@@ -104,7 +104,7 @@ if ant is False:
 # Error Handling
 # Here one forgot to either activate  reservoir operation or
 # substract use in anthropogenic mode
-if ant is True and reservior_opt is False and subtract_use is False:
+if ant and reservior_opt is False and subtract_use is False:
     msg = ' None of the variant in anthropogenic run is ' + \
           'activated (reservoir opetration , wateruse or both). ' + \
           'Please choose an option'
@@ -123,7 +123,7 @@ spinup_years = sim_period['spinup_years']
 # +++++++++++++++++++++++++++++++
 # Reservoir operation duration
 # +++++++++++++++++++++++++++++++
-if reservior_opt is True:
+if reservior_opt:
     reservoir_start_year = sim_period["reservoir_start_year"]
     reservoir_end_year = sim_period["reservoir_end_year"]
 
@@ -140,7 +140,7 @@ else:
 # =============================================================================
 dailyRes = config_file['RuntimeOptions'][3]['TimeStep']['daily']
 
-if dailyRes is True:
+if dailyRes:
     temporal_res = 'Daily'
 else:
     log.config_logger(logging.ERROR, modname, 'WaterGAP currently has only '
