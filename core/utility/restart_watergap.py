@@ -18,16 +18,17 @@ import logging
 import os
 import sys
 import glob
+from pathlib import Path
 import watergap_logger as log
 import misc.cli_args as cli
 import pandas as pd
-from pathlib import Path
+
 
 # ===============================================================
 # Get module name and remove the .py extension
 # Module name is passed to logger
 # ===============================================================
-modname = (os.path.basename(__file__))
+modname = os.path.basename(__file__)
 modname = modname.split('.')[0]
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -47,9 +48,9 @@ class RestartState:
                   current_landarea_frac, previous_landarea_frac,
                   landareafrac_ratio, previous_swb_frac, glores_frac_prevyear,
                   gloresfrac_change, init_landfrac_res_flag,
-                  landwaterfrac_excl_glolake_res, land_and_water_freq_flag, 
+                  landwaterfrac_excl_glolake_res, land_and_water_freq_flag,
                   water_freq, land_freq, updated_loclake_frac,
-                  lai_days_since_start, lai_cum_precipitation, 
+                  lai_days_since_start, lai_cum_precipitation,
                   lai_growth_status, canopy_storage,
                   snow_storage, snow_storage_subgrid, soil_water_content,
                   daily_storage_transfer, groundwater_storage, loclake_storage,
@@ -64,7 +65,7 @@ class RestartState:
                   prev_accumulated_unsatisfied_potential_netabs_sw,
                   prev_potential_water_withdrawal_sw_irri,
                   prev_potential_consumptive_use_sw_irri,
-                  set_res_storage_flag ):
+                  set_res_storage_flag):
         """
         Write variable to file for only a day before the restart date.
 
@@ -147,17 +148,17 @@ class RestartState:
         accumulated_unsatisfied_potential_netabs_sw : array
             Accumulated unsatisfied potential net abstraction of surface water, Unit: [km^3/day]
         daily_unsatisfied_pot_nas : array
-            Daily unsatisfied potential net abstraction from surface water, Unit: [km^3/day]   
+            Daily unsatisfied potential net abstraction from surface water, Unit: [km^3/day]
         prev_accumulated_unsatisfied_potential_netabs_sw : array
-            Previous accumulated unsatisfied potential net abstraction of surface water, Unit: [km^3/day]   
+            Previous accumulated unsatisfied potential net abstraction of surface water, 
+            Unit: [km^3/day]
         prev_potential_water_withdrawal_sw_irri : array
-            Previous potential water withdrawal from surface water for irrigation, Unit: [km^3/day]   
+            Previous potential water withdrawal from surface water for irrigation, Unit: [km^3/day]
         prev_potential_consumptive_use_sw_irri : array
-            Previous potential consumptive use from irrigation using surface water, Unit: [km^3/day]  
+            Previous potential consumptive use from irrigation using surface water, Unit: [km^3/day]
         set_res_storage_flag : bool
             Flag indicating whether to set reservoir storage.
-        
-                   
+
         Returns
         -------
         None.
@@ -173,12 +174,12 @@ class RestartState:
                           "glores_frac_prevyear": glores_frac_prevyear,
                           "gloresfrac_change": gloresfrac_change,
                           "init_landfrac_res_flag": init_landfrac_res_flag,
-                          "landwaterfrac_excl_glolake_res": 
+                          "landwaterfrac_excl_glolake_res":
                               landwaterfrac_excl_glolake_res,
-                        "land_and_water_freq_flag": land_and_water_freq_flag, 
-                        "water_freq": water_freq,
-                        "land_freq" : land_freq,
-                        "updated_loclake_frac": updated_loclake_frac,
+                          "land_and_water_freq_flag": land_and_water_freq_flag,
+                          "water_freq": water_freq,
+                          "land_freq": land_freq,
+                          "updated_loclake_frac": updated_loclake_frac,
                           }
 
         vert_bal_states = {"lai_days_since_start": lai_days_since_start,
@@ -206,7 +207,7 @@ class RestartState:
                               unsat_potnetabs_sw_from_demandcell,
                           "unsat_potnetabs_sw_to_supplycell":
                               unsat_potnetabs_sw_to_supplycell,
-                          "neighbouring_cells_map" : neighbouring_cells_map, 
+                          "neighbouring_cells_map": neighbouring_cells_map,
                           "accumulated_unsatisfied_potential_netabs_sw":
                               accumulated_unsatisfied_potential_netabs_sw,
                           "daily_unsatisfied_pot_nas":
@@ -216,8 +217,8 @@ class RestartState:
                           "prev_potential_water_withdrawal_sw_irri":
                               prev_potential_water_withdrawal_sw_irri,
                           "prev_potential_consumptive_use_sw_irri":
-                              prev_potential_consumptive_use_sw_irri, 
-                          "set_res_storage_flag": set_res_storage_flag }
+                              prev_potential_consumptive_use_sw_irri,
+                          "set_res_storage_flag": set_res_storage_flag}
 
         self.state.update({"last_date": date,
                           "landfrac_state": landfrac_state,
@@ -227,7 +228,7 @@ class RestartState:
         file_path = os.path.join(self.save_and_read_states_path,
                                  'restartwatergap_' + str(date) + '.pickle')
 
-        with open(file_path, 'wb') as file:
+        with open(file_path, 'wb', encoding='utf-8') as file:
             pickle.dump(self.state, file)
 
     def load_restart_info(self, prev_date):
@@ -244,7 +245,7 @@ class RestartState:
             read_path = os.path.join(self.save_and_read_states_path,
                                      "*"+prev_date+".pickle")
             path = glob.glob(read_path)
-            with open(path[0], 'rb') as rf:
+            with open(path[0], 'rb', encoding='utf-8') as rf:
                 restart_data = pickle.load(rf)
         except IndexError:
             log.config_logger(logging.ERROR, modname, 'Restart data file'
