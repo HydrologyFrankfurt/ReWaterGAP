@@ -28,7 +28,7 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
                           inflow_to_swb, num_days_in_month,
                           all_reservoir_and_regulated_lake_area):
     """
-    
+    Compute reservoir release based on Hanasaki et al 2006.
 
     Parameters
     ----------
@@ -75,7 +75,6 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
         Updated release coefficient, Units: [-]
 
     """
-
     # Index to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
     x, y = rout_order[routflow_looper]
@@ -172,12 +171,12 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     #  c_ratio is defined as (reservoir capacity / mean total annual inflow)
     # Reservoir capacity(stor_capacity) = km3  and mean_annual_inflow = m3/s
     # hence mean_annual_inflow should be converted to km3
-    to_km3 = (31536000/1e9)  # (31536000 = 365 * 24 * 60 * 60)
+    to_km3 = 31536000/1e9  # (31536000 = 365 * 24 * 60 * 60)
 
     # old code didnt account for division by zero, hence i am imitating the
     # same error for comparison. i will correct it here later.
     # (check gcrc 46162, x=140, y=157)******
-    
+
     if mean_annual_inflow == 0:
         c_ratio = np.inf
     else:
@@ -187,7 +186,7 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
         release = k_release * prov_rel
     else:
         # to convert inflow from km3 per day to m3/s
-        to_m3_per_s = (1e9/86400)
+        to_m3_per_s = 1e9/86400
         # release is applied on daily inflow
         release = ((4*(c_ratio)**2) * k_release * prov_rel) + \
             (1 - (4*(c_ratio)**2)) * (inflow_to_swb*to_m3_per_s)

@@ -41,7 +41,6 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                                  all_reservoir_and_regulated_lake_area,
                                  reg_lake_redfactor_firstday, minstorage_volume):
     """
-    
     Compute water balance for reservoirs and regulated lakes.
 
     Parameters
@@ -106,7 +105,7 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
         Indicator for the first day to compute regulated lake reduction factor.
     minstorage_volume : float
         Minimum storage volume for the reservoir, Unit: [km^3].
-    
+
     References.
 
     .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,
@@ -117,7 +116,7 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                 model description and evaluation. Geoscientific Model
                 Development, 14(2), 1037–1079.
                 https://doi.org/10.5194/gmd-14-1037-2021
-    
+
     .. [2] Naota Hanasaki, Shinjiro Kanae, Taikan Oki, A reservoir operation 
             scheme for global river routing models, Journal of Hydrology,
             Volume 327, Issues 1–2, 2006,
@@ -175,7 +174,7 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
     else:
         evapo_redfactor = \
             rf.swb_redfactor(storage_prevstep, max_storage, reduction_exponent_res)
-    
+
     # =========================================================================
     # Computing reservior or regulated lake corrected evaporation
     # (openwater_evapo_cor[km3/day])
@@ -301,7 +300,6 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
                     (storage - (0.1 * stor_capacity))
                 storage = 0.1 * stor_capacity
 
-    
     if np.abs(storage) <= minstorage_volume:
         storage= 0
     # compute relase from Hanasaki algorithm
@@ -316,7 +314,7 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
 
     # Reservoirs release (outflow) water based on their current level [S(t)]
     # convert release from m3/s to km3/day since temporal resultion is daily
-    to_km3_per_day = (86400/1e9)
+    to_km3_per_day = 86400/1e9
 
     if storage >= (stor_capacity * 0.1):
 
@@ -344,10 +342,10 @@ def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
 
     actual_use_sw = acc_unsatisfied_potnetabs_res_start - \
         accumulated_unsatisfied_potential_netabs_res
-        
+
     # convert open water evaporation for swb from km/day to km3/day (output purpose)
     openwater_evapo_cor_km3 = openwater_evapo_cor * reservior_area[x, y]
-    
+
     return storage, outflow, gwr_reservior, k_release_new, \
         accumulated_unsatisfied_potential_netabs_res, actual_use_sw, \
             openwater_evapo_cor_km3

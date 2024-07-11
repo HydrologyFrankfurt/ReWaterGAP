@@ -55,8 +55,8 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
         Unsatisfied potential net abstraction from global lake or reservoir
         outflow cell to riparian cell, Unit: [km^3/day]
     prev_returned_demand_from_supply_cell
-        Retured demand from supply to demand cell.  This is computed in the 
-        next time step by supply cell if supply cell water balance is  
+        Retured demand from supply to demand cell.  This is computed in the
+        next time step by supply cell if supply cell water balance is
         computed before demand cell, Unit: [km^3/day]
     x : int
         Latitude index of cell
@@ -85,27 +85,27 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
     # between accumulated_unsatisfied_potential_netabs_sw
     # (after global lake and or reservoir storage)  and the sum of
     # previous accumulated unsatisfied potential net abstraction from
-    # surface water or prev_returned_demand_from_supply_cell (if demand is satisfied in next time step by neighbour cell)
+    # surface water or prev_returned_demand_from_supply_cell (if demand is
+    # satisfied in next time step by neighbour cell)
     # and the distributed demand to supply cell if there is
     # neigbouring cell water supply option(current cell is suuply cell).
     # (prev_accumulated_unsatisfied_potential_netabs_sw +
     # unsat_potnetabs_sw_to_supplycell)
 
     # =========================================================================
-    prev_accu_supplycell_demad = unsat_potnetabs_sw_to_supplycell 
+    prev_accu_supplycell_demad = unsat_potnetabs_sw_to_supplycell
 
     if np.nansum(np.array(prev_returned_demand_from_supply_cell)) == 0:
         prev_accu_supplycell_demad += prev_accumulated_unsatisfied_potential_netabs_sw
-        
+
     else:
-        # logic: if demand is satisfied in next time step by neighbour cell use 
+        # logic: if demand is satisfied in next time step by neighbour cell use
         # returned demand from this neighbour (prev_returned_demand_from_supply_cell)
-        # else use the unstatisfied demand from previous day 
+        # else use the unstatisfied demand from previous day
         # (prev_accumulated_unsatisfied_potential_netabs_sw)
-        prev_accu_supplycell_demad += np.nansum(np.array(prev_returned_demand_from_supply_cell)) 
+        prev_accu_supplycell_demad += np.nansum(np.array(prev_returned_demand_from_supply_cell))
 
     # =========================================================================
-    
     # ------------------------------------------------------------------
     # Special condition!!!:
     # ------------------------------------------------------------------

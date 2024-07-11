@@ -20,6 +20,8 @@ import numpy as np
 
 
 class RiverProperties:
+    """Get river properties (e.g. length , slope, etc)."""
+
     def __init__(self, river_slope, roughness, river_length, bankfull_flow,
                  continental_fraction):
         # Units of input variables
@@ -60,4 +62,3 @@ class RiverProperties:
 
         self.max_river_storage = 0.5 * self.river_length * (river_depth_bf) * \
             (self.river_bottom_width + river_top_width_bf)
-

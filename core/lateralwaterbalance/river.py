@@ -137,7 +137,8 @@ def river_water_balance(x, y,
     streamflow :  float
         Daily streamflow, Unit: [km^3/day]
     accumulated_unsatisfied_potential_netabs_sw: float
-        Accumulated unsatisfied potential net abstraction after satisfaction from river, Unit: [km^3/day].
+        Accumulated unsatisfied potential net abstraction after satisfaction from river,
+        Unit: [km^3/day].
     actual_use_sw: float
         Actual netabstraction  from river storage, Unit: [km^3/day].
 

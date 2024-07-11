@@ -114,7 +114,8 @@ def update_netabs_gw(potential_net_abstraction_gw,
             # potential_net_abstraction_gw.  Return flow to groundwater are
             # decreased and actual_net_abstraction_gw becomes larger than
             # potential_net_abstraction_gw
-            wateruse_eff_irri = prev_potential_consumptive_use_sw_irri / prev_potential_water_withdrawal_sw_irri 
+            wateruse_eff_irri =\
+                prev_potential_consumptive_use_sw_irri / prev_potential_water_withdrawal_sw_irri
 
             factor = 1 - ((1 - frac_irri_returnflow_to_gw) * (1 - wateruse_eff_irri))
 
@@ -163,7 +164,8 @@ def update_netabs_gw(potential_net_abstraction_gw,
             # surface water of the previous day was larger than potential net
             # abstraction from surface water. Return flow to groundwater will
             # be increased.
-            wateruse_eff_irri = prev_potential_consumptive_use_sw_irri / prev_potential_water_withdrawal_sw_irri 
+            wateruse_eff_irri = \
+                prev_potential_consumptive_use_sw_irri / prev_potential_water_withdrawal_sw_irri
 
             factor = 1 - (1 - frac_irri_returnflow_to_gw) * (1 - wateruse_eff_irri)
 
