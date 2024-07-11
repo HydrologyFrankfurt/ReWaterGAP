@@ -27,51 +27,66 @@ modelvars = {
     "qs": {"long": "Surface runoff", "unit": " kg m-2 s-1"},
 
     # LateralWaterBalanceFluxes
-    "consistent-precipitation": {"long": "modified or consistent precipitation", "unit": " kg m-2 s-1"},
+    "consistent-precipitation": {"long": "modified or consistent precipitation",
+                                 "unit": " kg m-2 s-1"},
     "qg": {"long": "Groundwater discharge", "unit": " kg m-2 s-1"},
-    "qtot": {"long": "Total runoff (sum of surrface runoff and groundwater discharge)", "unit": " kg m-2 s-1"},
-    "qrf": {"long": "Focussed groundwater recharge below surface water bodies", "unit": " kg m-2 s-1"},
-    "qr": {"long": "sum of diffuse groundwater recharge + groundwater recharge from surfacewater bodies", "unit": " kg m-2 s-1"},
+    "qtot": {"long": "Total runoff (sum of surrface runoff and groundwater discharge)",
+             "unit": " kg m-2 s-1"},
+    "qrf": {"long": "Focussed groundwater recharge below surface water bodies",
+            "unit": " kg m-2 s-1"},
+    "qr": {"long": "sum of diffuse groundwater recharge + groundwater recharge"
+           " from surfacewater bodies", "unit": " kg m-2 s-1"},
     "locallake-outflow": {"long": "Locallake outflow", "unit": " kg m-2 s-1"},
     "localwetland-outflow": {"long": "Localwetland outflow", "unit": " kg m-2 s-1"},
     "globallake-outflow": {"long": "Globallake outflow", "unit": " kg m-2 s-1"},
     "globalwetland-outflow": {"long": "Globalwetland outflow", "unit": " kg m-2 s-1"},
     "dis": {"long": "Streamflow or River discharge", "unit": "m3 s-1"},
-    "dis-from-upstream":{"long": "Streamflow or River discharge from upstream cell", "unit": "m3 s-1"},
-    "dis-from-inlandsink" : {"long": "Stream flow from inland sink",  "unit": " m3 s-1"},
-    
+    "dis-from-upstream": {"long": "Streamflow or River discharge from upstream cell",
+                          "unit": "m3 s-1"},
+    "dis-from-inlandsink": {"long": "Stream flow from inland sink",  "unit": " m3 s-1"},
+
     "atotusegw": {"long": "actual net abstraction from  groundwater", "unit": " kg m-2 s-1"},
     "atotusesw": {"long": "actual net abstraction from suurface water", "unit": " kg m-2 s-1"},
-    "atotuse":{"long": "Total Actual Water Consumption (all sectors)", "unit": " kg m-2 s-1"},
-    
-    "evap-total":{"long": "Potential consumptive use(NAg+NAs) and total actual evaporation from land", 
-                                 "unit": " kg m-2 s-1"},
+    "atotuse": {"long": "Total Actual Water Consumption (all sectors)", "unit": " kg m-2 s-1"},
 
-    "total_demand_into_cell": {"long": "total dailay demand into cell", "unit": " kg m-2 s-1"},
+    "evap-total": {"long": "Potential consumptive use(NAg+NAs) and total actual"
+                   " evaporation from land", "unit": " kg m-2 s-1"},
+
+    "total_demand_into_cell": {"long": "total dailay demand into cell",
+                               "unit": " kg m-2 s-1"},
 
     "unsat_potnetabs_sw_from_demandcell": {"long": "unsatisfied potential"
-                                           "demand from demandcell in surfacewater", 
-                                           "unit": " kg m-2 s-1"}, 
-    
-    "returned_demand_from_supply_cell": {"long": "returned demand from supply cell", "unit": " kg m-2 s-1"},
-    "prev_returned_demand_from_supply_cell": {"long": "returned demand from supply cell previous time step", "unit": " kg m-2 s-1"},
-    
+                                           "demand from demandcell in surfacewater",
+                                           "unit": " kg m-2 s-1"},
+
+    "returned_demand_from_supply_cell": {"long": "returned demand from supply cell",
+                                         "unit": " kg m-2 s-1"},
+
+    "prev_returned_demand_from_supply_cell": {"long": "returned demand from"
+                                              " supply cell previous time step",
+                                              "unit": " kg m-2 s-1"},
+
     "total_unsatisfied_demand_ripariancell": {"long": " total unsatisfied potential"
-                                           "demand to ripariancell in surfacewater", "unit": " kg m-2 s-1"},
-    
+                                              "demand to ripariancell in surfacewater",
+                                              "unit": " kg m-2 s-1"},
+
     "accumulated_unsatisfied_potential_netabs_sw":
-        {"long": "accumulated unsatisfied potential net abstraction from surfacewater",  "unit": " kg m-2 s-1"},
+        {"long": "accumulated unsatisfied potential net abstraction from surfacewater",
+         "unit": " kg m-2 s-1"},
     "get_neighbouring_cells_map": {"long": "neighbouring cells map", "unit": "-"},
-    
+
     "total_unsatisfied_demand_from_supply_to_all_demand_cell":
         {"long": "total unsatisfied demand from supply to all demand_cell",  "unit": " kg m-2 s-1"},
-    
-    "ncrun":  {"long": "Net cell runoff (river discharge - upstream river disharge)",  "unit": " kg m-2 s-1"}, 
-     "river-velocity": {"long": "River velocity",  "unit": "m s-1"}, 
+
+    "ncrun":  {"long": "Net cell runoff (river discharge - upstream river disharge)",
+               "unit": " kg m-2 s-1"},
+
+    "river-velocity": {"long": "River velocity",  "unit": "m s-1"},
     "land-area-fraction": {"long": "Daily land area fraction",  "unit": "-"},
-    "pot_cell_runoff":  {"long": "Potential runoff (sum of surrface runoff and groundwater discharge and runoff from surface waterbodies)", "unit": " kg m-2 s-1"},
-    
-    
+    "pot_cell_runoff":  {"long": "Potential runoff (sum of surrface runoff and" 
+                         " groundwater discharge and runoff from surface waterbodies)",
+                         "unit": " kg m-2 s-1"},
+
     # VerticalWaterBalanceStorages
     "canopystor": {"long": "Canopy storage", "unit": "kg m-2"},
     "swe": {"long": "Snow water equivalent", "unit": "kg m-2"},

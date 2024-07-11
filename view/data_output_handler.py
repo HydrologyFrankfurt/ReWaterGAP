@@ -10,9 +10,9 @@
 # =============================================================================
 """Create ouput variables."""
 
+import datetime as dt
 import xarray as xr
 import numpy as np
-import datetime as dt
 from misc import watergap_version
 from view import output_var_info as var_info
 
@@ -40,7 +40,7 @@ class OutputVariable:
         """
         self.variable_name = variable_name
         self.create = create
-        if self.create is True:
+        if self.create:
             self.grid_coords = grid_coords
 
             # Geting length of time,lat,lon from grid coordinates (grid_coords)
@@ -50,32 +50,30 @@ class OutputVariable:
 
             # Create dummy data for variable
             if self.variable_name == "get_neighbouring_cells_map":
-                dummy_data = np.zeros((time_length, lat_length, lon_length, 2), 
+                dummy_data = np.zeros((time_length, lat_length, lon_length, 2),
                                       dtype=np.int32)
-                self.data =  xr.Dataset(
-                        {
-                            'get_neighbouring_cells_map': (['time', 'lat', 'lon', 'dim2'], dummy_data)
-                        },
-                    coords={
-                        'time': self.grid_coords['time'][:365].values,
-                        'lat': self.grid_coords['lat'].values,
-                        'lon': self.grid_coords['lon'].values,
-                        # Adding a new dimension 'dim2'
-                        'dim2': np.arange(2)})                                     
+                self.data = xr.Dataset(
+                        {'get_neighbouring_cells_map':
+                         (['time', 'lat', 'lon', 'dim2'], dummy_data)},
+
+                        coords={
+                            'time': self.grid_coords['time'][:365].values,
+                            'lat': self.grid_coords['lat'].values,
+                            'lon': self.grid_coords['lon'].values,
+                            # Adding a new dimension 'dim2'
+                            'dim2': np.arange(2)})
             else:
                 dummy_data = np.full((time_length, lat_length, lon_length), np.nan,
-                                 dtype=np.float32)
-            
-            
-                dummy_coords = {"time": self.grid_coords['time'][:365].values,
-                            "lat": self.grid_coords['lat'].values,
-                            "lon": self.grid_coords['lon'].values}
+                                     dtype=np.float32)
 
+                dummy_coords = {"time": self.grid_coords['time'][:365].values,
+                                "lat": self.grid_coords['lat'].values,
+                                "lon": self.grid_coords['lon'].values}
 
                 # create Xarray dataset for output variable without variable name
                 self.data = xr.Dataset(coords=dummy_coords).\
                     chunk({'time': 1, 'lat': 360, 'lon': 720})
-            
+
                 # Add variables names for respective output varaibes
                 self.data[self.variable_name] = \
                     xr.DataArray(dummy_data, coords=dummy_coords,
@@ -88,7 +86,7 @@ class OutputVariable:
                     "long_name": var_info.modelvars[self.variable_name]['long'],
                     "units": var_info.modelvars[self.variable_name]['unit'],
                     }
-    
+
                 # Add global metadata
                 self.data.attrs = {
                     'title': "WaterGAP"+" "+watergap_version.__version__ + ' model ouptput',
@@ -100,7 +98,7 @@ class OutputVariable:
                         dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         }
             del dummy_data  # delete dummy data to free memory
-        # ======================================================================================================
+        # =====================================================================
 
     def write_daily_output(self, array, time_step, year, month, day):
         """
@@ -109,22 +107,22 @@ class OutputVariable:
         Parameters
         ----------
         array : numpy array
-            results (array) to be wriiten to vaiable per time step.
-       time_step : int
-           Daily timestep.
-       year: : int
-           Simulation year
-       month : int 
-           Simulation month 
-       day : int
-           Simulation day
-         
+             results (array) to be wriiten to vaiable per time step.
+        time_step : int
+            Daily timestep.
+        year: : int
+            Simulation year
+        month : int
+            Simulation month
+        day : int
+            Simulation day
+
         Returns
         -------
         None.
 
         """
-        if self.create is True:
+        if self.create:
             # Check if it's a new year (time to update the dataset time values)
             if month == 1 and day == 1:
                 # Get right dates  for data
@@ -136,8 +134,7 @@ class OutputVariable:
             # reset counter to zero after each year
             mod_time_step = time_step % len(self.data['time'])
             if self.variable_name == "get_neighbouring_cells_map":
-                fill_date =self.data.time[mod_time_step]
-                self.data[self.variable_name].loc[dict(time=fill_date)]= array
+                fill_date = self.data.time[mod_time_step]
+                self.data[self.variable_name].loc[{"time": fill_date}] = array
             else:
                 self.data[self.variable_name][mod_time_step, :, :] = array
-

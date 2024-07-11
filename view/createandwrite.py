@@ -13,9 +13,9 @@
 # =============================================================================
 # This module creates and writes daily ouputs to  storage and flux varibales
 # =============================================================================
-import numpy as np
 import concurrent.futures
 import platform
+import numpy as np
 from controller import configuration_module as cm
 from view import data_output_handler as doh
 
@@ -36,7 +36,7 @@ def write_to_netcdf(args):
         var.to_netcdf(path, format='NETCDF4_CLASSIC', encoding=encoding)
         del var
         return None  # Successful execution
-    except Exception as exc:
+    except FileNotFoundError as exc:
         return exc
 
 
@@ -81,12 +81,12 @@ class CreateandWritetoVariables:
         # Initialize output variables for vertical water balance
         for var_name, cm_var in vb_output_vars.items():
             if var_name in {'canopystor', 'swe', 'soilmoist', 'smax'}:
-                if cm.vb_storages.get(cm_var) is True:
+                if cm.vb_storages.get(cm_var):
                     var = doh.OutputVariable(var_name, cm.vb_storages.get(cm_var),
                                              grid_coords)
                     self.vb_storages[var_name] = var
             else:
-                if cm.vb_fluxes.get(cm_var) is True:
+                if cm.vb_fluxes.get(cm_var):
                     var = doh.OutputVariable(var_name, cm.vb_fluxes.get(cm_var),
                                              grid_coords)
                     self.vb_fluxes[var_name] = var
@@ -119,18 +119,18 @@ class CreateandWritetoVariables:
             "tws": "total_water_storage",
 
             "dis": "streamflow",
-            "dis-from-upstream":"streamflow_from_upstream",
+            "dis-from-upstream": "streamflow_from_upstream",
             "dis-from-inlandsink": "streamflow_from_inland_sink",
-            
+
             "atotusegw": "actual_net_abstr_groundwater",
             "atotusesw": "actual_net_abstr_surfacewater",
-            "atotuse" : "actual_water_consumption",
+            "atotuse": "actual_water_consumption",
             "evap-total": "cell_aet_consuse",
-            
+
             "total_demand_into_cell": "total_demand_into_cell",
             "unsat_potnetabs_sw_from_demandcell": "unsat_potnetabs_sw_from_demandcell",
 
-            "returned_demand_from_supply_cell": 
+            "returned_demand_from_supply_cell":
                 "returned_demand_from_supply_cell",
             "prev_returned_demand_from_supply_cell":
                 "prev_returned_demand_from_supply_cell",
@@ -144,7 +144,7 @@ class CreateandWritetoVariables:
             "river-velocity": "river_velocity",
             "land-area-fraction":  "land_area_fraction",
             "pot_cell_runoff": "pot_cell_runoff"
-            
+
         }
 
         # Initialize output variables for lateral water balance
@@ -152,12 +152,12 @@ class CreateandWritetoVariables:
             if var_name in {'groundwstor', "locallakestor", "localwetlandstor",
                             "globallakestor", "globalwetlandstor",
                             "riverstor", "reservoirstor", "tws"}:
-                if cm.lb_storages.get(cm_var) is True:
+                if cm.lb_storages.get(cm_var):
                     var = doh.OutputVariable(var_name, cm.lb_storages.get(cm_var),
                                              grid_coords)
                     self.lb_storages[var_name] = var
             else:
-                if cm.lb_fluxes.get(cm_var) is True:
+                if cm.lb_fluxes.get(cm_var):
                     var = doh.OutputVariable(var_name, cm.lb_fluxes.get(cm_var),
                                              grid_coords)
                     self.lb_fluxes[var_name] = var
@@ -175,11 +175,11 @@ class CreateandWritetoVariables:
             Daily timestep.
         sim_year: : int
             Simulation year
-        sim_month : int 
-            Simulation month 
+        sim_month : int
+            Simulation month
         sim_day : int
             Simulation day
-                                            
+
 
         Returns
         -------
@@ -215,8 +215,8 @@ class CreateandWritetoVariables:
              Daily timestep.
          sim_year: : int
              Simulation year
-         sim_month : int 
-             Simulation month 
+         sim_month : int
+             Simulation month
          sim_day : int
              Simulation day
         Returns
@@ -239,12 +239,11 @@ class CreateandWritetoVariables:
         for var_name, var in self.lb_fluxes.items():
             var.write_daily_output(fluxes_var[var_name], time_step, sim_year,
                                    sim_month, sim_day)
-            
-    
+
     def base_units(self, cell_area, contfrac):
         """
         Convert units of model outputs.
-        
+
         Parameters
         ----------
         cell_area : array
@@ -254,53 +253,53 @@ class CreateandWritetoVariables:
         month_daily_aggr : string
             Specifies the aggregation method, either "month" for monthly averages 
             or "daily" for daily values.
-    
+
         Returns
         -------
         None.
-    
+
         """
         cell_area = cell_area.astype(np.float64)
         contfrac = contfrac.values.astype(np.float64)
-        
-        km3_to_mm = 1e6/(cell_area *( contfrac/100))
+
+        km3_to_mm = 1e6/(cell_area * (contfrac/100))
         days_to_s = 86400
-        km_to_m =  1e3
+        km_to_m = 1e3
         km3_to_m3 = 1e9
-        ouptputs =[ self.vb_storages, self.vb_fluxes, self.lb_storages, self.lb_fluxes]
+        ouptputs = [self.vb_storages, self.vb_fluxes, self.lb_storages,
+                    self.lb_fluxes]
         for i in range(4):
             for key, value in ouptputs[i].items():
-                if i== 0:
+                if i == 0:
                     # already in mm or  kg m-2
-                    converted_data =  value.data[key].values
-                
+                    converted_data = value.data[key].values
+
                 elif i == 1:
                     # convert from mm/day to mm/s or  kg m-2 s-1
-                    converted_data = value.data[key].values / days_to_s 
-                    
-                elif i== 2:   
+                    converted_data = value.data[key].values / days_to_s
+
+                elif i == 2:
                     # convert from km3 to mm or  kg m-2
-                    converted_data = value.data[key].values * km3_to_mm 
-                    
-                elif i ==3: 
-                    if key == "get_neighbouring_cells_map": 
-                        converted_data =  value.data[key].values
+                    converted_data = value.data[key].values * km3_to_mm
+
+                elif i == 3:
+                    if key == "get_neighbouring_cells_map":
+                        converted_data = value.data[key].values
                     # convert to m3/s  for discharge and m/s for velocity
-                    elif (key == "dis") or  (key == "dis_from_upstream") or (key == "dis_from_inland_sink"):
-                        converted_data = (value.data[key].values * km3_to_m3) / days_to_s 
-                    elif (key == "river_velocity"):
-                        converted_data = (value.data[key].values * km_to_m) / days_to_s 
-                    else: # convert from km3/day to mm/s or  kg m-2 s-1
+                    elif key in ("dis", "dis_from_upstream", "dis_from_inland_sink"):
+                        converted_data = (value.data[key].values * km3_to_m3) / days_to_s
+                    elif key == "river_velocity":
+                        converted_data = (value.data[key].values * km_to_m) / days_to_s
+                    else:  # convert from km3/day to mm/s or  kg m-2 s-1
                         converted_data = (value.data[key].values * km3_to_mm) / days_to_s
 
-                # converted and aggreagated data 
-                value.data[key][:] = converted_data        
-            
-            
+                # converted and aggreagated data
+                value.data[key][:] = converted_data
+
     def save_netcdf_parallel(self, end_date):
         """
         Save variables to netcdf.
-        
+
         end_date: datetime
             Date for end of simulation
 
@@ -315,10 +314,10 @@ class CreateandWritetoVariables:
                     self.lb_storages, self.lb_fluxes]:
             for key, value in var.items():
                 path = self.path + f'{key}_{end_date}.nc'
-                
-                if key=="get_neighbouring_cells_map":
+
+                if key == "get_neighbouring_cells_map":
                     encoding = {key: {'chunksizes': [1, 360, 720, 2],
-                                      "zlib": True, 
+                                      "zlib": True,
                                       "complevel": 5}}
                 else:
                     encoding = {key: {'_FillValue': 1e+20,
