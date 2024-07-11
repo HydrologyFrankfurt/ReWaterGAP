@@ -133,6 +133,7 @@ def calibrate_watergap():
 
     # Loop through stations superbasins and stations.
     all_odered_stations = pd.read_csv("input_data/static_input/stations.csv")
+
     for i in range(len(all_odered_stations)):
         station_id_ordered = all_odered_stations['station_id'][i]
         station_config_path = \

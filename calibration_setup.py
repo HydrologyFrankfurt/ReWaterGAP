@@ -110,7 +110,8 @@ class SetupCalibration:
         # Initialise static data for calibrations and order stations to match
         # routing order
         # =====================================================================
-        streamflow_station = self.initialize_static.stations
+        # create a copy of the stations file
+        streamflow_station = self.initialize_static.stations.copy()
         streamflow_station.set_index(['lon', 'lat'], inplace=True)
         routing_order = self.initialize_static.rout_order
 
@@ -144,6 +145,8 @@ class SetupCalibration:
 
         reordered_stations = pd.DataFrame(ordered_stations_list)
         path_to_save = str(Path(cm.path_to_stations_file + r'/stations.csv'))
+        if os.path.exists(path_to_save):
+            os.remove(path_to_save)
         reordered_stations.to_csv(path_to_save, index=False)
 
     # Generate observed discharge and configuration file for all stations
