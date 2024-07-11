@@ -4,19 +4,19 @@ Created on Fri Aug  5 14:37:44 2022.
 
 @author: nyenah
 """
-from termcolor import colored
 import unittest
+from test import climat_and_static_data as cs
+from termcolor import colored
 import xarray as xr
 import numpy as np
 import numpy.testing as np_test
 from core.verticalwaterbalance import compute_leaf_area_index as lai
-from test import climat_and_static_data as cs
 
 
 class TestLeafAreaIndex(unittest.TestCase):
     # creating fixtures
     def setUp(self):
-        # setting up climate forcing and static data
+        """setting up climate forcing and static data."""
         self.climate_forcing = cs.ClimateForcing()
         self.static_data = cs.StaticData()
 
@@ -47,6 +47,11 @@ class TestLeafAreaIndex(unittest.TestCase):
                  self.benchmark_leaf_area_index[0].values
 
     def test_compare_leaf_area_index_reults_and_dimensions(self):
+        """ Compare simulated leaf area index results to benchmark.
+
+        It also checks if the dimensions of the simulated data
+        match the expected dimensions.
+        """
         test_result = lai.LeafAreaIndex(self.climate_forcing,
                                         self.static_data, self.date,)
 
@@ -66,6 +71,7 @@ class TestLeafAreaIndex(unittest.TestCase):
 
     # Test if results using acceptatable range for inputs
     def test_result_validity(self):
+        """Test if the results are within an acceptable range."""
         self.climate_forcing = cs.ClimateForcing(simulate=True)
 
         test_result = lai.LeafAreaIndex(self.climate_forcing,
@@ -83,6 +89,8 @@ class TestLeafAreaIndex(unittest.TestCase):
 
     # Test results for negative precipitation
     def test_with_negative_precipitation(self):
+        """Test results when there is negative precipitation."""
+
         self.climate_forcing = cs.ClimateForcing(simulate=True, neg_prec=True)
 
         test_result = lai.LeafAreaIndex(self.climate_forcing,
