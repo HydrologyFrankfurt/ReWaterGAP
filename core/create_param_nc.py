@@ -89,9 +89,9 @@ ds.to_netcdf('WaterGAP_2.2e_parameters.nc', encoding=encoding)
 
 
 
-
 #  add semi-arid coeff to PT coefficient
-arid_humid = xr.open_dataset('../input_data/static_input/watergap_22e_aridhumid.nc4', decode_times=False)
+arid_humid = xr.open_dataset('../input_data/static_input/watergap_22e_aridhumid.nc4',
+                             decode_times=False)
 add_arid= arid_humid.aridhumid[0].values
 
 ds = xr.open_dataset('WaterGAP_2.2e_parameters.nc', decode_times=False)
@@ -103,5 +103,3 @@ encoding = {'chunksizes': [360, 720], "zlib": True, "complevel": 5}
 encoding = {var: encoding for var in ds.data_vars}
 # Save to netCDF file
 ds.to_netcdf('WaterGAP_2.2e_global_parameters.nc', encoding=encoding)
-
-

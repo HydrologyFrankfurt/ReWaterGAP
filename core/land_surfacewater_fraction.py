@@ -79,8 +79,8 @@ def compute_landareafrac(landwater_frac, land_area_frac,
     # =========================================================================
     #     Resevoirs
     # =========================================================================
-    if anthroprogenic is True:
-        if reservoir_operation is True:
+    if anthroprogenic:
+        if reservoir_operation:
 
             # Read in global reservoir fraction per year. This reservoir
             # fraction contains accumulated values per year, specifically
@@ -90,11 +90,11 @@ def compute_landareafrac(landwater_frac, land_area_frac,
                 values.astype(np.float64)
             # changing data dimension from (1,360,720) to (360,720)
             glores_frac = glores_frac[0]
-            
+
             # ================================================================
             # Compute land area fraction at model start and subsequent years
             # ===============================================================
-            if init_landfrac_res_flag is True:  # computed once
+            if init_landfrac_res_flag:  # computed once
                 # Read in local reservior.
                 locres_frac = landwater_frac.locres[0].values.astype(np.float64)
                 # local reservoir are added to local lakes based on section 4.1
@@ -114,23 +114,23 @@ def compute_landareafrac(landwater_frac, land_area_frac,
                 glores_frac_change = np.zeros_like(land_area_frac)
             else:
                 # Compute the change in global reservoir fraction every year to
-                # adapt land area fraction. 
+                # adapt land area fraction.
 
                 glores_frac_change = glores_frac - glores_frac_prevyear
-                
-                # In case there was already a reservoir fraction, adapt only 
+
+                # In case there was already a reservoir fraction, adapt only
                 # the changes else reservoir fraction increased from 0
                 new_land_area_frac = \
-                    np.where(glores_frac_prevyear > 0,  
+                    np.where(glores_frac_prevyear > 0,
                              land_area_frac - (glores_frac_change/100),
                              land_area_frac - (glores_frac/100))
-                
+
                 #  Perform changes only if a new reservoir started operation
-                land_area_frac = np.where(glores_frac_change > 0, 
+                land_area_frac = np.where(glores_frac_change > 0,
                                           new_land_area_frac, land_area_frac)
-                                                                                              
+
                 land_area_frac[land_area_frac < 0] = 0
-                
+
             return land_area_frac, glores_frac_change
         else:
             # regulated lakes becomes global lakes (global lake fraction is
@@ -166,7 +166,7 @@ def get_glolake_area(landwater_frac):
     global_lake_area = landwater_frac.global_lake_area[0].values.\
         astype(np.float64)
 
-    if anthroprogenic is True:
+    if anthroprogenic:
         if reservoir_operation is False:
             # Add reservoir area to global lake area in case of regulated lake
             regulated_lake_status = landwater_frac.regulated_lake_status.values
