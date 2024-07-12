@@ -12,6 +12,7 @@
 """Run Calibration"""
 
 import os
+import subprocess
 import json
 from termcolor import colored
 import pandas as pd
@@ -107,38 +108,46 @@ def calibrate_watergap():
     None.
 
     """
-    # =========================================================================
-    #                       Calibration step A
-    # =========================================================================
-    # Run WaterGAP globally to get the actual net abstraction from groundwater
-    # and  surface water. This will be the water use data for calibration)
-    print('\n' + colored("Running Calibration step A...","magenta"))
-    get_actual_net_abstr = GetActualAbstraction()
-    get_actual_net_abstr.modify_config_file()
-    # get_actual_net_abstr.run_watergap()
+    try:
+        # =====================================================================
+        #                       Calibration step A
+        # =====================================================================
+        # Run WaterGAP globally to get the actual net abstraction from groundwater
+        # and  surface water. This will be the water use data for calibration)
+        print('\n' + colored("Running Calibration step A...","magenta"))
+        get_actual_net_abstr = GetActualAbstraction()
+        get_actual_net_abstr.modify_config_file()
+        # get_actual_net_abstr.run_watergap()
 
-    # =========================================================================
-    #    Set up files for calibration (generate config file for each station)
-    # =========================================================================
-    print('\n'+ colored("Generating station specific configuration files"
-                        " for Calibration step B...", "magenta"))
-    os.system(f"python3 calibration_setup.py {get_actual_net_abstr.config_path}")
+        # =====================================================================
+        #  Set up files for calibration (generate config file for each station)
+        # =====================================================================
+        print('\n' + colored("Generating station specific configuration files"
+                             " for Calibration step B...", "magenta"))
 
-    # =========================================================================
-    #                       Calibration step B
-    # =========================================================================
+        subprocess.run(["python3", "calibration_setup.py",
+                        get_actual_net_abstr.config_path], check=True)
 
-    # Optimise WaterGAP parameters
-    print('\n'+ colored("Running Calibration step B...", "magenta"))
+        # =====================================================================
+        #                       Calibration step B
+        # =====================================================================
+        # Optimise WaterGAP parameters
+        print('\n' + colored("Running Calibration step B...", "magenta"))
 
-    # Loop through stations superbasins and stations.
-    all_odered_stations = pd.read_csv("input_data/static_input/stations.csv")
+        # Loop through stations superbasins and stations.
+        all_odered_stations = pd.read_csv("input_data/static_input/stations.csv")
 
-    for i in range(len(all_odered_stations)):
-        station_id_ordered = all_odered_stations['station_id'][i]
-        station_config_path = \
-            f"../test_wateruse/station_config_files/Config_ReWaterGAP-{station_id_ordered}.json"
-        os.system(f"python3 find_gamma_cfa_cfs.py {station_config_path}")
+        for i in range(len(all_odered_stations)):
+            station_id_ordered = all_odered_stations['station_id'][i]
+            station_config_path = \
+                f"../test_wateruse/station_config_files/Config_ReWaterGAP-{station_id_ordered}.json"
+            subprocess.run(["python3", "find_gamma_cfa_cfs.py",
+                            station_config_path], check=True)
+
+    except subprocess.CalledProcessError as e:
+        print(colored(f"Error occurred while running an external script: {e}", "red"))
+    except KeyboardInterrupt:
+        print(colored("Calibration interrupted by user.", "red"))
 
 
 if __name__ == "__main__":

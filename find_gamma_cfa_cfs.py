@@ -152,8 +152,8 @@ class OptimizationState:
         self.annual_pot_cell_runoff = simulated_data["pot_cell_runoff"]
 
         sim_dis = np.array(simulated_data["sim_dis"])  # km3/year
-        sim_years = list(range(self.start_year , self.end_year+1))
-        sim_df = pd.DataFrame({ "Year": sim_years, "sim_dis": sim_dis})
+        sim_years = list(range(self.start_year, self.end_year+1))
+        sim_df = pd.DataFrame({"Year": sim_years, "sim_dis": sim_dis})
 
         # Merge the dataframes on 'Year'. Goal is to remove yearly simulated
         # discharge which is not available in observed discharge data.
@@ -175,8 +175,8 @@ class OptimizationState:
         if error_cs1 < self.threshold_cs1:
             self.calibration_status = 1
             if check_bounds is False:
-                raise Exception('\n'+ f'Calibration status: {self.calibration_status}'
-                                ' - sucessful for Gamma = {gamma } and Bias = {error_cs1}')
+                raise Exception('\n' + f'Calibration status: {self.calibration_status}' +
+                                f' - sucessful for Gamma = {gamma } and Bias = {error_cs1}')
 
         return error_cs1
 
@@ -222,8 +222,8 @@ class OptimizationState:
                 gamma_bounds = self.gamma_limit[1]
             else:
                 gamma_bounds = [(initial_gamma, self.gamma_limit[1])]
-                print('\n' + f'Gamma {self.gamma_limit[1]} is too great.'
-                      ' Actual gamma lies in Bounds {gamma_bounds}')
+                print('\n' + f'Gamma {self.gamma_limit[1]} is too great.' +
+                      f' Actual gamma lies in bounds {gamma_bounds}')
         else:
             self.calib_cs1(self.gamma_limit[0], calib_station, watergap_basin,
                            calib_unit_gamma, check_bounds)
@@ -232,8 +232,8 @@ class OptimizationState:
                 gamma_bounds = self.gamma_limit[0]
             else:
                 gamma_bounds = [(self.gamma_limit[0], initial_gamma)]
-                print('\n' + f'Gamma {self.gamma_limit[0]} is too small.'
-                      ' Actual gamma lies in Bounds {gamma_bounds}')
+                print('\n' + f'Gamma {self.gamma_limit[0]} is too small.' +
+                      f' Actual gamma lies in bounds {gamma_bounds}')
         return gamma_bounds
 
     def calib_cs2(self, gamma):
@@ -257,8 +257,8 @@ class OptimizationState:
             check_cs2 = min_mean_obs_dis_adapted <= self.mean_sim_dis <= max_mean_obs_dis_adapted
 
             if check_cs2:
-                print('\n'+ f'Calibration status: {self.calibration_status} '
-                      '- sucessful for 10% criterion  with Gamma = {gamma}')
+                print('\n' + f'Calibration status: {self.calibration_status} ' +
+                      f'- sucessful for 10% criterion  with Gamma = {gamma}')
             else:
                 self.calibration_status = 3
                 print("10% criterion cannot be fulfilled, CFA is calculated." + '\n')
@@ -486,15 +486,15 @@ def calibrate_parameters(initial_gamma):
         gamma_bounds = state.check_gamma_bounds(initial_gamma, current_calib_station,
                                                 watergap_basin, calib_unit_gamma_cfa)
 
-        print(colored('\n'+ f'Running calibration for station Station ID: {station_id} '
-                      'with gamma in range (or at) {gamma_bounds}', 'light_yellow'))
+        print(colored('\n' + f"Running calibration for station Station ID: {station_id} " +
+                      f"with gamma in range (or at) {gamma_bounds}", 'light_yellow'))
         if state.calibration_status != 2:
             # CS1
             new_init_gamma = np.mean(gamma_bounds)
             minimize(state.calib_cs1, x0=new_init_gamma, method="powell",
-                      bounds=gamma_bounds, args=(current_calib_station, watergap_basin,
-                                                 calib_unit_gamma_cfa),
-                      options={'maxfev':10})
+                     bounds=gamma_bounds, args=(current_calib_station, watergap_basin,
+                                                calib_unit_gamma_cfa),
+                     options={'maxfev':10})
 
         else:
             # CS2
@@ -505,7 +505,7 @@ def calibrate_parameters(initial_gamma):
 
             # CS4
             state.calib_cs4(current_calib_station, watergap_basin)
-    except ValueError as e:
+    except Exception as e:
         print(e)
 
 
