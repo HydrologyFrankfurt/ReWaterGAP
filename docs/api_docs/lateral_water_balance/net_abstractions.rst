@@ -78,7 +78,7 @@ The actual net abstraction from surface water in the global lake/reservoir outfl
 
 1.2	Neighboring cell water supply option 
 ----------------------------------------
-Unsatisﬁed surface water demand of all other cells can be taken from the neighboring cell with the largest river and lake/reservoir storage simulating the effect of water transfers. However, in each cell i, the first priority is to satisfy the water demand of cell :math:`i` (from water storage in cell i), and only the second priority, is to satisfy water demand allocated from the neighboring cell(s) from water storage in cell i. 
+Unsatisﬁed surface water demand of all other cells can be taken from the neighboring cell with the largest river and lake/reservoir storage simulating the effect of water transfers. However, in each cell :math:`i`, the first priority is to satisfy the water demand of cell :math:`i` (from water storage in cell :math:`i`), and only the second priority, is to satisfy water demand allocated from the neighboring cell(s) from water storage in cell :math:`i`. 
 If not all the unsatisfied demand of the demand cell can be fulfilled in the supply cell, the unsatisfied demand is assigned back to the demand cell. 
 In both cases, the :math:`{NA}_{s}` of the demand cell is reduced as compared to :math:`{NA}_{pot,s}` and the :math:`{NA}_{s}` of the supply cell is increased. 
 If unsatisfied :math:`{NA}_{s}` of the demand cell can be satisfied in the supply cell, then NAg in the demand cell remains constant, as the full return flow from irrigation with surface water occurs in the demand cell. 
@@ -156,7 +156,7 @@ and return :math:{NA}_{g} = {NA}_{pot,g}`.
 
 **UnNApot,s(t-1) is negative and WApot,s,irri(t) >0**
 
-In this case, the actual :math:'{NA}_{s}` subtracted from surface water storage was larger than :math:'{NA}_{pot,s}` on the previous day, as part of the unsatisfied :math:'{NA}_{pot,s}` accumulated from earlier times could be satisfied. If this additional :math:'{NA}_{s}` was caused by supplying irrigation water and not only for satisfying the water demand of other sectors (which have priority), then more return flow to groundwater is generated than it was assumed when :math:'{NA}_{pot,g}` was computed in GWSWUSE. Thus, return flows to groundwater are increased and :math:'{NA}_{g}` becomes smaller than :math:'{NA}_{pot,g}`
+In this case, the actual :math:`{NA}_{s}` subtracted from surface water storage was larger than :math:`{NA}_{pot,s}` on the previous day, as part of the unsatisfied :math:`{NA}_{pot,s}` accumulated from earlier times could be satisfied. If this additional :math:`{NA}_{s}` was caused by supplying irrigation water and not only for satisfying the water demand of other sectors (which have priority), then more return flow to groundwater is generated than it was assumed when :math:`{NA}_{pot,g}` was computed in GWSWUSE. Thus, return flows to groundwater are increased and :math:`{NA}_{g}` becomes smaller than :math:`{NA}_{pot,g}`
 
 .. math::
    {NA}_{s} = {NA}_{pot,s} + {added\:net\:abstraction}_{sw,irri}
