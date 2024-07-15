@@ -22,7 +22,7 @@ where :math:`{Q}_{r,in}` is inflow into the river compartment [:math:`{m}^{3} {d
 
 Inflows
 -------
-The inflow :math:`{Q}_{r,in}` into the river compartment (if there are no surface water bodies) is the sum of :ref:`soil surface runoff <surface_runoff>` :math:`({R}_{s})`, :ref:`groundwater discharge <groundwater_discharge>` :math:`({Q}_{g})`, and upstream streamflow. Otherwise fraction of :math:`{R}_{s}` and :math:`{Q}_{g}` (in humid cells) is routed through the surface water bodies :ref:`(See: Model schematic) <model_schematic>`.  The outflow from the surface water body preceding the river compartment then becomes part of :math:`{Q}_{r,in}`. In addition, negative net abstractions :math:`({NA}_{s})` values due to high return flows from irrigation with groundwater lead to a net increase in storage. Thus, if no surface water bodies exist in the cell, negative :math:`{NA}_{s}` is added to :math:`{Q}_{r,in}`.
+The inflow :math:`{Q}_{r,in}` into the river compartment (if there are no surface water bodies) is the sum of :ref:`soil surface runoff <surface_runoff>` :math:`({R}_{s})`, :ref:`groundwater discharge <groundwater_discharge>` :math:`({Q}_{g})`, and upstream streamflow. Otherwise fraction of :math:`{R}_{s}` and :math:`{Q}_{g}` (in humid cells) is routed through the surface water bodies (See:` <model_schematic>`_ ). The outflow from the surface water body preceding the river compartment then becomes part of :math:`{Q}_{r,in}`. In addition, negative net abstractions :math:`({NA}_{s})` values due to high return flows from irrigation with groundwater lead to a net increase in storage. Thus, if no surface water bodies exist in the cell, negative :math:`{NA}_{s}` is added to :math:`{Q}_{r,in}`.
 
 
 Outflows
