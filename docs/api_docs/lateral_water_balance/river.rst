@@ -45,7 +45,7 @@ The velocity :math:`{v}` is calculated using the Manning–Strickler equation:
 	{v} = {n}^{-1} * {R}_{h}^{\frac{3}{2}} * {s}^{\frac{1}{2}}
 
 
-where :math:`{n}` is river bed roughness :math:`[–]`, :math:`{R}_{h}` is the hydraulic radius of the river channel :math:`[m]` and :math:`{s}` is river bed slope :math:`({m}*{m}^{-1})` [1]_ .
+where :math:`{n}` is river bed roughness :math:`[–]`, :math:`{R}_{h}` is the hydraulic radius of the river channel :math:`[m]` and :math:`{s}` is river bed slope :math:`[{m}*{m}^{-1}]` [1]_ .
 
 Daily varying :math:`{R}_{h}` is calculated assuming a trapezoidal river cross section with a slope of 0.5. :math:`{R}_{h}` then can be calculated as a function of daily varying river depth :math:`{D}_{r}` and temporally constant bottom width :math:`{W}_{r,bottom}` [3]_. 
 WaterGAP implements a consistent method for determining daily width and depth as a function of river water storage. Bankfull flow conditions are assumed to occur at the initial time step and the initial volume of water stored in the river is calculated as:
