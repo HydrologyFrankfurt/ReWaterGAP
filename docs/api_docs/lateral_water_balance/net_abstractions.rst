@@ -68,7 +68,7 @@ There are three options for managing this situation by spatially shifting parts 
 
 1. With the 'riparian water supply' option, if the demanding cell is situated along a global lake or reservoir, NApot,s can be fulfilled from the storage of the lake or reservoir, if possible. In WaterGAP this is achieved by computing storages in the output cell.
 2. Alternatively, with the 'neighboring cell water supply' option, any accumulated unsatisfied potential net abstraction from surface water can be satisfied from a neighboring cell with an available supply.
-3. Lastly, in the 'delayed water supply' option, surface water demands that couldn't be met on a given day are shifted to a later time in the year (Müller Schmied et al., 2021, p. 1050).
+3. Lastly, in the 'delayed water supply' option, surface water demands that couldn't be met on a given day are shifted to a later time in the year (Müller Schmied et al., 2021, p. 1050) [2]_.
 
 
 1.1	Riparian water supply option
@@ -173,7 +173,7 @@ In this case, the actual :math:`{NA}_{s}` subtracted from surface water storage 
    factor WAs,irri = factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
-   WAs,irri = (1/factor) (factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
+   WAs,irri = \frac{1}{factor} (factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
    returnflow\:change = frgi(1-eff)(WAs,irri-WApot,s,irri)
