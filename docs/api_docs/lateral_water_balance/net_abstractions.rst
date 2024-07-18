@@ -45,7 +45,7 @@ The term that is subtracted at the right-hand side of Eq. (1), the return flow f
    For computations in WaterGAP, net abstractions are converted from :math:`[{km}^{3}/month]` to :math:`[{km}^{3}/day]`.
 
 
-The subtracted artificial groundwater recharge is the returned flow from irrigation with surface water or groundwater to groundwater (Döll et al., 2012).
+The subtracted artificial groundwater recharge is the returned flow from irrigation with surface water or groundwater to groundwater (Döll et al., 2012) [1]_.
 
 
 For water uses where the source of the water and the destination for the return flow are surface water bodies, only the consumptive use needs to be included in the computation of :math:`{NA}_{pot,s}`. This applies to water use for cooling thermal power plants, livestock, as well as surface water use in the domestic and manufacturing sectors. 
