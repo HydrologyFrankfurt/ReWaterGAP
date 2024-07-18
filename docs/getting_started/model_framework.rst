@@ -53,7 +53,7 @@ Processes are categorized as vertical water balance and lateral water balance
 	- Water Abstractions
 
 .. note::
-	Lateral routing of water through the storage compartments is based on the so-called fractional routing scheme and differs between (semi)arid and humid grid cells [1]_.
+	Lateral routing of water through the storage compartments is based on the so-called fractional routing scheme (see section 4 of Müller Schmied et al. (2021) [1]_) and differs between (semi)arid and humid grid cells [1]_.
 
 References 
 ##########
