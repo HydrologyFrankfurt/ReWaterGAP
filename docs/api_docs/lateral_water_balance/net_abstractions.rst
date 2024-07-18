@@ -116,34 +116,34 @@ UnNApot,s(t-1) is positive and WApot,s,irri(t) > 0
 In this case, the surface water abstraction for irrigation on the previous day was lower than that assumed when computing :math:`{NA}_{pot,g}`. Thus, return flows to groundwater are decreased and :math:`{NA}_{g}` becomes larger than :math:`{NA}_{pot,g}`. We derive the algorithm by setting, as a first step, all water uses that are not related to surface water use for irrigation to zero, as they are not affected by the reduction of net abstraction from surface water as compared to :math:`{NA}_{pot,s}`. The equations in italics show the derivation, the normal letters what is included in the code. Then, Eq. (2) is simplified to:
 
 .. math::
-   NA_pot,s = {WA}_{pot,s,irri} - {(1 - frgi)} * {({WA}_{pot,s,irri} - {CU}_{pot,s,irri})}
+   {NA}_{pot,s} = {WA}_{pot,s,irri} - {(1 - frgi)} * {({WA}_{pot,s,irri} - {CU}_{pot,s,irri})}
 
 .. math::
    {eff} = \frac{CUpot,s,irri}{WApot,s,irri}
 
 .. math::
-   NA_pot,s = WApot,s,irri - (1 - frgi) * (WApot,s,irri - eff * WApot,s,irri)
+   {NA}_{pot,s} = {WA}_{pot,s,irri} - (1 - frgi) * ({WA}_{pot,s,irri} - eff * {WA}_{pot,s,irri})
 
 .. math::
-   NApot,s = WApot,s,irri - (1 - frgi) * (1 - eff) * WApot,s,irri
+   {NA}_{pot,s} = {WA}_{pot,s,irri} - (1 - frgi) * (1 - eff) * {WA}_{pot,s,irri}
 
 .. math::
-   NApot,s = WApot,s,irri [1 - (1 - frgi) * (1 - eff)]
+   {NA}_{pot,s} = {WA}_{pot,s,irri} * [1 - (1 - frgi) * (1 - eff)]
 
 .. math::
    factor = [1 - (1 - frgi) * (1 - eff)]
 
 .. math::
-   NApot,s = factor * WA_pot,s,irri
+   {NA}_{pot,s} = factor * {WA}_{pot,s,irri}
 
 .. math::
-   NA_s = NA_pot,s - UnNA_pot,s
+   {NA}_{s} = {NA}_{pot,s} - {UnNA}_{pot,s}
 
 .. math::
-   factor WAs,irri = factor * WA_pot,s,irri - UnNA_pot,s
+   factor * {WA}_{s,irri} = factor * {WA}_{pot,s,irri} - {UnNA}_{pot,s}
 
 .. math::
-   WA_s,irri = \frac{1}{factor} (factor WApot,s,irri - UnNApot,s)
+   {WA}_{s,irri} = \frac{1}{factor} (factor {WA}_{pot,s,irri} - {UnNA}_{pot,s})
 
 
 Neglecting all water uses except surface water use for irrigation, Eq. 1 is simplified to:
@@ -174,13 +174,13 @@ In this case, the actual :math:`{NA}_{s}` subtracted from surface water storage 
    {NA}_{s} = {NA}_{pot,s} + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
-   factor WAs,irri = factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
+   factor * {WA}_{s,irri} = factor {WA}_{pot,s,irri} + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
-   WA_s,irri = \frac{1}{factor} (factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
+   {WA}_{s,irri} = \frac{1}{factor} (factor {WA}_{pot,s,irri} + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
-   returnflow\:change = frgi(1-eff)(WAs,irri-WApot,s,irri)
+   returnflow\:change = frgi(1-eff)({WA}_{s,irri} - {WA}_{pot,s,irri})
 
 .. math::
    {NA}_{g(t)} = {NA}_{pot,g(t)} – {returnflow\:change}_{(t-1)}
