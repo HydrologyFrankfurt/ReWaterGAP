@@ -1,12 +1,15 @@
 .. _radiation_evap:
 
+################################
 Radiation and Evapotranspiration
-++++++++++++++++++++++++++++++++
+################################
+
 This module contains a function (compute_radiation), which computes radiation components based on section 4.2.3 of Müller Schmied et al., 2016b [1]_
 and another function (priestley_taylor), which computes Priestley-Taylor potential evapotranspiration based on H. Müller Schmied et al. 2021 [2]_.
 
+*********
 Radiation
-=============
+*********
 
 .. autofunction:: radiation_evapotranspiration.compute_radiation
 
@@ -48,8 +51,9 @@ We also calculate the upward shortwave radiation :math:`S↑ [Wm−2]` as:
 
 .. _evapotranspiration: 
 
+****************************
 Potential Evapotranspiration
-============================
+****************************
 
 .. autofunction:: radiation_evapotranspiration.priestley_taylor
 
@@ -66,9 +70,9 @@ The potential evapotranspiration :math:`{E}_{pot}` :math:`[mm/d]` is calculated 
 	All grid cells with an aridity index AI < 0.75 are defined as semiarid/arid grid cells. Furthermore, all grid cells north of 55° N are defined as humid grid cells.
 	For further information on this see Müller et al. [2]_ Appendix B.
 
-
+**************************************************
 Slope of the saturation and psychrometric constant
----------------------------------------------------
+**************************************************
 :math:`s_a` is the slope of the saturation vapor pressure-temperature relationship :math:`[\frac{kPa}{°C}]` defined as:
 
 .. math::
@@ -81,7 +85,7 @@ The the psychrometric constant :math:`g` :math:`[{\frac{kPa}{°C}}]` is defined 
 .. math::
    g = \frac{0.0016286 p_a}{l_h}
 
-where :math:`p_a`  is atmospheric pressure of the standard atmosphere :math:`(101.3 kPa)`, and :math:`l_h` is latent heat :math:`[{\frac{MJ}{kg}}]`. Latent heat is
+where :math:`p_a` is the atmospheric pressure of the standard atmosphere :math:`(101.3 kPa)`, and :math:`l_h` is latent heat :math:`[{\frac{MJ}{kg}}]`. Latent heat is
 calculated as:
 
 .. math::
@@ -95,9 +99,9 @@ calculated as:
     \end{cases}
     \]
 
-
+#########
 Reference
-=========
+#########
 .. [1] Müller Schmied, H., Müller, R., Sanchez-Lorenzo, A., Ahrens, B., and Wild, M.: Evaluation of radiation components in a global freshwater model with station-based observations, Water, 8, 450, https://doi.org/10.3390/w8100450, 2016b
 
 .. [2] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
