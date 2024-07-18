@@ -76,7 +76,27 @@ On the other hand, global lakes and wetlands receive inflow from both local runo
 
 Outflows
 --------
-to be completed soon
+### Outflows
+
+Lakes and wetlands lose water through evaporation ($E_{pot}$), which is assumed to be equal to the potential evapotranspiration computed using the Priestley–Taylor equation with an albedo of 0.08.
+
+In arid and semiarid grid cells, lakes and wetlands are assumed to recharge the groundwater through focused groundwater recharge :math: R_l,w. In humid areas, groundwater mostly recharges surface water bodies, as explained in Section 4.6.2 (Döll et al., 2014). The focussed groundwater recharge :math: R_l,w is calculated as:
+
+[equation 26]
+
+where :math: k_{gwl,w} is the groundwater recharge constant below lakes and wetlands (0.01 m·d⁻¹).
+
+It is assumed that water can be abstracted from lakes but not from wetlands (see :ref:`net_abstractions`).
+
+**Note:** If there is a global lake and a reservoir within the same cell, :math:N_{al,res} (where "res" stands for reservoir) is distributed equally.
+
+Outflow from lakes and wetlands is calculated as a function of :math:S_{lw} (lakes and wetlands storage). The principal effect of a lake or wetland is to reduce the variability of streamflow, which can be simulated by computing outflow :math: Q_{out} as:
+
+[equation 27]
+
+where $S_{||,wl}$ is the local lake or wetland storage (m³), and $k$ is the surface water outflow coefficient (0.01 d⁻¹). The storage ($S_{||,wl}$) is computed based on $A_{max}$ and a maximum storage depth of 5 m for local lakes and 2 m for local wetlands. The exponent $a$ is set to 1.5 for local lakes, based on the theoretical value of outflow over a rectangular weir, while an exponent of 2.5 is used for local wetlands, leading to a slower outflow (Döll et al., 2003). The outflow of global lakes and global wetlands is computed as:
+
+[equation 28]
 
 References 
 ----------
