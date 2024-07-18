@@ -66,9 +66,9 @@ with:
 The demand for groundwater abstractions is always fulfilled in WaterGAP, assuming an unlimited groundwater volume, which differs from the demand for surface water abstractions. If the potential net abstraction from surface water :math:`({NA}_{pot,s})`, is positive, fulfilling the demand might not be possible due to water scarcity in the surface water bodies of the grid cell.
 There are three options for managing this situation by spatially shifting parts of :math:`{NA}_{pot,s}` to other grid cells.
 
-1. With the :ref:riparian water supply '<riparian_water_supply>' option, if the demanding cell is situated along a global lake or reservoir, NApot,s can be fulfilled from the storage of the lake or reservoir, if possible. In WaterGAP this is achieved by computing storages in the output cell.
-2. Alternatively, with the :ref:'neighboring cell water supply <neighboring_cell_water_supply>' option, any accumulated unsatisfied potential net abstraction from surface water can be satisfied from a neighboring cell with an available supply.
-3. Lastly, in the :ref:'delayed water supply <delayed_water_supply>' option, surface water demands that couldn't be met on a given day are shifted to a later time in the year (Müller Schmied et al., 2021, p. 1050) [2]_.
+1. With the :ref:`riparian water supply <riparian_water_supply>` option, if the demanding cell is situated along a global lake or reservoir, NApot,s can be fulfilled from the storage of the lake or reservoir, if possible. In WaterGAP this is achieved by computing storages in the output cell.
+2. Alternatively, with the :ref:`neighboring cell water supply <neighboring_cell_water_supply>` option, any accumulated unsatisfied potential net abstraction from surface water can be satisfied from a neighboring cell with an available supply.
+3. Lastly, in the :ref:`delayed water supply <delayed_water_supply>` option, surface water demands that couldn't be met on a given day are shifted to a later time in the year (Müller Schmied et al., 2021, p. 1050) [2]_.
 
 
 .. _riparian_water_supply:
