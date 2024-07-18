@@ -176,7 +176,7 @@ In this case, the actual :math:`{NA}_{s}` subtracted from surface water storage 
    WAs,irri = (1/factor) (factor WApot,s,irri + {added\:net\:abstraction}_{sw,irri}
 
 .. math::
-   {return_flow_change} = frgi(1-eff)(WAs,irri-WApot,s,irri)
+   returnflow\:change = frgi(1-eff)(WAs,irri-WApot,s,irri)
 
 .. math::
    {NA}_{g(t)} = {NA}_{pot,g(t)} – {returnflow\:change}_{(t-1)}
