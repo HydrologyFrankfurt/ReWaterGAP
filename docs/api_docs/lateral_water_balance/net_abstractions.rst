@@ -159,7 +159,7 @@ Then, the change in return flow to groundwater due to changes from :math:`{WA}_{
 UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0
 ##################################################
 
-Then, :math:`{NA}_{g}` is not adjusted as without irrigation, there is never any return flow to groundwater. The daily unsatisfied net abstraction from surface water is added to the accumulated unsatisfied :mah:`{NA}_{s}` from other sectors as :math:`{G}_{acc_unsat_net_abstraction_other_sectors} += {UnNA}_{pot,s}` and return :math:{NA}_{g} = {NA}_{pot,g}`.
+Then, :math:`{NA}_{g}` is not adjusted as without irrigation, there is never any return flow to groundwater. The daily unsatisfied net abstraction from surface water is added to the accumulated unsatisfied :math:`{NA}_{s}` from other sectors as :math:`{G}_{acc_unsat_net_abstraction_other_sectors} += {UnNA}_{pot,s}` and return :math:{NA}_{g} = {NA}_{pot,g}`.
 
 UnNApot,s(t-1) is negative and WApot,s,irri(t) >0
 #################################################
@@ -187,6 +187,7 @@ UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0
 
 See  case (UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0)
 
+##########
 References 
 ##########
 .. [1] P. Döll, H. Hoffmann-Dobrev, F.T. Portmann, S. Siebert, A. Eicker, M. Rodell, G. Strassberg, B.R. Scanlon, Impact of water withdrawals from groundwater and surface water on continental water storage variations, Journal of Geodynamics. https://doi.org/10.1016/j.jog.2011.05.001
