@@ -70,8 +70,8 @@ Inflows
 -------
 Computation of inflow :math:`{Q}_{in}` differs for local and global water bodies. 
 For local lakes and wetlands, inflow comes only from local runoff within the same grid cell. 
-A fraction  :math:`fswb` (see fractional routing) of the fast surface and subsurface runoff, as well as discharge from groundwater in humid grid cells, is directed to these local water bodies (see :ref:`watergap schematic diagram <watergap_scheme>`). If a grid cell contains both a local lake and a wetland, the outflow from the lake becomes the inflow to the wetland.
-On the other hand, global lakes and wetlands receive inflow from both local runoff and river inflow from upstream grid cells. 
+A fraction  :math:`fswb` (see fractional routing scheme in section 4 of Müller Schmied et al. (2021) [1]_) of the fast surface and subsurface runoff, as well as discharge from groundwater in humid grid cells, is directed to these local water bodies (see :ref:`watergap schematic <model_schematic>`). If a grid cell contains both a local lake and a wetland, the outflow from the lake becomes the inflow to the wetland (see :ref:`watergap schematic <model_schematic>`).
+On the other hand, global lakes and wetlands receive inflow from both local runoff and river inflow from upstream grid cells (see :ref:`watergap schematic <model_schematic>`). 
 
 
 Outflows
