@@ -104,11 +104,11 @@ The daily unsatisfied net abstraction from surface water :math:`{UnNA}_{pot,s}` 
 2 Actual net abstraction from groundwater
 *****************************************
 
-In the computation of :math:`{NA}_{pot,g}` in GWSWUSE, it is assumed that the total demand for irrigation by surface water can be fulfilled by the water available in surface water bodies including rivers. As net abstractions from groundwater are a function of the return flows of irrigation with surface water (return flows of all other sectors are assumed to only flow to surface water bodies) [1]_, the potential net abstraction from groundwater NApot,g needs to be adapted if, for each cell and time step, the actual net abstraction from surface water for irrigation is smaller than what was assumed when computing NApot,s of a day (i.e., not all demand for net abstractions from surface water can be fulfilled even after spatial redistribution) or if, due to the delayed water use option, more surface water is abstracted for irrigation than demanded on this day (so whenever net abstraction from surface water on a specific day differs from the potential one computed in GWSWUSE). It is assumed in WGHM that irrigation water abstraction is reduced as a priority, and fulfilled only after non-irrigation demands are fulfilled. Actual net abstraction from groundwater :math:`{NA}_{g}` is computed in each time step based on :math:`{NA}_{pot,g(t)}` and :math:`{UnNA}_{pot,s(t-1)}`, using the equations to compute :math:`{NA}_{g}`, and :math:`{NA}_{pot,g}` as described in Döll et al. (2012)[1]_ .
+In the computation of :math:`{NA}_{pot,g}` in GWSWUSE, it is assumed that the total demand for irrigation by surface water can be fulfilled by the water available in surface water bodies including rivers. As net abstractions from groundwater are a function of the return flows of irrigation with surface water (return flows of all other sectors are assumed to only flow to surface water bodies) [1]_, the potential net abstraction from groundwater :math:`{NA}_{pot,g}` needs to be adapted if, for each cell and time step, the actual net abstraction from surface water for irrigation is smaller than what was assumed when computing NApot,s of a day (i.e., not all demand for net abstractions from surface water can be fulfilled even after spatial redistribution) or if, due to the delayed water use option, more surface water is abstracted for irrigation than demanded on this day (so whenever net abstraction from surface water on a specific day differs from the potential one computed in GWSWUSE). It is assumed in WGHM that irrigation water abstraction is reduced as a priority, and fulfilled only after non-irrigation demands are fulfilled. Actual net abstraction from groundwater :math:`{NA}_{g}` is computed in each time step based on :math:`{NA}_{pot,g(t)}` and :math:`{UnNA}_{pot,s(t-1)}`, using the equations to compute :math:`{NA}_{g}`, and :math:`{NA}_{pot,g}` as described in Döll et al. (2012)[1]_ .
 
 
-UnNApot,s(t-1) is positive and WApot,s,irri(t) >0
-*************************************************
+UnNApot,s(t-1) is positive and WApot,s,irri(t) > 0
+##################################################
 In this case, the surface water abstraction for irrigation on the previous day was lower than that assumed when computing :math:`{NA}_{pot,g}`. Thus, return flows to groundwater are decreased and :math:`{NA}_{g}` becomes larger than :math:`{NA}_{pot,g}`. We derive the algorithm by setting, as a first step, all water uses that are not related to surface water use for irrigation to zero, as they are not affected by the reduction of net abstraction from surface water as compared to :math:`{NA}_{pot,s}`. The equations in italics show the derivation, the normal letters what is included in the code. Then, Eq. (2) is simplified to:
 
 .. math::
@@ -157,12 +157,13 @@ Then, the change in return flow to groundwater due to changes from :math:`{WA}_{
 
 
 UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0
-**************************************************
+##################################################
 
 Then, :math:`{NA}_{g}` is not adjusted as without irrigation, there is never any return flow to groundwater. The daily unsatisfied net abstraction from surface water is added to the accumulated unsatisfied :mah:`{NA}_{s}` from other sectors as :math:`{G}_{acc_unsat_net_abstraction_other_sectors} += {UnNA}_{pot,s}` and return :math:{NA}_{g} = {NA}_{pot,g}`.
 
 UnNApot,s(t-1) is negative and WApot,s,irri(t) >0
-*************************************************
+#################################################
+
 In this case, the actual :math:`{NA}_{s}` subtracted from surface water storage was larger than :math:`{NA}_{pot,s}` on the previous day, as part of the unsatisfied :math:`{NA}_{pot,s}` accumulated from earlier times could be satisfied. If this additional :math:`{NA}_{s}` was caused by supplying irrigation water and not only for satisfying the water demand of other sectors (which have priority), then more return flow to groundwater is generated than it was assumed when :math:`{NA}_{pot,g}` was computed in GWSWUSE. Thus, return flows to groundwater are increased and :math:`{NA}_{g}` becomes smaller than :math:`{NA}_{pot,g}`
 
 .. math::
@@ -181,7 +182,8 @@ In this case, the actual :math:`{NA}_{s}` subtracted from surface water storage 
    {NA}_{g(t)} = {NA}_{pot,g(t)} – {returnflow\:change}_{(t-1)}
 
 
-**UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0**
+UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0
+##################################################
 
 See  case (UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0)
 
