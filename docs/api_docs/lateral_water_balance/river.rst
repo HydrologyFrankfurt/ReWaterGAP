@@ -1,15 +1,16 @@
 .. _river:
 
-=====
+#####
 River
-=====
+#####
 
 River storage and related fluxes are calculated based on section 4.7 of Müller Schmied et al 2021 [1]_.
 
 .. autofunction:: river.river_water_balance
 
+*************
 Water balance
--------------
+*************
 River storage :math:`S_r` :math:`[m^3]` is computated as
 
 .. _river_balance:
@@ -19,14 +20,14 @@ River storage :math:`S_r` :math:`[m^3]` is computated as
 
 where :math:`{Q}_{r,in}` is inflow into the river compartment [:math:`{m}^{3} {d}^{-1}`], :math:`{Q}_{r,out}` is the streamflow [:math:`{m}^{3} {d}^{-1}`], and :math:`{NA}_{s,r}` is the :ref:`net abstractions <net_abstractions>` of surface water from the river [:math:`{m}^{3} {d}^{-1}`].
 
-
+*******
 Inflows
--------
+*******
 The inflow :math:`{Q}_{r,in}` into the river compartment (if there are no surface water bodies) is the sum of :ref:`soil surface runoff <surface_runoff>` :math:`({R}_{s})`, :ref:`groundwater discharge <groundwater_discharge>` :math:`({Q}_{g})`, and upstream streamflow. Otherwise fraction of :math:`{R}_{s}` and :math:`{Q}_{g}` (in humid cells) is routed through the surface water bodies (See: :ref:`Model Schematic <model_schematic>`). The outflow from the surface water body preceding the river compartment then becomes part of :math:`{Q}_{r,in}`. In addition, negative net abstractions :math:`({NA}_{s})` values due to high return flows from irrigation with groundwater lead to a net increase in storage. Thus, if no surface water bodies exist in the cell, negative :math:`{NA}_{s}` is added to :math:`{Q}_{r,in}`.
 
-
+********
 Outflows
---------
+********
 
 .. autofunction:: river.river_velocity
 
@@ -65,8 +66,9 @@ WaterGap also computes net cell runoff :math:`{R}_{n,c}` :math:`[{m}*{m*d}^{-1}]
 
 where :math:`{A}_{cont}` is the continental area (0.5° \times 0.5° grid cell area minus ocean area) of the grid cell (:math:`[m^2]`). Renewable water resources are calculated as long-term annual mean :math:`{R}_{nc}` under naturalized conditions (without human impact). It is possible for renewable water resources to be negative if evapotranspiration in a grid cell is higher than precipitation due to evapotranspiration from global lakes, reservoirs or wetlands that receive water from upstream cells.
 
+##########
 References 
-----------
+##########
 .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
 .. [2] Lehner, B., K. Verdin, and A. Jarvis (2008), New Global Hydrography Derived From Spaceborne Elevation Data, Eos Trans. AGU, 89(10), 93–94, doi:10.1029/2008EO100001.
 .. [3] Verzano, K., Bärlund, I., Flörke, M., Lehner, B., Kynast, E., Voß, F., and Alcamo, J.: Modeling variable river flow velocity on continental scale: Current situation and climate change impacts in Europe, J. Hydrol., 424–425, 238–251, https://doi.org/10.1016/j.jhydrol.2012.01.005, 2012
