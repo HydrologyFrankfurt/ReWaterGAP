@@ -1,8 +1,9 @@
 .. _soil:
 
-====
+####
 Soil 
-====
+####
+
 This module computes soil storage and related fluxes for all grid cells based on section 4.4 of Müller Schmied et al 2021 [1]_.
 
 .. autofunction:: soil.soil_balance
@@ -21,9 +22,10 @@ This module computes soil storage and related fluxes for all grid cells based on
    water balance, :ref:`actual evapotranspiration <corrected_evap>` is also corrected with CFA. After evapotranspiration correction, soil storage, total daily runoff from 
    land and groundwater recharge are adjusted as well. Finally, *Surface runoff* :math:`({R}_{s})` is calculated as total daily runoff from land minus groundwater recharge.
 
-
+*************
 Water balance
--------------
+*************
+
 .. _soil_storage:
 
 Soil storage :math:`S_s` :math:`[mm]` is calculated as:
@@ -33,8 +35,10 @@ Soil storage :math:`S_s` :math:`[mm]` is calculated as:
 
 where :math:`{P}_{eff}` is effective precipitation :math:`[mm/d]`, :math:`{R}_{l}` is total runoff from land :math:`[mm/d]` and :math:`{E}_{s}` is  the actual evapotranspiration from soil :math:`[mm/d]`.
 
+*******
 Inflows
--------
+*******
+
 Effective precipitation :math:`{P}_{eff}` is calculated as:
 
 .. _effective_precipitation:
@@ -44,8 +48,10 @@ Effective precipitation :math:`{P}_{eff}` is calculated as:
 
 where :math:`{P}_{t}` is throughfall :math:`[mm/d]`, :math:`{P}_{sn}` is snowfall :math:`[mm/d]` and :math:`{M}` is snow melt :math:`[mm/d]`.
 
+*******
 Outflows
---------
+********
+
 Actual evapotranspiration :math:`{E}_{s}` from soil :math:`[mm/d]` is calculated as:
 
 .. _Actual_evapotranspiration:
@@ -132,10 +138,9 @@ where :math:`{P}` is precipitation :math:`[mm/day]`.
 .. note::
    Surface runoff :math:`({R}_{s})` is finally calculated as total daily runoff from land minus groundwater recharge.
 
+##########
 References 
-----------
-
-
+##########
 .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
 
 .. [2] Batjes, N. H.: ISRIC-WISE derived soil properties on a 5 by 5 arc-minutes global grid (ver. 1.2), Tech. Rep. 2012/01, ISRIC–World Soil Information, Wageningen, 2012.
