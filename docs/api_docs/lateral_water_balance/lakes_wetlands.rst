@@ -96,7 +96,7 @@ Outflow from lakes and wetlands is calculated as a function of :math:`{S}_{l,w}`
 .. math::
    {Q}_{out} = {k} * {S}_{||, wl} * (\frac{{S}_{||, wl}}{{S}_{||, wl, max}})^{a},
 
-where :math:`{S}_{||, wl}` is the local lake or wetland storage [:math:`{m}^{3}`], and :math:`{k}` is the surface water outflow coefficient :math:`[0.01 {d}^{-1}]`. The storage :math:`{S}_{||, wl}` is computed based on :math:`{A}_{max}` and a maximum storage depth of :math:`{5}` [:math:`{m}`] for local lakes and :math:`{2}` [:math:`{m}`] for local wetlands. The exponent :math:`{a}` is set to :math:`{1.5}` for local lakes, based on the theoretical value of outflow over a rectangular weir, while an exponent of :math:`{2.5}` is used for local wetlands, leading to a slower outflow (Döll et al., 2003)[3]_. The outflow of global lakes and global wetlands is computed as:
+where :math:`{S}_{||, wl}` is the local lake or wetland storage [:math:`{m}^{3}`], and :math:`{k}` is the surface water outflow coefficient :math:`[0.01 {d}^{-1}]`. The storage :math:`{S}_{||, wl}` is computed based on :math:`{A}_{max}` and a maximum storage depth of :math:`{5}` [:math:`{m}`] for local lakes and :math:`{2}` [:math:`{m}`] for local wetlands. The exponent :math:`{a}` is set to :math:`{1.5}` for local lakes, based on the theoretical value of outflow over a rectangular weir, while an exponent of :math:`{2.5}` is used for local wetlands, leading to a slower outflow (Döll et al., 2003 [3]_). The outflow of global lakes and global wetlands is computed as:
 
 [equation 28]
 
