@@ -81,9 +81,10 @@ Lakes and wetlands lose water through evaporation (:math:`{E}_{pot}`), which is 
 
 In arid and semiarid grid cells, lakes and wetlands are assumed to recharge the groundwater through focused groundwater recharge (:math:`{R}_{l,w}`). In humid areas, groundwater mostly recharges surface water bodies, as explained in Section 4.6.2 (Döll et al., 2014 [2]_). The focussed groundwater recharge :math:`{R}_{l,w}` is calculated as:
 
-:math:`{R}_{g}_{l,w}`= {k}_{gw}_{l,w} * {r} * {A}_{max}`
+.. math::
+   {R}_{{g}_{l,w}}`= {k}_{{gw}_{l,w}} * {r} * {A}_{max}`
 
-where :math:`{k}_{gw}_{l,w}` is the groundwater recharge constant below lakes and wetlands :math:`[0.01 {m}*{d}^{-1}]`.
+where :math:`{k}_{{gw}_{l,w}}` is the groundwater recharge constant below lakes and wetlands :math:`[0.01 {m}*{d}^{-1}]`.
 
 It is assumed that water can be abstracted from lakes but not from wetlands (see :ref:`net_abstractions`).
 
@@ -92,9 +93,10 @@ It is assumed that water can be abstracted from lakes but not from wetlands (see
 
 Outflow from lakes and wetlands is calculated as a function of :math:`{S}_{l,w}` (lakes and wetlands storage). The principal effect of a lake or wetland is to reduce the variability of streamflow, which can be simulated by computing the outflow :math:`{Q}_{out}` as:
 
-:math:`{Q}_{out} = {k} * {S}_{||, wl} * (\frac{{S}_{||, wl}}{{S}_{||, wl, max}})^{a}`,
+.. math::
+   {Q}_{out} = {k} * {S}_{||, wl} * (\frac{{S}_{||, wl}}{{S}_{||, wl, max}})^{a},
 
-where :math:`{S}_{||, wl}` is the local lake or wetland storage [:math:`{m}^{3}], and $k$ is the surface water outflow coefficient (0.01 d⁻¹). The storage ($S_{||,wl}$) is computed based on $A_{max}$ and a maximum storage depth of 5 m for local lakes and 2 m for local wetlands. The exponent $a$ is set to 1.5 for local lakes, based on the theoretical value of outflow over a rectangular weir, while an exponent of 2.5 is used for local wetlands, leading to a slower outflow (Döll et al., 2003). The outflow of global lakes and global wetlands is computed as:
+where :math:`{S}_{||, wl}` is the local lake or wetland storage [:math:`{m}^{3}], and $k$ is the surface water outflow coefficient (0.01 d⁻¹). The storage ($S_{||,wl}$) is computed based on :math:`{A}_{max}` and a maximum storage depth of :math:`{5}` [:math:`{m}`] for local lakes and :math:`{2}` [:math:`{m}`] for local wetlands. The exponent :math:`{a}` is set to :math:`{1.5}` for local lakes, based on the theoretical value of outflow over a rectangular weir, while an exponent of :math:`{2.5}` is used for local wetlands, leading to a slower outflow (Döll et al., 2003)[3]_. The outflow of global lakes and global wetlands is computed as:
 
 [equation 28]
 
@@ -102,3 +104,4 @@ References
 ----------
 .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
 .. [2] Döll, P., Müller Schmied, H., Schuh, C., Portmann, F. T., and Eicker, A. (2014). Global-scale assessment of groundwater depletion and related groundwater abstractions: Combining hydrological modeling with information from well observations and GRACE satellites, Water Resour. Res., 50, 5698–5720, https://doi.org/10.1002/2014WR015595
+.. [3] Döll 2003
