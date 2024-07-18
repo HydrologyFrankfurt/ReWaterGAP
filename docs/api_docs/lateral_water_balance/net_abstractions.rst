@@ -119,7 +119,7 @@ In this case, the surface water abstraction for irrigation on the previous day w
    {NA}_{pot,s} = {WA}_{pot,s,irri} - {(1 - frgi)} * {({WA}_{pot,s,irri} - {CU}_{pot,s,irri})}
 
 .. math::
-   {eff} = \frac{CUpot,s,irri}{WApot,s,irri}
+   {eff} = \frac{{CU}_{pot,s,irri}}{{WA}_{pot,s,irri}}
 
 .. math::
    {NA}_{pot,s} = {WA}_{pot,s,irri} - (1 - frgi) * ({WA}_{pot,s,irri} - eff * {WA}_{pot,s,irri})
@@ -149,12 +149,12 @@ In this case, the surface water abstraction for irrigation on the previous day w
 Neglecting all water uses except surface water use for irrigation, Eq. 1 is simplified to:
 
 .. math::
-   {NA}_{pot,g} = -{f}_{rgi}*({1}-{eff})*{WA}_{pot,s,irri}
+   {NA}_{pot,g} = -{f}_{rgi}*({1} - {eff})*{WA}_{pot,s,irri}
 
 Then, the change in return flow to groundwater due to changes from :math:`{WA}_{pot,s,irri}` to :math:`{W}_{s,irr}` is computed as:
 
 .. math::
-   returnflow\:change = {f}_{rgi}*({1}-{eff})({WA}_{s,irri}-{WA}_{pot,s,irri}) 
+   returnflow\:change = {f}_{rgi}*({1} - {eff})({WA}_{s,irri} - {WA}_{pot,s,irri}) 
 
 .. math::
   {NA}_{g(t)} = {NA}_{pot,g(t)} – {return flow change}_{(t-1)}
