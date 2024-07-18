@@ -12,13 +12,12 @@
 """Groundwater balance."""
 
 # =============================================================================
-# This module computes groundwater balance, including groundwater storage
-# and related fluxes for all grid cells based on section 4.5 of
-# (Müller Schmied et al. (2021)).
-# The groundwater balance equation is solved analytically for each timestep
-# of one day to prevent numerical inaccuracies. This avoids the use of very
-# small timesteps which will be computationally expensive and hence lead
-# to numerical problems.
+# This module computes the groundwater balance, including groundwater storage and 
+# related fluxes for all grid cells, based on section 4.5 of Müller Schmied et al. 
+# (2021). The groundwater balance equation is solved analytically for each timestep 
+# of one day to prevent numerical inaccuracies. This avoids the use of very small 
+# timesteps, which would be computationally expensive and could lead to 
+# numerical problems.
 # =============================================================================
 
 import numpy as np
@@ -38,60 +37,60 @@ def compute_groundwater_balance(x, y,
                                 frac_irri_returnflow_to_gw,
                                 point_source_recharge=None):
     """
-    Compute daily groundwater balance including storages and related fluxes.
+    Compute the daily groundwater balance, including storages and related fluxes.
 
     Parameters
     ----------
     x : int
-        Latitude index of cell
+        Latitude index of cell.
     y : int
-        Longitude index of cell
+        Longitude index of cell.
     aridiity : string
-        Compute groundwater for "Humid" or "Arid" region
+        Compute groundwater for "Humid" or "Arid" region.
     groundwater_storage : float
-        Daily groundwater storage, Unit: [km^3]
+        Daily groundwater storage. Unit: [km3]
     diffuse_gw_recharge : float
-        Daily difuuse groundwater recharge, Unit: [km^3/day]
+        Daily diffuse groundwater recharge. Unit: [km3/day]
     potential_net_abstraction_gw : float
-        Potential net abstraction from groundwater, Unit: [km^3/day]
+        Potential net abstraction from groundwater. Unit: [km3/day]
     daily_unsatisfied_pot_nas : float
-        Daily unsatisfied water use, Unit: [km^3/day]
+        Daily unsatisfied water use. Unit: [km3/day]
     gw_dis_coeff : float
-        Groundwater discharge coefficient (=0.01),Eqn 21 Müller Schmied et al. (2021), Unit: [1/day]
+        Groundwater discharge coefficient (=0.01), Equation 21 in Müller Schmied et al. (2021). Unit: [1/day]
     prev_potential_water_withdrawal_sw_irri : float
-        Previous potential water withdrawal from surface water for irrigation, Unit: [km^3/day]   
+        Previous potential water withdrawal from surface water for irrigation. Unit: [km3/day]   
     prev_potential_consumptive_use_sw_irri: float
-        Previous potential consumptive use from irrigation using surface water, Unit: [km^3/day]  
+        Previous potential consumptive use from irrigation using surface water. Unit: [km3/day]  
     point_source_recharge : float
-        Sum of all point groundwater recharge from surface waterboides in
-        arid regions, Unit: [km^3/day]
+        Sum of all point groundwater recharge from surface waterbodies in
+        arid regions. Unit: [km3/day]
 
     Returns
     -------
     groundwater_storage : float
-        Updated daily groundwater storage, Unit: [km^3]
+        Updated daily groundwater storage. Unit: [km3]
      groundwater_discharge : float
-        Updated daily groundwater discharge, Unit: [km^3/day]
+        Updated daily groundwater discharge. Unit: [km3/day]
     actual_net_abstraction_gw: float
-        Actual Net abstraction from groundwater, Unit: [km^3/day]
+        Actual net abstraction from groundwater. Unit: [km3/day]
     """
-    # Index (x, y) to  print out varibales of interest
-    # e.g.  if x==65 and y==137: print(prev_gw_storage)
+    # Index (x, y) to print out varibales of interest,
+    # e.g. if x==65 and y==137: print(prev_gw_storage)
 
     #                  ======================================
-    #                  ||  groundwaterwater balance    ||
+    #                  ||  Groundwaterwater Balance    ||
     #                  ======================================
-    # Note components of the waterbalance in Equation 20 of Müller Schmied et
+    # Note: Components of the waterbalance in Equation 20 of Müller Schmied et
     # al. (2021) is calulated as follows.
 
     prev_gw_storage = groundwater_storage
 
     # =========================================================================
-    # Computing net groundwater recharge (netgw_in [km3])  which is defined as
-    # diffuse recharge  + point source recharge - net abstraction.
+    # Computing net groundwater recharge (netgw_in [km3]), which is defined as
+    # diffuse recharge + point source recharge - net abstraction.
     # =========================================================================
     # Point_source_recharge is only computed for (semi)arid surafce water
-    #  bodies but not for  inlank sink or humid regions
+    # bodies but not for an inlank sink or humid regions.
     if aridity_or_inlandsink == "humid" or \
             aridity_or_inlandsink == "inland sink":
         point_source_recharge = 0
@@ -99,7 +98,7 @@ def compute_groundwater_balance(x, y,
     netgw_in = diffuse_gw_recharge + point_source_recharge
 
     # Update net abstraction from groundwater if there is unsatisfied water use
-    # from previous time step.
+    # from the previous time step.
     actual_net_abstraction_gw = \
         np.where(daily_unsatisfied_pot_nas != 0,
                  gw_adapt_netabstr.
@@ -115,11 +114,11 @@ def compute_groundwater_balance(x, y,
     netgw_in = netgw_in - actual_net_abstraction_gw
 
     # =========================================================================
-    # Computing  daily groundwater storage (km3) and discharge(km3/day)
+    # Computing daily groundwater storage [km3] and discharge [km3/day]
     # =========================================================================
     # Groundwater balance dS/dt = netgw_in - NAg - k*S is solved analytically
     # for each time step of 1 day to prevent numerical inaccuracies.
-    # See in Equation 20 of Müller Schmied et al. (2021)
+    # See Equation 20 of Müller Schmied et al. (2021).
 
     current_gw_storage = prev_gw_storage * np.exp(-1 * gw_dis_coeff) +\
         (netgw_in/gw_dis_coeff)*(1-np.exp(-1 * gw_dis_coeff))
