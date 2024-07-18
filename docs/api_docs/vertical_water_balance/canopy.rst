@@ -1,13 +1,17 @@
 .. _canopy:
 
+######
 Canopy 
-======
+######
+
 Canopy storage and related fluxes are calculated based on section 4.2 of Müller Schmied et al 2021 [1]_.
 
 .. autofunction:: canopy.canopy_balance
 
+*************
 Water balance
--------------
+*************
+
 The canopy storage :math:`S_c` :math:`[mm]` is calculated as:
 
 .. math::
@@ -18,15 +22,19 @@ where :math:`P` is precipitation :math:`[mm/d]`, :math:`{P}_{t}` is throughfall,
 .. note::
    Canopy storage is also a function of land area fraction. 
 
+*******
 Inflows
--------
+*******
+
 Daily precipitation :math:`P` is read in from the selected climate
 forcing (see :ref:`Climate Forcing <forcings>` in Data section).
 
 .. _canopy_outflows:
 
+********
 Outflows
---------
+********
+
 Throughfall :math:`P_t` is calculated as
 
 .. math::
@@ -46,7 +54,7 @@ where :math:`{S_c}_{,max}` is the maximum canopy storage calculated as:
     {S_c}_{,max} = m_c \times L 
 
 where :math:`m_c` is `0.3 mm` [2]_, and :math:`L [-]` is the oneside leaf area index. :math:`L` is a function of daily temperature and
-precipitation and is limited to minimum or maximum values. Maximum :math:`L` values per land cover class (Table C1) [1]_,
+precipitation and is limited to minimum or maximum values. Maximum :math:`L` values per land cover class (Table C1 in Müller Schmied et al. 2021) [1]_,
 whereas minimum :math:`L` values are calculated as:
 
 .. math::
@@ -64,10 +72,10 @@ where :math:`{S_c}` :math:`[mm]` is the canopy storage, calculated in canopy sto
 
 See :ref:`Radiation and Evapotranspiration <radiation_evap>` section for potential evaporation calculation. 
 
+##########
 References 
-----------
+##########
 .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
-
 .. [2] Deardorff, J. W.: Efficient prediction of ground surface temperature and moisture, with inclusion of a layer of vegetation, J. Geophys. Res., 83, 1889, https://doi.org/10.1029/JC083iC04p01889, 1978
 
 
