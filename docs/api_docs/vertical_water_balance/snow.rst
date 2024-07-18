@@ -1,15 +1,17 @@
 .. _snow:
 
+####
 Snow 
-+++++
+####
+
 .. note::
 	Simulation of the snow dynamics is calculated such that each :math:`0.5° \times 0.5°` grid cell is subdivided into 100 non-localized subgrids that are assigned different land surface elevations according to GTOPO30 (U.S. Geological Survey, 1996) [1]_. The daily temperature of each subgrid is calculated from the daily temperature at the :math:`0.5° \times 0.5°` cell by applying an adiabatic lapse rate of 0.6 :math:`°C/100m` [2]_. The daily snow water balance is computed for each of the subcells such that within a :math:`0.5° \times 0.5°` cell there may be subcells with and without snow cover or snowfall [3]_. Subgrid values are then aggregated to :math:`0.5° \times 0.5°` cell values. See section 4.3  of Müller Schmied et al 2021 [3]_.
 
 .. autofunction:: snow.subgrid_snow_balance
 
-
+*************
 Water balance
-=============
+*************
 Snow storage :math:`{S}_{sn}` :math:`[mm]` is calculated as:
 
 .. math::
@@ -20,9 +22,10 @@ where :math:`{P}_{sn}` is the part of :ref:`throughfall <canopy_outflows>` :math
 .. note::
    Snow storage is also corrected with land area fraction.
 
-
+*******
 Inflows
-=======
+*******
+
 Snow fall from throughfall :math:`{P}_{sn}` is calculated as:
 
 .. math::
@@ -39,8 +42,10 @@ Snow fall from throughfall :math:`{P}_{sn}` is calculated as:
 where :math:`T` is daily air temperature :math:`[°C]`, and :math:`{T}_{f}` is snow freeze temperature, set to :math:`0 °C`. To prevent excessive snow
 accumulation, when snow storage :math:`{S}_{sn}` reaches :math:`1000 mm` in a subcell, the temperature in this subcell is increased to the temperature in the highest subcell with a temperature above :math:`{T}_{f}` [2]_.
 
+********
 Outflows
-========
+********
+
 Snow melt :math:`{M}` is calculated with a land-cover-specific degreeday factor :math:`{D}_{F}` :math:`[{mmd^−1} {°C^-1})` (Table C2) [3]_ when the temperature :math:`T` in a subgrid surpasses melting temperature :math:`T_m = 0 (°C)` as:
 
 .. math::
@@ -67,13 +72,9 @@ Sublimation :math:`{E}_{sn}` is calculated as the fraction of :math:`{E}_{pot}` 
 	\end{cases}
 	\]
 
-
-
-
-
-
+##########
 References 
-==========
+##########
 
 .. [1] U.S. Geological Survey: USGS EROS archive – digital elevation– global 30 arc-second elevation (GTOPO30), available at: https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects (last access: 25 March 2020), 1996
 
