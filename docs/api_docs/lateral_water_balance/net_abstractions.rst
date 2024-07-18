@@ -93,7 +93,7 @@ In both cases, the :math:`{NA}_{s}` of the demand cell is reduced as compared to
 If unsatisfied :math:`{NA}_{s}` of the demand cell can be satisfied in the supply cell, then NAg in the demand cell remains constant, as the full return flow from irrigation with surface water occurs in the demand cell. 
 In this case, the sum of :math:`{NA}_{g}` and :math:`{NA}_{s}` in each grid cell is no longer equal to the total actual consumptive water use in both the supply and the demand cells. The actual net abstraction from surface water in the supply cell due to :math:`({NA}_{pot,s})` in neighboring demand cells (net_abstraction_sw_for_neighbor_cells) and the part of potential net abstraction from surface water demand cell that is supplied from the supply cell (net_abstraction_sw_from_supply_cell) can be written out. In the case of the delayed water supply option, it is first attempted to fulfill the delayed use in the cell before shifting it to the neighboring cell.
 
-.. _delayed water supply:
+.. _delayed_water_supply:
 
 1.3	Delayed_water_supply_option
 #################################
