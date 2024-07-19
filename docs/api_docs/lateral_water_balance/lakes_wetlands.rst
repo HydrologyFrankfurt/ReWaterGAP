@@ -81,7 +81,7 @@ On the other hand, global lakes and wetlands receive inflow from both local runo
 Outflows
 ********
 
-Lakes and wetlands lose water through evaporation (:math:`{E}_{pot}`), which is assumed to be equal to the potential evapotranspiration computed using the Priestley–Taylor equation with an albedo of 0.08.
+Lakes and wetlands lose water through evaporation :ref:`(:math:`{E}_{pot}`)<pot_evap>`, which is assumed to be equal to the potential evapotranspiration computed using the Priestley–Taylor equation with an albedo of 0.08.
 
 In arid and semiarid grid cells, lakes and wetlands are assumed to recharge the groundwater through focused groundwater recharge (:math:`{R}_{l,w}`). In humid areas, groundwater mostly recharges surface water bodies, as explained in Section 4.6.2 (Döll et al., 2014 [2]_). The focussed groundwater recharge :math:`{R}_{l,w}` is calculated as:
 
