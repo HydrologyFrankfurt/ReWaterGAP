@@ -4,11 +4,11 @@
 Reservoirs
 ##########
 
-In WaterGAP, reservoirs with a storage capacity of at least 0.5 km³ are classified as “global” reservoirs. Similarly, global regulated lakes (lakes where outflow is controlled by a dam or weir) must have a maximum storage capacity of at least 0.5 km³ or cover an area exceeding 100 km². Both types are modeled using the same water balance equation.
+In WaterGAP, reservoirs with a storage capacity of at least :math:`0.5` :math:`{km}^{3}` are classified as “global” reservoirs. Similarly, global regulated lakes (lakes where outflow is controlled by a dam or weir) must have a maximum storage capacity of at least :math:`0.5` :math:`{km}^{3}` or cover an area exceeding :math:`100` :math:`{km}^{2}`. Both types are modeled using the same water balance equation.
 
-The outflow from these reservoirs and regulated lakes is simulated using a modified version of the Hanasaki et al. (2006) algorithm, which differentiates between those primarily used for irrigation and others (Döll et al., 2009). As with global lakes, the water balance for global reservoirs and regulated lakes is calculated at the outflow cell ([2.2d][2.2e]). Maximum water storage capacity, primary use, and commissioning years are available from the GRanD database [2.2d][2.2e].
+The outflow from these reservoirs and regulated lakes is simulated using a modified version of the Hanasaki et al. (2006) algorithm [5]_, which differentiates between those primarily used for irrigation and others [4]_. As with global lakes, the water balance for global reservoirs and regulated lakes is calculated at the outflow cell [1]_ [6]_. Maximum water storage capacity, primary use, and commissioning years are available from the GRanD database [1]_ [6]_.
 
-In WGHM, reservoirs begin filling at the start of their commissioning year, and regulated lakes transition from global lakes to global regulated lakes [2.2d]. A total of 1255 reservoirs and 88 regulated lakes are considered. However, those sharing the same outflow cell are combined into a single water storage compartment by summing their maximum storages and areas, resulting in the simulation of 1181 global reservoirs and 86 regulated lake compartments in WGHM [2.2e].
+In WGHM, reservoirs begin filling at the start of their commissioning year, and regulated lakes transition from global lakes to global regulated lakes [1]_. A total of 1255 reservoirs and 88 regulated lakes are considered. However, those sharing the same outflow cell are combined into a single water storage compartment by summing their maximum storages and areas, resulting in the simulation of 1181 global reservoirs and 86 regulated lake compartments in WGHM [6]_.
 
 .. note::
    There can be only one global reservoir/regulated lake compartment per grid cell.
@@ -23,15 +23,15 @@ Reservoir storage :math:`{S}_{res}` :math:`[m^3]` is computed as
 .. math::
    \frac{dS_res}{d_t} =  {Q}_{in} + A(P  − {E}_{pot}) − {R_g}_{rest}  − {NA}_{l}  − {Q}_{out}
 
-where :math:`{Q}_{in}` is inflow into the reservoir from upstream :math:`[m^3 {d}^{-1}]`, 
+where :math:`{Q}_{in}` is inflow into the reservoir from upstream [:math:`{m}^{3}` :math:{d}^{-1}]`, 
 :math:`A` is the reservoir surface area :math:`[m^2]` in the grid cell at time step :math:`t`,
-:math:`P` is precipitation :math:`[m^3 {d}^{-1}]`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` :math:`[m^3 {d}^{-1}]`, :math:`{R_g}_{res}` is point source groundwater recharge from the water body (only in arid/semiarid regions) :math:`[m^3 {d}^{-1}]`, :math:`{NA}_{res}` is net abstraction from reservoirs :math:`[m^3 {d}^{-1}]` 
-and :math:`{Q}_{out}` is the outflow from the water body to other surface water bodies including river storage :math:`[m^3 {d}^{-1}]`. 
+:math:`P` is precipitation [:math:`{m}^{3}` :math:{d}^{-1}]`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` [:math:`{m}^{3}` :math:{d}^{-1}]`, :math:`{R}_{g,res}` is point source groundwater recharge from the water body (only in arid/semiarid regions) [:math:`{m}^{3}` :math:{d}^{-1}]`, :math:`{NA}_{res}` is net abstraction from reservoirs [:math:`{m}^{3}` :math:{d}^{-1}]` 
+and :math:`{Q}_{out}` is the outflow from the water body to other surface water bodies including river storage [:math:`{m}^{3}` :math:{d}^{-1}]`. 
 
 
-In the case of global reservoirs/regulated lakes, which may cover more than one 0.5∘ times 0.5∘ cell, an area adjustment is not made (as done for local lake and wetland area :ref:<local_lakes>), as it is not known in which grid cells the area reduction occurs. Here we only compute reduction factor :math:r to reduce evaporation. This will prevent continuous decline of global reservoir levels in some cases such as semiarid regions.
+In the case of global reservoirs/regulated lakes, which may cover more than one :math:`0.5° \times 0.5°` cell, an area adjustment is not made (as done for local lake and wetland area :ref:<lake_red>), as it is not known in which grid cells the area reduction occurs. Here we only compute reduction factor :math:r to reduce evaporation. This will prevent continuous decline of global reservoir levels in some cases such as semiarid regions.
 
-The reduction factor r is computed as:
+The reduction factor :math:`{r}` is computed as:
 
 .. _reservoir_red:
 
@@ -39,10 +39,10 @@ The reduction factor r is computed as:
    r = 1- \left(\frac{|S_res - Sres,max|}{{S}_{res,max}}\right)^p,  0 <= r <=1
 
 
-where :math:`S_res` is the volume of the water :math:`m^3` stored in the reservoir at time step t :math:`days`, :math:`{S}_{res,max}` is the maximum storage of the reservoi :math:`m^3`.  Reduction exponent p is 2.184 [1]_. 
+where :math:`{S}_{res}` is the volume of the water :math:`{m}^{3}` stored in the reservoir at time step :math:`{t}` :math:`days`, :math:`{S}_{res,max}` is the maximum storage of the reservoi :math:`{m}^{3}`. Reduction exponent :math:`{p}` is :math:`{2.184}` [1]_. 
 
 .. note::
-   In the case of reservoirs/regulated lakes, storage capacity S_res,max is taken from the database [1]_. Reservoir area is reduced by 15% if Sres is 50% of S_res,max and by 75% if Sres is only 10% of S_res,max. For regulated lakes without available maximum storage capacity, S_res,max is computed as in the case of :ref:global lakes<lakes and wetlands>.
+   In the case of reservoirs/regulated lakes, storage capacity :math:`{S}_{res,max}` is taken from the database [1]_. Reservoir area is reduced by 15% if Sres is 50% of S_res,max and by 75% if Sres is only 10% of :math:`{S}_{res,max}`. For regulated lakes without available maximum storage capacity, :math:`{S}_{res,max}` is computed as in the case of :ref:global lakes<lakes and wetlands>.
 
    Reservoir and regulated lake storage is not allowed to fall below 10% of its storage capacity [1]_.
 
@@ -99,3 +99,4 @@ References
 .. [3] Döll, P., Kaspar, F., and Lehner, B. (2003). A global hydrological model for deriving water availability indicators: model tuning and validation, J. Hydrol., 270, 105–134, https://doi.org/10.1016/S0022-1694(02)00283-4
 .. [4] Döll et al., 2009
 .. [5] Hanasaki et al., 2006
+.. [6] Müller Schmied, H., Trautmann, T., Ackermann, S., Cáceres, D., Flörke, M., Gerdener, H., Kynast, E., Peiris, T. A., Schiebener, L., Schumacher, M., and Döll, P.: The global water resources and use model WaterGAP v2.2e: description and evaluation of modifications and new features, Geosci. Model Dev. Discuss. [preprint], https://doi.org/10.5194/gmd-2023-213, in review, 2023.
