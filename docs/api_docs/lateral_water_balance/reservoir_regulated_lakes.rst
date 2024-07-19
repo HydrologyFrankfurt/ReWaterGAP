@@ -56,6 +56,8 @@ Computation of inflow :math:`{Q}_{in}`; global reservoirs receive inflow from bo
 Outflows
 ********
 
+.. autofunction:: reservoir_release_hanasaki.hanasaki_res_reslease
+
 Reservoirs also lose water through :ref:`evaporation <pot_evap>` (:math:`{E}_{pot}`), which is assumed to be equal to the potential evapotranspiration computed using the Priestley–Taylor equation with an albedo of 0.08.
 
 In arid and semiarid grid cells, reservoirs are assumed to recharge the groundwater through focused groundwater recharge (:math:`{R}_{{g}_{res}}`) is calculated as:
@@ -67,8 +69,6 @@ where :math:`{k}_{{gw}_{res}}` is the groundwater recharge constant below reserv
 
 ..note::
 	Unlike the commissioning year of a reservoir, which marks the completion of the dam [1]_, the operational year refers to the 12-month period during which reservoir management is specified. This period begins with the first month where the naturalized mean monthly streamflow falls below the annual mean.
-
-.. autofunction:: reservoir_release_hanasaki.hanasaki_res_reslease
 
 To compute the daily outflow, e.g., release, from global reservoirs/regulated lakes, the total annual outflow during the reservoir-specific operational year is calculated as:
 
