@@ -83,7 +83,7 @@ Outflows
 
 Lakes and wetlands lose water through :ref:`evaporation <pot_evap>` (:math:`{E}_{pot}`), which is assumed to be equal to the potential evapotranspiration computed using the Priestley–Taylor equation with an albedo of 0.08.
 
-In arid and semiarid grid cells, lakes and wetlands are assumed to recharge the groundwater through focused groundwater recharge (:math:`{R}_{l,w}`). In humid areas, groundwater mostly recharges surface water bodies, as explained in Section 4.6.2 (Döll et al., 2014 [2]_). The focussed groundwater recharge :math:`{R}_{l,w}` is calculated as:
+In arid and semiarid grid cells, lakes and wetlands are assumed to recharge the groundwater through focused groundwater recharge (:math:`{R}_{l,w}`). In humid areas, groundwater mostly recharges surface water bodies, as explained in Section 4.6.2 [1]_. The focussed groundwater recharge :math:`{R}_{l,w}` is calculated as:
 
 .. math::
    {R}_{{g}_{l,w}} = {k}_{{gw}_{l,w}} * {r} * {A}_{max}
@@ -100,7 +100,7 @@ Outflow from lakes and wetlands is calculated as a function of :math:`{S}_{l,w}`
 .. math::
    {Q}_{out} = {k} * {S}_{ll, wl} * (\frac{{S}_{ll, wl}}{{S}_{ll, wl, max}})^{a},
 
-where :math:`{S}_{ll, wl}` is the local lake or wetland storage [:math:`{m}^{3}`], and :math:`{k}` is the surface water outflow coefficient :math:`[0.01 {d}^{-1}]`. The storage :math:`{S}_{ll, wl}` is computed based on :math:`{A}_{max}` and a maximum storage depth of :math:`{5}` [:math:`{m}`] for local lakes and :math:`{2}` [:math:`{m}`] for local wetlands. The exponent :math:`{a}` is set to :math:`{1.5}` for local lakes, based on the theoretical value of outflow over a rectangular weir, while an exponent of :math:`{2.5}` is used for local wetlands, leading to a slower outflow (Döll et al., 2003 [3]_). The outflow of global lakes and global wetlands is computed as:
+where :math:`{S}_{ll, wl}` is the local lake or wetland storage [:math:`{m}^{3}`], and :math:`{k}` is the surface water outflow coefficient :math:`[0.01 {d}^{-1}]`. The storage :math:`{S}_{ll, wl}` is computed based on :math:`{A}_{max}` and a maximum storage depth of :math:`{5}` [:math:`{m}`] for local lakes and :math:`{2}` [:math:`{m}`] for local wetlands. The exponent :math:`{a}` is set to :math:`{1.5}` for local lakes, based on the theoretical value of outflow over a rectangular weir, while an exponent of :math:`{2.5}` is used for local wetlands, leading to a slower outflow [3]_. The outflow of global lakes and global wetlands is computed as:
 
 .. math::
    {Q}_{out} = k * {S}_{lg,wg}
