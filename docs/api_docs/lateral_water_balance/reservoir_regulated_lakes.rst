@@ -89,7 +89,7 @@ In the initial filling phase of a reservoir after dam construction, :math:`{k}_{
 
 If :math:`{c}_{ratio}` is greater than :math:`{0.5}`, the outflow from a non-irrigation reservoir remains constant and independent of actual inflow. 
 
-For irrigation reservoirs, outflow is determined by monthly net abstractions in the next five downstream cells or up to the next reservoir [4]_ [5]_. For reservoirs with a lower ratio (:math:`{c}_{ratio}` :math:`<` :math:`0.5), the release also depends on daily inflow, increasing on days with high inflow [5]_. If the reservoir storage falls below 10% of :math:`{S}_{res,max}`, the release is reduced to 10% of the normal release to maintain a minimum environmental flow for ecosystems. Daily outflow may also include overflow if the reservoir’s storage capacity is exceeded due to high inflow.
+For irrigation reservoirs, outflow is determined by monthly net abstractions in the next five downstream cells or up to the next reservoir [4]_ [5]_. For reservoirs with a lower ratio (:math:`{c}_{ratio}` :math:`<` :math:`0.5`), the release also depends on daily inflow, increasing on days with high inflow [5]_. If the reservoir storage falls below 10% of :math:`{S}_{res,max}`, the release is reduced to 10% of the normal release to maintain a minimum environmental flow for ecosystems. Daily outflow may also include overflow if the reservoir’s storage capacity is exceeded due to high inflow.
 
 ##########
 References 
