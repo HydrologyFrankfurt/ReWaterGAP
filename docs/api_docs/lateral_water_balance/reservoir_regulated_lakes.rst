@@ -11,7 +11,7 @@ The outflow from these reservoirs and regulated lakes is simulated using a modif
 In WGHM, reservoirs begin filling at the start of their commissioning year, and regulated lakes transition from global lakes to global regulated lakes [1]_. A total of 1255 reservoirs and 88 regulated lakes are considered. However, those sharing the same outflow cell are combined into a single water storage compartment by summing their maximum storages and areas, resulting in the simulation of 1181 global reservoirs and 86 regulated lake compartments in WGHM [6]_.
 
 .. note::
-   There can be only one global reservoir/regulated lake compartment per grid cell.
+	There can be only one global reservoir/regulated lake compartment per grid cell.
 
 .. autofunction:: reservior_regulated_lakes.reservior_and_regulated_lake
 
@@ -25,11 +25,11 @@ Reservoir storage :math:`{S}_{res}` :math:`[m^3]` is computed as
 
 where :math:`{Q}_{in}` is inflow into the reservoir from upstream [:math:`{m}^{3}` :math:{d}^{-1}]`, 
 :math:`A` is the reservoir surface area :math:`[m^2]` in the grid cell at time step :math:`t`,
-:math:`P` is precipitation [:math:`{m}^{3}` :math:{d}^{-1}]`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` [:math:`{m}^{3}` :math:{d}^{-1}]`, :math:`{R}_{g,res}` is point source groundwater recharge from the water body (only in arid/semiarid regions) [:math:`{m}^{3}` :math:{d}^{-1}]`, :math:`{NA}_{res}` is net abstraction from reservoirs [:math:`{m}^{3}` :math:{d}^{-1}]` 
+:math:`P` is precipitation [:math:`{m}^{3} {d}^{-1}]`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` [:math:`{m}^{3} {d}^{-1}]`, :math:`{R}_{g,res}` is point source groundwater recharge from the water body (only in arid/semiarid regions) [:math:`{m}^{3} {d}^{-1}]`, :math:`{NA}_{res}` is net abstraction from reservoirs [:math:`{m}^{3} {d}^{-1}]`
 and :math:`{Q}_{out}` is the outflow from the water body to other surface water bodies including river storage [:math:`{m}^{3}` :math:{d}^{-1}]`. 
 
 
-In the case of global reservoirs/regulated lakes, which may cover more than one :math:`0.5° \times 0.5°` cell, an area adjustment is not made (as done for local lake and wetland area :ref:<lake_red>), as it is not known in which grid cells the area reduction occurs. Here we only compute reduction factor :math:r to reduce evaporation. This will prevent continuous decline of global reservoir levels in some cases such as semiarid regions.
+In the case of global reservoirs/regulated lakes, which may cover more than one :math:`0.5° \times 0.5°` cell, an area adjustment is not made (as done for local lake and wetland area :ref:`<lake_red>), as it is not known in which grid cells the area reduction occurs. Here we only compute reduction factor :math:r to reduce evaporation. This will prevent continuous decline of global reservoir levels in some cases such as semiarid regions.
 
 The reduction factor :math:`{r}` is computed as:
 
