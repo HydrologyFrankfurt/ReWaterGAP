@@ -4,11 +4,11 @@
 Reservoirs
 ##########
 
- In WaterGAP, reservoirs with a storage capacity of at least 0.5 km³ are classified as “global” reservoirs. Similarly, global regulated lakes (lakes where outflow is controlled by a dam or weir) must have a maximum storage capacity of at least 0.5 km³ or cover an area exceeding 100 km². Both types are modeled using the same water balance equation.
+In WaterGAP, reservoirs with a storage capacity of at least 0.5 km³ are classified as “global” reservoirs. Similarly, global regulated lakes (lakes where outflow is controlled by a dam or weir) must have a maximum storage capacity of at least 0.5 km³ or cover an area exceeding 100 km². Both types are modeled using the same water balance equation.
 
- The outflow from these reservoirs and regulated lakes is simulated using a modified version of the Hanasaki et al. (2006) algorithm, which differentiates between those primarily used for irrigation and others (Döll et al., 2009). As with global lakes, the water balance for global reservoirs and regulated lakes is calculated at the outflow cell ([2.2d][2.2e]). Maximum water storage capacity, primary use, and commissioning years are available from the GRanD database [2.2d][2.2e].
+The outflow from these reservoirs and regulated lakes is simulated using a modified version of the Hanasaki et al. (2006) algorithm, which differentiates between those primarily used for irrigation and others (Döll et al., 2009). As with global lakes, the water balance for global reservoirs and regulated lakes is calculated at the outflow cell ([2.2d][2.2e]). Maximum water storage capacity, primary use, and commissioning years are available from the GRanD database [2.2d][2.2e].
 
- In WGHM, reservoirs begin filling at the start of their commissioning year, and regulated lakes transition from global lakes to global regulated lakes [2.2d]. A total of 1255 reservoirs and 88 regulated lakes are considered. However, those sharing the same outflow cell are combined into a single water storage compartment by summing their maximum storages and areas, resulting in the simulation of 1181 global reservoirs and 86 regulated lake compartments in WGHM [2.2e].
+In WGHM, reservoirs begin filling at the start of their commissioning year, and regulated lakes transition from global lakes to global regulated lakes [2.2d]. A total of 1255 reservoirs and 88 regulated lakes are considered. However, those sharing the same outflow cell are combined into a single water storage compartment by summing their maximum storages and areas, resulting in the simulation of 1181 global reservoirs and 86 regulated lake compartments in WGHM [2.2e].
 
 .. note::
    There can be only one global reservoir/regulated lake compartment per grid cell.
@@ -50,7 +50,6 @@ where :math:`S_res` is the volume of the water :math:`m^3` stored in the reservo
 Inflows
 *******
 
-
 Computation of inflow :math:`{Q}_{in}`; global reservoirs receive inflow from both local runoff and river inflow from upstream grid cells (see :ref:`watergap schematic <model_schematic>`). 
 
 ********
@@ -91,8 +90,6 @@ In the initial filling phase of a reservoir after dam construction, :math:k_rele
 If :math:c_ratio is greater than 0.5, the outflow from a non-irrigation reservoir remains constant and independent of actual inflow. 
 
 For irrigation reservoirs, outflow is determined by monthly net abstractions in the next five downstream cells or up to the next reservoir [4]_ [5]_. For reservoirs with a lower ratio (:math:c_ratio < 0.5), the release also depends on daily inflow, increasing on days with high inflow [5]_. If the reservoir storage falls below 10% of :math:Sres,max, the release is reduced to 10% of the normal release to maintain a minimum environmental flow for ecosystems. Daily outflow may also include overflow if the reservoir’s storage capacity is exceeded due to high inflow.
-
-
 
 ##########
 References 
