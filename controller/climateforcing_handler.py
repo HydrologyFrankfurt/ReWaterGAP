@@ -32,7 +32,7 @@ modname = os.path.basename(__file__)
 modname = modname.split('.')[0]
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++
-# Parsing  Argguments for CLI from cli_args module
+# Parsing  Arguments for CLI from cli_args module
 # +++++++++++++++++++++++++++++++++++++++++++++++++
 args = cli.parse_cli()
 
@@ -139,7 +139,7 @@ class ClimateForcing:
         print('++++++++++++++++++++++' + '\n' + 'Checking variable name'
               + '\n' + '++++++++++++++++++++++')
 
-        # Note!!! undesrcore means I am not interested in the index(numbers)
+        # Note!!! underscore means I am not interested in the index(numbers)
         for _, var_name in enumerate(self.var_name):
             if var_name in cf_info['variables']['shortname']:
                 print(var_name + ' follows cf convention')
@@ -159,5 +159,5 @@ class ClimateForcing:
             else:
                 log.config_logger(logging.ERROR, modname, units +
                                   ' is not a known cf convention unit.'
-                                  ' Plesae check data units', args.debug)
+                                  ' Please check data units', args.debug)
                 sys.exit()  # don't run code if units does not exist
