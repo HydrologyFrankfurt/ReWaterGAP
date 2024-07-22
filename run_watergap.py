@@ -42,11 +42,11 @@ def run(calib_station=None, watergap_basin=None):
     """
     if cm.ant:
         print('\n' + colored('+++ Antropogenic Run +++', 'cyan'))
-        if cm.reservior_opt is False:
+        if cm.RESERVOIR_OPT is False:
             print(colored('Use only: Human water use without '
                           'global man-made reservoirs/regulated lakes',
                           'blue'))
-        elif cm.subtract_use is False:
+        elif cm.SUBTRACT_USE is False:
             print(colored('Reservoirs only: Exclude human water use'
                           ' but include global man-made'
                           ' reservoirs/regulated lakes', 'blue'))
@@ -55,11 +55,11 @@ def run(calib_station=None, watergap_basin=None):
                           ' use and include global man-made'
                           ' reservoirs/regulated lakes', 'blue'))
         # demand satisfaction option
-        if cm.delayed_use and cm.neighbouringcell:
+        if cm.DELAYED_USE and cm.NEIGHBOURING_CELL:
             msg = 'Delayed water supply & Neighboring cell water supply'
-        elif cm.delayed_use:
+        elif cm.DELAYED_USE:
             msg = 'Delayed water supply'
-        elif cm.neighbouringcell:
+        elif cm.NEIGHBOURING_CELL:
             msg = 'Neighboring cell water supply'
         else:
             msg = 'none (Delayed water supply & Neighboring cell water supply)'
@@ -70,7 +70,7 @@ def run(calib_station=None, watergap_basin=None):
 
         print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
         print('Temporal resolution:' +
-              colored(f'{cm.temporal_res}', 'green'))
+              colored(f'{cm.TEMPORAL_RES}', 'green'))
         print('Run basin:' +
               colored(f'{cm.run_basin}', 'green'))
     else:
@@ -81,7 +81,7 @@ def run(calib_station=None, watergap_basin=None):
                                 '  global lakes ', 'blue'))
         print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
         print('Temporal resolution:' +
-              colored(f'{cm.temporal_res}', 'green'))
+              colored(f'{cm.TEMPORAL_RES}', 'green'))
         print('Run basin:' +
               colored(f'{cm.run_basin}', 'green'))
 
@@ -100,13 +100,13 @@ def run(calib_station=None, watergap_basin=None):
     # =====================================================================
     initialize_forcings_static = rd.InitializeForcingsandStaticdata(run_calib)
     grid_coords = initialize_forcings_static.grid_coords
-    potential_net_abstraction = wateruse.Wateruse(cm.subtract_use, grid_coords, run_calib)
+    potential_net_abstraction = wateruse.Wateruse(cm.SUBTRACT_USE, grid_coords, run_calib)
     parameters = pm.Parameters()
 
     # initialize Land surface water Fraction
     land_water_frac = \
         lwf.LandsurfacewaterFraction(initialize_forcings_static.static_data,
-                                     cm.reservior_opt)
+                                     cm.RESERVOIR_OPT)
 
     # =====================================================================
     #  Create and write to ouput variable if selected by user
@@ -231,12 +231,12 @@ def run(calib_station=None, watergap_basin=None):
             # =================================================================
             # Activate reservoirs for current year
             lateral_waterbalance.\
-                activate_res_area_storage_capacity(date, cm.reservoir_opt_years,
+                activate_res_area_storage_capacity(date, cm.RESERVOIR_OPT_YEARS,
                                                    restart)
 
             # Get Land area fraction
             land_water_frac.\
-                landareafrac_with_reservior(date, cm.reservoir_opt_years)
+                landareafrac_with_reservior(date, cm.RESERVOIR_OPT_YEARS)
 
             # Get land and water fractions (used to calculate total PET)
             land_water_frac.get_land_and_water_freq(date)

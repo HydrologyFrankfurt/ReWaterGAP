@@ -125,7 +125,7 @@ def calibrate_watergap():
         print('\n' + colored("Generating station specific configuration files"
                              " for Calibration step B...", "magenta"))
 
-        subprocess.run(["python3", "calibration_setup.py",
+        subprocess.run(["python3", "-m", "calibration.calibration_setup",
                         get_actual_net_abstr.config_path], check=True)
 
         # =====================================================================
@@ -141,7 +141,7 @@ def calibrate_watergap():
             station_id_ordered = all_odered_stations['station_id'][i]
             station_config_path = \
                 f"../test_wateruse/station_config_files/Config_ReWaterGAP-{station_id_ordered}.json"
-            subprocess.run(["python3", "find_gamma_cfa_cfs.py",
+            subprocess.run(["python3", "-m", "calibration.find_gamma_cfa_cfs",
                             station_config_path], check=True)
 
     except subprocess.CalledProcessError as e:
