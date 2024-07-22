@@ -53,9 +53,9 @@ def to_mm_per_day(precipitation):
     precipitation with converted units.
 
     """
-    to_mm_per_day = 86400
     if precipitation.units == 'kg m-2 s-1':
-        coverted = precipitation.values.astype(np.float64) * to_mm_per_day
+        mm_per_day = 86400
+        coverted = precipitation.values.astype(np.float64) * mm_per_day
     else:
         coverted = precipitation.values.astype(np.float64)
     return coverted
@@ -75,7 +75,7 @@ def to_kelvin(temperature):
     Temperature with converted units to Kelvin.
 
     """
-    if temperature.units == "K" or temperature.units == "k":
+    if temperature.units in ("K", "k"):
         converted = temperature.values.astype(np.float64)
     else:
         converted = temperature.values.astype(np.float64) + 273.15
