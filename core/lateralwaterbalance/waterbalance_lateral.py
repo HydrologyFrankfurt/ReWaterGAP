@@ -386,7 +386,7 @@ class LateralWaterBalance:
         None.
 
         """
-        if cm.ant and cm.reservior_opt:
+        if cm.ant and cm.RESERVOIR_OPT:
 
             m_to_km = 0.001
             # Activate  area and capacity of reservoir and regulated lake that
@@ -608,7 +608,7 @@ class LateralWaterBalance:
                 self.num_days_in_month = num_of_days
 
                 # Only consider abstraction in anthropogenic run.
-                if cm.subtract_use:
+                if cm.SUBTRACT_USE:
                     # Read in pnas and pnag in =m3/month
                     if run_calib is False:
                         self.potential_net_abstraction_gw = self.potential_net_abstraction.pnag.\
@@ -681,8 +681,8 @@ class LateralWaterBalance:
 
         accumulated_unsatisfied_potential_netabs_sw = \
             np.zeros_like(self.potential_net_abstraction_sw)
-        if cm.subtract_use:
-            if cm.delayed_use:
+        if cm.SUBTRACT_USE:
+            if cm.DELAYED_USE:
                 accumulated_unsatisfied_potential_netabs_sw =  \
                     self.potential_net_abstraction_sw + \
                     self.accumulated_unsatisfied_potential_netabs_sw
@@ -751,11 +751,11 @@ class LateralWaterBalance:
                       self.unsat_potnetabs_sw_from_demandcell,
                       self.unsat_potnetabs_sw_to_supplycell,
                       neighbouring_cells_map,
-                      cm.subtract_use,
-                      cm.neighbouringcell, cm.reservior_opt,
+                      cm.SUBTRACT_USE,
+                      cm.NEIGHBOURING_CELL, cm.RESERVOIR_OPT,
                       self.num_days_in_month,
                       self.all_reservoir_and_regulated_lake_area,
-                      self.reg_lake_redfactor_firstday, basin, cm.delayed_use,
+                      self.reg_lake_redfactor_firstday, basin, cm.DELAYED_USE,
                       landwaterfrac_excl_glolake_res, self.cell_area,
                       land_aet_corr, sum_canopy_snow_soil_storage)
 
@@ -852,8 +852,8 @@ class LateralWaterBalance:
         get_neighbouring_cells_map_out = self.get_neighbouring_cells_map.copy()
         # =====================================================================
 
-        if cm.subtract_use:
-            if cm.delayed_use:
+        if cm.SUBTRACT_USE:
+            if cm.DELAYED_USE:
 
                 self.prev_accumulated_unsatisfied_potential_netabs_sw = \
                     np.where(~np.isnan(prev_returned_demand_from_supply_cell),

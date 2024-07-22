@@ -96,6 +96,7 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
             else:
                 k_release = storage / (stor_capacity * 0.85)
 
+            # annual_release = k_release * mean_annual_inflow
     # Reservoirs are categorized into two classes of purpose thus
     # Irririgation = 1  and non-irrigitaion = 2
     if reservoir_type == 1:

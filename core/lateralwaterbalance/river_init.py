@@ -8,7 +8,7 @@
 # You should have received a copy of the LGPLv3 License along with WaterGAP.
 # if not see <https://www.gnu.org/licenses/lgpl-3.0>
 # =============================================================================
-"River Property"
+"""River Property."""
 
 # =============================================================================
 # This module computes river bottom width (km), maximum river storage (km3),
