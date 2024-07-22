@@ -13,8 +13,8 @@ import numpy as np
 from controller import configuration_module as cm
 # For anthropogenic run , cm.ant=True , else naturalised run is activated
 anthroprogenic = cm.ant
-# Reservoirs are activated if cm.reservior_opt="on", else they are deactivated
-reservoir_operation = cm.reservior_opt
+# Reservoirs are activated if cm.RESERVOIR_OPT="on", else they are deactivated
+reservoir_operation = cm.RESERVOIR_OPT
 
 
 def compute_landareafrac(landwater_frac, land_area_frac,
