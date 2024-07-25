@@ -39,7 +39,7 @@ The reduction factor :math:`{r}` is computed as:
    r = 1- \left(\frac{|{S}_{res} - {S}_{res,max}|}{{S}_{res,max}}\right)^{p},  0 <= r <=1
 
 
-where :math:`{S}_{res}` is the volume of the water :math:`{m}^{3}` stored in the reservoir at time step :math:`{t}` :math:`days`, :math:`{S}_{res,max}` is the maximum storage of the reservoi :math:`{m}^{3}`. Reduction exponent :math:`{p}` is :math:`{2.184}` [1]_. 
+where :math:`{S}_{res}` is the volume of the water [:math:`{m}^{3}`] stored in the reservoir at time step :math:`{t}` [:math:`days`], :math:`{S}_{res,max}` is the maximum storage of the reservoi [:math:`{m}^{3}`]. Reduction exponent :math:`{p}` is :math:`{2.184}` [1]_. 
 
 .. note::
    In the case of reservoirs/regulated lakes, storage capacity :math:`{S}_{res,max}` is taken from the database [1]_. Reservoir area is reduced by 15% if :math:`{S}_{res}` is 50% of :math:`{S}_{res,max}` and by 75% if Sres is only 10% of :math:`{S}_{res,max}`. For regulated lakes without available maximum storage capacity, :math:`{S}_{res,max}` is computed as in the case of :ref:`global lakes <lakes and wetlands>`.
