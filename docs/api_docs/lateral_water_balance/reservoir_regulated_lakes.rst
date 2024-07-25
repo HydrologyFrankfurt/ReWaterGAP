@@ -23,10 +23,10 @@ Reservoir storage :math:`{S}_{res}` :math:`[m^3]` is computed as
 .. math::
    \frac{dS_res}{d_t} =  {Q}_{in} + A(P  − {E}_{pot}) − {R_g}_{rest}  − {NA}_{l}  − {Q}_{out}
 
-where :math:`{Q}_{in}` is inflow into the reservoir from upstream [:math:`{m}^{3}` :math:{d}^{-1}]`, 
+where :math:`{Q}_{in}` is inflow into the reservoir from upstream [:math:`{m}^{3} * {d}^{-1}]`, 
 :math:`A` is the reservoir surface area :math:`[m^2]` in the grid cell at time step :math:`t`,
-:math:`P` is precipitation [:math:`{m}^{3} {d}^{-1}]`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` [:math:`{m}^{3} {d}^{-1}]`, :math:`{R}_{g,res}` is point source groundwater recharge from the water body (only in arid/semiarid regions) [:math:`{m}^{3} {d}^{-1}]`, :math:`{NA}_{res}` is net abstraction from reservoirs [:math:`{m}^{3} {d}^{-1}]`
-and :math:`{Q}_{out}` is the outflow from the water body to other surface water bodies including river storage [:math:`{m}^{3}` :math:{d}^{-1}]`. 
+:math:`P` is precipitation [:math:`{m}^{3} * {d}^{-1}]`, :math:`{E}_{pot}` is :ref:`potential evapotranspiration <pot_evap>` [:math:`{m}^{3} *{d}^{-1}]`, :math:`{R}_{g,res}` is point source groundwater recharge from the water body (only in arid/semiarid regions) [:math:`{m}^{3} * {d}^{-1}]`, :math:`{NA}_{res}` is net abstraction from reservoirs [:math:`{m}^{3} * {d}^{-1}]`
+and :math:`{Q}_{out}` is the outflow from the water body to other surface water bodies including river storage [:math:`{m}^{3} * {d}^{-1}]`. 
 
 
 In the case of global reservoirs/regulated lakes, which may cover more than one :math:`0.5° \times 0.5°` cell, an area adjustment is not made (as done for local lake and wetland area :ref:`<lake_red>), as it is not known in which grid cells the area reduction occurs. Here we only compute reduction factor :math:r to reduce evaporation. This will prevent continuous decline of global reservoir levels in some cases such as semiarid regions.
