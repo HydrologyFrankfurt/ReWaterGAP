@@ -75,7 +75,7 @@ To compute the daily outflow, e.g. release, from global reservoirs/regulated lak
 .. math::
 	{Q}_{out,res,annual} = {k}_{rele} * {Q}_{dis,mean,annual}
 
-with :math:`{k}_{rele} being the reservoir release factor that is computed each year on the first day of the operational year as:
+with :math:`{k}_{rele}` being the reservoir release factor that is computed each year on the first day of the operational year as:
 
 .. math::
  	{k}_{rele} = \frac{{S}_{res}}{{S}_{res,max} * {0,85}}
