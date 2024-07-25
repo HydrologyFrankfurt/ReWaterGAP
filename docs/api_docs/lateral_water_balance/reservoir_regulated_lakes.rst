@@ -67,7 +67,7 @@ In arid and semiarid grid cells, reservoirs are assumed to recharge the groundwa
 
 where :math:`{k}_{{gw}_{res}}` is the groundwater recharge constant below reservoirs :math:`[0.01 {m}*{d}^{-1}]`.
 
-..note::
+.. note::
 	Unlike the commissioning year of a reservoir, which marks the completion of the dam [1]_, the operational year refers to the 12-month period during which reservoir management is specified. This period begins with the first month where the naturalized mean monthly streamflow falls below the annual mean.
 
 To compute the daily outflow, e.g. release, from global reservoirs/regulated lakes, the total annual outflow during the reservoir-specific operational year is calculated as:
