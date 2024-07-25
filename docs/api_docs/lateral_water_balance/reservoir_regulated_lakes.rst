@@ -21,7 +21,7 @@ Water balance
 Reservoir storage :math:`{S}_{res}` :math:`[m^3]` is computed as
 
 .. math::
-   \frac{dS_res}{d_t} =  {Q}_{in} + A(P  − {E}_{pot}) − {R_g}_{rest}  − {NA}_{l}  − {Q}_{out}
+   \frac{{dS}_{res}}{d_t} =  {Q}_{in} + A(P  − {E}_{pot}) − {R}_{{g}_{rest}}  − {NA}_{l}  − {Q}_{out}
 
 where :math:`{Q}_{in}` is inflow into the reservoir from upstream [:math:`{m}^{3} * {d}^{-1}]`, 
 :math:`A` is the reservoir surface area :math:`[m^2]` in the grid cell at time step :math:`t`,
@@ -36,7 +36,7 @@ The reduction factor :math:`{r}` is computed as:
 .. _reservoir_red:
 
 .. math::
-   r = 1- \left(\frac{|S_res - Sres,max|}{{S}_{res,max}}\right)^p,  0 <= r <=1
+   r = 1- \left(\frac{|{S}_{res} - {S}_{res,max}|}{{S}_{res,max}}\right)^{p},  0 <= r <=1
 
 
 where :math:`{S}_{res}` is the volume of the water :math:`{m}^{3}` stored in the reservoir at time step :math:`{t}` :math:`days`, :math:`{S}_{res,max}` is the maximum storage of the reservoi :math:`{m}^{3}`. Reduction exponent :math:`{p}` is :math:`{2.184}` [1]_. 
