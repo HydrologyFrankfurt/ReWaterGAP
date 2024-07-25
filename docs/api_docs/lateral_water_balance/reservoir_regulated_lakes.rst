@@ -84,7 +84,7 @@ where :math:`{S}_{res}` is the reservoir/regulated lake storage [:math:`{m}^{3}`
 
 In the initial filling phase of a reservoir after dam construction, :math:`{k}_{rele}` is set to :math:`{0.1}` until :math:`{S}_{res}` exceeds 10% of its maximum capacity (:math:`{S}_{res,max}`). 
 
-To calculate the outflow or release of a reservoir/ regulated lake we define a capacity ratio (:math:`{c}_{ratio}`) as:
+To calculate the outflow or release of a reservoir/ regulated lake we also define a capacity ratio (:math:`{c}_{ratio}`) as:
 
 .. math::
   	{c}_{ratio} = \frac{{S}_{res,max}}{{Q}_{dis,mean,annual}}
