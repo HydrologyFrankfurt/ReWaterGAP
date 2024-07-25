@@ -29,7 +29,7 @@ where :math:`{Q}_{in}` is inflow into the reservoir from upstream [:math:`{m}^{3
 and :math:`{Q}_{out}` is the outflow from the water body to other surface water bodies including river storage [:math:`{m}^{3} * {d}^{-1}]`. 
 
 
-In the case of global reservoirs/regulated lakes, which may cover more than one :math:`0.5° \times 0.5°` cell, an area adjustment is not made (as done for local lake and wetland area :ref:`<lake_red>), as it is not known in which grid cells the area reduction occurs. Here we only compute reduction factor :math:r to reduce evaporation. This will prevent continuous decline of global reservoir levels in some cases such as semiarid regions.
+In the case of global reservoirs/regulated lakes, which may cover more than one :math:`0.5° \times 0.5°` cell, an area adjustment is not made (:ref:`as done for local lake and wetland area <lake_red>`), as it is not known in which grid cells the area reduction occurs. Here we only compute reduction factor :math:r to reduce evaporation. This will prevent continuous decline of global reservoir levels in some cases such as semiarid regions.
 
 The reduction factor :math:`{r}` is computed as:
 
