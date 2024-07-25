@@ -82,13 +82,14 @@ with :math:`{k}_{rele}` being the reservoir release factor that is computed each
 
 where :math:`{S}_{res}` is the reservoir/regulated lake storage [:math:`{m}^{3}`], and :math:`{S}_{res,max}` is the storage capacity [:math:`{m}^{3}`]. Thus, total release in an operational year with low reservoir storage at the beginning of the operational year will be smaller than in a year with high reservoir storage.
 
-In the initial filling phase of a reservoir after dam construction, :math:`{k}_{rele}` is set to :math:`{0.1}` until :math:`{S}_{res}` exceeds 10% of its maximum capacity (:math:`{S}_{res,max}`). We define a capacity ratio (:math:`{c}_{ratio}`) as:
+In the initial filling phase of a reservoir after dam construction, :math:`{k}_{rele}` is set to :math:`{0.1}` until :math:`{S}_{res}` exceeds 10% of its maximum capacity (:math:`{S}_{res,max}`). 
+
+To calculate the outflow or release of a reservoir/ regulated lake we define a capacity ratio (:math:`{c}_{ratio}`) as:
 
 .. math::
   	{c}_{ratio} = \frac{{S}_{res,max}}{{Q}_{dis,mean,annual}}
 
 If :math:`{c}_{ratio}` is greater than :math:`{0.5}`, the outflow from a non-irrigation reservoir remains constant and independent of actual inflow. 
-
 For irrigation reservoirs, outflow is determined by monthly net abstractions in the next five downstream cells or up to the next reservoir [4]_ [5]_. For reservoirs with a lower ratio (:math:`{c}_{ratio}` :math:`<` :math:`0.5`), the release also depends on daily inflow, increasing on days with high inflow [5]_. If the reservoir storage falls below 10% of :math:`{S}_{res,max}`, the release is reduced to 10% of the normal release to maintain a minimum environmental flow for ecosystems. Daily outflow may also include overflow if the reservoir’s storage capacity is exceeded due to high inflow.
 
 ##########
