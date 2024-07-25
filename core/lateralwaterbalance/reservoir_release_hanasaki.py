@@ -33,15 +33,15 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     Parameters
     ----------
     storage : float
-        Current storage in the reservoir, Unit: [km^3].
+        Current storage in the reservoir. Unit: [km^3].
     stor_capacity : float
-        Storage capacity of the reservoir, Unit: [km^3].
+        Storage capacity of the reservoir. Unit: [km^3].
     res_start_month : int
        Start month for reservoir operations.
     simulation_momth_day : array
-       array indicating the current month and day of simulation.
+       Array indicating the current month and day of simulation.
     k_release : float
-        Release coefficient for reservoir, Hanasaki algorithm Eqn 29 [1]_, Units: [-]
+        Release coefficient for reservoir. Hanasaki algorithm Eqn 29 [1]_, Units: [-]
     reservoir_type : int
         Type of reservoir (irrigation or non irrigation).
     rout_order : array
@@ -51,9 +51,9 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     routflow_looper : int
         Routing flow looper.
     reservior_area : array
-        Reservoir area for each grid cell, Unit: [km^2].
+        Reservoir area for each grid cell, Units: [km^2].
     allocation_coeff : float
-        Allocation coefficient for water release Eqn 6 [2]_.
+        Allocation coefficient for water release. Eqn 6 [2]_.
     monthly_demand : array
         Monthly demand for each grid cell, Unit: [km^3/day].
     mean_annual_demand : array
@@ -65,29 +65,29 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     num_days_in_month : int
         Number of days in the current month.
     all_reservoir_and_regulated_lake_area : array
-        all reservoirs and regulated lakes areas in simulation, Unit: [km^2].
+        All reservoir and regulated lake areas in the simulation. Unit: [km^2].
 
     Returns
     -------
     release : float
-        Reservoir relase [m^3/s]
+        Reservoir relase. Unit: [m^3/s]
     k_release : float
-        Updated release coefficient, Units: [-]
+        Updated release coefficient. Units: [-]
 
     """
-    # Index to  print out varibales of interest
+    # Index to print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
     x, y = rout_order[routflow_looper]
 
     # =========================================================================
-    # Reserviors operation algorithm is based on Hanasaki et al 2006.
-    # New operations should cited and implemented here.
+    # Reservior operation algorithm is based on Hanasaki et al 2006.
+    # New operations should be cited and implemented here.
     # =========================================================================
-    # Note!!! Reservoirs release is based on current reservoir storage [S(t)]
+    # Note!!! Reservoir release is based on current reservoir storage [S(t)]
 
-    # compute release coefficient at the first day of operational year
-    # see equation 3 or 29  of  Hanasaki et al 2006 and
-    # Müller Schmied et al. (2021) respectively
+    # Compute release coefficient at the first day of operational year
+    # See equation 3 or 29  of Hanasaki et al 2006 and
+    # Müller Schmied et al. (2021) respectively.
 
     if simulation_momth_day[0] == res_start_month:
         if simulation_momth_day[1] == 1:
