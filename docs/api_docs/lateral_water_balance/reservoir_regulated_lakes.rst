@@ -75,10 +75,10 @@ To compute the daily outflow, e.g. release, from global reservoirs/regulated lak
 .. math::
 	{Q}_{out,res,annual} = {k}_{rele} * {Q}_{dis,mean,annual}
 
-with {k}_{rele} being the reservoir release factor that is computed each year on the first day of the operational year as:
+with :math:`{k}_{rele} being the reservoir release factor that is computed each year on the first day of the operational year as:
 
 .. math::
- 	{k}_{rele} = \frac{{S}_{res}}}{}
+ 	{k}_{rele} = \frac{{S}_{res}}{{S}_{res,max} * {0,85}}
 
 where :math:`{S}_{res}` is the reservoir/regulated lake storage [:math:`{m}^{3}`], and :math:`{S}_{res,max}` is the storage capacity [:math:`{m}^{3}`]. Thus, total release in an operational year with low reservoir storage at the beginning of the operational year will be smaller than in a year with high reservoir storage.
 
