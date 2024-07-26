@@ -115,8 +115,8 @@ The files need to be copied to their respective folders in ../ReWaterGAP/input_d
 .. figure:: ../images/getting_started/input_data.png
 
 
-You can find the necessary climate forcing data at `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3b/SecondaryInputData/climate/atmosphere/mri-esm2-0/>`__ 
-and the water use data at  *link here soon*.
+You can find the necessary climate forcing data at `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3b/SecondaryInputData/climate/atmosphere/mri-esm2-0/>`__ . 
+For the water use data see :ref:`here <prepare_input_data>`.
 
 .. _naturalized_run:
 
