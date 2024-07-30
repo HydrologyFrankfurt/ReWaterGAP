@@ -228,7 +228,7 @@ class RestartState:
         file_path = os.path.join(self.save_and_read_states_path,
                                  'restartwatergap_' + str(date) + '.pickle')
 
-        with open(file_path, 'wb', encoding='utf-8') as file:
+        with open(file_path, 'wb') as file:
             pickle.dump(self.state, file)
 
     def load_restart_info(self, prev_date):
@@ -245,7 +245,7 @@ class RestartState:
             read_path = os.path.join(self.save_and_read_states_path,
                                      "*"+prev_date+".pickle")
             path = glob.glob(read_path)
-            with open(path[0], 'rb', encoding='utf-8') as rf:
+            with open(path[0], 'rb') as rf:
                 restart_data = pickle.load(rf)
         except IndexError:
             log.config_logger(logging.ERROR, modname, 'Restart data file'
