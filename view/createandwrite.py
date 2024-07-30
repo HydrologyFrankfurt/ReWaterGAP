@@ -275,15 +275,18 @@ class CreateandWritetoVariables:
                     converted_data = value.data[key].values
 
                 elif i == 1:
-                    # convert from mm/day to mm/s or  kg m-2 s-1
-                    converted_data = value.data[key].values / days_to_s
+                    if key in ("lai-total", "snowcover-frac"):
+                        converted_data = value.data[key].values
+                    else:
+                        # convert from mm/day to mm/s or  kg m-2 s-1
+                        converted_data = value.data[key].values / days_to_s
 
                 elif i == 2:
                     # convert from km3 to mm or  kg m-2
                     converted_data = value.data[key].values * km3_to_mm
 
                 elif i == 3:
-                    if key == "get_neighbouring_cells_map":
+                    if key in ("get_neighbouring_cells_map", "land-area-fraction"):
                         converted_data = value.data[key].values
                     # convert to m3/s  for discharge and m/s for velocity
                     elif key in ("dis", "dis_from_upstream", "dis_from_inland_sink"):
