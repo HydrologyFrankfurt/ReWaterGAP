@@ -334,9 +334,9 @@ def run(calib_station=None, watergap_basin=None):
                     else:
                         print(f'\nWriting data for {save_year} to NetCDF\n')
 
-                        create_out_var.base_units(initialize_forcings_static.static_data.cell_area,
-                                                  initialize_forcings_static.static_data.
-                                                  land_surface_water_fraction.contfrac)
+                        # create_out_var.base_units(initialize_forcings_static.static_data.cell_area,
+                        #                           initialize_forcings_static.static_data.
+                        #                           land_surface_water_fraction.contfrac)
 
                         create_out_var.save_netcdf_parallel(str(save_year))
 

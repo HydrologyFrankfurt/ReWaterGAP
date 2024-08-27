@@ -30,8 +30,8 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1901-01-01",
-        "end": "1901-12-31",
+        "start": "1989-01-01",
+        "end": "1989-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
         "spinup_years": 0
@@ -68,7 +68,7 @@
         "snow_evap": false,
         "groundwater_recharge_diffuse": false,
         "surface_runoff": false,
-        "snowcover_frac": true
+        "snowcover_frac": false
       }
     },
     {
@@ -81,7 +81,7 @@
     },
     {
       "LateralWaterBalanceFluxes": {
-        "consistent_precipitation": false,
+        "consistent_precipitation": true,
         "groundwater_discharge": false,
         "total_runoff": false,
         "pot_cell_runoff": false,
@@ -92,23 +92,20 @@
         "global_lake_outflow": false,
         "global_wetland_outflow": false,
         "streamflow": true,
-        "streamflow_from_upstream": false,
-        "streamflow_from_inland_sink": false,
+        "streamflow_from_upstream": true,
         "actual_net_abstr_groundwater": true,
         "actual_net_abstr_surfacewater": true,
-        "actual_water_consumption": false,
-        "cell_aet_consuse": false,
-        "total_demand_into_cell": false,
-        "unsat_potnetabs_sw_from_demandcell": false,
-        "returned_demand_from_supply_cell": false,
-        "prev_returned_demand_from_supply_cell": false,
-        "total_unsatisfied_demand_ripariancell": false,
-        "accumulated_unsatisfied_potential_netabs_sw": false,
+        "actual_water_consumption": true,
+        "cell_aet_consuse": true,
+        "unsat_potnetabs_sw_from_demandcell": true,
+        "returned_demand_from_supplycell": true,
+        "returned_demand_from_supplycell_nextday": true,
+        "demand_left_excl_returned_nextday": true,
+        "potnetabs_sw": true,
         "get_neighbouring_cells_map": false,
-        "total_unsatisfied_demand_from_supply_to_all_demand_cell": false,
         "net_cell_runoff": false,
         "river_velocity": false,
-        "land_area_fraction": true
+        "land_area_fraction": false
       }
     },
     {
@@ -120,7 +117,7 @@
         "global_wetland_storage": false,
         "river_storage": false,
         "global_reservoir_storage": false,
-        "total_water_storage": false
+        "total_water_storage": true
       }
     }
   ]
