@@ -43,7 +43,6 @@ modelvars = {
     "dis": {"long": "Streamflow or River discharge", "unit": "m3 s-1"},
     "dis-from-upstream": {"long": "Streamflow or River discharge from upstream cell",
                           "unit": "m3 s-1"},
-    "dis-from-inlandsink": {"long": "Stream flow from inland sink",  "unit": " m3 s-1"},
 
     "atotusegw": {"long": "actual net abstraction from  groundwater", "unit": " kg m-2 s-1"},
     "atotusesw": {"long": "actual net abstraction from suurface water", "unit": " kg m-2 s-1"},
@@ -52,31 +51,27 @@ modelvars = {
     "evap-total": {"long": "Potential consumptive use(NAg+NAs) and total actual"
                    " evaporation from land", "unit": " kg m-2 s-1"},
 
-    "total_demand_into_cell": {"long": "total dailay demand into cell",
-                               "unit": " kg m-2 s-1"},
 
     "unsat_potnetabs_sw_from_demandcell": {"long": "unsatisfied potential"
                                            "demand from demandcell in surfacewater",
                                            "unit": " kg m-2 s-1"},
 
-    "returned_demand_from_supply_cell": {"long": "returned demand from supply cell",
+    "returned_demand_from_supplycell": {"long": "returned demand from supply cell calculated in current timestep",
                                          "unit": " kg m-2 s-1"},
 
-    "prev_returned_demand_from_supply_cell": {"long": "returned demand from"
-                                              " supply cell previous time step",
-                                              "unit": " kg m-2 s-1"},
+    "returned_demand_from_supplycell_nextday": {"long": "returned demand from"
+                                                " supply cell calculated in next timestep",
+                                                "unit": " kg m-2 s-1"},
+    "demand_left_excl_returned_nextday": {"long": "demand left without riparian "
+                                          "demand and return demand calculated"
+                                          " in the next time step",
+                                          "unit": " kg m-2 s-1"},
+    "potnetabs_sw": {"long": "Daily potential net abstraction from surface water",
+                     "unit": " kg m-2 s-1"},
 
-    "total_unsatisfied_demand_ripariancell": {"long": " total unsatisfied potential"
-                                              "demand to ripariancell in surfacewater",
-                                              "unit": " kg m-2 s-1"},
-
-    "accumulated_unsatisfied_potential_netabs_sw":
-        {"long": "accumulated unsatisfied potential net abstraction from surfacewater",
-         "unit": " kg m-2 s-1"},
     "get_neighbouring_cells_map": {"long": "neighbouring cells map", "unit": "-"},
 
-    "total_unsatisfied_demand_from_supply_to_all_demand_cell":
-        {"long": "total unsatisfied demand from supply to all demand_cell",  "unit": " kg m-2 s-1"},
+
 
     "ncrun":  {"long": "Net cell runoff (river discharge - upstream river disharge)",
                "unit": " kg m-2 s-1"},

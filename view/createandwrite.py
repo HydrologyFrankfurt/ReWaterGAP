@@ -120,26 +120,22 @@ class CreateandWritetoVariables:
 
             "dis": "streamflow",
             "dis-from-upstream": "streamflow_from_upstream",
-            "dis-from-inlandsink": "streamflow_from_inland_sink",
+
 
             "atotusegw": "actual_net_abstr_groundwater",
             "atotusesw": "actual_net_abstr_surfacewater",
             "atotuse": "actual_water_consumption",
             "evap-total": "cell_aet_consuse",
 
-            "total_demand_into_cell": "total_demand_into_cell",
             "unsat_potnetabs_sw_from_demandcell": "unsat_potnetabs_sw_from_demandcell",
 
-            "returned_demand_from_supply_cell":
-                "returned_demand_from_supply_cell",
-            "prev_returned_demand_from_supply_cell":
-                "prev_returned_demand_from_supply_cell",
-            "total_unsatisfied_demand_ripariancell": "total_unsatisfied_demand_ripariancell",
-            "accumulated_unsatisfied_potential_netabs_sw":
-                "accumulated_unsatisfied_potential_netabs_sw",
-            "get_neighbouring_cells_map":"get_neighbouring_cells_map",
-            "total_unsatisfied_demand_from_supply_to_all_demand_cell":
-                "total_unsatisfied_demand_from_supply_to_all_demand_cell",
+            "returned_demand_from_supplycell": "returned_demand_from_supplycell",
+            "returned_demand_from_supplycell_nextday":
+                "returned_demand_from_supplycell_nextday",
+            "demand_left_excl_returned_nextday": "demand_left_excl_returned_nextday",
+            "potnetabs_sw": "potnetabs_sw",
+
+            "get_neighbouring_cells_map": "get_neighbouring_cells_map",
             "ncrun":  "net_cell_runoff",
             "river-velocity": "river_velocity",
             "land-area-fraction":  "land_area_fraction",
@@ -289,7 +285,7 @@ class CreateandWritetoVariables:
                     if key in ("get_neighbouring_cells_map", "land-area-fraction"):
                         converted_data = value.data[key].values
                     # convert to m3/s  for discharge and m/s for velocity
-                    elif key in ("dis", "dis_from_upstream", "dis_from_inland_sink"):
+                    elif key in ("dis",  "dis-from-upstream"):
                         converted_data = (value.data[key].values * km3_to_m3) / days_to_s
                     elif key == "river_velocity":
                         converted_data = (value.data[key].values * km_to_m) / days_to_s
