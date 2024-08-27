@@ -779,7 +779,6 @@ class LateralWaterBalance:
         locwet_outflow = out[10]
         glolake_outflow = out[11]
         glowet_outflow = out[12]
-        streamflow_from_inlandsink = np.where(self.drainage_direction < 0, out[13], np.nan)
         streamflow = np.where(self.drainage_direction < 0, np.nan , out[13])
         net_cell_runoff = out[14]
 
@@ -787,20 +786,18 @@ class LateralWaterBalance:
         updated_localwetland_fraction = out[16]
         updated_globalwetland_fraction = out[17]
         actual_net_abstraction_gw = out[20]
-        returned_demand_from_supply_cell = out[23]
-        prev_returned_demand_from_supply_cell = out[24]
-        check_daily_unsatisfied_pot_nas = out[26]
+        returned_demand_from_supplycell = out[23]
+        returned_demand_from_supplycell_nextday = out[24]
+        check_daily_unsatisfied_pot_nas = out[26]  # helper variable
         glores_outflow = out[27]
         actual_net_abstraction_sw = out[28]
-        total_demand_into_cell = out[29]
-        total_unsatisfied_demand_from_supply_to_all_demand_cell = out[30]
-        total_unsatisfied_demand_ripariancell =  out[31]
-        consistent_precip = out[32]
-        streamflow_from_upstream = out[33]
-        cell_aet_consuse = out[34]
-        total_water_storage = out[35]
-        groundwater_recharge_swb =  out[36]
-        river_velocity = out[37]
+        consistent_precip = out[29]
+        streamflow_from_upstream = out[30]
+        cell_aet_consuse = out[31]
+        total_water_storage = out[32]
+        groundwater_recharge_swb = out[33]
+        river_velocity = out[34]
+
         total_groundwater_recharge = groundwater_recharge_swb + diffuse_gw_recharge
         total_runoff = groundwater_discharge + surface_runoff
         actual_water_consumption = actual_net_abstraction_gw + actual_net_abstraction_sw
@@ -819,12 +816,12 @@ class LateralWaterBalance:
         # surface water and daily_unsatisfied_pot_nas.
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Delayed Use and Neighbouring Cell Cases
-        # 1. Routing order of demand cell > supply cell.
+        # 1. Routing order of demand cell < supply cell.
         #    The demand returned from the supply cell to the demand cell is
         #    calculated in the current time step. The daily unsatisfied use for
         #    the demand cell is computed at the end of the day.
 
-        # 2. Routing order of demand cell < supply cell.
+        # 2. Routing order of demand cell > supply cell.
         #    The demand that is returned from the supply cell to the demand
         #    cell is calculated in the next time step. The daily unsatisfied
         #    use for the demand cell is set to zero for the previous step.
@@ -839,16 +836,19 @@ class LateralWaterBalance:
         #           remaining use, at the end of this day.
 
         self.accumulated_unsatisfied_potential_netabs_sw = \
-            np.where(~np.isnan(returned_demand_from_supply_cell),
-                     returned_demand_from_supply_cell,
+            np.where(~np.isnan(returned_demand_from_supplycell),
+                     returned_demand_from_supplycell,
                      self.accumulated_unsatisfied_potential_netabs_sw)
 
         # Note for output purpose only
         # ======================================================================
         unsat_potnetabs_sw_from_demandcell_out = \
             self.unsat_potnetabs_sw_from_demandcell.copy()
-        accumulated_unsatisfied_potential_netabs_sw_out = \
-            self.accumulated_unsatisfied_potential_netabs_sw.copy()
+
+        demand_left_excl_returned_nextday = \
+            self.accumulated_unsatisfied_potential_netabs_sw.copy() + \
+            self.unsatisfied_potential_netabs_riparian.copy()
+
         get_neighbouring_cells_map_out = self.get_neighbouring_cells_map.copy()
         # =====================================================================
 
@@ -856,8 +856,8 @@ class LateralWaterBalance:
             if cm.DELAYED_USE:
 
                 self.prev_accumulated_unsatisfied_potential_netabs_sw = \
-                    np.where(~np.isnan(prev_returned_demand_from_supply_cell),
-                             prev_returned_demand_from_supply_cell,
+                    np.where(~np.isnan(returned_demand_from_supplycell_nextday),
+                             returned_demand_from_supplycell_nextday,
                              self.prev_accumulated_unsatisfied_potential_netabs_sw)
 
                 end_of_year = [str(pd.to_datetime(simulation_date).month),
@@ -873,9 +873,9 @@ class LateralWaterBalance:
                 else:
                     self.daily_unsatisfied_pot_nas = \
                         np.where(~np.isnan(check_daily_unsatisfied_pot_nas),
-                                  self.accumulated_unsatisfied_potential_netabs_sw -
-                                  self.prev_accumulated_unsatisfied_potential_netabs_sw,
-                                  0)
+                                 self.accumulated_unsatisfied_potential_netabs_sw -
+                                 self.prev_accumulated_unsatisfied_potential_netabs_sw,
+                                 0)
 
                 self.prev_accumulated_unsatisfied_potential_netabs_sw = \
                     np.where(~np.isnan(check_daily_unsatisfied_pot_nas),
@@ -917,7 +917,7 @@ class LateralWaterBalance:
             update({"consistent-precipitation": consistent_precip,
                     'qg': groundwater_discharge,
                     'qtot': total_runoff,
-                    'qrf': groundwater_recharge_swb, 
+                    'qrf': groundwater_recharge_swb,
                     'qr': total_groundwater_recharge,
                    'locallake-outflow': loclake_outflow,
                     'localwetland-outflow': locwet_outflow,
@@ -929,24 +929,19 @@ class LateralWaterBalance:
                     "atotusesw": actual_net_abstraction_sw,
                     "atotuse": actual_water_consumption,
                     "evap-total": cell_aet_consuse,
-                    "total_demand_into_cell": total_demand_into_cell,
                     "unsat_potnetabs_sw_from_demandcell":
                         unsat_potnetabs_sw_from_demandcell_out,
-                    "returned_demand_from_supply_cell":
-                        returned_demand_from_supply_cell,
-                    "prev_returned_demand_from_supply_cell":
-                        prev_returned_demand_from_supply_cell,
-                    "total_unsatisfied_demand_ripariancell":
-                         total_unsatisfied_demand_ripariancell,
-                    "accumulated_unsatisfied_potential_netabs_sw":
-                        accumulated_unsatisfied_potential_netabs_sw_out,
+                    "returned_demand_from_supplycell":
+                        returned_demand_from_supplycell,
+                    "returned_demand_from_supplycell_nextday":
+                        returned_demand_from_supplycell_nextday,
+                    "demand_left_excl_returned_nextday":
+                        demand_left_excl_returned_nextday,
+                    "potnetabs_sw": self.potential_net_abstraction_sw.copy(),
                     "get_neighbouring_cells_map": get_neighbouring_cells_map_out,
-                    "total_unsatisfied_demand_from_supply_to_all_demand_cell":
-                        total_unsatisfied_demand_from_supply_to_all_demand_cell,
                     "ncrun": net_cell_runoff,
                     "river-velocity": river_velocity,
                     "land-area-fraction":  current_landarea_frac,
-                    "dis-from-inlandsink": streamflow_from_inlandsink,
                     "pot_cell_runoff": pot_cell_runoff})
 
         LateralWaterBalance.land_swb_fraction.update({
