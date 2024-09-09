@@ -128,7 +128,7 @@ class OptimizationState:
             Long term Bias.
 
         """
-        self.currrent_gamma = round(gamma, 1)
+        self.currrent_gamma = np.round(gamma, decimals=1)
 
         # Load parameter file and update gamma
         base_param_path = f"{self.calib_out_dir}{self.basin_id}"
@@ -329,7 +329,7 @@ class OptimizationState:
             compute_cfa = 1 - (sign_runoff *(self.mean_sim_dis - mean_obs_dis_adapted)
                                / abs_sum_pot_cell_runoff_calib_unit)
 
-            cfa = np.where(calib_unit_cfa > 0, np.round(compute_cfa, 1) , np.nan)
+            cfa = np.where(calib_unit_cfa > 0, np.round(compute_cfa, decimals=1) , np.nan)
 
             # Limiting correction factor to range 0.5 - 1.5.
             cfa = np.where(cfa > 1.5, 1.5,  np.where(cfa < 0.5, 0.5, cfa))
@@ -399,7 +399,7 @@ class OptimizationState:
 
             # Here, we explicitly calculate CFS to correct the discharge at
             # the grid cell
-            cfs = round((mean_obs_dis_adapted / self.mean_sim_dis), 1)
+            cfs = np.round((mean_obs_dis_adapted / self.mean_sim_dis), decimals=1)
 
             if (1.0 < cfs < 1.01) or (0.99 < cfs < 1.0):
                 cfs = 1.0
