@@ -46,6 +46,7 @@ class OptimizationState:
         self.currrent_gamma = 0
         self.gamma_limit = [0.1, 5]
         self.compute_cfs = False
+        self.calib_out_dir = "./calibration/calib_out/"
 
     def get_direct_upstreamcells(self, arrays, marker=np.nan):
         """
@@ -72,7 +73,7 @@ class OptimizationState:
 
         return arrays[-1]
 
-    def get_observed_discharge(self, station_id):
+    def get_observed_discharge(self, station_id, basin_id):
         """
         Get observed discharge per station.
 
@@ -86,7 +87,8 @@ class OptimizationState:
         None.
 
         """
-        obs_dis_path = "../test_wateruse/station_observed_discharge/"
+        self.basin_id = basin_id
+        obs_dis_path = f"{self.calib_out_dir}{self.basin_id}/station_observed_discharge/"
         station_file_path = f"{obs_dis_path}{station_id}_observed_discharge.csv"
 
         # Load observed data from the csv file
@@ -126,19 +128,21 @@ class OptimizationState:
             Long term Bias.
 
         """
-        self.currrent_gamma = gamma
+        self.currrent_gamma = round(gamma, 1)
 
         # Load parameter file and update gamma
-        param_path = "../test_wateruse/WaterGAP_2.2e_global_parameters.nc"
+        base_param_path = f"{self.calib_out_dir}{self.basin_id}"
+        param_path = f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
+
         with xr.open_dataset(param_path, decode_times=False) as global_params:
 
             # Update gamma in the dataset
             global_params['gamma'].values = \
-                np.where(calib_unit_gamma>0, gamma,
+                np.where(calib_unit_gamma > 0, self.currrent_gamma,
                          global_params['gamma'].values)
 
             # Save the modified dataset
-            temp_param_path = "../test_wateruse/temp_WaterGAP_2.2e_global_parameters.nc"
+            temp_param_path = f"{base_param_path}/temp_WaterGAP_2.2e_global_parameters.nc"
             global_params.to_netcdf(temp_param_path)
 
         # Replace the original file with the updated file
@@ -148,7 +152,7 @@ class OptimizationState:
         # =====================================================================
         # Run WaterGAP and get simulated data
         # =====================================================================
-        simulated_data = run_watergap.run(calib_station, watergap_basin)
+        simulated_data = run_watergap.run(calib_station, watergap_basin, self.basin_id)
         self.annual_pot_cell_runoff = simulated_data["pot_cell_runoff"]
 
         sim_dis = np.array(simulated_data["sim_dis"])  # km3/year
@@ -168,15 +172,14 @@ class OptimizationState:
         # Calculate error
         # =====================================================================
         error_cs1 = np.abs((self.mean_sim_dis - self.mean_obs_dis) / self.mean_obs_dis)
-        print('\n' + f'Bias {error_cs1} for Gamma = {gamma}')
+        print('\n' + f'Bias {error_cs1} for Gamma = {self.currrent_gamma}')
         # =====================================================================
 
         # Check if the optimization should be terminated
         if error_cs1 < self.threshold_cs1:
             self.calibration_status = 1
             if check_bounds is False:
-                raise Exception('\n' + f'Calibration status: {self.calibration_status}' +
-                                f' - sucessful for Gamma = {gamma} and Bias = {error_cs1}')
+                raise Exception('\n' + f' Calibration sucessful for Gamma = {self.currrent_gamma} and Bias = {error_cs1}')
 
         return error_cs1
 
@@ -273,8 +276,7 @@ class OptimizationState:
             check_cs2 = min_mean_obs_dis_adapted <= self.mean_sim_dis <= max_mean_obs_dis_adapted
 
             if check_cs2:
-                print('\n' + f'Calibration status: {self.calibration_status} ' +
-                      f'- sucessful for 10% criterion  with Gamma = {gamma}')
+                print(f'Calibration sucessful for 10% criterion  with Gamma = {gamma}' )
             else:
                 self.calibration_status = 3
                 print("10% criterion cannot be fulfilled, CFA is calculated." + '\n')
@@ -327,24 +329,27 @@ class OptimizationState:
             compute_cfa = 1 - (sign_runoff *(self.mean_sim_dis - mean_obs_dis_adapted)
                                / abs_sum_pot_cell_runoff_calib_unit)
 
-            cfa = np.where(calib_unit_cfa > 0, compute_cfa, np.nan)
+            cfa = np.where(calib_unit_cfa > 0, np.round(compute_cfa, 1) , np.nan)
 
             # Limiting correction factor to range 0.5 - 1.5.
             cfa = np.where(cfa > 1.5, 1.5,  np.where(cfa < 0.5, 0.5, cfa))
 
-            print(abs_sum_pot_cell_runoff_calib_unit, np.nanmax(cfa), np.nanmin(cfa))
+            print("Potential runoff in basin: ", abs_sum_pot_cell_runoff_calib_unit, "km/year") 
+            print("Max CFA in basin: ", np.nanmax(cfa))
+            print("Min CFA in basin: ",  np.nanmin(cfa))
 
             # Load parameter file and update CFA
-            param_path = "../test_wateruse/WaterGAP_2.2e_global_parameters.nc"
+            base_param_path = f"{self.calib_out_dir}{self.basin_id}"
+            param_path = f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
             with xr.open_dataset(param_path, decode_times=False) as global_params:
 
-                # Update gamma in the dataset
+                # Update areal corection factor  in the dataset
                 global_params['areal_corr_factor'].values = \
                     np.where(calib_unit_cfa>0, cfa,
                               global_params['areal_corr_factor'].values)
 
                 # Save the modified dataset
-                temp_param_path = "../test_wateruse/temp_WaterGAP_2.2e_global_parameters.nc"
+                temp_param_path = f"{base_param_path}/temp_WaterGAP_2.2e_global_parameters.nc"
                 global_params.to_netcdf(temp_param_path)
 
             # Replace the original file with the updated file
@@ -371,7 +376,7 @@ class OptimizationState:
             # =================================================================
             # Run WaterGAP and get simulated data
             # =================================================================
-            simulated_data = run_watergap.run(calib_station, watergap_basin)
+            simulated_data = run_watergap.run(calib_station, watergap_basin, self.basin_id)
 
             sim_dis = np.array(simulated_data["sim_dis"])  # km3/year
             sim_years = list(range(self.start_year, self.end_year+1))
@@ -394,20 +399,21 @@ class OptimizationState:
 
             # Here, we explicitly calculate CFS to correct the discharge at
             # the grid cell
-            cfs = mean_obs_dis_adapted / self.mean_sim_dis
+            cfs = round((mean_obs_dis_adapted / self.mean_sim_dis), 1)
 
             if (1.0 < cfs < 1.01) or (0.99 < cfs < 1.0):
                 cfs = 1.0
                 print(f"cfs is not far away from 1.0: {cfs}")
 
-            print(f"CFS is calculated with Gamma = {self.currrent_gamma}  to be {cfs}")
+            print(f"CFS is calculated with Gamma = {self.currrent_gamma}  to be {cfs}" + '\n' )
 
             if (cfs > 1.0) or (cfs < 1.0):
                 self.calibration_status = 4
 
             # Load parameter file and update CFA
             if self.calibration_status == 4:
-                param_path = "../test_wateruse/WaterGAP_2.2e_global_parameters.nc"
+                base_param_path = f"{self.calib_out_dir}{self.basin_id}"
+                param_path = f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
                 with xr.open_dataset(param_path, decode_times=False) as global_params:
 
                     # Update gamma in the dataset
@@ -416,7 +422,7 @@ class OptimizationState:
                              "lon":calib_station["lon"].values}] = cfs
 
                     # Save the modified dataset
-                    temp_param_path = "../test_wateruse/temp_WaterGAP_2.2e_global_parameters.nc"
+                    temp_param_path = f"{base_param_path}/temp_WaterGAP_2.2e_global_parameters.nc"
                     global_params.to_netcdf(temp_param_path)
 
                 # Replace the original file with the updated file
@@ -440,15 +446,17 @@ def calibrate_parameters(initial_gamma):
     """
     # Initialize calibration routine
     state = OptimizationState()
-    streamflow_station = state.initialize_static.stations
+    # =====================================================================
+    # Get current calibration station and upstream basin (from super basin X)
+    # =====================================================================
+    config_file = args.name.split("-")  # Getting station id from config file
+    station_id, basin_id = config_file[1], config_file[-1].split(".")[0]
+    station_csv_path = f"{state.calib_out_dir}{basin_id}/stations_basin_{basin_id}.csv"
+
+    streamflow_station = pd.read_csv(station_csv_path)
+
     streamflow_station.set_index('station_id', inplace=True)
     streamflow_station.index = streamflow_station.index.astype(str)
-
-    # =====================================================================
-    # Get current calibration station and upstream basin
-    # =====================================================================
-    config_file = args.name  # Getting station id from config file
-    station_id = config_file.split("-")[-1].split(".")[0]
 
     current_calib_station = streamflow_station.loc[[station_id]]
 
@@ -465,20 +473,18 @@ def calibrate_parameters(initial_gamma):
     get_basin_arcid = np.where(watergap_basin.upstream_basin == 0,
                                state.initialize_static.arc_id, np.nan)
 
-    path = '../test_wateruse/prev_upstream_cells.npz'
+    path = f"{state.calib_out_dir}{basin_id}/prev_upstream_cells.npz"
     if os.path.exists(path):
-        prev_upstreamcells = np.load('../test_wateruse/prev_upstream_cells.npz')
+        prev_upstreamcells = np.load(path)
         update_prev_upstreamcells = \
             {key: prev_upstreamcells[key] for key in prev_upstreamcells.files}
         update_prev_upstreamcells["station_id"] = get_basin_arcid
-        np.savez_compressed('../test_wateruse/prev_upstream_cells.npz',
-                            **update_prev_upstreamcells)
+        np.savez_compressed(path,  **update_prev_upstreamcells)
 
         calib_upstreamcells = [update_prev_upstreamcells[key] for key in update_prev_upstreamcells]
     else:
         calib_upstreamcells = [get_basin_arcid]
-        np.savez_compressed('../test_wateruse/prev_upstream_cells.npz',
-                            **{station_id: get_basin_arcid})
+        np.savez_compressed(path, **{station_id: get_basin_arcid})
 
     # contains mask for direct upstreamcells
     calib_unit_gamma_cfa = state.get_direct_upstreamcells(calib_upstreamcells)
@@ -486,7 +492,7 @@ def calibrate_parameters(initial_gamma):
     # =========================================================================
     # Get observed discharge per station
     # =========================================================================
-    state.get_observed_discharge(station_id)
+    state.get_observed_discharge(station_id, basin_id)
 
     # =========================================================================
     # Now run calibration CS1-CS4
@@ -511,16 +517,18 @@ def calibrate_parameters(initial_gamma):
                      bounds=gamma_bounds, args=(current_calib_station, watergap_basin,
                                                 calib_unit_gamma_cfa),
                      options={'maxfev':10})
-
+            print('\n' + f'Calibration status: {state.calibration_status}')
         else:
             # CS2
             state.calib_cs2(state.currrent_gamma)
 
             # CS3
-            state.calib_cs3(calib_unit_gamma_cfa, current_calib_station)
+            state.calib_cs3(calib_unit_gamma_cfa)
 
             # CS4
             state.calib_cs4(current_calib_station, watergap_basin)
+
+            print('\n' + f'Calibration status: {state.calibration_status}')
     except Exception as e:
         print(e)
 

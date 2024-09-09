@@ -54,6 +54,7 @@ def generate_river_dis_calib(df):
         Observed discharge with complete years usable for calibration.
 
     """
+    # prefered  calibration period
     start = 1981
     end = 2010
     data_dis = []

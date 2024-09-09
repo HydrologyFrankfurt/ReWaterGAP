@@ -19,6 +19,7 @@ import json
 import shutil
 import xarray as xr
 import pandas as pd
+import numpy as np
 from calibration import create_discharge_data as create_dis
 from controller import configuration_module as cm
 from controller import staticdata_handler as sd
@@ -32,6 +33,8 @@ class SetupCalibration:
         self.start_year = int(cm.start.split("-")[0])
         self.end_year = int(cm.end.split("-")[0])
         self.config_path = './Config_ReWaterGAP.json'
+        self.dataset_path = '../nobackup/stations_per_superbasin.nc'
+        self.calib_out_dir = "./calibration/calib_out/"
 
     def cleanup_simulation_files(self):
         """
@@ -95,12 +98,36 @@ class SetupCalibration:
             period_nag.to_netcdf(period_nag_path)
             period_nas.to_netcdf(period_nas_path)
 
+    def generate_calib_structure(self):
+        """
+        Generate folders based on super basin for paralellization.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.super_basin = xr.open_dataarray(self.dataset_path)
+        unique_values_nan = np.unique(self.super_basin)
+        self.unique_basin_values = unique_values_nan[~np.isnan(unique_values_nan)].astype(np.int32)
+
+        for value in self.unique_basin_values:
+            folder_name = os.path.join(self.calib_out_dir, str(value))
+
+            os.makedirs(folder_name, exist_ok=True)
+
+            # Create subfolders within each unique value folder
+            os.makedirs(os.path.join(folder_name, 'station_config_files'), exist_ok=True)
+            os.makedirs(os.path.join(folder_name, 'station_observed_discharge'), exist_ok=True)
+
+
+
     def reorder_calib_stations(self):
         """
         Order stations to match routing order.
 
-        Get respective observed discharge per station with complete years
-        usable for caibration.
+        create respective observed discharge per station with complete years
+        usable for caibration (csv).
 
         Returns
         -------
@@ -122,7 +149,7 @@ class SetupCalibration:
         arcids_for_reordering = arcids_for_reordering.set_index('ArcID').T.to_dict('list')
 
         # Get station id
-        all_station_ids = pd.read_csv('../test_wateruse/StationsID_ArcID.csv')
+        all_station_ids = pd.read_csv("./calibration/StationsID_ArcID.csv")
         all_station_ids.set_index('WLM_AID', inplace=True)
 
         ordered_stations_list = []
@@ -135,27 +162,36 @@ class SetupCalibration:
 
                 # Directly access the row you need using the index
                 if (lon, lat) in streamflow_station.index:
-                    # print(lon, lat)
+
                     station_row = streamflow_station.loc[(lon, lat)]
+                    basin_station_id = int(self.super_basin.sel(lat=lat, lon=lon).values)
                     current_station_id = all_station_ids.loc[routing_id].values[0]
                     ordered_stations_list.append({'station_id': current_station_id,
                                                   'lon': station_row.name[0],
-                                                  'lat': station_row.name[1]})
+                                                  'lat': station_row.name[1],
+                                                 'basin_id': basin_station_id})
 
-                    self.generate_config_and_discharge_for_station(current_station_id)
+                    self.generate_config_and_discharge_for_station(current_station_id,  basin_station_id)
 
         reordered_stations = pd.DataFrame(ordered_stations_list)
-        path_to_save = str(Path(cm.path_to_stations_file + r'/stations.csv'))
-        if os.path.exists(path_to_save):
-            os.remove(path_to_save)
-        reordered_stations.to_csv(path_to_save, index=False)
+        # Group by 'basin_id'
+        grouped = reordered_stations.groupby('basin_id')
+
+        # Split DataFrame based on unique basin_id values and save each group
+        # as a separate CSV file
+        for basin_id, group in grouped:
+            group = group.drop(columns=['basin_id'])
+            out_csv_path = f"{self.calib_out_dir}{basin_id}/stations_basin_{basin_id}.csv"
+            if os.path.exists(out_csv_path):
+                os.remove(out_csv_path)
+            group.to_csv(out_csv_path, index=False)
 
     # Generate observed discharge and configuration file for all stations
-    def generate_config_and_discharge_for_station(self, station_id):
+    def generate_config_and_discharge_for_station(self, station_id, basin_id):
         """
-        Generate configuration file per station.
+        Generate configuration json file per station.
 
-        Read in station specific observed discharge.
+        create station specific observed discharge as csv.
 
         Parameters
         ----------
@@ -178,8 +214,9 @@ class SetupCalibration:
         km3_year = (365 * 24 * 60 * 60) / 1000000000.0
         discharge_data = discharge_data * km3_year
 
-        out_dis_path = '../test_wateruse/station_observed_discharge/' + \
-            station_id + "_observed_discharge.csv"
+        out_dis_path = (
+           f"{self.calib_out_dir}{basin_id}/station_observed_discharge/"
+           f"{station_id}_observed_discharge.csv")
 
         discharge_data.to_csv(out_dis_path)
 
@@ -202,8 +239,10 @@ class SetupCalibration:
         config_file['RuntimeOptions'][0]['SimulationOption']\
             ['Demand_satisfaction_opts']['neighbouring_cell'] = False
 
-        out_config_path = \
-            "../test_wateruse/station_config_files/Config_ReWaterGAP-"+ station_id + ".json"
+        out_config_path = (
+            f"{self.calib_out_dir}{basin_id}/station_config_files/"
+            f"Config_ReWaterGAP-{station_id}-{basin_id}.json" )
+
         with open(out_config_path, 'w', encoding='utf-8') as file:
             json.dump(config_file, file, indent=2)
 
@@ -216,13 +255,14 @@ class SetupCalibration:
         None.
 
         """
-        path = '../test_wateruse/prev_upstream_cells.npz'
-        if os.path.exists(path):
-            os.remove(path)
+        for i in self.unique_basin_values:
+            path = f"{self.calib_out_dir}{i}/prev_upstream_cells.npz"
+            if os.path.exists(path):
+                os.remove(path)
 
-        src_file_path = 'core/WaterGAP_2.2e_global_parameters.nc'
-        dest_file_path = '../test_wateruse/WaterGAP_2.2e_global_parameters.nc'
-        shutil.copy2(src_file_path, dest_file_path)
+            src_file_path = 'core/WaterGAP_2.2e_global_parameters.nc'
+            dest_file_path = f"{self.calib_out_dir}{i}/WaterGAP_2.2e_global_parameters_basin_{i}.nc"
+            shutil.copy2(src_file_path, dest_file_path)
 
 
 def run_calib_setup():
@@ -240,6 +280,7 @@ def run_calib_setup():
     """
     calib_setup = SetupCalibration()
     # calib_setup.copy_actual_net_abstraction()
+    calib_setup.generate_calib_structure()
     calib_setup.reorder_calib_stations()
     calib_setup.copy_parameter_remove_temp_files()
 

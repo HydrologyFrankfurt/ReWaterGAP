@@ -36,7 +36,7 @@ SIM_DIS_PATH = "watergap2-2e_gswp3-w5e5_sim_histsoc_dis_down_global_daily_1961_2
 # Constants
 YEAR_START = 1961
 YEAR_END = 2000
-NODATA  = -9999
+NODATA = -9999
 
 # =============================================================================
 # Load simulated discharge (streamflow) dataset and select period
@@ -119,7 +119,6 @@ skew_maxima_dis = compute_skewness(annual_maxima_dis, mean_maxima_dis,
 log_skew_maxima_dis = compute_skewness(log_annual_maxima_dis, log_mean_maxima_dis,
                                        log_std_maxima_dis, sample_size)
 
-lat, lon =  243, 638
 
 # =============================================================================
 # Load Pearson III distribution k-values and interpolate and compute
