@@ -13,16 +13,19 @@
 
 import os
 import subprocess
+from concurrent.futures import ProcessPoolExecutor
 import json
 from termcolor import colored
 import pandas as pd
+import sys
 
 
-class GetActualAbstraction:
-    """Run WaterGAP to get actual abstraction."""
+class CalibrateStations:
+    """Calibrate WaterGAP using all stations available."""
 
     def __init__(self):
         self.config_path = './Config_ReWaterGAP.json'
+        self.calib_out_dir = "./calibration/calib_out/"
 
     def update_config_values(self, obj):
         """
@@ -96,10 +99,92 @@ class GetActualAbstraction:
         None.
 
         """
-        os.system(f"python3 run_watergap.py {self.config_path}")
+        subprocess.run(["python3", "run_watergap.py", self.config_path], 
+                       check=True)
 
+    def process_basin(self, basin_id):
+        """
+        Run calibration for per station in each basin.
 
-def calibrate_watergap():
+        Parameters
+        ----------
+        basin_id : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        station_basin_path = f"{self.calib_out_dir}{basin_id}/stations_basin_{basin_id}.csv"
+        ordered_stations = pd.read_csv(station_basin_path)
+
+        for i in range(len(ordered_stations)):
+            station_id_ordered = ordered_stations['station_id'][i]
+            station_config_path = (
+                f"{self.calib_out_dir}{basin_id}/station_config_files/Config_ReWaterGAP-"
+                f"{station_id_ordered}-{basin_id}.json")
+
+            # subprocess.run(["python3", "-m", "calibration.find_gamma_cfa_cfs",
+            #                 station_config_path], check=True)
+            log_file = open(f"{self.calib_out_dir}{basin_id}/stdout_{station_id_ordered}.log", "w")
+            process = subprocess.run(["python3", "-m", "calibration.find_gamma_cfa_cfs",
+                                        station_config_path], stdout=log_file, stderr=subprocess.STDOUT)
+            process.wait()
+            log_file.close()
+
+    def run_on_local_server(self, basin_ids, num_cores):
+        """
+        Run on local server.
+
+        Parameters
+        ----------
+        basin_ids : TYPE
+            DESCRIPTION.
+        num_cores : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        with ProcessPoolExecutor(max_workers=num_cores) as executor:
+            executor.map(self.process_basin, basin_ids)
+
+    def run_on_cluster(basin_ids, num_nodes):
+        """
+        Run on local cluster.
+
+        Parameters
+        ----------
+        basin_ids : TYPE
+            DESCRIPTION.
+        num_nodes : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        for basin_id in basin_ids:
+            subprocess.run(["sbatch", "--nodes", str(num_nodes), "run_basins.slurm", str(basin_id)], check=True)
+
+    def get_number_of_basins(self):
+        """
+        Get number of basins for parallel computation.
+
+        Returns
+        -------
+        TYPE
+            DESCRIPTION.
+
+        """
+        return len([name for name in os.listdir(self.calib_out_dir)
+                    if os.path.isdir(os.path.join(self.calib_out_dir, name))])
+
+def main():
     """
     Run calibration steps A and B.
 
@@ -109,15 +194,18 @@ def calibrate_watergap():
 
     """
     try:
+        # initialize class
+        calib_watergap = CalibrateStations()
+        mode = sys.argv[1]  # 'local' or 'cluster'
+        num_cores_or_nodes = int(sys.argv[2])  # Number of cores for local or nodes for cluster
         # =====================================================================
         #                       Calibration step A
         # =====================================================================
         # Run WaterGAP globally to get the actual net abstraction from groundwater
         # and  surface water. This will be the water use data for calibration)
         print('\n' + colored("Running Calibration step A...","magenta"))
-        get_actual_net_abstr = GetActualAbstraction()
-        get_actual_net_abstr.modify_config_file()
-        # get_actual_net_abstr.run_watergap()
+        calib_watergap.modify_config_file()
+        # calib_watergap.run_watergap()
 
         # =====================================================================
         #  Set up files for calibration (generate config file for each station)
@@ -126,29 +214,30 @@ def calibrate_watergap():
                              " for Calibration step B...", "magenta"))
 
         subprocess.run(["python3", "-m", "calibration.calibration_setup",
-                        get_actual_net_abstr.config_path], check=True)
+                        calib_watergap.config_path], check=True)
 
         # =====================================================================
         #                       Calibration step B
         # =====================================================================
+
         # Optimise WaterGAP parameters
         print('\n' + colored("Running Calibration step B...", "magenta"))
+        n = calib_watergap.get_number_of_basins()
+        basin_ids = list(range(1, n+1))
 
-        # Loop through stations superbasins and stations.
-        all_odered_stations = pd.read_csv("input_data/static_input/stations.csv")
-
-        for i in range(len(all_odered_stations)):
-            station_id_ordered = all_odered_stations['station_id'][i]
-            station_config_path = \
-                f"../test_wateruse/station_config_files/Config_ReWaterGAP-{station_id_ordered}.json"
-            subprocess.run(["python3", "-m", "calibration.find_gamma_cfa_cfs",
-                            station_config_path], check=True)
+        print('\n' + colored("Calibrating " + str(n)+" calibration regions...", "green"))
+        if mode == 'local':
+            calib_watergap.run_on_local_server(basin_ids, num_cores_or_nodes)
+        elif mode == 'cluster':
+            calib_watergap.run_on_cluster(basin_ids, num_cores_or_nodes)
+        else:
+            print("Invalid mode. Use 'local' or 'cluster'.")
 
     except subprocess.CalledProcessError as e:
         print(colored(f"Error occurred while running an external script: {e}", "red"))
     except KeyboardInterrupt:
-        print(colored("Calibration interrupted by user.", "red"))
+        os.system("pkill -u $USER python3")
 
 
 if __name__ == "__main__":
-    calibrate_watergap()
+    main()

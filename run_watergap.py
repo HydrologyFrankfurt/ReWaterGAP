@@ -31,7 +31,7 @@ from core.verticalwaterbalance import waterbalance_vertical_init as vb
 from view import createandwrite as cw
 
 
-def run(calib_station=None, watergap_basin=None):
+def run(calib_station=None, watergap_basin=None, basin_id=None):
     """
     Run WaterGAP.
 
@@ -101,7 +101,7 @@ def run(calib_station=None, watergap_basin=None):
     initialize_forcings_static = rd.InitializeForcingsandStaticdata(run_calib)
     grid_coords = initialize_forcings_static.grid_coords
     potential_net_abstraction = wateruse.Wateruse(cm.SUBTRACT_USE, grid_coords, run_calib)
-    parameters = pm.Parameters()
+    parameters = pm.Parameters(run_calib, basin_id)
 
     # initialize Land surface water Fraction
     land_water_frac = \
