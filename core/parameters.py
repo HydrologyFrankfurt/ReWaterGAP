@@ -39,13 +39,17 @@ args = cli.parse_cli()
 class Parameters:
     """WaterGAP parameters."""
 
-    def __init__(self):
+    def __init__(self, run_calib, basin_id):
         # read in global parameters
         try:
-            # Default
-            param_path = str(Path('core/WaterGAP_2.2e_global_parameters.nc'))
-            # calibration_test
-            # param_path = str(Path("../test_wateruse/WaterGAP_2.2e_global_parameters.nc"))
+            if run_calib is True:
+                # calibration_test
+                param_path = str(Path(f"./calibration/calib_out/{basin_id}"
+                                      f"/WaterGAP_2.2e_global_parameters_basin_{basin_id}.nc"))
+            else:
+                # Default
+                param_path = str(Path('core/WaterGAP_2.2e_global_parameters.nc'))
+
             self.global_params = xr.open_dataset(param_path, decode_times=False)
 
         except FileNotFoundError:
