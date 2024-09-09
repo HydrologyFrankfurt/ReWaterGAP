@@ -225,9 +225,10 @@ def main():
         n = calib_watergap.get_number_of_basins()
         basin_ids = list(range(1, n+1))
 
-        print('\n' + colored("Calibrating " + str(n)+" calibration regions...", "green"))
+        print('\n' + colored("Calibrating " + str(n)+" calibration regions...", "blue"))
         if mode == 'local':
             calib_watergap.run_on_local_server(basin_ids, num_cores_or_nodes)
+            print('\n' + colored("Calibration complete" , "green"))
         elif mode == 'cluster':
             calib_watergap.run_on_cluster(basin_ids, num_cores_or_nodes)
         else:
