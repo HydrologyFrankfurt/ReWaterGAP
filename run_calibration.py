@@ -99,7 +99,7 @@ class CalibrateStations:
         None.
 
         """
-        subprocess.run(["python3", "run_watergap.py", self.config_path], 
+        subprocess.run(["python3", "run_watergap.py", self.config_path],
                        check=True)
 
     def process_basin(self, basin_id):
@@ -120,17 +120,15 @@ class CalibrateStations:
         ordered_stations = pd.read_csv(station_basin_path)
 
         for i in range(len(ordered_stations)):
+
             station_id_ordered = ordered_stations['station_id'][i]
             station_config_path = (
                 f"{self.calib_out_dir}{basin_id}/station_config_files/Config_ReWaterGAP-"
                 f"{station_id_ordered}-{basin_id}.json")
 
-            # subprocess.run(["python3", "-m", "calibration.find_gamma_cfa_cfs",
-            #                 station_config_path], check=True)
             log_file = open(f"{self.calib_out_dir}{basin_id}/stdout_{station_id_ordered}.log", "w")
-            process = subprocess.run(["python3", "-m", "calibration.find_gamma_cfa_cfs",
-                                        station_config_path], stdout=log_file, stderr=subprocess.STDOUT)
-            process.wait()
+            subprocess.run(["python3", "-m", "calibration.find_gamma_cfa_cfs", station_config_path],
+                           check=True, stdout=log_file, stderr=subprocess.STDOUT)
             log_file.close()
 
     def run_on_local_server(self, basin_ids, num_cores):
@@ -225,10 +223,10 @@ def main():
         n = calib_watergap.get_number_of_basins()
         basin_ids = list(range(1, n+1))
 
-        print('\n' + colored("Calibrating " + str(n)+" calibration regions...", "blue"))
+        print('\n' + colored("Calibrating " + str(len(basin_ids))+" calibration regions...", "blue"))
         if mode == 'local':
             calib_watergap.run_on_local_server(basin_ids, num_cores_or_nodes)
-            print('\n' + colored("Calibration complete" , "green"))
+            print('\n' + colored("Calibration complete", "green"))
         elif mode == 'cluster':
             calib_watergap.run_on_cluster(basin_ids, num_cores_or_nodes)
         else:
