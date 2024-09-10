@@ -128,7 +128,7 @@ class OptimizationState:
             Long term Bias.
 
         """
-        self.currrent_gamma = np.round(gamma, decimals=1)
+        self.currrent_gamma = gamma
 
         # Load parameter file and update gamma
         base_param_path = f"{self.calib_out_dir}{self.basin_id}"
@@ -179,7 +179,8 @@ class OptimizationState:
         if error_cs1 < self.threshold_cs1:
             self.calibration_status = 1
             if check_bounds is False:
-                raise Exception('\n' + f' Calibration sucessful for Gamma = {self.currrent_gamma} and Bias = {error_cs1}')
+                print('\n' + f' Calibration sucessful for Gamma = {self.currrent_gamma} and Bias = {error_cs1}')
+                raise Exception('\n' + f'Calibration status: {self.calibration_status}')
 
         return error_cs1
 
@@ -329,7 +330,7 @@ class OptimizationState:
             compute_cfa = 1 - (sign_runoff *(self.mean_sim_dis - mean_obs_dis_adapted)
                                / abs_sum_pot_cell_runoff_calib_unit)
 
-            cfa = np.where(calib_unit_cfa > 0, np.round(compute_cfa, decimals=1) , np.nan)
+            cfa = np.where(calib_unit_cfa > 0, compute_cfa , np.nan)
 
             # Limiting correction factor to range 0.5 - 1.5.
             cfa = np.where(cfa > 1.5, 1.5,  np.where(cfa < 0.5, 0.5, cfa))
@@ -399,7 +400,7 @@ class OptimizationState:
 
             # Here, we explicitly calculate CFS to correct the discharge at
             # the grid cell
-            cfs = np.round((mean_obs_dis_adapted / self.mean_sim_dis), decimals=1)
+            cfs = mean_obs_dis_adapted / self.mean_sim_dis
 
             if (1.0 < cfs < 1.01) or (0.99 < cfs < 1.0):
                 cfs = 1.0
@@ -517,7 +518,7 @@ def calibrate_parameters(initial_gamma):
                      bounds=gamma_bounds, args=(current_calib_station, watergap_basin,
                                                 calib_unit_gamma_cfa),
                      options={'maxfev':10})
-            print('\n' + f'Calibration status: {state.calibration_status}')
+
         else:
             # CS2
             state.calib_cs2(state.currrent_gamma)

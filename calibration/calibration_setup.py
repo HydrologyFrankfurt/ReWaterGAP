@@ -281,7 +281,7 @@ def run_calib_setup():
     calib_setup = SetupCalibration()
     # calib_setup.copy_actual_net_abstraction()
     calib_setup.generate_calib_structure()
-    calib_setup.reorder_calib_stations()
+    # calib_setup.reorder_calib_stations()
     calib_setup.copy_parameter_remove_temp_files()
 
 
