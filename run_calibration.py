@@ -13,7 +13,7 @@
 
 import os
 import subprocess
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 import json
 from termcolor import colored
 import pandas as pd
@@ -128,10 +128,10 @@ class CalibrateStations:
 
             log_file = open(f"{self.calib_out_dir}{basin_id}/stdout_{station_id_ordered}.log", "w")
             subprocess.run(["python3", "-m", "calibration.find_gamma_cfa_cfs", station_config_path],
-                           check=True, stdout=log_file, stderr=subprocess.STDOUT)
+                           stdout=log_file)
             log_file.close()
 
-    def run_on_local_server(self, basin_ids, num_cores):
+    def run_on_local_server(self, basin_ids, num_threads):
         """
         Run on local server.
 
@@ -139,7 +139,7 @@ class CalibrateStations:
         ----------
         basin_ids : TYPE
             DESCRIPTION.
-        num_cores : TYPE
+        num_threads : TYPE
             DESCRIPTION.
 
         Returns
@@ -147,7 +147,7 @@ class CalibrateStations:
         None.
 
         """
-        with ProcessPoolExecutor(max_workers=num_cores) as executor:
+        with ThreadPoolExecutor(max_workers=num_threads) as executor:
             executor.map(self.process_basin, basin_ids)
 
     def run_on_cluster(basin_ids, num_nodes):
@@ -167,7 +167,7 @@ class CalibrateStations:
 
         """
         for basin_id in basin_ids:
-            subprocess.run(["sbatch", "--nodes", str(num_nodes), "run_basins.slurm", str(basin_id)], check=True)
+            subprocess.run(["sbatch", "--nodes", str(num_nodes), "run_basins.slurm", str(basin_id)])
 
     def get_number_of_basins(self):
         """
@@ -195,7 +195,7 @@ def main():
         # initialize class
         calib_watergap = CalibrateStations()
         mode = sys.argv[1]  # 'local' or 'cluster'
-        num_cores_or_nodes = int(sys.argv[2])  # Number of cores for local or nodes for cluster
+        num_threads_or_nodes = int(sys.argv[2])  # Number of threads for local or nodes for cluster
         # =====================================================================
         #                       Calibration step A
         # =====================================================================
@@ -223,17 +223,15 @@ def main():
         n = calib_watergap.get_number_of_basins()
         basin_ids = list(range(1, n+1))
 
-        print('\n' + colored("Calibrating " + str(len(basin_ids))+" calibration regions...", "blue"))
+        print('\n' + colored("Calibrating " + str(len(basin_ids))+" calibration region(s)...", "blue"))
         if mode == 'local':
-            calib_watergap.run_on_local_server(basin_ids, num_cores_or_nodes)
+            calib_watergap.run_on_local_server(basin_ids, num_threads_or_nodes)
             print('\n' + colored("Calibration complete", "green"))
         elif mode == 'cluster':
-            calib_watergap.run_on_cluster(basin_ids, num_cores_or_nodes)
+            calib_watergap.run_on_cluster(basin_ids, num_threads_or_nodes)
         else:
             print("Invalid mode. Use 'local' or 'cluster'.")
 
-    except subprocess.CalledProcessError as e:
-        print(colored(f"Error occurred while running an external script: {e}", "red"))
     except KeyboardInterrupt:
         os.system("pkill -u $USER python3")
 
