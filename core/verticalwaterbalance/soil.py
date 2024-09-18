@@ -228,7 +228,8 @@ def soil_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
                 # gamma = Runoff coefficient (-)
                 daily_runoff = effective_precipitation * \
                     (soil_saturation)**gamma
-
+                
+                
                 # =============================================================
                 # Calculating actual soil evapotranspiration (mm/day) and
                 # updating soil water storage (mm).
@@ -424,6 +425,9 @@ def soil_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
         groundwater_recharge_from_soil_mm = total_daily_runoff
 
         soil_water_content += neg_runoff
+
+        if soil_water_content < 0:
+            soil_water_content = 0
 
     # Finally surface runoff is calculated as follows:
     surface_runoff = total_daily_runoff - groundwater_recharge_from_soil_mm
