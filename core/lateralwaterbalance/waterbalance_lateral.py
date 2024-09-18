@@ -780,6 +780,8 @@ class LateralWaterBalance:
         glolake_outflow = out[11]
         glowet_outflow = out[12]
         streamflow = np.where(self.drainage_direction < 0, np.nan , out[13])
+
+
         net_cell_runoff = out[14]
 
         updated_locallake_fraction = out[15]

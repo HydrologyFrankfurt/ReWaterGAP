@@ -297,7 +297,6 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                 groundwater_storage_out[x, y] = storage.item()
                 groundwater_discharge[x, y] = discharge.item()
                 actual_net_abstraction_gw[x, y] = actual_netabs_gw.item()
-
         # =========================================================================
         # 2. Compute groundwater storage for inland sink
         # =========================================================================
@@ -534,7 +533,6 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
                 accumulated_unsatisfied_potential_netabs_sw[x, y] = \
                     accu_unsatisfied_pot_netabstr_glolake
 
-
         #    -----------------------------------------------------------------
         #    || Resdistribute unsatisfied net abstraction to riparian cell  ||
         #    ||               for global lakes and reservoirs               ||
@@ -658,7 +656,6 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
         # =====================================================================
             # Outflow from global wetlands, the remaining flows from surface
             # runoff and all (semi)arid groundwater discharge are river inflows
-
             river_inflow[x, y] = inflow_to_swb
 
             if drainage_direction[x, y] >= 0:
@@ -669,7 +666,6 @@ def rout(rout_order, outflow_cell, drainage_direction, aridhumid,
             # ==========================
             # Output of "velocity_and_outflowconst" are
             # 0 = velocity (km/day),  1 =  outflow contstant (1/day)
-
             velocity_and_outflowconst = \
                 river.river_velocity(x, y,
                                      river_storage[x, y], river_length[x, y],
