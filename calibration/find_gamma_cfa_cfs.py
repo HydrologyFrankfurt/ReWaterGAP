@@ -479,7 +479,9 @@ def calibrate_parameters(initial_gamma):
         prev_upstreamcells = np.load(path)
         update_prev_upstreamcells = \
             {key: prev_upstreamcells[key] for key in prev_upstreamcells.files}
-        update_prev_upstreamcells["station_id"] = get_basin_arcid
+
+        update_prev_upstreamcells[station_id] = get_basin_arcid
+
         np.savez_compressed(path,  **update_prev_upstreamcells)
 
         calib_upstreamcells = [update_prev_upstreamcells[key] for key in update_prev_upstreamcells]
