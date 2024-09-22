@@ -335,7 +335,7 @@ class OptimizationState:
             # Limiting correction factor to range 0.5 - 1.5.
             cfa = np.where(cfa > 1.5, 1.5,  np.where(cfa < 0.5, 0.5, cfa))
 
-            print("Potential runoff in basin: ", abs_sum_pot_cell_runoff_calib_unit, "km/year") 
+            print("Potential runoff in basin: ", abs_sum_pot_cell_runoff_calib_unit, "km3/year") 
             print("Max CFA in basin: ", np.nanmax(cfa))
             print("Min CFA in basin: ",  np.nanmin(cfa))
 
