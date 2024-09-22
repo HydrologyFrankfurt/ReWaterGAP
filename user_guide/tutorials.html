@@ -1,0 +1,915 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tutorial (Under Development) &#8212; ReWaterGAP  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuration File" href="configuration_file.html" />
+    <link rel="prev" title="User Guide" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP  documentation - Home"/>
+    <script>document.write(`<img src="../_static/watergap_logo.png" class="logo__image only-dark" alt="ReWaterGAP  documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api_docs/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api_docs/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tutorial (Under Development)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration File</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Tutorial...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="tutorial-under-development">
+<span id="tutorials"></span><h1><a class="toc-backref" href="#id30" role="doc-backlink">Tutorial (Under Development)</a><a class="headerlink" href="#tutorial-under-development" title="Link to this heading">#</a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#tutorial-under-development" id="id30">Tutorial (Under Development)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#preparing-input-data" id="id31">Preparing Input Data</a></p>
+<ul>
+<li><p><a class="reference internal" href="#goethe-university-frankfurt-data-repository" id="id32">Goethe University Frankfurt Data Repository</a></p></li>
+<li><p><a class="reference internal" href="#installation-guide" id="id33">Installation Guide</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#running-water-gap-with-different-simulation-options-other-model-configurations" id="id34">Running Water Gap with different simulation options (other model configurations)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#naturalized-run" id="id35">Naturalized Run</a></p></li>
+<li><p><a class="reference internal" href="#standard-anthropogenic-run" id="id36">Standard anthropogenic Run</a></p></li>
+<li><p><a class="reference internal" href="#human-water-use-only" id="id37">Human Water Use only</a></p></li>
+<li><p><a class="reference internal" href="#reservoirs-only" id="id38">Reservoirs only</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#how-to-restart-watergap-from-saved-state" id="id39">How to Restart WaterGap from saved state</a></p>
+<ul>
+<li><p><a class="reference internal" href="#creating-a-saved-state" id="id40">Creating a saved state</a></p></li>
+<li><p><a class="reference internal" href="#running-the-simulation-from-saved-data" id="id41">Running the simulation from saved data</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#vizualizing-your-results-using-panopoly" id="id42">Vizualizing your results using Panopoly</a></p></li>
+<li><p><a class="reference internal" href="#running-watergap-with-gwswuse-under-development" id="id43">Running WaterGAP with GWSWUSE (under development)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#references" id="id44">References</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before following this tutorial, please follow the five minute guide found <a class="reference internal" href="../getting_started/five_minute_guide.html#five-minute-guide"><span class="std std-ref">here</span></a>.</p>
+</div>
+<section id="preparing-input-data">
+<span id="prepare-input-data"></span><h2><a class="toc-backref" href="#id31" role="doc-backlink">Preparing Input Data</a><a class="headerlink" href="#preparing-input-data" title="Link to this heading">#</a></h2>
+<p>In your WaterGap repository you will find an <strong>input_data</strong> folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this tutorial we will be running the simulation for the year 1989.</p>
+<section id="goethe-university-frankfurt-data-repository">
+<h3><a class="toc-backref" href="#id32" role="doc-backlink">Goethe University Frankfurt Data Repository</a><a class="headerlink" href="#goethe-university-frankfurt-data-repository" title="Link to this heading">#</a></h3>
+<p>A comprehensive list of available data from the Goethe University Frankfurt can be found here:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.25716/GUDE.0H3E-SBWV">Climate forcing GSWP3-ERA5</a> <a class="footnote-reference brackets" href="#id25" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.25716/GUDE.1BGX-87AA">Water use input and 20CRv3-ERA5 climate forcing</a> <a class="footnote-reference brackets" href="#id26" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.25716/GUDE.0H6A-SR8Q">Water use input and 20CRv3-W5E5 climate forcing</a> <a class="footnote-reference brackets" href="#id27" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.25716/GUDE.1VNN-DYCV">Water use input and GSWP3-ERA5 climate forcing</a> <a class="footnote-reference brackets" href="#id28" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.25716/GUDE.0296-3FD7">Water use input and GSWP3-W5E5 climate forcing</a> <a class="footnote-reference brackets" href="#id29" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></li>
+</ul>
+</section>
+<section id="installation-guide">
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">Installation Guide</a><a class="headerlink" href="#installation-guide" title="Link to this heading">#</a></h3>
+<section id="download-the-climate-forcing-data-of-your-choice">
+<h4>1) Download the climate forcing data of your choice.<a class="headerlink" href="#download-the-climate-forcing-data-of-your-choice" title="Link to this heading">#</a></h4>
+<p>To begin running WaterGAP we must download the necessary climate forcing data. In the following examples, we will be using the forcing “gswp3-w5e5_obsclim” from <a class="reference external" href="https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/gswp3-w5e5/obsclim/query//">ISIMIP</a> .</p>
+<p>The forcings from ISIMIP are sorted in groups of 10 years. We will be using the group of 1981 to 1990 as our example year of 1989 is in this group.
+The forcings required are:</p>
+<ul class="simple">
+<li><p>precipitation [kg m-2 s-1]; <a class="reference external" href="https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_pr_global_daily_1981_1990.nc">Link in ISIMIP</a></p></li>
+<li><p>downward longwave radiation [Wm-2]; <a class="reference external" href="https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rlds_global_daily_1981_1990.nc">Link in ISIMIP</a></p></li>
+<li><p>downward shortwave radiation [Wm-2]; <a class="reference external" href="https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_rsds_global_daily_1981_1990.nc">Link in ISIMIP</a></p></li>
+<li><p>temperature [K]; <a class="reference external" href="https://files.isimip.org/ISIMIP3a/InputData/climate/atmosphere/obsclim/global/daily/historical/GSWP3-W5E5/gswp3-w5e5_obsclim_tas_global_daily_1981_1990.nc">Link in ISIMIP</a></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure to remove the leap days (29th February) from the climate forcings if you are running the simulation for a leap year (WaterGap does not consider leap days).</p>
+</div>
+</section>
+<section id="download-the-water-use-data">
+<h4>2) Download the water use data<a class="headerlink" href="#download-the-water-use-data" title="Link to this heading">#</a></h4>
+<p>Next up we will need to download the necessary water use data. In the following examples, we will be using the forcing “gswp3-w5e5_obsclim” from the Goethe University Frankfurt.</p>
+<p>The forcings required are:</p>
+<ul class="simple">
+<li><p>potential consumptive use from irrigation using surface water <span class="math notranslate nohighlight">\([m3/month]\)</span></p></li>
+<li><p>potential water withdrawal use from irrigation using surface water <span class="math notranslate nohighlight">\([m3/month]\)</span></p></li>
+<li><p>potential net abstractions from surface water <span class="math notranslate nohighlight">\([m3/month]\)</span></p></li>
+<li><p>potential net abstractions from groundwater <span class="math notranslate nohighlight">\([m3/month]\)</span></p></li>
+</ul>
+<p>In the following tutorials we will be using data provided by Müller Schmied, H. and Nyenah, E. via the Goethe University Frankfurt which can be downloaded <a class="reference external" href="https://doi.org/10.25716/GUDE.0296-3FD7">here</a>. In this data leap days have already been removed.</p>
+</section>
+<section id="place-the-downloaded-data-into-their-correct-folders-in-the-repository">
+<h4>3) Place the downloaded data into their correct folders in the repository<a class="headerlink" href="#place-the-downloaded-data-into-their-correct-folders-in-the-repository" title="Link to this heading">#</a></h4>
+<p>Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to “input_data” and place the downloaded files in their correct folders as seen in the picture below:</p>
+<figure class="align-default">
+<img alt="../_images/input_data_folder.png" src="../_images/input_data_folder.png" />
+</figure>
+</section>
+</section>
+</section>
+<section id="running-water-gap-with-different-simulation-options-other-model-configurations">
+<h2><a class="toc-backref" href="#id34" role="doc-backlink">Running Water Gap with different simulation options (other model configurations)</a><a class="headerlink" href="#running-water-gap-with-different-simulation-options-other-model-configurations" title="Link to this heading">#</a></h2>
+<section id="naturalized-run">
+<span id="id9"></span><h3><a class="toc-backref" href="#id35" role="doc-backlink">Naturalized Run</a><a class="headerlink" href="#naturalized-run" title="Link to this heading">#</a></h3>
+<p>This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.</p>
+<p>To run Water Gap in a naturalized mode, find the tutorial in the <a class="reference internal" href="#naturalized-run"><span class="std std-ref">five minute guide here</span></a>.</p>
+</section>
+<section id="standard-anthropogenic-run">
+<span id="id10"></span><h3><a class="toc-backref" href="#id36" role="doc-backlink">Standard anthropogenic Run</a><a class="headerlink" href="#standard-anthropogenic-run" title="Link to this heading">#</a></h3>
+<p>The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.</p>
+<p>In the example below, we will create a standard run for one year (1989) and go through the necessary steps, step-by-step.</p>
+<p><strong>Prerequisites:</strong> You will need to clone WaterGAP and create an environment to run it in. If you haven’t done so already follow the <a class="reference internal" href="../getting_started/five_minute_guide.html#five-minute-guide"><span class="std std-ref">five minute guide</span></a> for this.</p>
+<section id="prepare-the-input-data">
+<span id="id11"></span><h4>1) Prepare the input data<a class="headerlink" href="#prepare-the-input-data" title="Link to this heading">#</a></h4>
+<p>Download all required climate forcing and water use data, remove all leap days, and place the data in the “input_data” folder in your ReWaterGAP repository as explained <span class="xref std std-ref">above</span>.</p>
+</section>
+<section id="set-up-the-configuration-file">
+<span id="modify-the-configuration-file-tutorial"></span><h4>2) Set up the configuration file<a class="headerlink" href="#set-up-the-configuration-file" title="Link to this heading">#</a></h4>
+<p>WaterGAP can be setup for your specific usecase. In the following we will be going through the various configuration options as well as the available output options and configuring the simulation for a standard anthropogenic run without restart. For a detailed description on the possible settings see our <a class="reference internal" href="configuration_file.html#configuration-file"><span class="std std-ref">guide to the configuration file</span></a>.</p>
+<p>To configure WaterGAP, go to your WaterGAP repository and navigate to “Config_ReWaterGAP.json” and open the configuration file.</p>
+<p><strong>2.1) File Paths</strong></p>
+<p>The first options in the configuration file regard input and output file paths. In this example, we will leave them unmodified. The locations for input and output data can be seen in the picture below.</p>
+<figure class="align-default">
+<img alt="../_images/input_directory_configuration_file.png" src="../_images/input_directory_configuration_file.png" />
+</figure>
+<p><strong>2.2) Runtime Options</strong></p>
+<p>In the configuration file find the runtime options. Then find the simulation options. Set all options under “AntNat_opts” to “true” and all options under “Demand_satisfaction_opts” to “true” to set up a standard anthropogenic run.</p>
+<figure class="align-default">
+<img alt="../_images/runtime_options_standard_run.png" src="../_images/runtime_options_standard_run.png" />
+</figure>
+<p><strong>2.3) Restart Options</strong></p>
+<p>In this run, WaterGap will not restart from a previous state. Under “restart_options” make sure each option is set to “false”.</p>
+<figure class="align-default">
+<img alt="../_images/restart_options_no_restart.png" src="../_images/restart_options_no_restart.png" />
+</figure>
+<p>To find more information on restart options find a tutorial on how to save and restart WaterGAP <a class="reference internal" href="#restart-from-saved-state"><span class="std std-ref">here</span></a>.</p>
+<p><strong>2.4) Simulation Period Options</strong></p>
+<p>In this example we are running the simulation for the year 1989. Under “SimulationPeriod” change the “start” date to “1989-01-01” and the “end” date to “1989-12-31”.
+For the reservoir operational years set the start and end years to “1989”.</p>
+<p>We will be using a five year spin-up period in this example. Set “spinup_years” to “5”.</p>
+<figure class="align-default">
+<img alt="../_images/simulation_period_options_tutorial.png" src="../_images/simulation_period_options_tutorial.png" />
+</figure>
+<p><strong>2.5) Time step</strong></p>
+<p>Under “time_step” set the resolution to “daily”.</p>
+<figure class="align-default">
+<img alt="../_images/time_step_daily.png" src="../_images/time_step_daily.png" />
+</figure>
+<p><strong>2.6) Simulation Extend</strong></p>
+<p>We will not be running WaterGAP for a basin in this example so set the “run_basin” option under “SimulationExtent” to “false”.</p>
+<p><strong>2.7) Output Variables</strong></p>
+<p>Any number of variables may be written out. In this example, we will only write out the “streamflow” variable. Under “LateralWaterBalanceFluxes” find “streamflow” and set it to “true”. Everything else should be set to “false”. For a detailed explanation on which variables can be written out see the <a class="reference internal" href="../Glossary/Index.html#glossary"><span class="std std-ref">glossary</span></a>.</p>
+<figure class="align-default">
+<img alt="../_images/output_variables_tutorial.png" src="../_images/output_variables_tutorial.png" />
+</figure>
+<p><strong>2.8) Save the configuration file</strong></p>
+<p>Save the configuration file</p>
+</section>
+<section id="run-the-simulation">
+<h4>3) Run the simulation<a class="headerlink" href="#run-the-simulation" title="Link to this heading">#</a></h4>
+<p>Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>run_watergap.py<span class="w"> </span>Config_ReWaterGAP.json
+</pre></div>
+</div>
+<p>In case of a problem find help in the <a class="reference internal" href="../getting_started/five_minute_guide.html#five-minute-guide"><span class="std std-ref">five minute guide</span></a>.</p>
+<p>If your run has been successful, your Terminal should look like this:</p>
+<figure class="align-default">
+<img alt="../_images/standard_run_successful_terminal.png" src="../_images/standard_run_successful_terminal.png" />
+</figure>
+<p>In your WaterGAP repository under “output_data” you will find a file named “dis_1989-12-31.nc”.</p>
+</section>
+<section id="visualize-your-results">
+<h4>4) Visualize your results<a class="headerlink" href="#visualize-your-results" title="Link to this heading">#</a></h4>
+<p>To visualize the output of any given simulation we suggest using <a class="reference external" href="https://www.giss.nasa.gov/tools/panoply/">Panopoly</a>. Find our guide to Panopoly <a class="reference internal" href="#visualize-using-panopoly"><span class="std std-ref">here</span></a>.</p>
+<p>For the year 1989 the result should look like this:</p>
+<figure class="align-default">
+<img alt="../_images/panopoly_standard_run_tutorial.png" src="../_images/panopoly_standard_run_tutorial.png" />
+</figure>
+</section>
+</section>
+<section id="human-water-use-only">
+<span id="id12"></span><h3><a class="toc-backref" href="#id37" role="doc-backlink">Human Water Use only</a><a class="headerlink" href="#human-water-use-only" title="Link to this heading">#</a></h3>
+<p>This simulation includes human water use but excludes global man-made reservoirs/regulated lakes. When creating a human-water-use-only run, the setup follows the standard run in all but one step. In the example below, we will create a human-water-use-only run for one year (1989) and go through the steps step-by-step.</p>
+<p><strong>Prerequisites:</strong> You will need to clone WaterGAP and create an environment to run it in. If you haven’t done so, follow the <a class="reference internal" href="../getting_started/five_minute_guide.html#five-minute-guide"><span class="std std-ref">five minute guide</span></a> for this.</p>
+<section id="id13">
+<h4>1) Prepare the input data.<a class="headerlink" href="#id13" title="Link to this heading">#</a></h4>
+<p>Download all required climate forcing and water use data, remove all leap days, and place the data in the “input_data” folder in your ReWaterGAP repository as explained <span class="xref std std-ref">above</span>.</p>
+</section>
+<section id="id14">
+<h4>2) Set up the configuration file<a class="headerlink" href="#id14" title="Link to this heading">#</a></h4>
+<p>The only difference between a standard and a human-water-use-only run are the simulation options. In your configuration file, under “SimulationOption” find “AntNat_opts”. Set “ant” to “true,” “subtract_use” to “true” and “res_opt” to “false” as seen in the picture <a class="reference internal" href="#use-only-run-example-picture"><span class="std std-ref">below</span></a>.</p>
+<figure class="align-default" id="use-only-run-example-picture">
+<img alt="../_images/runtime_options_use_only_run.png" src="../_images/runtime_options_use_only_run.png" />
+</figure>
+<p>Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described <a class="reference internal" href="#modify-the-configuration-file-tutorial"><span class="std std-ref">above</span></a> and save it.</p>
+</section>
+<section id="id15">
+<h4>3) Run the simulation<a class="headerlink" href="#id15" title="Link to this heading">#</a></h4>
+<p>Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>run_watergap.py<span class="w"> </span>Config_ReWaterGAP.json
+</pre></div>
+</div>
+<p>In case of a problem find help in the <a class="reference internal" href="../getting_started/five_minute_guide.html#five-minute-guide"><span class="std std-ref">five minute guide</span></a>.</p>
+<p>In your WaterGAP repository under “output_data” you will find a file named “dis_1989-12-31.nc”.</p>
+</section>
+<section id="id16">
+<h4>4) Visualize your results<a class="headerlink" href="#id16" title="Link to this heading">#</a></h4>
+<p>To visualize the output of any given simulation we suggest using <a class="reference external" href="https://www.giss.nasa.gov/tools/panoply/">Panopoly</a>. Find our guide to Panopoly <a class="reference internal" href="#visualize-using-panopoly"><span class="std std-ref">here</span></a>.</p>
+<p>For the year 1989 the result should look like this:</p>
+<figure class="align-default">
+<img alt="../_images/panopoly_use_only_run_tutorial.png" src="../_images/panopoly_use_only_run_tutorial.png" />
+</figure>
+</section>
+</section>
+<section id="reservoirs-only">
+<span id="id18"></span><h3><a class="toc-backref" href="#id38" role="doc-backlink">Reservoirs only</a><a class="headerlink" href="#reservoirs-only" title="Link to this heading">#</a></h3>
+<p>This simulation excludes human water use but includes global man-made reservoirs/regulated lakes. When creating a reservoirs-only run, the setup follows the standard run in all but one step. In the example below, we will create a reservoirs-only run for one year (1989) and go through the steps step-by-step.</p>
+<p><strong>Prerequisites:</strong> You will need to clone WaterGAP and create an environment to run it in. If you haven’t done so, follow the <a class="reference internal" href="../getting_started/five_minute_guide.html#five-minute-guide"><span class="std std-ref">five minute guide</span></a> for this.</p>
+<section id="id19">
+<h4>1) Prepare the input data.<a class="headerlink" href="#id19" title="Link to this heading">#</a></h4>
+<p>Download all required climate forcing and water use data, remove all leap days, and place the data in the “input_data” folder in your ReWaterGAP repository as explained <span class="xref std std-ref">above</span>.</p>
+</section>
+<section id="id20">
+<h4>2) Set up the configuration file<a class="headerlink" href="#id20" title="Link to this heading">#</a></h4>
+<p>The only difference between a standard and a reservoirs-only run are the simulation options. In your configuration file, under “SimulationOption” find “AntNat_opts”. Set “ant” to “true,” “subtract_use” to “false” and “res_opt” to “true” as seen in the picture <a class="reference internal" href="#reservoirs-only-run-example-picture"><span class="std std-ref">below</span></a>.</p>
+<figure class="align-default" id="reservoirs-only-run-example-picture">
+<img alt="../_images/runtime_options_reservoirs_only_run.png" src="../_images/runtime_options_reservoirs_only_run.png" />
+</figure>
+<p>Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described <a class="reference internal" href="#modify-the-configuration-file-tutorial"><span class="std std-ref">above</span></a> and save it.</p>
+</section>
+<section id="id21">
+<h4>3) Run the simulation<a class="headerlink" href="#id21" title="Link to this heading">#</a></h4>
+<p>Navigate to your ReWaterGAP folder in the terminal, activate your environment, and run WaterGAP using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>run_watergap.py<span class="w"> </span>Config_ReWaterGAP.json
+</pre></div>
+</div>
+<p>In case of a problem find help in the <a class="reference internal" href="../getting_started/five_minute_guide.html#five-minute-guide"><span class="std std-ref">five minute guide</span></a>.</p>
+<p>In your WaterGAP repository under “output_data” you will find a file named “dis_1989-12-31.nc”.</p>
+</section>
+<section id="visualizing-your-results-using-panopoly">
+<h4>4) Visualizing your results using Panopoly<a class="headerlink" href="#visualizing-your-results-using-panopoly" title="Link to this heading">#</a></h4>
+<p>To visualize the output of any given simulation we suggest using <a class="reference external" href="https://www.giss.nasa.gov/tools/panoply/">Panopoly</a>. Find our guide to Panopoly <a class="reference internal" href="#visualize-using-panopoly"><span class="std std-ref">here</span></a>.</p>
+<p>For the year 1989 the result should look like this:</p>
+<figure class="align-default">
+<img alt="../_images/panopoly_reservoirs_only_run_tutorial.png" src="../_images/panopoly_reservoirs_only_run_tutorial.png" />
+</figure>
+</section>
+</section>
+</section>
+<section id="how-to-restart-watergap-from-saved-state">
+<span id="restart-from-saved-state"></span><h2><a class="toc-backref" href="#id39" role="doc-backlink">How to Restart WaterGap from saved state</a><a class="headerlink" href="#how-to-restart-watergap-from-saved-state" title="Link to this heading">#</a></h2>
+<p>To run Watergap from a saved state, you must first save data from a previous simulation. In this tutorial, we will be looking at the previous example, where we ran the simulation for a <a class="reference internal" href="#standard-anthropogenic-run"><span class="std std-ref">standard anthropogenic run</span></a> for the year 1989, create a saved state, and then restart the simulation from this data to continue running for 1990.</p>
+<section id="creating-a-saved-state">
+<span id="id23"></span><h3><a class="toc-backref" href="#id40" role="doc-backlink">Creating a saved state</a><a class="headerlink" href="#creating-a-saved-state" title="Link to this heading">#</a></h3>
+<p>Restarting the simulation works for any of the simulation options (<a class="reference internal" href="#standard-anthropogenic-run"><span class="std std-ref">Standard Run</span></a>, <a class="reference internal" href="#naturalized-run"><span class="std std-ref">Naturalized Run</span></a>, <a class="reference internal" href="#human-water-use-only"><span class="std std-ref">Human Water Use</span></a> and <a class="reference internal" href="#reservoirs-only"><span class="std std-ref">Reservoirs only</span></a>). In this example, we will be creating a saved state for a <a class="reference internal" href="#standard-anthropogenic-run"><span class="std std-ref">standard anthropogenic run</span></a>.</p>
+<p>Before running the simulation we have to modify the configuration file. In your WaterGAP repository, navigate to “<strong>Config_ReWaterGAP.json</strong>”. Under “<strong>RestartOptions</strong>”, set “<strong>restart</strong>” to “false” and “<strong>save_model_states_for_restart</strong>” to “true”, as this is the run we will be creating the saved state from. On your computer create a folder to save the saved state data in. In this example, we will be using a folder under “Users/username/restart_data”. In your configuration file, set “<strong>save_and_read_states_dir</strong>” to the created directory, as shown in the <a class="reference external" href="saving_for_restart">image below</a> .</p>
+<figure class="align-default" id="saving-for-restart">
+<img alt="../_images/restart_options_saving.png" src="../_images/restart_options_saving.png" />
+</figure>
+<p>Then set your “<strong>SimulationPeriod</strong>” to the preferred year (In this example 1989) and the “<strong>spinup_years</strong>” to 5.</p>
+<figure class="align-default">
+<img alt="../_images/restart_options_simulation_period_before.png" src="../_images/restart_options_simulation_period_before.png" />
+</figure>
+<p>All other options and steps to run the simulation will remain as they are described under <a class="reference external" href="standard_anthropogenic_run">standard anthropogenic run</a>.</p>
+<figure class="align-default">
+<img alt="../_images/output_variables_tutorial.png" src="../_images/output_variables_tutorial.png" />
+</figure>
+<p>Run the simulation. You will then find your saved state data file “restartwatergap_1989-12-31.pickle” in your saved state directory (in this example under “Users/username/restart_data”).</p>
+<figure class="align-default">
+<img alt="../_images/restart_options_output_file.png" src="../_images/restart_options_output_file.png" />
+</figure>
+</section>
+<section id="running-the-simulation-from-saved-data">
+<h3><a class="toc-backref" href="#id41" role="doc-backlink">Running the simulation from saved data</a><a class="headerlink" href="#running-the-simulation-from-saved-data" title="Link to this heading">#</a></h3>
+<p>In this step we will be running the simulation from the previously saved state, for the year 1990, starting one day after the last day saved in the saved state. It is possible to run the simulation for any time period even beyond the one year used here.</p>
+<p>To run the simulation from a previously saved state go to the configuration file and navigate to “<strong>RestartOptions</strong>”. Set <strong>restart</strong> to “true” and “<strong>save_model_states_for_restart</strong>” to “false”, as this is the run we will be using the saved data for. Under “<strong>save_and_read_states_dir</strong>” set the path to the previously created directory holding your saved data (in this example under “Users/username/restart_data”).</p>
+<figure class="align-default">
+<img alt="../_images/restart_options_restarting.png" src="../_images/restart_options_restarting.png" />
+</figure>
+<p>When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it starting the day after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends and without a spin up, as the saved state already includes this data.</p>
+<p>All other options will remain as they are described under <a class="reference internal" href="#creating-a-saved-state"><span class="std std-ref">creating a saved state</span></a>.</p>
+<figure class="align-default">
+<img alt="../_images/restart_options_simulation_period_after.png" src="../_images/restart_options_simulation_period_after.png" />
+</figure>
+<p>Lastly, run the simulation with these options. To verify that everything is running as intended, you should receive this message in the terminal:</p>
+<figure class="align-default">
+<img alt="../_images/restart_options_terminal_restart_run_successful.png" src="../_images/restart_options_terminal_restart_run_successful.png" />
+</figure>
+</section>
+</section>
+<section id="vizualizing-your-results-using-panopoly">
+<span id="visualize-using-panopoly"></span><h2><a class="toc-backref" href="#id42" role="doc-backlink">Vizualizing your results using Panopoly</a><a class="headerlink" href="#vizualizing-your-results-using-panopoly" title="Link to this heading">#</a></h2>
+<p>To visualize the output of any given simulation we suggest using <a class="reference external" href="https://www.giss.nasa.gov/tools/panoply/">Panopoly</a>. You can use it to open the input files in NetCDF format or your output files after the simulation has finished running. In this Tutorial we will be using Panopoly to vizualize the output data of the <a class="reference internal" href="#standard-anthropogenic-run"><span class="std std-ref">standard anthropogenic run</span></a> for the year 1989.</p>
+<p>Begin by downloading and installing Panopoly. Then click on “file” -&gt; “open”. Navigate to your ReWaterGAP folder. Then to “output_data” and select the created file “dis_1989-12-31.nc”. Click on “open”.</p>
+<p>You should now see your data set. Double-click the “dis” file in “Geo2D” format and click create.</p>
+<figure class="align-default">
+<img alt="../_images/panopoly_map.png" src="../_images/panopoly_map.png" />
+</figure>
+<p>Once you see a world map, labeled “Streamflow or River discharge” go to “Window” -&gt; “Plot Controls” where you will see the time set to “1” of “365”. By increasing the time you will see the River discharge change visually on the map. We recommend changing the color scheme to “GMT_hot.cpt” under “Window” -&gt; “Color Tables Browser”.</p>
+<figure class="align-default">
+<img alt="../_images/panopoly_plot_controls.png" src="../_images/panopoly_plot_controls.png" />
+</figure>
+</section>
+<section id="running-watergap-with-gwswuse-under-development">
+<h2><a class="toc-backref" href="#id43" role="doc-backlink">Running WaterGAP with GWSWUSE (under development)</a><a class="headerlink" href="#running-watergap-with-gwswuse-under-development" title="Link to this heading">#</a></h2>
+<section id="references">
+<h3><a class="toc-backref" href="#id44" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id25" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Müller Schmied, H. and Nyenah, E.: Climate forcing GSWP3-ERA5 as input for the global hydrological model WaterGAP, <a class="reference external" href="https://doi.org/10.25716/GUDE.0H3E-SBWV">https://doi.org/10.25716/GUDE.0H3E-SBWV</a>, 19 June 2024a.</p>
+</aside>
+<aside class="footnote brackets" id="id26" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and 20CRv3-ERA5 climate forcing under historical setup of direct human impacts, <a class="reference external" href="https://doi.org/10.25716/GUDE.1BGX-87AA">https://doi.org/10.25716/GUDE.1BGX-87AA</a>, 19 June 2024b.</p>
+</aside>
+<aside class="footnote brackets" id="id27" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and 20CRv3-W5E5 climate forcing under historical setup of direct human impacts, <a class="reference external" href="https://doi.org/10.25716/GUDE.0H6A-SR8Q">https://doi.org/10.25716/GUDE.0H6A-SR8Q</a>, 19 June 2024c.</p>
+</aside>
+<aside class="footnote brackets" id="id28" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and GSWP3-ERA5 climate forcing under historical setup of direct human impacts, <a class="reference external" href="https://doi.org/10.25716/GUDE.1VNN-DYCV">https://doi.org/10.25716/GUDE.1VNN-DYCV</a>, 19 June 2024d.</p>
+</aside>
+<aside class="footnote brackets" id="id29" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Müller Schmied, H. and Nyenah, E.: Water use input for WaterGAP Global Hydrological Model (Python version) and GSWP3-W5E5 climate forcing under historical setup of direct human impacts, <a class="reference external" href="https://doi.org/10.25716/GUDE.0296-3FD7">https://doi.org/10.25716/GUDE.0296-3FD7</a>, 19 June 2024e.</p>
+</aside>
+</aside>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">User Guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="configuration_file.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Configuration File</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-input-data">Preparing Input Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goethe-university-frankfurt-data-repository">Goethe University Frankfurt Data Repository</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-guide">Installation Guide</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-climate-forcing-data-of-your-choice">1) Download the climate forcing data of your choice.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-water-use-data">2) Download the water use data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#place-the-downloaded-data-into-their-correct-folders-in-the-repository">3) Place the downloaded data into their correct folders in the repository</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-water-gap-with-different-simulation-options-other-model-configurations">Running Water Gap with different simulation options (other model configurations)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naturalized-run">Naturalized Run</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-anthropogenic-run">Standard anthropogenic Run</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-input-data">1) Prepare the input data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-configuration-file">2) Set up the configuration file</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-simulation">3) Run the simulation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-your-results">4) Visualize your results</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#human-water-use-only">Human Water Use only</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1) Prepare the input data.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">2) Set up the configuration file</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">3) Run the simulation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">4) Visualize your results</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reservoirs-only">Reservoirs only</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">1) Prepare the input data.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">2) Set up the configuration file</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">3) Run the simulation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-your-results-using-panopoly">4) Visualizing your results using Panopoly</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-restart-watergap-from-saved-state">How to Restart WaterGap from saved state</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-saved-state">Creating a saved state</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-simulation-from-saved-data">Running the simulation from saved data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vizualizing-your-results-using-panopoly">Vizualizing your results using Panopoly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-watergap-with-gwswuse-under-development">Running WaterGAP with GWSWUSE (under development)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/user_guide/tutorials.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
