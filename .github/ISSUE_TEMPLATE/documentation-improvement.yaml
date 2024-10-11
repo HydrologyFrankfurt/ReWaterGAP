@@ -1,0 +1,20 @@
+name: Documentation Improvement
+description: CHelp us improve our documentation!
+title: "DOC: "
+labels: ""
+
+body:
+  - type: textarea
+    id: location
+    attributes:
+      label: Location of the documentation
+      description: >
+        Please provide the location of the documentation in the form of a URL.
+      placeholder: >
+        e.g. "https://hydrologyfrankfurt.github.io/ReWaterGAP/api_docs/vertical_water_balance/leafareaindex.html#leafareaindex". 
+      render: markdown
+    validations:
+      required: true
+
+
+
