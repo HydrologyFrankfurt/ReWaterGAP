@@ -1,8 +1,8 @@
 .. _api_docs:
 
-=============
-API Reference
-=============
+================
+Model Functions
+================
 
 .. grid:: 1
     :gutter: 1
