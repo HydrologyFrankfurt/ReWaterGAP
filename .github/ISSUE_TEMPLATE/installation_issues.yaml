@@ -13,4 +13,11 @@ body:
       render: markdown
     validations:
       required: true
-
+- type: input
+    id: python version
+    attributes:
+      label: Python Version
+      description: >
+        Please provide the installed version of Python.
+    validations:
+      required: true
