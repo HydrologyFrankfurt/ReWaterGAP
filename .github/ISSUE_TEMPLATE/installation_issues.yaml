@@ -1,0 +1,16 @@
+name: Installation Issues
+description: Report Issues installing the model on your machine.
+title: "DOC: "
+
+body:
+  - type: textarea
+    id: specs
+    attributes:
+      label: System specs
+      description: >
+        Please provide a list of relevant system specs
+      placeholder: 
+      render: markdown
+    validations:
+      required: true
+
