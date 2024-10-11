@@ -5,45 +5,33 @@ labels: [Bug]
 
 body:
   - type: textarea
-    id: example
+    id: description
     attributes:
       label: Issue Description
       description: >
         What is the nature of the Bug you encountered?
       placeholder: Describe the Bug here.
-    
-      render: python
+      render: markdown
     validations:
       required: true
   - type: textarea
     id: problem
     attributes:
-      label: Issue Description
+      label: Expected Bahavior
       description: >
-        Please provide a description of the issue shown in the reproducible example.
+        Please provide a description of what you expected to happen.
     validations:
       required: true
   - type: textarea
-    id: expected-behavior
+    id: reproduction
     attributes:
-      label: Expected Behavior
+      label: Reproducing the example
       description: >
-        Please describe or show a code example of the expected behavior.
+        Steps to reproduce the behavior:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
     validations:
       required: true
-  - type: textarea
-    id: version
-    attributes:
-      label: Installed Versions
-      description: >
-        Please paste the output of ``pd.show_versions()``
-      value: >
-        <details>
 
-
-        Replace this line with the output of pd.show_versions()
-
-
-        </details>
-    validations:
-      required: true
