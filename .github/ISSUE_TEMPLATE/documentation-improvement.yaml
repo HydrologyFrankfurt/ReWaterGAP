@@ -1,7 +1,6 @@
 name: Documentation Improvement
 description: CHelp us improve our documentation!
 title: "DOC: "
-labels: ""
 
 body:
   - type: textarea
