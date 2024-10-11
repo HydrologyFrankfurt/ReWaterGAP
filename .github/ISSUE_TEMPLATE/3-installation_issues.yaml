@@ -1,6 +1,6 @@
 name: Installation Issues
 description: Report Issues installing the model on your machine.
-title: "DOC: "
+title: "INS: "
 
 body:
   - type: textarea
