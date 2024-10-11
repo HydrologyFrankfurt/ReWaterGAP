@@ -26,7 +26,8 @@ body:
     id: reproduction
     attributes:
       label: Reproducing the example
-      description: >
+      description: Please providea a step by step guide on how we can reproduce the error you found.
+      placeholder: >
         Steps to reproduce the behavior:
         1. Go to '...'
         2. Click on '....'
