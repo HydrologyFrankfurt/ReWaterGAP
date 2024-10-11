@@ -13,7 +13,7 @@ body:
     validations:
       required: true
   - type: input
-      id: python version
+      id: python
       attributes:
         label: Python Version
         description: Please provide the installed version of Python.
