@@ -28,7 +28,7 @@ body:
       label: Reproducing the example
       description: Please providea a step by step guide on how we can reproduce the error you found.
       placeholder: >
-        Steps to reproduce the behavior:
+        Steps to reproduce the bug:
         
         1. Go to '...'
         
