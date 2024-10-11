@@ -7,8 +7,7 @@ body:
     id: specs
     attributes:
       label: System specs
-      description: >
-        Please provide a list of relevant system specs
+      description: Please provide a list of relevant system specs
       placeholder: 
       render: markdown
     validations:
@@ -17,7 +16,6 @@ body:
       id: python version
       attributes:
         label: Python Version
-        description: >
-          Please provide the installed version of Python.
+        description: Please provide the installed version of Python.
       validations:
         required: true
