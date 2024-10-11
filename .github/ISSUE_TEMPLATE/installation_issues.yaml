@@ -13,9 +13,9 @@ body:
     validations:
       required: true
   - type: input
-      id: python
-      attributes:
-        label: Python Version
-        description: Please provide the installed version of Python.
-      validations:
-        required: true
+    id: python
+    attributes:
+      label: Python Version
+      description: Please provide the installed version of Python.
+    validations:
+      required: true
