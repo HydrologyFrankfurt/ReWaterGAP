@@ -1,5 +1,5 @@
 name: Documentation Improvement
-description: CHelp us improve our documentation!
+description: Help us improve our documentation!
 title: "DOC: "
 
 body:
@@ -14,6 +14,22 @@ body:
       render: markdown
     validations:
       required: true
-
-
+  - type: textarea
+    id: description
+    attributes:
+      label: Documentation problem
+      description: >
+        Please provide a description of what documentation you believe needs to be fixed/improved
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Suggested fix for documentation
+      description: >
+        Please explain the suggested fix and why it's better than the existing documentation
+      render: markdown
+    validations:
+      required: true
 
