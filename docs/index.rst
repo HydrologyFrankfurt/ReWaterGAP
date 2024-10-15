@@ -70,7 +70,7 @@ ReWaterGAP documentation
 
     getting_started/index
     user_guide/index
-    api_docs/index
+    model_processes/index
     contributers_guide/index
     glossary/index
 
