@@ -28,7 +28,7 @@ Model Processes
         :link: gwswuse
         :link-type: ref
 
-        :octicon:`issue-reopened`
+        :octicon:`issue-reopened;10em`
 
 
 
@@ -38,4 +38,5 @@ Model Processes
 
     vertical_water_balance/index
     lateral_water_balance/index
+    gwswuse/index
     
