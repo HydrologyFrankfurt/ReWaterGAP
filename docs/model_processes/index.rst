@@ -23,6 +23,12 @@ Model Processes
 
         :octicon:`arrow-right;10em`
 
+    .. grid-item-card:: Groundwater Surface Water Use
+        :text-align: center
+        :link: gwswuse
+        :link-type: ref
+
+
 .. toctree::
     :maxdepth: 2
     :hidden:
