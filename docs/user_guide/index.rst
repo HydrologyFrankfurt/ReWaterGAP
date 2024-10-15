@@ -16,7 +16,7 @@ User Guide
 
     .. grid-item-card::
         :text-align: center
-        :link:  api_docs
+        :link:  model_processes
         :link-type: ref
 
         Learn more about the functionalities of WaterGAP? Find the API References here. 
