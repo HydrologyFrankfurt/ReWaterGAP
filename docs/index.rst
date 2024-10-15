@@ -36,9 +36,9 @@ ReWaterGAP documentation
         The user guide provides in-depth information on the
         key concepts of ReWaterGAP with useful background information and explanation.
 
-    .. grid-item-card:: API Reference
+    .. grid-item-card:: Model Processes
         :text-align: center
-        :link:  api_docs
+        :link:  model_processes
         :link-type: ref
 
         :octicon:`gear;10em`
