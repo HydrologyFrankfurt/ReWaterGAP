@@ -1,7 +1,7 @@
 .. _api_docs:
 
 ================
-Model Functions
+Model Processes
 ================
 
 .. grid:: 1
