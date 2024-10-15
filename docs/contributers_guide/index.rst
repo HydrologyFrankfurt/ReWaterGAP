@@ -9,3 +9,4 @@ Contributers Guide
     :maxdepth: 1
     :hidden:
 
+    contributing_to_code
