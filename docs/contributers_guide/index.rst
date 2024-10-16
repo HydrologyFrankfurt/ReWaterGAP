@@ -20,17 +20,17 @@ Contributers Guide
 
     .. grid-item-card:: Improving the documentation
         :text-align: center
-        :link: 
+        :link: documentation_improvement
         :link-type: ref
 
     .. grid-item-card:: Installation Issues
         :text-align: center
-        :link: 
+        :link: installation_issues
         :link-type: ref
 
     .. grid-item-card:: Feature Request
         :text-align: center
-        :link: 
+        :link: feature_request
         :link-type: ref
 
 .. toctree::
