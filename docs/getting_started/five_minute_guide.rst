@@ -125,7 +125,7 @@ For the water use data see *Preparing Input Data* section under :ref:`tutorials 
 .. note::
 	The current model uses default parameters and is not yet calibrated. Calibration is in progress, and the model parameters will be updated once this process is complete.
 
-Note:  For the Naturalised run, make sure that anthropogenic run is set to false (**"ant": false**) in the **Config_ReWaterGAP.json** file (see image below).
+For the Naturalised run, make sure that anthropogenic run is set to false (**"ant": false**) in the **Config_ReWaterGAP.json** file (see image below).
 See :ref:`Tutorials <tutorials>` to run other model configurations.
 
 .. figure:: ../images/getting_started/runtime_options_naturalized_run.png
