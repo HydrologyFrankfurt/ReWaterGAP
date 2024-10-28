@@ -7,7 +7,7 @@ Configuration File GWSWUSE
 FilePath
 ########
 
-**inputDir: 
+inputDir
 
 Contains two paths:
 	- `input_data`: Path to the folder containing input data. This folder must have a specific structure for the data to be correctly matched and processed.
