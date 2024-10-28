@@ -355,9 +355,13 @@ Once you see a world map, labeled "Streamflow or River discharge" go to "Window"
 
 .. _installation_guide_gwswuse:
 
-**************************************************
+#################################################
 Running WaterGAP with GWSWUSE (under development)
-**************************************************
+#################################################
+
+************
+Installation
+************
 
 Prerequisites
 #############
@@ -369,6 +373,7 @@ To correctly install and run the ReGWSWUSE software, the following prerequisites
 
 **Python Libraries**
 The following libraries must be installed:
+
 - os
 - time
 - datetime
@@ -409,7 +414,6 @@ Open the terminal and navigate to the directory where you want to save the softw
 .. code-block:: bash
   git clone <repository_url>
 
-
 Change Directory
 ****************
 Navigate into the ReGWSWUSE directory:
@@ -417,19 +421,17 @@ Navigate into the ReGWSWUSE directory:
 .. code-block:: bash
   cd ReGWSWUSE
 
-
 Create and Activate an Environment
 **********************************
 Create a new environment (e.g., named "gwswuse") and install the required packages from the `requirements.txt` file:
 
 .. code-block:: bash
-mamba env create -f requirements.txt
+	mamba env create -f requirements.txt
 
 Activate the environment:
 
 .. code-block:: bash
-  conda activate gwswuse
-
+	conda activate gwswuse
 
 Input Data
 **********
@@ -483,7 +485,7 @@ Optional Input Data
 For the sectors domestic, manufacturing, livestock, and thermal power, sector-specific `fraction_gw_use` and `fraction_return_gw` can also be provided as optional input data. This requires the creation of a variable folder within the respective sector subfolders and placing the corresponding netCDF file in that folder.
 
 Configuration (`gwswuse_config.json`)
-*************************************
+**************************************
 To start GWSWUSE in WaterGap-2.2e mode, the configurations highlighted in the green box must be set:
 
 Configuration File Details
@@ -543,9 +545,9 @@ Running the Software
 
 Once installation is complete and the configuration file is prepared, the software can be executed:
 **Execution Command**:
-	- Open a terminal or command prompt.
-  	- Navigate to the directory containing the ReGWSWUSE files.
-  	- Use the following command to run ReGWSWUSE with the configuration file:
+ - Open a terminal or command prompt.
+ - Navigate to the directory containing the ReGWSWUSE files.
+ - Use the following command to run ReGWSWUSE with the configuration file:
 
 .. code-block:: bash
 	python run_regwswuse.py --config <path_to_config_file>
