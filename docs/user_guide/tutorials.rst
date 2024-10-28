@@ -353,10 +353,214 @@ Once you see a world map, labeled "Streamflow or River discharge" go to "Window"
 
 .. figure:: ../images/user_guide/tutorial/panopoly_plot_controls.png
 
+.. _installation_guide_gwswuse:
+
 **************************************************
 Running WaterGAP with GWSWUSE (under development)
 **************************************************
 
+Prerequisites
+#############
+
+To correctly install and run the ReGWSWUSE software, the following prerequisites must be met:
+
+**Programming Language**
+- Python 3.8 or higher: Ensure that Python is installed on your system in the appropriate version.
+
+**Python Libraries**
+The following libraries must be installed:
+- os
+- time
+- datetime
+- json
+- glob
+- numpy
+- pandas
+- dask
+- numba
+- xarray
+- openpyxl
+- termcolor
+- netcdf4
+- h5netcdf
+- termcolor
+
+If these libraries are not installed, they can be installed via the Mamba package manager. More information on how Mamba can be used can be found in their `official documentation <https://mamba.readthedocs.io/en/latest/user_guide/mamba.html>`_ .
+
+Installation Steps
+##################
+
+Follow these steps to to install ReGWSWUSE:
+
+Install Python
+**************
+
+Download the latest version of Python from the official Python website and install it if Python is not already installed on your system.
+
+Download python libraries
+*************************
+
+Download the libraries as they are listed under prerequisites.
+
+Clone the Repository
+********************
+Open the terminal and navigate to the directory where you want to save the software. Then execute the following command to clone the ReGWSWUSE repository:
+
+.. code-block:: bash
+  git clone <repository_url>
+
+
+Change Directory
+****************
+Navigate into the ReGWSWUSE directory:
+
+.. code-block:: bash
+  cd ReGWSWUSE
+
+
+Create and Activate an Environment
+**********************************
+Create a new environment (e.g., named "gwswuse") and install the required packages from the `requirements.txt` file:
+
+.. code-block:: bash
+mamba env create -f requirements.txt
+
+Activate the environment:
+
+.. code-block:: bash
+  conda activate gwswuse
+
+
+Input Data
+**********
+
+Input data must be located in a specified folder path indicated in the configuration file, following a defined directory structure. The structure of the input folder is precisely defined in the convention file (`gwswuse_convention`). It is based on a hierarchical organization by sectors and variables:
+
+- **Sector Requirements**: The sector names in the convention file specify which sector subfolders must be searched in the input data path. For example, the subfolder `irrigation` corresponds to the irrigation sector, while `domestic` refers to the household sector.
+  
+- **Expected Variables**: The expected variables specify from which variable subfolders within each sector NetCDF files should be read. These subfolders represent specific data categories, such as `consumptive_use_tot` (total consumptive water use), `fraction_gw_use` (fraction of consumptive groundwater use), etc.
+
+Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
+*********************************************************
+
+**Irrigation/**:
+- `consumptive_use_tot/`: [m³/month], monthly data (monthly potential irrigation consumptive water use)
+- `fraction_gw_use/`: [-], time-invariant (potential irrigation fraction of groundwater use)
+- `fraction_return_gw/`: [-], time-invariant (potential irrigation fraction of return flow to groundwater)
+- `irrigation_efficiency_sw/`: [-], time-invariant (Irrigation efficiency for surface water abstraction infrastructure)
+- `gwd_mask/`: [boolean], time-invariant (mask for groundwater depletion due to human water use greater than 5 mm/yr average for 1980–2009)
+- `abstraction_irr_part_mask/`: [boolean], time-invariant (mask for irrigation part of water abstraction greater than 5% during 1960–2000)
+
+**Domestic/**:
+- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential domestic consumptive water use)
+- `abstraction_tot/`: [m³/year], yearly data (yearly potential domestic water abstraction)
+- `fraction_gw_use/`: [-], time-invariant (potential domestic fraction of groundwater use)
+
+**Manufacturing/**:
+- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential manufacturing consumptive water use)
+- `abstraction_tot/`: [m³/year], yearly data (yearly potential manufacturing water abstraction)
+- `fraction_gw_use/`: [-], time-invariant (potential manufacturing fraction of groundwater use)
+
+**Thermal Power/**:
+- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential thermal power consumptive water use)
+- `abstraction_tot/`: [m³/year], yearly data (yearly potential thermal power water abstraction)
+
+**Livestock/**:
+- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential livestock consumptive water use)
+
+Additional Required Input Data for Other Configuration Settings
+***************************************************************
+
+If other configuration options are set, additional input data will be required, specifically for the irrigation sector:
+
+**Irrigation/**:
+- `fraction_aai_aei/`: [-], monthly data (fraction of areas actually irrigated to areas equipped for irrigation for 1901-2020)
+- `time_factor_aai/`: [-], monthly data (temporal development factor of national areas actually irrigated for 2016-2020 relative to 2015)
+
+Optional Input Data
+*******************
+
+For the sectors domestic, manufacturing, livestock, and thermal power, sector-specific `fraction_gw_use` and `fraction_return_gw` can also be provided as optional input data. This requires the creation of a variable folder within the respective sector subfolders and placing the corresponding netCDF file in that folder.
+
+Configuration (`gwswuse_config.json`)
+*************************************
+To start GWSWUSE in WaterGap-2.2e mode, the configurations highlighted in the green box must be set:
+
+Configuration File Details
+
+The configuration file contains several key sections defining various parameters and options:
+
+- **FilePath**:
+  - `inputDir`: Contains two paths:
+    - `input_data`: Path to the folder containing input data. This folder must have a specific structure for the data to be correctly matched and processed.
+    - `gwswuse_convention`: Path to the convention file that defines the conventions for data verification and processing.
+  - `outputDir`: Path to the folder where output data will be stored.
+
+- **RuntimeOptions**:
+  - `SimulationOption`:
+    - `time_extend_mode`: Controls how time-dependent input data is handled to ensure they cover the entire simulation period.
+    - `irrigation_efficiency_gw_mode`: Determines how irrigation efficiency with groundwater is calculated.
+    - `irrigation_input_based_on_aei`: Specifies how input data for irrigation-specific consumptive water use is interpreted.
+    - `correct_irr_simulation_by_t_aai`: Indicates whether the simulation should adjust for temporal changes in irrigated areas.
+    - `deficit_irrigation_mode`: Determines whether the simulation considers deficit irrigation in certain grid cells.
+
+  - **ParameterSetting**:
+    - `efficiency_gw_threshold`: Threshold for irrigation efficiency with groundwater.
+    - `deficit_irrigation_factor`: Reduction factor for irrigation in grid cells identified as deficient.
+
+  - **CellSpecificOutput**:
+    - `flag`: If true, sector-specific intermediate results for the grid cell closest to the coordinates in `CellSpecificOutput["coords"]` will be displayed in the CLI during the simulation.
+    - `coords`: A sub-dict for setting coordinates for the grid cell and timestep for displaying cell-specific results in the CLI:
+      - `Lat`: Latitude of the grid cell
+      - `Lon`: Longitude of the grid cell
+      - `Year`: Year
+      - `Month`: Month (for irrigation and total)
+
+- **OutputSelection**:
+  - **Description**: Determines which simulation results are saved and in what format they are output.
+    - `WGHM_input_run`: Controls whether the results are retained in memory for further use in a ReWGHM run.
+    - `Sectors`: Selection of sectors for which simulation results should be saved (e.g., irrigation, households, etc.).
+    - `GWSWUSE variables`: Defines which specific variables (e.g., `consumptive_use`, `abstraction`, `return_flow`, `net_abstraction`) for each water source (groundwater or surface water) should be saved.
+    - `Global_Annual_Totals`: Controls whether ReGWSWUSE generates a comprehensive overview of simulation results in an Excel file with global annual values.
+
+Running the Software
+####################
+
+The simulation in ReGWSWUSE is executed via the main program `run_regwswuse.py`. This script manages the entire simulation process and ensures that all modules and functions are called and executed in the correct order. This chapter explains how the main script works and how to use it to run the simulation.
+
+Main Program Execution
+######################
+
+Prerequisites
+*************
+
+- **Installation Completed**: Ensure that ReGWSWUSE has been successfully installed per the installation instructions (see Chapter 2.2).
+- **Configuration File**: Prepare the JSON configuration file containing all necessary settings for your simulation. This file should define paths to input data, the simulation period, specific simulation options, and output directories (see the "Configuration Module and File" chapter). Save the configuration file in the same directory as `run_regwswuse.py`.
+- **Input Data**: Ensure that the folder specified by `cm.input_data_path` in the configuration file is populated with the required input files. These files must meet the requirements set forth in the convention file (`gwswuse_convention`), including correct structure, variable names, units, and required spatial and temporal coverage.
+
+Running the Software
+********************
+
+Once installation is complete and the configuration file is prepared, the software can be executed:
+- **Execution Command**:
+  - Open a terminal or command prompt.
+  - Navigate to the directory containing the ReGWSWUSE files.
+  - Use the following command to run ReGWSWUSE with the configuration file:
+
+
+.. code-block:: bash
+python run_regwswuse.py --config <path_to_config_file>
+
+Checking Execution
+******************
+
+- **Console Output**:
+  During execution, the software will output progress and important information to the console. Pay attention to any error messages or indications that adjustments may be needed.
+  
+- **Result Storage**:
+The results will be saved in the output folder defined in the configuration file (`cm.output_dir`) and can subsequently be analyzed.
+
+By flexibly adjusting the configuration file and using the main script `run_regwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use.
 
 References 
 ##########
