@@ -41,3 +41,4 @@ User Guide
 
     tutorials
     configuration_file
+    configuration_file_gwswuse
