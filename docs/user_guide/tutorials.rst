@@ -495,7 +495,10 @@ Configuration File Details
 The configuration file contains several key sections defining various parameters and options:
 
 **FilePath**:
-- `inputDir`: Contains two paths:
+
+**inputDir: 
+
+Contains two paths:
 	- `input_data`: Path to the folder containing input data. This folder must have a specific structure for the data to be correctly matched and processed.
    	- `gwswuse_convention`: Path to the convention file that defines the conventions for data verification and processing.
   	- `outputDir`: Path to the folder where output data will be stored.
