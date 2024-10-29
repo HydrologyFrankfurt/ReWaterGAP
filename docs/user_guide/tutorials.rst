@@ -399,48 +399,51 @@ Installation Steps
 
 Follow these steps to to install ReGWSWUSE:
 
-Install Python
-**************
+Install Python and download libraries
+*************************************
 
 Download the latest version of Python from the official Python website and install it if Python is not already installed on your system.
+Then download the libraries as they are listed under prerequisites.
 
-Download python libraries
-*************************
+Clone the reGWSWUSE repository
+******************************
 
-Download the libraries as they are listed under prerequisites.
-
-Clone the Repository
-********************
-Open the terminal and navigate to the directory where you want to save the software. Then execute the following command to clone the ReGWSWUSE repository:
+Using the Terminal, navigate to the directory of choice where the ReGWSWUSE folder will be copied into. Then use the following command to clone the repository.
 
 .. code-block:: bash
 
-	$ git clone <repository_url>
+		$ git clone <repository_url>
 
-Change Directory
-****************
-Navigate into the ReGWSWUSE directory:
+Find more information in the official GitHub documentation `here <https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository>`__ .
 
-.. code-block:: bash
+Create an environment to run ReGWSWUSE in
+******************************************
 
-	$ cd ReGWSWUSE
-
-Create and Activate an Environment
-**********************************
-Create a new environment (e.g., named "gwswuse") and install the required packages from the `requirements.txt` file:
+Navigate to the ReGWSWUSE folder in the terminal using the following command.
 
 .. code-block:: bash
 
-	$ mamba env create -f requirements.txt
+	$ cd user/…/ReWaterGAP
+	
 
-Activate the environment:
+Create an environment (e.g. with the name "regwswuse") and install the required packages from the requirements.txt file by running the following command.
 
 .. code-block:: bash
 
-	$ conda activate gwswuse
+	example
 
-Input Data
-**********
+	$ mamba create --name regwswuse --file requirements.txt
+
+Activate the ReGWSWUSE environment using the following command.
+
+.. code-block:: bash
+
+	example
+
+	$ mamba activate regwswuse
+
+Preparing the Input Data
+########################
 
 Input data must be located in a specified folder path indicated in the configuration file, following a defined directory structure. The structure of the input folder is precisely defined in the convention file (`gwswuse_convention`). It is based on a hierarchical organization by sectors and variables:
 
@@ -504,18 +507,13 @@ Running the Software
 
 The simulation in ReGWSWUSE is executed via the main program `run_regwswuse.py`. This script manages the entire simulation process and ensures that all modules and functions are called and executed in the correct order. This chapter explains how the main script works and how to use it to run the simulation.
 
-Main Program Execution
-######################
-
-Prerequisites
-*************
-
+Before you run the simulation, make sure the previously described steps have been completed.
 - **Installation Completed**: Ensure that ReGWSWUSE has been successfully installed per the installation instructions (see Chapter 2.2).
-- **Configuration File**: Prepare the JSON configuration file containing all necessary settings for your simulation. This file should define paths to input data, the simulation period, specific simulation options, and output directories (see the "Configuration Module and File" chapter). Save the configuration file in the same directory as `run_regwswuse.py`.
-- **Input Data**: Ensure that the folder specified by `cm.input_data_path` in the configuration file is populated with the required input files. These files must meet the requirements set forth in the convention file (`gwswuse_convention`), including correct structure, variable names, units, and required spatial and temporal coverage.
+- **Configuration File preparation**: Prepare the JSON configuration file containing all necessary settings for your simulation. This file should define paths to input data, the simulation period, specific simulation options, and output directories (see the "Configuration Module and File" chapter). Save the configuration file in the same directory as `run_regwswuse.py`.
+- **Input Data preparation**: Ensure that the folder specified by `cm.input_data_path` in the configuration file is populated with the required input files. These files must meet the requirements set forth in the convention file (`gwswuse_convention`), including correct structure, variable names, units, and required spatial and temporal coverage.
 
-Running the Software
-********************
+Main Program Execution
+**********************
 
 Once installation is complete and the configuration file is prepared, the software can be executed:
 **Execution Command**:
