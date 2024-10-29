@@ -9,7 +9,7 @@ Groundwater Surface Water Use
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  simulation_logic_gwswuse
+        :link:  simulation_logic
         :link-type: ref
 
         Simulation Logic GWSWUSE
