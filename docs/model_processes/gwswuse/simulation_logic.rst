@@ -1,4 +1,4 @@
-.. simulation_logic_gwswuse:
+.. _simulation_logic_gwswuse:
 
 ################
 Simulation Logic
