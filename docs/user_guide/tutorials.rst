@@ -423,7 +423,7 @@ Navigate to the ReGWSWUSE folder in the terminal using the following command.
 
 .. code-block:: bash
 
-	$ cd user/…/ReWaterGAP
+	$ cd user/…/ReGWSWUSE
 	
 
 Create an environment (e.g. with the name "regwswuse") and install the required packages from the requirements.txt file by running the following command.
@@ -515,11 +515,7 @@ Before you run the simulation, make sure the previously described steps have bee
 Main Program Execution
 **********************
 
-Once installation is complete and the configuration file is prepared, the software can be executed:
-**Execution Command**:
- - Open a terminal or command prompt.
- - Navigate to the directory containing the ReGWSWUSE files.
- - Use the following command to run ReGWSWUSE with the configuration file:
+Once the installation is complete and the configuration file is prepared, the software can be executed. For this open a terminal, navigate to the directory containing the ReGWSWUSE files and use the following command to run ReGWSWUSE with the configuration file:
 
 .. code-block:: bash
 
@@ -528,11 +524,14 @@ Once installation is complete and the configuration file is prepared, the softwa
 Checking Execution
 ******************
 
-- **Console Output**:
-  During execution, the software will output progress and important information to the console. Pay attention to any error messages or indications that adjustments may be needed.
-  
-- **Result Storage**:
+**Console Output**:
+
+During execution, the software will output progress and important information to the console. Pay attention to any error messages or indications that adjustments may be needed. 
+
+**Result Storage**:
+
 The results will be saved in the output folder defined in the configuration file (`cm.output_dir`) and can subsequently be analyzed.
+
 
 By flexibly adjusting the configuration file and using the main script `run_regwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use.
 
