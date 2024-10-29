@@ -414,6 +414,7 @@ Clone the Repository
 Open the terminal and navigate to the directory where you want to save the software. Then execute the following command to clone the ReGWSWUSE repository:
 
 .. code-block:: bash
+
 	$ git clone <repository_url>
 
 Change Directory
@@ -421,6 +422,7 @@ Change Directory
 Navigate into the ReGWSWUSE directory:
 
 .. code-block:: bash
+
 	$ cd ReGWSWUSE
 
 Create and Activate an Environment
@@ -428,11 +430,13 @@ Create and Activate an Environment
 Create a new environment (e.g., named "gwswuse") and install the required packages from the `requirements.txt` file:
 
 .. code-block:: bash
+
 	$ mamba env create -f requirements.txt
 
 Activate the environment:
 
 .. code-block:: bash
+
 	$ conda activate gwswuse
 
 Input Data
@@ -520,6 +524,7 @@ Once installation is complete and the configuration file is prepared, the softwa
  - Use the following command to run ReGWSWUSE with the configuration file:
 
 .. code-block:: bash
+
 	$python run_regwswuse.py --config <path_to_config_file>
 
 Checking Execution
