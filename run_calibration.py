@@ -18,7 +18,7 @@ import json
 from termcolor import colored
 import pandas as pd
 import sys
-
+from calibration import merge_parameters
 
 class CalibrateStations:
     """Calibrate WaterGAP using all stations available."""
@@ -52,8 +52,9 @@ class CalibrateStations:
                     or "path_to_stations_file" in key or "path_to_observed_discharge" in key:
 
                     pass
-                elif  "ant" in key  or "subtract_use" in key or "res_opt" in key\
-                    or "delayed_use" in key  or 'actual_net_abstr_' in key:
+                elif "ant" in key or "subtract_use" in key or "res_opt" in key\
+                        or "delayed_use" in key or 'actual_net_abstr_' in key\
+                        or "maximum_soil_moisture" in key:
                     obj[key] = True
                 # handle "get_neighbouring_cells_map" first before
                 # "neighbouring cell" in demand satisfaction option to prevent
@@ -203,7 +204,7 @@ def main():
         # and  surface water. This will be the water use data for calibration)
         print('\n' + colored("Running Calibration step A...","magenta"))
         calib_watergap.modify_config_file()
-        # calib_watergap.run_watergap()
+        calib_watergap.run_watergap()
 
         # =====================================================================
         #  Set up files for calibration (generate config file for each station)
@@ -211,8 +212,8 @@ def main():
         print('\n' + colored("Generating station specific configuration files"
                              " for Calibration step B...", "magenta"))
 
-        subprocess.run(["python3", "-m", "calibration.calibration_setup",
-                        calib_watergap.config_path], check=True)
+        # subprocess.run(["python3", "-m", "calibration.calibration_setup",
+        #                 calib_watergap.config_path], check=True)
 
         # =====================================================================
         #                       Calibration step B
@@ -221,16 +222,28 @@ def main():
         # Optimise WaterGAP parameters
         print('\n' + colored("Running Calibration step B...", "magenta"))
         n = calib_watergap.get_number_of_basins()
+
         basin_ids = list(range(1, n+1))
 
         print('\n' + colored("Calibrating " + str(len(basin_ids))+" calibration region(s)...", "blue"))
         if mode == 'local':
-            calib_watergap.run_on_local_server(basin_ids, num_threads_or_nodes)
+            # calib_watergap.run_on_local_server(basin_ids, num_threads_or_nodes)
             print('\n' + colored("Calibration complete", "green"))
         elif mode == 'cluster':
             calib_watergap.run_on_cluster(basin_ids, num_threads_or_nodes)
         else:
             print("Invalid mode. Use 'local' or 'cluster'.")
+
+        # =====================================================================
+        #                       Calibration step c
+        # =====================================================================
+        # Here paramater regionlisation is computed for basins with no or
+        # limited observations. After, parameters are merged into a single
+        # netcdf.
+        print('\n' + colored("Running Regionlisation step C...", "magenta"))
+        merge_parameters.run_regionalization_merge_parameters()
+        absolute_param_path = os.path.abspath("./core/WaterGAP_2.2e_global_parameters.nc")
+        print('\n' + colored(f"Model parameters merged and saved to {absolute_param_path}", "green"))
 
     except KeyboardInterrupt:
         os.system("pkill -u $USER python3")
