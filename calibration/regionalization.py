@@ -160,7 +160,7 @@ def regionalize_paramters():
     calib_uncalib_regression = calib_uncalib_regression.drop(columns=['gamma'])
 
     combined_df_all_region = pd.merge(combined_df_all_region, calib_uncalib_regression, on="basin_identifier", how="outer")
-    combined_df_all_region.to_csv('regionlisation_all_region.csv', index=False)
+    combined_df_all_region.to_csv('./calibration/regionlisation_all_region.csv', index=False)
 
     gamma_out = combined_df_all_region[['Arc_ID', 'gamma', 'gamma_final']]
     gamma_out.to_csv('./calibration/Gamma_all_region.csv', index=False)
