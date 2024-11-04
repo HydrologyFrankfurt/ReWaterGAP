@@ -318,6 +318,11 @@ class CreateandWritetoVariables:
                     encoding = {key: {'chunksizes': [1, 360, 720, 2],
                                       "zlib": True,
                                       "complevel": 5}}
+                elif key == 'smax':
+                    path = self.path + f'{key}.nc'
+                    encoding = {key: {'_FillValue': 1e+20,
+                                      "zlib": True,
+                                      "complevel": 5}}
                 else:
                     encoding = {key: {'_FillValue': 1e+20,
                                       'chunksizes': [1, 360, 720],
