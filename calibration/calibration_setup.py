@@ -33,7 +33,7 @@ class SetupCalibration:
         self.start_year = int(cm.start.split("-")[0])
         self.end_year = int(cm.end.split("-")[0])
         self.config_path = './Config_ReWaterGAP.json'
-        self.dataset_path = '../nobackup/stations_per_superbasin.nc'
+        self.station_per_superbasin_path = '../nobackup/stations_per_superbasin.nc'
         self.calib_out_dir = "./calibration/calib_out/"
 
     def cleanup_simulation_files(self):
@@ -107,7 +107,7 @@ class SetupCalibration:
         None.
 
         """
-        self.super_basin = xr.open_dataarray(self.dataset_path)
+        self.super_basin = xr.open_dataarray(self.station_per_superbasin_path)
         unique_values_nan = np.unique(self.super_basin)
         self.unique_basin_values = unique_values_nan[~np.isnan(unique_values_nan)].astype(np.int32)
 
@@ -238,6 +238,9 @@ class SetupCalibration:
             ["actual_net_abstr_surfacewater"] = False
         config_file['RuntimeOptions'][0]['SimulationOption']\
             ['Demand_satisfaction_opts']['neighbouring_cell'] = False
+
+        config_file['OutputVariable'][1]["VerticalWaterBalanceStorages"]\
+            ["maximum_soil_moisture"] = False
 
         out_config_path = (
             f"{self.calib_out_dir}{basin_id}/station_config_files/"
