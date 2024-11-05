@@ -359,6 +359,15 @@ Lastly, run the command below to start WaterGAP:
 
 	$ python3 run_watergap.py Config_ReWaterGAP.json
 
+Visualize your results
+**********************
+
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
+
+For the year 1989 and the Mississippi basin the result should look like this:
+
+.. figure:: ../images/user_guide/tutorial/panopoly_mississippi.png
+
 ****************************************
 Vizualizing your results using Panopoly
 ****************************************
