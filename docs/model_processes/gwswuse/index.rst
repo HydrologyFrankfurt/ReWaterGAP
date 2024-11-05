@@ -9,28 +9,28 @@ Groundwater Surface Water Use
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  simulation_logic
+        :link:  simulation_logic_gwswuse
         :link-type: ref
 
         Simulation Logic GWSWUSE
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  irrigation_simulation
+        :link:  irrigation_gwswuse
         :link-type: ref
 
         Irrigation Simulation
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  domestic_simulation
+        :link:  domestic_simulation_gwswue
         :link-type: ref
 
         Domestic Simulation
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  manufacturing_simulation
+        :link:  manufacturing_simulation_gwswuse
         :link-type: ref
 
         Manufacturing Simulation
