@@ -341,9 +341,9 @@ Lastly, run the simulation with these options. To verify that everything is runn
 Running WaterGap for a specific basin (Under Development)
 *************************************
 
-In the example below, we will run WaterGap with a `standard run configuration <standard_anthropogenic_run>`_ for one year (1989) for the Mississippi basin.
+In the example below, we will run WaterGap with a :ref:`standard run configuration <standard_anthropogenic_run>` for one year (1989) for the Mississippi basin.
 
-Follow the standard run instructions for preparring the input data and setting up the configuration file from steps 2.1 through 2.5 `here <standard_anthropogenic_run>`_. Then, as an additional step set the "SimulationExtend" under "run_basin" to "true" in the configuration file.
+Follow the standard run instructions for preparring the input data and setting up the configuration file from steps 2.1 through 2.5 :ref:`here <standard_anthropogenic_run>`. Then, as an additional step set the "SimulationExtend" under "run_basin" to "true" in the configuration file.
 
 .. figure:: ../images/user_guide/tutorial/run_basin_true.png
 
