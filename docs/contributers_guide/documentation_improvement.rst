@@ -1,5 +1,5 @@
-.. _documentation_improvement
+.. _documentation_improvement:
 
-===========================
+###########################
 Improving the Documentation
-===========================
+###########################
