@@ -1,11 +1,11 @@
 .. _glossary:
 
-========
+########
 Glossary
-========
+########
 
 Standard Output Variables
--------------------------
+#########################
 
 .. csv-table::
    :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (in NetCDF) [1]_ ", "Description", "Unit"
@@ -57,7 +57,7 @@ Standard Output Variables
 
 
 Other Variables (Water Use)
--------------------------
+###########################
 
 .. csv-table:: 
    :header: "Name in configuration file (Config_ReWaterGAP.json)", "Long Name", "Variable name (in NetCDF) [1]_ ", "Description", "Unit"
@@ -72,6 +72,129 @@ Other Variables (Water Use)
    "get_neighbouring_cells_map","","","","kg m-2 s-1"
    "total_unsatisfied_demand_from_supply_to_all_demand_cell","","","","kg m-2 s-1"
 
+reGWSWUSE
+#########
 
+.. csv-table:: Consumptive Use
+   :header: "Variable Name", "Long Name"
+   :widths: 30, 70
+
+   "", "Consumptive water use in the irrigation sector"
+   "", "Consumptive water use in the domestic sector"
+   "", "Consumptive water use in the manufacturing sector"
+   "", "Consumptive water use in the thermal power sector"
+   "", "Consumptive water use in the livestock sector"
+   "", "Total consumptive use"
+   "", "Consumptive groundwater use in the irrigation sector"
+   "", "Consumptive groundwater use in the domestic sector"
+   "", "Consumptive groundwater use in the manufacturing sector"
+   "", "Consumptive groundwater use in the thermal power sector"
+   "", "Consumptive groundwater use in the livestock sector"
+   "", "Total consumptive groundwater use"
+   "", "Consumptive surface water use in the irrigation sector"
+   "", "Consumptive surface water use in the domestic sector"
+   "", "Consumptive surface water use in the manufacturing sector"
+   "", "Consumptive surface water use in the thermal power sector"
+   "", "Consumptive surface water use in the livestock sector"
+   "", "Total consumptive surface water use"
+
+.. csv-table:: Water Withdrawals
+   :header: "Variable Name", "Long Name"
+   :widths: 30, 70
+
+   "", "Water withdrawal in the irrigation sector"
+   "", "Water withdrawal in the domestic sector"
+   "", "Water withdrawal in the manufacturing sector"
+   "", "Water withdrawal in the thermal power sector"
+   "", "Water withdrawal in the livestock sector"
+   "", "Total water withdrawal"
+   "", "Groundwater withdrawal in the irrigation sector"
+   "", "Groundwater withdrawal in the domestic sector"
+   "", "Groundwater withdrawal in the manufacturing sector"
+   "", "Groundwater withdrawal in the thermal power sector"
+   "", "Groundwater withdrawal in the livestock sector"
+   "", "Total groundwater withdrawal"
+   "", "Surface water withdrawal in the irrigation sector"
+   "", "Surface water withdrawal in the domestic sector"
+   "", "Surface water withdrawal in the manufacturing sector"
+   "", "Surface water withdrawal in the thermal power sector"
+   "", "Surface water withdrawal in the livestock sector"
+   "", "Total surface water withdrawal"
+
+.. csv-table:: Returns
+   :header: "Variable Name", "Long Name"
+   :widths: 30, 70
+
+   "", "Returns of surplus water in the irrigation sector"
+   "", "Returns of surplus water in the domestic sector"
+   "", "Returns of surplus water in the manufacturing sector"
+   "", "Returns of surplus water in the thermal power sector"
+   "", "Returns of surplus water in the livestock sector"
+   "", "Total returns of surplus water"
+   "", "Returns to groundwater in the irrigation sector"
+   "", "Returns to groundwater in the domestic sector"
+   "", "Returns to groundwater in the manufacturing sector"
+   "", "Returns to groundwater in the thermal power sector"
+   "", "Returns to groundwater in the livestock sector"
+   "", "Total returns to groundwater"
+   "", "Returns to surface water in the domestic sector"
+   "", "Returns to surface water in the manufacturing sector"
+   "", "Returns to surface water in the thermal power sector"
+   "", "Returns to surface water in the livestock sector"
+   "", "Total returns to surface water"
+
+.. csv-table:: Net Abstractions
+   :header: "Variable Name", "Long Name"
+   :widths: 30, 70
+
+   "", "Net abstractions from groundwater in the irrigation sector"
+   "", "Net abstractions from groundwater in the domestic sector"
+   "", "Net abstractions from groundwater in the manufacturing sector"
+   "", "Net abstractions from groundwater in the thermal power sector"
+   "", "Net abstractions from groundwater in the livestock sector"
+   "", "Total net abstractions from groundwater"
+   "", "Net abstractions from surface water in the irrigation sector"
+   "", "Net abstractions from surface water in the domestic sector"
+   "", "Net abstractions from surface water in the manufacturing sector"
+   "", "Net abstractions from surface water in the thermal power sector"
+   "", "Net abstractions from surface water in the livestock sector"
+   "", "Total net abstractions from surface water"
+
+.. csv-table:: Relative Shares
+   :header: "Variable Name", "Long Name"
+   :widths: 30, 70
+
+   "", "Relative share of groundwater use in the irrigation sector"
+   "", "Relative share of groundwater use in the domestic sector"
+   "", "Relative share of groundwater use in the manufacturing sector"
+   "", "Relative share of groundwater use in the thermal power sector"
+   "", "Relative share of groundwater use in the livestock sector"
+   "", "Relative share of returns to groundwater in the irrigation sector"
+   "", "Relative share of returns to groundwater in the domestic sector"
+   "", "Relative share of returns to groundwater in the manufacturing sector"
+   "", "Relative share of returns to groundwater in the thermal power sector"
+   "", "Relative share of returns to groundwater in the livestock sector"
+
+.. csv-table:: Irrigation Efficiency
+   :header: "Variable Name", "Long Name"
+   :widths: 30, 70
+
+   "", "Irrigation efficiency for groundwater"
+   "", "Irrigation efficiency for surface water"
+   "", "Threshold for setting irrigation efficiency for groundwater"
+
+.. csv-table:: Others
+   :header: "Variable Name", "Long Name"
+   :widths: 30, 70
+   "", ""
+   "", ""
+   "", ""
+   "", ""
+   "", ""
+   "", ""
+
+
+Fererences
+##########
 
 .. [1] Output variables are named according to the ISIMIP simulation protocol. See section 4 Output data: https://protocol.isimip.org/#4-output-data
