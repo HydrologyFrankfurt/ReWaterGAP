@@ -19,4 +19,4 @@ Groundwater Surface Water Use
     :maxdepth: 1
     :hidden:
 
-    simulation_logic_gwswuse
+    simulation_logic
