@@ -1,7 +1,7 @@
-.. _installation_issues
+.. _installation_issues:
 
-===================
+###################
 Installation Issues
-===================
+###################
 
-text
+
