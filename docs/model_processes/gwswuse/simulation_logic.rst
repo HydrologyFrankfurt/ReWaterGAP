@@ -176,13 +176,13 @@ The simulation starts with preprocessing of the input potential consumptive wate
 1. **Configuration Setting: cm.irr_input_based_on**  
    This setting is applied first:
 
-..math:
+.. math::
 
 
 2. **Correction with Time Factor (t_aai)**  
    Based on the configuration option `cm.correct_irr_by_t_aai`, the potential consumptive water use, :math:`irr.cu_tot`, for the years 2016 to 2020 is adjusted using the time factor :math:t_aai` (time_factor_aai).
 
-..math:
+.. math::
 	
 
 3. **Deficit Irrigation Mode (`cm.deficit_irrigation_mode`)**  
@@ -193,10 +193,10 @@ Calculation of Groundwater and Surface Water Use
 
 Using a time-invariant, irrigation-specific raster that represents the relative shares of groundwater use in the irrigation sector, :math:`irr.fraction_gw_use`, the potential consumptive use of groundwater and surface water is calculated.
 
-..math:
+.. math::
 	
 
-..math:
+.. math::
 	
 
 
@@ -253,18 +253,18 @@ Consumptive Water Use and Abstraction from Groundwater and Surface Water
 
 For consumptive groundwater use (:math:`CU_{gw,dom}`) and surface water use (:math:`CU_{sw,dom}`) in the domestic sector:
 
-..math:
+.. math::
 	CU_{gw,dom}(y,id) = CU_{tot,dom}(y,id) * f_{gw,dom}(id)
 
-..math:
+.. math::
 	CU_{sw,dom}(y,id) = CU_{tot,dom}(y,id) * (1 - f_{gw,dom}(id))
 
 For water abstractions from groundwater (:math:`WU_{gw,dom}`) and surface water (:math:`WU_{sw,dom}`) in the domestic sector:
 
-..math:
+.. math::
 	WU_{gw,dom}(y,id) = WU_{tot,dom}(y,id) * f_{gw,dom}(id)
 
-..math:
+.. math::
 	WU_{sw,dom}(y,id) = WU_{tot,dom}(y,id) * (1 - f_{gw,dom}(id))
 
 
@@ -274,13 +274,13 @@ Calculation of Return Flows
 Manufacturing-specific return flows are calculated analogously to irrigation and domestic sector return flows. First, the total return flows from manufacturing water use (:math:`RF_{tot,dom}`) are calculated, followed by the division of these flows into groundwater (:math:`RF_{gw,dom}`) and surface water (:math:`RF_{sw,dom}`), according to the relative share of return flows to groundwater within total manufacturing sector returns (:math:`f_{return,gw,dom }`):
 
 
-..math:
+.. math::
 	RF_{tot,dom}(y,id) = WU_{tot,dom}(y,id) - CU_{tot,dom}(y,id)
 
-..math:
+.. math::
 	RF_{gw,dom}(y,id) = RF_{tot,dom}(y,id) * f_{return,gw,dom}(,id)
 
-..math:
+.. math::
 	RF_{sw,dom}(y,id) = RF_{tot,dom}(y,id) * (1 - f_{return,gw,dom}(id))
 
 
@@ -289,10 +289,10 @@ Calculation of Net Abstractions
 
 Net abstractions for groundwater (:math:`NA_{gw,dom}`) and surface water (:math:`NA_{sw,dom}`) in the domestic sector are calculated similarly:
 
-..math:
+.. math::
 	NA_{gw,dom}(y,id) = WU_{gw,dom}(y,id) - RF_{gw,dom}(y,id)
 
-..math:
+.. math::
 	NA_{sw,dom}(y,id) = WU_{sw,dom}(y,id) - RF_{sw,dom}(y,id)
 
 ************************
@@ -324,18 +324,18 @@ Consumptive Water Use and Abstraction from Groundwater and Surface Water
 
 For consumptive groundwater use (:math:`CU_{gw,man}`) and surface water use (:math:`CU_{sw,man}`) in the manufacturing sector:
 
-..math:
+.. math::
 	CU_{gw,man}(y,id) = CU_{tot,man}(y,id) * f_{gw,man}(id)
 
-..math:
+.. math::
 	CU_{sw,man}(y,id) = CU_{tot,man}(y,id) * (1 - f_{gw,man}(id))
 
 For water abstractions from groundwater (:math:`WU_{gw,man}`) and surface water (:math:`WU_{sw,man}`) in the manufacturing sector:
 
-..math:
+.. math::
 	WU_{gw,man}(y,id) = WU_{tot,man}(y,id) * f_{gw,man}(id)
 
-..math:
+.. math::
 	WU_{sw,man}(y,id) = WU_{tot,man}(y,id) * (1 - f_{gw,man}(id))
 
 
@@ -345,13 +345,13 @@ Calculation of Return Flows
 Manufacturing-specific return flows are calculated analogously to irrigation and domestic sector return flows. First, the total return flows from manufacturing water use (:math:`RF_{tot,man}`) are calculated, followed by the division of these flows into groundwater (:math:`RF_{gw,man}`) and surface water (:math:`RF_{sw,man}`), according to the relative share of return flows to groundwater within total manufacturing sector returns (:math:`f_{return,gw,man }`):
 
 
-..math:
+.. math::
 	RF_{tot,man}(y,id) = WU_{tot,man}(y,id) - CU_{tot,man}(y,id)
 
-..math:
+.. math::
 	RF_{gw,man}(y,id) = RF_{tot,man}(y,id) * f_{return,gw,man}(,id)
 
-..math:
+.. math::
 	RF_{sw,man}(y,id) = RF_{tot,man}(y,id) * (1 - f_{return,gw,man}(id))
 
 
@@ -360,10 +360,10 @@ Calculation of Net Abstractions
 
 Net abstractions for groundwater (:math:`NA_{gw,man}`) and surface water (:math:`NA_{sw,man}`) in the manufacturing sector are calculated similarly:
 
-..math:
+.. math::
 	NA_{gw,man}(y,id) = WU_{gw,man}(y,id) - RF_{gw,man}(y,id)
 
-..math:
+.. math::
 	NA_{sw,man}(y,id) = WU_{sw,man}(y,id) - RF_{sw,man}(y,id)
 
 ************************
@@ -395,19 +395,19 @@ Consumptive Water Use and Abstraction from Groundwater and Surface Water
 
 For consumptive groundwater use (:math:`CU_{gw,tp}`) and surface water use (:math:`CU_{sw,tp}`) in the thermal power sector:
 
-..math:
+.. math::
 	CU_{gw,tp}(y,id) = CU_{tot,tp}(y,id) * f_{gw,tp}(id)
 
-..math:
+.. math::
 	CU_{sw,tp}(y,id) = CU_{tot,tp}(y,id) * (1 - f_{gw,tp}(id))
 
 
 For water abstractions from groundwater (:math:`WU_{gw,liv}`) and surface water (:math:`WU_{sw,liv}`) in the thermal power sector:
 
-..math:
+.. math::
 	WU_{gw,liv}(y,id) = WU_{tot,liv}(y,id) * f_{gw,liv}(id)
 
-..math:
+.. math::
 	WU_{sw,liv}(y,id) = WU_{tot,liv}(y,id) * (1 - f_{gw,liv}(id))
 
 Calculation of Return Flows
@@ -415,13 +415,13 @@ Calculation of Return Flows
 
 Thermal Power-specific return flows are calculated analogously to irrigation and domestic sector return flows. First, the total return flows from thermal power water use (:math:`RF_{tot,tp}`) are calculated, followed by the division of these flows into groundwater (:math:`RF_{gw,tp}`) and surface water (:math:`RF_{sw,tp}`), according to the relative share of return flows to groundwater within total thermal power sector returns (:math:`f_{return,gw,tp}`):
 
-..math:
+.. math::
 	RF_{tot,tp}(y,id) = WU_{tot,tp}(y,id) - CU_{tot,tp}(y,id)
 
-..math:
+.. math::
 	RF_{gw,tp}(y,id) = RF_{tot,tp}(y,id) * f_{return,gw,tp}(,id)
 
-..math:
+.. math::
 	RF_{sw,tp}(y,id) = RF_{tot,tp}(y,id) * (1 - f_{return,gw,tp}(id))
 
 Calculation of Net Abstractions
@@ -429,10 +429,10 @@ Calculation of Net Abstractions
 
 Net abstractions for groundwater (:math:`NA_{gw,man}`) and surface water (:math:`NA_{sw,man}`) in the manufacturing sector are calculated similarly:
 
-..math:
+.. math::
 	NA_{gw,tp}(y,id) = WU_{gw,tp}(y,id) - RF_{gw,tp}(y,id)
 
-..math:
+.. math::
 	NA_{sw,tp}(y,id) = WU_{sw,tp}(y,id) - RF_{sw,tp}(y,id)
 
 
@@ -465,18 +465,18 @@ Consumptive Water Use and Abstraction from Groundwater and Surface Water
 
 For consumptive groundwater use (:math:`CU_{gw,liv}`) and surface water use (:math:`CU_{sw,liv}`) in the livestock sector:
 
-..math:
+.. math::
 	CU_{gw,liv}(y,id) = CU_{tot,liv}(y,id) * f_{gw,liv}(id)
 
-..math:
+.. math::
 	CU_{sw,liv}(y,id) = CU_{tot,liv}(y,id) * (1 - f_{gw,liv}(id))
 
 For water abstractions from groundwater (:math:`WU_{gw,liv}`) and surface water (:math:`WU_{sw,liv}`) in the manufacturing sector:
 
-..math:
+.. math::
 	WU_{gw,liv}(y,id) = WU_{tot,liv}(y,id) * f_{gw,liv}(id)
 
-..math:
+.. math::
 	WU_{sw,liv}(y,id) = WU_{tot,liv}(y,id) * (1 - f_{gw,liv}(id))
 
 
@@ -486,13 +486,13 @@ Calculation of Return Flows
 Manufacturing-specific return flows are calculated analogously to irrigation and domestic sector return flows. First, the total return flows from livestock water use (:math:`RF_{tot,liv}`) are calculated, followed by the division of these flows into groundwater (:math:`RF_{gw,liv}`) and surface water (:math:`RF_{sw,liv}`), according to the relative share of return flows to groundwater within total livestock sector returns (:math:`f_{return,gw,liv}`):
 
 
-..math:
+.. math::
 	RF_{tot,liv}(y,id) = WU_{tot,liv}(y,id) - CU_{tot,liv}(y,id)
 
-..math:
+.. math::
 	RF_{gw,liv}(y,id) = RF_{tot,liv}(y,id) * f_{return,gw,liv}(,id)
 
-..math:
+.. math::
 	RF_{sw,liv}(y,id) = RF_{tot,liv}(y,id) * (1 - f_{return,gw,liv}(id))
 
 
@@ -501,10 +501,10 @@ Calculation of Net Abstractions
 
 Net abstractions for groundwater (:math:`NA_{gw,liv}`) and surface water (:math:`NA_{sw,liv}`) in the livestock sector are calculated similarly:
 
-..math:
+.. math::
 	NA_{gw,liv}(y,id) = WU_{gw,liv}(y,id) - RF_{gw,liv}(y,id)
 
-..math:
+.. math::
 	NA_{sw,liv}(y,id) = WU_{sw,liv}(y,id) - RF_{sw,liv}(y,id)
 
 
@@ -517,55 +517,55 @@ After calculating sector-specific results for consumptive uses, water withdrawal
 Consumptive Wateruse
 ********************
 
-..math:
+.. math::
 	CU_{tot}(y,m,id) = CU_{tot,irr}(y,m,id) + \frac{CU_{tot,dom}(y,id) + CU_{tot, man}(y,id) + CU_{tot,tp}(y,id) + CU_{tot,liv}(y,id)}{365 d/year} * \frac{#days(m)}{month}
 
 
-..math:
+.. math::
 	CU_{gw}(y,m,id) = CU_{gw,irr}(y,m,id) + \frac{CU_{gw,dom}(y,id) + CU_{gw, man}(y,id) + CU_{gw,tp}(y,id) + CU_{gw,liv}(y,id)}{365 d/year} * \frac{#days(m)}{month}
 
-..math:
+.. math::
 	CU_{sw}(y,m,id) = CU_{sw,irr}(y,m,id) + \frac{CU_{sw,dom}(y,id) + CU_{sw, man}(y,id) + CU_{sw,tp}(y,id) + CU_{sw,liv}(y,id)}{365 d/year} * \frac{#days(m)}{month}
 
 
 Wateruse
 ********
-..math:
+.. math::
 	WU_{tot}(y,m,id) = WU_{tot,irr}(y,m,id) + \frac{WU_{tot,dom}(y,id) + WU_{tot,man}(y,id) + WU_{tot,tp}(y,id) + WU_{tot,liv}(y,id)}{365 d / year} * \frac{#days(m)}{month}
 
-..math:
+.. math::
 	WU_{gw}(y,m,id) = WU_{gw,irr}(y,m,id) + \frac{WU_{gw,dom}(y,id) + WU_{gw,man}(y,id) + WU_{gw,tp}(y,id) + WU_{gw,liv}(y,id)}{365 d / year} * \frac{#days(m)}{month}
 
-..math:
+.. math::
 	WU_{sw}(y,m,id) = WU_{sw,irr}(y,m,id) + \frac{WU_{sw,dom}(y,id) + WU_{sw,man}(y,id) + WU_{sw,tp}(y,id) + WU_{sw,liv}(y,id)}{365 d / year} * \frac{#days(m)}{month}
 
-..math:
+.. math::
 	WU_{tot}(y,m,id) = WU_{tot,irr}(y,m,id) + WU_{tot,dom}(y,id) + WU_{tot,man}(y,id) + WU_{tot,tp}(y,id) + WU_{tot,liv}(y,id)
 
-..math:
+.. math::
 	WU_{gw}(y,m,id) = WU_{gw,irr}(y,m,id) + WU_{gw,dom}(y,id) + WU_{gw,man}(y,id) + WU_{gw,tp}(y,id) + WU_{gw,liv}(y,id)
 
-..math:
+.. math::
 	WU_{sw}(y,m,id) = WU_{sw,irr}(y,m,id) + WU_{sw,dom}(y,id) + WU_{sw,man}(y,id) + WU_{sw,tp}(y,id) + WU_{sw,liv}(y,id)
 
 Returns
 *******
 
-..math:
+.. math::
 	RF_{tot}(y,m,id) = RF_{tot,irr}(y,m,id) + \frac{RF_{tot,dom}(y,id) + RF_{tot,man}(y,id) + RF_{tot,tp}(y,id) + RF_{tot,liv}(y,id)}{365 d/year} * \frac{#days(m)}{month}
 
-..math:
+.. math::
 	RF_{gw}(y,m,id) = RF_{gw,irr}(y,m,id) + \frac{RF_{gw,dom}(y,id) + RF_{gw,man}(y,id) + RF_{gw,tp}(y,id) + RF_{gw,liv}(y,id)}{365 d/year} * \frac{#days(m)}{month}
 
-..math:
+.. math::
 	RF_{sw}(y,m,id) = RF_{sw,irr}(y,m,id) + \frac{RF_{sw,dom}(y,id) + RF_{sw,man}(y,id) + RF_{sw,tp}(y,id) + RF_{sw,liv}(y,id)}{365 d/year} * \frac{#days(m)}{month}
 
 
 Net Abstractions
 ****************
 
-..math:
+.. math::
 	NA_{gw}(y,m,id) = NA_{gw,irr}(y,m,id) + \frac{NA_{gw,dom}(y,id) + NA_{gw, man}(y,id) + NA_{gw,tp}(y,id) + NA_{gw,liv}(y,id)}{365 d/year} * \frac{#days(m)}{month}
 
-..math:
+.. math::
 	NA_{sw}(y,m,id) = NA_{sw,irr}(y,m,id) + \frac{NA_{sw,dom}(y,id)+NA_{sw, man}(y,id) + NA_{sw,tp}(y,id) + NA_{sw,liv}(y,id)}{365 d/year} * \frac{#days(m)}{month}
