@@ -455,29 +455,29 @@ Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
 *********************************************************
 
 **Irrigation/**:
-- `consumptive_use_tot/`: [m³/month], monthly data (monthly potential irrigation consumptive water use)
-- `fraction_gw_use/`: [-], time-invariant (potential irrigation fraction of groundwater use)
-- `fraction_return_gw/`: [-], time-invariant (potential irrigation fraction of return flow to groundwater)
-- `irrigation_efficiency_sw/`: [-], time-invariant (Irrigation efficiency for surface water abstraction infrastructure)
-- `gwd_mask/`: [boolean], time-invariant (mask for groundwater depletion due to human water use greater than 5 mm/yr average for 1980–2009)
-- `abstraction_irr_part_mask/`: [boolean], time-invariant (mask for irrigation part of water abstraction greater than 5% during 1960–2000)
+	- `consumptive_use_tot/`: [m³/month], monthly data (monthly potential irrigation consumptive water use)
+	- `fraction_gw_use/`: [-], time-invariant (potential irrigation fraction of groundwater use)
+	- `fraction_return_gw/`: [-], time-invariant (potential irrigation fraction of return flow to groundwater)
+	- `irrigation_efficiency_sw/`: [-], time-invariant (Irrigation efficiency for surface water abstraction infrastructure)
+	- `gwd_mask/`: [boolean], time-invariant (mask for groundwater depletion due to human water use greater than 5 mm/yr average for 1980–2009)
+	- `abstraction_irr_part_mask/`: [boolean], time-invariant (mask for irrigation part of water abstraction greater than 5% during 1960–2000)
 
 **Domestic/**:
-- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential domestic consumptive water use)
-- `abstraction_tot/`: [m³/year], yearly data (yearly potential domestic water abstraction)
-- `fraction_gw_use/`: [-], time-invariant (potential domestic fraction of groundwater use)
+	- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential domestic consumptive water use)
+	- `abstraction_tot/`: [m³/year], yearly data (yearly potential domestic water abstraction)
+	- `fraction_gw_use/`: [-], time-invariant (potential domestic fraction of groundwater use)
 
 **Manufacturing/**:
-- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential manufacturing consumptive water use)
-- `abstraction_tot/`: [m³/year], yearly data (yearly potential manufacturing water abstraction)
-- `fraction_gw_use/`: [-], time-invariant (potential manufacturing fraction of groundwater use)
+	- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential manufacturing consumptive water use)
+	- `abstraction_tot/`: [m³/year], yearly data (yearly potential manufacturing water abstraction)
+	- `fraction_gw_use/`: [-], time-invariant (potential manufacturing fraction of groundwater use)
 
 **Thermal Power/**:
-- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential thermal power consumptive water use)
-- `abstraction_tot/`: [m³/year], yearly data (yearly potential thermal power water abstraction)
+	- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential thermal power consumptive water use)
+	- `abstraction_tot/`: [m³/year], yearly data (yearly potential thermal power water abstraction)
 
 **Livestock/**:
-- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential livestock consumptive water use)
+	- `consumptive_use_tot/`: [m³/year], yearly data (yearly potential livestock consumptive water use)
 
 Additional Required Input Data for Other Configuration Settings
 ***************************************************************
@@ -485,8 +485,8 @@ Additional Required Input Data for Other Configuration Settings
 If other configuration options are set, additional input data will be required, specifically for the irrigation sector:
 
 **Irrigation/**:
-- `fraction_aai_aei/`: [-], monthly data (fraction of areas actually irrigated to areas equipped for irrigation for 1901-2020)
-- `time_factor_aai/`: [-], monthly data (temporal development factor of national areas actually irrigated for 2016-2020 relative to 2015)
+	- `fraction_aai_aei/`: [-], monthly data (fraction of areas actually irrigated to areas equipped for irrigation for 1901-2020)
+	- `time_factor_aai/`: [-], monthly data (temporal development factor of national areas actually irrigated for 2016-2020 relative to 2015)
 
 Optional Input Data
 *******************
