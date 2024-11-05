@@ -89,24 +89,24 @@ Once all sector-specific calculations are completed, the aggregation of the comp
 
 Aggregated Values Include:
 
-Consumptive Use
-- Total consumptive use (total.consumptive_use_tot)
-- Consumptive use derived exclusively from groundwater sources (total.consumptive_use_gw)
-- Consumptive use derived exclusively from surface water sources (total.consumptive_use_sw)
+**Consumptive Use**
+   - Total consumptive use (total.consumptive_use_tot)
+   - Consumptive use derived exclusively from groundwater sources (total.consumptive_use_gw)
+   - Consumptive use derived exclusively from surface water sources (total.consumptive_use_sw)
 
-Water Withdrawals
-- Total water withdrawal (total.water_withdrawal_tot)
-- Water withdrawal exclusively from groundwater sources (total.water_withdrawal_gw)
-- Water withdrawal exclusively from surface water sources (total.water_withdrawal_sw)
+**Water Withdrawals**
+   - Total water withdrawal (total.water_withdrawal_tot)
+   - Water withdrawal exclusively from groundwater sources (total.water_withdrawal_gw)
+   - Water withdrawal exclusively from surface water sources (total.water_withdrawal_sw)
 
-Returns
-- Total returns (total_return_flow_tot)
-- Returns exclusively to groundwater sources (total.return_flow_gw)
-- Returns exclusively to surface water sources (total.return_flow_sw)
+**Returns**
+   - Total returns (total_return_flow_tot)
+   - Returns exclusively to groundwater sources (total.return_flow_gw)
+   - Returns exclusively to surface water sources (total.return_flow_sw)
 
-Net Abstractions
-- Net abstraction from groundwater sources (total.net_abstraction_gw)
-- Net abstraction from surface water sources (total.net_abstraction_sw)
+**Net Abstractions**
+   - Net abstraction from groundwater sources (total.net_abstraction_gw)
+   - Net abstraction from surface water sources (total.net_abstraction_sw)
 
 Additionally, for the irrigation sector, optional functions can be used to adjust the irrigation-specific consumptive use, and the irrigation-specific water withdrawals are fully calculated in GWSWUSE using groundwater and surface water-specific irrigation efficiencies.
 
