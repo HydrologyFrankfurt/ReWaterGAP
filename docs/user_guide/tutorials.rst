@@ -337,6 +337,22 @@ Lastly, run the simulation with these options. To verify that everything is runn
 
 .. _visualize_using_panopoly:
 
+*************************************
+Running WaterGap for a specific basin (Under Development)
+*************************************
+
+In the example below, we will run WaterGap with a `standard run configuration <standard_anthropogenic_run>`_ for one year (1989) for the Mississippi basin.
+
+Follow the standard run instructions for preparring the input data and setting up the configuration file from steps 2.1 through 2.5. An additional step to consider is to set the "SimulationExtend" under "run_basin" to "true".
+
+.. figure:: ../images/user_guide/tutorial/run_basin_true.png
+
+When run_basin is set to true you need to modify a station.csv located at the "path_to_stations_file".
+Define the basin in the stations.csv file basesd on the latitude and longitude coordinates of the downstream cells. Watergap automatically computes corresponding upstream cells, for the downstream cells you manually specified. An example "stations.csv" file is shown foe the Mississippi.
+
+.. figure:: ../images/user_guide/example_station_csv_file.png
+
+
 ****************************************
 Vizualizing your results using Panopoly
 ****************************************
