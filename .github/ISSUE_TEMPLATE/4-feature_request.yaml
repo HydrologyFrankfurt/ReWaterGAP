@@ -6,9 +6,9 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: Problem Description
+      label: Feature Description
       description: >
-        Please describe what problem the feature would solve.
+        Please describe what feature you would like to see implemented and descibe which problems the feature would solve.
       placeholder: >
         ...
     validations:
