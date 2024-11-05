@@ -8,30 +8,40 @@ Contributers Guide
     :gutter: 1
 
 
-    .. grid-item-card:: Contributing to the code
+    .. grid-item-card:: 
         :text-align: center
         :link: contributing_to_code
         :link-type: ref
 
-    .. grid-item-card:: Reporting a bug
+        Contributing to the code
+
+    .. grid-item-card:: 
         :text-align: center
         :link: bug_reporting
         :link-type: ref
 
-    .. grid-item-card:: Improving the documentation
+        Reporting a bug
+
+    .. grid-item-card:: 
         :text-align: center
         :link: documentation_improvement
         :link-type: ref
 
-    .. grid-item-card:: Installation Issues
+        Improving the documentation
+
+    .. grid-item-card:: 
         :text-align: center
         :link: installation_issues
         :link-type: ref
 
-    .. grid-item-card:: Feature Request
+        Installation Issues
+
+    .. grid-item-card:: 
         :text-align: center
         :link: feature_request
         :link-type: ref
+
+        Feature Request
 
 .. toctree::
     :maxdepth: 1
