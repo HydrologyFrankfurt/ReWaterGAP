@@ -34,7 +34,7 @@ While the sectors of households, industry, thermal power plants, and livestock d
 Additionally, water withdrawals for irrigation in ReGWSWUSE are calculated fully considering the different irrigation efficiencies for the withdrawal infrastructures of groundwater and surface water. Optional functions are also available, allowing for flexible adjustments of consumptive water use in the irrigation sector. 
 
 
-.. figure:: ../images/gwswuse/gwswuse_logic.png
+.. figure:: ../../images/gwswuse/gwswuse_logic.png
    :align: center
    
    *Figure 1: In the Figure, all calculation steps of the ReGWSWUSE software are illustrated, starting from the sector-specific input data to the aggregation of cross-sectoral results. It is shown that for the sectors of households, industry, thermal power plants, and livestock, the consumptive use and water withdrawals are input in the unit m³/year. For irrigation, only the consumptive use is input, specifically in the unit m³/month.*
