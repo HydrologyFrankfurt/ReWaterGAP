@@ -285,7 +285,7 @@ For the year 1989 the result should look like this:
 
 
 *************************************
-Running WaterGap for a specific basin (Under Development)
+Running WaterGap for a specific basin
 *************************************
 
 In the example below, we will run WaterGap with a :ref:`standard run configuration <standard_anthropogenic_run>` for one year (1989) for the Mississippi basin.
