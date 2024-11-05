@@ -1,4 +1,4 @@
-.. _feature_request
+.. _feature_request:
 
 ###############
 Feature Request
