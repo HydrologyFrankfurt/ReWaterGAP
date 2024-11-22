@@ -78,6 +78,10 @@ The simulation starts with preprocessing of the input potential consumptive wate
 
 .. math::
 
+  \[
+     \CU_tot,irr(y,m,id) = \left\{\begin{array}{ll} CU_(tot,irr)(y,m,id) * \frac{{aai}{aei} ; cm.irr_input_based_on_aei = true\\
+         CU_(tot,irr)(y,m,id) ; cm.irr_input_based_on_aei = false \end{array}\right. .
+  \]
 
 2. **Correction with Time Factor (t_aai)**  
    Based on the configuration option `cm.correct_irr_by_t_aai`, the potential consumptive water use, :math:`irr.cu_tot`, for the years 2016 to 2020 is adjusted using the time factor :math:t_aai` (time_factor_aai).
