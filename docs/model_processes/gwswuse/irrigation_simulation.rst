@@ -107,7 +107,7 @@ Using a time-invariant, irrigation-specific raster that represents the relative 
 
 .. math::
 	
-	f(x) =
+	CU_tot,irr(y,m,id) =
    	\begin{cases} 
    	a & \text{if } x > 0, \\
    	b & \text{if } x \leq 0
