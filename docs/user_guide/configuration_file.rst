@@ -1,8 +1,8 @@
 .. _configuration_file:
 
-##################
-Configuration File
-##################
+######################
+Configuration File WHM
+######################
 
 .. contents:: 
     :depth: 3
@@ -169,7 +169,7 @@ CellSpecific Output
 - `Month`: Month (for irrigation and total)
 
 
-Output Selection
+Output Variables
 ################
 
 .. figure:: ../images/user_guide/configuration_file_gwswue/output_selection.png
