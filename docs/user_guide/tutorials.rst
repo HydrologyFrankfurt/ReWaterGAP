@@ -185,7 +185,7 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
-For the year 1989 the result should look like this:
+For the year 1989-01-01 the result should look like this:
 
 .. figure:: ../images/user_guide/tutorial/panopoly_standard_run_tutorial.png
 
@@ -232,7 +232,7 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
-For the year 1989 the result should look like this:
+For the year 1989-01-01 the result should look like this:
 
 .. figure:: ../images/user_guide/tutorial/panopoly_use_only_run_tutorial.png
 
@@ -279,7 +279,7 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 
 To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
 
-For the year 1989 the result should look like this:
+For the year 1989-01-01 the result should look like this:
 
 .. figure:: ../images/user_guide/tutorial/panopoly_reservoirs_only_run_tutorial.png
 
