@@ -42,6 +42,13 @@ Contributers Guide
 
         Feature Request
 
+    .. grid-item-card:: 
+        :text-align: center
+        :link: code_guidelines
+        :link-type: ref
+
+        Code Guidelines
+
 .. toctree::
     :maxdepth: 1
     :hidden:
@@ -51,3 +58,4 @@ Contributers Guide
     documentation_improvement
     installation_issues
     feature_request
+    code_guidelines
