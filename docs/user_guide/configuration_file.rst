@@ -118,21 +118,25 @@ A comprehensive list of the output variables in the :ref:`image <out_var>` above
 Configuration File GWSWUSE
 ###########################
 
-FilePath
-########
+File Path
+#########
 
-inputDir
+.. _file_path_gwswuse: 
 
-Contains two paths:
-	- `input_data`: Path to the folder containing input data. This folder must have a specific structure for the data to be correctly matched and processed.
-   	- `gwswuse_convention`: Path to the convention file that defines the conventions for data verification and processing.
-  	- `outputDir`: Path to the folder where output data will be stored.
+- `input_data`: Path to the folder containing input data. This folder must have a specific structure for the data to be correctly matched and processed.
+- `gwswuse_convention`: Path to the convention file that defines the conventions for data verification and processing.
+- `outputDir`: Path to the folder where output data will be stored.
 
-RuntimeOptions
-##############
+.. figure:: ../images/user_guide/configuration_file_gwswue/file_path.png
 
-SimulationOption
-****************
+
+Runtime Options
+###############
+
+.. figure:: ../images/user_guide/configuration_file_gwswue/runtime_options.png
+
+Simulation Options
+******************
 
 - `time_extend_mode`: Controls how time-dependent input data is handled to ensure they cover the entire simulation period.
 - `irrigation_efficiency_gw_mode`: Determines how irrigation efficiency with groundwater is calculated.
@@ -140,14 +144,18 @@ SimulationOption
 - `correct_irr_simulation_by_t_aai`: Indicates whether the simulation should adjust for temporal changes in irrigated areas.
 - `deficit_irrigation_mode`: Determines whether the simulation considers deficit irrigation in certain grid cells.
 
-ParameterSetting
-****************
+
+Parameter Setting
+*****************
 
 - `efficiency_gw_threshold`: Threshold for irrigation efficiency with groundwater.
 - `deficit_irrigation_factor`: Reduction factor for irrigation in grid cells identified as deficient.
 
-CellSpecificOutput
-******************
+Simulation Period
+*****************
+
+CellSpecific Output
+*******************
 
 - `flag`: If true, sector-specific intermediate results for the grid cell closest to the coordinates in `CellSpecificOutput["coords"]` will be displayed in the CLI during the simulation.
 - `coords`: A sub-dict for setting coordinates for the grid cell and timestep for displaying cell-specific results in the CLI:
@@ -156,8 +164,12 @@ CellSpecificOutput
 - `Year`: Year
 - `Month`: Month (for irrigation and total)
 
-OutputSelection
-***************
+
+Output Selection
+################
+
+.. figure:: ../images/user_guide/configuration_file_gwswue/output_selection.png
+
 Determines which simulation results are saved and in what format they are output.
 
 - `WGHM_input_run`: Controls whether the results are retained in memory for further use in a ReWGHM run.
