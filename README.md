@@ -28,6 +28,7 @@ ReWaterGap receives funding from the German Research Foundation (DFG). For furth
 - Principal investigator: [Prof. Dr. Martina Flörke](https://www.hydrology.ruhr-uni-bochum.de/hydro/lehrstuhl/mitarbeiter/floerke.html.de)
 - Lead software architect: [Dr. Robert Reinecke](https://github.com/rreinecke)
 - Lead Programmer: [Emmanuel Nyenah](https://github.com/nyenah)
+- Programming of reGWSWUSE: [Lasse Nissen](https://github.com/ln13foqy)
 - Editing: [Leon Mühlenbruch](https://github.com/Leon-Muehlenbruch)
 
 # Get in Touch
