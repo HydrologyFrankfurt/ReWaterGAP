@@ -63,12 +63,12 @@ reGWSWUSE
    :header: "Variable Name", "Long Name"
    :widths: 30, 70
 
-   "", "Consumptive water use in the irrigation sector"
-   "", "Consumptive water use in the domestic sector"
-   "", "Consumptive water use in the manufacturing sector"
-   "", "Consumptive water use in the thermal power sector"
-   "", "Consumptive water use in the livestock sector"
-   "", "Total consumptive use"
+   "CU_tot,irr", "Consumptive water use in the irrigation sector"
+   "CU_tot,dom", "Consumptive water use in the domestic sector"
+   "CU_tot,man", "Consumptive water use in the manufacturing sector"
+   "CU_tot,tp", "Consumptive water use in the thermal power sector"
+   "CU_tot,liv", "Consumptive water use in the livestock sector"
+   "CU_tot", "Total consumptive use"
    "", "Consumptive groundwater use in the irrigation sector"
    "", "Consumptive groundwater use in the domestic sector"
    "", "Consumptive groundwater use in the manufacturing sector"
