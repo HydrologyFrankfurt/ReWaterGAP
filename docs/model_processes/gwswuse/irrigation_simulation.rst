@@ -74,7 +74,8 @@ Preprocessing of irr.consumptive_use_tot
 The simulation starts with preprocessing of the input potential consumptive water use, `irr.cu_tot_input`. This preprocessing is based on configuration options, which are denoted by “cm.” in the following text. 
 
 1. **Configuration Setting: cm.irr_input_based_on**  
-   This setting is applied first:
+
+This setting is applied first:
 
 .. math::
 	
@@ -86,14 +87,30 @@ The simulation starts with preprocessing of the input potential consumptive wate
 	
 
 2. **Correction with Time Factor (t_aai)**  
-   Based on the configuration option `cm.correct_irr_by_t_aai`, the potential consumptive water use, :math:`irr.cu_tot`, for the years 2016 to 2020 is adjusted using the time factor :math:t_aai` (time_factor_aai).
+
+Based on the configuration option `cm.correct_irr_by_t_aai`, the potential consumptive water use, :math:`irr.cu_tot`, for the years 2016 to 2020 is adjusted using the time factor :math:t_aai` (time_factor_aai).
 
 .. math::
- 
+
+	CU_{tot,irr}(y,m,id) =
+   	\begin{cases} 
+   	CU_{tot,irr}(y,m,id) * t_{aai}(y,id) ; \text{cm.corect_irr_by_t_aai} = true \\
+   	CU_{tot,irr}(y,m,id) ; \text{cm.corect_irr_by_t_aai} = false
+   	\end{cases}	
 	
 
 3. **Deficit Irrigation Mode (`cm.deficit_irrigation_mode`)**  
-   Next, the configuration setting for :math:`cm.deficit_irrigation_mode` is applied:
+
+Next, the configuration setting for :math:`cm.deficit_irrigation_mode` is applied:
+
+.. math::
+
+	deficit_factor_grid(id) =
+   	\begin{cases} 
+   	cm.f_{deficit,irr} ; \text{gwd_5mm}(id) = true \text{and} \text{abs_irr_part_5pct}(id) = true \\
+   	1 ; else
+   	\end{cases}	
+
 
 Calculation of Groundwater and Surface Water Use
 ************************************************
