@@ -69,7 +69,7 @@ reGWSWUSE
    "CU_tot,tp", "Consumptive water use in the thermal power sector"
    "CU_tot,liv", "Consumptive water use in the livestock sector"
    "CU_tot", "Total consumptive use"
-   "", "Consumptive groundwater use in the irrigation sector"
+   ":math:`CU_{gw}`", "Consumptive groundwater use in the irrigation sector"
    "", "Consumptive groundwater use in the domestic sector"
    "", "Consumptive groundwater use in the manufacturing sector"
    "", "Consumptive groundwater use in the thermal power sector"
