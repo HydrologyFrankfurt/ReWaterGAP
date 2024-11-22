@@ -400,31 +400,9 @@ Prerequisites
 
 To correctly install and run the ReGWSWUSE software, the following prerequisites must be met:
 
-**Programming Language**
-
-Python 3.8 or higher: Ensure that Python is installed on your system in the appropriate version.
-
 **Python Libraries**
 
-The following libraries must be installed:
-
-- os
-- time
-- datetime
-- json
-- glob
-- numpy
-- pandas
-- dask
-- numba
-- xarray
-- openpyxl
-- termcolor
-- netcdf4
-- h5netcdf
-- termcolor
-
-If these libraries are not installed, they can be installed via the Mamba package manager. More information on how Mamba can be used can be found in their `official documentation <https://mamba.readthedocs.io/en/latest/user_guide/mamba.html>`_ .
+The required libraries can be found in the requirements.txt file from the reGWSWUSE Github [here].
 
 Installation Steps
 ##################
