@@ -91,6 +91,15 @@ The simulation starts with preprocessing of the input potential consumptive wate
    Based on the configuration option `cm.correct_irr_by_t_aai`, the potential consumptive water use, :math:`irr.cu_tot`, for the years 2016 to 2020 is adjusted using the time factor :math:t_aai` (time_factor_aai).
 
 .. math::
+
+	\begin{equation} 
+		a = \begin{cases}
+		b + d  & \text{for $i \le 4$, $j < 3$} \\
+		c & \text{for $i = 5$} \\
+		d - e + u & \text{for $i > 5$}
+	\end{cases}
+	\label{eqn:simple_one} 
+	\end{equation}
 	
 
 3. **Deficit Irrigation Mode (`cm.deficit_irrigation_mode`)**  
