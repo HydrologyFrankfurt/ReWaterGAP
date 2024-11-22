@@ -105,7 +105,7 @@ Next, the configuration setting for :math:`cm.deficit_irrigation_mode` is applie
 
 .. math::
 
-	deficit_factor_grid(id) =
+	\text{deficit_factor_grid}(id) =
    	\begin{cases} 
    	cm.f_{deficit,irr} ; \text{gwd_5mm}(id) = true \text{and} \text{abs_irr_part_5pct}(id) = true \\
    	1 ; else
