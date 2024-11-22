@@ -78,11 +78,11 @@ The simulation starts with preprocessing of the input potential consumptive wate
 
 .. math::
 	
-	CU_tot,irr(y,m,id) = 
-	\begin{cases}
-	CU_(tot,irr)(y,m,id) * \frac{aai}{aei} ; cm.irr_input_based_on_aei = true \\
-	CU_(tot,irr)(y,m,id) ; cm.irr_input_based_on_aei = false
-	\end{cases}	
+	CU_{tot,irr}(y,m,id) =
+   	\begin{cases} 
+   	CU_{tot,irr}(y,m,id) * \frac{aai}{aei} ; \text{cm.irr_input_based_on_aei} = true \\
+   	CU_{tot,irr}(y,m,id) ; \text{cm.irr_input_based_on_aei} = false
+   	\end{cases}	
 	
 
 2. **Correction with Time Factor (t_aai)**  
@@ -90,11 +90,6 @@ The simulation starts with preprocessing of the input potential consumptive wate
 
 .. math::
  
-	CU_tot,irr(y,m,id) = 
-	\begin{cases}
-	CU_{tot,irr}(y,m,id) * \frac{aai}{aei} ; cm.irr_input_based_on_aei = true \\
-	CU_(tot,irr)(y,m,id) ; cm.irr_input_based_on_aei = false
-	\end{cases}	
 	
 
 3. **Deficit Irrigation Mode (`cm.deficit_irrigation_mode`)**  
@@ -107,11 +102,7 @@ Using a time-invariant, irrigation-specific raster that represents the relative 
 
 .. math::
 	
-	CU_{tot,irr}(y,m,id) =
-   	\begin{cases} 
-   	CU_{tot,irr}(y,m,id) * \frac{aai}{aei} ; \text{cm.irr_input_based_on_aei} = true \\
-   	CU_{tot,irr}(y,m,id) ; \text{cm.irr_input_based_on_aei} = false
-   	\end{cases}
+
 	
 
 .. math::
