@@ -109,7 +109,7 @@ Using a time-invariant, irrigation-specific raster that represents the relative 
 	
 	CU_{tot,irr}(y,m,id) =
    	\begin{cases} 
-   	CU_{tot,irr}(y,m,id) * \frac{{aai}{aei} \\
+   	CU_{tot,irr}(y,m,id) * \frac{aai}{aei} \\
    	b & \text{if } x \leq 0
    	\end{cases}
 	
