@@ -112,6 +112,12 @@ Using a time-invariant, irrigation-specific raster that represents the relative 
 
 .. math::
 	
+	f(x) =
+   	\begin{cases} 
+   	a & \text{if } x > 0, \\
+   	b & \text{if } x \leq 0
+   	\end{cases}
+	
 
 .. math::
 	
