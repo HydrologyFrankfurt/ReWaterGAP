@@ -109,8 +109,8 @@ Using a time-invariant, irrigation-specific raster that represents the relative 
 	
 	CU_{tot,irr}(y,m,id) =
    	\begin{cases} 
-   	CU_{tot,irr}(y,m,id) * \frac{aai}{aei} ; {cm.irr_input_based_on_aei} = true \\
-   	CU_{tot,irr}(y,m,id) ; {cm.irr_input_based_on_aei} = false
+   	CU_{tot,irr}(y,m,id) * \frac{aai}{aei} ; \text{cm.irr_input_based_on_aei} = true \\
+   	CU_{tot,irr}(y,m,id) ; \text{cm.irr_input_based_on_aei} = false
    	\end{cases}
 	
 
