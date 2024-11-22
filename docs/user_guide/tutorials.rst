@@ -395,15 +395,6 @@ Running WaterGAP with GWSWUSE (under development)
 Installation
 ************
 
-Prerequisites
-#############
-
-To correctly install and run the ReGWSWUSE software, the following prerequisites must be met:
-
-**Python Libraries**
-
-The required libraries can be found in the requirements.txt file from the reGWSWUSE Github [here].
-
 Installation Steps
 ##################
 
@@ -413,7 +404,6 @@ Install Python and download libraries
 *************************************
 
 Download the latest version of Python from the official Python website and install it if Python is not already installed on your system.
-Then download the libraries as they are listed under prerequisites.
 
 Clone the reGWSWUSE repository
 ******************************
