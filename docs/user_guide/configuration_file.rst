@@ -114,9 +114,9 @@ A comprehensive list of the output variables in the :ref:`image <out_var>` above
 
 .. configuration_file_gwswuse:
 
-###########################
+**************************
 Configuration File GWSWUSE
-###########################
+**************************
 
 File Path
 #########
