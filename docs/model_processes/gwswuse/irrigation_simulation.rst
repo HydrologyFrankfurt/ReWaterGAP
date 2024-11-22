@@ -77,29 +77,24 @@ The simulation starts with preprocessing of the input potential consumptive wate
    This setting is applied first:
 
 .. math::
-	:nowrap:
-
-	\[
-     	\CU_tot,irr(y,m,id) = 
-	\left\{\begin{array}{ll} 
-		CU_(tot,irr)(y,m,id) * \frac{{aai}{aei} ; cm.irr_input_based_on_aei = true \\
-         	CU_(tot,irr)(y,m,id) ; cm.irr_input_based_on_aei = false 
-	\end{array}\right. .
-	\]
+	
+	CU_tot,irr(y,m,id) = 
+	\begin{cases}
+	CU_(tot,irr)(y,m,id) * \frac{{aai}{aei} ; cm.irr_input_based_on_aei = true \\
+	CU_(tot,irr)(y,m,id) ; cm.irr_input_based_on_aei = false
+	\end{cases}	
+	
 
 2. **Correction with Time Factor (t_aai)**  
    Based on the configuration option `cm.correct_irr_by_t_aai`, the potential consumptive water use, :math:`irr.cu_tot`, for the years 2016 to 2020 is adjusted using the time factor :math:t_aai` (time_factor_aai).
 
 .. math::
-
-	\begin{equation} 
-		a = \begin{cases}
-		b + d  & \text{for $i \le 4$, $j < 3$} \\
-		c & \text{for $i = 5$} \\
-		d - e + u & \text{for $i > 5$}
-	\end{cases}
-	\label{eqn:simple_one} 
-	\end{equation}
+ 
+	CU_tot,irr(y,m,id) = 
+	\begin{cases}
+	CU_(tot,irr)(y,m,id) * \frac{{aai}{aei} ; cm.irr_input_based_on_aei = true \\
+	CU_(tot,irr)(y,m,id) ; cm.irr_input_based_on_aei = false
+	\end{cases}	
 	
 
 3. **Deficit Irrigation Mode (`cm.deficit_irrigation_mode`)**  
