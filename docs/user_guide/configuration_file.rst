@@ -1,16 +1,16 @@
 .. _configuration_file:
 
-######################
-Configuration File WHM
-######################
+###################
+Configuration Files
+###################
 
 .. contents:: 
     :depth: 3
     :backlinks: entry
 
-************************************
-Component of the configuration file
-************************************
+**********************
+Configuration File WHM
+**********************
 
 File Path
 #########
@@ -114,13 +114,9 @@ A comprehensive list of the output variables in the :ref:`image <out_var>` above
 
 .. configuration_file_gwswuse:
 
-##########################
+**************************
 Configuration File GWSWUSE
-##########################
-
-************************************
-Component of the configuration file
-************************************
+**************************
 
 File Path
 #########
