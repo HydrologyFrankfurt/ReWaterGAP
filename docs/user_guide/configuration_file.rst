@@ -112,7 +112,7 @@ Output Variables
 
 A comprehensive list of the output variables in the :ref:`image <out_var>` above can be found in the :ref:`glossary <glossary>`. Each output can be toggled on (set to "true") or off (set to "false") in the "OutputVariable" options.
 
-.. configuration_file_gwswuse:
+.. _configuration_file_gwswuse:
 
 **************************
 Configuration File GWSWUSE
