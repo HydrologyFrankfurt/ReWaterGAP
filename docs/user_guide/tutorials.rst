@@ -493,9 +493,10 @@ Additional Required Input Data for Other Configuration Settings
 
 If other configuration options are set, additional input data will be required, specifically for the irrigation sector:
 
-**Irrigation/**:
-	- `fraction_aai_aei/`: [-], monthly data (fraction of areas actually irrigated to areas equipped for irrigation for 1901-2020)
-	- `time_factor_aai/`: [-], monthly data (temporal development factor of national areas actually irrigated for 2016-2020 relative to 2015)
+**Irrigation**:
+
+- `fraction_aai_aei`: [-], monthly data (fraction of areas actually irrigated to areas equipped for irrigation for 1901-2020)
+- `time_factor_aai`: [-], monthly data (temporal development factor of national areas actually irrigated for 2016-2020 relative to 2015)
 
 Optional Input Data
 *******************
@@ -504,11 +505,18 @@ For the sectors domestic, manufacturing, livestock, and thermal power, sector-sp
 
 Configuration (`gwswuse_config.json`)
 **************************************
-To start GWSWUSE in WaterGap-2.2e mode, the configurations highlighted in the green box must be set:
+To start GWSWUSE in WaterGap-2.2e mode, the configuration file must be edited in the following ways, as seen in the picture below.
 
-Configuration File Details
+- "*irrigation_efficiency_gw_mode*": "enforce"
+- "*irrigation_input_based_on_aei*": "false"
+- "*correct_irr_simulation_by_t_aai*": "false"
+- "*deficit_irrigation_mode*": "true" 
+- "*efficiency_gw_threshold*": "0.7"
+- "*deficit_irrigation_factor*": "0.7"
 
-The configuration file contains several key sections defining various parameters and options:
+.. figure:: ../images/user_guide/tutorial/runtime_options_configuration.png
+
+For further information on the configuration file and all options, which may be changed within, find the guide to the configuration file :ref:`here <configuration_file_gwswuse>`.
 
 
 Running the Software
