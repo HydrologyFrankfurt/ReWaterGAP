@@ -115,16 +115,15 @@ Next, the configuration setting for :math:`cm.deficit_irrigation_mode` is applie
 Calculation of Groundwater and Surface Water Use
 ************************************************
 
-Using a time-invariant, irrigation-specific raster that represents the relative shares of groundwater use in the irrigation sector, :math:`irr.fraction_gw_use`, the potential consumptive use of groundwater and surface water is calculated.
+Using a time-invariant, irrigation-specific raster that represents the relative shares of groundwater use in the irrigation sector, :math:`\text{irr.fraction_gw_use}`, the potential consumptive use of groundwater and surface water is calculated.
+
+.. math::
+
+	{CU}_{gw,irr}(y,m,id) = {CU}_{tot,irr}(y,m,id) * {f}_{gw,irr}(id)
 
 .. math::
 	
-
-	
-
-.. math::
-	
-
+	{CU}_{ww,irr}(y,m,id) = {CU}_{tot,irr}(y,m,id) * (1 - {f}_{gw,irr}(id))
 
 
 Calculation of Potential Water Withdrawals
