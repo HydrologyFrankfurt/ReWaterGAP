@@ -123,16 +123,31 @@ Using a time-invariant, irrigation-specific raster that represents the relative 
 
 .. math::
 	
-	{CU}_{ww,irr}(y,m,id) = {CU}_{tot,irr}(y,m,id) * (1 - {f}_{gw,irr}(id))
+	{CU}_{sw,irr}(y,m,id) = {CU}_{tot,irr}(y,m,id) * (1 - {f}_{gw,irr}(id))
 
 
 Calculation of Potential Water Withdrawals
 ******************************************
 
-To calculate irrigation water withdrawals, irrigation efficiency values are required. In the GWSWUSE model, it is assumed that irrigation efficiencies differ for groundwater and surface water withdrawal infrastructures. The surface water efficiencies are input as a raster with national values. Groundwater efficiencies depend on the configuration option :math:`cm.irrigation_efficiency_gw_mode` and are set using the parameter:
+To calculate irrigation water withdrawals, irrigation efficiency values are required. In the GWSWUSE model, it is assumed that irrigation efficiencies differ for groundwater and surface water withdrawal infrastructures. The surface water efficiencies are input as a raster with national values. Groundwater efficiencies depend on the configuration option :math:`cm.irrigation_efficiency_gw_mode` and are set using the parameter :math:`{cm.theshold}_{eff,gw,irr}`:
 
-After setting the irrigation efficiency for groundwater, the irrigation water withdrawals from both groundwater and surface water are calculated.
+.. math::
 
+	{eff}{gw,irr}(id) =
+   	\begin{cases} 
+   	cm.threshold_{eff,gw,irr} ; \text{cm.irr_efficiency_gw_mode} = 'enforce' \\
+   	max({cm.threshold}_{eff,gw,irr},{eff}_{sw,irr}(id) ; \text{cm.irr_efficiency_gw_mode} = 'adjust'
+   	\end{cases}	
+
+After setting the irrigation efficiency for groundwater, the irrigation water withdrawals from both groundwater and surface water are calculated:
+
+.. math::
+
+	{WU}_{gw,irr}(y,m,id) = \frac{{CU}_{gw,irr}(y,m,id)}{{eff}_{gw,irr}(id}}
+
+.. math::
+
+	{WU}_{sw,irr}(y,m,id) = \frac{{CU}_{sw,irr}(y,m,id)}{{eff}_{sw,irr}(id}}
 
 Calculation of Total Irrigation Withdrawals
 *******************************************
