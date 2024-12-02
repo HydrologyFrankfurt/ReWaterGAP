@@ -11,10 +11,10 @@ Input Data
 
 The ReGWSWUSE simulation specific to the manufacturing sector relies on input data for the following variables:
 
-- :math:`CU_{tot,man}`: liv.consumptive_use_tot
-- :math:`WU_{tot,man}`: liv.abstraction_tot
-- :math:`f_{gw,man}`: liv.fraction_gw_use
-- :math:`f_{return,gw,man}`: liv.fraction_return_gw (0 if no input file provided)
+- :math:`CU_{tot,man}`: man.consumptive_use_tot
+- :math:`WU_{tot,man}`: man.abstraction_tot
+- :math:`f_{gw,man}`: man.fraction_gw_use
+- :math:`f_{return,gw,man}`: man.fraction_return_gw (0 if no input file provided)
 
 Configuration Options
 #####################
