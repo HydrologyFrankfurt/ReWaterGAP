@@ -451,6 +451,10 @@ Input data must be located in a specified folder path indicated in the configura
   
 - **Expected Variables**: The expected variables specify from which variable subfolders within each sector NetCDF files should be read. These subfolders represent specific data categories, such as `consumptive_use_tot` (total consumptive water use), `fraction_gw_use` (fraction of consumptive groundwater use), etc.
 
+When the data is placed in the input_data folder correctly, it will look like this:
+
+.. figure:: ../images/user_guide/tutorial/input_data_gwswuse.png
+
 Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
 *********************************************************
 
