@@ -152,17 +152,38 @@ After setting the irrigation efficiency for groundwater, the irrigation water wi
 Calculation of Total Irrigation Withdrawals
 *******************************************
   
-Once the irrigation-specific water withdrawals from groundwater and surface water are calculated, the total irrigation-specific water withdrawals can also be computed.
+Once the irrigation-specific water withdrawals from groundwater and surface water are calculated, the total irrigation-specific water withdrawals can also be computed:
 
+.. math::
 
+	{WU}_{tot,irr}(y,m,id) = {WU}_{gw,irr}(y,m,id) + {WU}_{sw,irr}(y,m,id)
 
 Calculation of Return Flows
 ***************************
 After calculating the water withdrawals, return flows in irrigation are determined. Return flows occur because not all water withdrawn for irrigation is used in plant growth and some returns to groundwater and surface water. The total return flows in the irrigation sector are calculated in the GWSWUSE model as the difference between total water withdrawal and total consumptive water use.
 
+.. math::
+
+	{RF}_{tot,irr}(y,m,id) = {WU}_{tot,irr}(y,m,id) - {CU}_{tot,irr}(y,m,id)
+
 The irrigation-specific return flows into groundwater bodies and surface water bodies are calculated using a time-invariant raster that represents the relative shares of the total irrigation-specific return flows that flow into groundwater.
 
+.. math::
+
+	{RF}_{gw,irr}(y,m,id) = {RF}_{tot,irr}(y,m,id) * {f}_{return,gw,irr}(id)
+
+.. math::
+
+	{RF}_{sw,irr}(y,m,id) = {RF}_{tot,irr}(y,m,id) * (1 - {f}_{return,gw,irr}(id))
 
 Calculation of Net Abstractions
 *******************************
 Finally, irrigation-specific net abstractions from groundwater and surface water per raster cell (id) are calculated. The net abstractions for each water body are defined as the difference between water withdrawals and return flows for each water body.
+
+.. math::
+
+	{NA}_{gw,irr}(y,m,id) = {WU}_{gw,irr}(y,m,id) * ({RF}_{gw,irr}(y,m,id))
+
+.. math::
+
+	{NA}_{sw,irr}(y,m,id) = {WU}_{sw,irr}(y,m,id) * ({RF}_{sw,irr}(y,m,id))
