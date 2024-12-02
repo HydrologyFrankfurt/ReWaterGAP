@@ -9,10 +9,10 @@ Input Data
 
 The ReGWSWUSE simulation specific to the demoestic sector relies on input data for the following variables:
 
-- :math:`CU_{tot,dom}`: liv.consumptive_use_tot
-- :math:`WU_{tot,dom}`: liv.abstraction_tot
-- :math:`f_{gw,dom}`: liv.fraction_gw_use
-- :math:`f_{return,gw,dom}`: liv.fraction_return_gw (0 if no input file provided)
+- :math:`CU_{tot,dom}`: dom.consumptive_use_tot
+- :math:`WU_{tot,dom}`: dom.abstraction_tot
+- :math:`f_{gw,dom}`: dom.fraction_gw_use
+- :math:`f_{return,gw,dom}`: dom.fraction_return_gw (0 if no input file provided)
 
 Configuration Options
 #####################
