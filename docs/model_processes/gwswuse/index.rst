@@ -44,6 +44,13 @@ Groundwater Surface Water Use
 
     .. grid-item-card:: 
         :text-align: center
+        :link:  livestock_simulation
+        :link-type: ref
+
+        Livestock Simulation
+
+    .. grid-item-card:: 
+        :text-align: center
         :link:  cross_sectoral_aggregate_results
         :link-type: ref
 
@@ -59,4 +66,5 @@ Groundwater Surface Water Use
     domestic_simulation
     manufacturing_simulation
     thermal_power_simulation
+    livestock_simulation
     cross_sectoral_aggregate_results
