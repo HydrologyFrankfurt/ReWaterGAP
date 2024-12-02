@@ -143,11 +143,11 @@ After setting the irrigation efficiency for groundwater, the irrigation water wi
 
 .. math::
 
-	{WU}_{gw,irr}(y,m,id) = \frac{{CU}_{gw,irr}(y,m,id)}{{eff}_{gw,irr}(id}}
+	{WU}_{gw,irr}(y,m,id) = \frac{{CU}_{gw,irr}(y,m,id)}{{eff}_{gw,irr}(id)}
 
 .. math::
 
-	{WU}_{sw,irr}(y,m,id) = \frac{{CU}_{sw,irr}(y,m,id)}{{eff}_{sw,irr}(id}}
+	{WU}_{sw,irr}(y,m,id) = \frac{{CU}_{sw,irr}(y,m,id)}{{eff}_{sw,irr}(id)}
 
 Calculation of Total Irrigation Withdrawals
 *******************************************
