@@ -95,6 +95,9 @@ class OutputVariable:
                 "standard_name": self.variable_name,
                 "long_name": var_info.modelvars[self.variable_name]['long'],
                 "units": var_info.modelvars[self.variable_name]['unit'],
+                ":unit_conversion_info": "If the variable needs conversion to"
+                " volumetric units (L³ T⁻¹ or L³), use watergap22e_continentalarea.nc4 (water density is 1 kg per dm³);"
+                "otherwise, conversion is not needed."
                 }
 
             # Add global metadata
@@ -104,6 +107,7 @@ class OutputVariable:
                 'contact': "nyenah@em.uni-frankfurt.de",
                 'model_version':  "WaterGAP"+" "+watergap_version.__version__,
                 "reference": watergap_version.__reference__,
+                "license": "LGPL-3.0",
                 'Creation_date':
                     dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     }
