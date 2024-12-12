@@ -86,7 +86,7 @@ def compute_landareafrac(landwater_frac, land_area_frac,
             # fraction contains accumulated values per year, specifically
             # when a grid cell has more than one reservoir fraction (e.g.,
             # a new dam is built) but with diferernt outflow cells.
-            glores_frac = resyear_frac.glores_frac.sel(time=res_year).\
+            glores_frac = resyear_frac.gloresfrac.sel(time=res_year).\
                 values.astype(np.float64)
             # changing data dimension from (1,360,720) to (360,720)
             glores_frac = glores_frac[0]

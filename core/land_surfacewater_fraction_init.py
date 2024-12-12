@@ -118,7 +118,7 @@ class LandsurfacewaterFraction:
         # =====================================================================
 
         # ---------------------------------------------------------------------
-        # Variables needed tp adapt global reservoir storage due to  net change
+        # Variables needed to adapt global reservoir storage due to  net change
         # in land fraction. see  "adapt_glores_storage" function
         self.outflow_cell_assignment = self.static_data.res_reg_files.\
             outflowcell_assignment_glores.values
@@ -151,9 +151,8 @@ class LandsurfacewaterFraction:
             self.date = date.astype('datetime64[D]')
             self.reservoir_opt_year = reservoir_opt_year
 
-
             if self.date in self.reservoir_opt_year or \
-                self.init_landfrac_res_flag is True:
+                    self.init_landfrac_res_flag is True:
 
                 self.resyear = str(pd.to_datetime(self.date).year)
                 # =============================================================
@@ -192,7 +191,7 @@ class LandsurfacewaterFraction:
                 # reservoirs/regulated lakes.
                 # =============================================================
                 res_year_lakewet_frac = str(pd.to_datetime(self.date).year)
-                glores_frac_currentyear = self.static_data.resyear_frac.glores_frac.\
+                glores_frac_currentyear = self.static_data.resyear_frac.gloresfrac.\
                     sel(time=res_year_lakewet_frac).values.astype(np.float64)
 
                 self.landwaterfrac_excl_glolake_res = \
@@ -303,7 +302,7 @@ class LandsurfacewaterFraction:
                 # ---------------------------------------------------------
                 # Assigning current reservoir year to previous year.
                 glores_frac_currentyear = self.static_data.resyear_frac.\
-                    glores_frac.sel(time=self.resyear).values.\
+                    gloresfrac.sel(time=self.resyear).values.\
                     astype(np.float64)
                 glores_frac_currentyear = glores_frac_currentyear[0]
                 self.glores_frac_prevyear = glores_frac_currentyear
@@ -329,7 +328,7 @@ class LandsurfacewaterFraction:
         if self.land_and_water_freq_flag:  # start of simulation
             if self.reservior_opt:
                 res_year_lakewet_frac = str(pd.to_datetime(date).year)
-                glores_frac_currentyear = self.static_data.resyear_frac.glores_frac.\
+                glores_frac_currentyear = self.static_data.resyear_frac.gloresfrac.\
                     sel(time=res_year_lakewet_frac).values.astype(np.float64)
             else:
                 glores_frac_currentyear = np.zeros_like(self.cont_frac)
