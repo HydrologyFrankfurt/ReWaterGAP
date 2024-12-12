@@ -151,9 +151,11 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
         mask_zero = np.abs(snow_water_storage_subgrid) <= minstorage_volume
         snow_water_storage_subgrid[mask_zero] = 0
 
-        # Initial storage to calulate change in snow water storage.
-        # copy works in numba since snow_water_storage_subgrid is numpys array
-        # without initial storage is chnaged when snow_water_storage_subgrid changes 
+        # Note!!.
+        # Use .copy() to create initial_storage as a separate copy of snow_water_storage_subgrid. 
+        # Without .copy(), changes to the snow_water_storage_subgrid array will also affect 
+        # initial_storage since arrays are mutable and share the same memory reference.
+        # For single float values, copying is not required because they are immutable.
         initial_storage = snow_water_storage_subgrid.copy()
 
         for i in range(len(elevation_subgrid)):
