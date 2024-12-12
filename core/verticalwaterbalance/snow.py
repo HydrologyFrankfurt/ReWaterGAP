@@ -136,7 +136,6 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
     throughfall_before_melt = np.zeros(elevation_subgrid.shape)
     snow_melt_subgrid = np.zeros(elevation_subgrid.shape)
     snowcover_frac_subgrid = np.zeros(elevation_subgrid.shape)
-
     # =====================================================================
     # Calulating temperature (K) for the 100 subcells based on land surface
     # map elevation and a constant adiabatic lapse rate
@@ -153,7 +152,9 @@ def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
         snow_water_storage_subgrid[mask_zero] = 0
 
         # Initial storage to calulate change in snow water storage.
-        initial_storage = snow_water_storage_subgrid
+        # copy works in numba since snow_water_storage_subgrid is numpys array
+        # without initial storage is chnaged when snow_water_storage_subgrid changes 
+        initial_storage = snow_water_storage_subgrid.copy()
 
         for i in range(len(elevation_subgrid)):
             # =================================================================

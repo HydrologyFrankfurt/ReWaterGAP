@@ -32,7 +32,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        daily_storage_transfer,
                        snow_water_storage_subgrid, degreeday, elevation,
                        adiabatic_lapse_rate, snow_freeze_temp, snow_melt_temp,
-                       runoff_frac_builtup, builtup_area, soil_water_content,
+                       runoff_frac_builtup, builtup_area_frac, soil_water_content,
                        gamma, max_daily_pet, soil_texture, drainage_direction,
                        max_groundwater_recharge, groundwater_recharge_factor,
                        critcal_gw_precipitation, max_soil_water_content,
@@ -152,7 +152,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                                current_landarea_frac[x, y],
                                landareafrac_ratio[x, y],
                                max_storage_coefficient[x, y],
-                               minstorage_volume)
+                               minstorage_volume, x, y)
 
             # ouputs from the  daily_canopy_balance are
             # 0 = canopy_storage (mm), 1 = throughfall (mm/day),
@@ -205,6 +205,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             land_storage_change_sum[x, y] = daily_snow_balance[7]
             daily_storage_transfer[x, y] = daily_snow_balance[8]
             snowcover_frac[x, y] = daily_snow_balance[9]
+
             # # ===============================================================
             # #                       Soil Water Balance
             # # ===============================================================
@@ -212,7 +213,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             modified_effective_precipitation = \
                 soil.immediate_runoff(effective_precipitation[x, y],
                                       runoff_frac_builtup[x, y],
-                                      builtup_area[x, y])
+                                      builtup_area_frac[x, y])
 
             # ouputs from the  modified_effective_precipitation are
             # 0 = effective_precipitation (mm/day)

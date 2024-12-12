@@ -48,7 +48,7 @@ from numba import njit
 
 @njit(cache=True)
 def immediate_runoff(effective_precipitation, runoff_frac_builtup,
-                     builtup_area):
+                     builtup_area_frac):
     """
     Compute immediate runoff and effective precipitation.
 
@@ -59,8 +59,8 @@ def immediate_runoff(effective_precipitation, runoff_frac_builtup,
     runoff_frac_builtup:float
         Fraction of effective_precipitation that directly becomes runoff
         (specifically in urban areas) based on [1]_, Units: [-]
-    builtup_area: float
-        Urban area fraction, Units: [-]
+    builtup_area_frac: float
+        Built up (Urban) area fraction, Units: [-]
 
     Returns
     -------
@@ -87,9 +87,9 @@ def immediate_runoff(effective_precipitation, runoff_frac_builtup,
     # Note !!! runoff_frac_builtup = 0.5, Which is the fraction of
     # effective_precipitation that directly becomes runoff (specifically
     # in urban areas)
-    if builtup_area > 0:
+    if builtup_area_frac > 0:
         immediate_runoff = runoff_frac_builtup * effective_precipitation * \
-            builtup_area
+            builtup_area_frac
 
         # Reducing effective precipitation by immediate runoff since 50% is
         # left.

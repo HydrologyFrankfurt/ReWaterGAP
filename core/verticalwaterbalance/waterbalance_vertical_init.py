@@ -41,7 +41,6 @@ class VerticalWaterBalance:
 
         # Volumes at which storage is set to zero, units: [km3]
         self.minstorage_volume = 1e-15
-
         # =====================================================================
         #                   Radiation
         # =====================================================================
@@ -142,10 +141,10 @@ class VerticalWaterBalance:
 
         # Get parameters for soil water balance
         soil_static_data = self.forcings_static.static_data.soil_static_data()
-        self.builtup_area = soil_static_data[0]
-        total_avail_water_content = soil_static_data[1]
+        self.builtup_area_frac = soil_static_data[0]
+        total_avail_water_content = soil_static_data[1]  # units = mm (per 1m soil)
         self.drainage_direction = soil_static_data[2]
-        self.max_groundwater_recharge = soil_static_data[3]
+        self.max_groundwater_recharge = soil_static_data[3]  # units = mm
         self.soil_texture = soil_static_data[4]
         self.groundwater_recharge_factor = soil_static_data[5]
 
@@ -153,7 +152,7 @@ class VerticalWaterBalance:
         soil_parameters = \
             self.forcings_static.static_data.canopy_snow_soil_parameters
 
-        rooting_depth = np.zeros(self.land_cover.shape) * np.nan
+        rooting_depth = np.zeros(self.land_cover.shape) * np.nan  # units = m
         for i in range(len(soil_parameters)):
             rooting_depth[self.land_cover[:, :] == soil_parameters.loc[i, 'Number']] = \
                 soil_parameters.loc[i, 'rooting_depth']
@@ -280,7 +279,7 @@ class VerticalWaterBalance:
                                self.parameters.snow_freeze_temp.values,
                                self.parameters.snow_melt_temp.values,
                                self.parameters.runoff_frac_builtup.values,
-                               self.builtup_area, self.soil_water_content,
+                               self.builtup_area_frac, self.soil_water_content,
                                self.parameters.gamma.values,
                                self.parameters.max_daily_pet.values,
                                self.soil_texture, self.drainage_direction,
