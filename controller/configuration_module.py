@@ -54,9 +54,9 @@ def config_handler(filename):
     try:
         with open(filename, encoding="utf-8") as config:
             config_content = json.load(config)
-    except FileNotFoundError:
-        log.config_logger(logging.ERROR, modname, 'Configuration file '
-                          'not found', args.debug)
+    except FileNotFoundError as error:
+        log.config_logger(logging.ERROR, modname, f'Configuration file '
+                          f'not found: {error} ', args.debug)
         sys.exit()  # don't run code if configuration file does not exist
     else:
         print('Configuration loaded successfully')

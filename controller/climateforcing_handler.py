@@ -91,13 +91,13 @@ class ClimateForcing:
                 xr.open_mfdataset(glob.glob(temperature_path),
                                   chunks={'time': 365})
 
-        except FileNotFoundError:
-            log.config_logger(logging.ERROR, modname, 'Climate forcing '
-                              'not found', args.debug)
+        except FileNotFoundError as error:
+            log.config_logger(logging.ERROR, modname, f'Climate forcing'
+                              f' not found. \n{error}', args.debug)
             sys.exit()  # don't run code if file does not exist
         except ValueError:
             log.config_logger(logging.ERROR, modname, 'File(s) extension '
-                              'should be NETCDF', args.debug)
+                              'should be NETCDF(.nc or .nc4)', args.debug)
             sys.exit()  # don't run code if file does not exist
         else:
             if run_calib is False:

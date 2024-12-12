@@ -74,10 +74,10 @@ class Wateruse:
                 str(Path(cm.water_use_data_path + r'/*'))
 
             frgi_path = str(Path(cm.static_land_data_path +
-                                 r'/watergap_22d_frgi.nc4'))
+                                 r'/watergap_22e_frgi.nc4'))
 
             glwdunits_path = str(Path(cm.static_land_data_path +
-                                 r'/watergap_22d_glwdunits.nc'))
+                                 r'/watergap_22e_glwdunits.nc'))
 
             # ==============================================================
             # Loading in Wateruse
@@ -121,13 +121,13 @@ class Wateruse:
                     xr.open_dataset(glwdunits_path, decode_times=False)
                 self.glwdunits = glwdunits.glwdunits.values
 
-            except FileNotFoundError:
-                log.config_logger(logging.ERROR, modname, 'Water use data '
-                                  'not found', args.debug)
+            except FileNotFoundError as error:
+                log.config_logger(logging.ERROR, modname, f'Water use data '
+                                  f'not found \n{error}', args.debug)
                 sys.exit()  # dont run code if file does not exist
             except ValueError:
                 log.config_logger(logging.ERROR, modname, 'File(s) extension '
-                                  'should be NETCDF or Water use data not found', args.debug)
+                                  'should be NETCDF(.nc or .nc4)', args.debug)
                 sys.exit()  # dont run code if file does not exist
             else:
                 if run_calib is False:

@@ -56,7 +56,7 @@ class StaticData:
         # path to climate forcing netcdf data
         # ==============================================================
         land_cover_path = str(Path(cm.static_land_data_path +
-                                   r'/watergap_22d_landcover.nc4'))
+                                   r'/watergap_22e_landcover.nc4'))
 
         humid_arid_path = str(Path(cm.static_land_data_path +
                                    r'/watergap_22e_aridhumid.nc4'))
@@ -73,9 +73,10 @@ class StaticData:
 
         gtopo30_elevation_path = \
             str(Path(cm.static_land_data_path +
-                     r'/watergap_22e_v001_elevrange.nc4'))
+                     r'/watergap_22e_elevrange.nc4'))
 
-        cell_area_path = str(Path(cm.static_land_data_path + r'/cell_area.nc'))
+        cell_area_path = str(Path(cm.static_land_data_path + 
+                                  r'/watergap_22e_continentalarea.nc'))
 
         river_static_file_path = \
             str(Path(cm.static_land_data_path + r'/river_static_data/*'))
@@ -85,7 +86,7 @@ class StaticData:
 
         reservoir_frac_file_path = \
             str(Path(cm.static_land_data_path +
-                     r'/watergap_22d_gloresfrac_1901_2020.nc'))
+                     r'/watergap_22e_gloresfrac_1901_2020.nc'))
 
         rout_order_path = str(Path(cm.static_land_data_path +
                                    r'/routing_order.csv'))
@@ -108,7 +109,7 @@ class StaticData:
                 r'/upstream_cells_for_grid_arcid.csv'))
 
         arc_id_path = \
-            str(Path(cm.static_land_data_path + r'/arc_id.nc'))
+            str(Path(cm.static_land_data_path + r'/watergap_22e_arc_id.nc'))
 
         station_path = str(Path(cm.path_to_stations_file +
                                 r'/stations.csv'))
@@ -126,7 +127,7 @@ class StaticData:
                                          decode_times=False)
             self.humid_arid = humid_arid.aridhumid[0].values
 
-            # Elevations according to GTOPO30 (U.S. Geological Survey, 1996)
+            # Elevations(m) according to GTOPO30 (U.S. Geological Survey, 1996)
             gtopo30_elevation = xr.open_dataset(gtopo30_elevation_path,
                                                 decode_times=False)
             self.gtopo30_elevation = gtopo30_elevation.elevrange.values
@@ -145,7 +146,7 @@ class StaticData:
                                   decode_times=False)
             # Cell Area
             cell_area = xr.open_dataset(cell_area_path, decode_times=False)
-            self.cell_area = cell_area.cell_area.values
+            self.cell_area = cell_area.continentalarea.values
 
             # River static files**
             self.river_static_files = \
@@ -180,13 +181,12 @@ class StaticData:
             self.lat_lon_arcid = pd.read_csv(lat_lon_arcid_path)
             self.stations = pd.read_csv(station_path)
 
-        except FileNotFoundError:
-            log.config_logger(logging.ERROR, modname, 'Static data '
-                              'not found', args.debug)
+        except FileNotFoundError as error:
+            log.config_logger(logging.ERROR, modname, error, args.debug)
             sys.exit()  # dont run code if file does not exist
         except ValueError:
             log.config_logger(logging.ERROR, modname, 'File(s) extension '
-                              'should be NETCDF or CSV for canopy model'
+                              'should be NETCDF(.nc or .nc4) or CSV for canopy model'
                               'parameters', args.debug)
             sys.exit()  # dont run code if file does not exist
         else:
@@ -199,8 +199,8 @@ class StaticData:
 
         Returns
         -------
-        builtup_area : array
-            Built up area, Unit: [-]
+        builtup_area_frac : array
+            Built up area fraction, Unit: [-]
         total_avail_water_content : array
             Total available water content,  Unit: [mm]
         drainage_direction : array
@@ -213,10 +213,10 @@ class StaticData:
            groundwater recharge factor with Missipi corrected,  Unit: [-]
 
         """
-        # Built up area, units = (-)
-        builtup_area = self.soil_static_files.builtup_area_frac[0].values
+        # Built up area fraction, units = (-)
+        builtup_area_frac = self.soil_static_files.builtup_area_frac[0].values
 
-        # Total available water content , units = mm
+        # Total available water content , units = mm (per 1m soil)
         total_avail_water_content = \
             self.soil_static_files.tawc[0].values.astype(np.float64)
 
@@ -235,5 +235,5 @@ class StaticData:
         groundwater_recharge_factor = \
             self.soil_static_files.gw_factor_corr[0].values.astype(np.float64)
 
-        return builtup_area, total_avail_water_content, drainage_direction,\
+        return builtup_area_frac, total_avail_water_content, drainage_direction,\
             max_groundwater_recharge, soil_texture, groundwater_recharge_factor
