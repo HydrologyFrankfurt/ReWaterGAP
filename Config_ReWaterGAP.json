@@ -30,11 +30,11 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1989-01-01",
-        "end": "1989-12-31",
+        "start": "1966-01-01",
+        "end": "1966-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
-        "spinup_years": 5
+        "spinup_years": 0
       }
     },
     {
@@ -76,27 +76,27 @@
         "canopy_storage": false,
         "snow_water_equiv": false,
         "soil_moisture": false,
-        "maximum_soil_moisture": false
+        "maximum_soil_moisture": true
       }
     },
     {
       "LateralWaterBalanceFluxes": {
-        "consistent_precipitation": false,
-        "groundwater_discharge": false,
+        "consistent_precipitation": true,
+        "groundwater_discharge": true,
         "total_runoff": false,
         "pot_cell_runoff": false,
-        "groundwater_recharge_swb": false,
+        "groundwater_recharge_swb": true,
         "total_groundwater_recharge": false,
         "local_lake_outflow": false,
         "local_wetland_outflow": false,
         "global_lake_outflow": false,
         "global_wetland_outflow": false,
-        "streamflow": false,
-        "streamflow_from_upstream": false,
+        "streamflow": true,
+        "streamflow_from_upstream": true,
         "actual_net_abstr_groundwater": true,
         "actual_net_abstr_surfacewater": true,
-        "actual_water_consumption": false,
-        "cell_aet_consuse": false,
+        "actual_water_consumption": true,
+        "cell_aet_consuse": true,
         "unsat_potnetabs_sw_from_demandcell": false,
         "returned_demand_from_supplycell": false,
         "returned_demand_from_supplycell_nextday": false,
@@ -117,7 +117,7 @@
         "global_wetland_storage": false,
         "river_storage": false,
         "global_reservoir_storage": false,
-        "total_water_storage": false
+        "total_water_storage": true
       }
     }
   ]

@@ -204,7 +204,7 @@ def main():
         # and  surface water. This will be the water use data for calibration)
         print('\n' + colored("Running Calibration step A...","magenta"))
         calib_watergap.modify_config_file()
-        calib_watergap.run_watergap()
+        # calib_watergap.run_watergap()
 
         # =====================================================================
         #  Set up files for calibration (generate config file for each station)
@@ -213,7 +213,7 @@ def main():
                              " for Calibration step B...", "magenta"))
 
         # subprocess.run(["python3", "-m", "calibration.calibration_setup",
-        #                 calib_watergap.config_path], check=True)
+                        # calib_watergap.config_path], check=True)
 
         # =====================================================================
         #                       Calibration step B
@@ -223,7 +223,7 @@ def main():
         print('\n' + colored("Running Calibration step B...", "magenta"))
         n = calib_watergap.get_number_of_basins()
 
-        basin_ids = list(range(1, n+1))
+        basin_ids = list(range(1, n+1)) # ipg90
 
         print('\n' + colored("Calibrating " + str(len(basin_ids))+" calibration region(s)...", "blue"))
         if mode == 'local':
