@@ -130,8 +130,7 @@ class LateralWaterBalance:
 
         # Roughness multiplier (-)
         self.roughness_multiplier = \
-            self.static_data.river_static_files.\
-            river_roughness_coeff_mult.values.astype(np.float64)
+            self.parameters.river_roughness_coeff_mult.values.astype(np.float64)
 
         # River length  with uncorrected length in coastal cells (km).
         # Note: River length is later corrected with continental cell fraction
@@ -780,7 +779,6 @@ class LateralWaterBalance:
         glolake_outflow = out[11]
         glowet_outflow = out[12]
         streamflow = np.where(self.drainage_direction < 0, np.nan , out[13])
-
 
         net_cell_runoff = out[14]
 
