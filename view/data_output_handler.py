@@ -91,13 +91,16 @@ class OutputVariable:
                                  )
 
             # Add variable metadata
+            unit_conversion_info = ["If the variable needs conversion to"
+                                    " volumetric units (L³ T⁻¹ or L³),"
+                                    " use watergap22e_continentalarea.nc4"
+                                    " (water density is 1 kg per dm³);"
+                                    "otherwise, conversion is not needed."]
             self.data[self.variable_name].attrs = {
                 "standard_name": self.variable_name,
                 "long_name": var_info.modelvars[self.variable_name]['long'],
                 "units": var_info.modelvars[self.variable_name]['unit'],
-                ":unit_conversion_info": "If the variable needs conversion to"
-                " volumetric units (L³ T⁻¹ or L³), use watergap22e_continentalarea.nc4 (water density is 1 kg per dm³);"
-                "otherwise, conversion is not needed."
+                "unit_conversion_info": unit_conversion_info[0]
                 }
 
             # Add global metadata
