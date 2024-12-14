@@ -338,10 +338,17 @@ class LandsurfacewaterFraction:
             self.land_and_water_freq_flag = False
 
         else:
+            # For all years except the first year, consider the updated
+            # fractional routing fractions of local lakes.
+            # Note: Any increase in the land area fraction compared to the
+            # previous year is treated as an increase in the global reservoir
+            # fraction. Additionally, the reservoir volume is adjusted to
+            # maintain consistency by incorporating storage changes  from
+            # canopy, soil, and snow storage (see adapt_glores_storage).
             if (pd.to_datetime(date).month == 1) and (pd.to_datetime(date).day == 1):
                 if self.reservior_opt:
                     res_year_lakewet_frac = str(pd.to_datetime(date).year)
-                    glores_frac_currentyear = self.static_data.resyear_frac.glores_frac.\
+                    glores_frac_currentyear = self.static_data.resyear_frac.gloresfrac.\
                         sel(time=res_year_lakewet_frac).values.astype(np.float64)
                 else:
                     glores_frac_currentyear = np.zeros_like(self.cont_frac)
