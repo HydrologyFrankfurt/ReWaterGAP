@@ -30,11 +30,11 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1966-01-01",
-        "end": "1966-12-31",
+        "start": "1901-01-01",
+        "end": "2019-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
-        "spinup_years": 0
+        "spinup_years": 5
       }
     },
     {
@@ -82,10 +82,10 @@
     {
       "LateralWaterBalanceFluxes": {
         "consistent_precipitation": true,
-        "groundwater_discharge": true,
+        "groundwater_discharge": false,
         "total_runoff": false,
         "pot_cell_runoff": false,
-        "groundwater_recharge_swb": true,
+        "groundwater_recharge_swb": false,
         "total_groundwater_recharge": false,
         "local_lake_outflow": false,
         "local_wetland_outflow": false,

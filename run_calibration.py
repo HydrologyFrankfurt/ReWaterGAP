@@ -204,7 +204,7 @@ def main():
         # and  surface water. This will be the water use data for calibration)
         print('\n' + colored("Running Calibration step A...","magenta"))
         calib_watergap.modify_config_file()
-        # calib_watergap.run_watergap()
+        calib_watergap.run_watergap()
 
         # =====================================================================
         #  Set up files for calibration (generate config file for each station)
@@ -212,8 +212,8 @@ def main():
         print('\n' + colored("Generating station specific configuration files"
                              " for Calibration step B...", "magenta"))
 
-        # subprocess.run(["python3", "-m", "calibration.calibration_setup",
-                        # calib_watergap.config_path], check=True)
+        subprocess.run(["python3", "-m", "calibration.calibration_setup",
+                        calib_watergap.config_path], check=True)
 
         # =====================================================================
         #                       Calibration step B
@@ -223,11 +223,11 @@ def main():
         print('\n' + colored("Running Calibration step B...", "magenta"))
         n = calib_watergap.get_number_of_basins()
 
-        basin_ids = list(range(1, n+1)) # ipg90
+        basin_ids = list(range(1, n+1))
 
         print('\n' + colored("Calibrating " + str(len(basin_ids))+" calibration region(s)...", "blue"))
         if mode == 'local':
-            # calib_watergap.run_on_local_server(basin_ids, num_threads_or_nodes)
+            calib_watergap.run_on_local_server(basin_ids, num_threads_or_nodes)
             print('\n' + colored("Calibration complete", "green"))
         elif mode == 'cluster':
             calib_watergap.run_on_cluster(basin_ids, num_threads_or_nodes)
@@ -241,7 +241,7 @@ def main():
         # limited observations. After, parameters are merged into a single
         # netcdf.
         print('\n' + colored("Running Regionlisation step C...", "magenta"))
-        merge_parameters.run_regionalization_merge_parameters()
+        merge_parameters.run_regionalization_merge_parameters(num_threads_or_nodes)
         absolute_param_path = os.path.abspath("./core/WaterGAP_2.2e_global_parameters.nc")
         print('\n' + colored(f"Model parameters merged and saved to {absolute_param_path}", "green"))
 
