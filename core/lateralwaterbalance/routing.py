@@ -30,7 +30,7 @@ from core.lateralwaterbalance import groundwater as gw
 from core.lateralwaterbalance import lakes_wetlands as lw
 from core.lateralwaterbalance import routing_to_surface_water_bodies as rt_surf
 from core.lateralwaterbalance import river
-from core.lateralwaterbalance import reservior_regulated_lakes as res_reg
+from core.lateralwaterbalance import reservoir_regulated_lakes as res_reg
 from core.lateralwaterbalance import distribute_net_abstraction as dist_netabstr
 from core.lateralwaterbalance import neighbouring_cell as nbcell
 from core.lateralwaterbalance import local_lake_net_abstraction as lake_netabstr
