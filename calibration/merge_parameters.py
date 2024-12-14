@@ -61,9 +61,9 @@ def merge_parameters():
     out_params.to_netcdf("./core/WaterGAP_2.2e_global_parameters.nc")
 
 
-def run_regionalization_merge_parameters():
+def run_regionalization_merge_parameters(num_threads_or_nodes):
     convert_data_csv.convert_csv()
-    regio.regionalize_paramters()
+    regio.regionalize_paramters(num_threads_or_nodes)
     merge_parameters()
 
 

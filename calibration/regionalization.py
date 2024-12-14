@@ -63,7 +63,7 @@ def get_arcid_gamma(region_folders, combined_df):
     return combined_df
 
 
-def regionalize_paramters():
+def regionalize_paramters(num_threads_or_nodes):
     # =========================================================================
     # Path settings
     # =========================================================================
@@ -81,7 +81,7 @@ def regionalize_paramters():
     # =========================================================================
 
     subfolders = glob.glob(calib_out_dir + "/*/")
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with concurrent.futures.ProcessPoolExecutor(max_workers=num_threads_or_nodes) as executor:
         results = executor.map(get_arcid_gamma, subfolders, [combined_df]*len(subfolders))
 
     # Combine results
