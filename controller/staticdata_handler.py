@@ -82,7 +82,7 @@ class StaticData:
             str(Path(cm.static_land_data_path + r'/river_static_data/*'))
 
         reservoir_reglake_file_path = str(Path(cm.static_land_data_path +
-                                               r'/reservior_regulated_lake/*'))
+                                               r'/reservoir_regulated_lake/*'))
 
         reservoir_frac_file_path = \
             str(Path(cm.static_land_data_path +
@@ -148,7 +148,7 @@ class StaticData:
             cell_area = xr.open_dataset(cell_area_path, decode_times=False)
             self.cell_area = cell_area.continentalarea.values
 
-            # River static files**
+            # River static files
             self.river_static_files = \
                 xr.open_mfdataset(river_static_file_path, decode_times=False)
 
