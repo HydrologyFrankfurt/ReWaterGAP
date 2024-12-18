@@ -22,12 +22,12 @@ from misc.time_checker_and_ascii_image import check_time
 from controller import configuration_module as cm
 from controller import read_forcings_and_static as rd
 from controller import wateruse_handler as wateruse
-from core import parameters as pm
-from core import land_surfacewater_fraction_init as lwf
-from core.lateralwaterbalance import waterbalance_lateral as lb
-from core.utility import restart_watergap as restartwatergap
-from core.utility import get_upstream_basin as get_basin
-from core.verticalwaterbalance import waterbalance_vertical_init as vb
+from model import parameters as pm
+from model import land_surfacewater_fraction_init as lwf
+from model.lateralwaterbalance import waterbalance_lateral as lb
+from model.utility import restart_watergap as restartwatergap
+from model.utility import get_upstream_basin as get_basin
+from model.verticalwaterbalance import waterbalance_vertical_init as vb
 from view import createandwrite as cw
 
 

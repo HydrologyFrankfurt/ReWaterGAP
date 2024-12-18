@@ -242,7 +242,7 @@ def main():
         # netcdf.
         print('\n' + colored("Running Regionlisation step C...", "magenta"))
         merge_parameters.run_regionalization_merge_parameters(num_threads_or_nodes)
-        absolute_param_path = os.path.abspath("./core/WaterGAP_2.2e_global_parameters.nc")
+        absolute_param_path = os.path.abspath("./model/WaterGAP_2.2e_global_parameters.nc")
         print('\n' + colored(f"Model parameters merged and saved to {absolute_param_path}", "green"))
 
     except KeyboardInterrupt:
