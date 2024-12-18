@@ -28,15 +28,15 @@ from core.lateralwaterbalance import groundwater_adapt_net_abstraction as \
 
 
 @njit(cache=True)
-def compute_groundwater_balance(x, y,
-                                aridity_or_inlandsink, groundwater_storage,
-                                diffuse_gw_recharge,
-                                potential_net_abstraction_gw,
-                                daily_unsatisfied_pot_nas, gw_dis_coeff,
-                                prev_potential_water_withdrawal_sw_irri,
-                                prev_potential_consumptive_use_sw_irri,
-                                frac_irri_returnflow_to_gw,
-                                point_source_recharge=None):
+def groundwater_balance(x, y,
+                        aridity_or_inlandsink, groundwater_storage,
+                        diffuse_gw_recharge,
+                        potential_net_abstraction_gw,
+                        daily_unsatisfied_pot_nas, gw_dis_coeff,
+                        prev_potential_water_withdrawal_sw_irri,
+                        prev_potential_consumptive_use_sw_irri,
+                        frac_irri_returnflow_to_gw,
+                        point_source_recharge=None):
     """
     Compute daily groundwater balance including storages and related fluxes.
 

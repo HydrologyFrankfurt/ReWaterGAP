@@ -24,22 +24,22 @@ from core.lateralwaterbalance import reservoir_release_hanasaki as hanaski
 
 
 @njit(cache=True)
-def reservior_and_regulated_lake(rout_order, routflow_looper, outflow_cell,
-                                 storage, stor_capacity, precipitation,
-                                 openwater_pot_evap, aridity, drainage_direction,
-                                 inflow_to_swb,
-                                 groundwater_recharge_constant, reservior_area,
-                                 reduction_exponent_res, areal_corr_factor,
-                                 res_start_month, simulation_momth_day,
-                                 k_release, reservoir_type,
-                                 allocation_coeff, monthly_demand,
-                                 mean_annual_demand, mean_annual_inflow,
-                                 glolake_area,
-                                 accumulated_unsatisfied_potential_netabs_sw,
-                                 accumulated_unsatisfied_potential_netabs_glolake,
-                                 num_days_in_month,
-                                 all_reservoir_and_regulated_lake_area,
-                                 reg_lake_redfactor_firstday, minstorage_volume):
+def reservior_regulated_lake_water_balance(rout_order, routflow_looper, outflow_cell,
+                                           storage, stor_capacity, precipitation,
+                                           openwater_pot_evap, aridity, drainage_direction,
+                                           inflow_to_swb,
+                                           groundwater_recharge_constant, reservior_area,
+                                           reduction_exponent_res, areal_corr_factor,
+                                           res_start_month, simulation_momth_day,
+                                           k_release, reservoir_type,
+                                           allocation_coeff, monthly_demand,
+                                           mean_annual_demand, mean_annual_inflow,
+                                           glolake_area,
+                                           accumulated_unsatisfied_potential_netabs_sw,
+                                           accumulated_unsatisfied_potential_netabs_glolake,
+                                           num_days_in_month,
+                                           all_reservoir_and_regulated_lake_area,
+                                           reg_lake_redfactor_firstday, minstorage_volume):
     """
     Compute water balance for reservoirs and regulated lakes.
 

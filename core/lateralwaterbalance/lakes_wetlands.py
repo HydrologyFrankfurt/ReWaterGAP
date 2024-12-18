@@ -23,16 +23,16 @@ from core.lateralwaterbalance import storage_reduction_factor as rf
 
 
 @njit(cache=True)
-def lake_wetland_balance(x, y,
-                         choose_swb, storage, precipitation,
-                         openwater_pot_evap, aridity, drainage_direction,
-                         inflow_to_swb, swb_outflow_coeff,
-                         groundwater_recharge_constant,
-                         reduction_exponent_lakewet, areal_corr_factor,
-                         max_storage=None, max_area=None, lakewet_frac=0,
-                         lake_outflow_exp=None, wetland_outflow_exp=None,
-                         reservoir_area=0,
-                         accumulated_unsatisfied_potential_netabs_sw=0):
+def lake_wetland_water_balance(x, y,
+                               choose_swb, storage, precipitation,
+                               openwater_pot_evap, aridity, drainage_direction,
+                               inflow_to_swb, swb_outflow_coeff,
+                               groundwater_recharge_constant,
+                               reduction_exponent_lakewet, areal_corr_factor,
+                               max_storage=None, max_area=None, lakewet_frac=0,
+                               lake_outflow_exp=None, wetland_outflow_exp=None,
+                               reservoir_area=0,
+                               accumulated_unsatisfied_potential_netabs_sw=0):
     """
     Compute water balance for global and local lakes and wetlands including
     storage and related fluxes.
