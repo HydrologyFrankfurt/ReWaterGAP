@@ -101,15 +101,15 @@ def immediate_runoff(effective_precipitation, runoff_frac_builtup,
 
 
 @njit(cache=True)
-def soil_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
-                 landareafrac_ratio,  max_temp_elev, canopy_evap,
-                 effective_precipitation, precipitation,
-                 immediate_runoff, land_storage_change_sum, sublimation,
-                 daily_storage_transfer, snow_freeze_temp, gamma,
-                 max_daily_pet, humid_arid, soil_texture, drainage_direction,
-                 max_groundwater_recharge, groundwater_recharge_factor,
-                 critcal_gw_precipitation, max_soil_water_content,
-                 areal_corr_factor, minstorage_volume, x, y):
+def soil_water_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
+                       landareafrac_ratio,  max_temp_elev, canopy_evap,
+                       effective_precipitation, precipitation,
+                       immediate_runoff, land_storage_change_sum, sublimation,
+                       daily_storage_transfer, snow_freeze_temp, gamma,
+                       max_daily_pet, humid_arid, soil_texture, drainage_direction,
+                       max_groundwater_recharge, groundwater_recharge_factor,
+                       critcal_gw_precipitation, max_soil_water_content,
+                       areal_corr_factor, minstorage_volume, x, y):
     """
     Compute daily soil balance.
 

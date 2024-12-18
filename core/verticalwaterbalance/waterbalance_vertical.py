@@ -97,24 +97,24 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             # =================================================================
 
             radiation_for_potevap = rad_pet.\
-                compute_radiation(temperature[x, y],
-                                  down_shortwave_radiation[x, y],
-                                  down_longwave_radiation[x, y],
-                                  snow_water_storage[x, y],
-                                  snow_albedo_thresh[x, y],
-                                  openwater_albedo[x, y],
-                                  snow_albedo[x, y], albedo[x, y],
-                                  emissivity[x, y], x, y)
+                calculate_net_radiation(temperature[x, y],
+                                        down_shortwave_radiation[x, y],
+                                        down_longwave_radiation[x, y],
+                                        snow_water_storage[x, y],
+                                        snow_albedo_thresh[x, y],
+                                        openwater_albedo[x, y],
+                                        snow_albedo[x, y], albedo[x, y],
+                                        emissivity[x, y], x, y)
 
             net_rad, openwater_net_rad = radiation_for_potevap
             net_radiation[x, y] = net_rad.item()
             openwater_net_radiation[x, y] = openwater_net_rad.item()
 
             pot_evap, openwater_evap = \
-                rad_pet.priestley_taylor(temperature[x, y],
-                                         pt_coeff_humid_arid[x, y],
-                                         net_radiation[x, y],
-                                         openwater_net_radiation[x, y], x, y)
+                rad_pet.priestley_taylor_pet(temperature[x, y],
+                                             pt_coeff_humid_arid[x, y],
+                                             net_radiation[x, y],
+                                             openwater_net_radiation[x, y], x, y)
 
             daily_potential_evap[x, y] = pot_evap.item()
             openwater_potential_evap[x, y] = openwater_evap.item()
@@ -145,14 +145,14 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             #               Canopy Water Balance
             # =================================================================
             daily_canopy_balance = canopy.\
-                canopy_balance(canopy_storage[x, y],
-                               leaf_area_index[x, y],
-                               daily_potential_evap[x, y],
-                               precipitation[x, y],
-                               current_landarea_frac[x, y],
-                               landareafrac_ratio[x, y],
-                               max_storage_coefficient[x, y],
-                               minstorage_volume, x, y)
+                canopy_water_balance(canopy_storage[x, y],
+                                     leaf_area_index[x, y],
+                                     daily_potential_evap[x, y],
+                                     precipitation[x, y],
+                                     current_landarea_frac[x, y],
+                                     landareafrac_ratio[x, y],
+                                     max_storage_coefficient[x, y],
+                                     minstorage_volume, x, y)
 
             # ouputs from the  daily_canopy_balance are
             # 0 = canopy_storage (mm), 1 = throughfall (mm/day),
@@ -171,22 +171,22 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             #               Snow Water Balance
             # =================================================================
             daily_snow_balance = \
-                snow.subgrid_snow_balance(snow_water_storage[x, y],
-                                          snow_water_storage_subgrid[:, x, y],
-                                          temperature[x, y],
-                                          precipitation[x, y],
-                                          throughfall[x, y],
-                                          pet_to_soil[x, y],
-                                          land_storage_change_sum[x, y],
-                                          degreeday[x, y],
-                                          current_landarea_frac[x, y],
-                                          landareafrac_ratio[x, y],
-                                          elevation[:, x, y],
-                                          daily_storage_transfer[x, y],
-                                          adiabatic_lapse_rate[x, y],
-                                          snow_freeze_temp[x, y],
-                                          snow_melt_temp[x, y],
-                                          minstorage_volume, x, y)
+                snow.snow_water_balance(snow_water_storage[x, y],
+                                        snow_water_storage_subgrid[:, x, y],
+                                        temperature[x, y],
+                                        precipitation[x, y],
+                                        throughfall[x, y],
+                                        pet_to_soil[x, y],
+                                        land_storage_change_sum[x, y],
+                                        degreeday[x, y],
+                                        current_landarea_frac[x, y],
+                                        landareafrac_ratio[x, y],
+                                        elevation[:, x, y],
+                                        daily_storage_transfer[x, y],
+                                        adiabatic_lapse_rate[x, y],
+                                        snow_freeze_temp[x, y],
+                                        snow_melt_temp[x, y],
+                                        minstorage_volume, x, y)
             # ouputs from the  daily_snow_balance  are
             # 0 = snow_water_storage (mm), 1 = snow_water_storage_subgrid (mm),
             # 2 = snow_fall (mm/day), 3 = sublimation (mm/day),
@@ -223,25 +223,25 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
 
             # compute daily soil water balance.
             daily_soil_balance = soil.\
-                soil_balance(soil_water_content[x, y], pet_to_soil[x, y],
-                             current_landarea_frac[x, y],
-                             landareafrac_ratio[x, y],
-                             max_temp_elev[x, y], canopy_evap[x, y],
-                             effective_precipitation[x, y],
-                             precipitation[x, y],
-                             immediate_runoff[x, y],
-                             land_storage_change_sum[x, y],
-                             sublimation[x, y],
-                             daily_storage_transfer[x, y],
-                             snow_freeze_temp[x, y],
-                             gamma[x, y], max_daily_pet[x, y], humid_arid[x, y],
-                             soil_texture[x, y], drainage_direction[x, y],
-                             max_groundwater_recharge[x, y],
-                             groundwater_recharge_factor[x, y],
-                             critcal_gw_precipitation[x, y],
-                             max_soil_water_content[x, y],
-                             areal_corr_factor[x, y],
-                             minstorage_volume, x, y)
+                soil_water_balance(soil_water_content[x, y], pet_to_soil[x, y],
+                                   current_landarea_frac[x, y],
+                                   landareafrac_ratio[x, y],
+                                   max_temp_elev[x, y], canopy_evap[x, y],
+                                   effective_precipitation[x, y],
+                                   precipitation[x, y],
+                                   immediate_runoff[x, y],
+                                   land_storage_change_sum[x, y],
+                                   sublimation[x, y],
+                                   daily_storage_transfer[x, y],
+                                   snow_freeze_temp[x, y],
+                                   gamma[x, y], max_daily_pet[x, y], humid_arid[x, y],
+                                   soil_texture[x, y], drainage_direction[x, y],
+                                   max_groundwater_recharge[x, y],
+                                   groundwater_recharge_factor[x, y],
+                                   critcal_gw_precipitation[x, y],
+                                   max_soil_water_content[x, y],
+                                   areal_corr_factor[x, y],
+                                   minstorage_volume, x, y)
 
             # ouputs from the  daily_soil_balance  are
             # 0 = soil_water_content (mm),

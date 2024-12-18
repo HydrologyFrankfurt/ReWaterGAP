@@ -22,9 +22,9 @@ from numba import njit
 
 
 @njit(cache=True)
-def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
-                   precipitation, current_landarea_frac, landareafrac_ratio,
-                   max_storage_coefficient, minstorage_volume,  x, y):
+def canopy_water_balance(canopy_storage, daily_leaf_area_index, potential_evap,
+                         precipitation, current_landarea_frac, landareafrac_ratio,
+                         max_storage_coefficient, minstorage_volume,  x, y):
     """
     Calulate daily canopy balance including canopy storage and water flows
     entering and leaving the canopy storage.
@@ -51,7 +51,7 @@ def canopy_balance(canopy_storage, daily_leaf_area_index, potential_evap,
     Returns
     -------
     canopy_storage : float
-        Updated daily canopy stroage,  Units: [mm]
+        Updated daily canopy storage,  Units: [mm]
     throughfall : float
         Throughfall,  Units: [mm/day]
     canopy_evap : float

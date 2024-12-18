@@ -28,10 +28,10 @@ from numba import njit
 
 
 @njit(cache=True)
-def compute_radiation(temperature, down_shortwave_radiation,
-                      down_longwave_radiation, snow_water_storage,
-                      snow_albedo_thresh, openwater_albedo,
-                      snow_albedo, albedo, emissivity, x, y):
+def calculate_net_radiation(temperature, down_shortwave_radiation,
+                            down_longwave_radiation, snow_water_storage,
+                            snow_albedo_thresh, openwater_albedo,
+                            snow_albedo, albedo, emissivity, x, y):
     """
     Compute Radition  according to Müller Schmied et al., 2016.
 
@@ -123,11 +123,11 @@ def compute_radiation(temperature, down_shortwave_radiation,
 
 
 @njit(cache=True)
-def priestley_taylor(temperature, pt_coeff_humid_arid,
-                     net_radiation, openwater_net_radiation,
-                     x, y ):
+def priestley_taylor_pet(temperature, pt_coeff_humid_arid,
+                         net_radiation, openwater_net_radiation,
+                         x, y):
     """
-    Compute Priestly-Taylor potential evapotranspiration.
+    Potential evapotranspiration based on Priestly-Taylor algorithm
 
     Parameters
     ----------

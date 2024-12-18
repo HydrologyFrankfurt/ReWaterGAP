@@ -29,13 +29,13 @@ from numba import njit
 
 
 @njit(cache=True)
-def subgrid_snow_balance(snow_water_storage, snow_water_storage_subgrid,
-                         temperature, precipitation, throughfall, pet_to_soil,
-                         land_storage_change_sum, degreeday,
-                         current_landarea_frac, landareafrac_ratio,
-                         elevation, daily_storage_transfer,
-                         adiabatic_lapse_rate,  snow_freeze_temp,
-                         snow_melt_temp, minstorage_volume, x, y):
+def snow_water_balance(snow_water_storage, snow_water_storage_subgrid,
+                       temperature, precipitation, throughfall, pet_to_soil,
+                       land_storage_change_sum, degreeday,
+                       current_landarea_frac, landareafrac_ratio,
+                       elevation, daily_storage_transfer,
+                       adiabatic_lapse_rate,  snow_freeze_temp,
+                       snow_melt_temp, minstorage_volume, x, y):
     """
     Compute snow water balance for subgrids including snow water storage and
     water flows entering and leaving the snow storage
