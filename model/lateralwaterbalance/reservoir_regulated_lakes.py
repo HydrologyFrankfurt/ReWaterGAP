@@ -19,8 +19,8 @@
 
 import numpy as np
 from numba import njit
-from core.lateralwaterbalance import storage_reduction_factor as rf
-from core.lateralwaterbalance import reservoir_release_hanasaki as hanaski
+from model.lateralwaterbalance import storage_reduction_factor as rf
+from model.lateralwaterbalance import reservoir_release_hanasaki as hanaski
 
 
 @njit(cache=True)

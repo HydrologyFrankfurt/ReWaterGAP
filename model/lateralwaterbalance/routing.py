@@ -26,14 +26,14 @@
 # =============================================================================
 import numpy as np
 from numba import njit
-from core.lateralwaterbalance import groundwater as gw
-from core.lateralwaterbalance import lakes_wetlands as lw
-from core.lateralwaterbalance import routing_to_surface_water_bodies as rt_surf
-from core.lateralwaterbalance import river
-from core.lateralwaterbalance import reservoir_regulated_lakes as res_reg
-from core.lateralwaterbalance import distribute_net_abstraction as dist_netabstr
-from core.lateralwaterbalance import neighbouring_cell as nbcell
-from core.lateralwaterbalance import local_lake_net_abstraction as lake_netabstr
+from model.lateralwaterbalance import groundwater as gw
+from model.lateralwaterbalance import lakes_wetlands as lw
+from model.lateralwaterbalance import routing_to_surface_water_bodies as rt_surf
+from model.lateralwaterbalance import river
+from model.lateralwaterbalance import reservoir_regulated_lakes as res_reg
+from model.lateralwaterbalance import distribute_net_abstraction as dist_netabstr
+from model.lateralwaterbalance import neighbouring_cell as nbcell
+from model.lateralwaterbalance import local_lake_net_abstraction as lake_netabstr
 
 
 @njit(cache=True)

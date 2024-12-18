@@ -19,7 +19,7 @@
 
 import numpy as np
 from numba import njit
-from core.lateralwaterbalance import storage_reduction_factor as rf
+from model.lateralwaterbalance import storage_reduction_factor as rf
 
 
 @njit(cache=True)

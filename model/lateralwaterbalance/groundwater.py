@@ -23,7 +23,7 @@
 
 import numpy as np
 from numba import njit
-from core.lateralwaterbalance import groundwater_adapt_net_abstraction as \
+from model.lateralwaterbalance import groundwater_adapt_net_abstraction as \
     gw_adapt_netabstr
 
 

@@ -6,7 +6,7 @@ Created on Sat Aug 19 14:20:24 2023.
 """
 
 from numba import njit
-from core.lateralwaterbalance import storage_reduction_factor as rf
+from model.lateralwaterbalance import storage_reduction_factor as rf
 
 
 @njit(cache=True)

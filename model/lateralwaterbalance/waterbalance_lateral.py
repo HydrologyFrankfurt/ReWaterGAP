@@ -15,8 +15,8 @@
 # =============================================================================
 import numpy as np
 import pandas as pd
-from core.lateralwaterbalance import river_init
-from core.lateralwaterbalance import routing as rt
+from model.lateralwaterbalance import river_init
+from model.lateralwaterbalance import routing as rt
 from controller import configuration_module as cm
 
 
