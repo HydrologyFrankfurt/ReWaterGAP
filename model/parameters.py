@@ -48,7 +48,7 @@ class Parameters:
                                       f"/WaterGAP_2.2e_global_parameters_basin_{basin_id}.nc"))
             else:
                 # Default
-                param_path = str(Path('core/WaterGAP_2.2e_global_parameters.nc'))
+                param_path = str(Path('model/WaterGAP_2.2e_global_parameters.nc'))
 
             self.global_params = xr.open_dataset(param_path, decode_times=False)
 

@@ -12,7 +12,7 @@
 
 import numpy as np
 import pandas as pd
-from core import land_surfacewater_fraction as lsf
+from model import land_surfacewater_fraction as lsf
 
 
 class LandsurfacewaterFraction:
