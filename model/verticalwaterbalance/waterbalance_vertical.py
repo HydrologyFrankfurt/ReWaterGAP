@@ -12,11 +12,11 @@
 
 import numpy as np
 from numba import njit
-from core.verticalwaterbalance import radiation_evapotranspiration as rad_pet
-from core.verticalwaterbalance import lai
-from core.verticalwaterbalance import canopy
-from core.verticalwaterbalance import snow
-from core.verticalwaterbalance import soil
+from model.verticalwaterbalance import radiation_evapotranspiration as rad_pet
+from model.verticalwaterbalance import lai
+from model.verticalwaterbalance import canopy
+from model.verticalwaterbalance import snow
+from model.verticalwaterbalance import soil
 
 
 @njit(cache=True)

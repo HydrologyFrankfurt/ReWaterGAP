@@ -16,9 +16,9 @@
 # =============================================================================
 
 import numpy as np
-from core.utility import units_conveter_check_neg_precip as check_or_convert
-from core.verticalwaterbalance import waterbalance_vertical as vb_numba
-from core.verticalwaterbalance import lai_init
+from model.utility import units_conveter_check_neg_precip as check_or_convert
+from model.verticalwaterbalance import waterbalance_vertical as vb_numba
+from model.verticalwaterbalance import lai_init
 
 
 class VerticalWaterBalance:
