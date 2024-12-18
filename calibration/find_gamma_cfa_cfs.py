@@ -22,7 +22,7 @@ from termcolor import colored
 
 from controller import configuration_module as cm
 from controller import staticdata_handler as sd
-from core.utility import get_upstream_basin as get_basin
+from model.utility import get_upstream_basin as get_basin
 import run_watergap
 import misc.cli_args as cli
 

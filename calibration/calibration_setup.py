@@ -263,7 +263,7 @@ class SetupCalibration:
             if os.path.exists(path):
                 os.remove(path)
 
-            src_file_path = 'core/WaterGAP_2.2e_global_parameters.nc'
+            src_file_path = 'model/WaterGAP_2.2e_global_parameters.nc'
             dest_file_path = f"{self.calib_out_dir}{i}/WaterGAP_2.2e_global_parameters_basin_{i}.nc"
             shutil.copy2(src_file_path, dest_file_path)
 

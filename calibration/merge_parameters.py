@@ -58,7 +58,7 @@ def merge_parameters():
 
     out_params['gamma'].values = merged["gamma_final"].values.reshape(arcid.shape)
 
-    out_params.to_netcdf("./core/WaterGAP_2.2e_global_parameters.nc")
+    out_params.to_netcdf("./model/WaterGAP_2.2e_global_parameters.nc")
 
 
 def run_regionalization_merge_parameters(num_threads_or_nodes):
