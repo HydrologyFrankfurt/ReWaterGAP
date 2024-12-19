@@ -15,9 +15,9 @@ import sys
 # Main ReWaterGAP path
 sys.path.insert(0, os.path.abspath('..'))
 # Vertical Water Balance path
-sys.path.insert(0, os.path.abspath('../core/verticalwaterbalance'))
+sys.path.insert(0, os.path.abspath('../model/verticalwaterbalance'))
 # Lateral Water Balance path
-sys.path.insert(0, os.path.abspath('../core/lateralwaterbalance'))
+sys.path.insert(0, os.path.abspath('../model/lateralwaterbalance'))
 # Controller path 
 sys.path.insert(0, os.path.abspath('../controller'))
 # Miscellaneous 
