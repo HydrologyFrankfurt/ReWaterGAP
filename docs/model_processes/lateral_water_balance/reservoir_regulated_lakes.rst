@@ -13,7 +13,7 @@ In WGHM, reservoirs begin filling at the start of their commissioning year, and 
 .. note::
 	There can be only one global reservoir/regulated lake compartment per grid cell.
 
-.. autofunction:: reservior_regulated_lakes.reservior_regulated_lake_water_balance
+.. autofunction:: reservoir_regulated_lakes.reservior_regulated_lake_water_balance
 
 *************
 Water balance
