@@ -6,7 +6,7 @@ Canopy
 
 Canopy storage and related fluxes are calculated based on section 4.2 of Müller Schmied et al 2021 [1]_.
 
-.. autofunction:: canopy.canopy_balance
+.. autofunction:: canopy.canopy_water_balance
 
 *************
 Water balance
