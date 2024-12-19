@@ -43,7 +43,7 @@ ReWaterGAP documentation
 
         :octicon:`gear;10em`
         +++
-        The reference guide contains a detailed description of
+        This section contains a detailed description of
         the ReWaterGAP Model. The reference describes how the methods work and which parameters can
         be used.
 
