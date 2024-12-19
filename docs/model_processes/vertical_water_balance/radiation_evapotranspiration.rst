@@ -11,7 +11,7 @@ and another function (priestley_taylor), which computes Priestley-Taylor potenti
 Radiation
 *********
 
-.. autofunction:: radiation_evapotranspiration.compute_radiation
+.. autofunction:: radiation_evapotranspiration.calculate_net_radiation
 
 
 The calculation of net radiation, is based on Müller Schmied et al., 2016b [1]_. 
@@ -55,7 +55,7 @@ We also calculate the upward shortwave radiation :math:`S↑ [Wm−2]` as:
 Potential Evapotranspiration
 ****************************
 
-.. autofunction:: radiation_evapotranspiration.priestley_taylor
+.. autofunction:: radiation_evapotranspiration.priestley_taylor_pet
 
 The potential evapotranspiration :math:`{E}_{pot}` :math:`[mm/d]` is calculated with the **Priestley–Taylor** equation according to Shuttleworth (1993) [4]_, as:
 
