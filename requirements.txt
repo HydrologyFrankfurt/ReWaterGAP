@@ -7,3 +7,4 @@ xarray==2023.2.0
 netcdf4==1.6.3
 dask==2023.3.1
 tqdm==4.66.1
+coverage==7.6.9
