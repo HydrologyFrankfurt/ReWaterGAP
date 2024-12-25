@@ -270,7 +270,7 @@ class VerticalWaterBalance:
                                self.lai_param.max_leaf_area_index,
                                self.land_cover, self.canopy_storage,
                                current_landarea_frac, landareafrac_ratio,
-                               self.parameters.max_storage_coefficient.values,
+                               self.parameters.max_canopy_storage_coefficient.values,
                                self.minstorage_volume,
                                self.daily_storage_transfer,
                                self.snow_water_storage_subgrid,
