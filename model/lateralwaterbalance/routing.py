@@ -366,7 +366,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                                 max_storage=max_loclake_storage[x, y],
                                                 max_area=max_loclake_area[x, y],
                                                 lakewet_frac=loclake_frac[x, y],
-                                                lake_outflow_exp=lake_out_exp[x, y],)
+                                                lake_outflow_exp=lake_out_exp[x, y])
 
                 storage, outflow, recharge, frac, accum_unpot_netabs_sw, \
                     actual_use, openwater_evapo_cor = daily_loclake_balance
@@ -478,7 +478,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
             if glores_area[x, y] > 0:
 
                 daily_res_reg_balance = res_reg.\
-                    reservior_regulated_lake_water_balance(rout_order, routflow_looper,
+                    reservoir_regulated_lake_water_balance(rout_order, routflow_looper,
                                                            outflow_cell,
                                                            glores_storage[x, y],
                                                            glores_capacity[x, y],

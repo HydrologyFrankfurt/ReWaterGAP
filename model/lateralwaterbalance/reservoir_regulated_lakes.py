@@ -24,7 +24,7 @@ from model.lateralwaterbalance import reservoir_release_hanasaki as hanaski
 
 
 @njit(cache=True)
-def reservior_regulated_lake_water_balance(rout_order, routflow_looper, outflow_cell,
+def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_cell,
                                            storage, stor_capacity, precipitation,
                                            openwater_pot_evap, aridity, drainage_direction,
                                            inflow_to_swb,
