@@ -34,7 +34,7 @@
         "end": "1901-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
-        "spinup_years": 5
+        "spinup_years": 0
       }
     },
     {
@@ -111,11 +111,11 @@
     {
       "LateralWaterBalanceStorages": {
         "groundwater_storage": false,
-        "local_lake_storage": false,
-        "local_wetland_storage": false,
-        "global_lake_storage": false,
-        "global_wetland_storage": false,
-        "river_storage": false,
+        "local_lake_storage": true,
+        "local_wetland_storage": true,
+        "global_lake_storage": true,
+        "global_wetland_storage": true,
+        "river_storage": true,
         "global_reservoir_storage": false,
         "total_water_storage": true
       }

@@ -2,8 +2,9 @@
 """run all test."""
 
 import unittest
+import coverage
 
-# if __name__ == '__main__':
+
 test_loader = unittest.TestLoader()
 test_suite = unittest.TestSuite()
 
