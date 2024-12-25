@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Aug  5 14:37:44 2022.
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+"""Test snow module."""
 
 import unittest
 import xarray as xr
@@ -57,7 +62,7 @@ class TestSnow(unittest.TestCase):
         self.snow_water_storage = np.zeros(self.size) # mm
 
     # Test if results using acceptatable range for inputs
-    def test_snow_water_equiv_result_validity(self):
+    def test_snow_water_equiv_validity(self):
         for x in range(self.snow_water_storage.shape[0]):
             for y in range(self.snow_water_storage.shape[1]):
                 test_result = swe.\

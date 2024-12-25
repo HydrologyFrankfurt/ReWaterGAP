@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Aug 11 17:56:53 2022
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+"""Test soil module."""
+
+
 import unittest
 from termcolor import colored
 import xarray as xr
@@ -15,9 +22,9 @@ from model.verticalwaterbalance import soil as ss
 class TestSoil(unittest.TestCase):
     # creating fixtures
     def setUp(self):
-        # setting up climate forcing and static data
-        self.soil_water_content_max = 1100  # mm  taken from watergap smax
-        self.soil_water_content_min = 0  # mm  taken from watergap smax
+
+        self.soil_water_content_max = 100  # mm  note that smax could reach 1752 
+        self.soil_water_content_min = 0  # mm
         self.size = (360, 720)
 
         self.soil_water_content = np.zeros(self.size) # mm
@@ -49,7 +56,8 @@ class TestSoil(unittest.TestCase):
         self.humid_arid = xr.open_dataarray("./input_data/static_input/watergap_22e_aridhumid.nc4", decode_times=False)[0].values
         self.soil_texture = xr.open_dataarray("./input_data/static_input/soil_storage/watergap_22e_texture.nc", decode_times=False).values
         self.drainage_direction = xr.open_dataarray("./input_data/static_input/soil_storage/watergap_22e_drainage_direction.nc", decode_times=False)[0].values
-        self.max_groundwater_recharge = xr.open_dataarray("./input_data/static_input/soil_storage/watergap_22e_max_recharge.nc4", decode_times=False)[0].values
+        self.max_groundwater_recharge = xr.open_dataarray("./input_data/static_input/soil_storage/watergap_22e_max_recharge.nc4", decode_times=False)[0].values #  mm *100
+        self.max_groundwater_recharge /= 100 # mm/day
         self.groundwater_recharge_factor = xr.open_dataarray("./input_data/static_input/soil_storage/watergap_22e_gw_factor_corr.nc4", decode_times=False)[0].values
         self.max_soil_water_content = xr.open_dataarray("./test/smax.nc", decode_times=False).values # mm
         self.minstorage_volume = 1e-15 # mm
@@ -57,7 +65,7 @@ class TestSoil(unittest.TestCase):
     
 
     # Test if results using acceptatable range for inputs
-    def test_snow_water_equiv_result_validity(self):
+    def test_soil_storage_validity(self):
         for x in range(self.soil_water_content.shape[0]):
             for y in range(self.soil_water_content.shape[1]):
                 test_result = ss.\
@@ -82,8 +90,6 @@ class TestSoil(unittest.TestCase):
                                        self.minstorage_volume, x, y)
 
             self.soil_water_content[x, y] = test_result[0]
-        
-        print(np.nanmin(self.soil_water_content))
-            
+
         self.assertTrue((np.nanmin(self.soil_water_content) >= self.soil_water_content_min) &
                 (np.nanmax(self.soil_water_content) <= self.soil_water_content_max))

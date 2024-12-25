@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Aug  5 14:37:44 2022
+# =============================================================================
+# This file is part of WaterGAP.
 
-@author: nyenah
-"""
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+"""Test radiation and evapotranspiration module."""
 
 import unittest
 import xarray as xr
@@ -14,10 +19,10 @@ class TestRadiationEvapotranspiration(unittest.TestCase):
     # creating fixtures
     def setUp(self):
         # Pet max value is taking from
-        # https://ntrs.nasa.gov/api/citations/20190034158/downloads/20190034158.pdf
-        # similar values are found 
         # https://github.com/HydrologyFrankfurt/WaterGAP-main/issues/246: 
-        # (note that some values here are per month)
+        # (note that values here are monthly hence  daily equivalent is computed )
+        # similar daily values are found also here 
+        # https://ntrs.nasa.gov/api/citations/20190034158/downloads/20190034158.pdf     
 
         self.pet_max = 15 # mm
         self.pet_min = 0  # mm
