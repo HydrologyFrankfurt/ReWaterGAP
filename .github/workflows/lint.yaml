@@ -28,22 +28,4 @@ jobs:
 
       - name: Run Pylint (excluding docs)
         run: |
-          pylint --rcfile=.github/workflows/pylintrc --output="ReWaterGAP_lint.txt" --ignore=docs .
-
-      - name: Upload Pylint report as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: pylint-report
-          path: ReWaterGAP_lint.txt
-
-      - name: Create Pylint badge
-        run: |
-          pylint_score=$(tail -n 1 ReWaterGAP_lint.txt | awk '{print $2}')
-          echo "Pylint score: $pylint_score"
-          echo "Pylint score: $pylint_score" >> result.txt
-          
-      - name: Upload pylint score as result
-        uses: actions/upload-artifact@v3
-        with:
-          name: pylint-score
-          path: result.txt
+          pylint  --ignore=docs .
