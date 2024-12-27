@@ -130,7 +130,7 @@ attr-naming-style=snake_case
 #attr-rgx=
 
 # only the exception for the Github name 
-# good-names=ReWaterGAP
+good-names=ReWaterGAP
 
 # Bad variable names which should always be refused, separated by a comma.
 bad-names=foo,
