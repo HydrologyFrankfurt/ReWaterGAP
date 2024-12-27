@@ -1,0 +1,86 @@
+name: Lint and Test Python Code
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the code
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install pylint
+
+      # Step 4: Run Pylint
+      - name: Run Pylint
+        id: lint
+        run: |
+          pylint $(find . -name "*.py" -not -path "./docs/*") > pylint_report.txt || true
+          score=$(grep "Your code has been rated at" pylint_report.txt | tail -1 | awk '{print $7}' | cut -d'/' -f1)
+          echo "::set-output name=lint_score::$score"
+
+      # Step 5: Upload lint results
+      - name: Upload Pylint Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: pylint-report
+          path: pylint_report.txt
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the code
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # Step 4: Run tests
+      - name: Run Unit Tests
+        id: tests
+        run: |
+          pytest > test_results.txt || true
+          echo "::set-output name=test_status::$(if grep -q 'failed' test_results.txt; then echo 'Failing'; else echo 'Passing'; fi)"
+
+      # Step 5: Upload test results
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test_results.txt
+
+badges:
+  lint:
+    label: "Lint Score"
+    message: "${{ steps.lint.outputs.lint_score }}/10"
+    color: "blue"
+
+  tests:
+    label: "Tests"
+    message: "${{ steps.tests.outputs.test_status }}"
+    color: "${{ steps.tests.outputs.test_status == 'Passing' && 'green' || 'red' }}"
