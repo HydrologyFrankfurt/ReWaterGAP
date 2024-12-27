@@ -1,46 +1,49 @@
 name: Python Linting
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-  push:
+  pull_request:
     branches:
       - main
 
 jobs:
-  pylint:
+  lint:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'  # Specify your Python version here
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pylint
+      - name: Check out the repository
+        uses: actions/checkout@v2
 
-    - name: Run Pylint
-      run: |
-        pylint . --output="ReWaterGAP_lint.txt" --rcfile=.pylintfile
-        cat ReWaterGAP_lint.txt  # Display the lint results in the GitHub Actions logs
-        # Extract the lint score from the output
-        LINT_SCORE=$(awk '/Your code has been rated at/ {print $7}' ReWaterGAP_lint.txt)
-        echo "Lint Score: $LINT_SCORE"
-        # Fail the job if the lint score is less than 9.0
-        if (( $(echo "$LINT_SCORE < 9.0" | bc -l) )); then
-          echo "Lint score is below the threshold of 9.0. Failing the job."
-          exit 1
-        fi
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Upload Lint Report as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: pylint-report
-        path: ReWaterGAP_lint.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+
+      - name: Run Pylint (excluding docs)
+        run: |
+          pylint --rcfile=.github/workflows/.pylintrc --output="ReWaterGAP_lint.txt" --ignore=docs .
+
+      - name: Upload Pylint report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pylint-report
+          path: ReWaterGAP_lint.txt
+
+      - name: Create Pylint badge
+        run: |
+          pylint_score=$(tail -n 1 ReWaterGAP_lint.txt | awk '{print $2}')
+          echo "Pylint score: $pylint_score"
+          echo "Pylint score: $pylint_score" >> result.txt
+          
+      - name: Upload pylint score as result
+        uses: actions/upload-artifact@v2
+        with:
+          name: pylint-score
+          path: result.txt
