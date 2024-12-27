@@ -15,9 +15,10 @@ import json
 import logging
 import os
 import sys
+import pandas as pd
 import watergap_logger as log
 import misc.cli_args as cli
-import pandas as pd
+
 
 # ===============================================================
 # Get module name and remove the .py extension

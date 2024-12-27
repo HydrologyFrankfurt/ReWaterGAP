@@ -75,7 +75,7 @@ class StaticData:
             str(Path(cm.static_land_data_path +
                      r'/watergap_22e_elevrange.nc4'))
 
-        cell_area_path = str(Path(cm.static_land_data_path + 
+        cell_area_path = str(Path(cm.static_land_data_path +
                                   r'/watergap_22e_continentalarea.nc'))
 
         river_static_file_path = \
