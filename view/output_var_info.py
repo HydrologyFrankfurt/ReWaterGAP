@@ -56,8 +56,9 @@ modelvars = {
                                            "demand from demandcell in surfacewater",
                                            "unit": " kg m-2 s-1"},
 
-    "returned_demand_from_supplycell": {"long": "returned demand from supply cell calculated in current timestep",
-                                         "unit": " kg m-2 s-1"},
+    "returned_demand_from_supplycell": {"long": "returned demand from supply "
+                                        "cell calculated in current timestep",
+                                        "unit": " kg m-2 s-1"},
 
     "returned_demand_from_supplycell_nextday": {"long": "returned demand from"
                                                 " supply cell calculated in next timestep",
