@@ -2,8 +2,6 @@
 """run all test."""
 
 import unittest
-import coverage
-
 
 test_loader = unittest.TestLoader()
 test_suite = unittest.TestSuite()
