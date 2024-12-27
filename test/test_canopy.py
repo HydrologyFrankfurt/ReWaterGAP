@@ -19,49 +19,72 @@ from model.utility import units_conveter_check_neg_precip as check_precip
 
 
 class TestCanopy(unittest.TestCase):
+    """Test canopy module."""
+
     # creating fixtures
     def setUp(self):
         #  The maximum canopy benchmark  value is obtained from multiplying the
         # maximum canopy storage coeff (0.3 mm) and maximum  one-side leaf area
         # index (4.78)
         # (see https://gmd.copernicus.org/articles/14/1037/2021/#section4)
-        self.canopy_storage_max = 1.5 # mm  # rounded
-        self.canopy_storage_min = 0 # mm
+        self.canopy_storage_max = 1.5  # mm  # rounded
+        self.canopy_storage_min = 0  # mm
+
         self.size = (360, 720)
-        self.canopy_storage = np.zeros(self.size) # mm
-        self.daily_leaf_area_index = np.random.uniform(0, 4.78, size=self.size) # -
-        self.potential_evap = np.random.uniform(0, 11, size=self.size) # mm
-        self.current_land_area_frac = np.random.uniform(0, 1, size=self.size) # -
-        self.prev_land_area_frac = np.random.uniform(0, 1, size=self.size) # -
-        self.landareafrac_ratio = self.prev_land_area_frac/self.current_land_area_frac # -
-        self.precipitation = np.random.uniform(0, 90, size=self.size) # mm/day
-        self.max_storage_coefficient = np.zeros(self.size) + 0.3 # mm
-        self.minstorage_volume = 1e-15 # mm
+        self.canopy_input_data = {
+           "canopy_storage": np.zeros(self.size),  # mm (current storage)
+           "precipitation": np.random.uniform(0, 90, size=self.size),  # mm/day
+           "potential_evap": np.random.uniform(0, 11, size=self.size),  # mm
+           "current_land_area_frac": np.random.uniform(0, 1, size=self.size),  # -
+           "landareafrac_ratio": (np.random.uniform(0, 1, size=self.size) /
+                                  np.random.uniform(0, 1, size=self.size)),  # -
+           "daily_leaf_area_index": np.random.uniform(0, 4.78, size=self.size),  # -
+           "max_storage_coefficient": np.full(self.size, 0.3),  # mm
+           "minstorage_volume": 1e-15,  # mm
+        }
 
     # Test results for acceptatable range for inputs
     def test_canopy_storage_validity(self):
-        # random input data in valid ranges
-        # Run canopy function
-        for x in range(self.canopy_storage.shape[0]):
-            for y in range(self.canopy_storage.shape[1]):
-                test_result = cs.\
-                    canopy_water_balance(self.canopy_storage[x, y],
-                                         self.daily_leaf_area_index[x, y],
-                                         self.potential_evap[x, y],
-                                         self.precipitation[x, y],
-                                         self.current_land_area_frac[x, y],
-                                         self.landareafrac_ratio[x, y],
-                                         self.max_storage_coefficient[x, y],
-                                         self.minstorage_volume,
-                                         x, y
-                                         )
-                self.canopy_storage[x, y] = test_result[0]
+        """
+        check canopy storage against valid ranges.
 
-        self.assertTrue((np.nanmin(self.canopy_storage) >= self.canopy_storage_min) &
-                        (np.nanmax(self.canopy_storage) <= self.canopy_storage_max))
+        Returns
+        -------
+        None.
+
+        """
+        # Run canopy function
+        for x in range(self.canopy_input_data['canopy_storage'].shape[0]):
+            for y in range(self.canopy_input_data['canopy_storage'].shape[1]):
+                test_result = cs.canopy_water_balance(
+                    self.canopy_input_data['canopy_storage'][x, y],
+                    self.canopy_input_data['daily_leaf_area_index'][x, y],
+                    self.canopy_input_data['potential_evap'][x, y],
+                    self.canopy_input_data['precipitation'][x, y],
+                    self.canopy_input_data['current_land_area_frac'][x, y],
+                    self.canopy_input_data['landareafrac_ratio'][x, y],
+                    self.canopy_input_data['max_storage_coefficient'][x, y],
+                    self.canopy_input_data['minstorage_volume'],
+                    x, y
+                )
+                self.canopy_input_data['canopy_storage'][x, y] = test_result[0]
+
+        # Assert that the canopy storage is within the expected range
+        self.assertTrue(
+            (np.nanmin(self.canopy_input_data['canopy_storage']) >= self.canopy_storage_min) &
+            (np.nanmax(self.canopy_input_data['canopy_storage']) <= self.canopy_storage_max)
+        )
 
     # Test results for negative precipitation
     def test_canopy_storage_negative_precipitation(self):
+        """
+        check if canopy modules run if precipitation values are negative.
+
+        Returns
+        -------
+        None.
+
+        """
 
         # Define latitude and longitude coordinates
         latitudes = np.linspace(-90, 90, self.size[0])
@@ -74,22 +97,23 @@ class TestCanopy(unittest.TestCase):
             coords={"lat": latitudes, "lon": longitudes}
         )
 
-        self.precipitation = precipitation
-
+        self.canopy_input_data['precipitation'] = precipitation
         with self.assertRaises(ValueError) as context:
-            check_precip.check_neg_precipitation(self.precipitation)
-
-            for x in range(self.canopy_storage.shape[0]):
-                for y in range(self.canopy_storage.shape[1]):
-                    cs.canopy_water_balance(self.canopy_storage[x, y],
-                                            self.daily_leaf_area_index[x, y],
-                                            self.potential_evap[x, y],
-                                            self.precipitation[x, y],
-                                            self.current_land_area_frac[x, y],
-                                            self.landareafrac_ratio[x, y],
-                                            self.max_storage_coefficient[x, y],
-                                            self.minstorage_volume,
-                                            x, y)
+            check_precip.check_neg_precipitation(precipitation)
+            # Run the canopy water balance with the precipitation data
+            for x in range(self.canopy_input_data['canopy_storage'].shape[0]):
+                for y in range(self.canopy_input_data['canopy_storage'].shape[1]):
+                    cs.canopy_water_balance(
+                        self.canopy_input_data['canopy_storage'][x, y],
+                        self.canopy_input_data['daily_leaf_area_index'][x, y],
+                        self.canopy_input_data['potential_evap'][x, y],
+                        self.canopy_input_data['precipitation'][x, y],
+                        self.canopy_input_data['current_land_area_frac'][x, y],
+                        self.canopy_input_data['landareafrac_ratio'][x, y],
+                        self.canopy_input_data['max_storage_coefficient'][x, y],
+                        self.canopy_input_data['minstorage_volume'],
+                        x, y
+                    )
 
         msg = colored("There are negative values in the precipitation data.",
                       'red')
