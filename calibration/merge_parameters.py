@@ -1,11 +1,32 @@
-import xarray as xr
+# -*- coding: utf-8 -*-
+# =============================================================================
+# This file is part of WaterGAP.
+
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+"""Merge model parameters into netcdf."""
+
 import glob
+import xarray as xr
 import numpy as np
 import pandas as pd
 from calibration import convert_data_csv
 from calibration import regionalization as regio
 
+
 def merge_parameters():
+    """
+    Merge model parameters into netcdf.
+
+    Returns
+    -------
+    None.
+
+    """
     calib_out_dir = './calibration/calib_out'
     # Use glob to list all .nc files in the specified directory
     nc_files = glob.glob(f'{calib_out_dir}/**/*.nc', recursive=True)
@@ -50,7 +71,8 @@ def merge_parameters():
     gamma_china = gamma_china.replace(-99, np.nan).set_index("Arc_ID")
 
     corrected_gamma = gamma_df.merge(gamma_china, on="Arc_ID", how='left')
-    corrected_gamma["gamma_final"] = corrected_gamma["VALUE"].combine_first(corrected_gamma["gamma_final"])
+    corrected_gamma["gamma_final"] =\
+        corrected_gamma["VALUE"].combine_first(corrected_gamma["gamma_final"])
     corrected_gamma = corrected_gamma.drop(columns="VALUE")
 
     # Join gamma values into arcid DataFrame
@@ -62,10 +84,21 @@ def merge_parameters():
 
 
 def run_regionalization_merge_parameters(num_threads_or_nodes):
+    """
+    Run regionalistion
+
+    Parameters
+    ----------
+    num_threads_or_nodes : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    """
+    num_thread = num_threads_or_nodes
     convert_data_csv.convert_csv()
-    regio.regionalize_paramters(num_threads_or_nodes)
+    regio.regionalize_paramters(num_thread)
     merge_parameters()
-
-
-if __name__ == "__main__":
-    run_regionalization_merge_parameters()
+    

@@ -1,9 +1,33 @@
-# Import necessary libraries
+# -*- coding: utf-8 -*-
+# =============================================================================
+# This file is part of WaterGAP.
+
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+"""Convert input for regionalisation to csv files."""
+
 import xarray as xr
 import pandas as pd
 
 
 def convert_csv(out_path='./calibration/regionalization_input/'):
+    """
+    Convert input for regionalisation to csv files.
+
+    Parameters
+    ----------
+    out_path : string,
+        DESCRIPTION. The default is './calibration/regionalization_input/'.
+
+    Returns
+    -------
+    None.
+
+    """
     # =========================================================================
     # Load and process temperature data (1971-2000)
     # =========================================================================
@@ -12,14 +36,16 @@ def convert_csv(out_path='./calibration/regionalization_input/'):
     temperature_data = xr.open_mfdataset(temperature_path)
 
     # Select data for the years 1971 to 2000 and convert temperature from Kelvin to Celsius
-    temperature_1971_2000 = temperature_data.tas.sel(time=slice("1971-01-01", "2000-12-31")) - 273.15
+    temperature_1971_2000 = \
+        temperature_data.tas.sel(time=slice("1971-01-01", "2000-12-31")) - 273.15
 
     # Calculate yearly and overall mean temperature for the selected period
-    temperature_1971_2000_yearly_mean = temperature_1971_2000.resample(time='Y').mean()
+    # temperature_1971_2000_yearly_mean = temperature_1971_2000.resample(time='Y').mean()
     temperature_1971_2000_mean = temperature_1971_2000.mean(dim='time')
 
     # Convert the xarray data to a pandas DataFrame
-    temperature_1971_2000_mean_df = temperature_1971_2000_mean.load().to_dataframe(name='GTEMP_1971_2000')
+    temperature_1971_2000_mean_df = \
+        temperature_1971_2000_mean.load().to_dataframe(name='GTEMP_1971_2000')
 
     # =========================================================================
     # Load and process maximum soil moisture data
@@ -62,4 +88,4 @@ def convert_csv(out_path='./calibration/regionalization_input/'):
     # Save the merged DataFrame to a CSV file
     merge_temp_df.to_csv(out_path+"GTEMP_1971_2000.csv", sep=',', index=False)
     merge_smax_df.to_csv(out_path+"max_soil_water_content.csv", sep=',', index=False)
-    max_gw_recharge_df.to_csv(out_path+"max_groundwater_recharge.csv", sep=',', index=False) 
+    max_gw_recharge_df.to_csv(out_path+"max_groundwater_recharge.csv", sep=',', index=False)

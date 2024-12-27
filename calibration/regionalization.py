@@ -1,10 +1,24 @@
-import pandas as pd
+# -*- coding: utf-8 -*-
+# =============================================================================
+# This file is part of WaterGAP.
+
+# WaterGAP is an opensource software which computes water flows and storages as
+# well as water withdrawals and consumptive uses on all continents.
+
+# You should have received a copy of the LGPLv3 License along with WaterGAP.
+# if not see <https://www.gnu.org/licenses/lgpl-3.0>
+# =============================================================================
+
+"""Regionalisation."""
+
+
 import glob
-import os
+import concurrent.futures
+import pandas as pd
 import numpy as np
 import xarray as xr
 from sklearn.linear_model import LinearRegression
-import concurrent.futures
+
 
 
 def read_input_files(folder_path):
@@ -25,7 +39,8 @@ def read_input_files(folder_path):
     combined_df['basin_identifier'] = np.nan
 
     combined_df.drop(columns=['outlet'], inplace=True)
-    combined_df["area_max_soil"] = np.where(combined_df['max_soil_water_content'] > 0, combined_df['cell_area'], 0)
+    combined_df["area_max_soil"] =\
+        np.where(combined_df['max_soil_water_content'] > 0, combined_df['cell_area'], 0)
     combined_df["gamma"] = np.nan
     return combined_df
 
@@ -57,13 +72,28 @@ def get_arcid_gamma(region_folders, combined_df):
         gamma_values = out_params['gamma'].values
         gamma = np.nanmean(np.where(direct_upstreamcells > 0, gamma_values, np.nan))
 
-        combined_df.loc[combined_df['Arc_ID'].isin(direct_upstreamcells_arcid), 'basin_identifier'] = station
-        combined_df.loc[combined_df['Arc_ID'].isin(direct_upstreamcells_arcid), 'gamma'] = gamma
+        combined_df.loc[combined_df['Arc_ID'].isin(direct_upstreamcells_arcid),
+                        'basin_identifier'] = station
+        combined_df.loc[combined_df['Arc_ID'].isin(direct_upstreamcells_arcid),
+                        'gamma'] = gamma
 
     return combined_df
 
 
 def regionalize_paramters(num_threads_or_nodes):
+    """
+    Regionalise gamma to basins which were not calibrated
+
+    Parameters
+    ----------
+    num_threads_or_nodes : int
+        Number of threads for parallization.
+
+    Returns
+    -------
+    None.
+
+    """
     # =========================================================================
     # Path settings
     # =========================================================================
@@ -94,17 +124,21 @@ def regionalize_paramters(num_threads_or_nodes):
     # =============================================================================
     # Get identifier for all uncalibrated basins and hence gidcells
     # =============================================================================
-    combined_df_all_region['basin_identifier'].fillna(combined_df_all_region['super_basin_id'], inplace=True)
+    combined_df_all_region['basin_identifier'].fillna(combined_df_all_region['super_basin_id'],
+                                                      inplace=True)
 
     # =========================================================================
     #  Aggregate areas and compute weights for multilinear regrssion
     # =========================================================================
-    cont_reg = combined_df_all_region.groupby(['basin_identifier'], as_index=False)[['cell_area', 'area_max_soil']].sum()
-    cont_reg.rename(columns={'cell_area': 'upstream_cell_area', 'area_max_soil': 'upstream_cell_area_max_soil'}, inplace=True)
+    cont_reg = combined_df_all_region.\
+        groupby(['basin_identifier'], as_index=False)[['cell_area', 'area_max_soil']].sum()
+    cont_reg.rename(columns={'cell_area': 'upstream_cell_area',
+                             'area_max_soil': 'upstream_cell_area_max_soil'}, inplace=True)
 
-    combined_df_all_region = pd.merge(combined_df_all_region, cont_reg, on="basin_identifier", how="outer")
-    columns = ['max_soil_water_content', 'aquifer_groundwater_recharge_fator', 'GTEMP_1971_2000', 
-               'max_groundwater_recharge', 'mean_basin_slope_class', 'open_water_fraction', 
+    combined_df_all_region = pd.merge(combined_df_all_region, cont_reg,
+                                      on="basin_identifier", how="outer")
+    columns = ['max_soil_water_content', 'aquifer_groundwater_recharge_fator', 'GTEMP_1971_2000',
+               'max_groundwater_recharge', 'mean_basin_slope_class', 'open_water_fraction',
                'permanent_snow_ice_fraction']
 
     for column in columns:
@@ -119,11 +153,13 @@ def regionalize_paramters(num_threads_or_nodes):
 
     # Prepare for regression analysis
     weight_columns = [col for col in combined_df_all_region.columns if col.endswith('_weight')]
-    calib_regression = combined_df_all_region.groupby(['basin_identifier'], as_index=False)[weight_columns].sum()
+    calib_regression = combined_df_all_region.\
+        groupby(['basin_identifier'], as_index=False)[weight_columns].sum()
 
     gamma = combined_df_all_region.groupby(['basin_identifier'], as_index=False)['gamma'].mean()
     calib_regression = pd.merge(calib_regression, gamma, on="basin_identifier", how="outer")
-    calib_regression['ln_gamma'] = np.where(calib_regression['gamma'] > 0, np.log(calib_regression['gamma']), np.nan)
+    calib_regression['ln_gamma'] = np.where(calib_regression['gamma'] > 0,
+                                            np.log(calib_regression['gamma']), np.nan)
 
     # Data contains both calib and uncalibrated cells
     calib_uncalib_regression = calib_regression.copy()
@@ -155,14 +191,14 @@ def regionalize_paramters(num_threads_or_nodes):
 
     # only use gamma estimated for where there are uncalibrated cells.
     calib_uncalib_regression['gamma_final'] = calib_uncalib_regression['gamma']
-    calib_uncalib_regression['gamma_final'].fillna(calib_uncalib_regression['gamma_estimated'], inplace=True)
+    calib_uncalib_regression['gamma_final'].fillna(calib_uncalib_regression['gamma_estimated'],
+                                                   inplace=True)
 
     calib_uncalib_regression = calib_uncalib_regression.drop(columns=['gamma'])
 
-    combined_df_all_region = pd.merge(combined_df_all_region, calib_uncalib_regression, on="basin_identifier", how="outer")
+    combined_df_all_region = pd.merge(combined_df_all_region, calib_uncalib_regression,
+                                      on="basin_identifier", how="outer")
     combined_df_all_region.to_csv('./calibration/regionalisation_all_region.csv', index=False)
 
     gamma_out = combined_df_all_region[['Arc_ID', 'gamma', 'gamma_final']]
     gamma_out.to_csv('./calibration/Gamma_all_region.csv', index=False)
-
-

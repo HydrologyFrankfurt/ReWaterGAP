@@ -47,6 +47,7 @@ class OptimizationState:
         self.gamma_limit = [0.1, 5]
         self.compute_cfs = False
         self.calib_out_dir = "./calibration/calib_out/"
+        self.basin_id = None
 
     def get_direct_upstreamcells(self, arrays, marker=np.nan):
         """
@@ -179,7 +180,8 @@ class OptimizationState:
         if error_cs1 < self.threshold_cs1:
             self.calibration_status = 1
             if check_bounds is False:
-                print('\n' + f' Calibration sucessful for Gamma = {self.currrent_gamma} and Bias = {error_cs1}')
+                print('\n' + ' Calibration sucessful for Gamma ' +
+                      f'= {self.currrent_gamma} and Bias = {error_cs1}')
                 raise Exception('\n' + f'Calibration status: {self.calibration_status}')
 
         return error_cs1
@@ -335,13 +337,14 @@ class OptimizationState:
             # Limiting correction factor to range 0.5 - 1.5.
             cfa = np.where(cfa > 1.5, 1.5,  np.where(cfa < 0.5, 0.5, cfa))
 
-            print("Potential runoff in basin: ", abs_sum_pot_cell_runoff_calib_unit, "km3/year") 
+            print("Potential runoff in basin: ", abs_sum_pot_cell_runoff_calib_unit, "km3/year")
             print("Max CFA in basin: ", np.nanmax(cfa))
             print("Min CFA in basin: ",  np.nanmin(cfa))
 
             # Load parameter file and update CFA
             base_param_path = f"{self.calib_out_dir}{self.basin_id}"
-            param_path = f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
+            param_path = \
+                f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
             with xr.open_dataset(param_path, decode_times=False) as global_params:
 
                 # Update areal corection factor  in the dataset
@@ -414,7 +417,8 @@ class OptimizationState:
             # Load parameter file and update CFA
             if self.calibration_status == 4:
                 base_param_path = f"{self.calib_out_dir}{self.basin_id}"
-                param_path = f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
+                param_path = \
+                    f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
                 with xr.open_dataset(param_path, decode_times=False) as global_params:
 
                     # Update gamma in the dataset

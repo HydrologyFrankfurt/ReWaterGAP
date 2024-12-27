@@ -12,7 +12,6 @@
 
 
 import os
-import sys
 from pathlib import Path
 import glob
 import json
@@ -35,6 +34,8 @@ class SetupCalibration:
         self.config_path = './Config_ReWaterGAP.json'
         self.station_per_superbasin_path = '../nobackup/stations_per_superbasin.nc'
         self.calib_out_dir = "./calibration/calib_out/"
+        self.super_basin = None
+        self.unique_basin_values = None
 
     def cleanup_simulation_files(self):
         """
@@ -171,7 +172,8 @@ class SetupCalibration:
                                                   'lat': station_row.name[1],
                                                  'basin_id': basin_station_id})
 
-                    self.generate_config_and_discharge_for_station(current_station_id,  basin_station_id)
+                    self.generate_config_and_discharge_for_station(current_station_id,
+                                                                   basin_station_id)
 
         reordered_stations = pd.DataFrame(ordered_stations_list)
         # Group by 'basin_id'
