@@ -53,9 +53,4 @@ jobs:
           # Update the README.md with the badge URL
           sed -i "s|<!-- LINT_BADGE -->|![Lint Score](${{ env.badge_url }})|" README.md
 
-      - name: Commit and push changes
-        run: |
-          git add README.md
-          git commit -m "Update README with exact lint score badge"
-          git push
 
