@@ -27,7 +27,7 @@ class TestCanopy(unittest.TestCase):
         # maximum canopy storage coeff (0.3 mm) and maximum  one-side leaf area
         # index (4.78)
         # (see https://gmd.copernicus.org/articles/14/1037/2021/#section4)
-        self.canopy_storage_max = 1.5  # mm  # rounded
+        self.canopy_storage_max = 0  # mm  # rounded
         self.canopy_storage_min = 0  # mm
 
         self.size = (360, 720)
