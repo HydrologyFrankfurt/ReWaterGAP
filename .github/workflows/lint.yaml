@@ -32,8 +32,32 @@ jobs:
         run: |
           cat lint.txt
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: lint.txt
-          path: lint.txt
+      - name: Extract lint score
+        id: extract_lint_score
+        run: |
+          # Extract the overall lint score from the pylint output
+          LINT_SCORE=$(grep "Your code has been rated" lint.txt | sed 's/.*rated at //')
+          echo "Lint score: $LINT_SCORE"
+          echo "lint_score=$LINT_SCORE" >> $GITHUB_ENV
+
+      - name: Generate badge URL with lint score
+        id: generate_badge
+        run: |
+          # Generate the badge URL with the actual lint score as part of the label
+          LINT_SCORE_LABEL=$(echo ${{ env.lint_score }} | sed 's/\//%2F/g')  # URL encode the slash
+          BADGE_URL="https://img.shields.io/badge/Lint%20Score-${LINT_SCORE_LABEL}-brightgreen?style=flat-square"
+          echo "badge_url=$BADGE_URL" >> $GITHUB_ENV
+
+      - name: Update README with badge
+        run: |
+          # Update the README.md with the badge URL
+          sed -i "s|<!-- LINT_BADGE -->|![Lint Score](${{ env.badge_url }})|" README.md
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          git add README.md
+          git commit -m "Update README with exact lint score badge"
+          git push
+
