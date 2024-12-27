@@ -230,7 +230,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
             if glwdunits[x, y] > 0 and subtract_use_option:
                 accumulated_unsatisfied_potential_netabs_sw[x, y] += \
                     unsatisfied_potential_netabs_riparian[x, y]
-    
+
 
             if subtract_use_option and neighbouringcell_option:
 
@@ -436,22 +436,23 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
             if glolake_area[x, y] > 0:
                 daily_glolake_balance = lw.\
                     lake_wetland_water_balance(x, y,
-                                               'global lake',
-                                               glolake_storage[x, y],
-                                               precipitation[x, y],
-                                               openwater_pot_evap[x, y],
-                                               aridhumid[x, y],
-                                               drainage_direction[x, y],
-                                               inflow_to_swb,
-                                               swb_outflow_coeff[x, y],
-                                               gw_recharge_constant[x, y],
-                                               reduction_exponent_lakewet[x, y],
-                                               areal_corr_factor[x, y],
-                                               max_storage=max_glolake_storage[x, y],
-                                               max_area=glolake_area[x, y],
-                                               lake_outflow_exp=lake_out_exp[x, y],
-                                               reservoir_area=glores_area[x, y],
-                                               accumulated_unsatisfied_potential_netabs_sw=accumulated_unsatisfied_potential_netabs_sw[x, y])
+                            'global lake',
+                            glolake_storage[x, y],
+                            precipitation[x, y],
+                            openwater_pot_evap[x, y],
+                            aridhumid[x, y],
+                            drainage_direction[x, y],
+                            inflow_to_swb,
+                            swb_outflow_coeff[x, y],
+                            gw_recharge_constant[x, y],
+                            reduction_exponent_lakewet[x, y],
+                            areal_corr_factor[x, y],
+                            max_storage=max_glolake_storage[x, y],
+                            max_area=glolake_area[x, y],
+                            lake_outflow_exp=lake_out_exp[x, y],
+                            reservoir_area=glores_area[x, y],
+                            accumulated_unsatisfied_potential_netabs_sw=
+                            accumulated_unsatisfied_potential_netabs_sw[x, y])
 
                 storage, outflow, recharge, frac, accum_unpot_netabs_sw, \
                     actual_use, openwater_evapo_cor = daily_glolake_balance
@@ -479,33 +480,33 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
 
                 daily_res_reg_balance = res_reg.\
                     reservoir_regulated_lake_water_balance(rout_order, routflow_looper,
-                                                           outflow_cell,
-                                                           glores_storage[x, y],
-                                                           glores_capacity[x, y],
-                                                           precipitation[x, y],
-                                                           openwater_pot_evap[x, y],
-                                                           aridhumid[x, y],
-                                                           drainage_direction[x, y],
-                                                           inflow_to_swb,
-                                                           gw_recharge_constant[x, y],
-                                                           glores_area,
-                                                           reduction_exponent_res[x, y],
-                                                           areal_corr_factor[x, y],
-                                                           glores_startmonth[x, y],
-                                                           current_mon_day,
-                                                           k_release[x, y],
-                                                           glores_type[x, y],
-                                                           allocation_coeff,
-                                                           monthly_potential_net_abstraction_sw,
-                                                           mean_annual_demand_res,
-                                                           mean_annual_inflow_res[x, y],
-                                                           glolake_area[x, y],
-                                                           accumulated_unsatisfied_potential_netabs_sw[x, y],
-                                                           accu_unsatisfied_pot_netabstr_glolake,
-                                                           num_days_in_month,
-                                                           all_reservoir_and_regulated_lake_area,
-                                                           reg_lake_redfactor_firstday[x, y],
-                                                           minstorage_volume)
+                                        outflow_cell,
+                                        glores_storage[x, y],
+                                        glores_capacity[x, y],
+                                        precipitation[x, y],
+                                        openwater_pot_evap[x, y],
+                                        aridhumid[x, y],
+                                        drainage_direction[x, y],
+                                        inflow_to_swb,
+                                        gw_recharge_constant[x, y],
+                                        glores_area,
+                                        reduction_exponent_res[x, y],
+                                        areal_corr_factor[x, y],
+                                        glores_startmonth[x, y],
+                                        current_mon_day,
+                                        k_release[x, y],
+                                        glores_type[x, y],
+                                        allocation_coeff,
+                                        monthly_potential_net_abstraction_sw,
+                                        mean_annual_demand_res,
+                                        mean_annual_inflow_res[x, y],
+                                        glolake_area[x, y],
+                                        accumulated_unsatisfied_potential_netabs_sw[x, y],
+                                        accu_unsatisfied_pot_netabstr_glolake,
+                                        num_days_in_month,
+                                        all_reservoir_and_regulated_lake_area,
+                                        reg_lake_redfactor_firstday[x, y],
+                                        minstorage_volume)
 
                 storage, outflow, recharge, res_k_release, accum_unpot_netabs_sw, \
                     actual_use, openwater_evapo_cor = daily_res_reg_balance
@@ -548,15 +549,16 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                             accumulated_unsatisfied_potential_netabs_sw[x, y]
 
                     distributed_potnetabs = dist_netabstr.\
-                        redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw[x, y],
-                                                 unsat_potnetabs_sw_to_supplycell[x, y],
-                                                 accumulated_unsatisfied_potential_netabs_sw[x, y],
-                                                 unagregrgated_potential_netabs_sw,
-                                                 potential_net_abstraction_sw[x, y],
-                                                 glwdunits, rout_order,
-                                                 unsatisfied_potential_netabs_riparian,
-                                                 returned_demand_from_supplycell_nextday[x, y],
-                                                 x, y)
+                        redistritute_to_riparian(
+                            prev_accumulated_unsatisfied_potential_netabs_sw[x, y],
+                            unsat_potnetabs_sw_to_supplycell[x, y],
+                            accumulated_unsatisfied_potential_netabs_sw[x, y],
+                            unagregrgated_potential_netabs_sw,
+                            potential_net_abstraction_sw[x, y],
+                            glwdunits, rout_order,
+                            unsatisfied_potential_netabs_riparian,
+                            returned_demand_from_supplycell_nextday[x, y],
+                            x, y)
 
                     accumulated_unsatisfied_potential_netabs_sw[x, y] = \
                         distributed_potnetabs[0]
@@ -678,12 +680,12 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
             # ================================================
             # river_start_use= accumulated_unsatisfied_potential_netabs_sw[x, y]
             daily_river_balance = river.river_water_balance(x, y,
-                                                            river_storage[x, y],
-                                                            river_inflow[x, y],
-                                                            outflow_constant,
-                                                            stat_corr_fact[x, y],
-                                                            accumulated_unsatisfied_potential_netabs_sw[x, y],
-                                                            minstorage_volume)
+                                    river_storage[x, y],
+                                    river_inflow[x, y],
+                                    outflow_constant,
+                                    stat_corr_fact[x, y],
+                                    accumulated_unsatisfied_potential_netabs_sw[x, y],
+                                    minstorage_volume)
 
             storage, streamflow, accum_unpot_netabs_sw, actual_use = \
                 daily_river_balance
@@ -741,11 +743,11 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
 
                         storage, accum_unpot_netabs_sw, frac, actual_use = lake_netabstr.\
                             abstract_from_local_lake(loclake_storage_out[x, y],
-                                                     max_loclake_storage[x, y],
-                                                     loclake_frac[x, y],
-                                                     reduction_exponent_lakewet[x, y],
-                                                     accumulated_unsatisfied_potential_netabs_sw[x, y],
-                                                     x, y)
+                                    max_loclake_storage[x, y],
+                                    loclake_frac[x, y],
+                                    reduction_exponent_lakewet[x, y],
+                                    accumulated_unsatisfied_potential_netabs_sw[x, y],
+                                    x, y)
 
                         loclake_storage_out[x, y] = storage.item()
                         accumulated_unsatisfied_potential_netabs_sw[x, y] = \
@@ -762,18 +764,19 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                     #         # Allocation of usatisfied demand  back to demandcell
                     #         # +++++++++++++++++++++++++++++++++++++++++++++++++++
 
-                    accum_unpot_netabs_sw, returned_demand_from_supplycell, total_unsat_demand_supply_to_demand_cell = nbcell.\
+                    (accum_unpot_netabs_sw, returned_demand_from_supplycell,
+                     total_unsat_demand_supply_to_demand_cell) = nbcell.\
                         allocate_unsat_demand_to_demandcell(x, y,
-                                                            neighbouring_cells_map,
-                                                            accumulated_unsatisfied_potential_netabs_sw[x, y],
-                                                            unsat_potnetabs_sw_from_demandcell,
-                                                            unsat_potnetabs_sw_to_supplycell[x, y],
-                                                            total_demand_sw_noallocation[x, y],
-                                                            actual_daily_netabstraction_sw[x, y],
-                                                            total_unsatisfied_demand_ripariancell[x, y],
-                                                            rout_order,
-                                                            returned_demand_from_supplycell,
-                                                            current_mon_day)
+                                neighbouring_cells_map,
+                                accumulated_unsatisfied_potential_netabs_sw[x, y],
+                                unsat_potnetabs_sw_from_demandcell,
+                                unsat_potnetabs_sw_to_supplycell[x, y],
+                                total_demand_sw_noallocation[x, y],
+                                actual_daily_netabstraction_sw[x, y],
+                                total_unsatisfied_demand_ripariancell[x, y],
+                                rout_order,
+                                returned_demand_from_supplycell,
+                                current_mon_day)
 
 
                     # Unsatisfied use of supply cell to be allocated
