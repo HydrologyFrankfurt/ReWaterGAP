@@ -18,7 +18,7 @@ from misc import watergap_version
 # =============================================================================
 # WaterGAP Ascii Image
 # =============================================================================
-logo = f"""
+logo = rf"""
 ███████████████████████████████████████████████████████████████████████████████
 
  /██      /██           /██                       /██████  /██████ /███████
@@ -79,7 +79,6 @@ def check_time(func):
         start = time.time()
         func(*args, **kwargs)
         end = time.time()
-        output_msg = \
-            'WaterGAP run completed at %.2f minute(s)' % ((end-start)/60)
+        output_msg = f'WaterGAP run completed at {(end-start)/60:.2f} minute(s)'
         print('\n' + colored(output_msg, 'green'))
     return inner
