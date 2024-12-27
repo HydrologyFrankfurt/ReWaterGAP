@@ -27,6 +27,9 @@ jobs:
       - name: Analysing the code with pylint
         run: |
           pylint $(git ls-files '*.py') --output=lint.txt || true
+      - name: Display lint.txt content
+        run: |
+          cat lint.txt
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
