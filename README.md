@@ -1,5 +1,5 @@
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
-![Tests](https://github.com/<username>/<repository>/actions/workflows/python-lint-and-test.yml/badge.svg?branch=main&event=push)
+![Tests Status](https://github.com/your-username/your-repository-name/actions/workflows/unit-test-python-code.yml/badge.svg)
 
 # ReWaterGAP
 
