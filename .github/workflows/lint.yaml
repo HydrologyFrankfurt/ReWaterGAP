@@ -13,13 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
+      - name: Check out the code
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: 3.9
 
       - name: Install dependencies
         run: |
@@ -31,7 +31,7 @@ jobs:
           pylint --rcfile=.github/workflows/.pylintrc --output="ReWaterGAP_lint.txt" --ignore=docs .
 
       - name: Upload Pylint report as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: pylint-report
           path: ReWaterGAP_lint.txt
@@ -43,7 +43,7 @@ jobs:
           echo "Pylint score: $pylint_score" >> result.txt
           
       - name: Upload pylint score as result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: pylint-score
           path: result.txt
