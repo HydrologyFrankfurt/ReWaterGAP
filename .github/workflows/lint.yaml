@@ -29,4 +29,4 @@ jobs:
 
       - name: Run Pylint (excluding docs)
         run: |
-          pylint  --rcfile=.github/workflows/pylintrc --ignore=docs,**/__init__.py"  .
+          pylint  --rcfile=.github/workflows/pylintrc --ignore=docs  .
