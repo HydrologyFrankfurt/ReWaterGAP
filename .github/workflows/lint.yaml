@@ -29,4 +29,4 @@ jobs:
 
       - name: Run Pylint (excluding docs)
         run: |
-          pylint  --rcfile=.github/workflows/pylintrc --ignore=docs .
+          pylint  --rcfile=.github/workflows/pylintrc --ignore=docs --output="ReWaterGAP_lint.txt" .
