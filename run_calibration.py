@@ -12,12 +12,12 @@
 """Run Calibration"""
 
 import os
+import sys
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 import json
 from termcolor import colored
 import pandas as pd
-import sys
 from calibration import merge_parameters
 
 class CalibrateStations:
@@ -151,7 +151,7 @@ class CalibrateStations:
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
             executor.map(self.process_basin, basin_ids)
 
-    def run_on_cluster(basin_ids, num_nodes):
+    def run_on_cluster(self, basin_ids, num_nodes):
         """
         Run on local cluster.
 
@@ -225,7 +225,8 @@ def main():
 
         basin_ids = list(range(1, n+1))
 
-        print('\n' + colored("Calibrating " + str(len(basin_ids))+" calibration region(s)...", "blue"))
+        print('\n' + colored("Calibrating " + str(len(basin_ids))
+                             + " calibration region(s)...", "blue"))
         if mode == 'local':
             calib_watergap.run_on_local_server(basin_ids, num_threads_or_nodes)
             print('\n' + colored("Calibration complete", "green"))
@@ -242,8 +243,10 @@ def main():
         # netcdf.
         print('\n' + colored("Running Regionlisation step C...", "magenta"))
         merge_parameters.run_regionalization_merge_parameters(num_threads_or_nodes)
-        absolute_param_path = os.path.abspath("./model/WaterGAP_2.2e_global_parameters.nc")
-        print('\n' + colored(f"Model parameters merged and saved to {absolute_param_path}", "green"))
+        absolute_param_path = \
+            os.path.abspath("./model/WaterGAP_2.2e_global_parameters.nc")
+        print('\n' + colored(f"Model parameters merged and saved to {absolute_param_path}",
+                             "green"))
 
     except KeyboardInterrupt:
         os.system("pkill -u $USER python3")
