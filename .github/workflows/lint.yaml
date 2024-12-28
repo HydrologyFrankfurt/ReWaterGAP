@@ -40,15 +40,9 @@ jobs:
           echo "Lint score: $LINT_SCORE"
           echo "lint_score=$LINT_SCORE" >> $GITHUB_ENV
 
-      - name: Generate badge URL with lint score
-        id: generate_badge
+      - name: Fail if lint score is less than 9
         run: |
-          # Generate the badge URL with the actual lint score as part of the label
-          LINT_SCORE_LABEL=$(echo ${{ env.lint_score }} | sed 's/\//%2F/g')  # URL encode the slash
-          BADGE_URL="https://img.shields.io/badge/Lint%20Score-${LINT_SCORE_LABEL}-brightgreen?style=flat-square"
-          echo "badge_url=$BADGE_URL" >> $GITHUB_ENV
-
-      - name: Update README with badge
-        run: |
-          # Update the README.md with the badge URL
-          sed -i "s|<!-- LINT_BADGE -->|![Lint Score](${{ env.badge_url }})|" README.md
+          if [ "$(echo ${{ env.lint_score }} | cut -d '/' -f 1)" -lt 9 ]; then
+            echo "Lint score is less than 9. Failing the job."
+            exit 1
+          fi
