@@ -53,4 +53,19 @@ jobs:
           # Update the README.md with the badge URL
           sed -i "s|<!-- LINT_BADGE -->|![Lint Score](${{ env.badge_url }})|" README.md
 
+      - name: Commit and push changes
+        run: |
+          # Configure Git user
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+          # Stage the updated README.md
+          git add README.md
+
+          # Commit the changes
+          git commit -m "Update README with lint badge"
+
+          # Push the changes to the repository
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
