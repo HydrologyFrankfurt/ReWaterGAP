@@ -1,4 +1,4 @@
-![Tests Status](https://github.com/HydrologyFrankfurt/ReWaterGAP/actions/workflows/unit_test.yaml/badge.svg) [![Pylint](https://github.com/HydrologyFrankfurt/ReWaterGAP/actions/workflows/lint.yaml/badge.svg)](https://github.com/HydrologyFrankfurt/ReWaterGAP/actions/workflows/lint.yaml) 
+![Tests Status](https://github.com/HydrologyFrankfurt/ReWaterGAP/actions/workflows/unit_test.yaml/badge.svg) [![Pylint](https://github.com/HydrologyFrankfurt/ReWaterGAP/actions/workflows/lint.yaml/badge.svg)](https://github.com/HydrologyFrankfurt/ReWaterGAP/actions/workflows/lint.yaml) [![FAIR checklist badge](https://fairsoftwarechecklist.net/badge.svg)](https://fairsoftwarechecklist.net/v0.2?f=21&a=32113&i=12320&r=123) 
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
