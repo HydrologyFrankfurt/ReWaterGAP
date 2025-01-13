@@ -75,8 +75,6 @@ Once your climate forcing and water use data has finished downloading, in your W
 ********************************************************************************
 Running Water Gap with different simulation options (other model configurations)
 ********************************************************************************
-.. note::
-	The current model uses default parameters and is not yet calibrated. Calibration is in progress, and the model parameters will be updated once this process is complete.
 
 .. _naturalized_run:
 
