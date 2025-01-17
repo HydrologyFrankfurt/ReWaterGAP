@@ -1,7 +1,7 @@
 .. _tutorial_different_simulation_options:
 
 ################################################################################
-Running Water Gap with different simulation options (other model configurations)
+Running WaterGap with different simulation options (other model configurations)
 ################################################################################
 
 .. contents:: 
