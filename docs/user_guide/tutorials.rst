@@ -16,13 +16,6 @@ Tutorial (Under Development)
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  tutorial_preparing_input_data
-        :link-type: ref
-
-        Preparing Input Data
-
-    .. grid-item-card:: 
-        :text-align: center
         :link:  tutorial_specific_basin
         :link-type: ref
 
