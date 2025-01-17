@@ -16,19 +16,19 @@ Before running the simulation we have to modify the configuration file. In your 
 
 .. _saving_for_restart:
 
-.. figure:: ../images/user_guide/tutorial/restart_options_saving.png
+.. figure:: ../../images/user_guide/tutorial/restart_options_saving.png
 
 Then set your "**SimulationPeriod**" to the preferred year (In this example 1989) and the "**spinup_years**" to 5.
 
-.. figure:: ../images/user_guide/tutorial/restart_options_simulation_period_before.png
+.. figure:: ../../images/user_guide/tutorial/restart_options_simulation_period_before.png
 
 All other options and steps to run the simulation will remain as they are described under `standard anthropogenic run <standard_anthropogenic_run>`_.
 
-.. figure:: ../images/user_guide/tutorial/output_variables_tutorial.png
+.. figure:: ../../images/user_guide/tutorial/output_variables_tutorial.png
 
 Run the simulation. You will then find your saved state data file "restartwatergap_1989-12-31.pickle" in your saved state directory (in this example under "Users/username/restart_data").
 
-.. figure:: ../images/user_guide/tutorial/restart_options_output_file.png
+.. figure:: ../../images/user_guide/tutorial/restart_options_output_file.png
 
 Running the simulation from saved data
 ########################################
@@ -37,17 +37,17 @@ In this step we will be running the simulation from the previously saved state, 
 
 To run the simulation from a previously saved state go to the configuration file and navigate to "**RestartOptions**". Set **restart** to "true" and "**save_model_states_for_restart**" to "false", as this is the run we will be using the saved data for. Under "**save_and_read_states_dir**" set the path to the previously created directory holding your saved data (in this example under "Users/username/restart_data").
 
-.. figure:: ../images/user_guide/tutorial/restart_options_restarting.png
+.. figure:: ../../images/user_guide/tutorial/restart_options_restarting.png
 
 When we created the saved data we ran the simulation for the year 1989, with a five year spin up. Since this is our saved data, when running the simulation from this saved state we can only run it starting the day after. Here, we will be running the simulation for the year 1990, starting one day after the saved state data ends and without a spin up, as the saved state already includes this data.
 
 All other options will remain as they are described under :ref:`creating a saved state <creating_a_saved_state>`.
 
-.. figure:: ../images/user_guide/tutorial/restart_options_simulation_period_after.png
+.. figure:: ../../images/user_guide/tutorial/restart_options_simulation_period_after.png
 
 Lastly, run the simulation with these options. To verify that everything is running as intended, you should receive this message in the terminal:
 
-.. figure:: ../images/user_guide/tutorial/restart_options_terminal_restart_run_successful.png
+.. figure:: ../../images/user_guide/tutorial/restart_options_terminal_restart_run_successful.png
 
 .. _visualize_using_panopoly:
 
@@ -61,10 +61,10 @@ Begin by downloading and installing Panopoly. Then click on "file" -> "open". Na
 
 You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
 
-.. figure:: ../images/user_guide/tutorial/panopoly_map.png
+.. figure:: ../../images/user_guide/tutorial/panopoly_map.png
 
 Once you see a world map, labeled "Streamflow or River discharge" go to "Window" -> "Plot Controls" where you will see the time set to "1" of "365". By increasing the time you will see the River discharge change visually on the map. We recommend changing the color scheme to "GMT_hot.cpt" under "Window" -> "Color Tables Browser".
 
-.. figure:: ../images/user_guide/tutorial/panopoly_plot_controls.png
+.. figure:: ../../images/user_guide/tutorial/panopoly_plot_controls.png
 
 .. _installation_guide_gwswuse:
