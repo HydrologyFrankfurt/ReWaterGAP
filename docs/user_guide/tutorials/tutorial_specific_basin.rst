@@ -30,5 +30,3 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 For the year 1989-01-01 and the Mississippi basin the result should look like this:
 
 .. figure:: ../../images/user_guide/tutorial/panopoly_mississippi.png
-
-.. _restart_from_saved_state:
