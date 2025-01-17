@@ -38,5 +38,3 @@ User Guide
 .. toctree::
     :maxdepth: 2
     :hidden:
-
-    tutorials/index
