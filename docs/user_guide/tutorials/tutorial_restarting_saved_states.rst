@@ -1,7 +1,7 @@
 .. _tutorial_restarting_saved_states:
 
-How to Restart WaterGap from saved state
-########################################
+Restart WaterGAP from a prescribed initial condition (saved state)
+##################################################################
 
 To run Watergap from a saved state, you must first save data from a previous simulation. In this tutorial, we will be looking at the previous example, where we ran the simulation for a :ref:`standard anthropogenic run <standard_anthropogenic_run>` for the year 1989, create a saved state, and then restart the simulation from this data to continue running for 1990.
 
@@ -30,6 +30,8 @@ Run the simulation. You will then find your saved state data file "restartwaterg
 
 .. figure:: ../../images/user_guide/tutorial/restart_options_output_file.png
 
+.. _restart_from_saved_state:
+
 Running the simulation from saved data
 ########################################
 
@@ -48,23 +50,3 @@ All other options will remain as they are described under :ref:`creating a saved
 Lastly, run the simulation with these options. To verify that everything is running as intended, you should receive this message in the terminal:
 
 .. figure:: ../../images/user_guide/tutorial/restart_options_terminal_restart_run_successful.png
-
-.. _visualize_using_panopoly:
-
-****************************************
-Vizualizing your results using Panopoly
-****************************************
-
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. You can use it to open the input files in NetCDF format or your output files after the simulation has finished running. In this Tutorial we will be using Panopoly to vizualize the output data of the :ref:`standard anthropogenic run <standard_anthropogenic_run>` for the year 1989.
-
-Begin by downloading and installing Panopoly. Then click on "file" -> "open". Navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-12-31.nc". Click on "open".
-
-You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
-
-.. figure:: ../../images/user_guide/tutorial/panopoly_map.png
-
-Once you see a world map, labeled "Streamflow or River discharge" go to "Window" -> "Plot Controls" where you will see the time set to "1" of "365". By increasing the time you will see the River discharge change visually on the map. We recommend changing the color scheme to "GMT_hot.cpt" under "Window" -> "Color Tables Browser".
-
-.. figure:: ../../images/user_guide/tutorial/panopoly_plot_controls.png
-
-.. _installation_guide_gwswuse:
