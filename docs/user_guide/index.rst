@@ -42,13 +42,3 @@ User Guide
     tutorials
     configuration_file
     model_processes
-    tutorials/tutorial_preparing_input_data.rst
-    tutorials/tutorial_different_simulation_options.rst
-    tutorials/tutorial_specific_basin.rst
-    tutorials/tutorial_restarting_saved_states.rst
-    tutorials/tutorial_vizualizing_results.rst
-    tutorials/tutorial_calibration.rst tutorials/tutorial_gwswuse.rst
-
-
-
-
