@@ -1,4 +1,4 @@
-.. _modell_processes:
+.. _model_processes:
 
 ================
 Model Processes
