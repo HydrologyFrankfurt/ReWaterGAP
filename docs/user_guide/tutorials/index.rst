@@ -12,42 +12,35 @@ Tutorial (Under Development)
         :link:  tutorial_different_simulation_options
         :link-type: ref
 
-        Running WaterGAP with different simulation options (Naturalized, Anthropogenic, Human Water Use, Reservoir only)
+        Run WaterGAP with different simulation options (Naturalized, Anthropogenic, Human Water Use, Reservoir only)
 
     .. grid-item-card:: 
         :text-align: center
         :link:  tutorial_specific_basin
         :link-type: ref
 
-        Running WaterGap for a specific basin
+        Run WaterGap for a specific basin
 
     .. grid-item-card:: 
         :text-align: center
         :link:  tutorial_restarting_saved_states
         :link-type: ref
 
-        Restarting and Saved States
-
-    .. grid-item-card:: 
-        :text-align: center
-        :link:  tutorial_vizualizing_results
-        :link-type: ref
-
-        Vizualizing Results
+        Restart WaterGAP from a prescribed initial condition (saved state)
 
     .. grid-item-card:: 
         :text-align: center
         :link:  tutorial_calibration
         :link-type: ref
 
-        Calibration
+        Calibrate WaterGAP
 
     .. grid-item-card:: 
         :text-align: center
         :link:  tutorial_gwswuse
         :link-type: ref
 
-        GWSWUSE
+        Run WaterGAP with GWSWUSE
 
 
 .. toctree::
