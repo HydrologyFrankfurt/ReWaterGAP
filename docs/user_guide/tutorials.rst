@@ -8,6 +8,19 @@ Tutorial (Under Development)
     :depth: 3
     :backlinks: entry
 
+
+.. grid:: 1
+    :gutter: 1
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  tutorial_calibration
+        :link-type: ref
+
+        New to WaterGAP and want to learn how to run the program? Find our **quick start guide** here. 
+
+
+
 .. note::
 	Before following this tutorial, please follow the five minute guide found :ref:`here <five_minute_guide>`.
 
