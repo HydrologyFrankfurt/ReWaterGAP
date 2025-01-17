@@ -9,17 +9,17 @@ Tutorial (Under Development)
 
     .. grid-item-card:: 
         :text-align: center
+        :link:  tutorial_different_simulation_options
+        :link-type: ref
+
+        Running WaterGap with different Simulation Options (Anthropogenic, Naturalized, Human Water Use, Reservoir only)
+
+    .. grid-item-card:: 
+        :text-align: center
         :link:  tutorial_preparing_input_data
         :link-type: ref
 
         Preparing Input Data
-
-    .. grid-item-card:: 
-        :text-align: center
-        :link:  tutorial_different_simulation_options
-        :link-type: ref
-
-        Running WaterGap with different Simulation Options
 
     .. grid-item-card:: 
         :text-align: center
