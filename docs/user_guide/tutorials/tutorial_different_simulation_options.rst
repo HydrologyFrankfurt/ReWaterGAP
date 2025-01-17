@@ -49,13 +49,13 @@ The first options in the configuration file regard input and output file paths. 
 
 In the configuration file find the runtime options. Then find the simulation options. Set all options under "AntNat_opts" to "true" and all options under "Demand_satisfaction_opts" to "true" to set up a standard anthropogenic run.
 
-.. figure:: ../images/user_guide/tutorial/runtime_options_standard_run.png
+.. figure:: .../images/user_guide/tutorial/runtime_options_standard_run.png
 
 **2.3) Restart Options**
 
 In this run, WaterGap will not restart from a previous state. Under "restart_options" make sure each option is set to "false".
 
-.. figure:: ../images/user_guide/tutorial/restart_options_no_restart.png
+.. figure:: .../images/user_guide/tutorial/restart_options_no_restart.png
 
 To find more information on restart options find a tutorial on how to save and restart WaterGAP :ref:`here <restart_from_saved_state>`.
 
@@ -66,13 +66,13 @@ For the reservoir operational years set the start and end years to "1989".
 
 We will be using a five year spin-up period in this example. Set "spinup_years" to "5".
 
-.. figure:: ../images/user_guide/tutorial/simulation_period_options_tutorial.png
+.. figure:: .../images/user_guide/tutorial/simulation_period_options_tutorial.png
 
 **2.5) Time step**
 
 Under "time_step" set the resolution to "daily".
 
-.. figure:: ../images/user_guide/tutorial/time_step_daily.png
+.. figure:: .../images/user_guide/tutorial/time_step_daily.png
 
 **2.6) Simulation Extend**
 
@@ -82,7 +82,7 @@ We will not be running WaterGAP for a basin in this example so set the "run_basi
 
 Any number of variables may be written out. In this example, we will only write out the "streamflow" variable. Under "LateralWaterBalanceFluxes" find "streamflow" and set it to "true". Everything else should be set to "false". For a detailed explanation on which variables can be written out see the :ref:`glossary <glossary>`.
 
-.. figure:: ../images/user_guide/tutorial/output_variables_tutorial.png
+.. figure:: .../images/user_guide/tutorial/output_variables_tutorial.png
 
 **2.8) Save the configuration file**
 
@@ -101,7 +101,7 @@ In case of a problem find help in the :ref:`five minute guide <five_minute_guide
 
 If your run has been successful, your Terminal should look like this:
 
-.. figure:: ../images/user_guide/tutorial/standard_run_successful_terminal.png
+.. figure:: .../images/user_guide/tutorial/standard_run_successful_terminal.png
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
@@ -112,7 +112,7 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 
 For the year 1989-01-01 the result should look like this:
 
-.. figure:: ../images/user_guide/tutorial/panopoly_standard_run_tutorial.png
+.. figure:: .../images/user_guide/tutorial/panopoly_standard_run_tutorial.png
 
 .. _human_water_use_only:
 
@@ -135,7 +135,7 @@ The only difference between a standard and a human-water-use-only run are the si
 
 .. _use_only_run_example_picture:
 
-.. figure:: ../images/user_guide/tutorial/runtime_options_use_only_run.png
+.. figure:: .../images/user_guide/tutorial/runtime_options_use_only_run.png
 
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
@@ -159,7 +159,7 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 
 For the year 1989-01-01 the result should look like this:
 
-.. figure:: ../images/user_guide/tutorial/panopoly_use_only_run_tutorial.png
+.. figure:: .../images/user_guide/tutorial/panopoly_use_only_run_tutorial.png
 
 .. _reservoirs_only:
 
@@ -182,7 +182,7 @@ The only difference between a standard and a reservoirs-only run are the simulat
 
 .. _reservoirs_only_run_example_picture:
 
-.. figure:: ../images/user_guide/tutorial/runtime_options_reservoirs_only_run.png
+.. figure:: .../images/user_guide/tutorial/runtime_options_reservoirs_only_run.png
 
 Set up File Paths, other Runtime Options, Restart Options, Simulation Period Options, Time step, Simulation Extend and Output Variables as described :ref:`above <modify_the_configuration_file_tutorial>` and save it.
 
@@ -206,4 +206,4 @@ To visualize the output of any given simulation we suggest using `Panopoly <http
 
 For the year 1989-01-01 the result should look like this:
 
-.. figure:: ../images/user_guide/tutorial/panopoly_reservoirs_only_run_tutorial.png
+.. figure:: .../images/user_guide/tutorial/panopoly_reservoirs_only_run_tutorial.png
