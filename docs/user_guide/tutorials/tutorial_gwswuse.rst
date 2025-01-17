@@ -65,7 +65,7 @@ Input data must be located in a specified folder path indicated in the configura
 
 When the data is placed in the input_data folder correctly, it will look like this:
 
-.. figure:: ../images/user_guide/tutorial/input_data_gwswuse.png
+.. figure:: ../../images/user_guide/tutorial/input_data_gwswuse.png
 
 Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
 *********************************************************
@@ -130,7 +130,7 @@ To start GWSWUSE in WaterGap-2.2e mode, the configuration file must be edited in
 - "*efficiency_gw_threshold*": "0.7"
 - "*deficit_irrigation_factor*": "0.7"
 
-.. figure:: ../images/user_guide/tutorial/runtime_options_configuration.png
+.. figure:: ../../images/user_guide/tutorial/runtime_options_configuration.png
 
 For further information on the configuration file and all options, which may be changed within, find the guide to the configuration file :ref:`here <configuration_file_gwswuse>`.
 
