@@ -1,7 +1,12 @@
 .. _tutorial_different_simulation_options:
 
+################################################################################
 Running Water Gap with different simulation options (other model configurations)
 ################################################################################
+
+.. contents:: 
+    :depth: 3
+    :backlinks: entry
 
 .. _naturalized_run:
 
