@@ -49,8 +49,8 @@ Tutorials (Under Development)
 
     configuration_file
     model_processes
-    tutorial_preparing_input_data
-    tutorial_different_simulation_options
+    tutorial_preparing_input_data.rst
+    tutorial_different_simulation_options.rst
     tutorial_specific_basin
     tutorial_restarting_saved_states
     tutorial_calibration
