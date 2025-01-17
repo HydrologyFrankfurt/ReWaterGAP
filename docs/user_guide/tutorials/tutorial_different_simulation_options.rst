@@ -81,7 +81,7 @@ The standard run in WaterGAP simulates the effects of both human water use and m
 
 In the example below, we will create a standard run for one year (1989) and go through the necessary steps, step-by-step.
 
-**Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so already follow the :ref:`five minute guide <five_minute_guide>` for this.
+**Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so already follow the :ref:`five minute guide <five_minute_guide_naturalized_run>` for this.
 
 .. _prepare_input_data:
 
