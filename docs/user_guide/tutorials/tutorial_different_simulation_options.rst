@@ -17,9 +17,11 @@ In your WaterGAP repository you will find an **input_data** folder, which will h
 
 Climate input data set for GSWP3-W5E5, 20CRv3-W5E5, and 20CRv3-ERA5 can be downloaded from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/>`_ .  
 The climate forcing GSWP3-ERA5 is no longer available on ISIMIP, but is available on the Goethe University Frankfurt data repository.
+
 - `Climate forcing GSWP3-ERA5 <https://doi.org/10.25716/GUDE.0H3E-SBWV>`_ [1]_
 
 Corresponding water use data is available from the Goethe University Frankfurt data repository:
+
 - `Water use input with GSWP3-W5E5 climate forcing <https://doi.org/10.25716/GUDE.0296-3FD7>`_ [2]_
 - `Water use input with 20CRv3-W5E5 climate forcing <https://doi.org/10.25716/GUDE.0H6A-SR8Q>`_ [3]_
 - `Water use input with 20CRv3-ERA5 climate forcing <https://doi.org/10.25716/GUDE.1BGX-87AA>`_ [4]_
