@@ -25,7 +25,7 @@ Lastly, run the command below to start WaterGAP:
 Visualize your results
 **********************
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. For more detals see :ref:`here <visualizeing_results>`.
 
 For the year 1989-01-01 and the Mississippi basin the result should look like this:
 
