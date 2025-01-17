@@ -28,10 +28,6 @@ Corresponding water use data is available from the Goethe University Frankfurt d
 - `Water use input with 20CRv3-ERA5 climate forcing <https://doi.org/10.25716/GUDE.1BGX-87AA>`_ [4]_
 - `Water use input with GSWP3-ERA5 climate forcing <https://doi.org/10.25716/GUDE.1VNN-DYCV>`_ [5]_
 
-******************
-Installation Guide
-******************
-
 1) Download the climate forcing data of your choice.
 ******************************************************
 
@@ -74,7 +70,7 @@ Naturalized Run
 
 This simulation computes naturalized flows and storages that would occur if there were neither human water use nor global man-made reservoirs/regulated lakes.
 
-To run WaterGAP in a naturalized mode, find the tutorial in the :ref:`five minute guide here <naturalized_run>`.
+To run WaterGAP in a naturalized mode, find the tutorial in the :ref:`five minute guide here <five_minute_guide>`.
 
 .. _standard_anthropogenic_run:
 
