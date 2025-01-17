@@ -1,8 +1,8 @@
 .. _tutorial_different_simulation_options:
 
-################################################################################
-Running WaterGAP with different simulation options (other model configurations)
-################################################################################
+##############################################################################################################
+ Run WaterGAP with different simulation options (Naturalized, Anthropogenic, Human Water Use, Reservoir only)
+##############################################################################################################
 
 .. contents:: 
     :depth: 3
