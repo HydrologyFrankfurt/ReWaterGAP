@@ -35,10 +35,3 @@ User Guide
 
         All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome. Find our **contributors guide** here.
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    tutorials
-    configuration_file
-    model_processes
