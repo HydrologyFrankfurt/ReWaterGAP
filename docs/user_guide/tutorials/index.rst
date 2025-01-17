@@ -49,9 +49,9 @@ Tutorial (Under Development)
 
     configuration_file
     model_processes
-    tutorial_preparing_input_data.rst
-    tutorial_different_simulation_options.rst
-    tutorial_specific_basin.rst
-    tutorial_restarting_saved_states.rst
-    tutorial_calibration.rst 
-    tutorial_gwswuse.rst
+    tutorial_preparing_input_data
+    tutorial_different_simulation_options
+    tutorial_specific_basin
+    tutorial_restarting_saved_states
+    tutorial_calibration
+    tutorial_gwswuse
