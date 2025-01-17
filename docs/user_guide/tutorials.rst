@@ -14,10 +14,45 @@ Tutorial (Under Development)
 
     .. grid-item-card:: 
         :text-align: center
+        :link:  tutorial_preparing_input_data
+        :link-type: ref
+
+        Preparing Input Data
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  tutorial_different_simulation_options
+        :link-type: ref
+
+        Siimulation Options
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  tutorial_specific_basin
+        :link-type: ref
+
+        Specific Basin
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  tutorial_gwswuse
+        :link-type: ref
+
+        Restarting and Saved States
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  tutorial_restarting_saved_states
+        :link-type: ref
+
+        GWSWUSE
+
+    .. grid-item-card:: 
+        :text-align: center
         :link:  tutorial_calibration
         :link-type: ref
 
-        New to WaterGAP and want to learn how to run the program? Find our **quick start guide** here. 
+        Calibration
 
 
 
