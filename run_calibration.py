@@ -14,6 +14,7 @@
 import os
 import sys
 import subprocess
+import shutil
 from concurrent.futures import ThreadPoolExecutor
 import json
 from termcolor import colored
@@ -201,7 +202,18 @@ def main():
         #                       Calibration step A
         # =====================================================================
         # Run WaterGAP globally to get the actual net abstraction from groundwater
-        # and  surface water. This will be the water use data for calibration)
+        # and  surface water. This will be the water use data for calibration).
+
+        # uncalibrated parameters are used for this run.
+        print(os.getcwd())
+        source_file = "./misc/WaterGAP_2.2e_global_parameters_nocal.nc"
+        destination_file = "./model/WaterGAP_2.2e_global_parameters.nc"
+        if os.path.exists(destination_file):
+            os.remove(destination_file)
+
+        shutil.copyfile(source_file, destination_file)
+
+        # modify configuration and run WaterGAP
         print('\n' + colored("Running Calibration step A...","magenta"))
         calib_watergap.modify_config_file()
         calib_watergap.run_watergap()
