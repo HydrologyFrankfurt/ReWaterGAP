@@ -1,6 +1,7 @@
 .. _tutorial_specific_basin:
 
-Running WaterGap for a specific basin
+#####################################
+Run WaterGap for a specific basin
 #####################################
 
 
