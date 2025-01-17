@@ -8,8 +8,9 @@ Calibrate WaterGAP
     :depth: 3
     :backlinks: entry
 
+********
 Rational
-########
+********
 
 The calibration scheme forces simulated long-term average river discharge to match the observed value within a maximum permitted deviation of ± 10%
 Calibration follows a four-step scheme with specific calibration status (CS) according to Müller Schmied et al., 2021, 2023:
