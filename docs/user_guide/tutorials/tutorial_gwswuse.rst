@@ -1,8 +1,8 @@
 .. _tutorial_gwswuse:
 
-#################################################
-Running WaterGAP with GWSWUSE (under development)
-#################################################
+#############################################
+Run WaterGAP with GWSWUSE (under development)
+#############################################
 
 .. contents:: 
     :depth: 3
@@ -11,6 +11,8 @@ Running WaterGAP with GWSWUSE (under development)
 ************
 Installation
 ************
+
+.. _installation_guide_gwswuse:
 
 Installation Steps
 ##################
