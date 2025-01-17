@@ -56,7 +56,7 @@ In the following tutorials we will be using data provided by Müller Schmied, H.
 
 Once your climate forcing and water use data has finished downloading, in your WaterGAP repository, navigate to "input_data" and place the downloaded files in their correct folders as seen in the picture below:
 
-.. figure:: .../images/user_guide/tutorial/input_data_folder.png
+.. figure:: ../../images/user_guide/tutorial/input_data_folder.png
 
 **********
 References 
