@@ -19,7 +19,7 @@ Tutorial (Under Development)
         :link:  tutorial_different_simulation_options
         :link-type: ref
 
-        Siimulation Options
+        Simulation Options
 
     .. grid-item-card:: 
         :text-align: center
@@ -30,10 +30,17 @@ Tutorial (Under Development)
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  tutorial_gwswuse
+        :link:  tutorial_restarting_saved_states
         :link-type: ref
 
         Restarting and Saved States
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  tutorial_vizualizing_results
+        :link-type: ref
+
+        Vizualizing Results
 
     .. grid-item-card:: 
         :text-align: center
