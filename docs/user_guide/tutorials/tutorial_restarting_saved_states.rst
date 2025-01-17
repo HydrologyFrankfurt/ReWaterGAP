@@ -1,4 +1,4 @@
-.. _tutorialstutorial_restarting_saved_states:
+.. _tutorial_restarting_saved_states:
 
 How to Restart WaterGap from saved state
 ########################################
