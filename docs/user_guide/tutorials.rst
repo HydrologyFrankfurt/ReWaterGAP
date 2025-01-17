@@ -37,17 +37,17 @@ Tutorial (Under Development)
 
     .. grid-item-card:: 
         :text-align: center
-        :link:  tutorial_restarting_saved_states
-        :link-type: ref
-
-        GWSWUSE
-
-    .. grid-item-card:: 
-        :text-align: center
         :link:  tutorial_calibration
         :link-type: ref
 
         Calibration
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  tutorial_gwswuse
+        :link-type: ref
+
+        GWSWUSE
 
 
 .. contents:: 
