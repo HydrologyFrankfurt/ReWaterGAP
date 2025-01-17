@@ -19,7 +19,7 @@ Tutorial (Under Development)
         :link:  tutorial_different_simulation_options
         :link-type: ref
 
-        Simulation Options
+        Running WaterGap with different Simulation Options
 
     .. grid-item-card:: 
         :text-align: center
