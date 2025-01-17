@@ -8,15 +8,12 @@ Running WaterGAP with different simulation options (other model configurations)
     :depth: 3
     :backlinks: entry
 
-.. _naturalized_run:
-
 Preparing Input Data
 ####################
 
 .. _prepare_input_data:
 
 In your WaterGAP repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this tutorial we will be running the simulation for the year 1989.
-
 
 Climate input data set for GSWP3-W5E5, 20CRv3-W5E5, and 20CRv3-ERA5 can be downloaded from `ISIMIP <https://data.isimip.org/search/tree/ISIMIP3a/InputData/climate/atmosphere/>`_ .  
 The climate forcing GSWP3-ERA5 is no longer available on ISIMIP, but is available on the Goethe University Frankfurt data repository.
@@ -65,6 +62,8 @@ Once your climate forcing and water use data has finished downloading, in your W
 
 .. figure:: ../../images/user_guide/tutorial/input_data_folder.png
 
+.. _naturalized_run:
+
 Naturalized Run
 ###############
 
@@ -82,8 +81,6 @@ The standard run in WaterGAP simulates the effects of both human water use and m
 In the example below, we will create a standard run for one year (1989) and go through the necessary steps, step-by-step.
 
 **Prerequisites:** You will need to clone WaterGAP and create an environment to run it in. If you haven't done so already follow the :ref:`five minute guide <five_minute_guide_naturalized_run>` for this.
-
-.. _prepare_input_data:
 
 1) Prepare the input data
 ***************************
