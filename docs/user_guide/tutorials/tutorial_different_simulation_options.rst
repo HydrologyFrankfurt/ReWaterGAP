@@ -166,11 +166,13 @@ If your run has been successful, your Terminal should look like this:
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
 4) Visualize your results
-********************************
+*************************
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`__. You can use it to open the input files in NetCDF format or your output files after the simulation has finished running. 
 
-For the year 1989-01-01 the result should look like this:
+To visualize the streamflow results from this tutorial, first navigate to your ReWaterGAP folder. Then to "output_data" and select the created file "dis_1989-01-01.nc". Open Panopoly and drag and drop the file into it. Then click on the Geo2D file in panopoly to open the map.
+
+The result should look like this:
 
 .. figure:: ../../images/user_guide/tutorial/panopoly_standard_run_tutorial.png
 
