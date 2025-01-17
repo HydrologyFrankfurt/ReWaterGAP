@@ -17,9 +17,6 @@ Preparing Input Data
 
 In your WaterGap repository you will find an **input_data** folder, which will hold all relevant climate forcings, water use data as well as static data needed to run the simulation. Throughout this tutorial we will be running the simulation for the year 1989.
 
-Goethe University Frankfurt Data Repository
-##############################################
-
 A comprehensive list of available data from the Goethe University Frankfurt can be found here:
 
 - `Climate forcing GSWP3-ERA5 <https://doi.org/10.25716/GUDE.0H3E-SBWV>`_ [1]_
