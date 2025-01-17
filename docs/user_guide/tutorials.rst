@@ -12,7 +12,7 @@ Tutorial (Under Development)
         :link:  tutorial_different_simulation_options
         :link-type: ref
 
-        Running WaterGap with different Simulation Options (Anthropogenic, Naturalized, Human Water Use, Reservoir only)
+        Running WaterGAP with different Simulation Options (Anthropogenic, Naturalized, Human Water Use, Reservoir only)
 
     .. grid-item-card:: 
         :text-align: center
