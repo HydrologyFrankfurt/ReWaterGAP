@@ -4,11 +4,6 @@
 Tutorial (Under Development)
 ############################
 
-.. contents:: 
-    :depth: 3
-    :backlinks: entry
-
-
 .. grid:: 1
     :gutter: 1
 
@@ -54,6 +49,10 @@ Tutorial (Under Development)
 
         Calibration
 
+
+.. contents:: 
+    :depth: 3
+    :backlinks: entry
 
 
 .. note::
