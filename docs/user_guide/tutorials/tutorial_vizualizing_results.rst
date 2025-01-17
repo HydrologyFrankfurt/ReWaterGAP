@@ -9,8 +9,8 @@ Begin by downloading and installing Panopoly. Then click on "file" -> "open". Na
 
 You should now see your data set. Double-click the "dis" file in "Geo2D" format and click create.
 
-.. figure:: .../images/user_guide/tutorial/panopoly_map.png
+.. figure:: ../../images/user_guide/tutorial/panopoly_map.png
 
 Once you see a world map, labeled "Streamflow or River discharge" go to "Window" -> "Plot Controls" where you will see the time set to "1" of "365". By increasing the time you will see the River discharge change visually on the map. We recommend changing the color scheme to "GMT_hot.cpt" under "Window" -> "Color Tables Browser".
 
-.. figure:: .../images/user_guide/tutorial/panopoly_plot_controls.png
+.. figure:: ../../images/user_guide/tutorial/panopoly_plot_controls.png
