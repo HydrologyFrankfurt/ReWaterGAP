@@ -53,4 +53,5 @@ Tutorial (Under Development)
     tutorial_different_simulation_options.rst
     tutorial_specific_basin.rst
     tutorial_restarting_saved_states.rst
-    tutorial_calibration.rst tutorials/tutorial_gwswuse.rst
+    tutorial_calibration.rst 
+    tutorial_gwswuse.rst
