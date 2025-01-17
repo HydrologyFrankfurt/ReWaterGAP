@@ -47,6 +47,10 @@ Tutorial (Under Development)
     :maxdepth: 2
     :hidden:
 
-    tutorials
     configuration_file
     model_processes
+    tutorial_preparing_input_data.rst
+    tutorial_different_simulation_options.rst
+    tutorial_specific_basin.rst
+    tutorial_restarting_saved_states.rst
+    tutorial_calibration.rst tutorials/tutorial_gwswuse.rst
