@@ -165,6 +165,8 @@ If your run has been successful, your Terminal should look like this:
 
 In your WaterGAP repository under "output_data" you will find a file named "dis_1989-12-31.nc". 
 
+.. _visualizeing_results:
+
 4) Visualize your results
 *************************
 
@@ -217,7 +219,7 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 4) Visualize your results
 ********************************
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. For more detals see :ref:`above <visualizeing_results>`.
 
 For the year 1989-01-01 the result should look like this:
 
@@ -264,7 +266,7 @@ In your WaterGAP repository under "output_data" you will find a file named "dis_
 4) Visualizing your results using Panopoly
 ************************************************
 
-To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. Find our guide to Panopoly :ref:`here <visualize_using_panopoly>`.
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. For more detals see :ref:`above <visualizeing_results>`.
 
 For the year 1989-01-01 the result should look like this:
 
