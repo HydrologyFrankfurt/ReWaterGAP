@@ -1,7 +1,7 @@
 .. _tutorials:
 
 ############################
-Tutorial (Under Development)
+Tutorials (Under Development)
 ############################
 
 .. grid:: 1
