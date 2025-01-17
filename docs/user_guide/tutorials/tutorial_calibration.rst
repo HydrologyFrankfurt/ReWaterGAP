@@ -1,5 +1,6 @@
 .. _tutorial_calibration:
 
+###########
 Calibration 
 ###########
 
@@ -7,7 +8,9 @@ Calibration
     :depth: 3
     :backlinks: entry
 
-Rational : 
+Rational
+########
+
 The calibration scheme forces simulated long-term average river discharge to match the observed value within a maximum permitted deviation of ± 10%
 Calibration follows a four-step scheme with specific calibration status (CS) according to Müller Schmied et al., 2021, 2023:
 CS1 – adjust the basin-wide uniform parameter γ (Müller Schmied et al., 2021, their Eq. 18) in the range of [0.1–5.0] to match mean annual observed streamflow within ±1 %.
