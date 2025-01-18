@@ -75,7 +75,7 @@ To run the calibration scheme use this command:
 - "number of calibration regions": During calibration, WaterGAP is run on multiple cores. Indipendent basins are divided between multiple cores during caibration. Larger basins are calculated by a single core, while smaller basins are grouped together and calculated by another single core. This ends up creating what is defined as calibration regions, with the maximum being 27 calibration regions, which are run in parallel using 27 cores.
 
 .. note::
-    If you want to run the WaterGAP calibration on your local server for all 1509 station, we suggest you have at least 20 or more cores available, to enable faster runtimes.
+    If you want to run the WaterGAP calibration on your local server for all 1509 station, we suggest you have 27 cores available, to enable faster runtimes.
 
 To run watergap using the entire 1509 stations use this command:
 
@@ -89,10 +89,6 @@ When you run the command the following steps are exctuted:
 - **1:** Model is run with uncalibrated parameters to get actual net abstraction :math:`{NA}_{s}` and :math:`{NA}_{g}`. Here the parameter :math:`γ` is set to 2 for all calibration basins, CFA = 1 for all calibration basins and CFS = 1 for all stations.
 - **2:** Calibration is performed using the scheme described above [link scheme above _calibration_schemes_definitions]. Please note that the stations provided standard in the stations.csv file [link station file csv]are used for calibration. For the standard calibration, all 1509 stations are used. The model setup for calibration is a standard anthropogenic run with the neigboring cell water supply option switched off [link tutorial for this].
 - **3:** The calibrated γ values are regionalized to river basins without sufficient streamflow observations using a multiple linear regression approach that relates the natural logarithm of γ to basin descriptors (mean annual temperature, mean available soil water capacity, fraction of local and global lakes and wetlands, mean basin land surface slope, fraction of permanent snow and ice, aquifer-related groundwater recharge factor). [1]_ .
-
-Modify the stations file
-############################
-
 
 References 
 ##########
