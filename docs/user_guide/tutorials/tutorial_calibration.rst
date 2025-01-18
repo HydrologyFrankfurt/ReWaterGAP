@@ -72,7 +72,7 @@ To run the calibration scheme use this command:
 
 
 - "location": "local" runs the program on your local server (default). "cluster" runs the program on high performing computer clusters (**will be implemented soon**).
-- "number of calibration regions": Watergap groups all gauging stations into calibration regions, which are stations found in independent super basins. If "number of calibration regions" is set to 27, WaterGAP groups the 1509 stations into 27 calibration regions, which are run in parallel using 27 cores. If "number of calibration regions" is set to 1, it will run the entire calibration on one core, which is ill-adviced.
+- "number of calibration regions": During calibration, WaterGAP is run on multiple cores. Indipendent basins are divided between multiple cores during caibration. Larger basins are calculated by a single core, while smaller basins are grouped together and calculated by another single core. This ends up creating what is defined as calibration regions, with the maximum being 27 calibration regions, which are run in parallel using 27 cores.
 
 .. note::
     If you want to run the WaterGAP calibration on your local server for all 1509 station, we suggest you have at least 20 or more cores available, to enable faster runtimes.
