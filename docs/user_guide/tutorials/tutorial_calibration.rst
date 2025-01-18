@@ -48,7 +48,9 @@ The unzipped file contains files such as:
     - The ESRI shapefile "WaterGAP22e_cal_bas.shp"" contains the basin outlines of the calibration stations
     - "json_annual", which contains the annual streamflows for 1509 stations.
 
-Unzip all files inside the downloaded folder and save it to the location of your choice.
+In the downloaded and unzipped folder, unzip the "json_annual.zip" file. Move the unzipped folder to the location of your choice. In this tutorial we are creating a folder in the ReWaterGAP folder under "/Users/Username/ReWaterGAP/calibration_stations" and placing the "json_annual" folder there.
+
+.. figure:: ../../images/user_guide/tutorial/calibration_folder.png
 
 Edit the path in the configuration file
 ***************************************
@@ -59,6 +61,8 @@ In the WaterGAP Configuration file "Config_ReWaterGAP.json" navigate to "Calibra
 Modify the station file
 #######################
 Define the basin in the stations.csv file basesd on the latitude and longitude coordinates of the stations. The coordinates have to be in multiples of 0.5 degrees.
+
+
 
 Run the WaterGAP calibration
 ############################
