@@ -65,15 +65,20 @@ To run the calibration scheme use this command:
 
 .. code-block:: bash
 
-    $ python3 run_calibration.py local "number of calibration regions"
+    $ python3 run_calibration.py "location" "number of calibration regions"
 
-    - "local": The program is run on your local server.
+
+    - "location": "local" runs the program on your local server (default). "cluster" runs the program on high performing computer clusters (**will be implemented soon**).
     - "number of calibration regions": Watergap groups all stations into calibration regions, which are stations found in independent super basins. If "number of calibration regions" is set to 27, WaterGAP groups the 1509 stations into 27 calibration regions.
+
+.. note
+
+    If you run the WaterGAP calibration on your local server we suggest you have at least 20 cpus or more, to enable faster runtimes.
 
 
 References 
 ##########
 
 .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., & Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021
-.. [2] according to Müller Schmied et al., 2023:
+.. [2] Müller Schmied, H., Trautmann, T., Ackermann, S., Cáceres, D., Flörke, M., Gerdener, H., Kynast, E., Peiris, T. A., Schiebener, L., Schumacher, M., and Döll, P.: The global water resources and use model WaterGAP v2.2e: description and evaluation of modifications and new features, Geosci. Model Dev. Discuss. [preprint], https://doi.org/10.5194/gmd-2023-213, in review, 2023.
 
