@@ -15,7 +15,7 @@ We will only write out the “streamflow” variable. Under “LateralWaterBalan
 
 If "run_basin" is set to "true" you need to modify a station.csv. By default, the stations.csv file is located under "input_data/static_input/". This path can be changed in the configuration file under "path_to_stations_file".
 
-Define the basin in the stations.csv file basesd on the latitude and longitude coordinates of the downstream cells. Watergap automatically computes corresponding upstream cells, for the downstream cells you manually specified. An example "stations.csv" file is shown for the Mississippi basin is located at the default path "input_data/static_input/stations.csv". You can have a look to see what the file contains there.
+Define the basin in the stations.csv file basesd on the latitude and longitude coordinates of the downstream cells. Watergap automatically computes corresponding upstream cells, for the downstream cells you manually specified. The latitude and longitude that define the Mississippi basin are given in the "mississippi_basin.csv" found in under "/ReWaterGAP/misc/mississippi_basin.csv". Copy the latitude and longitude values from the Mississippi file into the stations.csv file (located here: "/ReWaterGAP/input_data/static_input/stations.csv"). Make sure the contents of the latitude and longitude of the stations.csv file are emptied when copying values into it.
 
 Lastly, run the command below to start WaterGAP:
 
