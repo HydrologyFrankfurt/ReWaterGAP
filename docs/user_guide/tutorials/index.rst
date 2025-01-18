@@ -9,6 +9,13 @@ Tutorials (Under Development)
 
     .. grid-item-card:: 
         :text-align: center
+        :link:  tutorial_different_simulation_options
+        :link-type: ref
+
+        Run WaterGAP with different simulation options (Naturalized, Anthropogenic, Human Water Use, Reservoir only)
+
+    .. grid-item-card:: 
+        :text-align: center
         :link:  tutorial_specific_basin
         :link-type: ref
 
