@@ -55,7 +55,10 @@ Edit the path in the configuration file
 ***************************************
 In the WaterGAP Configuration file "Config_ReWaterGAP.json" navigate to "Calibrate WaterGAP". Under "path_to_observed_discharge" add the path to the "json_annual" folder you just saved and set "run_calib" to "true".
 
-.. figure:: ../../images/user_guide/tutorial/tutorial_calibration_config.png
+WaterGAP is calibrated from the year 1901. Under "SimulationPeriod" set the start year to 1901 by changing the following values:
+"start": "1901-01-01", "end": "2019-12-31", "reservoir_start_year": 1901, "reservoir_end_year": 2019, "spinup_years": 5
+
+.. figure:: ../../images/user_guide/tutorial/
 
 Modify the station file
 #######################
@@ -86,8 +89,8 @@ To run watergap using the entire 1509 stations use this command:
 
 When you run the command the following steps are exctuted:
 
-- **1:** Model is run with uncalibrated parameters to get actual net abstraction :math:`{NA}_{s}` and :math:`{NA}_{g}`. Here the parameter :math:`γ` is set to 2 for all calibration basins, CFA = 1 for all calibration basins and CFS = 1 for all stations.
-- **2:** Calibration is performed using the scheme described above [link scheme above _calibration_schemes_definitions]. Please note that the stations provided standard in the stations.csv file [link station file csv]are used for calibration. For the standard calibration, all 1509 stations are used. The model setup for calibration is a standard anthropogenic run with the neigboring cell water supply option switched off [link tutorial for this].
+- **1:** Model is run with uncalibrated parameters to get actual net abstraction :math:`{NA}_{s}` and :math:`{NA}_{g}` for the period 1901 to 2019**(check information)**. Here the parameter :math:`γ` is set to 2 for all calibration basins, CFA = 1 for all calibration basins and CFS = 1 for all stations.
+- **2:** Calibration is performed using the scheme described above [link scheme above _calibration_schemes_definitions]. Please note that the stations provided standard in the stations.csv file [link station file csv]are used for calibration. For the standard calibration, all 1509 stations are used. The model setup for calibration is a standard anthropogenic run with the neigboring cell water supply option switched off [link tutorial for this]. Calibration starts in upstream basins and proceeds to downstream basins, with the streamflow from the already calibrated upstream basin as inflow. The calibration uses a minimization algorithm for parameter calibration, the "Powell method" from `SciPy`(https://docs.scipy.org/doc/scipy-1.15.0/reference/optimize.minimize-powell.html)_ , 
 - **3:** The calibrated γ values are regionalized to river basins without sufficient streamflow observations using a multiple linear regression approach that relates the natural logarithm of γ to basin descriptors (mean annual temperature, mean available soil water capacity, fraction of local and global lakes and wetlands, mean basin land surface slope, fraction of permanent snow and ice, aquifer-related groundwater recharge factor). [1]_ .
 
 References 
