@@ -1,4 +1,4 @@
-.. _tutorial_calibration_no:
+.. _tutorial_calibration:
 
 ############################################
 Calibrate WaterGAP **(under development)**
@@ -22,6 +22,7 @@ Calibration follows a four-step scheme with specific calibration status (CS) [1]
 - **CS4**: As for CS3 but apply the station correction factor, CFS (multiplies streamflow in the cell where the gauging station is located by an unconstrained factor), to match mean annual observed streamflow with 10 % uncertainty to avoid error propagate ion to the downstream basin.
 
 ..note
+
     For each basin, calibration steps 2–4 are only performed if the previous step was not successful.
 
 ****************************************************
