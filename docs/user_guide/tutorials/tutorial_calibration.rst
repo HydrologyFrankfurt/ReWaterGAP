@@ -59,9 +59,7 @@ In the WaterGAP Configuration file "Config_ReWaterGAP.json" navigate to "Calibra
 
 Modify the station file
 #######################
-Define the basin in the stations.csv file basesd on the latitude and longitude coordinates of the stations. The coordinates have to be in multiples of 0.5 degrees.
-
-
+Define the latitude and longitude coordinates of the station in the stations.csv (an example for all 1509 stations is given here "/ReWaterGAP/input_data/static_input/stations.csv"). To run a calibration for a specific basin, users can input the latitude and longitude values for stations within a specific basin.
 
 Run the WaterGAP calibration
 ############################
@@ -74,10 +72,16 @@ To run the calibration scheme use this command:
 
 
 - "location": "local" runs the program on your local server (default). "cluster" runs the program on high performing computer clusters (**will be implemented soon**).
-- "number of calibration regions": Watergap groups all gauging stations into calibration regions, which are stations found in independent super basins (e.g. If "number of calibration regions" is set to 27, WaterGAP groups the 1509 stations into 27 calibration regions.).
+- "number of calibration regions": Watergap groups all gauging stations into calibration regions, which are stations found in independent super basins. If "number of calibration regions" is set to 27, WaterGAP groups the 1509 stations into 27 calibration regions, which are run in parallel using 27 cores. If "number of calibration regions" is set to 1, it will run the entire calibration on one core, which is ill-adviced.
 
 .. note::
     If you want to run the WaterGAP calibration on your local server for all 1509 station, we suggest you have at least 20 or more cores available, to enable faster runtimes.
+
+To run watergap using the entire 1509 stations use this command:
+
+.. code-block:: bash
+
+    $ python3 run_calibration.py local 27
 
 
 When you run the command the following steps are exctuted:
@@ -85,6 +89,9 @@ When you run the command the following steps are exctuted:
 - **1:** Model is run with uncalibrated parameters to get actual net abstraction :math:`{NA}_{s}` and :math:`{NA}_{g}`. Here the parameter :math:`γ` is set to 2 for all calibration basins, CFA = 1 for all calibration basins and CFS = 1 for all stations.
 - **2:** Calibration is performed using the scheme described above [link scheme above _calibration_schemes_definitions]. Please note that the stations provided standard in the stations.csv file [link station file csv]are used for calibration. For the standard calibration, all 1509 stations are used. The model setup for calibration is a standard anthropogenic run with the neigboring cell water supply option switched off [link tutorial for this].
 - **3:** The calibrated γ values are regionalized to river basins without sufficient streamflow observations using a multiple linear regression approach that relates the natural logarithm of γ to basin descriptors (mean annual temperature, mean available soil water capacity, fraction of local and global lakes and wetlands, mean basin land surface slope, fraction of permanent snow and ice, aquifer-related groundwater recharge factor). [1]_ .
+
+Modify the stations file
+############################
 
 
 References 
