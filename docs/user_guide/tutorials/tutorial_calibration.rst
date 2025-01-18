@@ -52,7 +52,7 @@ Edit the path in the configuration file
 ***************************************
 In the WaterGAP Configuration file "Config_ReWaterGAP.json" navigate to "Calibrate WaterGAP". Under "path_to_observed_discharge" add the path to the "json_annual" folder you just saved and set "run_calib" to "true".
 
-..Example pictiure
+.. figure:: ../../images/user_guide/tutorial/tutorial_calibration_config.png
 
 Modify the station file
 #######################
@@ -68,12 +68,12 @@ To run the calibration scheme use this command:
     $ python3 run_calibration.py "location" "number of calibration regions"
 
 
-    - "location": "local" runs the program on your local server (default). "cluster" runs the program on high performing computer clusters (**will be implemented soon**).
-    - "number of calibration regions": Watergap groups all stations into calibration regions, which are stations found in independent super basins. If "number of calibration regions" is set to 27, WaterGAP groups the 1509 stations into 27 calibration regions.
+- "location": "local" runs the program on your local server (default). "cluster" runs the program on high performing computer clusters (**will be implemented soon**).
+- "number of calibration regions": Watergap groups all gauging stations into calibration regions, which are stations found in independent super basins (e.g. If "number of calibration regions" is set to 27, WaterGAP groups the 1509 stations into 27 calibration regions.).
 
 .. note
 
-    If you run the WaterGAP calibration on your local server we suggest you have at least 20 cpus or more, to enable faster runtimes.
+    If you want to run the WaterGAP calibration on your local server for all 1509 station, we suggest you have at least 20 or more cores available, to enable faster runtimes.
 
 
 References 
