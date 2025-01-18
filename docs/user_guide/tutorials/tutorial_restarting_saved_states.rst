@@ -50,3 +50,12 @@ All other options will remain as they are described under :ref:`creating a saved
 Lastly, run the simulation with these options. To verify that everything is running as intended, you should receive this message in the terminal:
 
 .. figure:: ../../images/user_guide/tutorial/restart_options_terminal_restart_run_successful.png
+
+Visualize your results
+**********************
+
+To visualize the output of any given simulation we suggest using `Panopoly <https://www.giss.nasa.gov/tools/panoply/>`_. For more detals see :ref:`here <visualizeing_results>`.
+
+For the period 1990-01-01 the result should look like this:
+
+.. figure:: ../../images/user_guide/tutorial/panopoly_tutorial_run_from_restart.png
