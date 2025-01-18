@@ -43,9 +43,9 @@ Download the observed streamflow data
 The observed streamflow data can be downloaded from `zenodo <https://zenodo.org/records/7255968>`_ as a zip file. Download all files of the current version and unpack the zip file. You will find all necessary files as well as a readme.md file, which explains the content of the files.
 The unzipped file contains files such as:
 
-    - "WaterGAP22e_cal_stat.shp" contains the location of the calibration stations as point-shapefile. 
-    - The ESRI shapefile "WaterGAP22e_cal_bas.shp"" contains the basin outlines of the calibration stations
-    - "json_annual", which contains the annual streamflows for 1509 stations.
+- "WaterGAP22e_cal_stat.shp" contains the location of the calibration stations as point-shapefile. 
+- The ESRI shapefile "WaterGAP22e_cal_bas.shp"" contains the basin outlines of the calibration stations
+- "json_annual", which contains the annual streamflows for 1509 stations.
 
 In the downloaded and unzipped folder, unzip the "json_annual.zip" file. Move the unzipped folder to the location of your choice. In this tutorial we are creating a folder in the ReWaterGAP folder under "/Users/Username/ReWaterGAP/calibration_stations" and placing the "json_annual" folder there.
 
