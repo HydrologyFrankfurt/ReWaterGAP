@@ -54,4 +54,8 @@ Tutorials (Under Development)
 
     configuration_file
     model_processes
-
+    tutorial_different_simulation_options
+    tutorial_specific_basin
+    tutorial_restarting_saved_states
+    tutorial_calibration
+    tutorial_gwswuse
