@@ -27,8 +27,8 @@ class TestRadiationEvapotranspiration(unittest.TestCase):
         # similar daily values are found also here
         # https://ntrs.nasa.gov/api/citations/20190034158/downloads/20190034158.pdf
 
-        self.pet_max = 15 # mm
-        self.pet_min = 0  # mm
+        self.pet_max = 15 # mm/day
+        self.pet_min = 0  # mm/day
         size = (360, 720)
 
         self.pet = np.zeros(size)
