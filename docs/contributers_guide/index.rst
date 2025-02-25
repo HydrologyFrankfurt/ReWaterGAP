@@ -30,24 +30,10 @@ Contributers Guide
 
     .. grid-item-card:: 
         :text-align: center
-        :link: installation_issues
-        :link-type: ref
-
-        Installation Issues
-
-    .. grid-item-card:: 
-        :text-align: center
-        :link: feature_request
+        :link: faq
         :link-type: ref
 
         Feature Request
-
-    .. grid-item-card:: 
-        :text-align: center
-        :link: code_guidelines
-        :link-type: ref
-
-        Code Guidelines
 
 .. toctree::
     :maxdepth: 1
@@ -57,5 +43,4 @@ Contributers Guide
     bug_reporting
     documentation_improvement
     installation_issues
-    feature_request
-    code_guidelines
+    fac
