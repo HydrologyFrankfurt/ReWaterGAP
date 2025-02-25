@@ -9,17 +9,17 @@ Contributers Guide
 
     .. grid-item-card:: 
         :text-align: center
-        :link: contributing_to_code
-        :link-type: ref
-
-        Contributing to the code
-
-    .. grid-item-card:: 
-        :text-align: center
         :link: bug_reporting
         :link-type: ref
 
         Reporting a bug
+
+    .. grid-item-card:: 
+        :text-align: center
+        :link: contributing_to_code
+        :link-type: ref
+
+        Contributing to the code
 
     .. grid-item-card:: 
         :text-align: center
@@ -33,7 +33,7 @@ Contributers Guide
         :link: faq
         :link-type: ref
 
-        Frequently Asked Questions
+        Frequently Asked Questions (FAQs)
 
 .. toctree::
     :maxdepth: 1
@@ -43,4 +43,4 @@ Contributers Guide
     bug_reporting
     documentation_improvement
     installation_issues
-    fac
+    faq
