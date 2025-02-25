@@ -33,7 +33,7 @@ Contributers Guide
         :link: faq
         :link-type: ref
 
-        Feature Request
+        Frequently Asked Questions
 
 .. toctree::
     :maxdepth: 1
