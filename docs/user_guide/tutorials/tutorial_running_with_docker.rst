@@ -46,6 +46,8 @@ Step 1: Prepare the Working Directory
 2. Download and place the required **climate forcing** and **water use** input data into this folder. You can access these datasets from **[Data Source]**.
 3. Inside the `docker_wghm` folder, create an **output directory** to store the results.
 
+.. figure:: ../../images/user_guide/tutorial/Docker_folder.png
+
 Step 2: Mount the Working Directory to the Docker Environment
 *************************************************************
 
@@ -71,6 +73,7 @@ To modify the **configuration file**, follow these steps:
 
 .. note::
   To find your `container_id`, use:
+
   .. code-block:: bash
 
     $ docker ps -a
