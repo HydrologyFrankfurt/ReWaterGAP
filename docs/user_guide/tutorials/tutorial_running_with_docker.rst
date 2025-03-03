@@ -91,7 +91,8 @@ To modify the **configuration file**, follow these steps:
 
 4. Update the configuration file to set it up for a standard run for the year 1981. :ref:`For more information see the tutorial here <standard_anthropogenic_run>`.
 
-Note: See the configuration file settings for how to run the model for other runoptions :ref:`here <tutorial_different_simulation_options>`. If your run is a restart run, make sure that your restart files are saved to "mounted_dir/output".
+.. note::
+  See the configuration file settings for how to run the model for other runoptions :ref:`here <tutorial_different_simulation_options>`. If your run is a restart run, make sure that your restart files are saved to "mounted_dir/output".
 
 5. Save the updated configuration file.
 
