@@ -42,6 +42,13 @@ Tutorials (Under Development)
 
         Run WaterGAP with GWSWUSE
 
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  tutorial_docker
+        :link-type: ref
+
+        Running WaterGAP with Docker
+
 
 .. toctree::
     :maxdepth: 2
