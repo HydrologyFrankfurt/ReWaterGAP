@@ -8,7 +8,7 @@ Running the WaterGAP (WGHM) Container
 Prerequisites
 *************
 
-To run Docker images, **Docker Engine** (Docker) must be installed on your local machine. You can download it from `Docker's official website <https://www.docker.com/>`_. The Docker documentation provides installation instructions for each supported operating system.
+To run Docker images, Docker Engine (Docker) must be installed on your local machine. You can download it from `Docker's official website <https://www.docker.com/>`_. The Docker documentation provides installation instructions for each supported operating system.
 
 1) Building the Docker Image
 ############################
@@ -39,12 +39,12 @@ This will create an image named `rewatergap_wghm`.
 2) Running the WaterGAP Container
 #################################
 
-We will use a **standardized run for the year 1981** as an example.
+We will use a standardized run for the year 1981 as an example.
 
 Step 1: Prepare the Working Directory
 *************************************
 
-1. On your local PC, create a folder (e.g., `docker_wghm`).If you built the docker image yourself you will already have this folder. This will be your **working directory**.
+1. On your local PC, create a folder (e.g., `docker_wghm`). If you built the docker image yourself you will already have this folder. This will be your working directory.
 2. Download and place the required **climate forcing** and **water use** input data into this folder. You can find more information on these datasets from :ref:`our tutorial on them here <tutorial_different_simulation_options>`.
 3. Inside the `docker_wghm` folder, create an **output directory** to store the results.
 
@@ -61,13 +61,13 @@ To make the `docker_wghm` folder accessible inside the container, use the follow
 
 This command:
 - Mounts the `Docker_wghm` folder to `/app/mounted_dir` inside the container.
-- Runs the container in **interactive mode** (`-it`). This makes sure, you can see what you have mounted.
+- Runs the container in interactive mode (`-it`). This makes sure, you can see what you have mounted.
 
 Use the exit command to leave this interacitve mode after you have checked, that the right folder has been mounted.
 
 Step 3: Configure the WaterGAP Model
 ************************************
-To modify the **configuration file**, follow these steps:
+To modify the configuration file, follow these steps:
 1. Copy the configuration file from the Docker container to your local `docker_wghm` folder:
 
 .. code-block:: bash
