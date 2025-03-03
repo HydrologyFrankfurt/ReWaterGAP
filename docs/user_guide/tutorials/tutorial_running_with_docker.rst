@@ -8,7 +8,7 @@ Running the WaterGAP (WGHM) Container
 Prerequisites
 *************
 
-To run Docker images, **Docker Engine** (Docker) must be installed on your local machine. You can download it from [Docker's official website](https://www.docker.com/). The Docker documentation provides installation instructions for each supported operating system.
+To run Docker images, **Docker Engine** (Docker) must be installed on your local machine. You can download it from `Docker's official website <https://www.docker.com/>`_. The Docker documentation provides installation instructions for each supported operating system.
 
 1) Building the Docker Image
 ############################
@@ -16,13 +16,13 @@ To run Docker images, **Docker Engine** (Docker) must be installed on your local
 Using a Prebuilt Image (Recommended)
 ************************************
 
-If you prefer not to build the image yourself, you can download a prebuilt version from **[repository/Zenodo]** and proceed directly to [Step 2: Running the Container](#2-running-the-watergap-container).
+If you prefer not to build the image yourself, you can download a prebuilt version from `Zenodo <>`_ and proceed directly to [Step 2: Running the Container](#2-running-the-watergap-container).
 
 Building the Image Manually
 ***************************
 
 If you want to build the image yourself, follow these steps:
-1. Download the `Dockerfile` from **[repository/Zenodo]**.
+1. Download the `Dockerfile` from `Zenodo <>`_.
 2. Create a folder on your local machine (e.g: "docker_wghm") and place the `Dockerfile` in it.
 3. Open a command-line terminal and navigate to the folder where the `Dockerfile` is located.
 
@@ -82,7 +82,9 @@ To modify the **configuration file**, follow these steps:
 - "water_use": "mounted_dir/water_use/",
 - "output": "mounted_dir/output/"
 
-4. Update the configuration file to set it up for a standard run for the year 1981. <See here>. 
+.. figure:: ../../images/user_guide/tutorial/file_paths_docker.png
+
+4. Update the configuration file to set it up for a standard run for the year 1981. :ref:`For more information see the tutorial here <standard_anthropogenic_run>`.
 
 Note: See the configuration file settings for how to run the model for other runoptions <here>. If your run is a restart run, make sure that your restart files are saved to "mounted_dir/output".
 
