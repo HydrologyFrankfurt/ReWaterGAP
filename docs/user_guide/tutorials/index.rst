@@ -47,7 +47,7 @@ Tutorials (Under Development)
         :link:  tutorial_docker
         :link-type: ref
 
-        Running WaterGAP with Docker
+        Running the WaterGAP (WGHM) Docker container 
 
 
 .. toctree::
