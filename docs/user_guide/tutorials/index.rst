@@ -30,6 +30,13 @@ Tutorials (Under Development)
 
     .. grid-item-card:: 
         :text-align: center
+        :link:  tutorial_docker
+        :link-type: ref
+
+        Running the WaterGAP (WGHM) Docker container 
+
+    .. grid-item-card:: 
+        :text-align: center
         :link:  tutorial_calibration
         :link-type: ref
 
@@ -41,13 +48,6 @@ Tutorials (Under Development)
         :link-type: ref
 
         Run WaterGAP with GWSWUSE
-
-    .. grid-item-card:: 
-        :text-align: center
-        :link:  tutorial_docker
-        :link-type: ref
-
-        Running the WaterGAP (WGHM) Docker container 
 
 
 .. toctree::
