@@ -45,13 +45,20 @@ Step 1: Prepare the Working Directory
 *************************************
 
 1. On your local PC, create a folder (e.g., `docker_wghm`). If you built the docker image yourself you will already have this folder. This will be your working directory.
-2. Download and place the required **climate forcing** and **water use** input data into this folder. You can find more information on these datasets from :ref:`our tutorial on them here <tutorial_different_simulation_options>`.
-3. Inside the `docker_wghm` folder, create an **output directory** to store the results.
+2. If you downloaded the ready-built image from Zenodo, place it into the working directory folder. 
+3. Download and place the required **climate forcing** and **water use** input data into this folder. You can find more information on these datasets from :ref:`our tutorial on them here <tutorial_different_simulation_options>`.
+4. Inside the `docker_wghm` folder, create an **output directory** to store the results.
 
 .. figure:: ../../images/user_guide/tutorial/Docker_folder.png
 
-Step 2: Mount the Working Directory to the Docker Environment
-*************************************************************
+Step 2: Load image and Mount the Working Directory to the Docker Environment
+********************************************************************************
+
+If you've downloaded the tar file, in your current working directory, load the downloaded tar file using the command below. If you built the image yourself skip this command.
+
+.. code-block:: bash
+
+  $ docker load -i rewatergap_wghm.tar
 
 To make the `docker_wghm` folder accessible inside the container, use the following command:
 
