@@ -16,7 +16,7 @@ To run Docker images, Docker Engine (Docker) must be installed on your local mac
 Using a Prebuilt Image (Recommended)
 ************************************
 
-If you prefer not to build the image yourself, you can download a prebuilt version from `the WaterGAP GitHubb Repository <https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/Dockerfile>`_ and proceed directly to :ref:`Step 2 <running_the_watergap_container>`
+If you prefer not to build the image yourself, you can download a prebuilt version from `Zenodo < >`_ and proceed directly to :ref:`Step 2 <running_the_watergap_container>`
 
 Building the Image Manually
 ***************************
