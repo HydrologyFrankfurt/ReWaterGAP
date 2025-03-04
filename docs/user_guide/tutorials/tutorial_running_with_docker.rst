@@ -72,14 +72,17 @@ To modify the configuration file, follow these steps:
 1. Copy the configuration file from the Docker container to your local `docker_wghm` folder:
 
 .. code-block:: bash
+
   $ docker cp <container_id>:/app/Config_ReWaterGAP.json ./Config_ReWaterGAP.json
 
 .. note::
-  To find your `container_id`, use:
+  To find your `container_id`, use the following command. The requred id is also marked in the picture below.
 
   .. code-block:: bash
 
     $ docker ps -a
+
+ .. figure:: ../../images/user_guide/tutorial/Docker_container_id.png
 
 2. Open `Config_ReWaterGAP.json` in a text editor of your choice.
 3. Update the file paths for **climate forcing**, **water_use**, and **output** directories. Since the directory is mounted as `mounted_dir`, the paths should be set as:
