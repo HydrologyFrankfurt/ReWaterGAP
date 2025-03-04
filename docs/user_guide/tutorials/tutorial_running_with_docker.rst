@@ -54,11 +54,14 @@ Step 1: Prepare the Working Directory
 Step 2: Load image and Mount the Working Directory to the Docker Environment
 ********************************************************************************
 
-If you've downloaded the tar file, in your current working directory, load the downloaded tar file using the command below. If you built the image yourself skip this command.
+If you've downloaded the image file (rewatergap_wghm.tar), in your current working directory, load the image using the command below. If you built the image yourself skip this command.
 
 .. code-block:: bash
 
   $ docker load -i rewatergap_wghm.tar
+
+..note:
+  Depending on your machine this step might take a while. In out case it took around 2 minutes.
 
 To make the `docker_wghm` folder accessible inside the container, use the following command:
 
@@ -112,6 +115,8 @@ To modify the configuration file, follow these steps:
 Now that the environment is set up and the configuration file is updated, you can proceed with running the WaterGAP model inside the Docker container.
 
 .. code-block:: bash
+
   $ docker run -v $(PWD):/app/mounted_dir -it rewatergap_wghm
 
+.. figure:: ../../images/user_guide/tutorial/Docker_run.png
 
