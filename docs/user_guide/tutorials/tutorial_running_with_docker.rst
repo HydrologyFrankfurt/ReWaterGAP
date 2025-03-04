@@ -111,7 +111,8 @@ To modify the configuration file, follow these steps:
 5. Save the updated configuration file.
 
 3) Running the WaterGAP Model
-*****************************
+#############################
+
 Now that the environment is set up and the configuration file is updated, you can proceed with running the WaterGAP model inside the Docker container.
 
 .. code-block:: bash
