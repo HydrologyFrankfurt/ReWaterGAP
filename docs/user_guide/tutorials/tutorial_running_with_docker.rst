@@ -60,8 +60,8 @@ To make the `docker_wghm` folder accessible inside the container, use the follow
   $ docker run -v $(PWD):/app/mounted_dir -it rewatergap_wghm bash
 
 This command:
-- Mounts the `Docker_wghm` folder to `/app/mounted_dir` inside the container.
-- Runs the container in interactive mode (`-it`). This makes sure, you can see what you have mounted.
+ - Mounts the `Docker_wghm` folder to `/app/mounted_dir` inside the container.
+ - Runs the container in interactive mode (`-it`). This makes sure, you can see what you have mounted.
 
 Use the exit command to leave this interacitve mode after you have checked, that the right folder has been mounted.
 
