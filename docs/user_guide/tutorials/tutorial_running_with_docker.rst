@@ -118,5 +118,5 @@ Now that the environment is set up and the configuration file is updated, you ca
 
   $ docker run -v $(PWD):/app/mounted_dir -it rewatergap_wghm
 
-.. figure:: ../../images/user_guide/tutorial/Docker_run.png
+.. figure:: ../../images/user_guide/tutorial/docker_run.png
 
