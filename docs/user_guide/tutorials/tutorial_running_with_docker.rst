@@ -1,8 +1,8 @@
 .. _tutorial_docker:
 
-#####################################
-Running the WaterGAP (WGHM) Container
-#####################################
+############################################
+Running the WaterGAP (WGHM) Docker Container
+############################################
 
 *************
 Prerequisites
