@@ -13,7 +13,7 @@ To run Docker images, Docker Engine (Docker) must be installed on your local mac
 1) Building the Docker Image
 ############################
 
-Using a Prebuilt Image (Recommended)
+Using a Prebuilt Image 
 ************************************
 
 If you prefer not to build the image yourself, you can download a prebuilt version from `Zenodo < >`_ and proceed directly to :ref:`Step 2 <running_the_watergap_container>`
