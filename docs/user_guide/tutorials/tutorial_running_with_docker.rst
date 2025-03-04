@@ -68,6 +68,7 @@ Use the exit command to leave this interacitve mode after you have checked, that
 Step 3: Configure the WaterGAP Model
 ************************************
 To modify the configuration file, follow these steps:
+
 1. Copy the configuration file from the Docker container to your local `docker_wghm` folder:
 
 .. code-block:: bash
