@@ -46,7 +46,7 @@ Step 1: Prepare the Working Directory
 
 1. On your local PC, create a folder (e.g., `docker_wghm`). If you built the docker image yourself you will already have this folder. This will be your working directory.
 2. If you downloaded the ready-built image from Zenodo, place it into the working directory folder. 
-3. Download and place the required **climate forcing** and **water use** input data into this folder. You can find more information on these datasets from :ref:`our tutorial on them here <tutorial_different_simulation_options>`.
+3. Download and place the required **climate forcing** and **water use** input data into this folder. You can find more information on these datasets from :ref:`our tutorial on them here <prepare_input_data>`.
 4. Inside the `docker_wghm` folder, create an **output directory** to store the results.
 
 .. figure:: ../../images/user_guide/tutorial/Docker_folder.png
