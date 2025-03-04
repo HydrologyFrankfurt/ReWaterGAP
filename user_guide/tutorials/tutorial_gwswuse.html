@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Run WaterGAP with GWSWUSE (under development) &#8212; ReWaterGAP  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/tutorial_gwswuse';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP  documentation - Home"/>
+    <img src="../../_static/watergap_logo.png" class="logo__image only-dark pst-js-only" alt="ReWaterGAP  documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Run WaterGAP with GWSWUSE (under development)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="run-watergap-with-gwswuse-under-development">
+<span id="tutorial-gwswuse"></span><h1><a class="toc-backref" href="#id1" role="doc-backlink">Run WaterGAP with GWSWUSE (under development)</a><a class="headerlink" href="#run-watergap-with-gwswuse-under-development" title="Link to this heading">#</a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#run-watergap-with-gwswuse-under-development" id="id1">Run WaterGAP with GWSWUSE (under development)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#installation" id="id2">Installation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#installation-steps" id="id3">Installation Steps</a></p></li>
+<li><p><a class="reference internal" href="#preparing-the-input-data" id="id4">Preparing the Input Data</a></p></li>
+<li><p><a class="reference internal" href="#running-the-software" id="id5">Running the Software</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="installation">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Installation</a><a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<section id="installation-steps">
+<span id="installation-guide-gwswuse"></span><h3><a class="toc-backref" href="#id3" role="doc-backlink">Installation Steps</a><a class="headerlink" href="#installation-steps" title="Link to this heading">#</a></h3>
+<p>Follow these steps to to install ReGWSWUSE:</p>
+<section id="install-python-and-download-libraries">
+<h4>Install Python and download libraries<a class="headerlink" href="#install-python-and-download-libraries" title="Link to this heading">#</a></h4>
+<p>Download the latest version of Python from the official Python website and install it if Python is not already installed on your system.</p>
+</section>
+<section id="clone-the-regwswuse-repository">
+<h4>Clone the reGWSWUSE repository<a class="headerlink" href="#clone-the-regwswuse-repository" title="Link to this heading">#</a></h4>
+<p>Using the Terminal, navigate to the directory of choice where the ReGWSWUSE folder will be copied into. Then use the following command to clone the repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>&lt;repository_url&gt;
+</pre></div>
+</div>
+<p>Find more information in the official GitHub documentation <a class="reference external" href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository">here</a> .</p>
+</section>
+<section id="create-an-environment-to-run-regwswuse-in">
+<h4>Create an environment to run ReGWSWUSE in<a class="headerlink" href="#create-an-environment-to-run-regwswuse-in" title="Link to this heading">#</a></h4>
+<p>Navigate to the ReGWSWUSE folder in the terminal using the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>user/…/ReGWSWUSE
+</pre></div>
+</div>
+<p>Create an environment (e.g. with the name “regwswuse”) and install the required packages from the requirements.txt file by running the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>example
+
+$<span class="w"> </span>mamba<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>regwswuse<span class="w"> </span>--file<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Activate the ReGWSWUSE environment using the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>example
+
+$<span class="w"> </span>mamba<span class="w"> </span>activate<span class="w"> </span>regwswuse
+</pre></div>
+</div>
+</section>
+</section>
+<section id="preparing-the-input-data">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Preparing the Input Data</a><a class="headerlink" href="#preparing-the-input-data" title="Link to this heading">#</a></h3>
+<p>Input data must be located in a specified folder path indicated in the configuration file, following a defined directory structure. The structure of the input folder is precisely defined in the convention file (<cite>gwswuse_convention</cite>). It is based on a hierarchical organization by sectors and variables:</p>
+<ul class="simple">
+<li><p><strong>Sector Requirements</strong>: The sector names in the convention file specify which sector subfolders must be searched in the input data path. For example, the subfolder <cite>irrigation</cite> corresponds to the irrigation sector, while <cite>domestic</cite> refers to the household sector.</p></li>
+<li><p><strong>Expected Variables</strong>: The expected variables specify from which variable subfolders within each sector NetCDF files should be read. These subfolders represent specific data categories, such as <cite>consumptive_use_tot</cite> (total consumptive water use), <cite>fraction_gw_use</cite> (fraction of consumptive groundwater use), etc.</p></li>
+</ul>
+<p>When the data is placed in the input_data folder correctly, it will look like this:</p>
+<figure class="align-default">
+<img alt="../../_images/input_data_gwswuse.png" src="../../_images/input_data_gwswuse.png" />
+</figure>
+<section id="required-data-for-gwswuse-execution-in-watergap-2-2e-mode">
+<h4>Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode<a class="headerlink" href="#required-data-for-gwswuse-execution-in-watergap-2-2e-mode" title="Link to this heading">#</a></h4>
+<p><strong>Irrigation</strong>:</p>
+<ul class="simple">
+<li><p><cite>consumptive_use_tot</cite>: [m³/month], monthly data (monthly potential irrigation consumptive water use)</p></li>
+<li><p><cite>fraction_gw_use</cite>: [-], time-invariant (potential irrigation fraction of groundwater use)</p></li>
+<li><p><cite>fraction_return_gw</cite>: [-], time-invariant (potential irrigation fraction of return flow to groundwater)</p></li>
+<li><p><cite>irrigation_efficiency_sw</cite>: [-], time-invariant (Irrigation efficiency for surface water abstraction infrastructure)</p></li>
+<li><p><cite>gwd_mask</cite>: [boolean], time-invariant (mask for groundwater depletion due to human water use greater than 5 mm/yr average for 1980–2009)</p></li>
+<li><p><cite>abstraction_irr_part_mask</cite>: [boolean], time-invariant (mask for irrigation part of water abstraction greater than 5% during 1960–2000)</p></li>
+</ul>
+<p><strong>Domestic</strong>:</p>
+<ul class="simple">
+<li><p><cite>consumptive_use_tot</cite>: [m³/year], yearly data (yearly potential domestic consumptive water use)</p></li>
+<li><p><cite>abstraction_tot</cite>: [m³/year], yearly data (yearly potential domestic water abstraction)</p></li>
+<li><p><cite>fraction_gw_use</cite>: [-], time-invariant (potential domestic fraction of groundwater use)</p></li>
+</ul>
+<p><strong>Manufacturing</strong>:</p>
+<ul class="simple">
+<li><p><cite>consumptive_use_tot</cite>: [m³/year], yearly data (yearly potential manufacturing consumptive water use)</p></li>
+<li><p><cite>abstraction_tot</cite>: [m³/year], yearly data (yearly potential manufacturing water abstraction)</p></li>
+<li><p><cite>fraction_gw_use</cite>: [-], time-invariant (potential manufacturing fraction of groundwater use)</p></li>
+</ul>
+<p><strong>Thermal Power</strong>:</p>
+<ul class="simple">
+<li><p><cite>consumptive_use_tot</cite>: [m³/year], yearly data (yearly potential thermal power consumptive water use)</p></li>
+<li><p><cite>abstraction_tot</cite>: [m³/year], yearly data (yearly potential thermal power water abstraction)</p></li>
+</ul>
+<p><strong>Livestock</strong>:</p>
+<ul class="simple">
+<li><p><cite>consumptive_use_tot</cite>: [m³/year], yearly data (yearly potential livestock consumptive water use)</p></li>
+</ul>
+</section>
+<section id="additional-required-input-data-for-other-configuration-settings">
+<h4>Additional Required Input Data for Other Configuration Settings<a class="headerlink" href="#additional-required-input-data-for-other-configuration-settings" title="Link to this heading">#</a></h4>
+<p>If other configuration options are set, additional input data will be required, specifically for the irrigation sector:</p>
+<p><strong>Irrigation</strong>:</p>
+<ul class="simple">
+<li><p><cite>fraction_aai_aei</cite>: [-], monthly data (fraction of areas actually irrigated to areas equipped for irrigation for 1901-2020)</p></li>
+<li><p><cite>time_factor_aai</cite>: [-], monthly data (temporal development factor of national areas actually irrigated for 2016-2020 relative to 2015)</p></li>
+</ul>
+</section>
+<section id="optional-input-data">
+<h4>Optional Input Data<a class="headerlink" href="#optional-input-data" title="Link to this heading">#</a></h4>
+<p>For the sectors domestic, manufacturing, livestock, and thermal power, sector-specific <cite>fraction_gw_use</cite> and <cite>fraction_return_gw</cite> can also be provided as optional input data. This requires the creation of a variable folder within the respective sector subfolders and placing the corresponding netCDF file in that folder.</p>
+</section>
+<section id="configuration-gwswuse-config-json">
+<h4>Configuration (<cite>gwswuse_config.json</cite>)<a class="headerlink" href="#configuration-gwswuse-config-json" title="Link to this heading">#</a></h4>
+<p>To start GWSWUSE in WaterGap-2.2e mode, the configuration file must be edited in the following ways, as seen in the picture below.</p>
+<ul class="simple">
+<li><p>“<em>irrigation_efficiency_gw_mode</em>”: “enforce”</p></li>
+<li><p>“<em>irrigation_input_based_on_aei</em>”: “false”</p></li>
+<li><p>“<em>correct_irr_simulation_by_t_aai</em>”: “false”</p></li>
+<li><p>“<em>deficit_irrigation_mode</em>”: “true”</p></li>
+<li><p>“<em>efficiency_gw_threshold</em>”: “0.7”</p></li>
+<li><p>“<em>deficit_irrigation_factor</em>”: “0.7”</p></li>
+</ul>
+<figure class="align-default">
+<img alt="../../_images/runtime_options_configuration.png" src="../../_images/runtime_options_configuration.png" />
+</figure>
+<p>For further information on the configuration file and all options, which may be changed within, find the guide to the configuration file <a class="reference internal" href="../configuration_file.html#configuration-file-gwswuse"><span class="std std-ref">here</span></a>.</p>
+</section>
+</section>
+<section id="running-the-software">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Running the Software</a><a class="headerlink" href="#running-the-software" title="Link to this heading">#</a></h3>
+<p>The simulation in ReGWSWUSE is executed via the main program <cite>run_regwswuse.py</cite>. This script manages the entire simulation process and ensures that all modules and functions are called and executed in the correct order. This chapter explains how the main script works and how to use it to run the simulation.</p>
+<dl class="simple">
+<dt>Before you run the simulation, make sure the previously described steps have been completed.</dt><dd><ul class="simple">
+<li><p><strong>Installation Completed</strong>: Ensure that ReGWSWUSE has been successfully installed per the installation instructions (see Chapter 2.2).</p></li>
+<li><p><strong>Configuration File preparation</strong>: Prepare the JSON configuration file containing all necessary settings for your simulation. This file should define paths to input data, the simulation period, specific simulation options, and output directories (see the “Configuration Module and File” chapter). Save the configuration file in the same directory as <cite>run_regwswuse.py</cite>.</p></li>
+<li><p><strong>Input Data preparation</strong>: Ensure that the folder specified by <cite>cm.input_data_path</cite> in the configuration file is populated with the required input files. These files must meet the requirements set forth in the convention file (<cite>gwswuse_convention</cite>), including correct structure, variable names, units, and required spatial and temporal coverage.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="main-program-execution">
+<h4>Main Program Execution<a class="headerlink" href="#main-program-execution" title="Link to this heading">#</a></h4>
+<p>Once the installation is complete and the configuration file is prepared, the software can be executed. For this open a terminal, navigate to the directory containing the ReGWSWUSE files and use the following command to run ReGWSWUSE with the configuration file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$python</span><span class="w"> </span>run_regwswuse.py<span class="w"> </span>--config<span class="w"> </span>&lt;path_to_config_file&gt;
+</pre></div>
+</div>
+</section>
+<section id="checking-execution">
+<h4>Checking Execution<a class="headerlink" href="#checking-execution" title="Link to this heading">#</a></h4>
+<p><strong>Console Output</strong>:</p>
+<p>During execution, the software will output progress and important information to the console. Pay attention to any error messages or indications that adjustments may be needed.</p>
+<p><strong>Result Storage</strong>:</p>
+<p>The results will be saved in the output folder defined in the configuration file (<cite>cm.output_dir</cite>) and can subsequently be analyzed.</p>
+<p>By flexibly adjusting the configuration file and using the main script <cite>run_regwswuse.py</cite> with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-steps">Installation Steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#install-python-and-download-libraries">Install Python and download libraries</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-the-regwswuse-repository">Clone the reGWSWUSE repository</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-environment-to-run-regwswuse-in">Create an environment to run ReGWSWUSE in</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-input-data">Preparing the Input Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#required-data-for-gwswuse-execution-in-watergap-2-2e-mode">Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-required-input-data-for-other-configuration-settings">Additional Required Input Data for Other Configuration Settings</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-input-data">Optional Input Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-gwswuse-config-json">Configuration (<cite>gwswuse_config.json</cite>)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-software">Running the Software</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#main-program-execution">Main Program Execution</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-execution">Checking Execution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/user_guide/tutorials/tutorial_gwswuse.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
