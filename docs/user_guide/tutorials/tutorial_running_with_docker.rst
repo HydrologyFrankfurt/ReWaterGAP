@@ -22,7 +22,7 @@ Building the Image Manually
 ***************************
 
 If you want to build the image yourself, follow these steps:
- 1. Download the `Dockerfile` from `the WaterGAP GitHubb Repository <https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/Dockerfile>`_.
+ 1. Download the `Dockerfile` from `the WaterGAP GitHub Repository <https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/Dockerfile>`_.
  2. Create a folder on your local machine (e.g: "docker_wghm") and place the `Dockerfile` in it.
  3. Open a command-line terminal and navigate to the folder where the `Dockerfile` is located.
 
