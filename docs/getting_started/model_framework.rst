@@ -11,6 +11,8 @@ Five global water use models, including irrigation, calculate consumptive use (C
 GWSWUSE distinguishes water use from groundwater and surface water, generating monthly time series of net abstractions (NApot,s and NApot,g) from the two sources [1]_. These time series are input into the WGHM, impacting daily water flows and storages globally.
 For a detailed information on the WaterGap Framework see the `associated publication <https://gmd.copernicus.org/articles/14/1037/2021/#section2>`__.
 
+Please Note that Version 1 of WGHM and GWSWUSE is available on `Zenodo <https://doi.org/10.5281/zenodo.14988011>`__. in addition to the GitHub repository.
+
 .. _Figure1_framework:
 
 .. figure:: ../images/model_framework.png
