@@ -31,7 +31,7 @@ Using the Terminal, navigate to the directory of choice where the ReGWSWUSE fold
 
 .. code-block:: bash
 
-		$ git clone <repository_url>
+		$ git clone https://github.com/HydrologyFrankfurt/ReGWSWUSE
 
 Find more information in the official GitHub documentation `here <https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository>`__ .
 
