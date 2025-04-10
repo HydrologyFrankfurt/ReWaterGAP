@@ -8,9 +8,9 @@ Run WaterGAP with GWSWUSE (under development)
     :depth: 3
     :backlinks: entry
 
-************
-Installation
-************
+******************
+Installing GWSWUSE
+******************
 
 .. _installation_guide_gwswuse:
 
@@ -19,13 +19,13 @@ Installation Steps
 
 Follow these steps to to install ReGWSWUSE:
 
-Install Python and download libraries
-*************************************
+1) Install Python and download libraries
+****************************************
 
 Download the latest version of Python from the official Python website and install it if Python is not already installed on your system.
 
-Clone the reGWSWUSE repository
-******************************
+2) Clone the ReGWSWUSE repository
+*********************************
 
 Using the Terminal, navigate to the directory of choice where the ReGWSWUSE folder will be copied into. Then use the following command to clone the repository.
 
@@ -35,8 +35,8 @@ Using the Terminal, navigate to the directory of choice where the ReGWSWUSE fold
 
 Find more information in the official GitHub documentation `here <https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository>`__ .
 
-Create an environment to run ReGWSWUSE in
-******************************************
+3) Create an environment to run ReGWSWUSE in
+*********************************************
 
 Navigate to the ReGWSWUSE folder in the terminal using the following command.
 
@@ -63,8 +63,9 @@ Activate the ReGWSWUSE environment using the following command.
 
 .. _tutorial_input_data:
 
+************************
 Preparing the Input Data
-########################
+************************
 
 Input data must be located in a specified folder path indicated in the configuration file, following a defined directory structure. The structure of the input folder is precisely defined in the convention file (`gwswuse_convention`). It is based on a hierarchical organization by sectors and variables:
 
@@ -77,7 +78,7 @@ When the data is placed in the input_data folder correctly, it will look like th
 .. figure:: ../../images/user_guide/tutorial/input_data_gwswuse.png
 
 Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
-*********************************************************
+#########################################################
 
 **Irrigation**:
 
@@ -114,7 +115,7 @@ Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential livestock consumptive water use)
 
 Additional Required Input Data for Other Configuration Settings
-***************************************************************
+###############################################################
 
 If other configuration options are set, additional input data will be required, specifically for the irrigation sector:
 
@@ -124,24 +125,9 @@ If other configuration options are set, additional input data will be required, 
 - `time_factor_aai`: [-], monthly data (temporal development factor of national areas actually irrigated for 2016-2020 relative to 2015)
 
 Optional Input Data
-*******************
+###################
 
 For the sectors domestic, manufacturing, livestock, and thermal power, sector-specific `fraction_gw_use` and `fraction_return_gw` can also be provided as optional input data. This requires the creation of a variable folder within the respective sector subfolders and placing the corresponding netCDF file in that folder.
-
-Configuration (`gwswuse_config.json`)
-**************************************
-To start GWSWUSE in WaterGap-2.2e mode, the configuration file must be edited in the following ways, as seen in the picture below.
-
-- "*irrigation_efficiency_gw_mode*": "enforce"
-- "*irrigation_input_based_on_aei*": "false"
-- "*correct_irr_simulation_by_t_aai*": "false"
-- "*deficit_irrigation_mode*": "true" 
-- "*efficiency_gw_threshold*": "0.7"
-- "*deficit_irrigation_factor*": "0.7"
-
-.. figure:: ../../images/user_guide/tutorial/runtime_options_configuration.png
-
-For further information on the configuration file and all options, which may be changed within, find the guide to the configuration file :ref:`here <configuration_file_gwswuse>`.
 
 ********************
 Running the Software
@@ -233,3 +219,18 @@ By flexibly adjusting the configuration file and using the main script `run_gwsw
 
 Naturalized Run
 ###############
+
+GWSWUSE in WaterGap-2.2e mode
+#############################
+To start GWSWUSE in WaterGap-2.2e mode, the configuration file must be edited in the following ways, as seen in the picture below.
+
+- "*irrigation_efficiency_gw_mode*": "enforce"
+- "*irrigation_input_based_on_aei*": "false"
+- "*correct_irr_simulation_by_t_aai*": "false"
+- "*deficit_irrigation_mode*": "true" 
+- "*efficiency_gw_threshold*": "0.7"
+- "*deficit_irrigation_factor*": "0.7"
+
+.. figure:: ../../images/user_guide/tutorial/runtime_options_configuration.png
+
+For further information on the configuration file and all options, which may be changed within, find the guide to the configuration file :ref:`here <configuration_file_gwswuse>`.
