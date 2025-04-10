@@ -52,6 +52,7 @@ Tutorials (Under Development)
 
 .. toctree::
     :maxdepth: 
+    :hidden:
 
     tutorial_different_simulation_options
     tutorial_specific_basin
