@@ -143,9 +143,9 @@ To start GWSWUSE in WaterGap-2.2e mode, the configuration file must be edited in
 
 For further information on the configuration file and all options, which may be changed within, find the guide to the configuration file :ref:`here <configuration_file_gwswuse>`.
 
-####################
+********************
 Running the Software
-####################
+********************
 
 The simulation in ReGWSWUSE is executed via the main program `run_gwswuse.py`. This script manages the entire simulation process and ensures that all modules and functions are called and executed in the correct order. This chapter explains how the main script works and how to use it to run the simulation.
 
