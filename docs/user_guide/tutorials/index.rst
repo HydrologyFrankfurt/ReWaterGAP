@@ -52,7 +52,6 @@ Tutorials (Under Development)
 
 .. toctree::
     :maxdepth: 2
-    :hidden:
 
     configuration_file
     model_processes
