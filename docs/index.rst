@@ -64,12 +64,6 @@ ReWaterGAP documentation
 
         :octicon:`search;10em`
 
-    .. grid-item-card:: Navigation
-        :text-align: center
-        :link: navigation
-        :link-type: ref
-
-        :octicon:`search;10em`
 
 .. toctree::
     :maxdepth: 1
