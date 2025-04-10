@@ -51,7 +51,12 @@ Tutorials (Under Development)
 
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 
 
-    configuration_file
-    model_processes
+    tutorial_different_simulation_options
+    tutorial_specific_basin
+    tutorial_restarting_saved_states
+    tutorial_docker
+    tutorial_calibration
+    tutorial_gwswuse
+
