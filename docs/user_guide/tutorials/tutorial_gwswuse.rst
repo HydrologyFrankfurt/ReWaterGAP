@@ -181,12 +181,7 @@ The first options in the configuration file regard input and output file paths. 
 
 **2.2) Simulation Options**
 
-Under "SimulationOption" set
-	- "ime_extend_mode": false,
-        - "irrigation_efficiency_gw_mode": "enforce",
-        - "irrigation_input_based_on_aei": false,
-        - "correct_irr_simulation_by_t_aai": false,
-        - "deficit_irrigation_mode": true 
+Under "SimulationOption" set the parameters to match those in the picture below.
 
 .. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_simulation_options.png
 
@@ -235,3 +230,6 @@ During execution, the software will output progress and important information to
 The results will be saved in the output folder defined in the configuration file (`cm.output_dir`) and can subsequently be analyzed.
 
 By flexibly adjusting the configuration file and using the main script `run_gwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use. Some of which are listed below.
+
+Naturalized Run
+###############
