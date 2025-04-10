@@ -8,7 +8,7 @@ Navigation
 :ref:`Getting Started <getting_started>`
 ***************
 
-  - :ref:`Introduction <introduction>` Introduction
+  - :ref:`Introduction <introduction>`
   - :ref:`Model Framework <model_framework>`
   - :ref:`5 Minute Guide <five_minute_guide>`
 
@@ -31,6 +31,16 @@ Tutorials
   - :ref:`Docker <tutorial_docker>` 
   - :ref:`Calibrating <tutorial_calibration>`
   - :ref:`GWSWUSE <GWSWUSE>`
+
+****************************************
+:ref:`Model Processes <model_processes>`
+****************************************
+
+:ref:`Vertical Water Balance <vertical_water_balance>`
+******************************************************
+
+:ref:`GWSWUSE <gwswuse>`
+************************
 
 **************
 Orphaned Pages
