@@ -181,13 +181,38 @@ The first options in the configuration file regard input and output file paths. 
 
 **2.2) Simulation Options**
 
+Under "SimulationOption" set
+	- "ime_extend_mode": false,
+        - "irrigation_efficiency_gw_mode": "enforce",
+        - "irrigation_input_based_on_aei": false,
+        - "correct_irr_simulation_by_t_aai": false,
+        - "deficit_irrigation_mode": true 
+
+.. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_simulation_options.png
+
 **2.3) Parameter Settings**
+
+Under "ParameterSetting" set "efficiency_gw_threshold" to "0.7" and "deficit_irrigation_factor" to "0.7".
+
+.. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_parameter_settings.png
 
 **2.4) Simulation Period**
 
+In this example we are running the simulation for the year 2019. Under “SimulationPeriod” change the “start” date to “1989-01-01” and the “end” date to “1989-12-31”.
+
+.. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_simulation_period.png
+
 **2.5) Cell Specific Output**
 
+"CellSpecificOutput"
+
+.. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_cell_specific_output.png
+
 **2.6) Output Selection**
+
+Under "OutputSelection", set the parameters as shown in the picture below.
+
+.. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_cell_output_selection.png
 
 3) Run the simulation
 *********************
