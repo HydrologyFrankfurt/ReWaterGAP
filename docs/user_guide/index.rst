@@ -39,4 +39,7 @@ User Guide
 .. toctree::
     :maxdepth: 2
 
-    Quick Start Guide <getting_started>
+    getting_started/index
+    user_guide/index
+    model_processes/index
+    contributers_guide/index
