@@ -154,28 +154,6 @@ Before you run the simulation, make sure the previously described steps have bee
 	- **Configuration File preparation**: Prepare the JSON configuration file containing all necessary settings for your simulation. This file should define paths to input data, the simulation period, specific simulation options, and output directories (see the "Configuration Module and File" chapter). Save the configuration file in the same directory as `run_gwswuse.py`.
 	- **Input Data preparation**: Ensure that the folder specified by `cm.input_data_path` in the configuration file is populated with the required input files. These files must meet the requirements set forth in the convention file (`gwswuse_convention`), including correct structure, variable names, units, and required spatial and temporal coverage.
 
-Main Program Execution
-**********************
-
-Once the installation is complete and the configuration file is prepared, the software can be executed. For this open a terminal, navigate to the directory containing the ReGWSWUSE files and use the following command to run ReGWSWUSE with the configuration file:
-
-.. code-block:: bash
-
-	$python run_gwswuse.py --config <path_to_config_file>
-
-Checking Execution
-******************
-
-**Console Output**:
-
-During execution, the software will output progress and important information to the console. Pay attention to any error messages or indications that adjustments may be needed. 
-
-**Result Storage**:
-
-The results will be saved in the output folder defined in the configuration file (`cm.output_dir`) and can subsequently be analyzed.
-
-By flexibly adjusting the configuration file and using the main script `run_gwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use. Some of which are listed below.
-
 Standard anthropogenic Run
 ##########################
 
@@ -209,4 +187,26 @@ The first options in the configuration file regard input and output file paths. 
 
 **2.5) Cell Specific Output**
 
-**2.5) OutputSelection**
+**2.6) Output Selection**
+
+3) Run the simulation
+*********************
+
+Navigate to your ReGWSWUSE folder in the terminal, activate your environment, and run ReGWSWUSE using the following command:
+
+.. code-block:: bash
+
+	$ python run_gwswuse.py gwswuse_config.json
+
+Checking Execution
+******************
+
+**Console Output**:
+
+During execution, the software will output progress and important information to the console. Pay attention to any error messages or indications that adjustments may be needed. 
+
+**Result Storage**:
+
+The results will be saved in the output folder defined in the configuration file (`cm.output_dir`) and can subsequently be analyzed.
+
+By flexibly adjusting the configuration file and using the main script `run_gwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use. Some of which are listed below.
