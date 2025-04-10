@@ -38,6 +38,5 @@ User Guide
 
 .. toctree::
     :maxdepth: 2
-    :hidden:
 
-
+    Quick Start Guide <getting_started>
