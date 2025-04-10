@@ -61,6 +61,8 @@ Activate the ReGWSWUSE environment using the following command.
 
 	$ mamba activate regwswuse
 
+.. _tutorial_input_data:
+
 Preparing the Input Data
 ########################
 
@@ -141,15 +143,15 @@ To start GWSWUSE in WaterGap-2.2e mode, the configuration file must be edited in
 
 For further information on the configuration file and all options, which may be changed within, find the guide to the configuration file :ref:`here <configuration_file_gwswuse>`.
 
-
+####################
 Running the Software
 ####################
 
-The simulation in ReGWSWUSE is executed via the main program `run_regwswuse.py`. This script manages the entire simulation process and ensures that all modules and functions are called and executed in the correct order. This chapter explains how the main script works and how to use it to run the simulation.
+The simulation in ReGWSWUSE is executed via the main program `run_gwswuse.py`. This script manages the entire simulation process and ensures that all modules and functions are called and executed in the correct order. This chapter explains how the main script works and how to use it to run the simulation.
 
 Before you run the simulation, make sure the previously described steps have been completed.
 	- **Installation Completed**: Ensure that ReGWSWUSE has been successfully installed per the installation instructions (see Chapter 2.2).
-	- **Configuration File preparation**: Prepare the JSON configuration file containing all necessary settings for your simulation. This file should define paths to input data, the simulation period, specific simulation options, and output directories (see the "Configuration Module and File" chapter). Save the configuration file in the same directory as `run_regwswuse.py`.
+	- **Configuration File preparation**: Prepare the JSON configuration file containing all necessary settings for your simulation. This file should define paths to input data, the simulation period, specific simulation options, and output directories (see the "Configuration Module and File" chapter). Save the configuration file in the same directory as `run_gwswuse.py`.
 	- **Input Data preparation**: Ensure that the folder specified by `cm.input_data_path` in the configuration file is populated with the required input files. These files must meet the requirements set forth in the convention file (`gwswuse_convention`), including correct structure, variable names, units, and required spatial and temporal coverage.
 
 Main Program Execution
@@ -159,7 +161,7 @@ Once the installation is complete and the configuration file is prepared, the so
 
 .. code-block:: bash
 
-	$python run_regwswuse.py --config <path_to_config_file>
+	$python run_gwswuse.py --config <path_to_config_file>
 
 Checking Execution
 ******************
@@ -172,5 +174,39 @@ During execution, the software will output progress and important information to
 
 The results will be saved in the output folder defined in the configuration file (`cm.output_dir`) and can subsequently be analyzed.
 
+By flexibly adjusting the configuration file and using the main script `run_gwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use. Some of which are listed below.
 
-By flexibly adjusting the configuration file and using the main script `run_regwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use.
+Standard anthropogenic Run
+##########################
+
+The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
+
+In the example below, we will create a standard run for one year (2019) and go through the necessary steps, step-by-step.
+
+**Prerequisites:** You will need to clone ReGWSWUSE and create an environment to run it in. If you haven't done so already follow the :ref:`tutorial above <installation_guide_gwswuse>` for this.
+
+1) Prepare the input data
+***************************
+
+Download all required input data, remove all leap days, and place the data in the "input_data" folder in your ReGWSWUSE repository as explained :ref:`above <tutorial_input_data>`.
+
+2) Set up the configuration file
+*********************************
+
+To configure ReGWSWUSE, go to your ReGWSWUSE repository and navigate to "gwswuse_config.json" and open the configuration file. 
+
+**2.1) File Paths**
+
+The first options in the configuration file regard input and output file paths. In this example, we will leave them unmodified. The locations for input and output data can be seen in the picture below.
+
+.. figure:: ../../images/user_guide/tutorial/gwswuse/input_directory_configuration_file.png
+
+**2.2) Simulation Options**
+
+**2.3) Parameter Settings**
+
+**2.4) Simulation Period**
+
+**2.5) Cell Specific Output**
+
+**2.5) OutputSelection**
