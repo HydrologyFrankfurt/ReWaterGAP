@@ -220,16 +220,19 @@ By flexibly adjusting the configuration file and using the main script `run_gwsw
 4) Results
 ***********
 
-The goal of this tutorial is to reproduce the results presented in the WaterGAP 2.2e Paper [1]_, which are presented in the following table:
+The goal of this tutorial is to reproduce the results presented in the WaterGAP 2.2e Paper [1]_, which are shown in the following table:
 
 .. figure:: ../../images/user_guide/tutorial/gwswuse/2_2_e_Table_6.png
 
-In the output folder set in Step 2.1 you will find the "global_annual_totals.xlsx" Excel file. 
+In the output folder, set in Step 2.1, you will find the "global_annual_totals.xlsx" Excel file. 
 
-The Withdrawl Water Use (WU) data can be found in the (consumptive_use_tot) sheet. The Consumptive Use (CU) data can be found in the "abstraction_tot" sheet. To reproduce Table 6 we will firstly calculate the mean values for each of the five sectors (irrigation, domestic, manufacturing, thermal power and livestock) by dividing the sum by the number of years (here: 29 from 1991 to 2019). 	The calculated values correspond closely to the expected results presented in the paper as seen below:
+The Withdrawl Water Use (WU) data can be found in the "consumptive_use_tot" sheet. The Consumptive Use (CU) data can be found in the "abstraction_tot" sheet. To reproduce Table 6 we will firstly calculate the mean values for each of the five sectors (irrigation, domestic, manufacturing, thermal power and livestock) by dividing the sum by the number of years (here: 29 from 1991 to 2019). The calculated values correspond closely to the expected results presented in the paper as seen below:
 
 .. figure:: ../../images/user_guide/tutorial/gwswuse/reproduced_table_6_step_1.png
 
+The data for CU_groundwater and WU_groundwater can be found in the "consumptive_use_gw" and "abstraction_gw" sheets. The percentages of CU and WU from groundwater use can be calculated by dividing the mean value from groundwater for each sector by the totan mean values and are shown in the table below. They too closely correspond to the expected results.
+
+.. figure:: ../../images/user_guide/tutorial/gwswuse/reproduced_table_6_step_2.png
 
 Standard Mode (Updated later)
 #############################
