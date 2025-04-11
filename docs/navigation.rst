@@ -39,8 +39,31 @@ Tutorials
 :ref:`Vertical Water Balance <vertical_water_balance>`
 ******************************************************
 
+  - :ref:`Radiation and Evapotranspiration <radiation_evap>`
+  - :ref:`Leaf Area Index <leafareaindex>`
+  - :ref:`Canopy <canopy>` 
+  - :ref:`Snow <snow>`
+  - :ref:`Soil <soil>`
+
+:ref:`Lateral Water Balance <lateral_water_balance>`
+******************************************************
+
+  - :ref:`Groundwater Storage <groundwater>`
+  - :ref:`Lakes and Wetlands <lakes_wetlands>`
+  - :ref:`Reservoirs and Regulated lakes <reservoir>` 
+  - :ref:`River <river>`
+  - :ref:`Net Abstractions <net_abstractions>`
+
 :ref:`GWSWUSE <gwswuse>`
 ************************
+
+  - :ref:`Simulation Logic <simulation_logic_gwswuse>`
+  - :ref:`Irrigation <lakes_wetlands>`
+  - :ref:`Domestic <reservoir>` 
+  - :ref:`Manufacturing <river>`
+  - :ref:`Thermal Power <net_abstractions>`
+  - :ref:`Livestock <groundwater>`
+  - :ref:`Cross Sectoral Aggregate Results <lakes_wetlands>`
 
 **************
 Orphaned Pages
