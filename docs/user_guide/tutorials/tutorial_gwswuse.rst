@@ -226,11 +226,11 @@ The goal of this tutorial is to reproduce the results presented in the WaterGAP 
 
 In the output folder, set in Step 2.1, you will find the "global_annual_totals.xlsx" Excel file. 
 
-The Withdrawl Water Use (WU) data can be found in the "consumptive_use_tot" sheet. The Consumptive Use (CU) data can be found in the "abstraction_tot" sheet. To reproduce Table 6 we will firstly calculate the mean values for each of the five sectors (irrigation, domestic, manufacturing, thermal power and livestock) by dividing the sum by the number of years (here: 29 from 1991 to 2019). The calculated values correspond closely to the expected results presented in the paper as seen below:
+The Consumptive total water use (CU) data can be found in the "consumptive_use_tot" sheet. The total water abstraction (WU) data can be found in the "abstraction_tot" sheet. To reproduce Table 6 we will firstly calculate the mean values for each of the five sectors (irrigation, domestic, manufacturing, thermal power and livestock) by dividing the sum by the number of years (here: 29 from 1991 to 2019). The calculated values correspond closely to the expected results presented in the paper as seen below:
 
 .. figure:: ../../images/user_guide/tutorial/gwswuse/reproduced_table_6_step_1.png
 
-The data for CU_groundwater and WU_groundwater can be found in the "consumptive_use_gw" and "abstraction_gw" sheets. The percentages of CU and WU from groundwater use can be calculated by dividing the mean value from groundwater for each sector by the totan mean values and are shown in the table below. They too closely correspond to the expected results.
+The consumptive total groundwater use and water abstraction from groundwater data can be found in the "consumptive_use_gw" and "abstraction_gw" sheets. The percentages of CU and WU from groundwater use can be calculated by dividing the mean value from groundwater groundwater abstractions for each sector by the total mean values and are shown in the table below. They too closely correspond to the expected results.
 
 .. figure:: ../../images/user_guide/tutorial/gwswuse/reproduced_table_6_step_2.png
 
