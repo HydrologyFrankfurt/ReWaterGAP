@@ -181,7 +181,7 @@ Under "ParameterSetting" set "efficiency_gw_threshold" to "0.7" and "deficit_irr
 
 **2.4) Simulation Period**
 
-In this example we are running the simulation for the year 2019. Under “SimulationPeriod” change the “start” date to “1991” and the “end” date to “1991”.
+In this example we are running the simulation for the years 1991-2019. Under “SimulationPeriod” change the “start” date to “1991” and the “end” date to “2019”.
 
 .. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_simulation_period.png
 
