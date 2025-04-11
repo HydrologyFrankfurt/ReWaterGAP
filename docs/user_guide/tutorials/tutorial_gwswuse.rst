@@ -222,18 +222,14 @@ By flexibly adjusting the configuration file and using the main script `run_gwsw
 
 The goal of this tutorial is to reproduce the results presented in the WaterGAP 2.2e Paper [1]_, which are presented in the following table:
 
-.. figure:: ../../images/user_guide/tutorial/2_2_e_Table_6.png
+.. figure:: ../../images/user_guide/tutorial/gwswuse/2_2_e_Table_6.png
 
-In the output folder set in Step 2.1 you will find the "global_annual_totals.xlsx" Excel file. The necessary data is in the "abstraction_tot" sheet. To reproduce Table 6 we will firstly calculate the mean values for each of the five sectors (irrigation, domestic, manufacturing, thermal power and livestock) but dividing the sum by the number of years (here: 29 from 1991 to 2019).
+In the output folder set in Step 2.1 you will find the "global_annual_totals.xlsx" Excel file. 
 
-Output: Excel
+The Withdrawl Water Use (WU) data can be found in the (consumptive_use_tot) sheet. The Consumptive Use (CU) data can be found in the "abstraction_tot" sheet. To reproduce Table 6 we will firstly calculate the mean values for each of the five sectors (irrigation, domestic, manufacturing, thermal power and livestock) by dividing the sum by the number of years (here: 29 from 1991 to 2019). 	The calculated values correspond closely to the expected results presented in the paper as seen below:
 
-Compute Averages
+.. figure:: ../../images/user_guide/tutorial/gwswuse/reproduced_table_6_step_1.png
 
-
-
-
-<Reproduced Table 6>
 
 Standard Mode (Updated later)
 #############################
