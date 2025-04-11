@@ -47,7 +47,7 @@ Tutorials (Under Development)
         :link:  tutorial_gwswuse
         :link-type: ref
 
-        Run WaterGAP with GWSWUSE
+        Run GWSWUSE
 
 
 .. toctree::
