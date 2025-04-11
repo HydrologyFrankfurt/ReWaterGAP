@@ -77,37 +77,50 @@ When the data is placed in the input_data folder correctly, it will look like th
 
 .. figure:: ../../images/user_guide/tutorial/input_data_gwswuse.png
 
-**Irrigation**:
+Irrigation
+**********
 
-**(Needs to be provided by the User)**
+**Needs to be provided by the User**
 - `consumptive_use_tot`: [m³/month], monthly data (monthly potential irrigation consumptive water use) 
 
-(**Already provided in the cloned github input data folder <link>. User can provide their own if they want to.
+**Already provided in the cloned github input data folder <link>.** User can provide their own if they want to.
 - `fraction_gw_use`: [-], time-invariant (potential irrigation fraction of groundwater use) 
 - `fraction_return_gw`: [-], time-invariant (potential irrigation fraction of return flow to groundwater)
 - `irrigation_efficiency_sw`: [-], time-invariant (Irrigation efficiency for surface water abstraction infrastructure)
 - `gwd_mask`: [boolean], time-invariant (mask for groundwater depletion due to human water use greater than 5 mm/yr average for 1980–2009)
 - `abstraction_irr_part_mask`: [boolean], time-invariant (mask for irrigation part of water abstraction greater than 5% during 1960–2000)
 
-**Domestic**:
+Domestic
+*********
 
+**Needs to be provided by the User**
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential domestic consumptive water use)
 - `abstraction_tot`: [m³/year], yearly data (yearly potential domestic water abstraction)
+
+**Already provided in the cloned github input data folder <link>.** User can provide their own if they want to.
 - `fraction_gw_use`: [-], time-invariant (potential domestic fraction of groundwater use)
 
-**Manufacturing**:
-	
+Manufacturing
+*************
+
+**Needs to be provided by the User**
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential manufacturing consumptive water use)
 - `abstraction_tot`: [m³/year], yearly data (yearly potential manufacturing water abstraction)
+
+**Already provided in the cloned github input data folder <link>.** User can provide their own if they want to.
 - `fraction_gw_use`: [-], time-invariant (potential manufacturing fraction of groundwater use)
 
-**Thermal Power**:
+Thermal Power
+*************
 
+**Needs to be provided by the User**
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential thermal power consumptive water use)
 - `abstraction_tot`: [m³/year], yearly data (yearly potential thermal power water abstraction)
 
-**Livestock**:
+Livestock
+*********
 
+**Needs to be provided by the User**
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential livestock consumptive water use)
 
 Additional Required Input Data for Other Configuration Settings
