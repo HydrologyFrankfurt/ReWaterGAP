@@ -77,6 +77,9 @@ When the data is placed in the input_data folder correctly, it will look like th
 
 .. figure:: ../../images/user_guide/tutorial/input_data_gwswuse.png
 
+Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
+#########################################################
+
 **Irrigation**:
 
 - `consumptive_use_tot`: [m³/month], monthly data (monthly potential irrigation consumptive water use)
@@ -86,11 +89,13 @@ When the data is placed in the input_data folder correctly, it will look like th
 - `gwd_mask`: [boolean], time-invariant (mask for groundwater depletion due to human water use greater than 5 mm/yr average for 1980–2009)
 - `abstraction_irr_part_mask`: [boolean], time-invariant (mask for irrigation part of water abstraction greater than 5% during 1960–2000)
 
+
 **Domestic**:
 
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential domestic consumptive water use)
 - `abstraction_tot`: [m³/year], yearly data (yearly potential domestic water abstraction)
 - `fraction_gw_use`: [-], time-invariant (potential domestic fraction of groundwater use)
+
 
 **Manufacturing**:
 	
@@ -98,10 +103,12 @@ When the data is placed in the input_data folder correctly, it will look like th
 - `abstraction_tot`: [m³/year], yearly data (yearly potential manufacturing water abstraction)
 - `fraction_gw_use`: [-], time-invariant (potential manufacturing fraction of groundwater use)
 
+
 **Thermal Power**:
 
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential thermal power consumptive water use)
 - `abstraction_tot`: [m³/year], yearly data (yearly potential thermal power water abstraction)
+
 
 **Livestock**:
 
@@ -133,10 +140,12 @@ Before you run the simulation, make sure the previously described steps have bee
 	- **Configuration File preparation**: Prepare the JSON configuration file containing all necessary settings for your simulation. This file should define paths to input data, the simulation period, specific simulation options, and output directories (see the "Configuration Module and File" chapter). Save the configuration file in the same directory as `run_gwswuse.py`.
 	- **Input Data preparation**: Ensure that the folder specified by `cm.input_data_path` in the configuration file is populated with the required input files. These files must meet the requirements set forth in the convention file (`gwswuse_convention`), including correct structure, variable names, units, and required spatial and temporal coverage.
 
-Standard Mode (WaterGAP 2.2e mode)
-##################################
+WaterGap-2.2e mode
+##################
 
-In the example below, we will run GWSWUSE for one year (2019) and go through the necessary steps, step-by-step.
+The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
+
+In the example below, we will create a standard run for one year (2019) and go through the necessary steps, step-by-step.
 
 **Prerequisites:** You will need to clone ReGWSWUSE and create an environment to run it in. If you haven't done so already follow the :ref:`tutorial above <installation_guide_gwswuse>` for this.
 
@@ -170,7 +179,7 @@ Under "ParameterSetting" set "efficiency_gw_threshold" to "0.7" and "deficit_irr
 
 **2.4) Simulation Period**
 
-In this example we are running the simulation for the year 2019. Under “SimulationPeriod” change the “start” date to “1989-01-01” and the “end” date to “1989-12-31”.
+In this example we are running the simulation for the year 2019. Under “SimulationPeriod” change the “start” date to “1991” and the “end” date to “1991”.
 
 .. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_simulation_period.png
 
@@ -208,20 +217,5 @@ The results will be saved in the output folder defined in the configuration file
 
 By flexibly adjusting the configuration file and using the main script `run_gwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use. Some of which are listed below.
 
-Naturalized Run
-###############
-
-GWSWUSE in WaterGap-2.2e mode
+Standard Mode (Updated later)
 #############################
-To start GWSWUSE in WaterGap-2.2e mode, the configuration file must be edited in the following ways, as seen in the picture below.
-
-- "*irrigation_efficiency_gw_mode*": "enforce"
-- "*irrigation_input_based_on_aei*": "false"
-- "*correct_irr_simulation_by_t_aai*": "false"
-- "*deficit_irrigation_mode*": "true" 
-- "*efficiency_gw_threshold*": "0.7"
-- "*deficit_irrigation_factor*": "0.7"
-
-.. figure:: ../../images/user_guide/tutorial/runtime_options_configuration.png
-
-For further information on the configuration file and all options, which may be changed within, find the guide to the configuration file :ref:`here <configuration_file_gwswuse>`.
