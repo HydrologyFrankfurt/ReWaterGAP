@@ -139,9 +139,11 @@ Before you run the simulation, make sure the previously described steps have bee
 WaterGap-2.2e mode
 ##################
 
-here the monthly data (monthly potential irrigation consumptive water use  is already multiplied by the annual relative shares of AAI to AEI (fraction_aai_aei).  here data recieved have corretcetd  consumptive use for irrigation for the years 2006 to upwards.
+This example reproduces :ref:`Table 6 <results_gwswuse_standard>` from the WatergGAP 2.2.e paper [1]_, presenting global sectoral water withdrawals (WU), consumptive water use (CU), and groundwater use fractions as simulated by WaterGAP v2.2e for the period 1991–2019.
 
-In the example below, we will be running (2019) and go through the necessary steps, step-by-step.
+The required data processing steps are applied to generate aggregated values for water withdrawals and consumptive use over time.
+
+In the 2.2.e paper [1]_, monthly potential irrigation consumptive water use values are already scaled by the annual relative shares of AAI to AEI (fraction_aai_aei). The dataset used provides corrected values for irrigation consumptive use from 2006 onward.
 
 **Prerequisites:** You will need to clone ReGWSWUSE and create an environment to run it in. If you haven't done so already follow the :ref:`tutorial above <installation_guide_gwswuse>` for this.
 
@@ -181,7 +183,7 @@ In this example we are running the simulation for the years 1991-2019. Under “
 
 **2.5) Cell Specific Output**
 
-"CellSpecificOutput"
+"CellSpecificOutput" does not need to be changed.
 
 .. figure:: ../../images/user_guide/tutorial/gwswuse/configuration_file_cell_specific_output.png
 
@@ -213,8 +215,31 @@ The results will be saved in the output folder defined in the configuration file
 
 By flexibly adjusting the configuration file and using the main script `run_gwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use. Some of which are listed below.
 
-4) Run the simulation
-*********************
+.. _results_gwswuse_standard:
+
+4) Results
+***********
+
+The goal of this tutorial is to reproduce the results presented in the WaterGAP 2.2e Paper [1]_, which are presented in the following table:
+
+.. figure:: ../../images/user_guide/tutorial/2_2_e_Table_6.png
+
+In the output folder set in Step 2.1 you will find the "global_annual_totals.xlsx" Excel file. The necessary data is in the "abstraction_tot" sheet. To reproduce Table 6 we will firstly calculate the mean values for each of the five sectors (irrigation, domestic, manufacturing, thermal power and livestock) but dividing the sum by the number of years (here: 29 from 1991 to 2019).
+
+Output: Excel
+
+Compute Averages
+
+
+
+
+<Reproduced Table 6>
 
 Standard Mode (Updated later)
 #############################
+
+
+##########
+References 
+##########
+.. [1] Müller Schmied, H., Trautmann, T., Ackermann, S., Cáceres, D., Flörke, M., Gerdener, H., Kynast, E., Peiris, T. A., Schiebener, L., Schumacher, M., and Döll, P.: The global water resources and use model WaterGAP v2.2e: description and evaluation of modifications and new features, Geosci. Model Dev., 17, 8817–8852, https://doi.org/10.5194/gmd-17-8817-2024, 2024.
