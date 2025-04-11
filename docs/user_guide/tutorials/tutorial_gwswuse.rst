@@ -143,6 +143,8 @@ Before you run the simulation, make sure the previously described steps have bee
 WaterGap-2.2e mode
 ##################
 
+here the monthly data (monthly potential irrigation consumptive water use  is already multiplied by the annual relative shares of AAI to AEI (fraction_aai_aei).  here data recieved have corretcetd  consumptive use for irrigation for the years 2006 to upwards.
+
 The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
 
 In the example below, we will create a standard run for one year (2019) and go through the necessary steps, step-by-step.
