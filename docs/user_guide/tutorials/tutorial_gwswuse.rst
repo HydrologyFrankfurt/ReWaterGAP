@@ -1,8 +1,8 @@
 .. _tutorial_gwswuse:
 
-#############################################
-Run WaterGAP with GWSWUSE (under development)
-#############################################
+###############################
+Run GWSWUSE (under development)
+###############################
 
 .. contents:: 
     :depth: 3
@@ -77,18 +77,17 @@ When the data is placed in the input_data folder correctly, it will look like th
 
 .. figure:: ../../images/user_guide/tutorial/input_data_gwswuse.png
 
-Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
-#########################################################
-
 **Irrigation**:
 
-- `consumptive_use_tot`: [m³/month], monthly data (monthly potential irrigation consumptive water use)
-- `fraction_gw_use`: [-], time-invariant (potential irrigation fraction of groundwater use)
+**(Needs to be provided by the User)**
+- `consumptive_use_tot`: [m³/month], monthly data (monthly potential irrigation consumptive water use) 
+
+(**Already provided in the cloned github input data folder <link>. User can provide their own if they want to.
+- `fraction_gw_use`: [-], time-invariant (potential irrigation fraction of groundwater use) 
 - `fraction_return_gw`: [-], time-invariant (potential irrigation fraction of return flow to groundwater)
 - `irrigation_efficiency_sw`: [-], time-invariant (Irrigation efficiency for surface water abstraction infrastructure)
 - `gwd_mask`: [boolean], time-invariant (mask for groundwater depletion due to human water use greater than 5 mm/yr average for 1980–2009)
 - `abstraction_irr_part_mask`: [boolean], time-invariant (mask for irrigation part of water abstraction greater than 5% during 1960–2000)
-
 
 **Domestic**:
 
@@ -96,19 +95,16 @@ Required Data for GWSWUSE Execution in WaterGAP-2.2e Mode
 - `abstraction_tot`: [m³/year], yearly data (yearly potential domestic water abstraction)
 - `fraction_gw_use`: [-], time-invariant (potential domestic fraction of groundwater use)
 
-
 **Manufacturing**:
 	
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential manufacturing consumptive water use)
 - `abstraction_tot`: [m³/year], yearly data (yearly potential manufacturing water abstraction)
 - `fraction_gw_use`: [-], time-invariant (potential manufacturing fraction of groundwater use)
 
-
 **Thermal Power**:
 
 - `consumptive_use_tot`: [m³/year], yearly data (yearly potential thermal power consumptive water use)
 - `abstraction_tot`: [m³/year], yearly data (yearly potential thermal power water abstraction)
-
 
 **Livestock**:
 
@@ -145,9 +141,7 @@ WaterGap-2.2e mode
 
 here the monthly data (monthly potential irrigation consumptive water use  is already multiplied by the annual relative shares of AAI to AEI (fraction_aai_aei).  here data recieved have corretcetd  consumptive use for irrigation for the years 2006 to upwards.
 
-The standard run in WaterGAP simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages.
-
-In the example below, we will create a standard run for one year (2019) and go through the necessary steps, step-by-step.
+In the example below, we will be running (2019) and go through the necessary steps, step-by-step.
 
 **Prerequisites:** You will need to clone ReGWSWUSE and create an environment to run it in. If you haven't done so already follow the :ref:`tutorial above <installation_guide_gwswuse>` for this.
 
@@ -218,6 +212,9 @@ During execution, the software will output progress and important information to
 The results will be saved in the output folder defined in the configuration file (`cm.output_dir`) and can subsequently be analyzed.
 
 By flexibly adjusting the configuration file and using the main script `run_gwswuse.py` with the specified configuration file, you can adapt the simulation to a variety of scenarios and requirements, making ReGWSWUSE a versatile tool for modeling water use. Some of which are listed below.
+
+4) Run the simulation
+*********************
 
 Standard Mode (Updated later)
 #############################
