@@ -6,9 +6,6 @@
 
 # ReWaterGAP
 
-### Disclaimer: 
-This project is under development and not ready for use yet. If you wish to learn more about it, feel free to reach out to our team, who will be able to answer all of your questions. Write us an [Email](mailto:Nyenah@em.uni-frankfurt.de).
-
 # Documentation
 Find the documentation [here](https://hydrologyfrankfurt.github.io/ReWaterGAP/).
 
