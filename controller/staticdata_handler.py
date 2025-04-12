@@ -86,8 +86,8 @@ class StaticData:
 
         reservoir_frac_file_path = \
             str(Path(cm.static_land_data_path +
-                     r'/watergap_22e_gloresfrac_1901_2020.nc'))
-
+                     r'/watergap_22e_gloresfrac_*.nc'))
+        
         rout_order_path = str(Path(cm.static_land_data_path +
                                    r'/routing_order.csv'))
 
@@ -159,7 +159,7 @@ class StaticData:
 
             # Yearly Reserviour fractions
             self.resyear_frac = \
-                xr.open_dataset(reservoir_frac_file_path)
+                xr.open_mfdataset(reservoir_frac_file_path)
 
             # routing order data
             self.rout_order = pd.read_csv(rout_order_path)
