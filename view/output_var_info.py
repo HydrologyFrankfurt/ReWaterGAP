@@ -48,7 +48,7 @@ modelvars = {
     "atotusesw": {"long": "actual net abstraction from suurface water", "unit": " kg m-2 s-1"},
     "atotuse": {"long": "Total Actual Water Consumption (all sectors)", "unit": " kg m-2 s-1"},
 
-    "evap-total": {"long": "Potential consumptive use(NAg+NAs) and total actual"
+    "evap-total": {"long": "actual consumptive use(NAg+NAs) and total actual"
                    " evaporation from land", "unit": " kg m-2 s-1"},
 
 
