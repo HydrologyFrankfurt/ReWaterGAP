@@ -58,7 +58,7 @@ In the WaterGAP Configuration file "Config_ReWaterGAP.json" navigate to "Calibra
 WaterGAP is calibrated from the year 1901. Under "SimulationPeriod" set the start year to 1901 by changing the following values:
 "start": "1901-01-01", "end": "2019-12-31", "reservoir_start_year": 1901, "reservoir_end_year": 2019, "spinup_years": 5
 
-.. figure:: ../../images/user_guide/tutorial/
+.. figure:: ../../images/user_guide/tutorial/configuration_restart_path.png
 
 Modify the station file
 #######################
