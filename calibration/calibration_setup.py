@@ -32,7 +32,7 @@ class SetupCalibration:
         self.start_year = int(cm.start.split("-")[0])
         self.end_year = int(cm.end.split("-")[0])
         self.config_path = './Config_ReWaterGAP.json'
-        self.station_per_superbasin_path = '../nobackup/stations_per_superbasin.nc'
+        self.station_per_superbasin_path = './calibration/stations_per_superbasin.nc'
         self.calib_out_dir = "./calibration/calib_out/"
         self.super_basin = None
         self.unique_basin_values = None
