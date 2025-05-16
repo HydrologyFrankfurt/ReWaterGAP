@@ -14,6 +14,7 @@ import unittest
 import xarray as xr
 import numpy as np
 from model.lateralwaterbalance import groundwater as gw
+from controller import configuration_module as cm
 
 class TestGroundwater(unittest.TestCase):
     """Test groundwater module."""
@@ -45,7 +46,11 @@ class TestGroundwater(unittest.TestCase):
         }
 
         # Load global parameters
-        global_parameters = xr.open_dataset("./model/WaterGAP_2.2e_global_parameters.nc",
+        path_global_par = cm.global_parameter_path
+        if path_global_par.startswith("model"):
+            path_global_par =  f"./{path_global_par}"
+
+        global_parameters = xr.open_dataset(path_global_par,
                                             decode_times=False)
         self.gw_data["gw_dis_coeff"] = global_parameters.gw_dis_coeff.values  # 1/day
 
