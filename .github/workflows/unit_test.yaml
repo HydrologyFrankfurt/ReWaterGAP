@@ -31,4 +31,4 @@ jobs:
       - name: Run Unit Tests
         id: tests
         run: |
-          python run_test.py
+          python run_test.py Config_ReWaterGAP.json
