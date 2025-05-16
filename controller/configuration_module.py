@@ -67,7 +67,7 @@ def config_handler(filename):
 config_file = config_handler(args.name)
 
 # =============================================================================
-# Get path for climate forcing, water use, static land data and 
+# Get path for climate forcing, water use, static land data &  
 # WaterGAP global parameters
 # =============================================================================
 input_dir = config_file['FilePath']['inputDir']
