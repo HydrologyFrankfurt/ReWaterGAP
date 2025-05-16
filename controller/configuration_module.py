@@ -67,12 +67,14 @@ def config_handler(filename):
 config_file = config_handler(args.name)
 
 # =============================================================================
-# Get path for climate forcing, water use and static land data
+# Get path for climate forcing, water use, static land data and 
+# WaterGAP global parameters
 # =============================================================================
 input_dir = config_file['FilePath']['inputDir']
 climate_forcing_path = input_dir['climate_forcing']
 water_use_data_path = input_dir['water_use_data']
 static_land_data_path = input_dir['static_land_data']
+global_parameter_path = input_dir['parameter_path']
 
 # =============================================================================
 # # Initializing Runtime Options (bottleneck to run simulation)
