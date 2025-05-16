@@ -18,6 +18,7 @@ import logging
 import os
 import sys
 from pathlib import Path
+from controller import configuration_module as cm
 import xarray as xr
 import misc.cli_args as cli
 import watergap_logger as log
@@ -48,7 +49,7 @@ class Parameters:
                                       f"/WaterGAP_2.2e_global_parameters_basin_{basin_id}.nc"))
             else:
                 # Default
-                param_path = str(Path('model/WaterGAP_2.2e_global_parameters.nc'))
+                param_path = str(Path(cm.global_parameter_path))
 
             self.global_params = xr.open_dataset(param_path, decode_times=False)
 
