@@ -14,6 +14,7 @@ import unittest
 import xarray as xr
 import numpy as np
 from model.lateralwaterbalance import lakes_wetlands as lw
+from controller import configuration_module as cm
 
 
 class TestLakesWetlands(unittest.TestCase):
@@ -28,7 +29,11 @@ class TestLakesWetlands(unittest.TestCase):
         self.precipitation = np.random.uniform(0, 3, size=self.size)  # km3/day
         self.openwater_pot_evap = np.random.uniform(0, 0.05, size=self.size)  # km3/day
 
-        global_parameters = xr.open_dataset("./model/WaterGAP_2.2e_global_parameters.nc",
+        # Load global parameters
+        path_global_par = cm.global_parameter_path
+        if path_global_par.startswith("model"):
+            path_global_par = f"./{path_global_par}"
+        global_parameters = xr.open_dataset(path_global_par,
                                             decode_times=False)
 
         self.global_params = {
