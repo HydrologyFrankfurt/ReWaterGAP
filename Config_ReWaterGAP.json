@@ -32,7 +32,7 @@
     {
       "SimulationPeriod": {
         "start": "1901-01-01",
-        "end": "1903-12-31",
+        "end": "1902-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
         "spinup_years": 5
