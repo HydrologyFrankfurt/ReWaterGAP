@@ -16,7 +16,7 @@ import xarray as xr
 import numpy as np
 import pandas as pd
 from model.lateralwaterbalance import reservoir_regulated_lakes as res_reg
-
+from controller import configuration_module as cm
 
 class TestResevoirRegulatedLake(unittest.TestCase):
     """Test Resevoir and Regulated lake module."""
@@ -50,9 +50,11 @@ class TestResevoirRegulatedLake(unittest.TestCase):
                                   decode_times=False)[0].values
         }
 
-        global_parameters = \
-            xr.open_dataset("./model/WaterGAP_2.2e_global_parameters.nc",
-                            decode_times=False)
+        # Load global parameters
+        path_global_par = cm.global_parameter_path
+        if path_global_par.startswith("model"):
+            path_global_par = f"./{path_global_par}"
+        global_parameters = xr.open_dataset(path_global_par, decode_times=False)
         self.global_params = {
             'gw_dis_coeff': global_parameters.gw_dis_coeff.values,  # 1/day
             'swb_outflow_coeff': global_parameters.swb_outflow_coeff.values,  # 1/day

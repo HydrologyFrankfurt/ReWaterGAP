@@ -14,7 +14,7 @@ import unittest
 import xarray as xr
 import numpy as np
 from model.verticalwaterbalance import radiation_evapotranspiration as re
-
+from controller import configuration_module as cm
 
 class TestRadiationEvapotranspiration(unittest.TestCase):
     """Test Priestly-Talor PET function."""
@@ -33,7 +33,12 @@ class TestRadiationEvapotranspiration(unittest.TestCase):
 
         self.pet = np.zeros(size)
         self.temperature = np.random.uniform(273.15, 303.15, size=size)  # K
-        pt_coeff = xr.open_dataset("./model/WaterGAP_2.2e_global_parameters.nc", decode_times=False)
+
+        # Load global parameters
+        path_global_par = cm.global_parameter_path
+        if path_global_par.startswith("model"):
+            path_global_par = f"./{path_global_par}"
+        pt_coeff = xr.open_dataset(path_global_par , decode_times=False)
         self.pt_coeff_humid_arid = pt_coeff.pt_coeff_humid_arid.values  # -
 
         # (open water)net radiation and could be negative but we set it to zero

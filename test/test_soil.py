@@ -15,6 +15,7 @@ import unittest
 import xarray as xr
 import numpy as np
 from model.verticalwaterbalance import soil as ss
+from controller import configuration_module as cm
 
 
 class TestSoil(unittest.TestCase):
@@ -55,7 +56,11 @@ class TestSoil(unittest.TestCase):
             'daily_storage_transfer': np.zeros(size)  # mm
         }
 
-        global_parameters = xr.open_dataset("./model/WaterGAP_2.2e_global_parameters.nc",
+        # Load global parameters
+        path_global_par = cm.global_parameter_path
+        if path_global_par.startswith("model"):
+            path_global_par = f"./{path_global_par}"
+        global_parameters = xr.open_dataset(path_global_par,
                                             decode_times=False)
         self.global_parameters = {
             'snow_freeze_temp': global_parameters.snow_freeze_temp.values,  # K

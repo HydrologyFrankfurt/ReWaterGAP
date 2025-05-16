@@ -16,6 +16,8 @@ import xarray as xr
 import numpy as np
 from model.lateralwaterbalance import river_init
 from model.lateralwaterbalance import river
+from controller import configuration_module as cm
+
 
 class TestRiver(unittest.TestCase):
     """Test river module."""
@@ -42,8 +44,11 @@ class TestRiver(unittest.TestCase):
                                       decode_times=False)[0].values
 
         # Roughness multiplier (-)
-        global_parameters = xr.open_dataset("./model/WaterGAP_2.2e_global_parameters.nc",
-                                            decode_times=False)
+        # Load global parameters
+        path_global_par = cm.global_parameter_path
+        if path_global_par.startswith("model"):
+            path_global_par = f"./{path_global_par}"
+        global_parameters = xr.open_dataset(path_global_par, decode_times=False)
         self.roughness_multiplier = \
             global_parameters.river_roughness_coeff_mult.values.astype(np.float64)
         self.stat_corr_fact = global_parameters.stat_corr_fact.values.astype(np.float64)

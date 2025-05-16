@@ -15,6 +15,7 @@ import xarray as xr
 import numpy as np
 import pandas as pd
 from model.verticalwaterbalance import snow as swe
+from controller import configuration_module as cm
 
 
 class TestSnow(unittest.TestCase):
@@ -63,7 +64,10 @@ class TestSnow(unittest.TestCase):
         self.snow_data["snow_water_storage_subgrid"] = np.zeros(elev_size)  # mm
 
         # Load global parameters
-        self.global_parameters = xr.open_dataset("./model/WaterGAP_2.2e_global_parameters.nc",
+        path_global_par = cm.global_parameter_path
+        if path_global_par.startswith("model"):
+            path_global_par = f"./{path_global_par}"
+        self.global_parameters = xr.open_dataset(path_global_par,
                                                  decode_times=False)
 
     # Test if results using acceptatable range for inputs

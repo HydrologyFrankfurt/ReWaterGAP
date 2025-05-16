@@ -49,8 +49,7 @@ class TestGroundwater(unittest.TestCase):
         path_global_par = cm.global_parameter_path
         if path_global_par.startswith("model"):
             path_global_par = f"./{path_global_par}"
-        
-        print(path_global_par)
+
         global_parameters = xr.open_dataset(path_global_par,
                                             decode_times=False)
         self.gw_data["gw_dis_coeff"] = global_parameters.gw_dis_coeff.values  # 1/day

@@ -16,7 +16,7 @@ import numpy as np
 from termcolor import colored
 from model.verticalwaterbalance import canopy as cs
 from model.utility import units_conveter_check_neg_precip as check_precip
-
+from controller import configuration_module as cm
 
 class TestCanopy(unittest.TestCase):
     """Test canopy module."""
