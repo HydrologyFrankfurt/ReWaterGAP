@@ -3,7 +3,8 @@
     "inputDir": {
       "climate_forcing": "input_data/climate_forcing/",
       "water_use_data": "input_data/water_use/",
-      "static_land_data": "input_data/static_input/"
+      "static_land_data": "input_data/static_input/",
+      "parameter_path": "model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc"
     },
     "outputDir": "output_data/"
   },
