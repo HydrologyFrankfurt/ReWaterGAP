@@ -101,11 +101,11 @@ To configure WaterGAP, go to your WaterGAP repository and navigate to "Config_Re
 **2.1) File Paths**
 
 The first options in the configuration file specify the input and output file paths. In this example, we will leave these paths unchanged. The default locations for input and output data are shown in the figure below.
-Please note that the default global parameter file—calibrated for the **GSWP3-W5E5** climate forcing—is located at:
+Please note that the default global parameter file — calibrated for the **GSWP3-W5E5** climate forcing — is located at::
 
-> model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc
+	model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc
 
-You may also specify a custom path to a different parameter file—for example, if you copied the default file, modified certain parameter values, and saved it in another folder or another global parameter file—calibrated for its respective climate forcing
+You may also specify a custom path to a different parameter file—for example, if you copied the default file, modified certain parameter values, and saved it in another folder or another global parameter file — calibrated for its respective climate forcing.
 
 **Important:** Ensure that the parameter file you use is consistent with the climate forcing dataset applied in your simulation. For instance, if you're using GSWP3-W5E5 forcing, your parameter file must also be calibrated for GSWP3-W5E5 to ensure valid results.
 
