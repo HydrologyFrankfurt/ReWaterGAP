@@ -221,7 +221,7 @@ def main():
         # modify configuration and run WaterGAP
         print('\n' + colored("Running Calibration step A...","magenta"))
         calib_watergap.modify_config_file(destination_file)
-        # calib_watergap.run_watergap()
+        calib_watergap.run_watergap()
 
         # =====================================================================
         #  Set up files for calibration (generate config file for each station)
