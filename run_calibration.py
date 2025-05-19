@@ -12,6 +12,7 @@
 """Run Calibration"""
 
 import os
+import glob
 import sys
 import subprocess
 import shutil
@@ -67,7 +68,7 @@ class CalibrateStations:
                 else:
                     obj[key] = False
 
-    def modify_config_file(self):
+    def modify_config_file(self, params_path):
         """
         Modify configuration file to run WaterGAP  for actual abstractions.
 
@@ -87,6 +88,8 @@ class CalibrateStations:
         if 'RuntimeOptions' in config_file:
             for item in config_file['RuntimeOptions']:
                 self.update_config_values(item)
+        # update parameter path
+        config_file['FilePath']['inputDir']['parameter_path'] = params_path
 
         # Save the modified JSON data
         with open('Config_ReWaterGAP.json', 'w',  encoding='utf-8') as file:
@@ -207,16 +210,18 @@ def main():
         # uncalibrated parameters are used for this run.
         print(os.getcwd())
         source_file = "./misc/WaterGAP_2.2e_global_parameters_nocal.nc"
+        remove_params_file = "./model/WaterGAP_2.2e_global_parameters*.nc"
         destination_file = "./model/WaterGAP_2.2e_global_parameters.nc"
-        if os.path.exists(destination_file):
-            os.remove(destination_file)
+        for file_path in glob.glob(remove_params_file):
+            if os.path.isfile(file_path):
+                os.remove(file_path)
 
         shutil.copyfile(source_file, destination_file)
 
         # modify configuration and run WaterGAP
         print('\n' + colored("Running Calibration step A...","magenta"))
-        calib_watergap.modify_config_file()
-        calib_watergap.run_watergap()
+        calib_watergap.modify_config_file(destination_file)
+        # calib_watergap.run_watergap()
 
         # =====================================================================
         #  Set up files for calibration (generate config file for each station)
