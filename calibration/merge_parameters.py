@@ -58,7 +58,7 @@ def merge_parameters():
     # =========================================================================
     gamma_df = pd.read_csv('./calibration/Gamma_all_region.csv')
     # Read in arcid xarray
-    arcids_paths = "./input_data/static_input/arc_id.nc"
+    arcids_paths = "./input_data/static_input/watergap_22e_arc_id.nc"
     arcid = xr.open_dataarray(arcids_paths, decode_times=False)
 
     # Match Arc_IDs in gamma with arcid and set corresponding values in temp_gamma
