@@ -77,6 +77,11 @@ html_theme = 'pydata_sphinx_theme'
 
 html_theme_options = {
     "external_links": [],
+    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
+    "switcher": {
+        "json_url": "https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/docs/versions.json",
+        "version_match": switcher_version,
+    },
     "github_url": "https://github.com/HydrologyFrankfurt/ReWaterGAP",
     "twitter_url": "https://twitter.com/HydroFrankfurt",
 }
