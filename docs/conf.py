@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.abspath('../misc'))
 # -- Project information -----------------------------------------------------
 
 project = 'ReWaterGAP'
-copyright = '2024, ReWaterGAP'
+copyright = '2025, ReWaterGAP'
 author = 'ReWaterGAP'
 
 
@@ -62,6 +62,7 @@ master_doc = 'index'
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+# switcher_version = "2.2e"
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -78,10 +79,10 @@ html_theme = 'pydata_sphinx_theme'
 html_theme_options = {
     "external_links": [],
     "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
-    "switcher": {
-        "json_url": "https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/main/docs/versions.json",
-        "version_match": switcher_version,
-    },
+#    "switcher": {
+#        "json_url": "https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/main/docs/versions.json",
+#        "version_match": switcher_version,
+#    },
     "github_url": "https://github.com/HydrologyFrankfurt/ReWaterGAP",
     "twitter_url": "https://twitter.com/HydroFrankfurt",
 }
