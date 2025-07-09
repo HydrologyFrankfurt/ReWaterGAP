@@ -33,6 +33,9 @@ def read_input_files(folder_path):
     combined_df = df_list[0]
     for df in df_list[1:]:
         combined_df = pd.merge(combined_df, df, on="Arc_ID", how="outer")
+    
+    # Replace -99 with 0 (nan values)
+    combined_df.replace(-99, 0, inplace=True)
 
     # Temperatue has unit  as deg C hence we divide by 100 to deg C
     combined_df['GTEMP_1971_2000'] /= 100
@@ -198,6 +201,10 @@ def regionalize_paramters(num_threads_or_nodes):
 
     combined_df_all_region = pd.merge(combined_df_all_region, calib_uncalib_regression,
                                       on="basin_identifier", how="outer")
+    combined_df_all_region = combined_df_all_region.loc[:, ~combined_df_all_region.columns.str.endswith('_x')]
+    combined_df_all_region.columns = [col[:-2] if col.endswith('_y') else col
+                                      for col in combined_df_all_region.columns]
+
     combined_df_all_region.to_csv('./calibration/regionalisation_all_region.csv', index=False)
 
     gamma_out = combined_df_all_region[['Arc_ID', 'gamma', 'gamma_final']]
