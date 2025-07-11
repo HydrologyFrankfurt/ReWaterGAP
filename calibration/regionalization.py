@@ -34,9 +34,6 @@ def read_input_files(folder_path):
     for df in df_list[1:]:
         combined_df = pd.merge(combined_df, df, on="Arc_ID", how="outer")
     
-    # Replace -99 with 0 (nan values)
-    combined_df.replace(-99, 0, inplace=True)
-
     # Temperatue has unit  as deg C hence we divide by 100 to deg C
     combined_df['GTEMP_1971_2000'] /= 100
     combined_df['basin_identifier'] = np.nan
@@ -45,6 +42,10 @@ def read_input_files(folder_path):
     combined_df["area_max_soil"] =\
         np.where(combined_df['max_soil_water_content'] > 0, combined_df['cell_area'], 0)
     combined_df["gamma"] = np.nan
+    
+    # Replace -99 with 0 (nan values)
+    combined_df.replace(-99, 0, inplace=True)
+    
     return combined_df
 
 
@@ -200,11 +201,11 @@ def regionalize_paramters(num_threads_or_nodes):
     calib_uncalib_regression = calib_uncalib_regression.drop(columns=['gamma'])
 
     combined_df_all_region = pd.merge(combined_df_all_region, calib_uncalib_regression,
-                                      on="basin_identifier", how="outer")
+                                      on="basin_identifier", how="inner")
     combined_df_all_region = combined_df_all_region.loc[:, ~combined_df_all_region.columns.str.endswith('_x')]
     combined_df_all_region.columns = [col[:-2] if col.endswith('_y') else col
                                       for col in combined_df_all_region.columns]
-
+    
     combined_df_all_region.to_csv('./calibration/regionalisation_all_region.csv', index=False)
 
     gamma_out = combined_df_all_region[['Arc_ID', 'gamma', 'gamma_final']]
