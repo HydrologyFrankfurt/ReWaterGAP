@@ -43,10 +43,10 @@ def read_input_files(folder_path):
         np.where(combined_df['max_soil_water_content'] > 0, combined_df['cell_area'], 0)
     combined_df["gamma"] = np.nan
     
-    # Replace -99 with 0 (nan values) # applied here to prevent temperature values 
-    # from being set to zero 
+    # Set descriptors with values -99 with 0 (nan values)
+    # Note temperature is not affected here
     combined_df.replace(-99, 0, inplace=True)
-
+    
     return combined_df
 
 
@@ -206,7 +206,7 @@ def regionalize_paramters(num_threads_or_nodes):
     combined_df_all_region = combined_df_all_region.loc[:, ~combined_df_all_region.columns.str.endswith('_x')]
     combined_df_all_region.columns = [col[:-2] if col.endswith('_y') else col
                                       for col in combined_df_all_region.columns]
-
+    
     combined_df_all_region.to_csv('./calibration/regionalisation_all_region.csv', index=False)
 
     gamma_out = combined_df_all_region[['Arc_ID', 'gamma', 'gamma_final']]
