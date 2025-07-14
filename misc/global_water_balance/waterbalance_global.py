@@ -31,8 +31,8 @@ out_var_path = "../../output_data/"
 #            Select the time period for the analysis
 #       (make sure model data for start year-1 is available)
 # =============================================================================
-start_date = '1981-01-01'  # Start date for the waterbalance
-end_date = '1981-12-31'    # End date for the waterbalance
+start_date = '2001-01-01'  # Start date for the waterbalance
+end_date = '2019-12-31'    # End date for the waterbalance
 
 # Extract start and end years from the dates
 start_year = int(start_date[:4])
@@ -60,7 +60,7 @@ contfrac = xr.open_dataarray("../../input_data/static_input/land_water_fractions
                              "watergap_22e_contfrac_global.nc", decode_times=False )
 
 # Model parameters
-params = xr.open_dataset("../../model/WaterGAP_2.2e_global_parameters.nc",
+params = xr.open_dataset("../../model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc",
                          decode_times=False)
 
 # Get station correction factor (CFS) from model parameters
