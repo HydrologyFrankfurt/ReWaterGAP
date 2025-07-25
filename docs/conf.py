@@ -34,6 +34,9 @@ author = 'ReWaterGAP'
 
 # -- Version Configuration ---------------------------------------------------
 
+import os
+import subprocess
+
 def get_git_branch():
     """Try to detect the current Git branch."""
     try:
@@ -43,17 +46,20 @@ def get_git_branch():
     except Exception:
         return 'unknown'
 
-# Use environment variable DOC_VERSION if available (e.g., set in CI),
-# else fallback to git branch, and then default to 'dev'.
-switcher_version = os.environ.get("DOC_VERSION", None)
-if not switcher_version:
-    branch = get_git_branch()
-    switcher_version = branch if branch not in ('unknown', 'main', 'master') else 'dev'
+# Determine the current version (priority: DOC_VERSION env var > git branch > fallback)
+branch = os.environ.get("DOC_VERSION", get_git_branch())
+
+# Map branch names to version labels used in versions.json
+if branch in ('main', 'master'):
+    switcher_version = 'dev'
+elif branch == 'WaterGAP-2.2e':
+    switcher_version = '2.2'
+else:
+    switcher_version = branch if branch != 'unknown' else 'dev'
 
 # These variables are used by Sphinx in multiple places
 version = switcher_version
 release = switcher_version
-
 # -- General configuration ---------------------------------------------------
 # master_doc = 'index'
 # Add any Sphinx extension module names here, as strings. They can be
