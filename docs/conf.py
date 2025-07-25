@@ -12,6 +12,7 @@
 #
 import os
 import sys
+import subprocess
 # Main ReWaterGAP path
 sys.path.insert(0, os.path.abspath('..'))
 # Vertical Water Balance path
@@ -31,6 +32,27 @@ project = 'ReWaterGAP'
 copyright = '2025, ReWaterGAP'
 author = 'ReWaterGAP'
 
+# -- Version Configuration ---------------------------------------------------
+
+def get_git_branch():
+    """Try to detect the current Git branch."""
+    try:
+        out = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
+        branch = out.decode('utf-8').strip()
+        return branch
+    except Exception:
+        return 'unknown'
+
+# Use environment variable DOC_VERSION if available (e.g., set in CI),
+# else fallback to git branch, and then default to 'dev'.
+switcher_version = os.environ.get("DOC_VERSION", None)
+if not switcher_version:
+    branch = get_git_branch()
+    switcher_version = branch if branch not in ('unknown', 'main', 'master') else 'dev'
+
+# These variables are used by Sphinx in multiple places
+version = switcher_version
+release = switcher_version
 
 # -- General configuration ---------------------------------------------------
 # master_doc = 'index'
@@ -79,10 +101,10 @@ html_theme = 'pydata_sphinx_theme'
 html_theme_options = {
     "external_links": [],
     "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
-#    "switcher": {
-#        "json_url": "https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/main/docs/versions.json",
-#        "version_match": switcher_version,
-#    },
+    "switcher": {
+        "json_url": "https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/WaterGAP-2.2e/docs/versions.json",
+        "version_match": switcher_version,
+    },
     "github_url": "https://github.com/HydrologyFrankfurt/ReWaterGAP",
     "twitter_url": "https://twitter.com/HydroFrankfurt",
 }
