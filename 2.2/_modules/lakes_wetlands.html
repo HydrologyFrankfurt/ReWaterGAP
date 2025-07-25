@@ -1,0 +1,926 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lakes_wetlands &#8212; ReWaterGAP WaterGAP-2.2e documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=961d3578"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/lakes_wetlands';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/refs/heads/main/docs/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'WaterGAP-2.2e';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="WaterGAP-2.2e" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP WaterGAP-2.2e documentation - Home"/>
+    <img src="../_static/watergap_logo.png" class="logo__image only-dark pst-js-only" alt="ReWaterGAP WaterGAP-2.2e documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">lakes_wetlands</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for lakes_wetlands</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># =============================================================================</span>
+<span class="c1"># This file is part of WaterGAP.</span>
+
+<span class="c1"># WaterGAP is an opensource software which computes water flows and storages as</span>
+<span class="c1"># well as water withdrawals and consumptive uses on all continents.</span>
+
+<span class="c1"># You should have received a copy of the LGPLv3 License along with WaterGAP.</span>
+<span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="sd">&quot;&quot;&quot;Lakes and wetland storages and fluxes.&quot;&quot;&quot;</span>
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># This module computes water balance for global and local lakes and wetlands,</span>
+<span class="c1"># including storage and related fluxes for all grid cells based on section 4.6</span>
+<span class="c1">#  of (Müller Schmied et al. (2021)).</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">model.lateralwaterbalance</span><span class="w"> </span><span class="kn">import</span> <span class="n">storage_reduction_factor</span> <span class="k">as</span> <span class="n">rf</span>
+
+
+<div class="viewcode-block" id="lake_wetland_water_balance">
+<a class="viewcode-back" href="../model_processes/lateral_water_balance/lakes_wetlands.html#lakes_wetlands.lake_wetland_water_balance">[docs]</a>
+<span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lake_wetland_water_balance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                               <span class="n">choose_swb</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">precipitation</span><span class="p">,</span>
+                               <span class="n">openwater_pot_evap</span><span class="p">,</span> <span class="n">aridity</span><span class="p">,</span> <span class="n">drainage_direction</span><span class="p">,</span>
+                               <span class="n">inflow_to_swb</span><span class="p">,</span> <span class="n">swb_outflow_coeff</span><span class="p">,</span>
+                               <span class="n">groundwater_recharge_constant</span><span class="p">,</span>
+                               <span class="n">reduction_exponent_lakewet</span><span class="p">,</span> <span class="n">areal_corr_factor</span><span class="p">,</span>
+                               <span class="n">max_storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_area</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lakewet_frac</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                               <span class="n">lake_outflow_exp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wetland_outflow_exp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">reservoir_area</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                               <span class="n">accumulated_unsatisfied_potential_netabs_sw</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute water balance for global and local lakes and wetlands including</span>
+<span class="sd">    storage and related fluxes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">     x : int</span>
+<span class="sd">         Latitude index of cell</span>
+<span class="sd">     y : int</span>
+<span class="sd">         Longitude index of cell</span>
+<span class="sd">    choose_swb : string</span>
+<span class="sd">        Select surface waterbody (global and local lakes and wetlands)</span>
+<span class="sd">    storage : float</span>
+<span class="sd">        Daily surface waterbody storage, Unit: [km3]</span>
+<span class="sd">    lakewet_frac : float</span>
+<span class="sd">        Fraction of surface waterbody, Unit: [-]</span>
+<span class="sd">    precipitation : float</span>
+<span class="sd">        Daily precipitation, Unit: [km/day]</span>
+<span class="sd">    openwater_pot_evap : float</span>
+<span class="sd">        Daily open water potential evaporation, Unit: [km/day]</span>
+<span class="sd">    aridity : int</span>
+<span class="sd">        Integer which differentiates arid(aridity=1) from</span>
+<span class="sd">        humid(aridity=0) regions taken from  [1]_ , Units: [-]</span>
+<span class="sd">    drainage_direction : int</span>
+<span class="sd">        Drainage direction taken from  [1]_ , Units: [-]</span>
+<span class="sd">    inflow_to_swb : float</span>
+<span class="sd">        Inflow into selected surface waterbody, Unit: [km3/day]</span>
+<span class="sd">    swb_outflow_coeff: float</span>
+<span class="sd">        Surface water outflow coefficient (=0.01) Eqn 27 [1]_, Unit: [1/day]</span>
+<span class="sd">    groundwater_recharge_constant: float</span>
+<span class="sd">        Groundwater recharge constant below lakes, reserviors &amp; wetlands (=0.01)</span>
+<span class="sd">        Eqn 26 [1]_, Unit: [m/day]</span>
+<span class="sd">    reduction_exponent_lakewet: float</span>
+<span class="sd">        Reduction exponent (= 3.32193) taken from Eqn 24 and 25 [1]_ , Units: [-].</span>
+<span class="sd">    areal_corr_factor: float</span>
+<span class="sd">        Areal correction factor</span>
+<span class="sd">    max_storage: float</span>
+<span class="sd">        Maximum storage of surface waterbody storage, Unit: [km3]</span>
+<span class="sd">    max_area: float,</span>
+<span class="sd">        Maximum area of surface waterbody, Unit: km2.</span>
+<span class="sd">        Note!!! Global lake area has absolute lake area (including that of</span>
+<span class="sd">        riparian cells) in the outflow cell. Hence, the outflow cell is used for</span>
+<span class="sd">        waterbalance calulation.</span>
+<span class="sd">    lake_outflow_exp: float</span>
+<span class="sd">        Lake outflow exponent(=1.5) taken from Eqn 27 [1]_, Units: [-].</span>
+<span class="sd">    wetland_outflow_exp: float</span>
+<span class="sd">        Wetland outflow exponent(=2.5) taken from Eqn 27 [1]_, Units: [-].</span>
+<span class="sd">    reservoir_area: float</span>
+<span class="sd">        Reservoir Area (required to split water demand 50%  between reservoir</span>
+<span class="sd">        and global lake), Unit: [km2]</span>
+<span class="sd">    accumulated_unsatisfied_potential_netabs_sw:</span>
+<span class="sd">        Accumulated unsatified potential net abstraction from surafce water,</span>
+<span class="sd">        Unit: [km^3/day]</span>
+
+<span class="sd">    References.</span>
+
+<span class="sd">    .. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,</span>
+<span class="sd">                Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,</span>
+<span class="sd">                Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,</span>
+<span class="sd">                Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).</span>
+<span class="sd">                The global water resources and use model WaterGAP v2.2d:</span>
+<span class="sd">                model description and evaluation. Geoscientific Model</span>
+<span class="sd">                Development, 14(2), 1037–1079.</span>
+<span class="sd">                https://doi.org/10.5194/gmd-14-1037-2021</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    storage :  float</span>
+<span class="sd">        Updated daily surface waterbody storage, Unit: [km3]</span>
+<span class="sd">    outflow :  float</span>
+<span class="sd">        Daily surface waterbody outflow, Unit: [km3/day]</span>
+<span class="sd">    gwr_lakewet :  float</span>
+<span class="sd">        Daily groundwater recharge from surface water body outflow</span>
+<span class="sd">        (arid region only), Unit: [km3/day]</span>
+<span class="sd">    lake_wet_newfraction: float</span>
+<span class="sd">        Updated local lake area fraction(to adapt landarea fraction), Unit:[-].</span>
+<span class="sd">    accumulated_unsatisfied_potential_netabs_glolake: float</span>
+<span class="sd">        Accumulated unsatified potential net abstraction after global lake</span>
+<span class="sd">        satisfaction, Unit: [km^3/day]</span>
+<span class="sd">    actual_use_sw: float</span>
+<span class="sd">        Actual net abstraction from lakes and wetlands, Unit: [km^3/day]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Index (x,y) to  print out varibales of interest</span>
+    <span class="c1"># e.g.  if x==65 and y==137: print(prev_gw_storage)</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1">#     Parameters for respective surface waterbody.</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;local lake&quot;</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+        <span class="n">exp_factor</span> <span class="o">=</span> <span class="n">lake_outflow_exp</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">exp_factor</span> <span class="o">=</span> <span class="n">wetland_outflow_exp</span>
+
+    <span class="c1"># =========================================================================</span>
+
+    <span class="c1">#                  ======================================</span>
+    <span class="c1">#                  ||  lake and wetland waterbalance    ||</span>
+    <span class="c1">#                  ======================================</span>
+    <span class="c1"># Note components of the waterbalance in Equation 22 of Müller Schmied et</span>
+    <span class="c1"># al. (2021)) is calulated as follows.</span>
+
+    <span class="n">storage_prevstep</span> <span class="o">=</span> <span class="n">storage</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Computing Reduction factor (km2/day) for</span>
+    <span class="c1"># local and global lakes and wetlands. Equation 24 &amp; 25 in</span>
+    <span class="c1"># (Müller Schmied et al. (2021).</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="n">redfactor</span> <span class="o">=</span> \
+        <span class="n">rf</span><span class="o">.</span><span class="n">swb_redfactor</span><span class="p">(</span><span class="n">storage_prevstep</span><span class="p">,</span> <span class="n">max_storage</span><span class="p">,</span>
+                         <span class="n">reduction_exponent_lakewet</span><span class="p">,</span> <span class="n">choose_swb</span><span class="p">)</span>
+
+    <span class="c1"># For global lake, reduction factor is only used for reducing evaporation</span>
+    <span class="c1"># and not area since global lake area is assumed not to be dynamic.</span>
+    <span class="c1"># This would prevent continuous decline of global lake levels in some cases</span>
+    <span class="c1"># i.e. ((semi)arid regions)</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+        <span class="n">evapo_redfactor</span> <span class="o">=</span> <span class="n">redfactor</span>
+        <span class="n">lake_wet_area</span> <span class="o">=</span> <span class="n">max_area</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Dynamic area of swb except global lake</span>
+        <span class="c1"># Eqn 23 in Müller Schmied et al. (2021).</span>
+        <span class="n">lake_wet_area</span> <span class="o">=</span> <span class="n">redfactor</span> <span class="o">*</span> <span class="n">max_area</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Computing lake or wetland corrected evaporation</span>
+    <span class="c1"># (openwater_evapo_cor[km3/day])</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># /////////////////////////////////////////////////////////////////////////</span>
+    <span class="c1"># Areal correction factor (CFA) approach for correcting</span>
+    <span class="c1"># open water evaporation.</span>
+
+    <span class="c1"># Water balance of surface waterbodies (lakes,wetlands and reservoir)</span>
+    <span class="c1"># except rivers is given as: See Eqn. 22 in Müller Schmied et al. (2021).</span>
+    <span class="c1"># dS/dt = A(P - PET) + Qin - NAs - gwr_swb - Qout</span>
+
+    <span class="c1"># (P - PET) is considered (crudely) as the runoff from the respective SWB.</span>
+    <span class="c1"># Therefore, CFA is applied as a correction factor on  only (P - PET)</span>
+    <span class="c1"># and only P and PET are taken into account to compute corrected PET.</span>
+
+    <span class="c1"># Approach to compute PET_corrected:</span>
+    <span class="c1"># equation 1) P - PET = Runoff</span>
+
+    <span class="c1"># equation 2) P - PET_corr = Runoff * CFA</span>
+    <span class="c1"># 		      Runoff = (P - PET_corr)/CFA</span>
+    <span class="c1">#</span>
+    <span class="c1"># 	equation 2) in equation 1):</span>
+    <span class="c1"># 	P - PET = (P - PET_corr)/CFA</span>
+    <span class="c1"># 	(P - PET) * CFA = P - PET_corr</span>
+    <span class="c1">#</span>
+    <span class="c1"># 	CFA*P - CFA * PET = P - PET_corr</span>
+    <span class="c1"># 	PET_corr = P - CFA*P + CFA * PET</span>
+    <span class="c1">#</span>
+    <span class="c1">#   Final equation for corrected PET</span>
+    <span class="c1">#   PET_corr = (1 - CFA) * P + CFA * PET</span>
+    <span class="c1">#</span>
+    <span class="c1"># /////////////////////////////////////////////////////////////////////////</span>
+
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+        <span class="c1"># Reducing potential evaporation for global lake using reduction factor</span>
+        <span class="n">openwater_pet</span> <span class="o">=</span> <span class="n">openwater_pot_evap</span> <span class="o">*</span> <span class="n">evapo_redfactor</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># local lakes and global and local wetlands</span>
+        <span class="n">openwater_pet</span> <span class="o">=</span> <span class="n">openwater_pot_evap</span>
+
+    <span class="n">openwater_evapo_cor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">areal_corr_factor</span><span class="p">)</span> <span class="o">*</span> <span class="n">precipitation</span> <span class="o">+</span> \
+        <span class="p">(</span><span class="n">areal_corr_factor</span> <span class="o">*</span> <span class="n">openwater_pet</span><span class="p">)</span>
+
+    <span class="n">openwater_evapo_cor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">openwater_evapo_cor</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                                   <span class="n">openwater_evapo_cor</span><span class="p">)</span>  <span class="c1"># km/day</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Calculating lake or wetland  groundwater recharge[gwr_lakewet (km3/day)]</span>
+    <span class="c1"># See Eqn. 26 in Müller Schmied et al. (2021).</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Point_source_recharge is only computed for (semi)arid surafce water</span>
+    <span class="c1"># bodies but not for  inlank sink or humid regions</span>
+    <span class="c1"># convert m to km</span>
+    <span class="n">m_to_km</span> <span class="o">=</span> <span class="mf">0.001</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+        <span class="c1"># Since global lake area is assumed not be dynamic, recharge needs to</span>
+        <span class="c1"># be reduced else more water will recharge the ground</span>
+        <span class="n">gwr_lakewet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">aridity</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">drainage_direction</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span>
+                               <span class="n">groundwater_recharge_constant</span> <span class="o">*</span> <span class="n">m_to_km</span> <span class="o">*</span>
+                               <span class="n">lake_wet_area</span> <span class="o">*</span> <span class="n">evapo_redfactor</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># local lakes and global and local wetlands</span>
+        <span class="n">gwr_lakewet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">aridity</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">drainage_direction</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span>
+                               <span class="n">groundwater_recharge_constant</span> <span class="o">*</span> <span class="n">m_to_km</span> <span class="o">*</span>
+                               <span class="n">lake_wet_area</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Combine inflow and open water precipitation total_inflow (km3/day)</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="n">total_inflow</span> <span class="o">=</span> <span class="n">inflow_to_swb</span> <span class="o">+</span> <span class="n">precipitation</span> <span class="o">*</span> <span class="n">lake_wet_area</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Combine openwater PET, potential net abstraction from surface water</span>
+    <span class="c1"># and point source recharge into petgwr_netabs_sw(km3/day).</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Incase of global lake, If reservoirs are found in the same outflow cell.</span>
+    <span class="c1"># The potential net abstraction is shared equally(50%) between.</span>
+
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">reservoir_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">=</span> \
+                <span class="n">accumulated_unsatisfied_potential_netabs_sw</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">=</span> \
+                <span class="n">accumulated_unsatisfied_potential_netabs_sw</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Needed To compute daily actual use</span>
+    <span class="n">acc_unsatisfied_potnetabs_glolake_start</span> <span class="o">=</span> \
+        <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span>
+
+    <span class="c1"># Note abstraction from local lake is done after that of river.</span>
+    <span class="c1"># For global and local wetlands there are no absractions</span>
+    <span class="c1"># See abstraction priority diagram Fig.2 in Müller Schmied et al. (2021).</span>
+    <span class="n">petgwr_netabs_sw</span> <span class="o">=</span> <span class="n">openwater_evapo_cor</span> <span class="o">*</span> <span class="n">lake_wet_area</span> <span class="o">+</span> <span class="n">gwr_lakewet</span> <span class="o">+</span> \
+        <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span>
+
+    <span class="c1"># Computing  petgwr_netabs_sw_max.</span>
+    <span class="c1"># This is the maximum amount of petgwr_netabs_sw to ensure</span>
+    <span class="c1"># that lake (wetland) storage does not fall below  -max_storage (0):.</span>
+    <span class="c1"># Note!! lake (wetland) storage goes from -max_storage (0) to max_storage</span>
+
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;local lake&quot;</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+        <span class="n">petgwr_netabs_sw_max</span> <span class="o">=</span> <span class="n">storage_prevstep</span> <span class="o">+</span> <span class="n">max_storage</span> <span class="o">+</span> <span class="n">total_inflow</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># local and global wetlands</span>
+        <span class="n">petgwr_netabs_sw_max</span> <span class="o">=</span> <span class="n">storage_prevstep</span> <span class="o">+</span> <span class="n">total_inflow</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1">#    Computing current storage for surface waterbody</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Note waterbalance equation 22 in Müller Schmied et al. (2021) is solved</span>
+    <span class="c1"># analytically for global lake and wetland  but numerically for local lake</span>
+    <span class="c1"># and wetlands</span>
+
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global lake&#39;</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global wetland&#39;</span><span class="p">:</span>
+        <span class="c1"># Global lake and wetland balance:</span>
+        <span class="c1"># dS/dt = total_inflow - petgwr - NAl - k*S is solved analytically for</span>
+        <span class="c1"># each time step of 1 day</span>
+        <span class="n">net_in</span> <span class="o">=</span> <span class="n">total_inflow</span> <span class="o">-</span> <span class="n">petgwr_netabs_sw</span>
+
+        <span class="n">storage</span> <span class="o">=</span> \
+            <span class="p">(</span><span class="n">storage_prevstep</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">swb_outflow_coeff</span><span class="p">))</span> <span class="o">+</span> \
+            <span class="p">(</span><span class="n">net_in</span><span class="o">/</span><span class="n">swb_outflow_coeff</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">swb_outflow_coeff</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># local lakes and wetland are solved numerically</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">storage_prevstep</span> <span class="o">+</span> <span class="n">total_inflow</span> <span class="o">-</span> <span class="n">petgwr_netabs_sw</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Computing outflow and updating storages</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Limit lake (wetland) storage to -max_storage (0) when petgwr_netabs_sw &gt;</span>
+    <span class="c1"># petgwr_netabs_sw_max. During -max_storage(0) the lake (wetland) area is</span>
+    <span class="c1"># reduced by 100% (no lake or wetland available). see Eqn 23 and 24 in</span>
+    <span class="c1"># Müller Schmied et al. (2021). Reduce point source recharge, potential</span>
+    <span class="c1"># net abstraction from surface water and open water evaporation as well</span>
+    <span class="c1"># when petgwr_netabs_sw &gt; petgwr_netabs_sw_max.</span>
+
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;local lake&quot;</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+        <span class="n">storage_limit</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">max_storage</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">storage_limit</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global lake&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">petgwr_netabs_sw</span> <span class="o">&gt;</span> <span class="n">petgwr_netabs_sw_max</span><span class="p">:</span>
+            <span class="n">outflow</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">storage_limit</span>
+
+            <span class="n">gwr_lakewet</span> <span class="o">*=</span> <span class="p">(</span><span class="n">petgwr_netabs_sw_max</span><span class="o">/</span><span class="n">petgwr_netabs_sw</span><span class="p">)</span>
+
+            <span class="n">openwater_evapo_cor</span> <span class="o">*=</span> <span class="p">(</span><span class="n">petgwr_netabs_sw_max</span><span class="o">/</span><span class="n">petgwr_netabs_sw</span><span class="p">)</span>
+
+            <span class="c1"># Reduce potential water use from global lake after partial</span>
+            <span class="c1"># satisfaction.</span>
+            <span class="k">if</span> <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">-=</span> \
+                    <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">*</span> \
+                    <span class="p">(</span><span class="n">petgwr_netabs_sw_max</span><span class="o">/</span><span class="n">petgwr_netabs_sw</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outflow</span> <span class="o">=</span> <span class="n">net_in</span> <span class="o">+</span> <span class="n">storage_prevstep</span> <span class="o">-</span> <span class="n">storage</span>
+
+            <span class="k">if</span> <span class="n">storage</span> <span class="o">&gt;</span> <span class="n">max_storage</span><span class="p">:</span>
+                <span class="n">outflow</span> <span class="o">+=</span> <span class="p">(</span><span class="n">storage</span> <span class="o">-</span> <span class="n">max_storage</span><span class="p">)</span>
+                <span class="n">storage</span> <span class="o">=</span> <span class="n">max_storage</span>
+
+            <span class="c1"># Recalculate global lake and wetland storage when lake outflow = 0</span>
+            <span class="c1"># dS/dt = total_inflow - petgwr - NAl</span>
+            <span class="c1"># (without k*S) -&gt; S(t) = S(t-1) + netgw_in</span>
+            <span class="k">if</span> <span class="n">outflow</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># update outflow</span>
+                <span class="n">outflow</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">storage</span> <span class="o">=</span> <span class="n">net_in</span> <span class="o">+</span> <span class="n">storage_prevstep</span>
+
+            <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">elif</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global wetland&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">petgwr_netabs_sw</span> <span class="o">&gt;</span> <span class="n">petgwr_netabs_sw_max</span><span class="p">:</span>
+            <span class="n">outflow</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">storage_limit</span>
+            <span class="n">gwr_lakewet</span> <span class="o">*=</span> <span class="p">(</span><span class="n">petgwr_netabs_sw_max</span><span class="o">/</span><span class="n">petgwr_netabs_sw</span><span class="p">)</span>
+            <span class="n">openwater_evapo_cor</span> <span class="o">*=</span> <span class="p">(</span><span class="n">petgwr_netabs_sw_max</span><span class="o">/</span><span class="n">petgwr_netabs_sw</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outflow</span> <span class="o">=</span> <span class="n">net_in</span> <span class="o">+</span> <span class="n">storage_prevstep</span> <span class="o">-</span> <span class="n">storage</span>
+
+        <span class="k">if</span> <span class="n">storage</span> <span class="o">&gt;</span> <span class="n">max_storage</span><span class="p">:</span>
+            <span class="n">outflow</span> <span class="o">+=</span> <span class="p">(</span><span class="n">storage</span> <span class="o">-</span> <span class="n">max_storage</span><span class="p">)</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">max_storage</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># local lake and wetland</span>
+
+        <span class="k">if</span> <span class="n">petgwr_netabs_sw</span> <span class="o">&gt;</span> <span class="n">petgwr_netabs_sw_max</span><span class="p">:</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">storage_limit</span>
+            <span class="n">gwr_lakewet</span> <span class="o">*=</span> <span class="p">(</span><span class="n">petgwr_netabs_sw_max</span><span class="o">/</span><span class="n">petgwr_netabs_sw</span><span class="p">)</span>
+            <span class="n">openwater_evapo_cor</span> <span class="o">*=</span> <span class="p">(</span><span class="n">petgwr_netabs_sw_max</span><span class="o">/</span><span class="n">petgwr_netabs_sw</span><span class="p">)</span>
+
+        <span class="c1"># choose storage type to calculate outflow (current or previous)</span>
+        <span class="c1"># but all should be previous.</span>
+        <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;local lake&#39;</span><span class="p">:</span>  <span class="c1"># previous storage</span>
+            <span class="n">which_storge</span> <span class="o">=</span> <span class="n">storage_prevstep</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">which_storge</span> <span class="o">=</span> <span class="n">storage</span>  <span class="c1"># current storage</span>
+
+        <span class="c1"># Note: local lakes storage can become negative even if previous</span>
+        <span class="c1"># storage is positive(e.g. high evaporation) hence exponential</span>
+        <span class="c1"># expression for outflow is computed for positive storages only.</span>
+        <span class="c1"># This means that for negatve storages, outflow is set to zero.</span>
+        <span class="c1"># See Eqn 27 in Müller Schmied et al. (2021)</span>
+        <span class="k">if</span> <span class="n">which_storge</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">outflow</span> <span class="o">=</span> <span class="n">swb_outflow_coeff</span> <span class="o">*</span> <span class="n">which_storge</span> <span class="o">*</span> \
+                <span class="p">(</span><span class="n">which_storge</span><span class="o">/</span><span class="n">max_storage</span><span class="p">)</span><span class="o">**</span><span class="n">exp_factor</span>
+
+            <span class="k">if</span> <span class="n">storage</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">outflow</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">outflow</span> <span class="o">&gt;</span> <span class="n">storage</span><span class="p">:</span>
+                    <span class="n">outflow</span> <span class="o">=</span> <span class="n">storage</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outflow</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">storage</span> <span class="o">-=</span> <span class="n">outflow</span>
+
+        <span class="c1"># update outflow</span>
+        <span class="k">if</span> <span class="n">storage</span> <span class="o">&gt;</span> <span class="n">max_storage</span><span class="p">:</span>
+            <span class="n">outflow</span> <span class="o">+=</span> <span class="p">(</span><span class="n">storage</span> <span class="o">-</span> <span class="n">max_storage</span><span class="p">)</span>
+            <span class="c1"># updating storage</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">max_storage</span>
+
+    <span class="n">new_redfactor</span> <span class="o">=</span> \
+        <span class="n">rf</span><span class="o">.</span><span class="n">swb_redfactor</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">max_storage</span><span class="p">,</span>
+                         <span class="n">reduction_exponent_lakewet</span><span class="p">,</span> <span class="n">choose_swb</span><span class="p">)</span>
+
+    <span class="c1"># Computing new  local lake and global and local wetland area fractions for</span>
+    <span class="c1"># next day. see eqn. 23 in Müller Schmied et al. (2021)</span>
+
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global lake&#39;</span><span class="p">:</span>
+        <span class="n">lake_wet_newfraction</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lake_wet_newfraction</span> <span class="o">=</span> <span class="n">new_redfactor</span> <span class="o">*</span> <span class="n">lakewet_frac</span>
+
+    <span class="c1"># Daily actual net use</span>
+    <span class="n">actual_use_sw</span> <span class="o">=</span> <span class="n">acc_unsatisfied_potnetabs_glolake_start</span> <span class="o">-</span> \
+        <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span>
+
+    <span class="c1"># convert open water evaporation for swb from km/day to km3/day (output purpose)</span>
+    <span class="n">openwater_evapo_cor_km3</span> <span class="o">=</span> <span class="n">openwater_evapo_cor</span> <span class="o">*</span> <span class="n">lake_wet_area</span>
+
+    <span class="k">return</span> <span class="n">storage</span><span class="p">,</span> <span class="n">outflow</span><span class="p">,</span> <span class="n">gwr_lakewet</span><span class="p">,</span> <span class="n">lake_wet_newfraction</span><span class="p">,</span>\
+        <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span><span class="p">,</span> \
+        <span class="n">actual_use_sw</span><span class="p">,</span> <span class="n">openwater_evapo_cor_km3</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

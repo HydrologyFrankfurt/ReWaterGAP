@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Configuration Files &#8212; ReWaterGAP WaterGAP-2.2e documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=961d3578"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/configuration_file';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/refs/heads/main/docs/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'WaterGAP-2.2e';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="WaterGAP-2.2e" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP WaterGAP-2.2e documentation - Home"/>
+    <img src="../_static/watergap_logo.png" class="logo__image only-dark pst-js-only" alt="ReWaterGAP WaterGAP-2.2e documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Configuration Files</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="configuration-files">
+<span id="configuration-file"></span><h1><a class="toc-backref" href="#id9" role="doc-backlink">Configuration Files</a><a class="headerlink" href="#configuration-files" title="Link to this heading">#</a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#configuration-files" id="id9">Configuration Files</a></p>
+<ul>
+<li><p><a class="reference internal" href="#configuration-file-whm" id="id10">Configuration File WHM</a></p>
+<ul>
+<li><p><a class="reference internal" href="#file-path" id="id11">File Path</a></p></li>
+<li><p><a class="reference internal" href="#runtime-options" id="id12">Runtime Options</a></p></li>
+<li><p><a class="reference internal" href="#output-variables" id="id13">Output Variables</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#configuration-file-gwswuse" id="id14">Configuration File GWSWUSE</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id4" id="id15">File Path</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id16">Runtime Options</a></p></li>
+<li><p><a class="reference internal" href="#id8" id="id17">Output Variables</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="configuration-file-whm">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Configuration File WHM</a><a class="headerlink" href="#configuration-file-whm" title="Link to this heading">#</a></h2>
+<section id="file-path">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">File Path</a><a class="headerlink" href="#file-path" title="Link to this heading">#</a></h3>
+<p>Users can change the path to the climate forcings, water use data and static land data required by WaterAP in NetCDF format in the “inputDir” (see <a class="reference internal" href="#id1"><span class="std std-ref">image</span></a> below). The path to the output data can be changed in the “outputDir”.</p>
+<figure class="align-default" id="id1">
+<img alt="../_images/file_path.png" src="../_images/file_path.png" />
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The climate forcing directory should follow the folder structure as described in the <a class="reference internal" href="../getting_started/five_minute_guide.html#get-input-data"><span class="std std-ref">five minute guide</span></a>.</p>
+</div>
+</section>
+<section id="runtime-options">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Runtime Options</a><a class="headerlink" href="#runtime-options" title="Link to this heading">#</a></h3>
+<section id="simulation-options">
+<h4>Simulation Options<a class="headerlink" href="#simulation-options" title="Link to this heading">#</a></h4>
+<figure class="align-default" id="standard-run">
+<img alt="../_images/runtime_options_standard_run.png" src="../_images/runtime_options_standard_run.png" />
+</figure>
+<p>“AntNat_opts”: {“ant”: true, “subtract_use”: true, “res_opt”: true} as shown in the <span class="xref std std-ref">image</span> above, simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages and is referred to as a standard anthropogenic run.</p>
+<p>The following options in „AntNat_opts“ can be turned off and on to simulate:</p>
+<ol class="arabic simple">
+<li><p>a naturalized run (without human impact). For a tutorial on how to simulate a naturalized run, see <a class="reference internal" href="tutorials/tutorial_different_simulation_options.html#naturalized-run"><span class="std std-ref">here</span></a>.</p></li>
+</ol>
+<figure class="align-default">
+<img alt="../_images/runtime_options_naturalized_run.png" src="../_images/runtime_options_naturalized_run.png" />
+</figure>
+<ol class="arabic simple" start="2">
+<li><p>human water use only (simulation excludes reservoir impact). For a tutorial on how to run WaterGAP simulation with human water use only, see <a class="reference internal" href="tutorials/tutorial_different_simulation_options.html#human-water-use-only"><span class="std std-ref">here</span></a>.</p></li>
+</ol>
+<figure class="align-default">
+<img alt="../_images/runtime_options_use_only_run.png" src="../_images/runtime_options_use_only_run.png" />
+</figure>
+<ol class="arabic simple" start="3">
+<li><p>reservoirs only (simulation excludes human water use). For a tutorial on how to run WaterGAP simulation with reservoirs only, see <a class="reference internal" href="tutorials/tutorial_different_simulation_options.html#reservoirs-only"><span class="std std-ref">here</span></a>.</p></li>
+</ol>
+<figure class="align-default">
+<img alt="../_images/runtime_options_reservoirs_only_run.png" src="../_images/runtime_options_reservoirs_only_run.png" />
+</figure>
+<dl class="simple">
+<dt>WaterGap satisfies surface water demand spatially  using:</dt><dd><ul class="simple">
+<li><p>riparian water supply option which by default is always enabled and can not be disabled.</p></li>
+<li><p>neighboring cell water supply option</p></li>
+</ul>
+</dd>
+<dt>and temporally using :</dt><dd><ul class="simple">
+<li><p>delayed water supply option</p></li>
+</ul>
+</dd>
+</dl>
+<p>The neighboring cell and delayed use water supply option can either or both be activated (set to “true”) or deactivated (set to “false”) in the “Demand_satisfaction_opts” as shown in the  <a class="reference internal" href="#demand-sat-image"><span class="std std-ref">image</span></a> below:</p>
+<figure class="align-default" id="demand-sat-image">
+<img alt="../_images/runtime_options_demand_satisfaction_options.png" src="../_images/runtime_options_demand_satisfaction_options.png" />
+</figure>
+<p>For more details on these water satisfaction options read <a class="reference internal" href="../model_processes/lateral_water_balance/net_abstractions.html#net-abstractions"><span class="std std-ref">net abstractions</span></a>.</p>
+</section>
+<section id="restart-options">
+<h4>Restart Options<a class="headerlink" href="#restart-options" title="Link to this heading">#</a></h4>
+<figure class="align-default">
+<img alt="../_images/restart_options.png" src="../_images/restart_options.png" />
+</figure>
+<p>Setting “restart” to “true” will prompt WaterGAP to restart from a previously saved state.
+To create a saved state, the “save_model_states_for_restart” option must be set to “true”.
+The directory to save saved states (storages, fluxes, etc.) can be defined in the “save_and_read_states_dir” option.</p>
+<p>For a tutorial on how to restart WaterGAP from a saved state, see <a class="reference internal" href="tutorials/tutorial_restarting_saved_states.html#restart-from-saved-state"><span class="std std-ref">here</span></a>.</p>
+</section>
+<section id="simulation-period">
+<h4>Simulation Period<a class="headerlink" href="#simulation-period" title="Link to this heading">#</a></h4>
+<p>Users can change the start and end dates of the simulation, the start and end operational years for reservoirs, as well as model spinup years (see <a class="reference internal" href="#id2"><span class="std std-ref">image</span></a> below).</p>
+<figure class="align-default" id="id2">
+<img alt="../_images/simulation_period.png" src="../_images/simulation_period.png" />
+</figure>
+</section>
+<section id="time-step">
+<h4>Time Step<a class="headerlink" href="#time-step" title="Link to this heading">#</a></h4>
+<figure class="align-default">
+<img alt="../_images/time_step.png" src="../_images/time_step.png" />
+</figure>
+<p>At the moment WaterGAP simulations only use daily temporal resolution. Always leave it set to “true”.</p>
+</section>
+<section id="simulation-extent">
+<h4>Simulation Extent<a class="headerlink" href="#simulation-extent" title="Link to this heading">#</a></h4>
+<figure class="align-default" id="sim-extent">
+<img alt="../_images/simulation_extent.png" src="../_images/simulation_extent.png" />
+</figure>
+<p>Setting the “run_basin” to “true” will prompt WaterGAP to run for a particular basin. By chosing a downstream grid cell, WaterGAP defines a corresponding upstream basin.  To define the downstream grid cell the location of the grid cell (in degree latitude and longitude) defined in a station.csv file.  The path to such file is passsed to WaterGAP using the “path_to_stations_file” (see <a class="reference internal" href="#sim-extent"><span class="std std-ref">image</span></a>). An example file (stations.csv) can be found in the static_input folder [<a class="github reference external" href="https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/input_data/static_input/stations.csv">HydrologyFrankfurt/ReWaterGAP</a>].</p>
+<p>For a tutorial on how to run WaterGAP for a particular basin, see <span class="xref std std-ref">here</span>.</p>
+</section>
+</section>
+<section id="output-variables">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Output Variables</a><a class="headerlink" href="#output-variables" title="Link to this heading">#</a></h3>
+<figure class="align-default" id="out-var">
+<img alt="../_images/output_variables.png" src="../_images/output_variables.png" />
+</figure>
+<p>A comprehensive list of the output variables in the <a class="reference internal" href="#out-var"><span class="std std-ref">image</span></a> above can be found in the <a class="reference internal" href="../Glossary/Index.html#glossary"><span class="std std-ref">glossary</span></a>. Each output can be toggled on (set to “true”) or off (set to “false”) in the “OutputVariable” options.</p>
+</section>
+</section>
+<section id="configuration-file-gwswuse">
+<span id="id3"></span><h2><a class="toc-backref" href="#id14" role="doc-backlink">Configuration File GWSWUSE</a><a class="headerlink" href="#configuration-file-gwswuse" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">File Path</a><a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple" id="file-path-gwswuse">
+<li><p><cite>input_data</cite>: Path to the folder containing input data. This folder must have a specific structure for the data to be correctly matched and processed.</p></li>
+<li><p><cite>gwswuse_convention</cite>: Path to the convention file that defines the conventions for data verification and processing.</p></li>
+<li><p><cite>outputDir</cite>: Path to the folder where output data will be stored.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="../_images/file_path1.png" src="../_images/file_path1.png" />
+</figure>
+</section>
+<section id="id5">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Runtime Options</a><a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<figure class="align-default">
+<img alt="../_images/runtime_options.png" src="../_images/runtime_options.png" />
+</figure>
+<section id="id6">
+<h4>Simulation Options<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><cite>time_extend_mode</cite>: Controls how time-dependent input data is handled to ensure they cover the entire simulation period.</p></li>
+<li><p><cite>irrigation_efficiency_gw_mode</cite>: Determines how irrigation efficiency with groundwater is calculated.</p></li>
+<li><p><cite>irrigation_input_based_on_aei</cite>: Specifies how input data for irrigation-specific consumptive water use is interpreted.</p></li>
+<li><p><cite>correct_irr_simulation_by_t_aai</cite>: Indicates whether the simulation should adjust for temporal changes in irrigated areas.</p></li>
+<li><p><cite>deficit_irrigation_mode</cite>: Determines whether the simulation considers deficit irrigation in certain grid cells.</p></li>
+</ul>
+</section>
+<section id="parameter-setting">
+<h4>Parameter Setting<a class="headerlink" href="#parameter-setting" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><cite>efficiency_gw_threshold</cite>: Threshold for irrigation efficiency with groundwater.</p></li>
+<li><p><cite>deficit_irrigation_factor</cite>: Reduction factor for irrigation in grid cells identified as deficient.</p></li>
+</ul>
+</section>
+<section id="id7">
+<h4>Simulation Period<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
+</section>
+<section id="cellspecific-output">
+<h4>CellSpecific Output<a class="headerlink" href="#cellspecific-output" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><cite>flag</cite>: If true, sector-specific intermediate results for the grid cell closest to the coordinates in <cite>CellSpecificOutput[“coords”]</cite> will be displayed in the CLI during the simulation.</p></li>
+<li><p><cite>coords</cite>: A sub-dict for setting coordinates for the grid cell and timestep for displaying cell-specific results in the CLI:</p></li>
+<li><p><cite>Lat</cite>: Latitude of the grid cell</p></li>
+<li><p><cite>Lon</cite>: Longitude of the grid cell</p></li>
+<li><p><cite>Year</cite>: Year</p></li>
+<li><p><cite>Month</cite>: Month (for irrigation and total)</p></li>
+</ul>
+</section>
+</section>
+<section id="id8">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Output Variables</a><a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<figure class="align-default">
+<img alt="../_images/output_selection.png" src="../_images/output_selection.png" />
+</figure>
+<p>Determines which simulation results are saved and in what format they are output.</p>
+<ul class="simple">
+<li><p><cite>WGHM_input_run</cite>: Controls whether the results are retained in memory for further use in a ReWGHM run.</p></li>
+<li><p><cite>Sectors</cite>: Selection of sectors for which simulation results should be saved (e.g., irrigation, households, etc.).</p></li>
+<li><p><cite>GWSWUSE variables</cite>: Defines which specific variables (e.g., <cite>consumptive_use</cite>, <cite>abstraction</cite>, <cite>return_flow</cite>, <cite>net_abstraction</cite>) for each water source (groundwater or surface water) should be saved.</p></li>
+<li><p><cite>Global_Annual_Totals</cite>: Controls whether ReGWSWUSE generates a comprehensive overview of simulation results in an Excel file with global annual values.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-file-whm">Configuration File WHM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#file-path">File Path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#runtime-options">Runtime Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-options">Simulation Options</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#restart-options">Restart Options</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-period">Simulation Period</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time-step">Time Step</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-extent">Simulation Extent</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-variables">Output Variables</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-file-gwswuse">Configuration File GWSWUSE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">File Path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Runtime Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Simulation Options</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-setting">Parameter Setting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Simulation Period</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cellspecific-output">CellSpecific Output</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Output Variables</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/user_guide/configuration_file.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
