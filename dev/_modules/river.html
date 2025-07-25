@@ -1,0 +1,741 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>river &#8212; ReWaterGAP dev documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=3ce10a4d"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/river';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/refs/heads/main/docs/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="dev" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP dev documentation - Home"/>
+    <img src="../_static/watergap_logo.png" class="logo__image only-dark pst-js-only" alt="ReWaterGAP dev documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">river</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for river</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># =============================================================================</span>
+<span class="c1"># This file is part of WaterGAP.</span>
+
+<span class="c1"># WaterGAP is an opensource software which computes water flows and storages as</span>
+<span class="c1"># well as water withdrawals and consumptive uses on all continents.</span>
+
+<span class="c1"># You should have received a copy of the LGPLv3 License along with WaterGAP.</span>
+<span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
+<span class="c1"># =============================================================================</span>
+<span class="sd">&quot;&quot;&quot;River water balance.&quot;&quot;&quot;</span>
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># This module computes water balance for rivers, including storage and</span>
+<span class="c1"># related fluxes for all grid cells based on section 4.7 of (Müller Schmied et</span>
+<span class="c1"># al. (2021)).</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
+
+
+<div class="viewcode-block" id="river_velocity">
+<a class="viewcode-back" href="../model_processes/lateral_water_balance/river.html#river.river_velocity">[docs]</a>
+<span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">river_velocity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                   <span class="n">river_storage</span><span class="p">,</span> <span class="n">river_length</span><span class="p">,</span> <span class="n">river_bottom_width</span><span class="p">,</span>
+                   <span class="n">roughness</span><span class="p">,</span> <span class="n">roughness_multiplier</span><span class="p">,</span> <span class="n">river_slope</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute river velocity for grid cells.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : int</span>
+<span class="sd">        Latitude index of cell</span>
+<span class="sd">    y : int</span>
+<span class="sd">        Longitude index of cell</span>
+<span class="sd">    river_storage : float</span>
+<span class="sd">        Daily river storage, Unit: [km^3]</span>
+<span class="sd">    river_length : float</span>
+<span class="sd">        River length, Unit: [km]</span>
+<span class="sd">    river_bottom_width : float</span>
+<span class="sd">       River bottom width, Unit: [km]</span>
+<span class="sd">    roughness : float</span>
+<span class="sd">        Roughness of river bed, Unit: [-]</span>
+<span class="sd">    roughness_multiplier : TYPE</span>
+<span class="sd">        Roughness of river bed multiplier, Unit: [-]</span>
+<span class="sd">    river_slope : TYPE</span>
+<span class="sd">        River slope, Unit: [-]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    river_velocity : float</span>
+<span class="sd">        River velocity, Unit: [km/day]</span>
+<span class="sd">    outflow_constant : float</span>
+<span class="sd">        River outflow constant (river_velocity / river_length), Unit: [1/day]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Index(x, y) to  print out varibales of interest</span>
+    <span class="c1"># e.g  if x==65 and y==137: print(prev_gw_storage)</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Compute river velocity.</span>
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Note!!! River velocity is computed in m3/s and later converted to</span>
+    <span class="c1"># km3/day</span>
+
+    <span class="c1"># River cross sectional area is assumed to be a  trapezoidal channel</span>
+    <span class="c1"># with slope of 0.5 at both sides. Units: m2</span>
+    <span class="n">km2_to_m2</span> <span class="o">=</span> <span class="mf">1e+6</span>
+    <span class="n">cross_sectional_area</span> <span class="o">=</span> <span class="p">(</span><span class="n">river_storage</span> <span class="o">/</span> <span class="n">river_length</span><span class="p">)</span> <span class="o">*</span> <span class="n">km2_to_m2</span>
+
+    <span class="c1"># River depth dependence on river storage is based on section 4.7.3</span>
+    <span class="c1"># (Eq.34) of (Müller Schmied et al. (2021). Units: m</span>
+    <span class="n">km_to_m</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">river_bottom_width</span> <span class="o">=</span> <span class="n">river_bottom_width</span> <span class="o">*</span> <span class="n">km_to_m</span>
+
+    <span class="n">river_depth</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">river_bottom_width</span> <span class="o">+</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">river_bottom_width</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">cross_sectional_area</span><span class="p">))</span>
+
+    <span class="c1"># Wetted perimetter and hydraulic radius are calulated assuming a</span>
+    <span class="c1"># trapezoidal channel with slope of 0.5 at both sides.</span>
+    <span class="c1"># Both have Units: m</span>
+    <span class="n">wetted_perimeter</span> <span class="o">=</span> <span class="n">river_bottom_width</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">river_depth</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">5.0</span><span class="p">))</span>
+    <span class="n">hydraulic_radius</span> <span class="o">=</span> <span class="n">cross_sectional_area</span> <span class="o">/</span> <span class="n">wetted_perimeter</span>
+
+    <span class="c1"># River velocity (using  Manning–Strickler equation) is based on</span>
+    <span class="c1"># section 4.7.3 (Eq.32) of (Müller Schmied et al. (2021). Units: m/s</span>
+    <span class="n">river_velocity</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">roughness_multiplier</span> <span class="o">*</span> <span class="n">roughness</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">hydraulic_radius</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span> <span class="o">*</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">river_slope</span><span class="p">)</span>
+
+    <span class="c1"># River velocity is now converted,  Units: km/day</span>
+    <span class="n">m_ps_to_km_ps</span> <span class="o">=</span> <span class="mf">86.4</span>
+    <span class="n">river_velocity</span> <span class="o">=</span> <span class="n">river_velocity</span> <span class="o">*</span> <span class="n">m_ps_to_km_ps</span>
+
+    <span class="c1"># limit  velocity values below  0.00001 to  0.00001</span>
+    <span class="n">river_velocity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">river_velocity</span> <span class="o">&lt;</span> <span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.00001</span><span class="p">,</span> <span class="n">river_velocity</span><span class="p">)</span>
+
+    <span class="c1"># Now river velocity is divided by river length to be consitent with</span>
+    <span class="c1"># the outflow constant of the other surface waterbodies</span>
+    <span class="c1"># (Global and local lakes and wetlands)</span>
+
+    <span class="n">outflow_constant</span> <span class="o">=</span> <span class="n">river_velocity</span> <span class="o">/</span> <span class="n">river_length</span>  <span class="c1"># units (1/day)</span>
+    <span class="k">return</span> <span class="n">river_velocity</span><span class="p">,</span> <span class="n">outflow_constant</span></div>
+
+
+
+<div class="viewcode-block" id="river_water_balance">
+<a class="viewcode-back" href="../model_processes/lateral_water_balance/river.html#river.river_water_balance">[docs]</a>
+<span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">river_water_balance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                        <span class="n">river_storage</span><span class="p">,</span> <span class="n">river_inflow</span><span class="p">,</span> <span class="n">outflow_constant</span><span class="p">,</span>
+                        <span class="n">stat_corr_fact</span><span class="p">,</span>
+                        <span class="n">accumulated_unsatisfied_potential_netabs_sw</span><span class="p">,</span>
+                        <span class="n">minstorage_volume</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute River water balance including storages and fluxes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : int</span>
+<span class="sd">        Latitude index of cell</span>
+<span class="sd">    y : int</span>
+<span class="sd">        Longitude index of cell</span>
+<span class="sd">    river_storage : float</span>
+<span class="sd">        Daily river storage, Unit: [km^3]</span>
+<span class="sd">    river_inflow : float</span>
+<span class="sd">        Daily river inflow, Unit: [km^3/day]</span>
+<span class="sd">    outflow_constant : float</span>
+<span class="sd">        River outflow constant (river_velocity / river_length), Unit: [1/day]</span>
+<span class="sd">    stat_corr_fact : TYPE</span>
+<span class="sd">        Station correction factor to correct streamflow values, Unit: [-]</span>
+<span class="sd">    accumulated_unsatisfied_potential_netabs_sw: float</span>
+<span class="sd">        Accumulated unsatisfied potential net abstraction from surface water, Unit: [km^3/day].</span>
+<span class="sd">    minstorage_volume: float</span>
+<span class="sd">        Volumes at which storage is set to zero, units: [km3]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    river_storage :  float</span>
+<span class="sd">        Daily river storage, Unit: [km^3]</span>
+<span class="sd">    streamflow :  float</span>
+<span class="sd">        Daily streamflow, Unit: [km^3/day]</span>
+<span class="sd">    accumulated_unsatisfied_potential_netabs_sw: float</span>
+<span class="sd">        Accumulated unsatisfied potential net abstraction after satisfaction from river,</span>
+<span class="sd">        Unit: [km^3/day].</span>
+<span class="sd">    actual_use_sw: float</span>
+<span class="sd">        Actual netabstraction  from river storage, Unit: [km^3/day].</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Index(x, y) to  print out varibales of interest</span>
+    <span class="c1"># e.g  if x==65 and y==137: print(prev_gw_storage)</span>
+
+    <span class="c1">#                  ======================================</span>
+    <span class="c1">#                  ||            River balance         ||</span>
+    <span class="c1">#                  ======================================</span>
+    <span class="c1"># Note components of the waterbalance in Equation 30 of Müller Schmied et</span>
+    <span class="c1"># al. (2021) is calulated as follows. River area is not considered hence</span>
+    <span class="c1"># river precipitation and evaporation are not considered.</span>
+    <span class="n">river_storage_prev</span> <span class="o">=</span> <span class="n">river_storage</span>
+
+    <span class="c1"># Note!!! even though river evaporation is not considered, variables are</span>
+    <span class="c1"># named such that they allow for future consideration of evaporation.</span>
+
+    <span class="n">riverevap_netabs</span> <span class="o">=</span> <span class="n">accumulated_unsatisfied_potential_netabs_sw</span>
+
+    <span class="c1"># # Needed To compute daily actual use</span>
+    <span class="n">acc_unsatisfied_potnetabs_start</span> <span class="o">=</span> \
+        <span class="n">accumulated_unsatisfied_potential_netabs_sw</span>
+
+    <span class="c1"># To get *riverevap_netabs_max*, defined as the maximum value for</span>
+    <span class="c1"># netabstraction,  the river water balance Eq.30  (section 4.7.1) of Müller</span>
+    <span class="c1"># Schmied et al. (2021) is differentiated analytically with a timestep of</span>
+    <span class="c1"># one day. After set this differential to 0 and solve of netabs to get</span>
+    <span class="c1"># maximum net abstraaction.</span>
+
+    <span class="n">riverevap_netabs_max</span> <span class="o">=</span> <span class="n">river_inflow</span> <span class="o">+</span> \
+        <span class="p">((</span><span class="n">outflow_constant</span> <span class="o">*</span> <span class="n">river_storage_prev</span> <span class="o">*</span>
+         <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">outflow_constant</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">outflow_constant</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="n">riverevap_netabs</span> <span class="o">&gt;</span> <span class="n">riverevap_netabs_max</span><span class="p">:</span>
+        <span class="n">river_storage</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">streamflow</span> <span class="o">=</span> <span class="n">river_inflow</span> <span class="o">+</span> <span class="n">river_storage_prev</span> <span class="o">-</span> <span class="n">riverevap_netabs_max</span>
+        <span class="k">if</span> <span class="n">streamflow</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">streamflow</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># There is not enough  storage to satisfy potential net asbraction from</span>
+        <span class="c1"># suracface water</span>
+        <span class="k">if</span> <span class="n">accumulated_unsatisfied_potential_netabs_sw</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">accumulated_unsatisfied_potential_netabs_sw</span> <span class="o">-=</span> \
+                <span class="p">(</span><span class="n">accumulated_unsatisfied_potential_netabs_sw</span> <span class="o">*</span>
+                 <span class="p">(</span><span class="n">riverevap_netabs_max</span> <span class="o">/</span> <span class="n">riverevap_netabs</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">accumulated_unsatisfied_potential_netabs_sw</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="c1"># river water balance Eq.30 (section 4.7.1) of Müller Schmied et al.</span>
+        <span class="c1"># (2021) is solved analytically with a timestep of one day.</span>
+        <span class="n">river_storage</span> <span class="o">=</span> <span class="n">river_storage_prev</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">outflow_constant</span><span class="p">)</span> <span class="o">+</span> \
+            <span class="p">(((</span><span class="n">river_inflow</span> <span class="o">-</span> <span class="n">riverevap_netabs</span><span class="p">)</span>
+             <span class="o">/</span> <span class="n">outflow_constant</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">outflow_constant</span><span class="p">)))</span>
+
+        <span class="c1"># minimal storage volume =1e15 (smaller volumes set to zero) to counter</span>
+        <span class="c1"># numerical inaccuracies</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">river_storage</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">minstorage_volume</span><span class="p">:</span>
+            <span class="n">river_storage</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">streamflow</span> <span class="o">=</span> <span class="n">river_inflow</span> <span class="o">+</span> <span class="n">river_storage_prev</span> <span class="o">-</span> <span class="n">river_storage</span> <span class="o">-</span> \
+            <span class="n">riverevap_netabs</span>
+
+        <span class="k">if</span> <span class="n">streamflow</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">streamflow</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># potential net asbraction from suracface water is satified due to</span>
+        <span class="c1"># available storage</span>
+        <span class="n">accumulated_unsatisfied_potential_netabs_sw</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Apply a staion correction factor which corrects discharge at the grid</span>
+    <span class="c1"># cell where the gauging station is located</span>
+    <span class="n">streamflow</span> <span class="o">*=</span> <span class="n">stat_corr_fact</span>
+
+    <span class="c1"># Daily actual net use</span>
+    <span class="n">actual_use_sw</span> <span class="o">=</span> <span class="n">acc_unsatisfied_potnetabs_start</span> <span class="o">-</span> \
+        <span class="n">accumulated_unsatisfied_potential_netabs_sw</span>
+
+    <span class="k">return</span> <span class="n">river_storage</span><span class="p">,</span> <span class="n">streamflow</span><span class="p">,</span> \
+        <span class="n">accumulated_unsatisfied_potential_netabs_sw</span><span class="p">,</span> <span class="n">actual_use_sw</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

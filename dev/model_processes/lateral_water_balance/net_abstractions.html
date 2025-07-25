@@ -1,0 +1,785 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Net abstractions &#8212; ReWaterGAP dev documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=3ce10a4d"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'model_processes/lateral_water_balance/net_abstractions';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/refs/heads/main/docs/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Groundwater Surface Water Use" href="../gwswuse/index.html" />
+    <link rel="prev" title="River" href="river.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="dev" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP dev documentation - Home"/>
+    <img src="../../_static/watergap_logo.png" class="logo__image only-dark pst-js-only" alt="ReWaterGAP dev documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributers_guide/index.html">
+    Contributers Guide (Under Development)
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../vertical_water_balance/index.html">Vertical Water Balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/radiation_evapotranspiration.html">Radiation and Evapotranspiration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/leafareaindex.html">Leaf Area Index</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/canopy.html">Canopy</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/snow.html">Snow</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/soil.html">Soil</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Lateral Water Balance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="groundwater.html">Groundwater</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="lakes_wetlands.html">Lakes and wetlands</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="reservoir_regulated_lakes.html">Reservoirs</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="river.html">River</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Net abstractions</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gwswuse/index.html">Groundwater Surface Water Use</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/simulation_logic.html">Simulation Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/irrigation_simulation.html">Irrigation Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/domestic_simulation.html">Domestic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/manufacturing_simulation.html">Manufacturing Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/thermal_power_simulation.html">Thermal Power Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/livestock_simulation.html">Livestock Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/cross_sectoral_aggregate_results.html">Cross-Sectoral Aggregate Results</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Model Processes</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Lateral Water Balance</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Net abstractions</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="net-abstractions">
+<span id="id1"></span><h1>Net abstractions<a class="headerlink" href="#net-abstractions" title="Link to this heading">#</a></h1>
+<section id="computation-of-actual-net-abstractions-from-surface-water-and-groundwater">
+<h2>Computation of actual net abstractions from surface water and groundwater<a class="headerlink" href="#computation-of-actual-net-abstractions-from-surface-water-and-groundwater" title="Link to this heading">#</a></h2>
+<p>In WaterGAP, water usage across five sectors is simulated, differentiating between groundwater and surface water sources. The model assumes how much water is returned to either surface water or groundwater. Unlike other hydrological models, the impact of human water use on water storage and flow is calculated by subtracting net abstractions from either groundwater (groundwater use) or surface water bodies like lakes/reservoirs and rivers (surface water use). Priority is assigned to the water body type in ascending priority where global lakes/reservoirs are 1, rivers 2, and local lakes/reservations 3.</p>
+<p>Net abstractions are the difference between the water abstractions from a storage compartment (groundwater or surface water) and the water returned to that compartment <a class="footnote-reference brackets" href="#id12" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. This concept is used to gauge the impact of human water use on water storage. Thus, the impact of irrigation on soil water storage is neglected in WaterGAP.</p>
+<p>Net abstractions (<span class="math notranslate nohighlight">\({NA}\)</span>) can be either positive or negative; the latter occurs if return flows to a storage compartment exceed abstractions from the compartment.
+Potential net abstraction from groundwater (<span class="math notranslate nohighlight">\({NA}_{pot,g}\)</span>) and potential net abstraction from surface water (<span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span>), which do not take into account water availability, are computed in GWSWUSE (Groundwater-Surface Water Use) and are input to WGHM (WaterGAP Global Hydrology Model). The sum of these potential net abstractions reflects the potential consumptive water use – the part of abstracted water that evaporated or transpired during usage.</p>
+</section>
+<section id="computation-of-potential-net-abstractions-from-surface-water-and-groundwater">
+<h2>Computation of potential net abstractions from surface water and groundwater<a class="headerlink" href="#computation-of-potential-net-abstractions-from-surface-water-and-groundwater" title="Link to this heading">#</a></h2>
+<p>Only three sectors are assumed to use groundwater, in addition to surface water, as their source: irrigation, domestic, and manufacturing. A fraction of the water returned from irrigation (whether from surface or groundwater) refills groundwater at a rate of <span class="math notranslate nohighlight">\({f}_{rgi}\)</span>, while the rest directly flows back to surface water bodies. For the other sectors, their return flows go directly to the surface water. Implementing these assumptions, the module GWSWUSE computes <span class="math notranslate nohighlight">\(({NA}_{pot,g})\)</span> as the sum of the three sectors using groundwater minus the artificial groundwater recharge <a class="footnote-reference brackets" href="#id12" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. Implementing these assumptions, the module GWSWUSE computes:</p>
+<div class="math notranslate nohighlight">
+\[{NA}_{pot,g} = [{WA}_{pot,g,irri} + {WA}_{pot,g,dom} + {WA}_{pot,g,man}] - [{frgi}*({WA}_{pot,g,irri} - {CU}_{pot,g,irri} + {WA}_{pot,s,irri} - {CU}_{pot,s,irri})]\]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\({WA}_{pot}\)</span>: potential water abstraction, in <span class="math notranslate nohighlight">\([{km}^{3}/month]\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\({CU}_{pot}\)</span>: potential consumptive use, in <span class="math notranslate nohighlight">\([{km}^{3}/month]\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\({NA}\)</span>: net abstraction, in <span class="math notranslate nohighlight">\([{km}^{3}/month]\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\({f}_{rgi}\)</span>: fraction of return flow <span class="math notranslate nohighlight">\(({WA}-{CU})\)</span> from irrigation to groundwater in <span class="math notranslate nohighlight">\([-]\)</span>,</p></li>
+</ul>
+<p>and the indices:</p>
+<ul class="simple">
+<li><p><em>g</em>: groundwater,</p></li>
+<li><p><em>s</em>: surface water,</p></li>
+<li><p><em>irri</em>: irrigation,</p></li>
+<li><p><em>dom</em>: domestic,</p></li>
+<li><p><em>man</em>: manufacturing.</p></li>
+</ul>
+<p>The term that is subtracted at the right-hand side of Eq. (1), the return flow from irrigation with surface water or groundwater to groundwater, can be regarded as artificial groundwater recharge <a class="footnote-reference brackets" href="#id12" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For computations in WaterGAP, net abstractions are converted from <span class="math notranslate nohighlight">\([{km}^{3}/month]\)</span> to <span class="math notranslate nohighlight">\([{km}^{3}/day]\)</span>.</p>
+</div>
+<p>The subtracted artificial groundwater recharge is the returned flow from irrigation with surface water or groundwater to groundwater (Döll et al., 2012) <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<p>For water uses where the source of the water and the destination for the return flow are surface water bodies, only the consumptive use needs to be included in the computation of <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span>. This applies to water use for cooling thermal power plants, livestock, as well as surface water use in the domestic and manufacturing sectors.
+Thus, <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span> is computed as:</p>
+<div class="math notranslate nohighlight">
+\[{NA}_{pot,s} = [{CU}_{pot,liv} + {CU}_{pot,thermal} + {CU}_{pot,s,dom} + {CU}_{pot,s,man} + {WA}_{pot,s,irri}] – [(1-{f}_{rgi})*({WA}_{pot,g,irri}-{CU}_{pot,g,irri}+{WA}_{pot,s,irri}-{CU}_{pot,s,irri}) + ({WA}_{pot,g,dom} -{CU}_{pot,g,dom} + {WA}_{pot,g,man} - {CU}_{pot,g,man})]\]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p><em>liv</em>: livestock,</p></li>
+<li><p><em>thermal</em>: cooling of thermal power plants.</p></li>
+</ul>
+</section>
+<section id="actual-net-abstraction-from-surface-water">
+<h2>1 Actual net abstraction from surface water<a class="headerlink" href="#actual-net-abstraction-from-surface-water" title="Link to this heading">#</a></h2>
+<p>The demand for groundwater abstractions is always fulfilled in WaterGAP, assuming an unlimited groundwater volume, which differs from the demand for surface water abstractions. If the potential net abstraction from surface water <span class="math notranslate nohighlight">\(({NA}_{pot,s})\)</span>, is positive, fulfilling the demand might not be possible due to water scarcity in the surface water bodies of the grid cell.
+There are three options for managing this situation by spatially shifting parts of <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span> to other grid cells.</p>
+<ol class="arabic simple">
+<li><p>With the <a class="reference internal" href="#riparian-water-supply"><span class="std std-ref">riparian water supply</span></a> option, if the demanding cell is situated along a global lake or reservoir, NApot,s can be fulfilled from the storage of the lake or reservoir, if possible. In WaterGAP this is achieved by computing storages in the output cell.</p></li>
+<li><p>Alternatively, with the <a class="reference internal" href="#neighboring-cell-water-supply"><span class="std std-ref">neighboring cell water supply</span></a> option, any accumulated unsatisfied potential net abstraction from surface water can be satisfied from a neighboring cell with an available supply.</p></li>
+<li><p>Lastly, in the <a class="reference internal" href="#delayed-water-supply"><span class="std std-ref">delayed water supply</span></a> option, surface water demands that couldn’t be met on a given day are shifted to a later time in the year (Müller Schmied et al., 2021, p. 1050) <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p></li>
+</ol>
+<section id="riparian-water-supply-option">
+<span id="riparian-water-supply"></span><h3>1.1     Riparian water supply option<a class="headerlink" href="#riparian-water-supply-option" title="Link to this heading">#</a></h3>
+<p>If the demand cell is a riparian cell of a global lake or reservoir, <span class="math notranslate nohighlight">\({NA}_{s}\)</span> is satisfied from the lake/reservoir storage if possible. For this purpose, the <span class="math notranslate nohighlight">\(({NA}_{pot,s})\)</span> values of all riparian cells are aggregated for each time step if they are positive and then assigned to the outflow cell, subtracting them from the lake/reservoir storage of the outflow cell.
+Negative <span class="math notranslate nohighlight">\(({NA}_{pot,s})\)</span> (return flows) are used to increase the storage of the riparian cell itself.</p>
+<p>If satisfaction is impossible, the not-satisfied part from the outflow cell is proportionally redistributed to the riparian cells, right after calculating the global lake/reservoir storage. The proportional contribution of each riparian cell to the aggregated demand in the outflow cell is employed to distribute the unmet demand to the riparian cells. The unmet demand from a global lake outflow cell is attempted to be satisfied in riparian cells (local lakes or rivers) either on the same day or the next day, depending on the routing order.
+The actual net abstraction from surface water in the global lake/reservoir outflow cells, resulting from <span class="math notranslate nohighlight">\(({NA}_{pot,s})\)</span> in riparian demand cells (net_abstraction_sw_for_riparian_cells), and the part of the potential net abstraction from surface water in the riparian demand cell that is supplied from the global lake/reservoir outflow cell (net_abstraction_sw_from_outflow_cell) can be written out.</p>
+</section>
+<section id="neighboring-cell-water-supply-option">
+<span id="neighboring-cell-water-supply"></span><h3>1.2     Neighboring cell water supply option<a class="headerlink" href="#neighboring-cell-water-supply-option" title="Link to this heading">#</a></h3>
+<p>Unsatisﬁed surface water demand of all other cells can be taken from the neighboring cell with the largest river and lake/reservoir storage simulating the effect of water transfers. However, in each cell <span class="math notranslate nohighlight">\(i\)</span>, the first priority is to satisfy the water demand of cell <span class="math notranslate nohighlight">\(i\)</span> (from water storage in cell <span class="math notranslate nohighlight">\(i\)</span>), and only the second priority, is to satisfy water demand allocated from the neighboring cell(s) from water storage in cell <span class="math notranslate nohighlight">\(i\)</span>.
+If not all the unsatisfied demand of the demand cell can be fulfilled in the supply cell, the unsatisfied demand is assigned back to the demand cell.
+In both cases, the <span class="math notranslate nohighlight">\({NA}_{s}\)</span> of the demand cell is reduced as compared to <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span> and the <span class="math notranslate nohighlight">\({NA}_{s}\)</span> of the supply cell is increased.
+If unsatisfied <span class="math notranslate nohighlight">\({NA}_{s}\)</span> of the demand cell can be satisfied in the supply cell, then NAg in the demand cell remains constant, as the full return flow from irrigation with surface water occurs in the demand cell.
+In this case, the sum of <span class="math notranslate nohighlight">\({NA}_{g}\)</span> and <span class="math notranslate nohighlight">\({NA}_{s}\)</span> in each grid cell is no longer equal to the total actual consumptive water use in both the supply and the demand cells. The actual net abstraction from surface water in the supply cell due to <span class="math notranslate nohighlight">\(({NA}_{pot,s})\)</span> in neighboring demand cells (net_abstraction_sw_for_neighbor_cells) and the part of potential net abstraction from surface water demand cell that is supplied from the supply cell (net_abstraction_sw_from_supply_cell) can be written out. In the case of the delayed water supply option, it is first attempted to fulfill the delayed use in the cell before shifting it to the neighboring cell.</p>
+</section>
+<section id="delayed-water-supply-option">
+<span id="delayed-water-supply"></span><h3>1.3     Delayed_water_supply_option<a class="headerlink" href="#delayed-water-supply-option" title="Link to this heading">#</a></h3>
+<p>Temporal distribution, by allowing delayed satisfaction of daily surface water demands, aims to compensate that WaterGAP likely underestimates demand satisfaction due to the generic reservoir algorithm and an underestimation of the storage of water, e.g., by small tanks and dams <a class="footnote-reference brackets" href="#id13" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. If even after the spatial distribution of unsatisfied <span class="math notranslate nohighlight">\({NA}_{s}\)</span>, there is still unsatisfied <span class="math notranslate nohighlight">\({NA}_{s}\)</span>, it is possible to satisfy it until the end of the calendar year. Unsatisfied <span class="math notranslate nohighlight">\({NA}_{s}\)</span> of the grid cell is registered by adding it to the variable “accumulated unsatisfied potential net abstraction from surface water” <span class="math notranslate nohighlight">\({AccUnNA}_{pot,s}\)</span> (at the end of each time step). At the beginning of the next time step, it  is added to the NApot,s of that day, and it is attempted to satisfy AccUnNApot,s by subtracting it from the surface water storages, either increasing or decreasing <span class="math notranslate nohighlight">\({AccUnNA}_{pot,s}\)</span>.
+The daily unsatisfied net abstraction from surface water <span class="math notranslate nohighlight">\({UnNA}_{pot,s}\)</span> of a grid cell is computed as <span class="math notranslate nohighlight">\({AccUnNA}_{pot,s(t)}\)</span> minus <span class="math notranslate nohighlight">\({AccUnNA}_{pot,s(t-1)}\)</span> at the end of each time step. If it is positive, then less water than demanded can be taken from the surface water on this day. If it is zero, <span class="math notranslate nohighlight">\({NA}_{s}\)</span> = <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span>. If it is negative, more surface water is net abstracted on this day than demanded. If for the previous time step, <span class="math notranslate nohighlight">\({NA}_{s}\)</span> is not equal to <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span> and if there is withdrawal from the surface for irrigation, <span class="math notranslate nohighlight">\({NA}_{g}\)</span> is adapted to account for the change in return flows from the surface water.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the delayed water supply option is deactivated, the daily unsatisfied net abstraction from surface water is <span class="math notranslate nohighlight">\({AccUnNA}_{pot,s(t)}\)</span></p>
+</div>
+</section>
+</section>
+<section id="actual-net-abstraction-from-groundwater">
+<h2>2 Actual net abstraction from groundwater<a class="headerlink" href="#actual-net-abstraction-from-groundwater" title="Link to this heading">#</a></h2>
+<p>In the computation of <span class="math notranslate nohighlight">\({NA}_{pot,g}\)</span> in GWSWUSE, it is assumed that the total demand for irrigation by surface water can be fulfilled by the water available in surface water bodies including rivers. As net abstractions from groundwater are a function of the return flows of irrigation with surface water (return flows of all other sectors are assumed to only flow to surface water bodies) <a class="footnote-reference brackets" href="#id12" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, the potential net abstraction from groundwater <span class="math notranslate nohighlight">\({NA}_{pot,g}\)</span> needs to be adapted if, for each cell and time step, the actual net abstraction from surface water for irrigation is smaller than what was assumed when computing NApot,s of a day (i.e., not all demand for net abstractions from surface water can be fulfilled even after spatial redistribution) or if, due to the delayed water use option, more surface water is abstracted for irrigation than demanded on this day (so whenever net abstraction from surface water on a specific day differs from the potential one computed in GWSWUSE). It is assumed in WGHM that irrigation water abstraction is reduced as a priority, and fulfilled only after non-irrigation demands are fulfilled. Actual net abstraction from groundwater <span class="math notranslate nohighlight">\({NA}_{g}\)</span> is computed in each time step based on <span class="math notranslate nohighlight">\({NA}_{pot,g(t)}\)</span> and <span class="math notranslate nohighlight">\({UnNA}_{pot,s(t-1)}\)</span>, using the equations to compute <span class="math notranslate nohighlight">\({NA}_{g}\)</span>, and <span class="math notranslate nohighlight">\({NA}_{pot,g}\)</span> as described in Döll et al. (2012) <a class="footnote-reference brackets" href="#id12" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<section id="unnapot-s-t-1-is-positive-and-wapot-s-irri-t-0">
+<h3>UnNApot,s(t-1) is positive and WApot,s,irri(t) &gt; 0<a class="headerlink" href="#unnapot-s-t-1-is-positive-and-wapot-s-irri-t-0" title="Link to this heading">#</a></h3>
+<p>In this case, the surface water abstraction for irrigation on the previous day was lower than that assumed when computing <span class="math notranslate nohighlight">\({NA}_{pot,g}\)</span>. Thus, return flows to groundwater are decreased and <span class="math notranslate nohighlight">\({NA}_{g}\)</span> becomes larger than <span class="math notranslate nohighlight">\({NA}_{pot,g}\)</span>. We derive the algorithm by setting, as a first step, all water uses that are not related to surface water use for irrigation to zero, as they are not affected by the reduction of net abstraction from surface water as compared to <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span>. The equations in italics show the derivation, the normal letters what is included in the code. Then, Eq. (2) is simplified to:</p>
+<div class="math notranslate nohighlight">
+\[{NA}_{pot,s} = {WA}_{pot,s,irri} - {(1 - frgi)} * {({WA}_{pot,s,irri} - {CU}_{pot,s,irri})}\]</div>
+<div class="math notranslate nohighlight">
+\[{eff} = \frac{{CU}_{pot,s,irri}}{{WA}_{pot,s,irri}}\]</div>
+<div class="math notranslate nohighlight">
+\[{NA}_{pot,s} = {WA}_{pot,s,irri} - (1 - frgi) * ({WA}_{pot,s,irri} - eff * {WA}_{pot,s,irri})\]</div>
+<div class="math notranslate nohighlight">
+\[{NA}_{pot,s} = {WA}_{pot,s,irri} - (1 - frgi) * (1 - eff) * {WA}_{pot,s,irri}\]</div>
+<div class="math notranslate nohighlight">
+\[{NA}_{pot,s} = {WA}_{pot,s,irri} * [1 - (1 - frgi) * (1 - eff)]\]</div>
+<div class="math notranslate nohighlight">
+\[factor = [1 - (1 - frgi) * (1 - eff)]\]</div>
+<div class="math notranslate nohighlight">
+\[{NA}_{pot,s} = factor * {WA}_{pot,s,irri}\]</div>
+<div class="math notranslate nohighlight">
+\[{NA}_{s} = {NA}_{pot,s} - {UnNA}_{pot,s}\]</div>
+<div class="math notranslate nohighlight">
+\[factor * {WA}_{s,irri} = factor * {WA}_{pot,s,irri} - {UnNA}_{pot,s}\]</div>
+<div class="math notranslate nohighlight">
+\[{WA}_{s,irri} = \frac{1}{factor} (factor {WA}_{pot,s,irri} - {UnNA}_{pot,s})\]</div>
+<p>Neglecting all water uses except surface water use for irrigation, Eq. 1 is simplified to:</p>
+<div class="math notranslate nohighlight">
+\[{NA}_{pot,g} = -{f}_{rgi}*({1} - {eff})*{WA}_{pot,s,irri}\]</div>
+<p>Then, the change in return flow to groundwater due to changes from <span class="math notranslate nohighlight">\({WA}_{pot,s,irri}\)</span> to <span class="math notranslate nohighlight">\({W}_{s,irr}\)</span> is computed as:</p>
+<div class="math notranslate nohighlight">
+\[returnflow\:change = {f}_{rgi}*({1} - {eff})({WA}_{s,irri} - {WA}_{pot,s,irri})\]</div>
+<div class="math notranslate nohighlight">
+\[{NA}_{g(t)} = {NA}_{pot,g(t)} – {return flow change}_{(t-1)}\]</div>
+</section>
+<section id="id10">
+<h3>UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>Then, <span class="math notranslate nohighlight">\({NA}_{g}\)</span> is not adjusted as without irrigation, there is never any return flow to groundwater. The daily unsatisfied net abstraction from surface water is added to the accumulated unsatisfied <span class="math notranslate nohighlight">\({NA}_{s}\)</span> from other sectors as <span class="math notranslate nohighlight">\({G}_{acc,unsat,net,abstraction,other,sectors} += {UnNA}_{pot,s}\)</span> and return <span class="math notranslate nohighlight">\({NA}_{g} = {NA}_{pot,g}\)</span>.</p>
+</section>
+<section id="unnapot-s-t-1-is-negative-and-wapot-s-irri-t-0">
+<h3>UnNApot,s(t-1) is negative and WApot,s,irri(t) &gt;0<a class="headerlink" href="#unnapot-s-t-1-is-negative-and-wapot-s-irri-t-0" title="Link to this heading">#</a></h3>
+<p>In this case, the actual <span class="math notranslate nohighlight">\({NA}_{s}\)</span> subtracted from surface water storage was larger than <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span> on the previous day, as part of the unsatisfied <span class="math notranslate nohighlight">\({NA}_{pot,s}\)</span> accumulated from earlier times could be satisfied. If this additional <span class="math notranslate nohighlight">\({NA}_{s}\)</span> was caused by supplying irrigation water and not only for satisfying the water demand of other sectors (which have priority), then more return flow to groundwater is generated than it was assumed when <span class="math notranslate nohighlight">\({NA}_{pot,g}\)</span> was computed in GWSWUSE. Thus, return flows to groundwater are increased and <span class="math notranslate nohighlight">\({NA}_{g}\)</span> becomes smaller than <span class="math notranslate nohighlight">\({NA}_{pot,g}\)</span></p>
+<div class="math notranslate nohighlight">
+\[{NA}_{s} = {NA}_{pot,s} + {added\:net\:abstraction}_{sw,irri}\]</div>
+<div class="math notranslate nohighlight">
+\[factor * {WA}_{s,irri} = factor {WA}_{pot,s,irri} + {added\:net\:abstraction}_{sw,irri}\]</div>
+<div class="math notranslate nohighlight">
+\[{WA}_{s,irri} = \frac{1}{factor} (factor {WA}_{pot,s,irri} + {added\:net\:abstraction}_{sw,irri}\]</div>
+<div class="math notranslate nohighlight">
+\[returnflow\:change = frgi(1-eff)({WA}_{s,irri} - {WA}_{pot,s,irri})\]</div>
+<div class="math notranslate nohighlight">
+\[{NA}_{g(t)} = {NA}_{pot,g(t)} – {returnflow\:change}_{(t-1)}\]</div>
+</section>
+<section id="id11">
+<h3>UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>See  case (<span class="math notranslate nohighlight">\({UnNA}_{pot,s(t-1)}\)</span> is positive and <span class="math notranslate nohighlight">\({WA}_{pot,s,irri(t)}\)</span> <span class="math notranslate nohighlight">\({=}\)</span> <span class="math notranslate nohighlight">\({0}\)</span>)</p>
+</section>
+</section>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h1>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>,<a role="doc-backlink" href="#id4">3</a>,<a role="doc-backlink" href="#id5">4</a>,<a role="doc-backlink" href="#id8">5</a>,<a role="doc-backlink" href="#id9">6</a>)</span>
+<ol class="upperalpha simple" start="16">
+<li><p>Döll, H. Hoffmann-Dobrev, F.T. Portmann, S. Siebert, A. Eicker, M. Rodell, G. Strassberg, B.R. Scanlon, Impact of water withdrawals from groundwater and surface water on continental water storage variations, Journal of Geodynamics. <a class="reference external" href="https://doi.org/10.1016/j.jog.2011.05.001">https://doi.org/10.1016/j.jog.2011.05.001</a></p></li>
+</ol>
+</aside>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id7">2</a>)</span>
+<p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. <a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</aside>
+</aside>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="river.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">River</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../gwswuse/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Groundwater Surface Water Use</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Net abstractions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computation-of-actual-net-abstractions-from-surface-water-and-groundwater">Computation of actual net abstractions from surface water and groundwater</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computation-of-potential-net-abstractions-from-surface-water-and-groundwater">Computation of potential net abstractions from surface water and groundwater</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actual-net-abstraction-from-surface-water">1 Actual net abstraction from surface water</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#riparian-water-supply-option">1.1     Riparian water supply option</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neighboring-cell-water-supply-option">1.2     Neighboring cell water supply option</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#delayed-water-supply-option">1.3     Delayed_water_supply_option</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actual-net-abstraction-from-groundwater">2 Actual net abstraction from groundwater</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unnapot-s-t-1-is-positive-and-wapot-s-irri-t-0">UnNApot,s(t-1) is positive and WApot,s,irri(t) &gt; 0</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">UnNApot,s(t-1) is positive and WApot,s,irri(t) = 0</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unnapot-s-t-1-is-negative-and-wapot-s-irri-t-0">UnNApot,s(t-1) is negative and WApot,s,irri(t) &gt;0</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">UnNApot,s(t-1) is negative and WApot,s,irri(t) = 0</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/model_processes/lateral_water_balance/net_abstractions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
