@@ -2,12 +2,12 @@
     {
         "name": "dev",
         "version": "dev",
-        "url": "https://hydrologyfrankfurt.github.io/docs/dev/"
+        "url": "https://hydrologyfrankfurt.github.io/ReWaterGAP/docs/dev/"
       },
     {
         "name": "2.2e (stable)",
         "version": "2.2e",
-        "url": "https://hydrologyfrankfurt.github.io/ReWaterGAP/",
+        "url": "https://hydrologyfrankfurt.github.io/ReWaterGAP/docs/",
         "preferred": true
     }
 ]
