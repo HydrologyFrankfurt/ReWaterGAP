@@ -53,7 +53,7 @@ branch = os.environ.get("DOC_VERSION", get_git_branch())
 if branch in ('main', 'master'):
     switcher_version = 'dev'
 elif branch == 'WaterGAP-2.2e':
-    switcher_version = '2.2e'
+    switcher_version = '2.2e (stable)'
 else:
     switcher_version = branch if branch != 'unknown' else 'dev'
 
