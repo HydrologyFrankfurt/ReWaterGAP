@@ -1,10 +1,10 @@
 .. ReWaterGAP documentation master file, created by
 
 ########################
-ReWaterGAP documentation dev
+ReWaterGAP documentation
 ########################
 
-**Date**: |today| **Version**: dev
+**Date**: |today| **Version**: Development Version
 
 **Useful links**:
 `Source Repository <https://github.com/HydrologyFrankfurt/ReWaterGAP>`__ |
