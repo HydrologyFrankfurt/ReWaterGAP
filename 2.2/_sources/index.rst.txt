@@ -1,7 +1,7 @@
 .. ReWaterGAP documentation master file, created by
 
 ########################
-ReWaterGAP documentation 2.2e
+ReWaterGAP documentation
 ########################
 
 **Date**: |today| **Version**: 2.2e
