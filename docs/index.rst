@@ -4,7 +4,7 @@
 ReWaterGAP documentation
 ########################
 
-**Date**: |today| **Version**: 2.2e
+**Date**: |today| **Version**: dev
 
 **Useful links**:
 `Source Repository <https://github.com/HydrologyFrankfurt/ReWaterGAP>`__ |
