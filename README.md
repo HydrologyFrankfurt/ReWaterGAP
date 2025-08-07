@@ -7,7 +7,7 @@
 # ReWaterGAP
 
 # Documentation
-Find the documentation [here](https://hydrologyfrankfurt.github.io/ReWaterGAP/2.2).
+Find the documentation [here](https://hydrologyfrankfurt.github.io/ReWaterGAP/).
 
 # Project Description
 WaterGAP is a global-scale hydrological simulation software for quantifying water flows and storages on all continents of the Earth. It is used to assess water availability and water stress for both humans and non-human biota.
