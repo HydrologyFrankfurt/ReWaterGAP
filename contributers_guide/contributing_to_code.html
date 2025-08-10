@@ -391,6 +391,7 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Contributing to the code (Under construction)</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="bug_reporting.html">Reporting a bug</a></li>
 <li class="toctree-l1"><a class="reference internal" href="documentation_improvement.html">Improving the Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation_issues.html">Installation Issues</a></li>
@@ -459,51 +460,115 @@
 <section id="write-a-new-variable-to-netcdf-in-the-model">
 <h2>Write a New Variable to NetCDF in the Model<a class="headerlink" href="#write-a-new-variable-to-netcdf-in-the-model" title="Link to this heading">#</a></h2>
 <p>The variable we will be writing out is the “wetland_extent”. For this we will need to change the respective storage module (in the model folder found in the source repository) and additional files outlined below.</p>
-<p>1. Update the module “lakes_wetlands.py”
-- Find the “lakes_wetlands.py” module in the model folder in the source repository at “model/lateralwaterbalance/lakes_wetlands.py”
-- In the “lakes_wetlands.py” module you can find the “lake_wetland_water_balance” function. Within this function you can find the variable “lake_wet_area”, which contains the area of lakes and wetlands (both local and global).
-[image here 1]
-- Add the “lake_wet_area” to the return  value of the function “lake_wetland_water_balance”
-[image here 2]</p>
-<p>2. Edit the module “routing.py”
-- Find the “routing.py” module in the model folder in the source repository at “model/lateralwaterbalance/routing.py”
-- In the “routing.py” module you can find the “river_routing” function. Within this function we will create two variables
-- Find the sections with the headers “Local wetland” and “Global wetland”. Create the variable names “local_wetland_extent” and “global_wetland_extent”
-[image here 3]
-- Modify the routing script for wherever the function “lake_wetland_water_balance “ is called to account for the new variable added in Step 1.
-[image here 4]
-- Add the “local_wetland_extent” and “global_wetland_extent” to the return  values of the function “river_routing”
-[image here 5]</p>
-<p>3. Edit the module “waterbalance_lateral.py”
-- Find the “waterbalance_lateral.py” module in the model folder in the source repository at “model/lateralwaterbalance/waterbalance_lateral.py”
-- In the “waterbalance_lateral.py” module under the “routing” section, you can find the “out” variable, where all the river routing outputs are called.
-Below the last out variable, add the newly created “local_wetland_extent” and “global_wetland_extent” variables and assign the respective return values to the variables created.
-[image here 6]
-- Update the “LateralWaterBalance.fluxes” to add the new variables (first add a meaningful variable name and assign the variable to it). WaterGAP only differentiates between “storages” and “fluxes” as standard output. If the created variables are neither, we will add it to “fluxes”.
-[image here 7]</p>
-<p>4. Modify NetCDF Write Function
-- “view/createandwrite.py”
-- Find “lb_output_vars”
-Add the variables created in Step 3 to the “lb_output_vars” and add the names so it will follow the format of:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>..code block</dt><dd><p>“meaningful variable name”: “full name in configuration file”,</p>
+<ol class="arabic">
+<li><dl class="simple">
+<dt>Update the module “lakes_wetlands.py”</dt><dd><ul class="simple">
+<li><p>Find the “lakes_wetlands.py” module in the model folder in the source repository at “model/lateralwaterbalance/lakes_wetlands.py”</p></li>
+<li><dl class="simple">
+<dt>In the “lakes_wetlands.py” module you can find the “lake_wetland_water_balance” function. Within this function you can find the variable “lake_wet_area”, which contains the area of lakes and wetlands (both local and global).</dt><dd><p>[image here 1]</p>
 </dd>
 </dl>
+</li>
+<li><dl class="simple">
+<dt>Add the “lake_wet_area” to the return  value of the function “lake_wetland_water_balance”</dt><dd><p>[image here 2]</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Edit the module “routing.py”</dt><dd><ul class="simple">
+<li><p>Find the “routing.py” module in the model folder in the source repository at “model/lateralwaterbalance/routing.py”</p></li>
+<li><p>In the “routing.py” module you can find the “river_routing” function. Within this function we will create two variables</p></li>
+<li><dl class="simple">
+<dt>Find the sections with the headers “Local wetland” and “Global wetland”. Create the variable names “local_wetland_extent” and “global_wetland_extent”</dt><dd><p>[image here 3]</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Modify the routing script for wherever the function “lake_wetland_water_balance “ is called to account for the new variable added in Step 1.</dt><dd><p>[image here 4]</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Add the “local_wetland_extent” and “global_wetland_extent” to the return  values of the function “river_routing”</dt><dd><p>[image here 5]</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Edit the module “waterbalance_lateral.py”</dt><dd><ul class="simple">
+<li><p>Find the “waterbalance_lateral.py” module in the model folder in the source repository at “model/lateralwaterbalance/waterbalance_lateral.py”</p></li>
+<li><dl class="simple">
+<dt>In the “waterbalance_lateral.py” module under the “routing” section, you can find the “out” variable, where all the river routing outputs are called. Below the last out variable, add the newly created “local_wetland_extent” and “global_wetland_extent” variables and assign the respective return values to the variables created.</dt><dd><p>[image here 6]</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Update the “LateralWaterBalance.fluxes” to add the new variables (first add a meaningful variable name and assign the variable to it). WaterGAP only differentiates between “storages” and “fluxes” as standard output. If the created variables are neither, we will add it to “fluxes”.</dt><dd><p>[image here 7]</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Modify NetCDF Write Function</dt><dd><ul class="simple">
+<li><p>“view/createandwrite.py”</p></li>
+<li><p>Find “lb_output_vars”</p></li>
+</ul>
+<p>Add the variables created in Step 3 to the “lb_output_vars” and add the names so it will follow the format of:
+..code block</p>
+<blockquote>
+<div><p>“meaningful variable name”: “full name in configuration file”,</p>
 </div></blockquote>
 <ul class="simple">
-<li><p>In WaterGAP all storages are stored as [mm] and all fluxes are stores as [mm/s]. In this case, for area, it is neither and it is added as [km2]. For this expand the bracket for lateral fluxes under the “base_units” function to include the new variables</p></li>
+<li><dl class="simple">
+<dt>In WaterGAP all storages are stored as [mm] and all fluxes are stores as [mm/s]. In this case, for area, it is neither and it is added as [km2]. For this expand the bracket for lateral fluxes under the “base_units” function to include the new variables</dt><dd><p>[image here 8]</p>
+</dd>
+</dl>
+</li>
 </ul>
-<p>[image here 8]</p>
-<p>5. Modify the output variable info
-- view/output_var_info.py
-- Update the attributes for the new variables under “LateralWaterBalanceFluxes”.
-[image here 9]</p>
-<p>6. Delete the Cache (Important)
-- After any changes to the python modules in the “model/lateralwaterbalance/” or “model/verticalwaterbalance/” delete the “__pycache__” folders.
-Numba is used to improve runtimes for WaterGAP. Numba directly translates the Python code to machine code. For this model codes are cached. According to Numba “The cache is invalidated when the corresponding source file is modified. However, it is necessary sometimes to clear the cache directory manually. For instance, changes in the compiler will not be recognized because the source files are not modified.” [reference]</p>
-<p><a class="reference external" href="https://numba.pydata.org/numba-doc/dev/developer/caching.html#:~:text=To%20clear%20the%20cache%2C%20the,raised%20at%20the%20compilation%20site">https://numba.pydata.org/numba-doc/dev/developer/caching.html#:~:text=To%20clear%20the%20cache%2C%20the,raised%20at%20the%20compilation%20site</a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Modify the output variable info</dt><dd><ul class="simple">
+<li><p>view/output_var_info.py</p></li>
+<li><dl class="simple">
+<dt>Update the attributes for the new variables under “LateralWaterBalanceFluxes”.</dt><dd><p>[image here 9]</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Delete the Cache (Important)</dt><dd><ul class="simple">
+<li><p>After any changes to the python modules in the “model/lateralwaterbalance/” or “model/verticalwaterbalance/” delete the “__pycache__” folders.</p></li>
+</ul>
+<p>Numba is used to improve runtimes for WaterGAP. Numba directly translates the Python code to machine code. For this model codes are cached. According to Numba “The cache is invalidated when the corresponding source file is modified. However, it is necessary sometimes to clear the cache directory manually. For instance, changes in the compiler will not be recognized because the source files are not modified.” <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+</dd>
+</dl>
+</li>
+</ol>
 </section>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h1>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://numba.pydata.org/numba-doc/dev/developer/caching.html#:~:text=To%20clear%20the%20cache%2C%20the,raised%20at%20the%20compilation%20site">https://numba.pydata.org/numba-doc/dev/developer/caching.html#:~:text=To%20clear%20the%20cache%2C%20the,raised%20at%20the%20compilation%20site</a>.</p>
+</aside>
+</aside>
 </section>
 
 
@@ -553,8 +618,13 @@ Numba is used to improve runtimes for WaterGAP. Numba directly translates the Py
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Contributing to the code (Under construction)</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-new-variable-to-netcdf-in-the-model">Write a New Variable to NetCDF in the Model</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+
   </nav></div>
 
   <div class="sidebar-secondary-item">
