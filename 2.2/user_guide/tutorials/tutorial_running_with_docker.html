@@ -445,10 +445,14 @@
 <h3>1) Building the Docker Image<a class="headerlink" href="#building-the-docker-image" title="Link to this heading">#</a></h3>
 <section id="using-a-prebuilt-image">
 <h4>Using a Prebuilt Image<a class="headerlink" href="#using-a-prebuilt-image" title="Link to this heading">#</a></h4>
-<p>If you prefer not to build the image yourself, you can download a prebuilt version from <a class="reference external" href="https://doi.org/10.5281/zenodo.14998334">Zenodo</a> and proceed directly to <a class="reference internal" href="#running-the-watergap-container"><span class="std std-ref">Step 2</span></a>.</p>
+<p>If you prefer not to build the image yourself, you can download a prebuilt version from <a class="reference external" href="10.5281/zenodo.17063459">Zenodo</a> and proceed directly to <a class="reference internal" href="#running-the-watergap-container"><span class="std std-ref">Step 2</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The prebuild image is not updated regularly and is best used for using Docker functionality. Last update: 05.09.2025.</p>
+</div>
 </section>
-<section id="building-the-image-manually">
-<h4>Building the Image Manually<a class="headerlink" href="#building-the-image-manually" title="Link to this heading">#</a></h4>
+<section id="building-the-image-manually-recommended">
+<h4>Building the Image Manually (Recommended)<a class="headerlink" href="#building-the-image-manually-recommended" title="Link to this heading">#</a></h4>
 <dl class="simple">
 <dt>If you want to build the image yourself, follow these steps:</dt><dd><ol class="arabic simple">
 <li><p>Download the <cite>Dockerfile</cite> from <a class="reference external" href="https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/Dockerfile">the WaterGAP GitHub Repository</a>.</p></li>
@@ -485,10 +489,10 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>load<span class="w"> </span>-i<span class="w"> </span>rewatergap_wghm.tar
 </pre></div>
 </div>
-<dl class="simple">
-<dt>..note:</dt><dd><p>Depending on your machine this step might take a while. In out case it took around 2 minutes.</p>
-</dd>
-</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Depending on your machine this step might take a while. In out case it took around 2 minutes.</p>
+</div>
 <p>To make the <cite>docker_wghm</cite> folder accessible inside the container, use the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span><span class="k">$(</span>PWD<span class="k">)</span>:/app/mounted_dir<span class="w"> </span>-it<span class="w"> </span>rewatergap_wghm<span class="w"> </span>bash
 </pre></div>
@@ -592,7 +596,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-docker-image">1) Building the Docker Image</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-prebuilt-image">Using a Prebuilt Image</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-image-manually">Building the Image Manually</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-image-manually-recommended">Building the Image Manually (Recommended)</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-watergap-container">2) Running the WaterGAP Container</a><ul class="nav section-nav flex-column">

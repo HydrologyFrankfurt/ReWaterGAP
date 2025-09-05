@@ -14,12 +14,15 @@ To run Docker images, Docker Engine (Docker) must be installed on your local mac
 ############################
 
 Using a Prebuilt Image 
-************************************
+**********************
 
-If you prefer not to build the image yourself, you can download a prebuilt version from `Zenodo <https://doi.org/10.5281/zenodo.14998334>`__ and proceed directly to :ref:`Step 2 <running_the_watergap_container>`.
+If you prefer not to build the image yourself, you can download a prebuilt version from `Zenodo <10.5281/zenodo.17063459>`__ and proceed directly to :ref:`Step 2 <running_the_watergap_container>`.
 
-Building the Image Manually
-***************************
+.. note::
+   The prebuild image is not updated regularly and is best used for using Docker functionality. Last update: 05.09.2025.
+
+Building the Image Manually (Recommended)
+*****************************************
 
 If you want to build the image yourself, follow these steps:
  1. Download the `Dockerfile` from `the WaterGAP GitHub Repository <https://github.com/HydrologyFrankfurt/ReWaterGAP/blob/main/Dockerfile>`_.
@@ -60,7 +63,7 @@ If you've downloaded the image file (rewatergap_wghm.tar), in your current worki
 
   $ docker load -i rewatergap_wghm.tar
 
-..note:
+.. note::
   Depending on your machine this step might take a while. In out case it took around 2 minutes.
 
 To make the `docker_wghm` folder accessible inside the container, use the following command:
