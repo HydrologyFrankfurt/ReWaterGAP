@@ -1,8 +1,8 @@
 .. _contributers_guide:
 
-######################################
-Contributers Guide (Under Development)
-######################################
+##################
+Contributers Guide 
+##################
 
 .. grid:: 1
     :gutter: 1
