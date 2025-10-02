@@ -42,6 +42,13 @@ Vertical Water Balance
 
         Soil
 
+    .. grid-item-card:: 
+        :text-align: center
+        :link:  karst
+        :link-type: ref
+
+        Karst
+
 .. toctree::
     :maxdepth: 1
     :hidden:
@@ -51,3 +58,4 @@ Vertical Water Balance
     canopy
     snow
     soil
+    karst
