@@ -132,7 +132,7 @@ if commented_base_units:
 else:
     s_to_day = 86400
     mm_km3 = (cell_area * (contfrac/100))/1e6  # Convert mm to km³
-    m3_km3 = 1e-9   # Convert m to km³
+    m3_km3 = 1e-9   # Convert m3 to km³
 
     # fluxes
     consist_precip = consist_precip * mm_km3 * s_to_day
@@ -211,3 +211,4 @@ print("Actual net abstraction from groundwater: ", sum_nag)
 print("Change of total water storage: ", sum_dtws)
 print("Long-term average volume balance error: ", sum_wb_rg)
 print("AET_CFS_corr", np.nansum(cfs_diff))
+
