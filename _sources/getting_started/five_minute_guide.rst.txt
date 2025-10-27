@@ -94,7 +94,7 @@ Activate the WaterGAP environment using the following command.
 
 The User should provide the following data in NetCDF format.  
 
-Note: WaterGAP operates with daily temporal resolution. The model does consider leap days (29th February) in computations, so these *specific days* should be excluded from the climate forcings. 
+Note: WaterGAP operates with daily temporal resolution. The model does not consider leap days (29th February) in computations, so these *specific days* should be excluded from the climate forcings. 
 Additionally, water use data (potential net abstractions) is provided in monthly timesteps, and thus, it's assumed in WaterGAP that the potential net abstractions per day in a month are the same.
 
 Climate Forcing (Daily data)
