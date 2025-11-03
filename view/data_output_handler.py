@@ -82,8 +82,7 @@ class OutputVariable:
 
                 # create Xarray dataset for output variable
                 self.data = xr.Dataset(coords=dummy_coords).\
-                    chunk({'time': 1, 'lat': len(self.grid_coords['lat'].values), 
-                           'lon':  len(self.grid_coords['lon'].values)})
+                    chunk({'time': 1, 'lat': 360, 'lon': 720})
 
                 # Add variables names for respective output varaibes
                 self.data[self.variable_name] = \

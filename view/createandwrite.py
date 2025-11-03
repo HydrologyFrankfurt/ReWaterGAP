@@ -315,8 +315,7 @@ class CreateandWritetoVariables:
                 path = self.path + f'{key}_{end_date}.nc'
 
                 if key == "get_neighbouring_cells_map":
-                    encoding = {key: {'chunksizes': [1, value.data[key].shape[1], 
-                                                     value.data[key].shape[2], 2],
+                    encoding = {key: {'chunksizes': [1, 360, 720, 2],
                                       "zlib": True,
                                       "complevel": 5}}
                 elif key == 'smax':
@@ -326,8 +325,7 @@ class CreateandWritetoVariables:
                                       "complevel": 5}}
                 else:
                     encoding = {key: {'_FillValue': 1e+20,
-                                      'chunksizes': [1, value.data[key].shape[1], 
-                                                     value.data[key].shape[2]],
+                                      'chunksizes': [1, 360, 720],
                                       "zlib": True, "complevel": 5}}
                 write_args.append((value.data, encoding, path))
 
