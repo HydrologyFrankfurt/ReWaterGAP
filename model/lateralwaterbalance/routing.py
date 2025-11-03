@@ -849,7 +849,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
 
             daily_total_aet[x, y] = land_aet_corr[x, y] + total_open_water_aet[x, y]
 
-            # cell_aet_consuse (km3/day) = actual consumptive use(NAg+NAs) +
+            # cell_aet_consuse (km3/day) = Potential consumptive use(NAg+NAs) +
             # total actual evaporation from land
             cell_aet_consuse[x, y] = actual_net_abstraction_gw[x, y] + \
                 actual_daily_netabstraction_sw[x, y] + daily_total_aet[x, y]
@@ -873,5 +873,4 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         neighbouring_cells_map, daily_unsatisfied_pot_nas, glores_outflow, \
         actual_daily_netabstraction_sw, consistent_precip, inflow_from_upstream,\
         cell_aet_consuse, total_water_storage, point_source_recharge, river_velocity,\
-
 
