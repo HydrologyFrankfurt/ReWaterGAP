@@ -147,6 +147,8 @@ class VerticalWaterBalance:
         self.max_groundwater_recharge = soil_static_data[3]  # units = mm
         self.soil_texture = soil_static_data[4]
         self.groundwater_recharge_factor = soil_static_data[5]
+        self.arid_coarse = soil_static_data[6]
+        self.karst_frac = soil_static_data[7]
 
         # Calulate maximum soil water content
         soil_parameters = \
@@ -261,7 +263,7 @@ class VerticalWaterBalance:
                                self.parameters.snow_albedo_thresh.values,
                                self.parameters.openwater_albedo.values,
                                self.snow_albedo, self.albedo, self.emissivity,
-                               self.humid_arid,
+                               self.humid_arid, self.arid_coarse, self.karst_frac, 
                                self.parameters.pt_coeff_humid_arid.values,
                                self.growth_status, self.lai_days,
                                self.lai_param.initial_days,

@@ -106,7 +106,8 @@ def soil_water_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
                        effective_precipitation, precipitation,
                        immediate_runoff, land_storage_change_sum, sublimation,
                        daily_storage_transfer, snow_freeze_temp, gamma,
-                       max_daily_pet, humid_arid, soil_texture, drainage_direction,
+                       max_daily_pet, arid_coarse, karst_frac, soil_texture, 
+                       drainage_direction,
                        max_groundwater_recharge, groundwater_recharge_factor,
                        critcal_gw_precipitation, max_soil_water_content,
                        areal_corr_factor, minstorage_volume, x, y):
@@ -149,16 +150,18 @@ def soil_water_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
        Runoff coefficient , Units:  [-]
     max_daily_pet : float
         Maximum daily potential evapotranspiration, Units:  [mm/day]
-    humid_arid : float
-        Humid-arid calssification based on Müller Schmied et al. 2021
+    arid_coarse : float
+        Coarse arid classification based on Wan, W., Döll, P., & Müller Schmied, H. (2024), Units:  [-]
+    karst_frac : float 
+        karst fraction based on Wan, W., Döll, P., & Müller Schmied, H. (2024), Units:  [-]
     soil_texture : float
        Soil texture classification based on Müller Schmied et al. 2021
     drainage_direction : float
         Drainage direction based on Müller Schmied et al. 2021
     max_groundwater_recharge : float
-        Maximum groundwater recharge from soil, Units: [mm/day]
+        Maximum groundwater recharge from soil based on Wan, W., Döll, P., & Müller Schmied, H. (2024), Units: [mm/day]
     groundwater_recharge_factor : float
-        Groundwater recharge factor, Units:  [-]
+        Groundwater recharge factor  based on Wan, W., Döll, P., & Müller Schmied, H. (2024), Units:  [-]
     critcal_gw_precipitation : float
        critical precipitation for groundwater recharge, Units: [mm/day]
     max_soil_water_content : float
@@ -288,15 +291,46 @@ def soil_water_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
                 # water balance variable.This distinguish it from
                 # ground water recharge in the lateral water balance
 
-                # Groundwater recharge equation is calulated based on  Eq. 19
-                # from H. Müller Schmied et al 2021
+                # # Groundwater recharge equation is calulated based on  Eq. 19
+                # # from H. Müller Schmied et al 2021. 
 
-                if (humid_arid == 1) & (soil_texture < 21) & \
-                        (drainage_direction >= 0):
+                # if (humid_arid == 1) & (soil_texture < 21) & \
+                #         (drainage_direction >= 0):
+                #     groundwater_recharge_from_soil_mm = \
+                #         np.minimum(max_groundwater_recharge,
+                #                    groundwater_recharge_factor * daily_runoff)
+
+                #     # For (semi) arid cells groundwater recharge becomes zero
+                #     # when critical precipitation for groundwater recharge
+                #     # (default = 12.5 mm/day) is not exceeded.
+                #     if precipitation <= critcal_gw_precipitation:
+                #         potential_gw_recharge = \
+                #             groundwater_recharge_from_soil_mm
+                #         groundwater_recharge_from_soil_mm = 0
+
+                # else:
+                #     potential_gw_recharge = 0
+                #     groundwater_recharge_from_soil_mm = \
+                #         np.minimum(max_groundwater_recharge,
+                #                    groundwater_recharge_factor * daily_runoff)
+                
+                
+                # =============================================================
+                # Diffuse ground water recharge with the updated approach from 
+                # Wan, W., Döll, P., & Müller Schmied, H. (2024).
+                # https://doi.org/10.1029/2023WR036182
+                # =============================================================
+                # if a (semi)arid grid cell has Rgmax > 5 mm/d (indicating coarse texture), 
+                # recharge occurs only when precipitation exceeds 12.5 mm/d
+                if (arid_coarse == 1) & (max_groundwater_recharge > 5) & (drainage_direction >= 0):
+                    potential_gw_recharge = 0
+                    gw_recharge_karst = karst_frac *  daily_runoff
+                    gw_recharge_no_karst = (1 - karst_frac)  *  groundwater_recharge_factor * daily_runoff
+                    
                     groundwater_recharge_from_soil_mm = \
-                        np.minimum(max_groundwater_recharge,
-                                   groundwater_recharge_factor * daily_runoff)
-
+                    np.minimum(max_groundwater_recharge,
+                               gw_recharge_karst +   gw_recharge_no_karst)
+                    
                     # For (semi) arid cells groundwater recharge becomes zero
                     # when critical precipitation for groundwater recharge
                     # (default = 12.5 mm/day) is not exceeded.
@@ -305,11 +339,16 @@ def soil_water_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
                             groundwater_recharge_from_soil_mm
                         groundwater_recharge_from_soil_mm = 0
 
-                else:
+                else: 
                     potential_gw_recharge = 0
+                    gw_recharge_karst = karst_frac *  daily_runoff
+                    gw_recharge_no_karst = (1 - karst_frac)  *  groundwater_recharge_factor * daily_runoff
+                    
                     groundwater_recharge_from_soil_mm = \
-                        np.minimum(max_groundwater_recharge,
-                                   groundwater_recharge_factor * daily_runoff)
+                    np.minimum(max_groundwater_recharge,
+                              gw_recharge_karst +   gw_recharge_no_karst)
+                # =============================================================================
+
 
                 # =============================================================
                 # Updating runoff and soil water content with remaning water in
