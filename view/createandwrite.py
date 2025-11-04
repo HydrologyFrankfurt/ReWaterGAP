@@ -74,7 +74,7 @@ class CreateandWritetoVariables:
             "snowcover-frac": "snowcover_frac",
             "soilmoist": "soil_moisture",
             "smax": "maximum_soil_moisture",
-            "qrd": "groundwater_recharge",
+            "qrd": "groundwater_recharge_diffuse",
             "qs": "surface_runoff"
         }
 
