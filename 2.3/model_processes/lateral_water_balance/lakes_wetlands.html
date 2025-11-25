@@ -1,0 +1,798 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lakes and wetlands &#8212; ReWaterGAP 2.3 (under development) documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=82f1ec10"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'model_processes/lateral_water_balance/lakes_wetlands';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/refs/heads/main/docs/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.3 (under development)';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Reservoirs" href="reservoir_regulated_lakes.html" />
+    <link rel="prev" title="Groundwater" href="groundwater.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2.3 (under development)" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP 2.3 (under development) documentation - Home"/>
+    <img src="../../_static/watergap_logo.png" class="logo__image only-dark pst-js-only" alt="ReWaterGAP 2.3 (under development) documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributers_guide/index.html">
+    Contributers Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributers_guide/index.html">
+    Contributers Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../vertical_water_balance/index.html">Vertical Water Balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/radiation_evapotranspiration.html">Radiation and Evapotranspiration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/leafareaindex.html">Leaf Area Index</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/canopy.html">Canopy</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/snow.html">Snow</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/soil.html">Soil</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../vertical_water_balance/karst.html">Karst</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Lateral Water Balance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="groundwater.html">Groundwater</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Lakes and wetlands</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="reservoir_regulated_lakes.html">Reservoirs</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="river.html">River</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="net_abstractions.html">Net abstractions</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gwswuse/index.html">Groundwater Surface Water Use</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/simulation_logic.html">Simulation Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/irrigation_simulation.html">Irrigation Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/domestic_simulation.html">Domestic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/manufacturing_simulation.html">Manufacturing Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/thermal_power_simulation.html">Thermal Power Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/livestock_simulation.html">Livestock Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gwswuse/cross_sectoral_aggregate_results.html">Cross-Sectoral Aggregate Results</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Model Processes</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Lateral Water Balance</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Lakes and wetlands</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="lakes-and-wetlands">
+<span id="lakes-wetlands"></span><h1>Lakes and wetlands<a class="headerlink" href="#lakes-and-wetlands" title="Link to this heading">#</a></h1>
+<p>Lakes and wetlands storages and related fluxes are calculated based on section 4.6 of Müller Schmied et al 2021 <a class="footnote-reference brackets" href="#id15" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.  In WaterGAP, lakes and wetlands are categorized into two types: local and global. Local water bodies receive inflow only from the runoff generated within the grid cell, while global water bodies additionally receive streamflow from upstream grid cells. All local (global) wetlands within a <span class="math notranslate nohighlight">\(0.5° \times 0.5°\)</span> grid cell are simulated as one local (global) wetland that covers a specified fraction of the cell, and all local lakes within a grid cell are aggregated and simulated as one. It is important to note that the water balance of global lakes is computed at the outflow cell.
+The location, area, and other attributes of these water bodies are defined using the Global Lakes and Wetland Database (GLWD) (Lehner and Döll, 2004). Area fractions of local lakes and wetlands, except for global lake (which have absolute area), are obtained from this database (see appendix D in Müller Schmied et al 2021), and this information is then used for the computation of the maximum capacity of the surface water bodies.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each grid cell can have a maximum of one local wetland, one global wetland, one local lake, and one global lake compartment. The lateral water flow within the cell follows
+the sequence shown in the <span class="xref std std-ref">watergap schematic diagram</span>. For example, if there is a local lake compartment in a grid cell, it receives a fraction of
+the outflow from the groundwater compartment (under a humid climate) and of the fast surface and subsurface outflow. The outflow from the local lake becomes inflow to the
+local wetland if it exists, otherwise to the global lake</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="lakes_wetlands.lake_wetland_water_balance">
+<span class="sig-prename descclassname"><span class="pre">lakes_wetlands.</span></span><span class="sig-name descname"><span class="pre">lake_wetland_water_balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_swb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precipitation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">openwater_pot_evap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aridity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drainage_direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inflow_to_swb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swb_outflow_coeff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groundwater_recharge_constant</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction_exponent_lakewet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areal_corr_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lakewet_frac</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lake_outflow_exp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wetland_outflow_exp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoir_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accumulated_unsatisfied_potential_netabs_sw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/lakes_wetlands.html#lake_wetland_water_balance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lakes_wetlands.lake_wetland_water_balance" title="Link to this definition">#</a></dt>
+<dd><p>Compute water balance for global and local lakes and wetlands including
+storage and related fluxes.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>x</strong><span class="classifier">int</span></dt><dd><blockquote>
+<div><p>Latitude index of cell</p>
+</div></blockquote>
+<dl class="simple">
+<dt>y<span class="classifier">int</span></dt><dd><p>Longitude index of cell</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>choose_swb</strong><span class="classifier">string</span></dt><dd><p>Select surface waterbody (global and local lakes and wetlands)</p>
+</dd>
+<dt><strong>storage</strong><span class="classifier">float</span></dt><dd><p>Daily surface waterbody storage, Unit: [km3]</p>
+</dd>
+<dt><strong>lakewet_frac</strong><span class="classifier">float</span></dt><dd><p>Fraction of surface waterbody, Unit: [-]</p>
+</dd>
+<dt><strong>precipitation</strong><span class="classifier">float</span></dt><dd><p>Daily precipitation, Unit: [km/day]</p>
+</dd>
+<dt><strong>openwater_pot_evap</strong><span class="classifier">float</span></dt><dd><p>Daily open water potential evaporation, Unit: [km/day]</p>
+</dd>
+<dt><strong>aridity</strong><span class="classifier">int</span></dt><dd><p>Integer which differentiates arid(aridity=1) from
+humid(aridity=0) regions taken from  <a class="footnote-reference brackets" href="#id15" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> , Units: [-]</p>
+</dd>
+<dt><strong>drainage_direction</strong><span class="classifier">int</span></dt><dd><p>Drainage direction taken from  <a class="footnote-reference brackets" href="#id15" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> , Units: [-]</p>
+</dd>
+<dt><strong>inflow_to_swb</strong><span class="classifier">float</span></dt><dd><p>Inflow into selected surface waterbody, Unit: [km3/day]</p>
+</dd>
+<dt><strong>swb_outflow_coeff: float</strong></dt><dd><p>Surface water outflow coefficient (=0.01) Eqn 27 <a class="footnote-reference brackets" href="#id15" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, Unit: [1/day]</p>
+</dd>
+<dt><strong>groundwater_recharge_constant: float</strong></dt><dd><p>Groundwater recharge constant below lakes, reserviors &amp; wetlands (=0.01)
+Eqn 26 <a class="footnote-reference brackets" href="#id15" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, Unit: [m/day]</p>
+</dd>
+<dt><strong>reduction_exponent_lakewet: float</strong></dt><dd><p>Reduction exponent (= 3.32193) taken from Eqn 24 and 25 <a class="footnote-reference brackets" href="#id15" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> , Units: [-].</p>
+</dd>
+<dt><strong>areal_corr_factor: float</strong></dt><dd><p>Areal correction factor</p>
+</dd>
+<dt><strong>max_storage: float</strong></dt><dd><p>Maximum storage of surface waterbody storage, Unit: [km3]</p>
+</dd>
+<dt><strong>max_area: float,</strong></dt><dd><p>Maximum area of surface waterbody, Unit: km2.
+Note!!! Global lake area has absolute lake area (including that of
+riparian cells) in the outflow cell. Hence, the outflow cell is used for
+waterbalance calulation.</p>
+</dd>
+<dt><strong>lake_outflow_exp: float</strong></dt><dd><p>Lake outflow exponent(=1.5) taken from Eqn 27 <a class="footnote-reference brackets" href="#id15" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, Units: [-].</p>
+</dd>
+<dt><strong>wetland_outflow_exp: float</strong></dt><dd><p>Wetland outflow exponent(=2.5) taken from Eqn 27 <a class="footnote-reference brackets" href="#id15" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, Units: [-].</p>
+</dd>
+<dt><strong>reservoir_area: float</strong></dt><dd><p>Reservoir Area (required to split water demand 50%  between reservoir
+and global lake), Unit: [km2]</p>
+</dd>
+<dt><strong>accumulated_unsatisfied_potential_netabs_sw:</strong></dt><dd><p>Accumulated unsatified potential net abstraction from surafce water,
+Unit: [km^3/day]</p>
+</dd>
+<dt><strong>References.</strong></dt><dd></dd>
+<dt><strong>.. [1] Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M.,</strong></dt><dd><p>Herbert, C., Niemann, C., Peiris, T. A., Popat, E.,
+Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S.,
+Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021).
+The global water resources and use model WaterGAP v2.2d:
+model description and evaluation. Geoscientific Model
+Development, 14(2), 1037–1079.
+<a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>storage</strong><span class="classifier">float</span></dt><dd><p>Updated daily surface waterbody storage, Unit: [km3]</p>
+</dd>
+<dt><strong>outflow</strong><span class="classifier">float</span></dt><dd><p>Daily surface waterbody outflow, Unit: [km3/day]</p>
+</dd>
+<dt><strong>gwr_lakewet</strong><span class="classifier">float</span></dt><dd><p>Daily groundwater recharge from surface water body outflow
+(arid region only), Unit: [km3/day]</p>
+</dd>
+<dt>lake_wet_newfraction: float</dt><dd><p>Updated local lake area fraction(to adapt landarea fraction), Unit:[-].</p>
+</dd>
+<dt>accumulated_unsatisfied_potential_netabs_glolake: float</dt><dd><p>Accumulated unsatified potential net abstraction after global lake
+satisfaction, Unit: [km^3/day]</p>
+</dd>
+<dt>actual_use_sw: float</dt><dd><p>Actual net abstraction from lakes and wetlands, Unit: [km^3/day]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="water-balance">
+<h2>Water balance<a class="headerlink" href="#water-balance" title="Link to this heading">#</a></h2>
+<p>Lakes and wetland storage <span class="math notranslate nohighlight">\({S}_{l,w}\)</span> <span class="math notranslate nohighlight">\([m^3]\)</span> is computed as</p>
+<div class="math notranslate nohighlight">
+\[\frac{dS_l,w}{d_t} =  {Q}_{in} + A(P  − {E}_{pot}) − {R_g}_{l,w}  − {NA}_{l}  − {Q}_{out}\]</div>
+<p>where <span class="math notranslate nohighlight">\({Q}_{in}\)</span> is inflow into the lake or wetland from upstream <span class="math notranslate nohighlight">\([m^3 {d}^{-1}]\)</span>,
+<span class="math notranslate nohighlight">\(A\)</span> is a global (or local) water body surface area <span class="math notranslate nohighlight">\([m^2]\)</span> in the grid cell at time step <span class="math notranslate nohighlight">\(t\)</span>,
+<span class="math notranslate nohighlight">\(P\)</span> is precipitation <span class="math notranslate nohighlight">\([m^3 {d}^{-1}]\)</span>, <span class="math notranslate nohighlight">\({E}_{pot}\)</span> is <a class="reference internal" href="../vertical_water_balance/radiation_evapotranspiration.html#pot-evap"><span class="std std-ref">potential evapotranspiration</span></a> <span class="math notranslate nohighlight">\([m^3 {d}^{-1}]\)</span>, <span class="math notranslate nohighlight">\({R_g}_{l,w}\)</span> is point source groundwater recharge from the water body (only in arid/semiarid regions) <span class="math notranslate nohighlight">\([m^3 {d}^{-1}]\)</span>, <span class="math notranslate nohighlight">\({NA}_{l}\)</span> is net abstraction from lakes <span class="math notranslate nohighlight">\([m^3 {d}^{-1}]\)</span>
+and <span class="math notranslate nohighlight">\({Q}_{out}\)</span> is the outflow from the water body to other surface water bodies including river storage <span class="math notranslate nohighlight">\([m^3 {d}^{-1}]\)</span>.</p>
+<p>The area of these surface water bodies (except global lakes) varies temporally and is computed as:</p>
+<div class="math notranslate nohighlight">
+\[A = r \times {A}_{max}\]</div>
+<p>where <span class="math notranslate nohighlight">\(r\)</span> is the reduction factor <span class="math notranslate nohighlight">\([–]\)</span>, and <span class="math notranslate nohighlight">\({A}_{max}\)</span> is the maximum extent
+of the water body <span class="math notranslate nohighlight">\([m^2]\)</span> and is computed as the <span class="math notranslate nohighlight">\({A}_{grid} \times {A}_{fraction,l}\)</span>.
+<span class="math notranslate nohighlight">\({A}_{grid}\)</span> is the area of :math: <cite>0.5° times 0.5°</cite> grid cell and <span class="math notranslate nohighlight">\({A}_{fraction,l}\)</span> is the area fraction of the surface waterbody <span class="math notranslate nohighlight">\([m^2]\)</span>.</p>
+<p>The reduction factor is applied differently for local and global lakes.
+In the case of local lakes, the reduction factor is used to reduce the lake area, while for global lakes, it is only used for reducing evaporation since the global lake area is assumed not to be dynamic. This would prevent the continuous decline of global lake levels in some cases such as (semi)arid regions.
+The reduction factor is computed for local and global lakes as:</p>
+<div class="math notranslate nohighlight" id="lake-red">
+\[r = 1- \left(\frac{|S_l - Sl,max|}{2({S}_{l,max})}\right)^p,  0 &lt;= r &lt;=1\]</div>
+<p>where <span class="math notranslate nohighlight">\(S_l\)</span> is the volume of the water <span class="math notranslate nohighlight">\([m^3]\)</span> stored in the lake at time step t <span class="math notranslate nohighlight">\(days\)</span>, <span class="math notranslate nohighlight">\({S}_{l,max}\)</span> is the maximum storage of the lake <span class="math notranslate nohighlight">\([m^3]\)</span>.
+<span class="math notranslate nohighlight">\({S}_{l,max}\)</span> is computed based on <span class="math notranslate nohighlight">\({A}_{max}\)</span> and a maximum storage depth of 5 m, and p is the reduction exponent <span class="math notranslate nohighlight">\([–]\)</span>, set to 3.32 <a class="footnote-reference brackets" href="#id15" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>According to the  <a class="reference internal" href="#lake-red"><span class="std std-ref">lake reduction factor equation</span></a>, the area is reduced by <span class="math notranslate nohighlight">\(1 \%\)</span> if <span class="math notranslate nohighlight">\(S_l = 50 \% \times {S}_{l,max}\)</span>, by <span class="math notranslate nohighlight">\(10 \%\)</span> if <span class="math notranslate nohighlight">\(S_l = 0\)</span> and by <span class="math notranslate nohighlight">\(100 \%\)</span> if            <span class="math notranslate nohighlight">\(S_l=-{S}_{l,max}\)</span>.</p>
+</div>
+<p>In the case of local and global wetlands, the reduction factor is used to reduce the area. It is computed as:</p>
+<div class="math notranslate nohighlight" id="wetland-red">
+\[r = 1- \left(\frac{|S_w - Sw,max|}{{S}_{w,max}}\right)^p,  0 &lt;= r &lt;=1\]</div>
+<p>where <span class="math notranslate nohighlight">\(S_w\)</span> is the volume of the water <span class="math notranslate nohighlight">\(m^3\)</span> stored in the wetlands at time step t <span class="math notranslate nohighlight">\(days\)</span>, <span class="math notranslate nohighlight">\({S}_{w,max}\)</span> is the maximum storage of the wetland <span class="math notranslate nohighlight">\(m^3\)</span>. Reduction exponent p is set to 3.32 <a class="footnote-reference brackets" href="#id15" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Also by the  <a class="reference internal" href="#wetland-red"><span class="std std-ref">wetland reduction factor equation</span></a>, the area is reduced by <span class="math notranslate nohighlight">\(10 \%\)</span> if <span class="math notranslate nohighlight">\(S_w = 50 \% \times {S}_{w,max}\)</span>, by <span class="math notranslate nohighlight">\(70 \%\)</span> if <span class="math notranslate nohighlight">\(S_w = 10 \% \times {S}_{w,max}\)</span>.</p>
+</div>
+</section>
+<section id="inflows">
+<h2>Inflows<a class="headerlink" href="#inflows" title="Link to this heading">#</a></h2>
+<p>Computation of inflow <span class="math notranslate nohighlight">\({Q}_{in}\)</span> differs for local and global water bodies.
+For local lakes and wetlands, inflow comes only from local runoff within the same grid cell.
+A fraction  <span class="math notranslate nohighlight">\(fswb\)</span> (see fractional routing scheme in section 4 of Müller Schmied et al. (2021) <a class="footnote-reference brackets" href="#id15" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>) of the fast surface and subsurface runoff, as well as discharge from groundwater in humid grid cells, is directed to these local water bodies (see <a class="reference internal" href="../../getting_started/model_framework.html#model-schematic"><span class="std std-ref">watergap schematic</span></a>). If a grid cell contains both a local lake and a wetland, the outflow from the lake becomes the inflow to the wetland (see <a class="reference internal" href="../../getting_started/model_framework.html#model-schematic"><span class="std std-ref">watergap schematic</span></a>).
+On the other hand, global lakes and wetlands receive inflow from both local runoff and river inflow from upstream grid cells (see <a class="reference internal" href="../../getting_started/model_framework.html#model-schematic"><span class="std std-ref">watergap schematic</span></a>).</p>
+</section>
+<section id="outflows">
+<h2>Outflows<a class="headerlink" href="#outflows" title="Link to this heading">#</a></h2>
+<p>Lakes and wetlands lose water through <a class="reference internal" href="../vertical_water_balance/radiation_evapotranspiration.html#pot-evap"><span class="std std-ref">evaporation</span></a> (<span class="math notranslate nohighlight">\({E}_{pot}\)</span>), which is assumed to be equal to the potential evapotranspiration computed using the Priestley–Taylor equation with an albedo of 0.08.</p>
+<p>In arid and semiarid grid cells, lakes and wetlands are assumed to recharge the groundwater through focused groundwater recharge (<span class="math notranslate nohighlight">\({R}_{{g}_{l,w}}\)</span>). In humid areas, groundwater mostly recharges surface water bodies <a class="footnote-reference brackets" href="#id16" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, as explained in Section 4.6.2 <a class="footnote-reference brackets" href="#id15" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. The focussed groundwater recharge <span class="math notranslate nohighlight">\({R}_{{g}_{l,w}}\)</span> is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[{R}_{{g}_{l,w}} = {k}_{{gw}_{l,w}} * {r} * {A}_{max}\]</div>
+<p>where <span class="math notranslate nohighlight">\({k}_{{gw}_{l,w}}\)</span> is the groundwater recharge constant below lakes and wetlands <span class="math notranslate nohighlight">\([0.01 {m}*{d}^{-1}]\)</span>.</p>
+<p>It is assumed that water can be abstracted from lakes but not from wetlands (for more information on how net abrstactions are computed, see <a class="reference internal" href="net_abstractions.html#net-abstractions"><span class="std std-ref">Net abstractions</span></a>).</p>
+<p>Outflow from lakes and wetlands is calculated as a function of <span class="math notranslate nohighlight">\({S}_{l,w}\)</span> (lakes and wetlands storage). The principal effect of a lake or wetland is to reduce the variability of streamflow, which can be simulated by computing the outflow <span class="math notranslate nohighlight">\({Q}_{out}\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[{Q}_{out} = {k} * {S}_{ll, wl} * (\frac{{S}_{ll, wl}}{{S}_{ll, wl, max}})^{a},\]</div>
+<p>where <span class="math notranslate nohighlight">\({S}_{ll, wl}\)</span> is the local lake or wetland storage [<span class="math notranslate nohighlight">\({m}^{3}\)</span>], and <span class="math notranslate nohighlight">\({k}\)</span> is the surface water outflow coefficient <span class="math notranslate nohighlight">\([0.01 {d}^{-1}]\)</span>. The storage <span class="math notranslate nohighlight">\({S}_{ll, wl}\)</span> is computed based on <span class="math notranslate nohighlight">\({A}_{max}\)</span> and a maximum storage depth of <span class="math notranslate nohighlight">\({5}\)</span> [<span class="math notranslate nohighlight">\({m}\)</span>] for local lakes and <span class="math notranslate nohighlight">\({2}\)</span> [<span class="math notranslate nohighlight">\({m}\)</span>] for local wetlands. The exponent <span class="math notranslate nohighlight">\({a}\)</span> is set to <span class="math notranslate nohighlight">\({1.5}\)</span> for local lakes, based on the theoretical value of outflow over a rectangular weir, while an exponent of <span class="math notranslate nohighlight">\({2.5}\)</span> is used for local wetlands, leading to a slower outflow <a class="footnote-reference brackets" href="#id17" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. The outflow of global lakes and global wetlands is computed as:</p>
+<div class="math notranslate nohighlight">
+\[{Q}_{out} = k * {S}_{lg,wg}\]</div>
+</section>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h1>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id15" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id3">3</a>,<a role="doc-backlink" href="#id4">4</a>,<a role="doc-backlink" href="#id5">5</a>,<a role="doc-backlink" href="#id6">6</a>,<a role="doc-backlink" href="#id7">7</a>,<a role="doc-backlink" href="#id8">8</a>,<a role="doc-backlink" href="#id9">9</a>,<a role="doc-backlink" href="#id10">10</a>,<a role="doc-backlink" href="#id11">11</a>,<a role="doc-backlink" href="#id13">12</a>)</span>
+<p>Müller Schmied, H., Cáceres, D., Eisner, S., Flörke, M., Herbert, C., Niemann, C., Peiris, T. A., Popat, E., Portmann, F. T., Reinecke, R., Schumacher, M., Shadkam, S., Telteu, C.E., Trautmann, T., &amp; Döll, P. (2021). The global water resources and use model WaterGAP v2.2d: model description and evaluation. Geoscientific Model Development, 14(2), 1037–1079. <a class="reference external" href="https://doi.org/10.5194/gmd-14-1037-2021">https://doi.org/10.5194/gmd-14-1037-2021</a></p>
+</aside>
+<aside class="footnote brackets" id="id16" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">2</a><span class="fn-bracket">]</span></span>
+<p>Döll, P., Müller Schmied, H., Schuh, C., Portmann, F. T., and Eicker, A. (2014). Global-scale assessment of groundwater depletion and related groundwater abstractions: Combining hydrological modeling with information from well observations and GRACE satellites, Water Resour. Res., 50, 5698–5720, <a class="reference external" href="https://doi.org/10.1002/2014WR015595">https://doi.org/10.1002/2014WR015595</a></p>
+</aside>
+<aside class="footnote brackets" id="id17" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">3</a><span class="fn-bracket">]</span></span>
+<p>Döll, P., Kaspar, F., and Lehner, B. (2003). A global hydrological model for deriving water availability indicators: model tuning and validation, J. Hydrol., 270, 105–134, <a class="reference external" href="https://doi.org/10.1016/S0022-1694(02)00283-4">https://doi.org/10.1016/S0022-1694(02)00283-4</a></p>
+</aside>
+</aside>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="groundwater.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Groundwater</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="reservoir_regulated_lakes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reservoirs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lakes and wetlands</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lakes_wetlands.lake_wetland_water_balance"><code class="docutils literal notranslate"><span class="pre">lake_wetland_water_balance()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#water-balance">Water balance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inflows">Inflows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outflows">Outflows</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/model_processes/lateral_water_balance/lakes_wetlands.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
