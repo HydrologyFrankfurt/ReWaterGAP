@@ -1,0 +1,786 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>snow &#8212; ReWaterGAP 2.3 (under development) documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=82f1ec10"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/snow';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/HydrologyFrankfurt/ReWaterGAP/refs/heads/main/docs/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.3 (under development)';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2.3 (under development)" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/watergap_logo.png" class="logo__image only-light" alt="ReWaterGAP 2.3 (under development) documentation - Home"/>
+    <img src="../_static/watergap_logo.png" class="logo__image only-dark pst-js-only" alt="ReWaterGAP 2.3 (under development) documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../model_processes/index.html">
+    Model Processes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributers_guide/index.html">
+    Contributers Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/HydrologyFrankfurt/ReWaterGAP" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/HydroFrankfurt" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">snow</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for snow</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># =============================================================================</span>
+<span class="c1"># This file is part of WaterGAP.</span>
+
+<span class="c1"># WaterGAP is an opensource software which computes water flows and storages as</span>
+<span class="c1"># well as water withdrawals and consumptive uses on all continents.</span>
+
+<span class="c1"># You should have received a copy of the LGPLv3 License along with WaterGAP.</span>
+<span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="sd">&quot;&quot;&quot;Optimised snow water storage.&quot;&quot;&quot;</span>
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># This module calulates snow water water balance, including snow water storage</span>
+<span class="c1"># and related fluxes based on section 4.3 of (Müller Schmied et al. (2021)).</span>
+<span class="c1"># Simulation of the snow dynamics is calculated such that each grid is</span>
+<span class="c1"># subdivided into 100 non localized subgrids that are assigned different land</span>
+<span class="c1"># surface elevations according to GTOPO30 (U.S. Geological Survey, 1996).</span>
+<span class="c1"># For model output, subgrid values are aggregated to 0.5 degree cell value.</span>
+<span class="c1"># This module uses numba (See https://numba.pydata.org/) to optimizes the</span>
+<span class="c1"># runtime speed of the snow water storage funtion</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
+
+<span class="c1"># @njit is a decorator from numba to optimised the python code for speed.</span>
+
+
+<div class="viewcode-block" id="snow_water_balance">
+<a class="viewcode-back" href="../model_processes/vertical_water_balance/snow.html#snow.snow_water_balance">[docs]</a>
+<span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">snow_water_balance</span><span class="p">(</span><span class="n">snow_water_storage</span><span class="p">,</span> <span class="n">snow_water_storage_subgrid</span><span class="p">,</span>
+                       <span class="n">temperature</span><span class="p">,</span> <span class="n">precipitation</span><span class="p">,</span> <span class="n">throughfall</span><span class="p">,</span> <span class="n">pet_to_soil</span><span class="p">,</span>
+                       <span class="n">land_storage_change_sum</span><span class="p">,</span> <span class="n">degreeday</span><span class="p">,</span>
+                       <span class="n">current_landarea_frac</span><span class="p">,</span> <span class="n">landareafrac_ratio</span><span class="p">,</span>
+                       <span class="n">elevation</span><span class="p">,</span> <span class="n">daily_storage_transfer</span><span class="p">,</span>
+                       <span class="n">adiabatic_lapse_rate</span><span class="p">,</span>  <span class="n">snow_freeze_temp</span><span class="p">,</span>
+                       <span class="n">snow_melt_temp</span><span class="p">,</span> <span class="n">minstorage_volume</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute snow water balance for subgrids including snow water storage and</span>
+<span class="sd">    water flows entering and leaving the snow storage</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    snow_water_storage :float</span>
+<span class="sd">        Snow water storage, Units: [mm]</span>
+<span class="sd">    snow_water_storage_subgrid : array</span>
+<span class="sd">        Snow water storage divided into 100 subgrids based on GTOPO30 (U.S.</span>
+<span class="sd">        Geological Survey, 1996) land surface elevation map, Units: [mm]</span>
+<span class="sd">    temperature :float</span>
+<span class="sd">        Daily temperature climate forcing, Units: [K]</span>
+<span class="sd">    precipitation :float</span>
+<span class="sd">        Daily precipitation,  Units: [mm/day]</span>
+<span class="sd">    throughfall :float</span>
+<span class="sd">       Throughfall,  Units: [mm/day]</span>
+<span class="sd">    pet_to_soil :float</span>
+<span class="sd">        Remaining energy for addtional soil evaporation, Units: [mm/day]</span>
+<span class="sd">    land_storage_change_sum :float</span>
+<span class="sd">        Sum of change in vertical balance storages, Units: [mm]</span>
+<span class="sd">    degreeday :float</span>
+<span class="sd">        Land cover specific degreeday values based on [1]_ .Units: [mm/day/C]</span>
+<span class="sd">    current_landarea_frac :float</span>
+<span class="sd">      Land area fraction of current time step,  Units: [-]</span>
+<span class="sd">    landareafrac_ratio :float</span>
+<span class="sd">       Ratio of land area fraction of previous to current time step, Units: [-]</span>
+<span class="sd">    elevation :array</span>
+<span class="sd">        and surface elevation map based on GTOPO30 (U.S.</span>
+<span class="sd">        Geological Survey, 1996) [1]_. Units: [m]</span>
+<span class="sd">    daily_storage_transfer :float</span>
+<span class="sd">        Storage to be transfered to runoff when land area fraction of current</span>
+<span class="sd">        time step is zero, Units: [mm]</span>
+<span class="sd">    adiabatic_lapse_rate:float</span>
+<span class="sd">        Adiabatic lapse rate , Units:  [K/m or °C/m]</span>
+<span class="sd">    snow_freeze_temp:float</span>
+<span class="sd">        Snow freeze temperature  , Units:  [K]</span>
+<span class="sd">    snow_melt_temp:float</span>
+<span class="sd">        Snow melt temperature  , Units:  [K]</span>
+<span class="sd">    minstorage_volume: float</span>
+<span class="sd">        Volume at which storage is set to zero, units: [km3]</span>
+<span class="sd">    x, y : Latititude and longitude indexes of grid cells.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    snow_water_storage :float</span>
+<span class="sd">        Updated snow water storage, Units: [mm]</span>
+<span class="sd">    snow_water_storage_subgrid :array</span>
+<span class="sd">        Updated snow water storage divided into 100 subgrids based on GTOPO30</span>
+<span class="sd">        (U.S. Geological Survey, 1996) land surface elevation map, Units: mm</span>
+<span class="sd">    snow_fall :float</span>
+<span class="sd">        Snowfall, Units: [mm/day]</span>
+<span class="sd">    sublimation :float</span>
+<span class="sd">        Sublimation, Units: [mm/day]</span>
+<span class="sd">    snow_melt :float</span>
+<span class="sd">        Snow melt, Units: [mm/day]</span>
+<span class="sd">    effective_precipitation :float</span>
+<span class="sd">        Effective Precipitation, Units: [mm/day]</span>
+<span class="sd">    max_temp_elev :float</span>
+<span class="sd">        Maximum temperature from the 1st(lowest) elevation, Units: [K]</span>
+<span class="sd">    land_storage_change_sum :float</span>
+<span class="sd">       Sum of change in vertical balance storages, Units: [mm]</span>
+<span class="sd">    daily_storage_transfer :float</span>
+<span class="sd">       Updated storage to be transfered to runoff when land area fraction</span>
+<span class="sd">       of current time step is zero, Units: [mm]</span>
+<span class="sd">    snowcover_frac: float</span>
+<span class="sd">        Snow cover fraction</span>
+
+<span class="sd">    References.</span>
+
+<span class="sd">    .. [1] U.S. Geological Survey: USGS EROS archive – digital elevation–</span>
+<span class="sd">                global 30 arc-second elevation (GTOPO30), available at:</span>
+<span class="sd">                https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects</span>
+<span class="sd">                (last access: 25 MArch 2020), 1996</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Index (x, y) to  print out varibales of interest</span>
+    <span class="c1"># e.g.  if x==65 and y==137: print(mean_elevation)</span>
+
+    <span class="c1"># =====================================================================</span>
+    <span class="c1"># Extracting elevation and mean elevation  for subcells,  Units = m</span>
+    <span class="c1"># =====================================================================</span>
+    <span class="n">mean_elevation</span> <span class="o">=</span> <span class="n">elevation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># extracting elevation for sub cells</span>
+    <span class="n">elevation_subgrid</span> <span class="o">=</span> <span class="n">elevation</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="c1"># Initializing elevation threshold to prevent excessive snow accumulation</span>
+    <span class="n">thresh_elev</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># =====================================================================</span>
+    <span class="c1"># Creating subgrid variable</span>
+    <span class="c1"># =====================================================================</span>
+    <span class="n">sublimation_subgrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">snow_from_throughfall_subgrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">snow_fall_subgrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">throughfall_before_melt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">snow_melt_subgrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">snowcover_frac_subgrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># =====================================================================</span>
+    <span class="c1"># Calulating temperature (K) for the 100 subcells based on land surface</span>
+    <span class="c1"># map elevation and a constant adiabatic lapse rate</span>
+    <span class="n">temp_elev</span> <span class="o">=</span> <span class="n">temperature</span> <span class="o">-</span> <span class="p">((</span><span class="n">elevation_subgrid</span> <span class="o">-</span> <span class="n">mean_elevation</span><span class="p">)</span> <span class="o">*</span>
+                               <span class="n">adiabatic_lapse_rate</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">current_landarea_frac</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Adapting snow_water_storage_subgrid to dynamic land area fraction</span>
+        <span class="n">snow_water_storage_subgrid</span> <span class="o">*=</span> <span class="n">landareafrac_ratio</span>
+
+        <span class="c1"># minimal storage volume =1e15 (smaller volumes set to zero)</span>
+        <span class="c1"># to counter numerical inaccuracies</span>
+        <span class="n">mask_zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">snow_water_storage_subgrid</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">minstorage_volume</span>
+        <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">mask_zero</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Note!!.</span>
+        <span class="c1"># Use .copy() to create initial_storage as a separate copy of snow_water_storage_subgrid. </span>
+        <span class="c1"># Without .copy(), changes to the snow_water_storage_subgrid array will also affect </span>
+        <span class="c1"># initial_storage since arrays are mutable and share the same memory reference.</span>
+        <span class="c1"># For single float values, copying is not required because they are immutable.</span>
+        <span class="n">initial_storage</span> <span class="o">=</span> <span class="n">snow_water_storage_subgrid</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">)):</span>
+            <span class="c1"># =================================================================</span>
+            <span class="c1">#         Prevent excessive snow accumulation:</span>
+            <span class="c1"># When snow storage reaches 1000 mm in a subcell in a previous</span>
+            <span class="c1"># timestep, its elevation is used as a threshold for remaning upper</span>
+            <span class="c1"># subcells (those in higher elevations).</span>
+            <span class="c1"># New temperature is calulated for these remaning subcells so that</span>
+            <span class="c1"># temperature doesn&#39;t decrease in these remaining subcells</span>
+            <span class="c1"># This should prevent uncontrolled snow accumulation.</span>
+            <span class="c1"># =================================================================</span>
+            <span class="c1"># Getting elevation threshold (thresh_elev) from subcell when snow</span>
+            <span class="c1"># storage reaches 1000 mm in this subcell</span>
+
+            <span class="k">if</span> <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">thresh_elev</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="n">thresh_elev</span> <span class="o">=</span> <span class="n">elevation_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">thresh_elev</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">temp_elev</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">temperature</span> <span class="o">-</span> <span class="p">((</span><span class="n">thresh_elev</span> <span class="o">-</span> <span class="n">mean_elevation</span><span class="p">)</span> <span class="o">*</span>
+                                       <span class="n">adiabatic_lapse_rate</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">temp_elev</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">snow_freeze_temp</span><span class="p">:</span>
+                <span class="c1"># Computing snow fall(mm) [defined as direct precipitation that</span>
+                <span class="c1"># falls as snow] and snow from through fall(mm)</span>
+                <span class="n">snow_fall_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">precipitation</span>
+                <span class="n">snow_from_throughfall_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">throughfall</span>
+                <span class="n">throughfall_before_melt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="c1">#  Compute sublimation (mm), and updating snow water storage</span>
+                <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> \
+                    <span class="n">snow_from_throughfall_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+                <span class="c1"># Sublimation is limited by snow storage.</span>
+                <span class="c1"># Similar to EQ.14 in H. Müller Schmied et al 2021.</span>
+                <span class="k">if</span> <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">pet_to_soil</span><span class="p">:</span>
+                    <span class="n">sublimation_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pet_to_soil</span>
+                    <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">pet_to_soil</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sublimation_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">throughfall_before_melt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">throughfall</span>
+
+            <span class="c1"># Compute snow melt (mm) and update snow water storage (mm)</span>
+            <span class="k">if</span> <span class="n">temp_elev</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">snow_melt_temp</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">snow_melt_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">degreeday</span> <span class="o">*</span> <span class="p">(</span><span class="n">temp_elev</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">snow_melt_temp</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">snow_melt_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                        <span class="n">snow_melt_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">snow_water_storage_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">snow_melt_subgrid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="c1"># =================================================================</span>
+            <span class="c1">#  Maximum Temperature based on elevation is used in soil actual</span>
+            <span class="c1"># evapotransipration calculation.</span>
+            <span class="c1"># ==================================================================</span>
+            <span class="c1"># Maximum temperature is taking from the 1st(lowest) elevation</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">max_temp_elev</span> <span class="o">=</span> <span class="n">temp_elev</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="c1"># =====================================================================</span>
+        <span class="c1">#  Compute snow cover fraction</span>
+        <span class="c1"># =====================================================================</span>
+        <span class="n">snowcover_frac_subgrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">snow_water_storage_subgrid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># =================================================================</span>
+        <span class="c1">#  Compute effective precipitation based on elevation (mm/day).</span>
+        <span class="c1">#  and change in snow water storage(mm)</span>
+        <span class="c1"># ==================================================================</span>
+        <span class="c1"># effective_precipitation is needed as input soil water balance.</span>
+
+        <span class="n">effective_precipitation_elev</span> <span class="o">=</span> \
+            <span class="n">snow_melt_subgrid</span> <span class="o">+</span> <span class="n">throughfall_before_melt</span>
+
+        <span class="c1"># computing change in snow_water_storage</span>
+        <span class="n">snow_water_storage_change</span> <span class="o">=</span> \
+            <span class="n">snow_water_storage_subgrid</span> <span class="o">-</span> <span class="n">initial_storage</span>
+
+        <span class="c1"># =================================================================</span>
+        <span class="c1"># Aggretating subcells values to 0.5 degree cells.</span>
+        <span class="c1"># =================================================================</span>
+        <span class="c1"># land_storage_change_sum variable is the sum of all vertical water</span>
+        <span class="c1">#  balance storage change (canopy, snow, soil)</span>
+        <span class="n">land_storage_change_sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">snow_water_storage_change</span><span class="p">)</span> <span class="o">/</span>
+                                    <span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">))</span>
+
+        <span class="n">snow_water_storage</span> <span class="o">=</span> \
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">snow_water_storage_subgrid</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">))</span>
+        <span class="n">snow_fall</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">snow_fall_subgrid</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">))</span>
+        <span class="n">sublimation</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sublimation_subgrid</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">))</span>
+        <span class="n">snow_melt</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">snow_melt_subgrid</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">))</span>
+        <span class="n">effective_precipitation</span> <span class="o">=</span> \
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">effective_precipitation_elev</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">))</span>
+
+        <span class="n">snowcover_frac</span> <span class="o">=</span> \
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">snowcover_frac_subgrid</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># =================================================================</span>
+        <span class="c1"># Check if  current_landarea_frac == 0 , then add previous storage</span>
+        <span class="c1"># to daily_storage_tranfer. This storage will then  added to runoff</span>
+        <span class="c1"># (e.g. island)</span>
+        <span class="c1"># =================================================================</span>
+        <span class="n">daily_storage_transfer</span> <span class="o">+=</span> \
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">snow_water_storage_subgrid</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation_subgrid</span><span class="p">))</span>
+        <span class="n">snow_water_storage_subgrid</span><span class="p">[:]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">snow_water_storage</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">snow_water_storage</span><span class="p">,</span> <span class="n">snow_water_storage_subgrid</span><span class="p">,</span> <span class="n">snow_fall</span><span class="p">,</span> \
+        <span class="n">sublimation</span><span class="p">,</span> <span class="n">snow_melt</span><span class="p">,</span> <span class="n">effective_precipitation</span><span class="p">,</span> <span class="n">max_temp_elev</span><span class="p">,</span>\
+        <span class="n">land_storage_change_sum</span><span class="p">,</span>  <span class="n">daily_storage_transfer</span><span class="p">,</span> <span class="n">snowcover_frac</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ReWaterGAP.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
