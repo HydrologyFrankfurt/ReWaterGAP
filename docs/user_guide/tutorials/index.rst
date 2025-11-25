@@ -49,13 +49,6 @@ Tutorials (Under Development)
 
         Run GWSWUSE
 
-    .. grid-item-card::
-        :text-align: center
-        :link:  tutorial_karst
-        :link-type: ref
-
-        Run for Karst Regions
-
 .. toctree::
     :maxdepth: 
     :hidden:
@@ -66,5 +59,4 @@ Tutorials (Under Development)
     tutorial_docker
     tutorial_calibration
     tutorial_gwswuse
-    tutorial_karst
 
