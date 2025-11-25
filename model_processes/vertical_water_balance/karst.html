@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Karst &#8212; ReWaterGAP dev documentation</title>
+    <title>Karst (Under Construction) &#8212; ReWaterGAP dev documentation</title>
   
   
   
@@ -43,6 +43,7 @@
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'model_processes/vertical_water_balance/karst';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
@@ -401,7 +402,7 @@
 
 <li class="toctree-l2"><a class="reference internal" href="soil.html">Soil</a></li>
 
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Karst</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Karst (<strong>Under Construction</strong>)</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../lateral_water_balance/index.html">Lateral Water Balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -473,7 +474,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Vertical Water Balance</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Karst</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Karst (<strong>Under Construction</strong>)</span></li>
   </ul>
 </nav>
 </div>
@@ -490,8 +491,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="karst">
-<span id="id1"></span><h1>Karst<a class="headerlink" href="#karst" title="Link to this heading">#</a></h1>
+  <section id="karst-under-construction">
+<span id="karst"></span><h1>Karst (<strong>Under Construction</strong>)<a class="headerlink" href="#karst-under-construction" title="Link to this heading">#</a></h1>
 <p>[text here]</p>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
@@ -507,28 +508,28 @@ Each estimate was:</p>
 <li><p><strong>Filtered</strong> to remove duplicates, outliers, and short-term measurements.</p></li>
 </ul>
 <p>The result is a harmonized benchmark dataset of grid-cell GWR used for tuning and validation.</p>
-<p>—</p>
-<p>## 2.2 Simulating GWR With WaterGAP 2.2e</p>
-<p>### Overview</p>
+<section id="simulating-gwr-with-watergap-2-2e">
+<h3>2.2 Simulating GWR With WaterGAP 2.2e<a class="headerlink" href="#simulating-gwr-with-watergap-2-2e" title="Link to this heading">#</a></h3>
+<section id="overview">
+<h4>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h4>
 <p>WaterGAP partitions effective precipitation into runoff components and then computes diffuse groundwater recharge (GWR) as a capped fraction of one component.</p>
-<p>### Step 1 — Partition Effective Precipitation</p>
+</section>
+<section id="step-1-partition-effective-precipitation">
+<h4>Step 1 — Partition Effective Precipitation<a class="headerlink" href="#step-1-partition-effective-precipitation" title="Link to this heading">#</a></h4>
 <ol class="arabic simple">
 <li><p><strong>Urban runoff</strong> R₁: 50% of effective precipitation on urban land is direct runoff.</p></li>
 <li><p><strong>Soil overflow</strong> R₂: Excess water when soil storage exceeds capacity.</p></li>
 <li><p><strong>Nonlinear runoff</strong> R₃ (Eq. 1):</p></li>
 </ol>
-<p>[
-R_3 = P_{text{eff}} left(frac{S_s}{S_{s,max}}right)^{gamma}
-]</p>
-<p>where (S_s) is current soil water storage, (S_{s,max}) its maximum capacity, and (gamma) a calibrated exponent.</p>
-<p>### Step 2 — Compute Diffuse Recharge (Eqs. 2 &amp; 3)</p>
-<p>[
-R_g = min(R_{g,max}, f_g cdot R_3)
-]</p>
+<div class="math notranslate nohighlight">
+\[R_3 = P_{\text{eff}} \left( \frac{S_s}{S_{s,\max}} \right)^{\gamma}\]</div>
+<p>where <span class="math notranslate nohighlight">\({S}_{s}\)</span> is current soil water storage, <span class="math notranslate nohighlight">\({S}_{s,max}\)</span> its maximum capacity, and <span class="math notranslate nohighlight">\({\gamma}\)</span> a calibrated exponent.</p>
+</section>
+<section id="step-2-compute-diffuse-recharge-eqs-2-3">
+<h4>Step 2 — Compute Diffuse Recharge (Eqs. 2 &amp; 3)<a class="headerlink" href="#step-2-compute-diffuse-recharge-eqs-2-3" title="Link to this heading">#</a></h4>
+<p><span class="math notranslate nohighlight">\(R_g = \min(R_{g,\max}, f_g \cdot R_3)\)</span></p>
 <p>where (f_g) is the product of four modifiers:</p>
-<p>[
-f_g = f_r cdot f_t cdot f_h cdot f_{pg}
-]</p>
+<p><span class="math notranslate nohighlight">\(f_g = f_r \cdot f_t \cdot f_h \cdot f_{pg}\)</span></p>
 <ul class="simple">
 <li><p><strong>f_r:</strong> relief/slope factor</p></li>
 <li><p><strong>f_t:</strong> soil texture factor</p></li>
@@ -536,41 +537,53 @@ f_g = f_r cdot f_t cdot f_h cdot f_{pg}
 <li><p><strong>f_pg:</strong> permafrost/glacier factor</p></li>
 </ul>
 <p>Daily maximum recharge (R_{g,max}) is capped by soil type (coarse: 7 mm/d, medium: 4.5 mm/d, fine: 2.5 mm/d).</p>
-<p>### Step 3 — Groundwater Storage</p>
+</section>
+<section id="step-3-groundwater-storage">
+<h4>Step 3 — Groundwater Storage<a class="headerlink" href="#step-3-groundwater-storage" title="Link to this heading">#</a></h4>
 <p>Recharge is added to a groundwater store and released to rivers as baseflow:</p>
-<p>[
-Q_{gw to sw} = k cdot S_{gw}
-]</p>
-<p>where (k) is the groundwater discharge coefficient and (S_{gw}) groundwater storage.</p>
-<p>—</p>
-<p>## 2.3 Simulating GWR in Karst</p>
-<p>### Localization of Karst Areas</p>
+<p><span class="math notranslate nohighlight">\(Q_{gw \to sw} = k \cdot S_{gw}\)</span></p>
+<p>where <span class="math notranslate nohighlight">\({k}\)</span> is the groundwater discharge coefficient and <span class="math notranslate nohighlight">\({S}_{gw}\)</span> groundwater storage.</p>
+</section>
+</section>
+<section id="simulating-gwr-in-karst">
+<h3>2.3 Simulating GWR in Karst<a class="headerlink" href="#simulating-gwr-in-karst" title="Link to this heading">#</a></h3>
+<section id="localization-of-karst-areas">
+<h4>Localization of Karst Areas<a class="headerlink" href="#localization-of-karst-areas" title="Link to this heading">#</a></h4>
 <p>Karst is identified using the <strong>World Karst Aquifer Map (WOKAM)</strong>.
 The karst fraction of each grid cell is computed as (Eq. 4):</p>
 <p>[
 f_{text{karst}} = min left(f_{k,max}, frac{sum_i text{Share}_i A_{text{overlay},i}}{A_{text{cont}}}right)
 ]</p>
 <p>where shares are 0.4 for discontinuous and 0.9 for continuous/mixed categories, capped at (f_{k,max}=0.9).</p>
-<p>### Karst GWR Calculation</p>
+</section>
+<section id="karst-gwr-calculation">
+<h4>Karst GWR Calculation<a class="headerlink" href="#karst-gwr-calculation" title="Link to this heading">#</a></h4>
 <p>For karst cells, recharge is simply:</p>
 <p>[
 R_{g,text{karst}} = R_3
 ]</p>
-<p>### Combine Karst and Non-Karst Recharge (Eq. 8)</p>
+</section>
+<section id="combine-karst-and-non-karst-recharge-eq-8">
+<h4>Combine Karst and Non-Karst Recharge (Eq. 8)<a class="headerlink" href="#combine-karst-and-non-karst-recharge-eq-8" title="Link to this heading">#</a></h4>
 <p>[
 R_{g,text{grid}} =
 frac{f_{text{karst,land}}}{f_{text{land}}} R_{g,text{karst}} +
 left(1 - frac{f_{text{karst,land}}}{f_{text{land}}}right) R_g
 ]</p>
 <p>This weights karst recharge and diffuse recharge by their respective land fractions.</p>
-<p>—</p>
-<p>## 2.4 Modifying the Computation of GWR Outside of Karst Areas</p>
-<p>### Data Updates</p>
+</section>
+</section>
+<section id="modifying-the-computation-of-gwr-outside-of-karst-areas">
+<h3>2.4 Modifying the Computation of GWR Outside of Karst Areas<a class="headerlink" href="#modifying-the-computation-of-gwr-outside-of-karst-areas" title="Link to this heading">#</a></h3>
+<section id="data-updates">
+<h4>Data Updates<a class="headerlink" href="#data-updates" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Relief factor:</strong> recalculated using modern global DEMs.</p></li>
 <li><p><strong>Soil factor:</strong> updated from Harmonized World Soil Database.</p></li>
 </ul>
-<p>### Revised Recharge Cap (Eq. 7)</p>
+</section>
+<section id="revised-recharge-cap-eq-7">
+<h4>Revised Recharge Cap (Eq. 7)<a class="headerlink" href="#revised-recharge-cap-eq-7" title="Link to this heading">#</a></h4>
 <p>[
 R_{g,max} =
 begin{cases}
@@ -587,8 +600,10 @@ end{cases}
 </ul>
 <p>### Calibration</p>
 <p>Parameters (f_r, f_t) were tuned against the global GWR dataset, minimizing bias and RMSE while preserving streamflow match.</p>
-<p>—</p>
-<p>## 2.5 Parameter Tuning Procedure</p>
+</section>
+</section>
+<section id="parameter-tuning-procedure">
+<h3>2.5 Parameter Tuning Procedure<a class="headerlink" href="#parameter-tuning-procedure" title="Link to this heading">#</a></h3>
 <p>A global optimization approach was applied:</p>
 <ol class="arabic simple">
 <li><p>Run baseline simulation with initial parameters.</p></li>
@@ -597,16 +612,18 @@ end{cases}
 <li><p>Re-simulate, recalculate error, iterate until convergence.</p></li>
 </ol>
 <p>Performance was measured using RMSE, bias, and fit to streamflow signatures.</p>
-<p>—</p>
-<p>## 2.6 Validation</p>
+</section>
+<section id="validation">
+<h3>2.6 Validation<a class="headerlink" href="#validation" title="Link to this heading">#</a></h3>
 <p>After tuning, model results were validated against:</p>
 <ul class="simple">
 <li><p><strong>Independent GWR data</strong> not used in calibration.</p></li>
 <li><p><strong>Streamflow observations</strong> from GRDC stations.</p></li>
 </ul>
 <p>This ensured that improved recharge estimation did not degrade river discharge performance.</p>
-<p>—</p>
-<p>## 2.7 Impact Analysis</p>
+</section>
+<section id="impact-analysis">
+<h3>2.7 Impact Analysis<a class="headerlink" href="#impact-analysis" title="Link to this heading">#</a></h3>
 <p>Finally, the impact of the methodological improvements was analyzed:</p>
 <ul class="simple">
 <li><p><strong>Global mean GWR:</strong> compared to previous WaterGAP versions.</p></li>
@@ -614,9 +631,7 @@ end{cases}
 <li><p><strong>Contribution of karst:</strong> quantified as percentage of global recharge.</p></li>
 <li><p><strong>Streamflow fit:</strong> checked to ensure good agreement with observed hydrographs.</p></li>
 </ul>
-<p>—</p>
-<p><strong>Summary:</strong>
-Chapter 2 describes how WaterGAP 2.2e was enhanced by explicitly simulating karst recharge, updating input data for non-karst regions, tuning parameters to a large global dataset, and validating results against observations. These steps yield more reliable global GWR estimates and improve agreement with both point measurements and streamflow records.</p>
+</section>
 </section>
 </section>
 
@@ -668,7 +683,30 @@ Chapter 2 describes how WaterGAP 2.2e was enhanced by explicitly simulating kars
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulating-gwr-with-watergap-2-2e">2.2 Simulating GWR With WaterGAP 2.2e</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-partition-effective-precipitation">Step 1 — Partition Effective Precipitation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-compute-diffuse-recharge-eqs-2-3">Step 2 — Compute Diffuse Recharge (Eqs. 2 &amp; 3)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-groundwater-storage">Step 3 — Groundwater Storage</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulating-gwr-in-karst">2.3 Simulating GWR in Karst</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#localization-of-karst-areas">Localization of Karst Areas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#karst-gwr-calculation">Karst GWR Calculation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#combine-karst-and-non-karst-recharge-eq-8">Combine Karst and Non-Karst Recharge (Eq. 8)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-the-computation-of-gwr-outside-of-karst-areas">2.4 Modifying the Computation of GWR Outside of Karst Areas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-updates">Data Updates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#revised-recharge-cap-eq-7">Revised Recharge Cap (Eq. 7)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-tuning-procedure">2.5 Parameter Tuning Procedure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">2.6 Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impact-analysis">2.7 Impact Analysis</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
