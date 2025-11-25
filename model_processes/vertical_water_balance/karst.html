@@ -403,6 +403,7 @@
 <li class="toctree-l2"><a class="reference internal" href="soil.html">Soil</a></li>
 
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Karst (<strong>Under Construction</strong>)</a></li>
+
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../lateral_water_balance/index.html">Lateral Water Balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -499,7 +500,8 @@
 </section>
 <section id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Link to this heading">#</a></h2>
-<p>## 2.1 Collating Ground-Based GWR Estimates</p>
+<section id="collating-ground-based-gwr-estimates">
+<h3>2.1 Collating Ground-Based GWR Estimates<a class="headerlink" href="#collating-ground-based-gwr-estimates" title="Link to this heading">#</a></h3>
 <p>Ground-based GWR estimates from hundreds of published studies and databases were compiled into a single global dataset.
 Each estimate was:</p>
 <ul class="simple">
@@ -508,6 +510,7 @@ Each estimate was:</p>
 <li><p><strong>Filtered</strong> to remove duplicates, outliers, and short-term measurements.</p></li>
 </ul>
 <p>The result is a harmonized benchmark dataset of grid-cell GWR used for tuning and validation.</p>
+</section>
 <section id="simulating-gwr-with-watergap-2-2e">
 <h3>2.2 Simulating GWR With WaterGAP 2.2e<a class="headerlink" href="#simulating-gwr-with-watergap-2-2e" title="Link to this heading">#</a></h3>
 <section id="overview">
@@ -593,14 +596,18 @@ begin{cases}
 end{cases}
 ]</p>
 <p>Recharge in semi-arid coarse soils is only generated when precipitation exceeds 12.5 mm/d.</p>
-<p>### Regional Adjustments</p>
+</section>
+</section>
+<section id="regional-adjustments">
+<h3>Regional Adjustments<a class="headerlink" href="#regional-adjustments" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Removed Mississippi Embayment correction (no longer needed).</p></li>
 <li><p>Removed Bangladesh wetland mask (allowed recharge).</p></li>
 </ul>
-<p>### Calibration</p>
-<p>Parameters (f_r, f_t) were tuned against the global GWR dataset, minimizing bias and RMSE while preserving streamflow match.</p>
 </section>
+<section id="calibration">
+<h3>Calibration<a class="headerlink" href="#calibration" title="Link to this heading">#</a></h3>
+<p>Parameters (f_r, f_t) were tuned against the global GWR dataset, minimizing bias and RMSE while preserving streamflow match.</p>
 </section>
 <section id="parameter-tuning-procedure">
 <h3>2.5 Parameter Tuning Procedure<a class="headerlink" href="#parameter-tuning-procedure" title="Link to this heading">#</a></h3>
@@ -631,6 +638,96 @@ end{cases}
 <li><p><strong>Contribution of karst:</strong> quantified as percentage of global recharge.</p></li>
 <li><p><strong>Streamflow fit:</strong> checked to ensure good agreement with observed hydrographs.</p></li>
 </ul>
+<p>Karst
+.. _tutorial_karst:</p>
+</section>
+</section>
+</section>
+<section id="run-rewatergap-with-karst-under-construction">
+<h1>Run ReWaterGAP with Karst (<strong>Under Construction</strong>)<a class="headerlink" href="#run-rewatergap-with-karst-under-construction" title="Link to this heading">#</a></h1>
+<p>This tutorial introduces the modifications in ReWaterGAP for handling karst regions and explains the required input files, as well as the assessment methods.</p>
+<section id="id1">
+<h2>Introduction<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>[Insert Introduction here]</p>
+</section>
+<section id="implemented-modifications">
+<h2>Implemented Modifications<a class="headerlink" href="#implemented-modifications" title="Link to this heading">#</a></h2>
+<p>The following extensions and changes need to be made to the code:</p>
+<section id="fraction-of-karstification">
+<h3>Fraction of karstification<a class="headerlink" href="#fraction-of-karstification" title="Link to this heading">#</a></h3>
+<p>A fraction of the continental area is defined as karst. For this fraction, the runoff component (R3) is treated as groundwater recharge.</p>
+</section>
+<section id="groundwater-recharge-factor-fg">
+<h3>Groundwater recharge factor (fg)<a class="headerlink" href="#groundwater-recharge-factor-fg" title="Link to this heading">#</a></h3>
+<p>The original calculation of <em>fg</em> has to be replaced by an externally provided input factor.</p>
+</section>
+<section id="semi-arid-coarse-texture-adjustment">
+<h3>Semi-arid coarse-texture adjustment<a class="headerlink" href="#semi-arid-coarse-texture-adjustment" title="Link to this heading">#</a></h3>
+<p>A grid-cell-specific indicator allows special handling of (semi-)arid regions. If a semi-arid grid cell has <em>R&lt;sub&gt;gmax&lt;/sub&gt; &gt; 5 mm/d</em> (indicating coarse texture), groundwater recharge occurs only when precipitation exceeds <strong>12.5 mm/d</strong> (instead of being triggered solely by coarse texture).</p>
+</section>
+<section id="maximum-groundwater-recharge-dataset">
+<h3>Maximum groundwater recharge dataset<a class="headerlink" href="#maximum-groundwater-recharge-dataset" title="Link to this heading">#</a></h3>
+<p>A dataset specifying the maximum possible groundwater recharge rate (mm/d) needs to be implemented</p>
+</section>
+</section>
+<section id="input-files">
+<h2>Input Files<a class="headerlink" href="#input-files" title="Link to this heading">#</a></h2>
+<p>ReWaterGAP requires additional input files for the karst extensions:</p>
+<section id="g-aridcoarse-unf2">
+<h3><cite>G_ARIDCOARSE.UNF2</cite><a class="headerlink" href="#g-aridcoarse-unf2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The input file for indicating coarse arid gird cells</p></li>
+<li><p>Value: <cite>1</cite></p></li>
+<li><p>Unit: [-]</p></li>
+</ul>
+<figure class="align-default">
+<img alt="../../_images/G_ARIDCOARSE.png" src="../../_images/G_ARIDCOARSE.png" />
+</figure>
+</section>
+<section id="g-gwrfactor-unf0">
+<h3><cite>G_GWRFACTOR.UNF0</cite><a class="headerlink" href="#g-gwrfactor-unf0" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The input file for groundwater recharge factor</p></li>
+<li><p>Range: <cite>0 – 1</cite></p></li>
+<li><p>Unit: [-]</p></li>
+</ul>
+<figure class="align-default">
+<img alt="../../_images/G_GWRFACTOR.png" src="../../_images/G_GWRFACTOR.png" />
+</figure>
+</section>
+<section id="g-karstfrac-unf0">
+<h3><cite>G_KARSTFRAC.UNF0</cite><a class="headerlink" href="#g-karstfrac-unf0" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The input file for karst fraction</p></li>
+<li><p>Range: <cite>0 – 0.9</cite></p></li>
+<li><p>Unit: [-]</p></li>
+</ul>
+<figure class="align-default">
+<img alt="../../_images/G_KARSTFRAC.png" src="../../_images/G_KARSTFRAC.png" />
+</figure>
+</section>
+<section id="g-gwrmax-unf2">
+<h3><cite>G_GWRMAX.UNF2</cite><a class="headerlink" href="#g-gwrmax-unf2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Specifies the maximum groundwater recharge rate.</p></li>
+<li><p>The input file for gwr max</p></li>
+<li><p>Range: <cite>3 – 7</cite></p></li>
+<li><p>Unit: [mm/d]</p></li>
+</ul>
+<figure class="align-default">
+<img alt="../../_images/G_GWRMAX.png" src="../../_images/G_GWRMAX.png" />
+</figure>
+</section>
+</section>
+<section id="assessments">
+<h2>Assessments<a class="headerlink" href="#assessments" title="Link to this heading">#</a></h2>
+<p>To evaluate the impact of the modifications, the following assessments are recommended:</p>
+<section id="water-balance">
+<h3>Water balance<a class="headerlink" href="#water-balance" title="Link to this heading">#</a></h3>
+</section>
+<section id="streamflow-evaluation">
+<h3>Streamflow evaluation<a class="headerlink" href="#streamflow-evaluation" title="Link to this heading">#</a></h3>
+<p>Validate model outputs against observed streamflow</p>
 </section>
 </section>
 </section>
@@ -682,8 +779,10 @@ end{cases}
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Karst (<strong>Under Construction</strong>)</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collating-ground-based-gwr-estimates">2.1 Collating Ground-Based GWR Estimates</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulating-gwr-with-watergap-2-2e">2.2 Simulating GWR With WaterGAP 2.2e</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-partition-effective-precipitation">Step 1 — Partition Effective Precipitation</a></li>
@@ -702,12 +801,40 @@ end{cases}
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#revised-recharge-cap-eq-7">Revised Recharge Cap (Eq. 7)</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-adjustments">Regional Adjustments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calibration">Calibration</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-tuning-procedure">2.5 Parameter Tuning Procedure</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">2.6 Validation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impact-analysis">2.7 Impact Analysis</a></li>
 </ul>
 </li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#run-rewatergap-with-karst-under-construction">Run ReWaterGAP with Karst (<strong>Under Construction</strong>)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implemented-modifications">Implemented Modifications</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fraction-of-karstification">Fraction of karstification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groundwater-recharge-factor-fg">Groundwater recharge factor (fg)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#semi-arid-coarse-texture-adjustment">Semi-arid coarse-texture adjustment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximum-groundwater-recharge-dataset">Maximum groundwater recharge dataset</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-files">Input Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#g-aridcoarse-unf2"><cite>G_ARIDCOARSE.UNF2</cite></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#g-gwrfactor-unf0"><cite>G_GWRFACTOR.UNF0</cite></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#g-karstfrac-unf0"><cite>G_KARSTFRAC.UNF0</cite></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#g-gwrmax-unf2"><cite>G_GWRMAX.UNF2</cite></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assessments">Assessments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#water-balance">Water balance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#streamflow-evaluation">Streamflow evaluation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
   <div class="sidebar-secondary-item">
