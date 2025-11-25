@@ -54,6 +54,8 @@ if branch in ('main', 'master'):
     switcher_version = 'dev'
 elif branch == 'WaterGAP-2.2e':
     switcher_version = '2.2e (stable)'
+elif branch == 'WaterGAP-2.3':
+    switcher_version = '2.3 (under development)'
 else:
     switcher_version = branch if branch != 'unknown' else 'dev'
 
