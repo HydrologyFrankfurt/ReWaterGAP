@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - WaterGAP-2.2e
+      - WaterGAP-2.3
 
 jobs:
 
