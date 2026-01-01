@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.abspath('../misc'))
 # -- Project information -----------------------------------------------------
 
 project = 'ReWaterGAP'
-copyright = '2025, ReWaterGAP'
+copyright = '2026, ReWaterGAP'
 author = 'ReWaterGAP'
 
 # -- Version Configuration ---------------------------------------------------
