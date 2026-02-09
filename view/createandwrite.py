@@ -74,7 +74,7 @@ class CreateandWritetoVariables:
             "snowcover-frac": "snowcover_frac",
             "soilmoist": "soil_moisture",
             "smax": "maximum_soil_moisture",
-            "qrd": "groundwater_recharge_diffuse",
+            "qrd": "groundwater_recharge",
             "qs": "surface_runoff"
         }
 
@@ -158,7 +158,7 @@ class CreateandWritetoVariables:
                                              grid_coords)
                     self.lb_fluxes[var_name] = var
 
-    def verticalbalance_write_daily_var(self, value, time_step, sim_year,
+    def verticalbalance_write_daily_var(self, value, sim_year,
                                         sim_month, sim_day):
         """
         Write values to variable for vertical water balance.
@@ -167,8 +167,6 @@ class CreateandWritetoVariables:
         ----------
         value : dict
             Dictionary of storages and fluxes for vertical water balance.
-        time_step : int
-            Daily timestep.
         sim_year: : int
             Simulation year
         sim_month : int
@@ -189,16 +187,16 @@ class CreateandWritetoVariables:
         # Storages
         storage_var = value[0]
         for var_name, var in self.vb_storages.items():
-            var.write_daily_output(storage_var[var_name], time_step, sim_year,
+            var.write_daily_output(storage_var[var_name], sim_year,
                                    sim_month, sim_day)
 
         # Fluxes
         fluxes_var = value[1]
         for var_name, var in self.vb_fluxes.items():
-            var.write_daily_output(fluxes_var[var_name], time_step, sim_year,
+            var.write_daily_output(fluxes_var[var_name], sim_year,
                                    sim_month, sim_day)
 
-    def lateralbalance_write_daily_var(self, value, time_step, sim_year,
+    def lateralbalance_write_daily_var(self, value, sim_year,
                                        sim_month, sim_day):
         """
         Write values to variable for lateral water balance.
@@ -207,8 +205,6 @@ class CreateandWritetoVariables:
         ----------
         value : dict
             Dictionary of storages and fluxes for lateral water balance.
-         time_step : int
-             Daily timestep.
          sim_year: : int
              Simulation year
          sim_month : int
@@ -227,13 +223,13 @@ class CreateandWritetoVariables:
         # Storages
         storage_var = value[0]
         for var_name, var in self.lb_storages.items():
-            var.write_daily_output(storage_var[var_name], time_step, sim_year,
+            var.write_daily_output(storage_var[var_name], sim_year,
                                    sim_month, sim_day)
 
         # Fluxes
         fluxes_var = value[1]
         for var_name, var in self.lb_fluxes.items():
-            var.write_daily_output(fluxes_var[var_name], time_step, sim_year,
+            var.write_daily_output(fluxes_var[var_name], sim_year,
                                    sim_month, sim_day)
 
     def base_units(self, cell_area, contfrac):
@@ -315,8 +311,7 @@ class CreateandWritetoVariables:
                 path = self.path + f'{key}_{end_date}.nc'
 
                 if key == "get_neighbouring_cells_map":
-                    encoding = {key: {'chunksizes': [1, value.data[key].shape[1], 
-                                                     value.data[key].shape[2], 2],
+                    encoding = {key: {'chunksizes': [1, 360, 720, 2],
                                       "zlib": True,
                                       "complevel": 5}}
                 elif key == 'smax':
@@ -326,8 +321,7 @@ class CreateandWritetoVariables:
                                       "complevel": 5}}
                 else:
                     encoding = {key: {'_FillValue': 1e+20,
-                                      'chunksizes': [1, value.data[key].shape[1], 
-                                                     value.data[key].shape[2]],
+                                      'chunksizes': [1, 360, 720],
                                       "zlib": True, "complevel": 5}}
                 write_args.append((value.data, encoding, path))
 

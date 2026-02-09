@@ -15,7 +15,7 @@ import xarray as xr
 import numpy as np
 from misc import watergap_version
 from view import output_var_info as var_info
-
+import pandas as pd
 
 class OutputVariable:
     """Create ouput variables."""
@@ -82,8 +82,7 @@ class OutputVariable:
 
                 # create Xarray dataset for output variable
                 self.data = xr.Dataset(coords=dummy_coords).\
-                    chunk({'time': 1, 'lat': len(self.grid_coords['lat'].values), 
-                           'lon':  len(self.grid_coords['lon'].values)})
+                    chunk({'time': 1, 'lat': 360, 'lon': 720})
 
                 # Add variables names for respective output varaibes
                 self.data[self.variable_name] = \
@@ -119,7 +118,7 @@ class OutputVariable:
 
         # =====================================================================
 
-    def write_daily_output(self, array, time_step, year, month, day):
+    def write_daily_output(self, array, year, month, day):
         """
         Write results to output variable  per time step.
 
@@ -127,8 +126,6 @@ class OutputVariable:
         ----------
         array : numpy array
              results (array) to be wriiten to vaiable per time step.
-        time_step : int
-            Daily timestep.
         year: : int
             Simulation year
         month : int
@@ -157,11 +154,8 @@ class OutputVariable:
 
             # reset counter to zero after each year
             if self.variable_name == "smax":
-                mod_time_step = None
+                pass
             else:
-                mod_time_step = time_step % len(self.data['time'])
-                if self.variable_name == "get_neighbouring_cells_map":
-                    fill_date = self.data.time[mod_time_step]
-                    self.data[self.variable_name].loc[{"time": fill_date}] = array
-                else:
-                    self.data[self.variable_name][mod_time_step, :, :] = array
+                date = pd.Timestamp(year=year, month=month, day=day)
+                self.data[self.variable_name].loc[dict(time=date)] = array
+                
