@@ -74,7 +74,7 @@ class CreateandWritetoVariables:
             "snowcover-frac": "snowcover_frac",
             "soilmoist": "soil_moisture",
             "smax": "maximum_soil_moisture",
-            "qrd": "groundwater_recharge",
+            "qrd": "groundwater_recharge_diffuse",
             "qs": "surface_runoff"
         }
 
@@ -311,7 +311,8 @@ class CreateandWritetoVariables:
                 path = self.path + f'{key}_{end_date}.nc'
 
                 if key == "get_neighbouring_cells_map":
-                    encoding = {key: {'chunksizes': [1, 360, 720, 2],
+                    encoding = {key: {'chunksizes': [1, value.data[key].shape[1], 
+                                                     value.data[key].shape[2], 2],
                                       "zlib": True,
                                       "complevel": 5}}
                 elif key == 'smax':
@@ -321,7 +322,8 @@ class CreateandWritetoVariables:
                                       "complevel": 5}}
                 else:
                     encoding = {key: {'_FillValue': 1e+20,
-                                      'chunksizes': [1, 360, 720],
+                                      'chunksizes': [1, value.data[key].shape[1], 
+                                                     value.data[key].shape[2]],
                                       "zlib": True, "complevel": 5}}
                 write_args.append((value.data, encoding, path))
 
