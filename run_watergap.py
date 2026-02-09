@@ -296,8 +296,7 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
 
                 create_out_var.\
                     verticalbalance_write_daily_var(vb_storages_and_fluxes,
-                                                    time_step, sim_year,
-                                                    sim_month, sim_day)
+                                                    sim_year, sim_month, sim_day)
 
                 # Getting daily storages and fluxes and writing to variables
                 lb_storages_and_fluxes = \
@@ -305,8 +304,7 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
 
                 create_out_var.\
                     lateralbalance_write_daily_var(lb_storages_and_fluxes,
-                                                   time_step, sim_year,
-                                                   sim_month, sim_day)
+                                                   sim_year, sim_month, sim_day)
 
                 # =============================================================
                 # Store ouput variable if selected by user
