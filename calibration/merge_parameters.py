@@ -18,7 +18,7 @@ from calibration import convert_data_csv
 from calibration import regionalization as regio
 
 
-def merge_parameters():
+def merge_parameters(param_version):
     """
     Merge model parameters into netcdf.
 
@@ -80,10 +80,10 @@ def merge_parameters():
 
     out_params['gamma'].values = merged["gamma_final"].values.reshape(arcid.shape)
 
-    out_params.to_netcdf("./model/WaterGAP_2.2e_global_parameters.nc")
+    out_params.to_netcdf(f"./model/{param_version}_global_parameters.nc")
 
 
-def run_regionalization_merge_parameters(num_threads_or_nodes):
+def run_regionalization_merge_parameters(num_threads_or_nodes, param_version):
     """
     Run regionalistion
 
@@ -100,5 +100,5 @@ def run_regionalization_merge_parameters(num_threads_or_nodes):
     num_thread = num_threads_or_nodes
     convert_data_csv.convert_csv()
     regio.regionalize_paramters(num_thread)
-    merge_parameters()
+    merge_parameters(param_version)
     
