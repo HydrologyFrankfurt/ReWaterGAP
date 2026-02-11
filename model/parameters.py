@@ -44,16 +44,16 @@ class Parameters:
         # read in global parameters
         try:
             if run_calib is True:
-                # calibration_test
-                param_path = str(Path(f"./calibration/calib_out/{basin_id}"
-                                      f"/WaterGAP_2.2e_global_parameters_basin_{basin_id}.nc"))
+                # calibration
+                param_path = str(Path(cm.global_parameter_path))
             else:
                 # Default
                 param_path = str(Path(cm.global_parameter_path))
-
+            
+            
             self.global_params = xr.open_dataset(param_path, decode_times=False)
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Global parameter data  '
-                              '(WaterGAP_2.2e_global_parameters.nc) not found', args.debug)
+                              f'{param_path} not found', args.debug)
             sys.exit()  # dont run code if file does not exist
