@@ -211,7 +211,6 @@ def main():
         print(os.getcwd())
         source_pattern = "./misc/WaterGAP*.nc"
         remove_params_file = "./model/WaterGAP*.nc"
-        # destination_file = "./model/WaterGAP_2.2e_global_parameters.nc"
         for file_path in glob.glob(remove_params_file):
             if os.path.isfile(file_path):
                 os.remove(file_path)
@@ -274,4 +273,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
