@@ -263,7 +263,10 @@ def main():
         print('\n' + colored("Running Regionlisation step C...", "magenta"))
         param_version = destination_file.split("/")[-1].split("_global")[0]
         merge_parameters.run_regionalization_merge_parameters(num_threads_or_nodes, param_version)
-        print('\n' + colored(f"Model parameters merged and saved to {destination_file}",
+        
+        absolute_param_path = \
+            os.path.abspath(f"./model/{param_version}_global_parameters.nc")
+        print('\n' + colored(f"Model parameters merged and saved to {absolute_param_path}",
                              "green"))
 
     except KeyboardInterrupt:
