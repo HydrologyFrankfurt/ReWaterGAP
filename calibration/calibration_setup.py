@@ -243,6 +243,13 @@ class SetupCalibration:
 
         config_file['OutputVariable'][1]["VerticalWaterBalanceStorages"]\
             ["maximum_soil_moisture"] = False
+            
+        
+        src_file_pattern ='model/WaterGAP*.nc'
+        matching_files = glob.glob(src_file_pattern)
+        src_file_path = matching_files[0]    
+        config_file['FilePath']["inputDir"]["parameter_path"] = \
+            f"{self.calib_out_dir}{basin_id}/{src_file_path.split('/')[-1].replace('_nocal.nc', f'_basin_{basin_id}.nc')}"
 
         out_config_path = (
             f"{self.calib_out_dir}{basin_id}/station_config_files/"
@@ -270,7 +277,7 @@ class SetupCalibration:
             matching_files = glob.glob(src_file_pattern)
             src_file_path = matching_files[0]
 
-            dest_file_path = f"{self.calib_out_dir}{i}/{src_file_path.split('/')[-1].replace('.nc', f'_{i}.nc')}"
+            dest_file_path = f"{self.calib_out_dir}{i}/{src_file_path.split('/')[-1].replace('_nocal.nc', f'_basin_{i}.nc')}"
             shutil.copy2(src_file_path, dest_file_path)
 
 
