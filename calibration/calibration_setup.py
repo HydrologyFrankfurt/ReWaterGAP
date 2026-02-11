@@ -264,9 +264,13 @@ class SetupCalibration:
             path = f"{self.calib_out_dir}{i}/prev_upstream_cells.npz"
             if os.path.exists(path):
                 os.remove(path)
+            
+            
+            src_file_pattern ='model/WaterGAP*.nc'
+            matching_files = glob.glob(src_file_pattern)
+            src_file_path = matching_files[0]
 
-            src_file_path = 'model/WaterGAP_2.2e_global_parameters.nc'
-            dest_file_path = f"{self.calib_out_dir}{i}/WaterGAP_2.2e_global_parameters_basin_{i}.nc"
+            dest_file_path = f"{self.calib_out_dir}{i}/{src_file_path.split('/')[-1]}_{i}.nc"
             shutil.copy2(src_file_path, dest_file_path)
 
 
