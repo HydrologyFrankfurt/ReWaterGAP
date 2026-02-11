@@ -18,7 +18,7 @@ import pandas as pd
 import xarray as xr
 from scipy.optimize import minimize
 from termcolor import colored
-
+import glob
 
 from controller import configuration_module as cm
 from controller import staticdata_handler as sd
@@ -133,8 +133,11 @@ class OptimizationState:
 
         # Load parameter file and update gamma
         base_param_path = f"{self.calib_out_dir}{self.basin_id}"
-        param_path = f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
-
+        param_pattern = \
+            f"{base_param_path}/WaterGAP_*_{self.basin_id}.nc"
+        matching_files = glob.glob(param_pattern)
+        param_path = matching_files[0]
+        
         with xr.open_dataset(param_path, decode_times=False) as global_params:
 
             # Update gamma in the dataset
@@ -143,7 +146,7 @@ class OptimizationState:
                          global_params['gamma'].values)
 
             # Save the modified dataset
-            temp_param_path = f"{base_param_path}/temp_WaterGAP_2.2e_global_parameters.nc"
+            temp_param_path = f"{base_param_path}/temp_WaterGAP_cal_global_parameters.nc"
             global_params.to_netcdf(temp_param_path)
 
         # Replace the original file with the updated file
@@ -343,8 +346,12 @@ class OptimizationState:
 
             # Load parameter file and update CFA
             base_param_path = f"{self.calib_out_dir}{self.basin_id}"
-            param_path = \
-                f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
+            
+            param_pattern = \
+                f"{base_param_path}/WaterGAP_*_{self.basin_id}.nc"
+            matching_files = glob.glob(param_pattern)
+            param_path = matching_files[0]
+             
             with xr.open_dataset(param_path, decode_times=False) as global_params:
 
                 # Update areal corection factor  in the dataset
@@ -353,7 +360,7 @@ class OptimizationState:
                               global_params['areal_corr_factor'].values)
 
                 # Save the modified dataset
-                temp_param_path = f"{base_param_path}/temp_WaterGAP_2.2e_global_parameters.nc"
+                temp_param_path = f"{base_param_path}/temp_WaterGAP_cal_global_parameters.nc"
                 global_params.to_netcdf(temp_param_path)
 
             # Replace the original file with the updated file
@@ -417,8 +424,10 @@ class OptimizationState:
             # Load parameter file and update CFA
             if self.calibration_status == 4:
                 base_param_path = f"{self.calib_out_dir}{self.basin_id}"
-                param_path = \
-                    f"{base_param_path}/WaterGAP_2.2e_global_parameters_basin_{self.basin_id}.nc"
+                param_pattern = \
+                    f"{base_param_path}/WaterGAP_*_{self.basin_id}.nc"
+                matching_files = glob.glob(param_pattern)
+                param_path = matching_files[0]
                 with xr.open_dataset(param_path, decode_times=False) as global_params:
 
                     # Update gamma in the dataset
@@ -427,7 +436,7 @@ class OptimizationState:
                              "lon":calib_station["lon"].values}] = cfs
 
                     # Save the modified dataset
-                    temp_param_path = f"{base_param_path}/temp_WaterGAP_2.2e_global_parameters.nc"
+                    temp_param_path = f"{base_param_path}/temp_WaterGAP_cal_global_parameters.nc"
                     global_params.to_netcdf(temp_param_path)
 
                 # Replace the original file with the updated file
