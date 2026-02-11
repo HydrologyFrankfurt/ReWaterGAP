@@ -209,13 +209,16 @@ def main():
 
         # uncalibrated parameters are used for this run.
         print(os.getcwd())
-        source_file = "./misc/WaterGAP_2.2e_global_parameters_nocal.nc"
-        remove_params_file = "./model/WaterGAP_2.2e_global_parameters*.nc"
-        destination_file = "./model/WaterGAP_2.2e_global_parameters.nc"
+        source_pattern = "./misc/WaterGAP*.nc"
+        remove_params_file = "./model/WaterGAP*.nc"
+        # destination_file = "./model/WaterGAP_2.2e_global_parameters.nc"
         for file_path in glob.glob(remove_params_file):
             if os.path.isfile(file_path):
                 os.remove(file_path)
-
+        
+        matching_files = glob.glob(source_pattern)
+        source_file = matching_files[0]
+        destination_file = f"./model/{source_file.split('/')[-1]}" 
         shutil.copyfile(source_file, destination_file)
 
         # modify configuration and run WaterGAP
