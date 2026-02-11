@@ -270,7 +270,7 @@ class SetupCalibration:
             matching_files = glob.glob(src_file_pattern)
             src_file_path = matching_files[0]
 
-            dest_file_path = f"{self.calib_out_dir}{i}/{src_file_path.split('/')[-1]}_{i}.nc"
+            dest_file_path = f"{self.calib_out_dir}{i}/{src_file_path.split('/')[-1].replace('.nc', f'_{i}.nc')}"
             shutil.copy2(src_file_path, dest_file_path)
 
 
