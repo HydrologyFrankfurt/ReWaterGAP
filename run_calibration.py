@@ -261,10 +261,9 @@ def main():
         # limited observations. After, parameters are merged into a single
         # netcdf.
         print('\n' + colored("Running Regionlisation step C...", "magenta"))
-        merge_parameters.run_regionalization_merge_parameters(num_threads_or_nodes)
-        absolute_param_path = \
-            os.path.abspath("./model/WaterGAP_2.2e_global_parameters.nc")
-        print('\n' + colored(f"Model parameters merged and saved to {absolute_param_path}",
+        param_version = destination_file.split("/")[-1].split("_global")[0]
+        merge_parameters.run_regionalization_merge_parameters(num_threads_or_nodes, param_version)
+        print('\n' + colored(f"Model parameters merged and saved to {destination_file}",
                              "green"))
 
     except KeyboardInterrupt:
@@ -273,5 +272,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
