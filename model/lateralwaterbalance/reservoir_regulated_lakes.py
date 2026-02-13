@@ -21,6 +21,7 @@ import numpy as np
 from numba import njit
 from model.lateralwaterbalance import storage_reduction_factor as rf
 from model.lateralwaterbalance import reservoir_release_hanasaki as hanaski
+from model.lateralwaterbalance import reservoir_release_tharthar as scaling
 
 
 @njit(cache=True)
@@ -39,7 +40,9 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
                                            accumulated_unsatisfied_potential_netabs_glolake,
                                            num_days_in_month,
                                            all_reservoir_and_regulated_lake_area,
-                                           reg_lake_redfactor_firstday, minstorage_volume):
+                                           reg_lake_redfactor_firstday, minstorage_volume,
+                                           res_inflow_past_30days, 
+                                           counter_for_tharthar_mean_30days):
     """
     Compute water balance for reservoirs and regulated lakes.
 
@@ -303,14 +306,24 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
     if np.abs(storage) <= minstorage_volume:
         storage= 0
     # compute relase from Hanasaki algorithm
-    release, k_release_new = hanaski.\
-        hanasaki_res_reslease(storage, stor_capacity, res_start_month,
-                              simulation_momth_day, k_release, reservoir_type,
-                              rout_order, outflow_cell, routflow_looper,
-                              reservior_area, allocation_coeff, monthly_demand,
-                              mean_annual_demand, mean_annual_inflow,
-                              inflow_to_swb, num_days_in_month,
-                              all_reservoir_and_regulated_lake_area)
+    if x == 112 and y == 446:
+        
+        release, counter_for_tharthar_mean_30days = scaling.scaling_res_reslease(storage, stor_capacity,
+                                  simulation_momth_day,
+                                  mean_annual_inflow,
+                                  inflow_to_swb,
+                                  res_inflow_past_30days, 
+                                  counter_for_tharthar_mean_30days)
+    
+    else:
+        release, k_release_new = hanaski.\
+            hanasaki_res_reslease(storage, stor_capacity, res_start_month,
+                                  simulation_momth_day, k_release, reservoir_type,
+                                  rout_order, outflow_cell, routflow_looper,
+                                  reservior_area, allocation_coeff, monthly_demand,
+                                  mean_annual_demand, mean_annual_inflow,
+                                  inflow_to_swb, num_days_in_month,
+                                  all_reservoir_and_regulated_lake_area)
 
     # Reservoirs release (outflow) water based on their current level [S(t)]
     # convert release from m3/s to km3/day since temporal resultion is daily
@@ -339,6 +352,14 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
     if storage < 0:
         outflow += storage
         storage = 0
+    
+    if x ==112 and y == 446:
+
+        outflow_canal_capacity = 0.06  # km3/day (maximum observed 2003–2019)
+
+        if outflow > outflow_canal_capacity:
+            outflow = outflow_canal_capacity
+
 
     actual_use_sw = acc_unsatisfied_potnetabs_res_start - \
         accumulated_unsatisfied_potential_netabs_res
@@ -348,4 +369,4 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
 
     return storage, outflow, gwr_reservior, k_release_new, \
         accumulated_unsatisfied_potential_netabs_res, actual_use_sw, \
-            openwater_evapo_cor_km3
+            openwater_evapo_cor_km3, counter_for_tharthar_mean_30days

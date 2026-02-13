@@ -95,6 +95,10 @@ def groundwater_balance(x, y,
     if aridity_or_inlandsink == "humid" or \
             aridity_or_inlandsink == "inland sink":
         point_source_recharge = 0
+    
+    # Tharthat lake (ArciID = 37983, lon= 43.25, lat= 3375)
+    if x == 112 and y == 447:
+        point_source_recharge = 0
 
     netgw_in = diffuse_gw_recharge + point_source_recharge
 

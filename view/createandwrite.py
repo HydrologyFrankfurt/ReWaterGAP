@@ -139,7 +139,9 @@ class CreateandWritetoVariables:
             "ncrun":  "net_cell_runoff",
             "river-velocity": "river_velocity",
             "land-area-fraction":  "land_area_fraction",
-            "pot_cell_runoff": "pot_cell_runoff"
+            "pot_cell_runoff": "pot_cell_runoff",
+            "glores_outflow":"glores_outflow",
+            "glores_inflow": "glores_inflow"
 
         }
 

@@ -40,6 +40,8 @@ modelvars = {
     "localwetland-outflow": {"long": "Localwetland outflow", "unit": " kg m-2 s-1"},
     "globallake-outflow": {"long": "Globallake outflow", "unit": " kg m-2 s-1"},
     "globalwetland-outflow": {"long": "Globalwetland outflow", "unit": " kg m-2 s-1"},
+    "glores_outflow": {"long": "Global res outflow", "unit": " kg m-2 s-1"},
+    "glores_inflow": {"long": "Global res inflow", "unit": " kg m-2 s-1"},
     "dis": {"long": "Streamflow or River discharge", "unit": "m3 s-1"},
     "dis-from-upstream": {"long": "Streamflow or River discharge from upstream cell",
                           "unit": "m3 s-1"},

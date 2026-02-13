@@ -171,7 +171,13 @@ class LateralWaterBalance:
         # area and capacity will be read in.
         # (see activate_res_area_storage_capacity function uder the heading
         # *Activcate Reservior and Regulated lake storage* in this module).
-
+        
+        self.q_from_sammara_to_tharthar = 0.0
+        
+        self.res_inflow_past_30days = np.zeros(30)
+        
+        self.counter_for_tharthar_mean_30days = 0
+        
         self.glores_storage = np.zeros((forcings_static.lat_length,
                                         forcings_static.lon_length))
 
@@ -701,6 +707,9 @@ class LateralWaterBalance:
         roughness = self.get_river_prop.roughness
         river_slope = self.get_river_prop.river_slope
         neighbouring_cells_map = self.get_neighbouring_cells_map.copy()
+        
+        year_tharthar = int(current_year_mon_day[0])
+        
 
         # =====================================================================
         # Routing (Routing function is optimised for with numba)
@@ -756,7 +765,11 @@ class LateralWaterBalance:
                                self.all_reservoir_and_regulated_lake_area,
                                self.reg_lake_redfactor_firstday, basin, cm.DELAYED_USE,
                                landwaterfrac_excl_glolake_res, self.cell_area,
-                               land_aet_corr, sum_canopy_snow_soil_storage)
+                               land_aet_corr, sum_canopy_snow_soil_storage,
+                               self.q_from_sammara_to_tharthar,
+                               year_tharthar,
+                               self.res_inflow_past_30days,
+                               self.counter_for_tharthar_mean_30days)
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]
@@ -772,6 +785,11 @@ class LateralWaterBalance:
         self.unsat_potnetabs_sw_from_demandcell = out[21]
         self.unsat_potnetabs_sw_to_supplycell = out[22]
         self.get_neighbouring_cells_map = out[25]
+        self.q_from_sammara_to_tharthar = out[35]
+        self.res_inflow_past_30days= out[36]
+        self.counter_for_tharthar_mean_30days = out[37]
+
+        
 
         groundwater_discharge = out[8]
         loclake_outflow = out[9]
@@ -790,6 +808,7 @@ class LateralWaterBalance:
         returned_demand_from_supplycell_nextday = out[24]
         check_daily_unsatisfied_pot_nas = out[26]  # helper variable
         glores_outflow = out[27]
+        glores_inflow = out[38]
         actual_net_abstraction_sw = out[28]
         consistent_precip = out[29]
         streamflow_from_upstream = out[30]
@@ -942,7 +961,9 @@ class LateralWaterBalance:
                     "ncrun": net_cell_runoff,
                     "river-velocity": river_velocity,
                     "land-area-fraction":  current_landarea_frac,
-                    "pot_cell_runoff": pot_cell_runoff})
+                    "pot_cell_runoff": pot_cell_runoff,
+                    "glores_outflow":glores_outflow,
+                    "glores_inflow":glores_inflow})
 
         LateralWaterBalance.land_swb_fraction.update({
             "current_landareafrac": current_landarea_frac,

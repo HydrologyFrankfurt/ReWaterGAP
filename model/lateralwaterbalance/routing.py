@@ -34,7 +34,7 @@ from model.lateralwaterbalance import reservoir_regulated_lakes as res_reg
 from model.lateralwaterbalance import distribute_net_abstraction as dist_netabstr
 from model.lateralwaterbalance import neighbouring_cell as nbcell
 from model.lateralwaterbalance import local_lake_net_abstraction as lake_netabstr
-
+from controller import configuration_module as cm
 
 @njit(cache=True)
 def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
@@ -66,7 +66,11 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                   num_days_in_month, all_reservoir_and_regulated_lake_area,
                   reg_lake_redfactor_firstday, basin, delayed_use_option,
                   landwaterfrac_excl_glolake_res, cell_area, land_aet_corr,
-                  sum_canopy_snow_soil_storage):
+                  sum_canopy_snow_soil_storage,
+                  q_from_sammara_to_tharthar,
+                  year_tharthar,
+                  res_inflow_past_30days, 
+                  counter_for_tharthar_mean_30days):
 
     """Route flow to river. """
 
@@ -137,6 +141,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
     glores_storage_out = basin.copy() + glores_storage.copy()
     # Global reservior and regulated lake  outflow, Unit : km3/day
     glores_outflow = basin.copy()
+    glores_inflow  = basin.copy()
     # Global reservior and regulated lake  groundwater recharge, Unit : km3/day
     gwr_glores = basin.copy()
     # Reservoir reselease coefficient. Unit: (-)
@@ -476,7 +481,13 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         # for each cell. See section 4.6.1 of Müller Schmied et al. (2021)
         # ** need to compute actual use from here too** (to be done**)
         # =========================================================================
+            if (x == 112 and y == 446):
+                inflow_to_swb += q_from_sammara_to_tharthar
+                
+            
             if glores_area[x, y] > 0:
+                
+                glores_inflow[x, y] =   inflow_to_swb
 
                 daily_res_reg_balance = res_reg.\
                     reservoir_regulated_lake_water_balance(rout_order, routflow_looper,
@@ -506,10 +517,12 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                         num_days_in_month,
                                         all_reservoir_and_regulated_lake_area,
                                         reg_lake_redfactor_firstday[x, y],
-                                        minstorage_volume)
+                                        minstorage_volume,
+                                        res_inflow_past_30days, 
+                                        counter_for_tharthar_mean_30days)
 
                 storage, outflow, recharge, res_k_release, accum_unpot_netabs_sw, \
-                    actual_use, openwater_evapo_cor = daily_res_reg_balance
+                    actual_use, openwater_evapo_cor,counter_for_tharthar_mean_30days = daily_res_reg_balance
 
                 glores_precip[x, y] = precipitation[x, y] * glores_area[x, y]
                 glores_storage_out[x, y] = storage.item()
@@ -695,6 +708,35 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
             accumulated_unsatisfied_potential_netabs_sw[x, y] = \
                 accum_unpot_netabs_sw.item()
             actual_daily_netabstraction_sw[x, y] += actual_use.item()
+            
+            ### Sammara to Tharthar
+            transfer_start_year = 1956; # start year of water transfer
+            
+            if cm.ant and year_tharthar >= transfer_start_year:
+
+                inflow_canal_capacity = 0.7776  # km3/day (9000 m3/s)
+                q_mean_baghdad = 0.0461  # km3/day (534.09 m3/s average at Baghdad)
+            
+                # Transferring water from the Tigris to Tharthar Lake (only during Dec–June)
+                if ( (x == 111 and y == 447)
+                    and river_streamflow[x, y] > q_mean_baghdad
+                    and (current_mon_day[0] == 12 or current_mon_day[0] < 7)
+                ):
+                    # Amount of water to be transferred to Tharthar Lake
+                    transferredToLake = min(river_streamflow[x, y] - q_mean_baghdad,
+                        inflow_canal_capacity
+                    )
+            
+                    # Add transferred water to Tharthar Lake inflow accumulator
+                    q_from_sammara_to_tharthar += transferredToLake
+            
+                    # Remaining water continues downstream
+                    river_streamflow[x, y] -= transferredToLake
+            
+            #         # Optional debug print
+            #         # print(f"{year}.{month}.{day_in_month}: {q_from_sammara_to_tharthar}")
+
+                   
 
             # =================================
             # 3. Put water into downstream cell
@@ -873,5 +915,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         neighbouring_cells_map, daily_unsatisfied_pot_nas, glores_outflow, \
         actual_daily_netabstraction_sw, consistent_precip, inflow_from_upstream,\
         cell_aet_consuse, total_water_storage, point_source_recharge, river_velocity,\
+        q_from_sammara_to_tharthar, res_inflow_past_30days, counter_for_tharthar_mean_30days,\
+        glores_inflow
 
 

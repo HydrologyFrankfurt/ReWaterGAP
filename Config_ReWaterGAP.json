@@ -1,12 +1,12 @@
 {
   "FilePath": {
     "inputDir": {
-      "climate_forcing": "input_data/climate_forcing/",
-      "water_use_data": "input_data/water_use/",
+      "climate_forcing": "/home/home9/ReWaterGAP_data/Data_request/Yinglun_Bai/ReWaterGAP-main/input_data/climate_forcing/",
+      "water_use_data": "/home/home9/gm/projects/TE_Basin/ReWaterGAP/input_data/water_use/",
       "static_land_data": "input_data/static_input/",
-      "parameter_path": "model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc"
+      "parameter_path": "model/WaterGAP_2.2e_global_parameters_gswp3_era5.nc"
     },
-    "outputDir": "output_data/"
+    "outputDir": "output_data_test/"
   },
   "RuntimeOptions": [
     {
@@ -31,10 +31,10 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1901-01-01",
-        "end": "1902-12-31",
+        "start": "1985-01-01",
+        "end": "2022-12-31",
         "reservoir_start_year": 1901,
-        "reservoir_end_year": 2019,
+        "reservoir_end_year": 2022,
         "spinup_years": 5
       }
     },
@@ -45,7 +45,7 @@
     },
     {
       "SimulationExtent": {
-        "run_basin": false,
+        "run_basin": true,
         "path_to_stations_file": "input_data/static_input/"
       }
     },
@@ -82,7 +82,7 @@
     },
     {
       "LateralWaterBalanceFluxes": {
-        "consistent_precipitation": true,
+        "consistent_precipitation": false,
         "groundwater_discharge": false,
         "total_runoff": false,
         "pot_cell_runoff": false,
@@ -93,11 +93,13 @@
         "global_lake_outflow": false,
         "global_wetland_outflow": false,
         "streamflow": true,
-        "streamflow_from_upstream": true,
-        "actual_net_abstr_groundwater": true,
-        "actual_net_abstr_surfacewater": true,
-        "actual_water_consumption": true,
-        "cell_aet_consuse": true,
+        "glores_outflow":true,
+        "glores_inflow":true,
+        "streamflow_from_upstream": false,
+        "actual_net_abstr_groundwater": false,
+        "actual_net_abstr_surfacewater": false,
+        "actual_water_consumption": false,
+        "cell_aet_consuse": false,
         "unsat_potnetabs_sw_from_demandcell": false,
         "returned_demand_from_supplycell": false,
         "returned_demand_from_supplycell_nextday": false,
