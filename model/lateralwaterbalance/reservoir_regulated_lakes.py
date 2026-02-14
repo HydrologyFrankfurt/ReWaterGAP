@@ -359,6 +359,8 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
 
         if outflow > outflow_canal_capacity:
             outflow = outflow_canal_capacity
+            
+
 
 
     actual_use_sw = acc_unsatisfied_potnetabs_res_start - \

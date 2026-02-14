@@ -482,7 +482,10 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         # ** need to compute actual use from here too** (to be done**)
         # =========================================================================
             if (x == 112 and y == 446):
+               
+
                 inflow_to_swb += q_from_sammara_to_tharthar
+                q_from_sammara_to_tharthar =0
                 
             
             if glores_area[x, y] > 0:

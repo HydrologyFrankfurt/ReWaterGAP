@@ -283,7 +283,7 @@ class CreateandWritetoVariables:
                     if key in ("get_neighbouring_cells_map", "land-area-fraction"):
                         converted_data = value.data[key].values
                     # convert to m3/s  for discharge and m/s for velocity
-                    elif key in ("dis",  "dis-from-upstream"):
+                    elif key in ("dis",  "dis-from-upstream", "glores_outflow", "glores_inflow"):
                         converted_data = (value.data[key].values * km3_to_m3) / days_to_s
                     elif key == "river_velocity":
                         converted_data = (value.data[key].values * km_to_m) / days_to_s

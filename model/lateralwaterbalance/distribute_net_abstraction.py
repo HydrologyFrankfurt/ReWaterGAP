@@ -148,29 +148,38 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
                         # is negative, it should be substracted from the daily
                         # aggregated demand (potential_netabs_sw) before
                         # distribution
-                        unsatisfied_potnetabs_riparian[r_x, r_y] = \
-                            (unagregrgated_potential_netabs_sw[r_x, r_y] /
-                             (potential_netabs_sw - unagregrgated_potential_netabs_sw[x, y])) * \
-                            (accumulated_unsatisfied_potential_netabs_sw -
-                             prev_accu_supplycell_demad)
+                        denom = potential_netabs_sw - unagregrgated_potential_netabs_sw[x, y]
+                        if denom > 0:
+                            unsatisfied_potnetabs_riparian[r_x, r_y] = \
+                                (unagregrgated_potential_netabs_sw[r_x, r_y] / denom) * \
+                                (accumulated_unsatisfied_potential_netabs_sw -
+                                 prev_accu_supplycell_demad)
+                        else:
+                            unsatisfied_potnetabs_riparian[r_x, r_y] = 0
                 else:
                     # Note: The 'accum_uns_potnetabs_after_distribution' value
                     # for a global lake or reservoir outflowcell itself will
                     # now consist of its distributed contibution  long with
                     # prev_accu_supplycell_demad
-                    accum_uns_potnetabs_after_distribution = \
-                        (unagregrgated_potential_netabs_sw[x, y] / potential_netabs_sw) * \
-                        (accumulated_unsatisfied_potential_netabs_sw -
-                         prev_accu_supplycell_demad) + prev_accu_supplycell_demad
+                    if potential_netabs_sw> 0:
+                        accum_uns_potnetabs_after_distribution = \
+                            (unagregrgated_potential_netabs_sw[x, y] / potential_netabs_sw) * \
+                            (accumulated_unsatisfied_potential_netabs_sw -
+                             prev_accu_supplycell_demad) + prev_accu_supplycell_demad
+                    else:
+                        accum_uns_potnetabs_after_distribution = prev_accu_supplycell_demad
 
                     if unagregrgated_potential_netabs_sw[r_x, r_y] <= 0:
                         unsatisfied_potnetabs_riparian[r_x, r_y] = 0
                     else:
-                        unsatisfied_potnetabs_riparian[r_x, r_y] = \
-                            (unagregrgated_potential_netabs_sw[r_x, r_y] /
-                             potential_netabs_sw) * \
-                            (accumulated_unsatisfied_potential_netabs_sw -
-                             prev_accu_supplycell_demad)
+                        if potential_netabs_sw> 0:
+                            unsatisfied_potnetabs_riparian[r_x, r_y] = \
+                                (unagregrgated_potential_netabs_sw[r_x, r_y] /
+                                 potential_netabs_sw) * \
+                                (accumulated_unsatisfied_potential_netabs_sw -
+                                 prev_accu_supplycell_demad)
+                        else:
+                            unsatisfied_potnetabs_riparian[r_x, r_y] = 0
 
             else:
                 unsatisfied_potnetabs_riparian[r_x, r_y] = 0
