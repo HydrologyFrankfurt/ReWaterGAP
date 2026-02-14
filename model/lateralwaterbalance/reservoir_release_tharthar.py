@@ -79,7 +79,7 @@ def scaling_res_reslease(storage, stor_capacity,
     term1 = k_release #[-]
     term2 = mean_annual_inflow / mean_res_inflow_past_30days # [m3/sec / km3/day]
 
-    release = (term1 * prov_rel) + (term2 * inflow_to_swb)  # m3/s
+    release = (term1 * prov_rel) + (term2 * inflow_to_swb)  # m3/s See Eq. 7 in Hosseini-Moghari et al. (2025) 
     
     # One parameter for each two-month period, obtained through calibration
 

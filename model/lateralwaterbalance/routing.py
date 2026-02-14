@@ -481,11 +481,10 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         # for each cell. See section 4.6.1 of Müller Schmied et al. (2021)
         # ** need to compute actual use from here too** (to be done**)
         # =========================================================================
+            # For lake Tharthar
             if (x == 112 and y == 446):
-               
-
                 inflow_to_swb += q_from_sammara_to_tharthar
-                q_from_sammara_to_tharthar =0
+                q_from_sammara_to_tharthar =0 # To avoid cumulative sum
                 
             
             if glores_area[x, y] > 0:
@@ -720,15 +719,14 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                 inflow_canal_capacity = 0.7776  # km3/day (9000 m3/s)
                 q_mean_baghdad = 0.0461  # km3/day (534.09 m3/s average at Baghdad)
             
-                # Transferring water from the Tigris to Tharthar Lake (only during Dec–June)
+                # Transferring water from the Tigris ( at sammara) to Tharthar Lake (only during Dec–June)
                 if ( (x == 111 and y == 447)
                     and river_streamflow[x, y] > q_mean_baghdad
                     and (current_mon_day[0] == 12 or current_mon_day[0] < 7)
                 ):
                     # Amount of water to be transferred to Tharthar Lake
                     transferredToLake = min(river_streamflow[x, y] - q_mean_baghdad,
-                        inflow_canal_capacity
-                    )
+                        inflow_canal_capacity)
             
                     # Add transferred water to Tharthar Lake inflow accumulator
                     q_from_sammara_to_tharthar += transferredToLake

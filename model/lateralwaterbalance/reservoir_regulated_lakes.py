@@ -305,7 +305,9 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
 
     if np.abs(storage) <= minstorage_volume:
         storage= 0
-    # compute relase from Hanasaki algorithm
+        
+        # Compute the release for Tharthar Lake using a calibrated scaling algorithm.
+
     if x == 112 and y == 446:
         
         release, counter_for_tharthar_mean_30days = scaling.scaling_res_reslease(storage, stor_capacity,
@@ -314,8 +316,10 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
                                   inflow_to_swb,
                                   res_inflow_past_30days, 
                                   counter_for_tharthar_mean_30days)
-    
+
     else:
+        # compute relase from Hanasaki algorithm
+
         release, k_release_new = hanaski.\
             hanasaki_res_reslease(storage, stor_capacity, res_start_month,
                                   simulation_momth_day, k_release, reservoir_type,
@@ -353,6 +357,10 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
         outflow += storage
         storage = 0
     
+    # If outflow of Tharthar is larger than the maximum observed (2003–2019),
+    # then only release that amount and consider the rest as evaporation
+    # (not added to evaporation)
+    
     if x ==112 and y == 446:
 
         outflow_canal_capacity = 0.06  # km3/day (maximum observed 2003–2019)
@@ -360,8 +368,6 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
         if outflow > outflow_canal_capacity:
             outflow = outflow_canal_capacity
             
-
-
 
     actual_use_sw = acc_unsatisfied_potnetabs_res_start - \
         accumulated_unsatisfied_potential_netabs_res
