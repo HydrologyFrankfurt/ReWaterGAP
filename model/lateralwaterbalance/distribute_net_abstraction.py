@@ -148,9 +148,7 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
                         # is negative, it should be substracted from the daily
                         # aggregated demand (potential_netabs_sw) before
                         # distribution
-                        print("i dey hererere oooo")
                         denom = potential_netabs_sw - unagregrgated_potential_netabs_sw[x, y]
-                        print(denom)
                         if denom > 0:
                             unsatisfied_potnetabs_riparian[r_x, r_y] = \
                                 (unagregrgated_potential_netabs_sw[r_x, r_y] / denom) * \
@@ -163,8 +161,6 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
                     # for a global lake or reservoir outflowcell itself will
                     # now consist of its distributed contibution  long with
                     # prev_accu_supplycell_demad
-                    print("i gsgsgsgs  oooo")
-                    print(potential_netabs_sw)
                     if potential_netabs_sw> 0:
                         accum_uns_potnetabs_after_distribution = \
                             (unagregrgated_potential_netabs_sw[x, y] / potential_netabs_sw) * \
@@ -176,7 +172,6 @@ def redistritute_to_riparian(prev_accumulated_unsatisfied_potential_netabs_sw,
                     if unagregrgated_potential_netabs_sw[r_x, r_y] <= 0:
                         unsatisfied_potnetabs_riparian[r_x, r_y] = 0
                     else:
-                        print("i obul  oooo")
                         if potential_netabs_sw> 0:
                             unsatisfied_potnetabs_riparian[r_x, r_y] = \
                                 (unagregrgated_potential_netabs_sw[r_x, r_y] /
