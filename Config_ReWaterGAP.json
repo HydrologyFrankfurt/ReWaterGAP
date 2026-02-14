@@ -6,7 +6,7 @@
       "static_land_data": "input_data/static_input/",
       "parameter_path": "model/WaterGAP_2.2e_global_parameters_gswp3_era5.nc"
     },
-    "outputDir": "output_data_test/"
+    "outputDir": "output_data/"
   },
   "RuntimeOptions": [
     {
