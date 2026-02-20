@@ -103,6 +103,8 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
     gwr_loclake = basin.copy()
     # Dynamic local lake fraction, Unit : (-)
     dyn_loclake_frac = basin.copy()
+    # Extent local lake, Unit : km2
+    loclake_extent = basin.copy()
 
     #                  =================================
     #                  ||        Local wetland        ||
@@ -115,6 +117,8 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
     gwr_locwet = basin.copy()
     # Dynamic local wetland fraction, Unit : (-)
     dyn_locwet_frac = basin.copy()
+    # Extent local wetland, Unit : km2
+    locwet_extent = basin.copy()
 
     #                  =================================
     #                  ||           Global lake       ||
@@ -137,6 +141,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
     glores_storage_out = basin.copy() + glores_storage.copy()
     # Global reservior and regulated lake  outflow, Unit : km3/day
     glores_outflow = basin.copy()
+    glores_inflow  = basin.copy()
     # Global reservior and regulated lake  groundwater recharge, Unit : km3/day
     gwr_glores = basin.copy()
     # Reservoir reselease coefficient. Unit: (-)
@@ -145,6 +150,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
     # Global reservior and regulated lake precipitation, Unit : km3/day
     # (to compute consistent precipitation)
     glores_precip = basin.copy()
+    
 
     #                  =================================
     #                  ||        Global wetland       ||
@@ -157,7 +163,9 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
     gwr_glowet = basin.copy()
     # Dynamic global wetland fraction, Unit : (-)
     dyn_glowet_frac = basin.copy()
-
+    # Extent global wetland, Unit : km2
+    glowet_extent = basin.copy()
+    
     #                  =================================
     #                  ||           River             ||
     #                  =================================
@@ -369,13 +377,14 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                                 lake_outflow_exp=lake_out_exp[x, y])
 
                 storage, outflow, recharge, frac, accum_unpot_netabs_sw, \
-                    actual_use, openwater_evapo_cor = daily_loclake_balance
+                    actual_use, openwater_evapo_cor, extent = daily_loclake_balance
 
                 loclake_storage_out[x, y] = storage.item()
                 loclake_outflow[x, y] = outflow.item()
                 gwr_loclake[x, y] = recharge.item()
                 dyn_loclake_frac[x, y] = frac.item()
                 loclake_evapo[x, y] = openwater_evapo_cor.item()
+                loclake_extent[x, y] = extent.item()
 
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
@@ -410,13 +419,15 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                                lakewet_frac=locwet_frac[x, y],)
 
                 storage, outflow, recharge, frac, accum_unpot_netabs_sw, \
-                    actual_use, openwater_evapo_cor = daily_locwet_balance
+                    actual_use, openwater_evapo_cor, extent = daily_locwet_balance
 
                 locwet_storage_out[x, y] = storage.item()
                 locwet_outflow[x, y] = outflow.item()
                 gwr_locwet[x, y] = recharge.item()
                 dyn_locwet_frac[x, y] = frac.item()
                 locwet_evapo[x, y] = openwater_evapo_cor.item()
+                locwet_extent[x, y] = extent.item()
+
 
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
@@ -455,7 +466,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                             accumulated_unsatisfied_potential_netabs_sw[x, y])
 
                 storage, outflow, recharge, frac, accum_unpot_netabs_sw, \
-                    actual_use, openwater_evapo_cor = daily_glolake_balance
+                    actual_use, openwater_evapo_cor, extent = daily_glolake_balance
 
                 glolake_precip[x, y] = precipitation[x, y] * glolake_area[x, y]
                 glolake_storage_out[x, y] = storage.item()
@@ -477,6 +488,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         # ** need to compute actual use from here too** (to be done**)
         # =========================================================================
             if glores_area[x, y] > 0:
+                glores_inflow[x, y] =   inflow_to_swb
 
                 daily_res_reg_balance = res_reg.\
                     reservoir_regulated_lake_water_balance(rout_order, routflow_looper,
@@ -601,13 +613,15 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                                lakewet_frac=glowet_frac[x, y])
 
                 storage, outflow, recharge, frac, accum_unpot_netabs_sw, \
-                    actual_use, openwater_evapo_cor = daily_glowet_balance
+                    actual_use, openwater_evapo_cor, extent = daily_glowet_balance
 
                 glowet_storage_out[x, y] = storage.item()
                 glowet_outflow[x, y] = outflow.item()
                 gwr_glowet[x, y] = recharge.item()
                 dyn_glowet_frac[x, y] = frac.item()
                 glowet_evapo[x, y] = openwater_evapo_cor.item()
+                glowet_extent[x, y] = extent.item()
+
 
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
@@ -873,5 +887,6 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         neighbouring_cells_map, daily_unsatisfied_pot_nas, glores_outflow, \
         actual_daily_netabstraction_sw, consistent_precip, inflow_from_upstream,\
         cell_aet_consuse, total_water_storage, point_source_recharge, river_velocity,\
+            locwet_extent,glowet_extent,loclake_extent,glores_inflow\
 
 

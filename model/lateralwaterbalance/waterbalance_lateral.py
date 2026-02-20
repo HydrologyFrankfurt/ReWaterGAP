@@ -797,6 +797,11 @@ class LateralWaterBalance:
         total_water_storage = out[32]
         groundwater_recharge_swb = out[33]
         river_velocity = out[34]
+        locwet_extent = out[35]
+        glowet_extent = out[36]
+        loclake_extent = out[37]
+        glores_inflow = out[38]
+
 
         total_groundwater_recharge = groundwater_recharge_swb + diffuse_gw_recharge
         total_runoff = groundwater_discharge + surface_runoff
@@ -942,7 +947,12 @@ class LateralWaterBalance:
                     "ncrun": net_cell_runoff,
                     "river-velocity": river_velocity,
                     "land-area-fraction":  current_landarea_frac,
-                    "pot_cell_runoff": pot_cell_runoff})
+                    "pot_cell_runoff": pot_cell_runoff,
+                    "locwet_extent": locwet_extent,
+                    "glowet_extent": glowet_extent,
+                    "loclake_extent": loclake_extent,
+                    "glores_outflow": glores_outflow,
+                    "glores_inflow": glores_inflow})
 
         LateralWaterBalance.land_swb_fraction.update({
             "current_landareafrac": current_landarea_frac,

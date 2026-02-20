@@ -139,7 +139,12 @@ class CreateandWritetoVariables:
             "ncrun":  "net_cell_runoff",
             "river-velocity": "river_velocity",
             "land-area-fraction":  "land_area_fraction",
-            "pot_cell_runoff": "pot_cell_runoff"
+            "pot_cell_runoff": "pot_cell_runoff",
+            "locwet_extent": "locwet_extent",
+            "glowet_extent": "glowet_extent",
+            "loclake_extent": "loclake_extent",
+            "glores_outflow":"glores_outflow",
+            "glores_inflow": "glores_inflow"
 
         }
 
@@ -278,10 +283,11 @@ class CreateandWritetoVariables:
                     converted_data = value.data[key].values * km3_to_mm
 
                 elif i == 3:
-                    if key in ("get_neighbouring_cells_map", "land-area-fraction"):
+                    if key in ("get_neighbouring_cells_map", "land-area-fraction",
+                               "locwet_extent","glowet_extent","loclake_extent"):
                         converted_data = value.data[key].values
                     # convert to m3/s  for discharge and m/s for velocity
-                    elif key in ("dis",  "dis-from-upstream"):
+                    elif key in ("dis",  "dis-from-upstream","glores_outflow", "glores_inflow"):
                         converted_data = (value.data[key].values * km3_to_m3) / days_to_s
                     elif key == "river_velocity":
                         converted_data = (value.data[key].values * km_to_m) / days_to_s
