@@ -40,6 +40,8 @@ modelvars = {
     "localwetland-outflow": {"long": "Localwetland outflow", "unit": " kg m-2 s-1"},
     "globallake-outflow": {"long": "Globallake outflow", "unit": " kg m-2 s-1"},
     "globalwetland-outflow": {"long": "Globalwetland outflow", "unit": " kg m-2 s-1"},
+    "glores_outflow": {"long": "Global reservoir outflow", "unit": "m3 s-1"},
+    "glores_inflow": {"long": "Global reservoir inflow", "unit": "m3 s-1"},
     "dis": {"long": "Streamflow or River discharge", "unit": "m3 s-1"},
     "dis-from-upstream": {"long": "Streamflow or River discharge from upstream cell",
                           "unit": "m3 s-1"},
@@ -82,6 +84,9 @@ modelvars = {
     "pot_cell_runoff":  {"long": "Potential runoff (sum of surrface runoff and" 
                          " groundwater discharge and runoff from surface waterbodies)",
                          "unit": " kg m-2 s-1"},
+    "locwet_extent": {"long": "Local wetland extent",  "unit": "km2"},
+    "glowet_extent": {"long": "Global wetland extent",  "unit": "km2"},
+    "loclake_extent": {"long":"Local lake extent",  "unit": "km2"},
 
     # VerticalWaterBalanceStorages
     "canopystor": {"long": "Canopy storage", "unit": "kg m-2"},
