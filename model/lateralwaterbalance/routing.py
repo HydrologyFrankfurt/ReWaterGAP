@@ -214,7 +214,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         if np.isnan(basin[x, y]) is False:
             # Get respective outflow cell for routing ordered cells.
             m, n = outflow_cell[routflow_looper]
-
+            
             # Get neigbouring cells (for demand cell)and respective outflow cells
             neigbourcells_for_demandcell = neigbourcells[routflow_looper]
             outflowcell_for_neigbourcells = \
@@ -348,7 +348,6 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         # Local lake water balance including storages and fluxes are computed for
         # each cell. See section 4.6 of Müller Schmied et al. (2021)
         # =========================================================================
-
             if loclake_frac[x, y] > 0:
                 daily_loclake_balance = lw.\
                      lake_wetland_water_balance(x, y,
@@ -467,7 +466,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
 
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
-
+                
         #                  ==================================================
         #                  || Reserviour and regulated lake waterbalance   ||
         #                  ==================================================
@@ -532,7 +531,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
             elif glolake_area[x, y] > 0:
                 accumulated_unsatisfied_potential_netabs_sw[x, y] = \
                     accu_unsatisfied_pot_netabstr_glolake
-
+        
         #    -----------------------------------------------------------------
         #    || Resdistribute unsatisfied net abstraction to riparian cell  ||
         #    ||               for global lakes and reservoirs               ||
@@ -695,7 +694,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
             accumulated_unsatisfied_potential_netabs_sw[x, y] = \
                 accum_unpot_netabs_sw.item()
             actual_daily_netabstraction_sw[x, y] += actual_use.item()
-
+            
             # =================================
             # 3. Put water into downstream cell
             # ==================================
@@ -849,7 +848,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
 
             daily_total_aet[x, y] = land_aet_corr[x, y] + total_open_water_aet[x, y]
 
-            # cell_aet_consuse (km3/day) = actual consumptive use(NAg+NAs) +
+            # cell_aet_consuse (km3/day) = Potential consumptive use(NAg+NAs) +
             # total actual evaporation from land
             cell_aet_consuse[x, y] = actual_net_abstraction_gw[x, y] + \
                 actual_daily_netabstraction_sw[x, y] + daily_total_aet[x, y]
@@ -873,5 +872,4 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         neighbouring_cells_map, daily_unsatisfied_pot_nas, glores_outflow, \
         actual_daily_netabstraction_sw, consistent_precip, inflow_from_upstream,\
         cell_aet_consuse, total_water_storage, point_source_recharge, river_velocity,\
-
 

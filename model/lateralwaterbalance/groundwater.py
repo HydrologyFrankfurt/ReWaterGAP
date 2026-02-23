@@ -77,7 +77,6 @@ def groundwater_balance(x, y,
     """
     # Index (x, y) to  print out varibales of interest
     # e.g.  if x==65 and y==137: print(prev_gw_storage)
-
     #                  ======================================
     #                  ||  groundwaterwater balance    ||
     #                  ======================================
@@ -135,5 +134,5 @@ def groundwater_balance(x, y,
 
     groundwater_discharge = np.where(groundwater_discharge <= 0, 0,
                                      groundwater_discharge)
-
+    
     return current_gw_storage, groundwater_discharge, actual_net_abstraction_gw

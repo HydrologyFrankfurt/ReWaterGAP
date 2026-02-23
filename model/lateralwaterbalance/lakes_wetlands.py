@@ -136,7 +136,7 @@ def lake_wetland_water_balance(x, y,
     # al. (2021)) is calulated as follows.
 
     storage_prevstep = storage
-
+     
     # =========================================================================
     # Computing Reduction factor (km2/day) for
     # local and global lakes and wetlands. Equation 24 & 25 in
@@ -286,7 +286,7 @@ def lake_wetland_water_balance(x, y,
     else:
         # local lakes and wetland are solved numerically
         storage = storage_prevstep + total_inflow - petgwr_netabs_sw
-
+    
     # =========================================================================
     # Computing outflow and updating storages
     # =========================================================================

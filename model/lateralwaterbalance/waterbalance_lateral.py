@@ -223,16 +223,25 @@ class LateralWaterBalance:
                                    forcings_static.lon_length)) + 0.1
 
         # Regulated lake fraction
-        self.reglake_frac = self.static_data.\
-            land_surface_water_fraction.reglak[0].values.astype(np.float64)/100
+        if cm.spatial_res:
+            print("********* Reminder part 4")
+            self.reglake_frac =  np.zeros((forcings_static.lat_length,
+                                       forcings_static.lon_length))
+            self.regulated_lake_status =  np.zeros((forcings_static.lat_length,
+                                       forcings_static.lon_length))
+            self.all_reservoir_and_regulated_lake_area = np.zeros((forcings_static.lat_length,
+                                       forcings_static.lon_length))
+        else:
+            self.reglake_frac = self.static_data.\
+                land_surface_water_fraction.reglak[0].values.astype(np.float64)/100
 
-        self.regulated_lake_status = self.static_data.\
-            land_surface_water_fraction.regulated_lake_status.values
+            self.regulated_lake_status = self.static_data.\
+                land_surface_water_fraction.regulated_lake_status.values
 
-        # Initialize reservior and regulated lake area, Units :km2
-        self.all_reservoir_and_regulated_lake_area = self.static_data.\
-            land_surface_water_fraction.reservoir_and_regulated_lake_area[0].\
-            values.astype(np.float64)
+            # Initialize reservior and regulated lake area, Units :km2
+            self.all_reservoir_and_regulated_lake_area = self.static_data.\
+                land_surface_water_fraction.reservoir_and_regulated_lake_area[0].\
+                values.astype(np.float64)
 
         # To convert units for monthly downstream demand from km3/month to m3/s
         self.num_days_in_month = 0
@@ -253,8 +262,13 @@ class LateralWaterBalance:
         #                  =================================
         #                  ||    Head water cells         ||
         #                  =================================
-        self.headwatercell = self.static_data.\
-            land_surface_water_fraction.headwater_cell.values
+        if cm.spatial_res:
+            print("********* Reminder part 5")
+            self.headwatercell  =  np.zeros((forcings_static.lat_length,
+                                           forcings_static.lon_length))
+        else: 
+            self.headwatercell = self.static_data.\
+                land_surface_water_fraction.headwater_cell.values
 
         #                  =================================
         #                  ||           WaterUSe         ||
@@ -335,7 +349,7 @@ class LateralWaterBalance:
             np.zeros((forcings_static.lat_length, forcings_static.lon_length))
 
         #                  =================================
-        #                  ||    Neigbouring cells        ||
+        #                  ||    Neigbouring cells       ||
         #                  =================================
         # Neighbouuring cells (8 per cell) from which wateruse from demand
         # cells could be satified. Data is a numpy array of lat and lon index
@@ -701,7 +715,7 @@ class LateralWaterBalance:
         roughness = self.get_river_prop.roughness
         river_slope = self.get_river_prop.river_slope
         neighbouring_cells_map = self.get_neighbouring_cells_map.copy()
-
+        
         # =====================================================================
         # Routing (Routing function is optimised for with numba)
         # =====================================================================
