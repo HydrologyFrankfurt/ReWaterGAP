@@ -20,10 +20,11 @@ class SelectUpstreamBasin:
     def __init__(self, run_upstream_basin,  arc_id,  stations, lat_lon_arcid, inflow_cell):
         self.upstream_basin = 0
         if run_upstream_basin:
-
+            
             # check if arc_id are present
             # round data to 2 decimal place (eg. -46.7499999999999 = -46.75)
-            lat_lon_arcid = lat_lon_arcid.round(2)
+            lat_lon_arcid = (lat_lon_arcid + 1e-12).round(2)
+            stations = (stations + 1e-12).round(2)
 
             # Example lists of latitude and longitude
             latitudes = stations["lat"].values.tolist()
@@ -44,7 +45,7 @@ class SelectUpstreamBasin:
                     selected_arcids.append(selected_row.iloc[0])
                 else:
                     selected_arcids.append(None)
-
+                    
             # Print the results
             for i, (lat, lon) in enumerate(zip(latitudes, longitudes)):
                 arcid = selected_arcids[i]
@@ -64,7 +65,7 @@ class SelectUpstreamBasin:
             # create a 2d mask for the selected basin
             mask = arc_id.isin(all_upstream)
             self.upstream_basin = np.where(mask==True, 0,np.nan)
-
+            print( "number of cells of waterbasin: ", np.nansum(self.upstream_basin+1),)
         else:
             self.upstream_basin = arc_id.values * 0
 
@@ -97,5 +98,4 @@ class SelectUpstreamBasin:
         if len(temp_upstream_cell) != 0:
             SelectUpstreamBasin.\
                 get_all_upstream_cells_arcid(temp_upstream_cell, inflow_cell, upstream_cells)
-
         return upstream_cells
