@@ -39,7 +39,6 @@ args = cli.parse_cli()
 # Read in filepath from configuration file and opens file
 # ===============================================================
 
-
 class StaticData:
     """Handles static data."""
 
@@ -52,34 +51,54 @@ class StaticData:
         Static data
 
         """
+        if cm.spatial_res:
+            land_cover_file = r'watergap_3/eu/watergap_3_landcover_eu.nc'
+            soil_files =  r'watergap_3/eu/soil_storage/*'
+            rout_order_file =r'watergap_3/eu/routing_order_eu.csv'
+            arc_id_nc_file = r'watergap_3/eu/arc_id_5min_mask_eu.nc'
+            lat_lon_txt = r'watergap_3/eu/ArcID_GCRC_Lon_Lat_5min_eu.txt'
+            station_file = r'watergap_3/eu/stations_eu.csv'
+            upstream_cells_file  = r'watergap_3/eu/upstream_cells_for_grid_arcid_5min_eu.csv'
+            humid_arid_file = r'watergap_3/eu/watergap_3_aridhumid_eu.nc'
+            cell_area_file = r'watergap_3/eu/watergap_3_continentalarea_eu.nc'
+            land_surface_waterfraction_file = r'watergap_3/eu/land_water_fractions/*'
+            river_files = r'watergap_3/eu/river_static_data/*'
+            elevation_file =  elevation_file = r'watergap_3/eu/watergap_3_elevrange_eu.nc' 
+        else: 
+            land_cover_file = r'/watergap_22e_landcover.nc4'
+            soil_files =  r'/soil_storage/*'
+            rout_order_file = r'/routing_order.csv'
+            arc_id_nc_file = r'/watergap_22e_arc_id.nc'
+            lat_lon_txt = r'/ArcID_GCRC_Lon_Lat.txt'
+            station_file = r'/stations.csv'
+            upstream_cells_file  = r'/upstream_cells_for_grid_arcid.csv'
+            humid_arid_file = r'/watergap_22e_aridhumid.nc4'
+            cell_area_file = r'/watergap_22e_continentalarea.nc'
+            land_surface_waterfraction_file = r'/land_water_fractions/*'
+            river_files = r'/river_static_data/*'
+            elevation_file = r'/watergap_22e_elevrange.nc4'
         # ==============================================================
         # path to climate forcing netcdf data
         # ==============================================================
-        land_cover_path = str(Path(cm.static_land_data_path +
-                                   r'/watergap_22e_landcover.nc4'))
+        land_cover_path = str(Path(cm.static_land_data_path + land_cover_file))
 
-        humid_arid_path = str(Path(cm.static_land_data_path +
-                                   r'/watergap_22e_aridhumid.nc4'))
+        humid_arid_path = str(Path(cm.static_land_data_path + humid_arid_file))
 
         canopy_snow_soil_parameters_path = \
             str(Path(cm.static_land_data_path +
                      r'/canopy_snow_parameters.csv'))
 
         land_surface_waterfraction_path = \
-            str(Path(cm.static_land_data_path + r'/land_water_fractions/*'))
+            str(Path(cm.static_land_data_path + land_surface_waterfraction_file))
 
-        soil_static_files_path = \
-            str(Path(cm.static_land_data_path + r'/soil_storage/*'))
+        soil_static_files_path = str(Path(cm.static_land_data_path + soil_files))
 
         gtopo30_elevation_path = \
-            str(Path(cm.static_land_data_path +
-                     r'/watergap_22e_elevrange.nc4'))
+            str(Path(cm.static_land_data_path + elevation_file))
 
-        cell_area_path = str(Path(cm.static_land_data_path +
-                                  r'/watergap_22e_continentalarea.nc'))
+        cell_area_path = str(Path(cm.static_land_data_path + cell_area_file ))
 
-        river_static_file_path = \
-            str(Path(cm.static_land_data_path + r'/river_static_data/*'))
+        river_static_file_path = str(Path(cm.static_land_data_path +  river_files))
 
         reservoir_reglake_file_path = str(Path(cm.static_land_data_path +
                                                r'/reservoir_regulated_lake/*'))
@@ -88,8 +107,7 @@ class StaticData:
             str(Path(cm.static_land_data_path +
                      r'/watergap_22e_gloresfrac_*.nc'))
         
-        rout_order_path = str(Path(cm.static_land_data_path +
-                                   r'/routing_order.csv'))
+        rout_order_path = str(Path(cm.static_land_data_path + rout_order_file))
 
         alloc_coeff_path = str(Path(cm.static_land_data_path +
                                     r'/alloc_coeff_by_routorder.csv'))
@@ -101,22 +119,20 @@ class StaticData:
                      r'/neigbouringcells_outflow_latlon.csv'))
 
         lat_lon_arcid_path = \
-            str(Path(cm.static_land_data_path +
-                r'/ArcID_GCRC_Lon_Lat.txt'))
+            str(Path(cm.static_land_data_path + lat_lon_txt))
 
         upstream_cells_path = \
-            str(Path(cm.static_land_data_path +
-                r'/upstream_cells_for_grid_arcid.csv'))
+            str(Path(cm.static_land_data_path + upstream_cells_file))
 
         arc_id_path = \
-            str(Path(cm.static_land_data_path + r'/watergap_22e_arc_id.nc'))
+            str(Path(cm.static_land_data_path + arc_id_nc_file))
 
-        station_path = str(Path(cm.path_to_stations_file +
-                                r'/stations.csv'))
+        station_path = str(Path(cm.path_to_stations_file + station_file))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
         try:
+
             # Actual name: Land cover , Unit: (-)
             land_cover = xr.open_dataset(land_cover_path,
                                          decode_times=False)
@@ -151,7 +167,7 @@ class StaticData:
             # River static files
             self.river_static_files = \
                 xr.open_mfdataset(river_static_file_path, decode_times=False)
-
+            
             # Reserviour and regulated lakes (data for computing waterbalance)
             self.res_reg_files = \
                 xr.open_mfdataset(reservoir_reglake_file_path,

@@ -138,6 +138,13 @@ if RESERVOIR_OPT:
     RESERVOIR_OPT_YEARS = RESERVOIR_OPT_YEARS.values.astype('datetime64[D]')
 else:
     RESERVOIR_OPT_YEARS = 0
+
+
+# =============================================================================
+# Spatial resolution (5 arcminutes)
+# =============================================================================
+spatial_res = config_file['RuntimeOptions'][3]['Run_5_arcmin_res']
+
 # =============================================================================
 # # Temporal resolution
 # =============================================================================
@@ -149,6 +156,7 @@ else:
     log.config_logger(logging.ERROR, modname, 'WaterGAP currently has only '
                       'daily resolution ', args.debug)
     sys.exit()  # don't run code if configuration file does not exist
+
 
 
 # =============================================================================
