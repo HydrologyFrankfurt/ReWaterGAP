@@ -83,14 +83,13 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
     groundwater_recharge_from_soil_mm = basin.copy()
     surface_runoff = basin.copy()
     land_aet_corr = basin.copy()
-
+    
     # =====================================================================
     # Loop through rout order
     # =====================================================================
     for routflow_looper in range(len(rout_order)):
         # Get invidividual cells based on routing order
         x, y = rout_order[routflow_looper]
-
         if np.isnan(basin[x, y]) is False:
             # =================================================================
             #       Radiation compononents and Priestley-Taylor PET
@@ -220,7 +219,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             # 1 = immediate_runoff (mm/day)
             effective_precipitation[x, y] = modified_effective_precipitation[0]
             immediate_runoff[x, y] = modified_effective_precipitation[1]
-
+           
             # compute daily soil water balance.
             daily_soil_balance = soil.\
                 soil_water_balance(soil_water_content[x, y], pet_to_soil[x, y],

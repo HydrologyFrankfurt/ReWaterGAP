@@ -159,6 +159,7 @@ class VerticalWaterBalance:
         self.max_soil_water_content = \
             np.where(total_avail_water_content > 0,
                      total_avail_water_content * rooting_depth, np.nan)
+        
 
         # =====================================================================
         #   Storage to be transfered to runoff when land area fraction is zero
@@ -325,6 +326,7 @@ class VerticalWaterBalance:
         # corrected land actual evap including canopy and snow
         land_aet_corr = output[22]
         snowcover_frac = output[23]
+        
         # =====================================================================
         # Getting all storages
         # =====================================================================
