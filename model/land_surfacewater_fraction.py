@@ -50,8 +50,14 @@ def compute_landareafrac(landwater_frac, land_area_frac,
     cont_frac = landwater_frac.contfrac.values.astype(np.float64)
 
     # regulate lake
-    reglake_frac = landwater_frac.reglak[0].values.astype(np.float64)
-
+    if cm.spatial_res:
+        print("********* Reminder")
+        reglake_frac = np.zeros_like(cont_frac[0])
+    else: 
+        print("********* Reminder")
+        #reglake_frac = np.zeros_like(cont_frac[0])
+        reglake_frac = landwater_frac.reglak[0].values.astype(np.float64)
+        
     # Global lake
     glowet_frac = landwater_frac.glowet[0].values.astype(np.float64)
 
@@ -136,7 +142,6 @@ def compute_landareafrac(landwater_frac, land_area_frac,
             # regulated lakes becomes global lakes (global lake fraction is
             # increased by regulated lake)
             # Note!!! regulated lakes are found in global resevoir
-
             glolake_frac += reglake_frac
 
             land_area_frac = (cont_frac - (glolake_frac + glowet_frac +
@@ -181,12 +186,16 @@ def get_glolake_area(landwater_frac):
             glo_lake_area = global_lake_area
     else:
         # Add reservoir area to global lake area in case of regulated lake
-        regulated_lake_status = landwater_frac.regulated_lake_status.values
-        reservior_and_regulated_lake_area = \
-            landwater_frac.reservoir_and_regulated_lake_area[0].values.\
-            astype(np.float64)
-
-        glo_lake_area = np.where(regulated_lake_status == 1, global_lake_area +
-                                 reservior_and_regulated_lake_area,
-                                 global_lake_area)
+        if cm.spatial_res:
+            print("********* another Reminder: regulated_lake_status: needed")
+            glo_lake_area = global_lake_area 
+        else:
+            regulated_lake_status = landwater_frac.regulated_lake_status.values
+            reservior_and_regulated_lake_area = \
+                landwater_frac.reservoir_and_regulated_lake_area[0].values.\
+                astype(np.float64)
+    
+            glo_lake_area = np.where(regulated_lake_status == 1, global_lake_area +
+                                     reservior_and_regulated_lake_area,
+                                     global_lake_area)
     return glo_lake_area

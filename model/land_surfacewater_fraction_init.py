@@ -18,7 +18,7 @@ from model import land_surfacewater_fraction as lsf
 class LandsurfacewaterFraction:
     """Compute and update land and surfacewater fractions."""
 
-    def __init__(self, static_data, reservior_opt):
+    def __init__(self, static_data, reservior_opt, change_spatial_res=False):
         self.static_data = static_data
         self.reservior_opt = reservior_opt
         self.init_landfrac_res_flag = True
@@ -54,14 +54,23 @@ class LandsurfacewaterFraction:
         # (in anthropogenic run) regulated lakes becomes global lakes.
         # Also, if reservoirs are considered in anthropogenic run, local
         # reservoirs are added to local lakes
+
+        if change_spatial_res:
+            print("*********will need regulated lake, global and local reservoir in future")
+            reglake_frac = np.zeros_like(self.cont_frac[0])
+            locres_frac = np.zeros_like(self.cont_frac[0])
+        else: 
+            reglake_frac = self.static_data.\
+                land_surface_water_fraction.reglak[0].values.astype(np.float64)
+            locres_frac = self.static_data.\
+                land_surface_water_fraction.locres[0].values.astype(np.float64)
+            
         self.glolake_frac = self.static_data.\
             land_surface_water_fraction.glolak[0].values.astype(np.float64)
-        reglake_frac = self.static_data.\
-            land_surface_water_fraction.reglak[0].values.astype(np.float64)
+        
         self.loclake_frac = self.static_data.\
             land_surface_water_fraction.loclak[0].values.astype(np.float64)
-        locres_frac = self.static_data.\
-            land_surface_water_fraction.locres[0].values.astype(np.float64)
+        
 
         locwet_frac = self.static_data.\
             land_surface_water_fraction.locwet[0].values.astype(np.float64)
@@ -95,7 +104,7 @@ class LandsurfacewaterFraction:
             # fraction  see "update_landareafrac" function below
             self.previous_swb_frac = \
                 (self.loclake_frac + locwet_frac + glowet_frac)/100
-
+  
             # =====================================================================
             # Get land area fraction without global lake & reservoirs/regulated lakes.
             # This variable will be used to compute consistent precipitation
@@ -185,7 +194,7 @@ class LandsurfacewaterFraction:
                         astype(np.float64)
 
                 self.init_landfrac_res_flag = False
-
+                print( self.current_landareafrac)
                 # =============================================================
                 # Get land water fracion without  global lakes and
                 # reservoirs/regulated lakes.
