@@ -82,6 +82,12 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
         print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
         print('Temporal resolution:' +
               colored(f'{cm.TEMPORAL_RES}', 'green'))
+        if cm.spatial_res:
+            print('Spatial resolution:' +
+                  colored('0.0833 degree', 'yellow'))
+        else: 
+           print('Spatial resolution:' +
+                 colored('0.5 degree', 'yellow'))
         print('Run basin:' +
               colored(f'{cm.run_basin}', 'green'))
 
@@ -106,7 +112,7 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
     # initialize Land surface water Fraction
     land_water_frac = \
         lwf.LandsurfacewaterFraction(initialize_forcings_static.static_data,
-                                     cm.RESERVOIR_OPT)
+                                     cm.RESERVOIR_OPT, cm.spatial_res)
 
     # =====================================================================
     #  Create and write to ouput variable if selected by user
@@ -276,7 +282,6 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
                           date, first_day_of_month, watergap_basin.upstream_basin,
                           vertical_waterbalance.fluxes['sum_canopy_snow_soil_storage'],
                           run_calib)
-
             # =================================================================
             #  Update Land Area Fraction
             # =================================================================
@@ -296,7 +301,8 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
 
                 create_out_var.\
                     verticalbalance_write_daily_var(vb_storages_and_fluxes,
-                                                    sim_year, sim_month, sim_day)
+                                                    time_step, sim_year,
+                                                    sim_month, sim_day)
 
                 # Getting daily storages and fluxes and writing to variables
                 lb_storages_and_fluxes = \
@@ -304,7 +310,8 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
 
                 create_out_var.\
                     lateralbalance_write_daily_var(lb_storages_and_fluxes,
-                                                   sim_year, sim_month, sim_day)
+                                                   time_step, sim_year,
+                                                   sim_month, sim_day)
 
                 # =============================================================
                 # Store ouput variable if selected by user
