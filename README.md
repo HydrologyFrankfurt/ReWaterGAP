@@ -2,6 +2,28 @@
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
+# Caution
+
+This WaterGAP version was used only for the high and low simulation runs conducted for my thesis.
+It is not up to date with the main branch and may differ from the current development version.
+
+# Note
+
+input_data/static_input/watergap_3/
+→ The link to these files will be updated soon.
+
+# Files not up to date 
+
+model/lateralwaterbalance/distribute_net_abstraction.py
+
+model/parameters.py
+
+view/createandwrite.py
+
+view/data_output_handler.py
+
+ReWaterGAP/run_watergap.py
+
 
 
 # ReWaterGAP
