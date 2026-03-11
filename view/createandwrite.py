@@ -117,6 +117,7 @@ class CreateandWritetoVariables:
             "riverstor": "river_storage",
             "reservoirstor": "global_reservoir_storage",
             "tws": "total_water_storage",
+            "river_depth": "river_depth",
 
             "dis": "streamflow",
             "dis-from-upstream": "streamflow_from_upstream",
@@ -274,8 +275,12 @@ class CreateandWritetoVariables:
                         converted_data = value.data[key].values / days_to_s
 
                 elif i == 2:
-                    # convert from km3 to mm or  kg m-2
-                    converted_data = value.data[key].values * km3_to_mm
+                    if key=="river_depth":
+                        # in m
+                        converted_data = value.data[key].values
+                    else:
+                        # convert from km3 to mm or  kg m-2
+                        converted_data = value.data[key].values * km3_to_mm
 
                 elif i == 3:
                     if key in ("get_neighbouring_cells_map", "land-area-fraction"):

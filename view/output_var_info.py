@@ -97,5 +97,6 @@ modelvars = {
     "globalwetlandstor": {"long": "Globalwetland storage", "unit": "kg m-2"},
     "riverstor": {"long": "River storage",  "unit": "kg m-2"},
     "reservoirstor": {"long": "Global reservoir storage",  "unit": "kg m-2"},
-    "tws": {"long": "Total water storage",  "unit": "kg m-2"}
+    "tws": {"long": "Total water storage",  "unit": "kg m-2"},
+    "river_depth": {"long": "River depth",  "unit": "m"}
 }
