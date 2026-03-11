@@ -99,7 +99,7 @@ def river_velocity(x, y,
     # (Global and local lakes and wetlands)
 
     outflow_constant = river_velocity / river_length  # units (1/day)
-    return river_velocity, outflow_constant
+    return river_velocity, outflow_constant, river_depth
 
 
 @njit(cache=True)

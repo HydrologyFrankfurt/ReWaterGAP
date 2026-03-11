@@ -173,6 +173,8 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
     inflow_from_upstream = basin.copy()
     # River velocity, Unit : km/day
     river_velocity = basin.copy()
+    # River depth, Unit : m
+    river_depth = basin.copy()
 
     #                  =================================
     #                  ||           WaterUSe         ||
@@ -673,8 +675,9 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                      river_bottom_width[x, y], roughness[x, y],
                                      roughness_multiplier[x, y], river_slope[x, y])
 
-            velocity, outflow_constant = velocity_and_outflowconst
+            velocity, outflow_constant, depth_of_river = velocity_and_outflowconst
             river_velocity[x, y] = velocity
+            river_depth[x,y] = depth_of_river
             # ================================================
             # 2. Compute storage(km3) and streamflow(km3/day)
             # ================================================
@@ -872,6 +875,6 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         returned_demand_from_supplycell, returned_demand_from_supplycell_nextday,\
         neighbouring_cells_map, daily_unsatisfied_pot_nas, glores_outflow, \
         actual_daily_netabstraction_sw, consistent_precip, inflow_from_upstream,\
-        cell_aet_consuse, total_water_storage, point_source_recharge, river_velocity,\
+        cell_aet_consuse, total_water_storage, point_source_recharge, river_velocity, river_depth, \
 
 

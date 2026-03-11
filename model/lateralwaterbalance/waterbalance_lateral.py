@@ -797,6 +797,7 @@ class LateralWaterBalance:
         total_water_storage = out[32]
         groundwater_recharge_swb = out[33]
         river_velocity = out[34]
+        river_depth = out[35]
 
         total_groundwater_recharge = groundwater_recharge_swb + diffuse_gw_recharge
         total_runoff = groundwater_discharge + surface_runoff
@@ -911,7 +912,8 @@ class LateralWaterBalance:
                     'globalwetlandstor': self.glowet_storage,
                     'riverstor': self.river_storage,
                     "reservoirstor": self.glores_storage,
-                    "tws": total_water_storage})
+                    "tws": total_water_storage,
+                    "river_depth": river_depth})
 
         LateralWaterBalance.fluxes.\
             update({"consistent-precipitation": consistent_precip,
