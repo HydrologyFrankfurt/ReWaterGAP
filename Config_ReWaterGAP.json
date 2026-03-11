@@ -118,7 +118,8 @@
         "global_wetland_storage": false,
         "river_storage": false,
         "global_reservoir_storage": false,
-        "total_water_storage": true
+        "total_water_storage": true,
+        "river_depth":true
       }
     }
   ]
