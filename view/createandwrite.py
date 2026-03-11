@@ -148,7 +148,7 @@ class CreateandWritetoVariables:
         for var_name, cm_var in lb_output_vars.items():
             if var_name in {'groundwstor', "locallakestor", "localwetlandstor",
                             "globallakestor", "globalwetlandstor",
-                            "riverstor", "reservoirstor", "tws"}:
+                            "riverstor", "reservoirstor", "tws", "river_depth"}:
                 if cm.lb_storages.get(cm_var):
                     var = doh.OutputVariable(var_name, cm.lb_storages.get(cm_var),
                                              grid_coords)
