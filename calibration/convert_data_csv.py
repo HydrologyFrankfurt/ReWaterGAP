@@ -57,7 +57,7 @@ def convert_csv(out_path='./calibration/regionalization_input/'):
     # =============================================================================
     # Load and process maximum groundwater recharge
     # =============================================================================
-    max_gw_recharge_path = "./input_data/static_input/soil_storage/watergap_22e_max_recharge.nc4"
+    max_gw_recharge_path = "./input_data/static_input/soil_storage//with_karst/WaterGAP_2.3_max_recharge.nc"
     max_gw_recharge = xr.open_dataarray(max_gw_recharge_path, decode_times=False)
     max_gw_recharge_df = max_gw_recharge .to_dataframe(name='max_groundwater_recharge')
 
@@ -89,3 +89,4 @@ def convert_csv(out_path='./calibration/regionalization_input/'):
     merge_temp_df.to_csv(out_path+"GTEMP_1971_2000.csv", sep=',', index=False)
     merge_smax_df.to_csv(out_path+"max_soil_water_content.csv", sep=',', index=False)
     max_gw_recharge_df.to_csv(out_path+"max_groundwater_recharge.csv", sep=',', index=False)
+
