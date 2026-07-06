@@ -1,8 +1,8 @@
 {
   "FilePath": {
     "inputDir": {
-      "climate_forcing": "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/ReWaterGAP-main/ReWaterGAP-main/input_data/climate_forcing/",
-      "water_use_data": "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/ReWaterGAP-main/ReWaterGAP-main/input_data/water_use/",
+      "climate_forcing": "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/ReWaterGAP-main_1901-2025/ReWaterGAP-main/input_data/climate_forcing/",
+      "water_use_data": "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/ReWaterGAP-main_1901-2025/ReWaterGAP-main/input_data/water_use/",
       "static_land_data": "input_data/static_input/",
 <<<<<<< HEAD
       "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5.nc"
@@ -36,7 +36,7 @@
     {
       "SimulationPeriod": {
         "start": "2000-01-01",
-        "end": "2020-12-31",
+        "end": "2025-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2020,
         "spinup_years": 0
