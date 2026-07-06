@@ -1,4 +1,7 @@
 _build/
 New_Text_Document.txt
 __pycache__/
+<<<<<<< HEAD
 *.pyc
+=======
+>>>>>>> cce7744 (Ignore __pycache__)
