@@ -2,3 +2,6 @@ _build/
 New_Text_Document.txt
 __pycache__/
 *.pyc
+output_data/*
+!output_data/.gitkeep
+
