@@ -1,14 +1,10 @@
 {
   "FilePath": {
     "inputDir": {
-      "climate_forcing": "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/ReWaterGAP-main_1901-2025/ReWaterGAP-main/input_data/climate_forcing/",
-      "water_use_data": "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/ReWaterGAP-main_1901-2025/ReWaterGAP-main/input_data/water_use/",
+      "climate_forcing": "/home/home9/ReWaterGAP_data/Climate_forcing_ReWaterGAP/era5/climate_forcing/",
+      "water_use_data": "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/ReWaterGAP-main_1901-2025/water_use_2025/",
       "static_land_data": "input_data/static_input/",
-<<<<<<< HEAD
       "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5.nc"
-=======
-      "parameter_path": "model/WaterGAP_2.2e_global_parameters_gswp3_era5.nc"
->>>>>>> 0d98795 (Add new output variables: local lake extent, local wetland extent, global wetland extent, and reservoir inflow/outflow)
     },
     "outputDir": "output_data/"
   },
@@ -35,8 +31,8 @@
     },
     {
       "SimulationPeriod": {
-        "start": "2000-01-01",
-        "end": "2025-12-31",
+        "start": "1980-01-01",
+        "end": "2024-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2020,
         "spinup_years": 0
@@ -71,7 +67,7 @@
         "snow_fall": false,
         "snow_melt": false,
         "snow_evap": false,
-        "groundwater_recharge_diffuse": false,
+        "groundwater_recharge_diffuse": true,
         "surface_runoff": false,
         "snowcover_frac": false
       }
@@ -90,8 +86,8 @@
         "groundwater_discharge": false,
         "total_runoff": false,
         "pot_cell_runoff": false,
-        "groundwater_recharge_swb": false,
-        "total_groundwater_recharge": false,
+        "groundwater_recharge_swb": true,
+        "total_groundwater_recharge": true,
         "local_lake_outflow": false,
         "local_wetland_outflow": false,
         "global_lake_outflow": false,
@@ -126,7 +122,7 @@
         "global_lake_storage": false,
         "global_wetland_storage": false,
         "river_storage": false,
-        "global_reservoir_storage": false,
+        "global_reservoir_storage": true,
         "total_water_storage": true
       }
     }
