@@ -7,6 +7,7 @@ Created on Tue Jul 14 11:01:29 2026
 import xarray as xr
 import numpy as np
 from numba import njit
+from pathlib import Path
 
 
 @njit(cache=True)
@@ -179,17 +180,46 @@ def save_start_month_netcdf(start_month, monthly_mean_file, output_dir="."):
 # =============================================================================
 # Change path to input file for respective forcing 
 # =============================================================================
-monthly_mean_inflow_path ="/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/reservoir_routing_era5/watergap_22e_era5_monthly_mean_inflow.nc4"
-annual_mean_inflow_path = "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/reservoir_routing_era5/watergap_22e_era5_mean_inflow.nc4"
+monthly_mean_inflow_path = Path(
+    "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/reservoir_routing_era5/watergap_22e_era5_monthly_mean_inflow.nc4"
+)
+annual_mean_inflow_path = Path(
+    "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/reservoir_routing_era5/watergap_22e_era5_mean_inflow.nc4"
+)
 
-annual_mean =  xr.open_dataarray(annual_mean_inflow_path, decode_times=False)
-monthly_mean =  xr.open_dataarray(monthly_mean_inflow_path, decode_times=False)
-annual_mean= annual_mean[0].values
-monthly_mean = monthly_mean.values
+# Output directory
+output_dir = Path("/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/reservoir_routing_era5")
 
-dry_start = np.full((annual_mean.shape), np.nan, dtype=np.float32)
-valid = ~np.isnan(annual_mean)
-dry_start[valid] = 0
+# Check that both input files exist
+if monthly_mean_inflow_path.exists() and annual_mean_inflow_path.exists():
 
-start_month = find_reservoir_start_month(monthly_mean, annual_mean, dry_start)
-save_start_month_netcdf(start_month, monthly_mean_inflow_path, output_dir=".")
+    annual_mean = xr.open_dataarray(
+        annual_mean_inflow_path, decode_times=False
+    )
+    monthly_mean = xr.open_dataarray(
+        monthly_mean_inflow_path, decode_times=False
+    )
+
+    annual_mean = annual_mean[0].values
+    monthly_mean = monthly_mean.values
+
+    dry_start = np.full(annual_mean.shape, np.nan, dtype=np.float32)
+    valid = ~np.isnan(annual_mean)
+    dry_start[valid] = 0
+
+    start_month = find_reservoir_start_month(
+        monthly_mean, annual_mean, dry_start
+    )
+
+    save_start_month_netcdf(
+        start_month,
+        str(monthly_mean_inflow_path),
+        output_dir=str(output_dir)
+    )
+
+else:
+    print("Required input file(s) not found.")
+    if not monthly_mean_inflow_path.exists():
+        print(f"Missing: {monthly_mean_inflow_path}")
+    if not annual_mean_inflow_path.exists():
+        print(f"Missing: {annual_mean_inflow_path}")
