@@ -345,7 +345,7 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
 
     # convert open water evaporation for swb from km/day to km3/day (output purpose)
     openwater_evapo_cor_km3 = openwater_evapo_cor * reservior_area[x, y]
-
+        
     return storage, outflow, gwr_reservior, k_release_new, \
         accumulated_unsatisfied_potential_netabs_res, actual_use_sw, \
             openwater_evapo_cor_km3

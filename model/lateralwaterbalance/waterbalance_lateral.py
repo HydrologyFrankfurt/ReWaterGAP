@@ -701,7 +701,7 @@ class LateralWaterBalance:
         roughness = self.get_river_prop.roughness
         river_slope = self.get_river_prop.river_slope
         neighbouring_cells_map = self.get_neighbouring_cells_map.copy()
-
+        
         # =====================================================================
         # Routing (Routing function is optimised for with numba)
         # =====================================================================

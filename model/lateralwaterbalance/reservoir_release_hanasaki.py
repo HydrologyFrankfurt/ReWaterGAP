@@ -190,6 +190,6 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
         to_m3_per_s = 1e9/86400
         # release is applied on daily inflow
         release = ((4*(c_ratio)**2) * k_release * prov_rel) + \
-            (1 - (4*(c_ratio)**2)) * (inflow_to_swb*to_m3_per_s)
-
+            ((1 - (4*(c_ratio)**2)) * (inflow_to_swb*to_m3_per_s))
+    
     return release, k_release
