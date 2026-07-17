@@ -80,7 +80,7 @@ class TestResevoirRegulatedLake(unittest.TestCase):
                 np.random.uniform(0, 0.2, size=self.constants['size']),  # km3/month plausible
 
             'mean_annual_demand_res':
-                xr.open_dataarray(f"{input_path}watergap_22e_era5_mean_nus_1971_2000.nc4",
+                xr.open_dataarray(f"{input_path}watergap_22e_era5_mean_nus.nc4",
                                   decode_times=False)[0].values,  # m3/year
             'accumulated_unsatisfied_potential_netabs_sw':
                 np.random.uniform(0, 0.02, size=self.constants['size']),  # km3/day plausible
