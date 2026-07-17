@@ -92,7 +92,7 @@ class TestResevoirRegulatedLake(unittest.TestCase):
             # Reservoir Area and Capacity
             'glores_startyear': xr.open_dataarray(f"{input_path}watergap_22e_startyear.nc4",
                                                   decode_times=False)[0].values,  # year
-            'glores_startmonth': xr.open_dataarray(f"{input_path}watergap_22e_era5_startmonth.nc4",
+            'glores_startmonth': xr.open_dataarray(f"{input_path}watergap_22e_era5_startmonth.nc",
                                                    decode_times=False)[0].values,  # month
             'glores_capacity': xr.open_dataarray(f"{input_path}watergap_22e_res_stor_cap.nc4",
                                                  decode_times=False)[0].values,  # km3
