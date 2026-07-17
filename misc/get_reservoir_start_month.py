@@ -181,14 +181,14 @@ def save_start_month_netcdf(start_month, monthly_mean_file, output_dir="."):
 # Change path to input file for respective forcing 
 # =============================================================================
 monthly_mean_inflow_path = Path(
-    "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/reservoir_routing_era5/watergap_22e_era5_monthly_mean_inflow.nc4"
+    "../static_input/reservoir_regulated_lake/reservoir_routing_era5/watergap_22e_era5_monthly_mean_inflow.nc4"
 )
 annual_mean_inflow_path = Path(
-    "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/reservoir_routing_era5/watergap_22e_era5_mean_inflow.nc4"
+    "../static_input/reservoir_regulated_lake/reservoir_routing_era5/watergap_22e_era5_mean_inflow.nc4"
 )
 
 # Output directory
-output_dir = Path("/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/reservoir_routing_era5")
+output_dir = Path("../static_input/reservoir_regulated_lake/reservoir_routing_era5/")
 
 # Check that both input files exist
 if monthly_mean_inflow_path.exists() and annual_mean_inflow_path.exists():
