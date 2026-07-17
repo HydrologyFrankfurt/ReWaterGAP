@@ -294,9 +294,9 @@ class VerticalWaterBalance:
         net_radiation = output[0]
         daily_potential_evap = output[2]
         openwater_potential_evap = output[3]
-        total_potential_evap = (land_freq * daily_potential_evap) + \
-            (water_freq * openwater_potential_evap)
-
+        total_potential_evap = (((land_freq/100) * daily_potential_evap) + 
+                        ((water_freq/100) * openwater_potential_evap))/self.cont_frac
+    
         # Leaf area index ouput
         leaf_area_index = output[4]
         self.lai_days = output[5]
@@ -343,7 +343,7 @@ class VerticalWaterBalance:
 
         VerticalWaterBalance.fluxes.\
             update({'netrad': net_radiation,
-                    'potevap':  total_potential_evap * per_contfrac,
+                    'potevap':  total_potential_evap,
                     'lai-total':  leaf_area_index,
                     'canopy-evap':  canopy_evap * per_contfrac,
                     'throughfall':  throughfall * per_contfrac,
