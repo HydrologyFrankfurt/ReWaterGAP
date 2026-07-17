@@ -23,7 +23,7 @@ class TestResevoirRegulatedLake(unittest.TestCase):
 
     # creating fixtures
     def setUp(self):
-        input_path = "./input_data/static_input/reservoir_regulated_lake/"
+        input_path = "./input_data/static_input/reservoir_regulated_lake/reservoir_routing_era5/"
         land_frac_path = "./input_data/static_input/land_water_fractions/"
         self.constants ={
             'size': (360, 720),
