@@ -87,15 +87,20 @@ class StaticData:
         forcing = cm.global_parameter_path.split("_")[-1].split(".")[0]
         res_routing_dir = f"reservoir_regulated_lake/reservoir_routing_{forcing}"
         res_routing_dir = Path(cm.static_land_data_path + res_routing_dir)
-        
+
+        if forcing == "run-calib": # calibration is ongoing
+            forcing = cm.calib_forcing.split("-")[-1]
+            res_routing_dir = f"reservoir_regulated_lake/reservoir_routing_{forcing}"
+            res_routing_dir = Path(cm.static_land_data_path + res_routing_dir)
+ 
         if not res_routing_dir.exists():
             print(
                 f"Error: Reservoir routing folder does not exist:\n"
                 f"  {res_routing_dir}\n\n"
-                f"Please create this folder before running the program."
+                f"Please make sure this folder before exist running the program."
             )
             sys.exit(1)
-        
+    
         
         res_routing_files = list(res_routing_dir.glob("*.nc")) + list(res_routing_dir.glob("*.nc4"))
         ignore_file = f"watergap_22e_{forcing}_monthly_mean_inflow"

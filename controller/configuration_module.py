@@ -183,4 +183,5 @@ save_and_read_states_path = restart_save_option["save_and_read_states_dir"]
 # =============================================================================
 calibration_options = config_file['RuntimeOptions'][5]["Calibrate WaterGAP"]
 run_calib = calibration_options["run_calib"]
+calib_forcing = calibration_options["calib_forcing"]
 observed_discharge_filepath = calibration_options["path_to_observed_discharge"]
