@@ -12,7 +12,7 @@
 
 import xarray as xr
 import pandas as pd
-
+from controller import configuration_module as cm
 
 def convert_csv(out_path='./calibration/regionalization_input/'):
     """
@@ -32,7 +32,8 @@ def convert_csv(out_path='./calibration/regionalization_input/'):
     # Load and process temperature data (1971-2000)
     # =========================================================================
     # Define file path and load temperature data
-    temperature_path = "./input_data/climate_forcing/temperature/*.nc"
+    cm.climate_forcing_path
+    temperature_path = cm.climate_forcing_path + "temperature/*.nc"
     temperature_data = xr.open_mfdataset(temperature_path)
 
     # Select data for the years 1971 to 2000 and convert temperature from Kelvin to Celsius
