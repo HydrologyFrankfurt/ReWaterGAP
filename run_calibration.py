@@ -92,7 +92,7 @@ class CalibrateStations:
         # update parameter path
         config_file['FilePath']['inputDir']['parameter_path'] = params_path
         
-        # self.climate_forcing_path = config_file['FilePath']['inputDir']['climate_forcing']
+        self.climate_forcing_path = config_file['FilePath']['inputDir']['climate_forcing']
 
         # Save the modified JSON data
         with open('Config_ReWaterGAP.json', 'w',  encoding='utf-8') as file:
