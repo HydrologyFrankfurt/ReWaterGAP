@@ -83,7 +83,7 @@ def merge_parameters(param_version):
     out_params.to_netcdf(f"./model/{param_version}_global_parameters.nc")
 
 
-def run_regionalization_merge_parameters(num_threads_or_nodes, param_version):
+def run_regionalization_merge_parameters(num_threads_or_nodes, param_version, climate_forcing_path):
     """
     Run regionalistion
 
@@ -98,7 +98,7 @@ def run_regionalization_merge_parameters(num_threads_or_nodes, param_version):
 
     """
     num_thread = num_threads_or_nodes
-    convert_data_csv.convert_csv()
+    convert_data_csv.convert_csv(climate_forcing_path)
     regio.regionalize_paramters(num_thread)
     merge_parameters(param_version)
     
