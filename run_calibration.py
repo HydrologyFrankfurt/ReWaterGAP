@@ -51,7 +51,7 @@ class CalibrateStations:
                 if "save_and_read_states_dir" in key or "start" in key or 'end' in key\
                     or "reservoir_start_year" in key or "reservoir_end_year"in key\
                     or "spinup_years" in key or "daily" in key or "run_basin" in key\
-                    or "path_to_stations_file" in key or "path_to_observed_discharge" in key:
+                    or "path_to_stations_file" in key or "path_to_observed_discharge" or 'calib_forcing' in key:
 
                     pass
                 elif "ant" in key or "subtract_use" in key or "res_opt" in key\
