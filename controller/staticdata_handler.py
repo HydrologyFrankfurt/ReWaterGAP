@@ -21,7 +21,7 @@ import pandas as pd
 import watergap_logger as log
 import misc.cli_args as cli
 from controller import configuration_module as cm
-import glob
+
 
 # ===============================================================
 # Get module name and remove the .py extension
@@ -69,7 +69,7 @@ class StaticData:
             str(Path(cm.static_land_data_path + r'/land_water_fractions/*'))
 
         soil_static_files_path = \
-            str(Path(cm.static_land_data_path + r'/soil_storage/*'))
+            str(Path(cm.static_land_data_path + r'/soil_storage/with_karst/*'))
 
         gtopo30_elevation_path = \
             str(Path(cm.static_land_data_path +
@@ -80,7 +80,7 @@ class StaticData:
 
         river_static_file_path = \
             str(Path(cm.static_land_data_path + r'/river_static_data/*'))
-        
+
         # =============================================================================
         # resevoir routing  (resevoir start month and demand are  dependent on forcing)
         # =============================================================================
@@ -234,11 +234,15 @@ class StaticData:
         drainage_direction : array
             Drainage direction of grid cell, Unit: [mm]
         max_groundwater_recharge : array
-            Maxumum ground water recharge, Unit: [mm]
+           Maximum groundwater recharge from soil based on Wan, W., Döll, P., & Müller Schmied, H. (2024), Units: [mm/day],
         soil_texture : array
            Soil texture, Unit: [-]
         groundwater_recharge_factor : array
-           groundwater recharge factor with Missipi corrected,  Unit: [-]
+           groundwater recharge factor with Missipi corrected (Wan, W., Döll, P., & Müller Schmied, H. (2024)),  Unit: [-]
+        arid_coarse : float
+            Coarse arid classification based on Wan, W., Döll, P., & Müller Schmied, H. (2024), Units:  [-]
+        karst_frac : float 
+            karst fraction based on Wan, W., Döll, P., & Müller Schmied, H. (2024), Units:  [-]
 
         """
         # Built up area fraction, units = (-)
@@ -252,16 +256,22 @@ class StaticData:
         drainage_direction = \
             self.soil_static_files.drainage_direction[0].values
 
-        # Maxumum ground water recharge = mm
+        # Maxumum ground water recharge = mm  
+        # no need to divide by 100 for the new max recharge based on 
         max_groundwater_recharge = \
-            self.soil_static_files.max_recharge[0].values/100
-
+            self.soil_static_files.max_recharge.values
+        
+        # for karst ground water recharge scheme
+        arid_coarse = self.soil_static_files.arid_coarse.values
+        karst_frac = self.soil_static_files.karst_frac.values
+        
         # Soil texture, units= (-)
         soil_texture = self.soil_static_files.texture.values
 
         # groundwater recharge factor with Missipi corrected, units= (-)
         groundwater_recharge_factor = \
-            self.soil_static_files.gw_factor_corr[0].values.astype(np.float64)
+            self.soil_static_files.gw_factor_corr.values.astype(np.float64)
 
         return builtup_area_frac, total_avail_water_content, drainage_direction,\
-            max_groundwater_recharge, soil_texture, groundwater_recharge_factor
+            max_groundwater_recharge, soil_texture, groundwater_recharge_factor,\
+              arid_coarse, karst_frac
