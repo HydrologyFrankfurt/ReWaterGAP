@@ -50,8 +50,9 @@
       }
     },
     {
-      "Calibrate WaterGAP": {
+      "CalibrateWaterGAP": {
         "run_calib": false,
+        "calib_forcing": "gswp3-era5",
         "path_to_observed_discharge": "../test_wateruse/json_annual/"
       }
     }
