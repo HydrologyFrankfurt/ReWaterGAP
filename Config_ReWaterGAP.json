@@ -4,7 +4,7 @@
       "climate_forcing": "input_data/climate_forcing/",
       "water_use_data": "input_data/water_use/",
       "static_land_data": "input_data/static_input/",
-      "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5.nc"
+      "parameter_path": "model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc"
     },
     "outputDir": "output_data/"
   },
@@ -50,8 +50,9 @@
       }
     },
     {
-      "Calibrate WaterGAP": {
+      "CalibrateWaterGAP": {
         "run_calib": false,
+        "calib_forcing": "gswp3-era5",
         "path_to_observed_discharge": "../test_wateruse/json_annual/"
       }
     }
