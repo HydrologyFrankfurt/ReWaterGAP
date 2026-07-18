@@ -32,7 +32,6 @@ def convert_csv(out_path='./calibration/regionalization_input/'):
     # Load and process temperature data (1971-2000)
     # =========================================================================
     # Define file path and load temperature data
-    cm.climate_forcing_path
     temperature_path = cm.climate_forcing_path + "temperature/*.nc"
     temperature_data = xr.open_mfdataset(temperature_path)
 
