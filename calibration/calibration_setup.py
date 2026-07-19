@@ -231,7 +231,7 @@ class SetupCalibration:
         config_file['RuntimeOptions'][2]["SimulationPeriod"]["start"] = station_start_year
         config_file['RuntimeOptions'][2]["SimulationPeriod"]["end"] = station_end_year
         config_file['RuntimeOptions'][4]["SimulationExtent"]["run_basin"] = True
-        config_file['RuntimeOptions'][5]["Calibrate WaterGAP"]["run_calib"] = True
+        config_file['RuntimeOptions'][5]["CalibrateWaterGAP"]["run_calib"] = True
         config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]["streamflow"] = True
         config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]["pot_cell_runoff"] = True
         config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]\
