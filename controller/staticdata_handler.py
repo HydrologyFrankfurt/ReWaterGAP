@@ -89,7 +89,7 @@ class StaticData:
         res_routing_dir = f"reservoir_regulated_lake/reservoir_routing_{forcing}"
         res_routing_dir = Path(cm.static_land_data_path + res_routing_dir)
 
-        if forcing == "run-calib": # calibration is ongoing
+        if forcing == "run-calib" or cm.run_calib ==True: # calibration is ongoing
             forcing = cm.calib_forcing.split("-")[-1]
             res_routing_dir = f"reservoir_regulated_lake/reservoir_routing_{forcing}"
             res_routing_dir = Path(cm.static_land_data_path + res_routing_dir)
