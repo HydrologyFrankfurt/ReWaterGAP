@@ -28,6 +28,7 @@ class CalibrateStations:
     def __init__(self):
         self.config_path = './Config_ReWaterGAP.json'
         self.calib_out_dir = "./calibration/calib_out/"
+        self.climate_forcing_path = ""
 
     def update_config_values(self, obj):
         """
@@ -51,7 +52,7 @@ class CalibrateStations:
                 if "save_and_read_states_dir" in key or "start" in key or 'end' in key\
                     or "reservoir_start_year" in key or "reservoir_end_year"in key\
                     or "spinup_years" in key or "daily" in key or "run_basin" in key\
-                    or "path_to_stations_file" in key or "path_to_observed_discharge" in key:
+                    or "path_to_stations_file" in key or "path_to_observed_discharge" in key or 'calib_forcing' in key:
 
                     pass
                 elif "ant" in key or "subtract_use" in key or "res_opt" in key\
@@ -90,6 +91,8 @@ class CalibrateStations:
                 self.update_config_values(item)
         # update parameter path
         config_file['FilePath']['inputDir']['parameter_path'] = params_path
+        
+        self.climate_forcing_path = config_file['FilePath']['inputDir']['climate_forcing']
 
         # Save the modified JSON data
         with open('Config_ReWaterGAP.json', 'w',  encoding='utf-8') as file:
@@ -174,7 +177,7 @@ class CalibrateStations:
         for basin_id in basin_ids:
             subprocess.run(["sbatch", "--nodes", str(num_nodes), "run_basins.slurm", str(basin_id)])
 
-    def get_number_of_basins(self):
+    def get_number_of_basins_and_climate_path(self):
         """
         Get number of basins for parallel computation.
 
@@ -184,8 +187,9 @@ class CalibrateStations:
             DESCRIPTION.
 
         """
-        return len([name for name in os.listdir(self.calib_out_dir)
+        number_of_basin =len([name for name in os.listdir(self.calib_out_dir)
                     if os.path.isdir(os.path.join(self.calib_out_dir, name))])
+        return number_of_basin, self.climate_forcing_path
 
 def main():
     """
@@ -208,7 +212,6 @@ def main():
         # and  surface water. This will be the water use data for calibration).
 
         # uncalibrated parameters are used for this run.
-        print(os.getcwd())
         source_pattern = "./misc/WaterGAP*.nc"
         remove_params_file = "./model/WaterGAP*.nc"
         for file_path in glob.glob(remove_params_file):
@@ -240,7 +243,7 @@ def main():
 
         # Optimise WaterGAP parameters
         print('\n' + colored("Running Calibration step B...", "magenta"))
-        n = calib_watergap.get_number_of_basins()
+        n, climate_forcing_path = calib_watergap.get_number_of_basins_and_climate_path()
 
         basin_ids = list(range(1, n+1))
 
@@ -262,7 +265,9 @@ def main():
         # netcdf.
         print('\n' + colored("Running Regionlisation step C...", "magenta"))
         param_version = destination_file.split("/")[-1].split("_global")[0]
-        merge_parameters.run_regionalization_merge_parameters(num_threads_or_nodes, param_version)
+        merge_parameters.run_regionalization_merge_parameters(num_threads_or_nodes, 
+                                                              param_version,
+                                                              climate_forcing_path)
         
         absolute_param_path = \
             os.path.abspath(f"./model/{param_version}_global_parameters.nc")
