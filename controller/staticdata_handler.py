@@ -21,7 +21,7 @@ import pandas as pd
 import watergap_logger as log
 import misc.cli_args as cli
 from controller import configuration_module as cm
-
+import glob
 
 # ===============================================================
 # Get module name and remove the .py extension
@@ -80,9 +80,37 @@ class StaticData:
 
         river_static_file_path = \
             str(Path(cm.static_land_data_path + r'/river_static_data/*'))
+        
+        # =============================================================================
+        # resevoir routing  (resevoir start month and demand are  dependent on forcing)
+        # =============================================================================
+        forcing = cm.global_parameter_path.split("_")[-1].split(".")[0]
+        res_routing_dir = f"reservoir_regulated_lake/reservoir_routing_{forcing}"
+        res_routing_dir = Path(cm.static_land_data_path + res_routing_dir)
 
-        reservoir_reglake_file_path = str(Path(cm.static_land_data_path +
-                                               r'/reservoir_regulated_lake/*'))
+        if forcing == "run-calib" or cm.run_calib ==True: # calibration is ongoing
+            forcing = cm.calib_forcing.split("-")[-1]
+            res_routing_dir = f"reservoir_regulated_lake/reservoir_routing_{forcing}"
+            res_routing_dir = Path(cm.static_land_data_path + res_routing_dir)
+ 
+        if not res_routing_dir.exists():
+            print(
+                f"Error: Reservoir routing folder does not exist:\n"
+                f"  {res_routing_dir}\n\n"
+                f"Please make sure this folder before exist running the program."
+            )
+            sys.exit(1)
+    
+        
+        res_routing_files = list(res_routing_dir.glob("*.nc")) + list(res_routing_dir.glob("*.nc4"))
+        ignore_file = f"watergap_22e_{forcing}_monthly_mean_inflow"
+
+        reservoir_reglake_file_path = [
+            str(f) for f in res_routing_files
+            if ignore_file not in f.name
+        ]
+
+        # =============================================================================
 
         reservoir_frac_file_path = \
             str(Path(cm.static_land_data_path +
