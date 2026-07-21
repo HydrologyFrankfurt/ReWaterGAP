@@ -23,7 +23,7 @@ class TestResevoirRegulatedLake(unittest.TestCase):
 
     # creating fixtures
     def setUp(self):
-        input_path = "./input_data/static_input/reservoir_regulated_lake/"
+        input_path = "./input_data/static_input/reservoir_regulated_lake/reservoir_routing_era5/"
         land_frac_path = "./input_data/static_input/land_water_fractions/"
         self.constants ={
             'size': (360, 720),
@@ -80,7 +80,7 @@ class TestResevoirRegulatedLake(unittest.TestCase):
                 np.random.uniform(0, 0.2, size=self.constants['size']),  # km3/month plausible
 
             'mean_annual_demand_res':
-                xr.open_dataarray(f"{input_path}watergap_22e_mean_nus_1971_2000.nc4",
+                xr.open_dataarray(f"{input_path}watergap_22e_era5_mean_nus.nc4",
                                   decode_times=False)[0].values,  # m3/year
             'accumulated_unsatisfied_potential_netabs_sw':
                 np.random.uniform(0, 0.02, size=self.constants['size']),  # km3/day plausible
@@ -92,7 +92,7 @@ class TestResevoirRegulatedLake(unittest.TestCase):
             # Reservoir Area and Capacity
             'glores_startyear': xr.open_dataarray(f"{input_path}watergap_22e_startyear.nc4",
                                                   decode_times=False)[0].values,  # year
-            'glores_startmonth': xr.open_dataarray(f"{input_path}watergap_22e_startmonth.nc4",
+            'glores_startmonth': xr.open_dataarray(f"{input_path}watergap_22e_era5_startmonth.nc",
                                                    decode_times=False)[0].values,  # month
             'glores_capacity': xr.open_dataarray(f"{input_path}watergap_22e_res_stor_cap.nc4",
                                                  decode_times=False)[0].values,  # km3
@@ -100,7 +100,7 @@ class TestResevoirRegulatedLake(unittest.TestCase):
                                              decode_times=False)[0].values,  # -
             # mean_annual_inflow_res m3/s,
             'mean_annual_inflow_res':
-                xr.open_dataarray(f"{input_path}watergap_22e_mean_inflow.nc4",
+                xr.open_dataarray(f"{input_path}watergap_22e_era5_mean_inflow.nc4",
                                   decode_times=False)[0].values *
                 (12 * 1e9 / self.constants["year_to_s"]),
 
