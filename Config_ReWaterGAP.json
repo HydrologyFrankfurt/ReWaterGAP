@@ -4,7 +4,7 @@
       "climate_forcing": "../wg_input/input_data/climate_forcing/",
       "water_use_data": "../wg_input/input_data/water_use/",
       "static_land_data": "../wg_input/input_data/static_input/",
-      "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5.nc"
+      "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5_with_reservoir.nc"
     },
     "outputDir": "output_data/"
   },
