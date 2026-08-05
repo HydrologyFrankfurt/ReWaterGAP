@@ -1,9 +1,9 @@
 {
   "FilePath": {
     "inputDir": {
-      "climate_forcing": "/home/home9/ReWaterGAP_data/Climate_forcing_ReWaterGAP/era5/climate_forcing/",
-      "water_use_data": "/home/home9/ReWaterGAP_data/Runs/GSWP3-ERA5/ReWaterGAP-main_1901-2025/water_use_2025/",
-      "static_land_data": "input_data/static_input/",
+      "climate_forcing": "../wg_input/input_data/climate_forcing/",
+      "water_use_data": "../wg_input/input_data/water_use/",
+      "static_land_data": "../wg_input/input_data/static_input/",
       "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5.nc"
     },
     "outputDir": "output_data/"
@@ -31,11 +31,11 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1980-01-01",
-        "end": "2024-12-31",
+        "start": "2010-01-01",
+        "end": "2019-12-31",
         "reservoir_start_year": 1901,
-        "reservoir_end_year": 2020,
-        "spinup_years": 0
+        "reservoir_end_year": 2019,
+        "spinup_years": 5
       }
     },
     {
@@ -86,8 +86,8 @@
         "groundwater_discharge": false,
         "total_runoff": false,
         "pot_cell_runoff": false,
-        "groundwater_recharge_swb": true,
-        "total_groundwater_recharge": true,
+        "groundwater_recharge_swb": false,
+        "total_groundwater_recharge": false,
         "local_lake_outflow": false,
         "local_wetland_outflow": false,
         "global_lake_outflow": false,
@@ -111,7 +111,7 @@
         "land_area_fraction": false,
         "locwet_extent":true,
         "glowet_extent":true,
-        "loclake_extent":true
+        "loclake_extent":false
       }
     },
     {
