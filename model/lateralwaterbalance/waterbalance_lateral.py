@@ -171,6 +171,15 @@ class LateralWaterBalance:
         # area and capacity will be read in.
         # (see activate_res_area_storage_capacity function uder the heading
         # *Activcate Reservior and Regulated lake storage* in this module).
+        self.res_inflow_past_30days = np.zeros((30,
+             forcings_static.lat_length,
+             forcings_static.lon_length))
+        
+        self.counter_for_mean_30days = np.zeros(
+            (forcings_static.lat_length,
+             forcings_static.lon_length),
+            dtype=np.int32)
+
 
         self.glores_storage = np.zeros((forcings_static.lat_length,
                                         forcings_static.lon_length))
@@ -756,7 +765,16 @@ class LateralWaterBalance:
                                self.all_reservoir_and_regulated_lake_area,
                                self.reg_lake_redfactor_firstday, basin, cm.DELAYED_USE,
                                landwaterfrac_excl_glolake_res, self.cell_area,
-                               land_aet_corr, sum_canopy_snow_soil_storage)
+                               land_aet_corr, sum_canopy_snow_soil_storage,
+                               self.res_inflow_past_30days,
+                               self.counter_for_mean_30days,
+                               self.parameters.P1_reservoir.values,
+                               self.parameters.P2_reservoir.values,
+                               self.parameters.P3_reservoir.values,
+                               self.parameters.P4_reservoir.values,
+                               self.parameters.P5_reservoir.values,
+                               self.parameters.P6_reservoir.values,
+                               )
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]
@@ -801,6 +819,8 @@ class LateralWaterBalance:
         glowet_extent = out[36]
         loclake_extent = out[37]
         glores_inflow = out[38]
+        self.res_inflow_past_30days = out[39]
+        self.counter_for_mean_30days = out[40]
 
 
         total_groundwater_recharge = groundwater_recharge_swb + diffuse_gw_recharge

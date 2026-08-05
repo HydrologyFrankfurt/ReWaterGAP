@@ -66,7 +66,12 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                   num_days_in_month, all_reservoir_and_regulated_lake_area,
                   reg_lake_redfactor_firstday, basin, delayed_use_option,
                   landwaterfrac_excl_glolake_res, cell_area, land_aet_corr,
-                  sum_canopy_snow_soil_storage):
+                  sum_canopy_snow_soil_storage,
+                  res_inflow_past_30days, 
+                  counter_for_mean_30days,
+                  P1_reservoir, P2_reservoir, P3_reservoir,
+                  P4_reservoir, P5_reservoir, P6_reservoir
+                  ):
 
     """Route flow to river. """
 
@@ -518,7 +523,12 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                         num_days_in_month,
                                         all_reservoir_and_regulated_lake_area,
                                         reg_lake_redfactor_firstday[x, y],
-                                        minstorage_volume)
+                                        minstorage_volume,
+                                        res_inflow_past_30days[:,x, y], 
+                                        counter_for_mean_30days[x, y],
+                                        P1_reservoir[x, y], P2_reservoir[x, y], P3_reservoir[x, y],
+                                        P5_reservoir[x, y], P5_reservoir[x, y], P6_reservoir[x, y],
+                                        )
 
                 storage, outflow, recharge, res_k_release, accum_unpot_netabs_sw, \
                     actual_use, openwater_evapo_cor = daily_res_reg_balance
@@ -887,6 +897,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
         neighbouring_cells_map, daily_unsatisfied_pot_nas, glores_outflow, \
         actual_daily_netabstraction_sw, consistent_precip, inflow_from_upstream,\
         cell_aet_consuse, total_water_storage, point_source_recharge, river_velocity,\
-            locwet_extent,glowet_extent,loclake_extent,glores_inflow\
+            locwet_extent,glowet_extent,loclake_extent,glores_inflow,\
+                res_inflow_past_30days, counter_for_mean_30days
 
 
