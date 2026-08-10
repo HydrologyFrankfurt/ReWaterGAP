@@ -67,6 +67,22 @@ class ClimateForcing:
 
         temperature_path = str(Path(cm.climate_forcing_path +
                                     r'/temperature/*'))
+
+        # Addition for Penman-Monteith
+
+        wind_speed_path = str(Path(cm.climate_forcing_path +
+                             r'/windspeed/*'))
+
+        relative_humidity_path = str(Path(cm.climate_forcing_path +
+                                 r'/rel_humidity/*'))
+
+        # Addition for Hargreaves-Samani
+
+        min_temperature_path = str(Path(cm.climate_forcing_path +
+                                   r'/min_temperature/*'))
+
+        max_temperature_path = str(Path(cm.climate_forcing_path +
+                                          r'/max_temperature/*'))
         # ==============================================================
         # Loading in climate forcing
         # ==============================================================
@@ -91,6 +107,30 @@ class ClimateForcing:
                 xr.open_mfdataset(glob.glob(temperature_path),
                                   chunks={'time': 365})
 
+            # Addition for Penmann-Monteith
+
+            #  Actual name: Wind speed  Unit: m s-1
+            self.windspeed = \
+                xr.open_mfdataset(glob.glob(wind_speed_path),
+                                  chunks={'time': 365})
+            #  Actual name: Relative humidity  Unit: %
+            self.relative_humidity = \
+                xr.open_mfdataset(glob.glob(relative_humidity_path),
+                                  chunks={'time': 365})
+
+            # Addition for Hargreaves-Samani
+
+            #  Actual name: Minimum air temperature, Unit: K
+            self.min_temperature = \
+                xr.open_mfdataset(glob.glob(min_temperature_path),
+                                  chunks={'time': 365})
+            #  Actual name: Maximum air temperature, Unit: K
+            self.max_temperature = \
+                xr.open_mfdataset(glob.glob(max_temperature_path),
+                                  chunks={'time': 365})
+
+
+
         except FileNotFoundError as error:
             log.config_logger(logging.ERROR, modname, f'Climate forcing'
                               f' not found. \n{error}', args.debug)
@@ -106,7 +146,12 @@ class ClimateForcing:
             self.var_name = [list(self.precipitation.data_vars)[0],
                              list(self.down_longwave_radiation.data_vars)[0],
                              list(self.down_shortwave_radiation.data_vars)[0],
-                             list(self.temperature.data_vars)[0]]
+                             list(self.temperature.data_vars)[0],
+                             # new variables for additional PET methods
+                             list(self.windspeed.data_vars)[0],
+                             list(self.relative_humidity.data_vars)[0],
+                             list(self.min_temperature.data_vars)[0],
+                             list(self.max_temperature.data_vars)[0]]
 
             self.units = [self.precipitation[self.var_name[0]].units,
 
@@ -114,7 +159,17 @@ class ClimateForcing:
 
                           self.down_shortwave_radiation[self.var_name[2]].units,
 
-                          self.temperature[self.var_name[3]].units]
+                          self.temperature[self.var_name[3]].units,
+
+                          # new variables for additional PET methods
+
+                          self.windspeed[self.var_name[4]].units,
+
+                          self.relative_humidity[self.var_name[5]].units,
+
+                          self.min_temperature[self.var_name[6]].units,
+
+                          self.max_temperature[self.var_name[7]].units]
 
     def check_unitandvarname(self):
         """
@@ -151,7 +206,8 @@ class ClimateForcing:
               '+++++++++++++++')
 
         extra_units = ["mm/day", " mm day-1", "°C", "C", "degree celcius",
-                       "celcius"]
+                       "celcius","m s-1", "m/s", "kg kg-1", "1", "%"]
+                        # added units for humidity and windspeed % and m s-1
         for index, units in enumerate(self.units):
             if units in cf_info['variables']['units'] or units in extra_units:
                 print('*' + self.var_name[index] + '*' + ' required in ' +

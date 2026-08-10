@@ -36,8 +36,34 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        gamma, max_daily_pet, soil_texture, drainage_direction,
                        max_groundwater_recharge, groundwater_recharge_factor,
                        critcal_gw_precipitation, max_soil_water_content,
-                       areal_corr_factor, basin):
-    """Compute vertical Waterbalance."""
+                       areal_corr_factor, basin,
+                       windspeed, relative_humidity, min_temperature,
+                       max_temperature,day_of_year, pet_method,koeppen_zones,
+                       pt_coeff_calibrated,
+                       pm_z0m_lut, pm_d0_lut, pm_z0h_lut, pm_rs_lut):
+
+    """Compute vertical WaterbalanceParameters (new parameters)
+    ----------------
+    windspeed : array
+        Near-surface wind speed at 10 m, Units: [m s-1]
+    relative_humidity : array
+        Near-surface relative humidity, Units: [%]
+    min_temperature : array
+        Minimum temperature, Units: [K]
+    max_temperature : array
+        Maximum temperature, Units: [K]
+    day_of_year : int
+        Day of the year, Units: [days]
+    pet_method : int
+        PET method selector:
+        0 = Priestley-Taylor (default)
+        1 = Penman-Monteith
+        2 = Hargreaves-Samani
+        3 = Jensen-Haise
+        4 = Koeppen subdivision
+        5 = Priestley-Taylor locally parametrized
+        6 = Complete Penman-Monteith (land-cover-specific resistances)
+    """
     # =========================================================================
     #   Creating outputs for storages, fluxes and factors
     # =========================================================================
@@ -93,35 +119,35 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
 
         if np.isnan(basin[x, y]) is False:
             # =================================================================
-            #       Radiation compononents and Priestley-Taylor PET
+            #       Radiation components and PET equations
             # =================================================================
+            # Calculate radiation balance only if needed by the respective PET equation
+            if pet_method in [0, 1, 4, 5, 6]:
+                radiation_for_potevap = rad_pet. \
+                    calculate_net_radiation(temperature[x, y],
+                                            down_shortwave_radiation[x, y],
+                                            down_longwave_radiation[x, y],
+                                            snow_water_storage[x, y],
+                                            snow_albedo_thresh[x, y],
+                                            openwater_albedo[x, y],
+                                            snow_albedo[x, y], albedo[x, y],
+                                            emissivity[x, y], x, y)
 
-            radiation_for_potevap = rad_pet.\
-                calculate_net_radiation(temperature[x, y],
-                                        down_shortwave_radiation[x, y],
-                                        down_longwave_radiation[x, y],
-                                        snow_water_storage[x, y],
-                                        snow_albedo_thresh[x, y],
-                                        openwater_albedo[x, y],
-                                        snow_albedo[x, y], albedo[x, y],
-                                        emissivity[x, y], x, y)
+                net_rad, openwater_net_rad = radiation_for_potevap
+                net_radiation[x, y] = net_rad.item()
+                openwater_net_radiation[x, y] = openwater_net_rad.item()
 
-            net_rad, openwater_net_rad = radiation_for_potevap
-            net_radiation[x, y] = net_rad.item()
-            openwater_net_radiation[x, y] = openwater_net_rad.item()
+            # Replace variables with dummy values, if not represented by the equation
+            else:
+                net_rad_land, net_rad_water = 0.0, 0.0
 
-            pot_evap, openwater_evap = \
-                rad_pet.priestley_taylor_pet(temperature[x, y],
-                                             pt_coeff_humid_arid[x, y],
-                                             net_radiation[x, y],
-                                             openwater_net_radiation[x, y], x, y)
-
-            daily_potential_evap[x, y] = pot_evap.item()
-            openwater_potential_evap[x, y] = openwater_evap.item()
 
             # =================================================================
-            #               	 Daily leaf area index
+            #                Daily leaf area index
             # =================================================================
+            # Computed before the PET equations so the complete Penman-Monteith
+            # (method 6) can derive a dynamic surface resistance from the
+            # current leaf area index.
             daily_leaf_area_index = lai.\
                 get_leaf_area_index(temperature[x, y], growth_status[x, y],
                                     lai_days[x, y], initial_days[x, y],
@@ -140,6 +166,89 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             lai_days[x, y] = daily_leaf_area_index[1]
             cum_precipitation[x, y] = daily_leaf_area_index[2]
             growth_status[x, y] = daily_leaf_area_index[3]
+
+
+            # Calculate PET according to the respective PET equation
+
+            if pet_method == 0: # Priestley-Taylor
+                pot_evap, openwater_evap = \
+                    rad_pet.priestley_taylor_pet(temperature[x, y],
+                                                 pt_coeff_humid_arid[x, y],
+                                                 net_radiation[x, y],
+                                                 openwater_net_radiation[x, y], x, y)
+
+            elif pet_method == 1: # Penman-Monteith Fao56
+                pot_evap, openwater_evap = \
+                    rad_pet.penman_monteith_fao56(temperature[x, y],
+                                                net_radiation[x, y],
+                                                openwater_net_radiation[x, y],
+                                                windspeed[x, y],
+                                                relative_humidity[x, y], x, y)
+
+            elif pet_method == 2: # Hargreaves-Samani
+                pot_evap, openwater_evap = \
+                    rad_pet.hargreaves_samani_pet(temperature[x, y],
+                                                min_temperature[x, y],
+                                                max_temperature[x, y],
+                                                day_of_year, x, y)
+            elif pet_method == 3:  # Jensen-Haise
+                pot_evap, openwater_evap = \
+                    rad_pet.jensen_haise_pet(temperature[x, y],
+                                             down_shortwave_radiation[x, y],
+                                             x, y)
+
+            elif pet_method == 4: # Koeppen regionalization
+                zone = koeppen_zones[x, y]
+
+                if zone in [1,2] :  # Hargreaves-Samani for A (tropical) and B (arid)
+                    pot_evap, openwater_evap = \
+                        rad_pet.hargreaves_samani_pet(temperature[x, y],
+                                                      min_temperature[x, y],
+                                                      max_temperature[x, y],
+                                                      day_of_year, x, y)
+
+                elif zone in [3,5]: # Priestley-Taylor for C (temperate) and E (polar)
+                    pot_evap, openwater_evap = \
+                        rad_pet.priestley_taylor_pet(temperature[x, y],
+                                                     pt_coeff_humid_arid[x, y],
+                                                     net_radiation[x, y],
+                                                     openwater_net_radiation[x, y], x, y)
+
+                elif  zone == 4:  # Jensen-Haise for D (continental)
+                    pot_evap, openwater_evap = \
+                        rad_pet.jensen_haise_pet(temperature[x, y],
+                                                 down_shortwave_radiation[x, y],
+                                                 x, y)
+                else: # Fail safe: Standard Priestley Taylor Standard is used
+                    pot_evap, openwater_evap = \
+                        rad_pet.priestley_taylor_pet(temperature[x, y],
+                                                     pt_coeff_humid_arid[x, y],
+                                                     net_radiation[x, y],
+                                                     openwater_net_radiation[x, y], x, y)
+
+
+            elif pet_method == 5:  # Priestley-Taylor locally parameterized
+                pot_evap, openwater_evap = \
+                    rad_pet.priestley_taylor_pet(temperature[x, y],
+                                                 pt_coeff_calibrated[x, y],
+                                                 net_radiation[x, y],
+                                                 openwater_net_radiation[x, y], x, y)
+
+            elif pet_method == 6:  # Complete Penman-Monteith (land-cover-specific)
+                pot_evap, openwater_evap = \
+                    rad_pet.penman_monteith_complete(temperature[x, y],
+                                                     net_radiation[x, y],
+                                                     openwater_net_radiation[x, y],
+                                                     windspeed[x, y],
+                                                     relative_humidity[x, y],
+                                                     land_cover[x, y],
+                                                     leaf_area_index[x, y],
+                                                     pm_z0m_lut, pm_d0_lut,
+                                                     pm_z0h_lut, pm_rs_lut, x, y)
+
+
+            daily_potential_evap[x, y] = pot_evap.item()
+            openwater_potential_evap[x, y] = openwater_evap.item()
 
             # =================================================================
             #               Canopy Water Balance

@@ -1,0 +1,16 @@
+number,igbp_class,z0m,d0,z0h,r_s
+0,Open water,0.0010,0.005,0.00010,0
+1,Evergreen Needleleaf Forest,1.36,11.53,0.136,47
+2,Evergreen Broadleaf Forest,1.16,21.18,0.116,77
+3,Deciduous Needleleaf Forest,1.34,9.45,0.134,47
+4,Deciduous Broadleaf Forest,0.98,14.42,0.098,48
+5,Mixed Forest,1.33,12.81,0.133,48
+6,Closed Shrubland,0.15,1.21,0.015,59
+7,Open Shrubland,0.16,1.02,0.016,59
+8,Woody Savanna,0.96,9.12,0.096,54
+9,Savanna,1.02,6.50,0.102,59
+10,Grassland,0.14,0.97,0.014,59
+12,Cropland,0.13,0.72,0.013,32
+14,Cropland Mosaic,0.14,0.87,0.014,41
+15,Snow and Ice,0.0024,0.012,0.00024,0
+16,Barren or Sparsely Vegetated,0.010,0.05,0.001,0

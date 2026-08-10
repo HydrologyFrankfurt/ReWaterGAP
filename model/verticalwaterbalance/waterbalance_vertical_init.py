@@ -20,6 +20,9 @@ from model.utility import units_conveter_check_neg_precip as check_or_convert
 from model.verticalwaterbalance import waterbalance_vertical as vb_numba
 from model.verticalwaterbalance import lai_init
 
+# Import the PET configuration from the controller
+from controller.configuration_module import pet_method
+
 
 class VerticalWaterBalance:
     """Computes vertical waterbalance."""
@@ -51,6 +54,19 @@ class VerticalWaterBalance:
         self.land_cover = self.forcings_static.static_data.land_cover
         # Humid-arid calssification based on Müller Schmied et al. 2021
         self.humid_arid = self.forcings_static.static_data.humid_arid
+
+        # Koeppen climate zones (Beck et al. 2023)
+        self.koeppen_zones = self.forcings_static.static_data.koeppen_zones
+
+        # Locally calibrated PT  alpha values (Aschonitis et al. 2017)
+        self.pt_coeff_calibrated = self.forcings_static.static_data.pt_coeff_calibrated
+
+        # Land-cover-specific aerodynamic/surface resistance look-up tables
+        # for the complete Penman-Monteith
+        self.pm_z0m_lut = self.forcings_static.static_data.pm_z0m_lut
+        self.pm_d0_lut = self.forcings_static.static_data.pm_d0_lut
+        self.pm_z0h_lut = self.forcings_static.static_data.pm_z0h_lut
+        self.pm_rs_lut = self.forcings_static.static_data.pm_rs_lut
 
         # Albedo based on landcover type (Müller Schmied et al 2014,Table A2)
         self.albedo = np.zeros((self.forcings_static.lat_length,
@@ -240,6 +256,44 @@ class VerticalWaterBalance:
         down_longwave_radiation = \
             down_longwave_radiation.rlds.values.astype(np.float64)
 
+        #                  =========================================
+        #                  ||           Wind speed (ms-1)         ||
+        #                  =========================================
+        windspeed = self.forcings_static.climate_forcing.windspeed.sel(
+            time=str(date))
+
+        windspeed = windspeed.sfcwind.values.astype(np.float64)
+
+        #                  =========================================
+        #                  ||         Relative humidity (%)       ||
+        #                  =========================================
+
+        relative_humidity = self.forcings_static.climate_forcing.relative_humidity.sel(
+            time=str(date))
+        relative_humidity = relative_humidity.hurs.values.astype(np.float64)
+
+        #                  =========================================
+        #                  ||        Minimum temperature (K)      ||
+        #                  =========================================
+
+        min_temperature = self.forcings_static.climate_forcing.min_temperature.sel(
+            time=str(date))
+        min_temperature = min_temperature.tasmin.values.astype(np.float64)
+
+        #                  =========================================
+        #                  ||        Maximum temperature (K)      ||
+        #                  =========================================
+
+        max_temperature = self.forcings_static.climate_forcing.max_temperature.sel(
+            time=str(date))
+        max_temperature = max_temperature.tasmax.values.astype(np.float64)
+
+        # Attach day of the year for Hargreaves- Samani equation
+        day_of_year = int((date - date.astype('datetime64[Y]')) /
+                          np.timedelta64(1, 'D')) + 1
+
+
+
         # check data dimension make sure dimensions are 360*720 for 0.5 degree
         if precipitation.shape != basin.shape:
             precipitation = precipitation[0]
@@ -249,6 +303,15 @@ class VerticalWaterBalance:
             down_shortwave_radiation = down_shortwave_radiation[0]
         if down_longwave_radiation.shape != basin.shape:
             down_longwave_radiation = down_longwave_radiation[0]
+            # also check data dimension for new forcing variables
+        if windspeed.shape != basin.shape:
+            windspeed = windspeed[0]
+        if relative_humidity.shape != basin.shape:
+            relative_humidity = relative_humidity[0]
+        if min_temperature.shape != basin.shape:
+            min_temperature = min_temperature[0]
+        if max_temperature.shape != basin.shape:
+            max_temperature = max_temperature[0]
 
         # =====================================================================
         # compute vertical waterbalance
@@ -288,15 +351,27 @@ class VerticalWaterBalance:
                                self.parameters.critcal_gw_precipitation.values,
                                self.max_soil_water_content,
                                self.parameters.areal_corr_factor.values,
-                               basin)
+                               basin, # add new variables, needed for PET equations
+                               windspeed,
+                               relative_humidity,
+                               min_temperature,
+                               max_temperature,
+                               day_of_year,
+                               pet_method,
+                               self.koeppen_zones,
+                               self.pt_coeff_calibrated,
+                               self.pm_z0m_lut,
+                               self.pm_d0_lut,
+                               self.pm_z0h_lut,
+                               self.pm_rs_lut)
 
         # Radiation and PET output
         net_radiation = output[0]
         daily_potential_evap = output[2]
         openwater_potential_evap = output[3]
-        total_potential_evap = (((land_freq/100) * daily_potential_evap) + 
-                        ((water_freq/100) * openwater_potential_evap))/self.cont_frac
-    
+        total_potential_evap = (land_freq * daily_potential_evap) + \
+            (water_freq * openwater_potential_evap)
+
         # Leaf area index ouput
         leaf_area_index = output[4]
         self.lai_days = output[5]
@@ -343,7 +418,7 @@ class VerticalWaterBalance:
 
         VerticalWaterBalance.fluxes.\
             update({'netrad': net_radiation,
-                    'potevap':  total_potential_evap,
+                    'potevap':  total_potential_evap * per_contfrac,
                     'lai-total':  leaf_area_index,
                     'canopy-evap':  canopy_evap * per_contfrac,
                     'throughfall':  throughfall * per_contfrac,
