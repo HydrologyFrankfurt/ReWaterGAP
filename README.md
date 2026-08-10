@@ -37,6 +37,8 @@ If you wish to reach out to us write us an [Email](mailto:Nyenah@em.uni-frankfur
 
 # Addition: Modular Evapotranspiration
 
+Author: Julian Reichstein (M.Sc. thesis, University of Freiburg)
+
 A modified version of ReWaterGAP (https://github.com/HydrologyFrankfurt/ReWaterGAP), was built for a M.Sc. thesis at the University of Freiburg on how sensitive the WaterGAP global hydrological model is to the potential evapotranspiration (PET) formulation it uses. All credit for the model belongs to its authors (Nyenah et al. 2025; Müller Schmied et al. 2021).
 
 ## Additions made
