@@ -21,7 +21,7 @@ import pandas as pd
 import watergap_logger as log
 import misc.cli_args as cli
 from controller import configuration_module as cm
-import glob
+
 
 # ===============================================================
 # Get module name and remove the .py extension
@@ -61,6 +61,19 @@ class StaticData:
         humid_arid_path = str(Path(cm.static_land_data_path +
                                    r'/watergap_22e_aridhumid.nc4'))
 
+        # Addition for PET subdivision in climate zones
+        koeppen_zones_path = str(Path(cm.static_land_data_path +
+                                      r'/koeppen_zones_1991_2020_0p5.nc'))
+
+        # Addition for parameterized Priestley-Taylor
+        pt_calibrated_path = str(Path(cm.static_land_data_path +
+                                 r'/pt_alpha_aschonitis_0p5.nc'))
+
+        # Addition for complete (land-cover-specific) Penman-Monteith
+        landcover_resistance_pm_path = \
+            str(Path(cm.static_land_data_path +
+                     r'/landcover_resistance_pm.csv'))
+
         canopy_snow_soil_parameters_path = \
             str(Path(cm.static_land_data_path +
                      r'/canopy_snow_parameters.csv'))
@@ -80,37 +93,9 @@ class StaticData:
 
         river_static_file_path = \
             str(Path(cm.static_land_data_path + r'/river_static_data/*'))
-        
-        # =============================================================================
-        # resevoir routing  (resevoir start month and demand are  dependent on forcing)
-        # =============================================================================
-        forcing = cm.global_parameter_path.split("_")[-1].split(".")[0]
-        res_routing_dir = f"reservoir_regulated_lake/reservoir_routing_{forcing}"
-        res_routing_dir = Path(cm.static_land_data_path + res_routing_dir)
 
-        if forcing == "run-calib" or cm.run_calib ==True: # calibration is ongoing
-            forcing = cm.calib_forcing.split("-")[-1]
-            res_routing_dir = f"reservoir_regulated_lake/reservoir_routing_{forcing}"
-            res_routing_dir = Path(cm.static_land_data_path + res_routing_dir)
- 
-        if not res_routing_dir.exists():
-            print(
-                f"Error: Reservoir routing folder does not exist:\n"
-                f"  {res_routing_dir}\n\n"
-                f"Please make sure this folder before exist running the program."
-            )
-            sys.exit(1)
-    
-        
-        res_routing_files = list(res_routing_dir.glob("*.nc")) + list(res_routing_dir.glob("*.nc4"))
-        ignore_file = f"watergap_22e_{forcing}_monthly_mean_inflow"
-
-        reservoir_reglake_file_path = [
-            str(f) for f in res_routing_files
-            if ignore_file not in f.name
-        ]
-
-        # =============================================================================
+        reservoir_reglake_file_path = str(Path(cm.static_land_data_path +
+                                               r'/reservoir_regulated_lake/*'))
 
         reservoir_frac_file_path = \
             str(Path(cm.static_land_data_path +
@@ -154,6 +139,33 @@ class StaticData:
             humid_arid = xr.open_dataset(humid_arid_path,
                                          decode_times=False)
             self.humid_arid = humid_arid.aridhumid[0].values
+
+            # Köppen-Geiger Main zones aggregated using Beck et al. 2023
+            koeppen_zones = xr.open_dataset(koeppen_zones_path,
+                                            decode_times=False)
+            self.koeppen_zones = koeppen_zones.koeppen_main.values
+
+            # Locally calibrated Priestley-Taylor coefficient (Aschonitis et al. 2017)
+            pt_coeff_calibrated = xr.open_dataset(pt_calibrated_path,
+                                       decode_times=False)
+            self.pt_coeff_calibrated = pt_coeff_calibrated.pt_alpha.values
+
+            # Land-cover-specific aerodynamic (z0m, d0, z0h) and bulk surface
+            # resistance (r_s) look-up tables for the complete Penman-Monteith.
+            # Arrays are indexed by IGBP land cover code (index 0 = open water)
+            # so they can be indexed directly in the njit PET routine.
+            resistance_pm = pd.read_csv(landcover_resistance_pm_path)
+            num_landcover_codes = 17  # IGBP codes 0-16 (0 = open water)
+            self.pm_z0m_lut = np.full(num_landcover_codes, np.nan)
+            self.pm_d0_lut = np.full(num_landcover_codes, np.nan)
+            self.pm_z0h_lut = np.full(num_landcover_codes, np.nan)
+            self.pm_rs_lut = np.full(num_landcover_codes, np.nan)
+            for i in range(len(resistance_pm)):
+                code = int(resistance_pm.loc[i, 'number'])
+                self.pm_z0m_lut[code] = resistance_pm.loc[i, 'z0m']
+                self.pm_d0_lut[code] = resistance_pm.loc[i, 'd0']
+                self.pm_z0h_lut[code] = resistance_pm.loc[i, 'z0h']
+                self.pm_rs_lut[code] = resistance_pm.loc[i, 'r_s']
 
             # Elevations(m) according to GTOPO30 (U.S. Geological Survey, 1996)
             gtopo30_elevation = xr.open_dataset(gtopo30_elevation_path,

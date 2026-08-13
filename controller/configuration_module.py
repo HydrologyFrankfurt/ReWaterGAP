@@ -96,6 +96,35 @@ demand_satisfaction_opts = \
 DELAYED_USE = demand_satisfaction_opts['delayed_use']
 NEIGHBOURING_CELL = demand_satisfaction_opts['neighbouring_cell']
 
+# Initializing PET Implementation Options
+pet_opts = config_file['RuntimeOptions'][0]['SimulationOption']['PET_implementation']
+
+# check and extact active options
+active_methods = [method for method,\
+    is_active in pet_opts.items() if is_active is True]
+
+# assign value of active method, 0 by default
+if len(active_methods) == 1:
+    method_mapping = {
+        "priestley_taylor": 0,
+        "penman_monteith_fao56": 1,
+        "hargreaves_samani": 2,
+        "jensen_haise": 3,
+        "koeppen_regionalized": 4,
+        "priestley_taylor_parameterized": 5,
+        "penman_monteith_complete": 6
+    }
+    pet_method = method_mapping.get(active_methods[0].lower(), 0)
+# abort if too many equations are active
+elif len(active_methods) > 1:
+    log.config_logger(logging.ERROR, modname,
+        'Multiple PET Implementations active, select only one', args.debug)
+    sys.exit()
+# select the PT standard and send a warning if none are active
+else:
+    log.config_logger(logging.WARNING, modname,
+        'No PET Implementations active, now running with Priestley-Taylor standard', args.debug)
+    pet_method = 0
 
 # Disable water use and reservoir if run is Naturalised
 if ant is False:
@@ -181,7 +210,6 @@ save_and_read_states_path = restart_save_option["save_and_read_states_dir"]
 # =============================================================================
 # Run WaterGAP calibration
 # =============================================================================
-calibration_options = config_file['RuntimeOptions'][5]["CalibrateWaterGAP"]
+calibration_options = config_file['RuntimeOptions'][5]["Calibrate WaterGAP"]
 run_calib = calibration_options["run_calib"]
-calib_forcing = calibration_options["calib_forcing"]
 observed_discharge_filepath = calibration_options["path_to_observed_discharge"]

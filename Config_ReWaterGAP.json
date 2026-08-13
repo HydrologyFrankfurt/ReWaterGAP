@@ -19,6 +19,15 @@
         "Demand_satisfaction_opts": {
           "delayed_use": true,
           "neighbouring_cell": true
+        },
+        "PET_implementation": {
+          "priestley_taylor": true,
+          "penman_monteith_fao56": false,
+          "hargreaves_samani": false,
+          "jensen_haise": false,
+          "koeppen_regionalized": false,
+          "priestley_taylor_parameterized": false,
+          "penman_monteith_complete": false
         }
       }
     },
