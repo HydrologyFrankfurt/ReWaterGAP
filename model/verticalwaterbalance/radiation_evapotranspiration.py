@@ -820,4 +820,4 @@ def penman_monteith_complete(temperature,
     openwater_pot_evap = np.where(openwater_net_radiation <= 0, 0,
                                   openwater_pot_evap)
 
-    return potential_evap, openwater_pot_evap
+    return potential_evap, openwater_pot_evap

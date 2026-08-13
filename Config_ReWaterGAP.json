@@ -4,17 +4,17 @@
       "climate_forcing": "input_data/climate_forcing/",
       "water_use_data": "input_data/water_use/",
       "static_land_data": "input_data/static_input/",
-      "parameter_path": "./model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc"
+      "parameter_path": "model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc"
     },
-    "outputDir": "output_data/nocal_PT/"
+    "outputDir": "output_data/"
   },
   "RuntimeOptions": [
     {
       "SimulationOption": {
         "AntNat_opts": {
-          "ant": false,
-          "subtract_use": false,
-          "res_opt": false
+          "ant": true,
+          "subtract_use": true,
+          "res_opt": true
         },
         "Demand_satisfaction_opts": {
           "delayed_use": true,
@@ -40,9 +40,9 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1990-01-01",
-        "end": "2019-12-31",
-        "reservoir_start_year": 1989,
+        "start": "1901-01-01",
+        "end": "1902-12-31",
+        "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
         "spinup_years": 5
       }
@@ -59,16 +59,17 @@
       }
     },
     {
-      "Calibrate WaterGAP": {
+      "CalibrateWaterGAP": {
         "run_calib": false,
-        "path_to_observed_discharge": "calibration_stations/json_annual_1985/"
+        "calib_forcing": "gswp3-era5",
+        "path_to_observed_discharge": "../test_wateruse/json_annual/"
       }
     }
   ],
   "OutputVariable": [
     {
       "VerticalWaterBalanceFluxes": {
-        "pot_evap": true,
+        "pot_evap": false,
         "net_rad": false,
         "leaf_area_index": false,
         "canopy_evap": false,
@@ -86,7 +87,7 @@
         "canopy_storage": false,
         "snow_water_equiv": false,
         "soil_moisture": false,
-        "maximum_soil_moisture": false
+        "maximum_soil_moisture": true
       }
     },
     {
@@ -102,10 +103,10 @@
         "global_lake_outflow": false,
         "global_wetland_outflow": false,
         "streamflow": true,
-        "streamflow_from_upstream": false,
-        "actual_net_abstr_groundwater": false,
-        "actual_net_abstr_surfacewater": false,
-        "actual_water_consumption": false,
+        "streamflow_from_upstream": true,
+        "actual_net_abstr_groundwater": true,
+        "actual_net_abstr_surfacewater": true,
+        "actual_water_consumption": true,
         "cell_aet_consuse": true,
         "unsat_potnetabs_sw_from_demandcell": false,
         "returned_demand_from_supplycell": false,
@@ -127,7 +128,7 @@
         "global_wetland_storage": false,
         "river_storage": false,
         "global_reservoir_storage": false,
-        "total_water_storage": false
+        "total_water_storage": true
       }
     }
   ]
