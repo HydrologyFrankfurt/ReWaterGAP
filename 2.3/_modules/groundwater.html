@@ -446,7 +446,7 @@
 <span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
 <span class="c1"># =============================================================================</span>
 
-<span class="sd">&quot;&quot;&quot;Groundwater balance.&quot;&quot;&quot;</span>
+<span class="sd">"""Groundwater balance."""</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># This module computes groundwater balance, including groundwater storage</span>
@@ -476,7 +476,7 @@
                         <span class="n">prev_potential_consumptive_use_sw_irri</span><span class="p">,</span>
                         <span class="n">frac_irri_returnflow_to_gw</span><span class="p">,</span>
                         <span class="n">point_source_recharge</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute daily groundwater balance including storages and related fluxes.</span>
 
 <span class="sd">    Parameters</span>
@@ -486,7 +486,7 @@
 <span class="sd">    y : int</span>
 <span class="sd">        Longitude index of cell</span>
 <span class="sd">    aridiity : string</span>
-<span class="sd">        Compute groundwater for &quot;Humid&quot; or &quot;Arid&quot; region</span>
+<span class="sd">        Compute groundwater for "Humid" or "Arid" region</span>
 <span class="sd">    groundwater_storage : float</span>
 <span class="sd">        Daily groundwater storage, Unit: [km^3]</span>
 <span class="sd">    diffuse_gw_recharge : float</span>
@@ -513,7 +513,7 @@
 <span class="sd">        Updated daily groundwater discharge, Unit: [km^3/day]</span>
 <span class="sd">    actual_net_abstraction_gw: float</span>
 <span class="sd">        Actual Net abstraction from groundwater, Unit: [km^3/day]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Index (x, y) to  print out varibales of interest</span>
     <span class="c1"># e.g.  if x==65 and y==137: print(prev_gw_storage)</span>
 
@@ -531,8 +531,8 @@
     <span class="c1"># =========================================================================</span>
     <span class="c1"># Point_source_recharge is only computed for (semi)arid surafce water</span>
     <span class="c1">#  bodies but not for  inlank sink or humid regions</span>
-    <span class="k">if</span> <span class="n">aridity_or_inlandsink</span> <span class="o">==</span> <span class="s2">&quot;humid&quot;</span> <span class="ow">or</span> \
-            <span class="n">aridity_or_inlandsink</span> <span class="o">==</span> <span class="s2">&quot;inland sink&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">aridity_or_inlandsink</span> <span class="o">==</span> <span class="s2">"humid"</span> <span class="ow">or</span> \
+            <span class="n">aridity_or_inlandsink</span> <span class="o">==</span> <span class="s2">"inland sink"</span><span class="p">:</span>
         <span class="n">point_source_recharge</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="n">netgw_in</span> <span class="o">=</span> <span class="n">diffuse_gw_recharge</span> <span class="o">+</span> <span class="n">point_source_recharge</span>

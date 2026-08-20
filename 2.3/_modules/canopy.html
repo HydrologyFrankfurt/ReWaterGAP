@@ -446,7 +446,7 @@
 <span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
 <span class="c1"># =============================================================================</span>
 
-<span class="sd">&quot;&quot;&quot;Canopy storage.&quot;&quot;&quot;</span>
+<span class="sd">"""Canopy storage."""</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># This modules computes the canopy water balance, including canopy storage and</span>
@@ -464,7 +464,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">canopy_water_balance</span><span class="p">(</span><span class="n">canopy_storage</span><span class="p">,</span> <span class="n">daily_leaf_area_index</span><span class="p">,</span> <span class="n">potential_evap</span><span class="p">,</span>
                          <span class="n">precipitation</span><span class="p">,</span> <span class="n">current_landarea_frac</span><span class="p">,</span> <span class="n">landareafrac_ratio</span><span class="p">,</span>
                          <span class="n">max_storage_coefficient</span><span class="p">,</span> <span class="n">minstorage_volume</span><span class="p">,</span>  <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calulate daily canopy balance including canopy storage and water flows</span>
 <span class="sd">    entering and leaving the canopy storage.</span>
 
@@ -502,7 +502,7 @@
 <span class="sd">    daily_storage_transfer : float</span>
 <span class="sd">        Storage to be transfered to runoff when land area fraction of current</span>
 <span class="sd">        time step is zero, Units: [mm]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">current_landarea_frac</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># =========================================================</span>
         <span class="c1"># Adapt for change in land area fraction on canopy storage</span>

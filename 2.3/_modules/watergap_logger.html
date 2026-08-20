@@ -436,7 +436,7 @@
                   
   <h1>Source code for watergap_logger</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;Logger Function.&quot;&quot;&quot;</span>
+<span class="sd">"""Logger Function."""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 
@@ -449,7 +449,7 @@
 <div class="viewcode-block" id="config_logger">
 <a class="viewcode-back" href="../utility_api/logger.html#watergap_logger.config_logger">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">config_logger</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">modname</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Set logger.</span>
 
 <span class="sd">    Parameters</span>
@@ -459,7 +459,7 @@
 <span class="sd">    level : logging level</span>
 <span class="sd">        Set level as e.g. logging.DEBUG.</span>
 <span class="sd">        Prefix of  level should always be</span>
-<span class="sd">        &#39;logging.(level name)&#39;</span>
+<span class="sd">        'logging.(level name)'</span>
 <span class="sd">    debug : bool(True or False)</span>
 <span class="sd">        Optional argument to enable or disable traceback for debugging</span>
 
@@ -468,17 +468,17 @@
 <span class="sd">    logger :</span>
 <span class="sd">        returns logging information.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># assign True or False to debug</span>
     <span class="n">logdate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-    <span class="n">logdate</span> <span class="o">=</span> <span class="n">logdate</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">-%H-%M-%S&quot;</span><span class="p">)</span>
+    <span class="n">logdate</span> <span class="o">=</span> <span class="n">logdate</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">-%H-%M-%S"</span><span class="p">)</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span>
 
     <span class="c1"># Checking for existing logging handlers else multiple log statement will</span>
     <span class="c1"># be printed to the same log file</span>
-    <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1">:</span><span class="si">%(name)s</span><span class="s1">:</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
-                                  <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
-    <span class="n">file_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">modname</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">logdate</span><span class="o">+</span><span class="s2">&quot;.log&quot;</span><span class="p">)</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(asctime)s</span><span class="s1">:</span><span class="si">%(name)s</span><span class="s1">:</span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">,</span>
+                                  <span class="n">datefmt</span><span class="o">=</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S'</span><span class="p">)</span>
+    <span class="n">file_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">modname</span><span class="o">+</span><span class="s1">'_'</span><span class="o">+</span><span class="n">logdate</span><span class="o">+</span><span class="s2">".log"</span><span class="p">)</span>
     <span class="n">file_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
     <span class="n">stream_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
     <span class="n">stream_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
@@ -511,10 +511,10 @@
         <span class="n">file_handler</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Wrong logging level. Please enter a correct&#39;</span>
-                         <span class="s1">&#39; level. Should be words or numeric. see &#39;</span>
-                         <span class="s1">&#39;https://docs.python.org/&#39;</span>
-                         <span class="s1">&#39;3/library/logging.html#levels&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Wrong logging level. Please enter a correct'</span>
+                         <span class="s1">' level. Should be words or numeric. see '</span>
+                         <span class="s1">'https://docs.python.org/'</span>
+                         <span class="s1">'3/library/logging.html#levels'</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">logger</span></div>
 

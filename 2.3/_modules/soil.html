@@ -447,7 +447,7 @@
 <span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
 <span class="c1"># =============================================================================</span>
 
-<span class="sd">&quot;&quot;&quot;Soil Storage.&quot;&quot;&quot;</span>
+<span class="sd">"""Soil Storage."""</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># This module computes soil water balance, including soil storage and related</span>
@@ -486,7 +486,7 @@
 <span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">immediate_runoff</span><span class="p">(</span><span class="n">effective_precipitation</span><span class="p">,</span> <span class="n">runoff_frac_builtup</span><span class="p">,</span>
                      <span class="n">builtup_area_frac</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute immediate runoff and effective precipitation.</span>
 
 <span class="sd">    Parameters</span>
@@ -517,7 +517,7 @@
 <span class="sd">                Development, 14(2), 1037–1079.</span>
 <span class="sd">                https://doi.org/10.5194/gmd-14-1037-2021</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Runoff from urban areas or immediate runoff (R1). see eq.18b in H.</span>
     <span class="c1"># Müller Schmied et al 2021(Corrigendum)</span>
 
@@ -550,7 +550,7 @@
                        <span class="n">max_groundwater_recharge</span><span class="p">,</span> <span class="n">groundwater_recharge_factor</span><span class="p">,</span>
                        <span class="n">critcal_gw_precipitation</span><span class="p">,</span> <span class="n">max_soil_water_content</span><span class="p">,</span>
                        <span class="n">areal_corr_factor</span><span class="p">,</span> <span class="n">minstorage_volume</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute daily soil balance.</span>
 
 <span class="sd">    Parameters</span>
@@ -636,7 +636,7 @@
 <span class="sd">    immediate_runoff : float</span>
 <span class="sd">        runoff from urban areas or immediate runoff (R1), Units: [mm/day]</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Index (x, y) to  print out varibales of interest</span>
     <span class="c1"># e.g.  if x==65 and y==137: print(current_landarea_frac)</span>
 
@@ -696,7 +696,7 @@
 
                 <span class="c1"># =============================================================</span>
                 <span class="c1"># I dont know why effective prctipiatation is set to zero after</span>
-                <span class="c1"># addition to the soil water content if you won&#39;t use it for</span>
+                <span class="c1"># addition to the soil water content if you won't use it for</span>
                 <span class="c1"># further calculations. This was done in the old code (c++).</span>
                 <span class="c1"># I just wrote it here for safety (will removethis soon)</span>
                 <span class="c1">#</span>
@@ -725,7 +725,7 @@
                 <span class="c1"># potential recharge (mm/day)</span>
                 <span class="c1">#               Order of calculation is important!!!</span>
                 <span class="c1"># =============================================================</span>
-                <span class="c1"># Note: the &#39;mm&#39; at the end of</span>
+                <span class="c1"># Note: the 'mm' at the end of</span>
                 <span class="c1"># groundwater_recharge_from_soil_mm means it is a vertical</span>
                 <span class="c1"># water balance variable.This distinguish it from</span>
                 <span class="c1"># ground water recharge in the lateral water balance</span>
