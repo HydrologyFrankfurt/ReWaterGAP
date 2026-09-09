@@ -4,7 +4,7 @@
       "climate_forcing": "/home/home9/Co-HYDIM-SA/data/nobackup/climate_forcing/",
       "water_use_data": "../wg_input/input_data/water_use/",
       "static_land_data": "../wg_input/input_data/static_input/",
-      "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5_with_reservoir.nc"
+      "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5_with_reservoir_and_multipliers.nc"
     },
     "outputDir": "output_data/"
   },
