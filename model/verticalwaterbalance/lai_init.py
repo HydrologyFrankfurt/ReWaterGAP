@@ -28,7 +28,7 @@ import numpy as np
 class LeafAreaIndex:
     """Distribute Leaf area parameters (per landcover) over gridcells."""
 
-    def __init__(self, land_cover, parameters_lai):
+    def __init__(self, land_cover, parameters_lai, lai_multiplier=1.0):
 
         # =====================================================================
         # Distribute maximum and minimum Leaf area index over all grid cells
@@ -64,13 +64,6 @@ class LeafAreaIndex:
                 red_factor_evergreen * max_leaf_area_index
             return min_leaf_area_index
 
-        for i in range(len(parameters_lai)):
-            parameters_lai.loc[i, 'min_leaf_area_index'] = \
-                minimum_leaf_area_index(
-                    parameters_lai.loc[i, 'max_leaf_area_index'],
-                    parameters_lai.loc[i, 'frac_decid_plant'],
-                    parameters_lai.loc[i, 'red_factor_evergreen'])
-
         # Distribute initial days per landcover (to start or end with growing
         # season) over all grid cell, Units: day
         self.initial_days = np.zeros((land_cover.shape))
@@ -86,9 +79,16 @@ class LeafAreaIndex:
             self.max_leaf_area_index[land_cover[:, :] == parameters_lai.loc[i, 'Number']] = \
                 parameters_lai.loc[i, 'max_leaf_area_index']
 
+        self.max_leaf_area_index *= lai_multiplier
+
+        # Recompute minimum LAI from the scaled maximum, as in C++ lai.cpp.
+        # The additive deciduous term must not be multiplied.
         # Minimum Leaf area index per landcover over all grid cell, Units: (-)
         self.min_leaf_area_index = np.zeros((land_cover.shape))
         self.min_leaf_area_index.fill(np.nan)
         for i in range(len(parameters_lai)):
-            self.min_leaf_area_index[land_cover[:, :] == parameters_lai.loc[i, 'Number']] = \
-                parameters_lai.loc[i, 'min_leaf_area_index']
+            cells = land_cover[:, :] == parameters_lai.loc[i, 'Number']
+            self.min_leaf_area_index[cells] = minimum_leaf_area_index(
+                self.max_leaf_area_index[cells],
+                parameters_lai.loc[i, 'frac_decid_plant'],
+                parameters_lai.loc[i, 'red_factor_evergreen'])

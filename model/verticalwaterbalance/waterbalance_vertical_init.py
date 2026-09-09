@@ -100,7 +100,8 @@ class VerticalWaterBalance:
         parameters_lai = \
             self.forcings_static.static_data.canopy_snow_soil_parameters
         self.lai_param = \
-            lai_init.LeafAreaIndex(self.land_cover, parameters_lai)
+            lai_init.LeafAreaIndex(self.land_cover, parameters_lai,
+                                   self.parameters.LAI_mult.values)
 
         # =====================================================================
         #                   Canopy
@@ -124,6 +125,8 @@ class VerticalWaterBalance:
         for i in range(len(parameters_snow)):
             self.degreeday[self.land_cover[:, :] == parameters_snow.loc[i, 'Number']] = \
                parameters_snow.loc[i, 'degree-day']
+
+        self.degreeday *= self.parameters.degree_day_factor_mult.values
 
         self.elevation = self.forcings_static.static_data.gtopo30_elevation
 
@@ -150,6 +153,16 @@ class VerticalWaterBalance:
         self.arid_coarse = soil_static_data[6]
         self.karst_frac = soil_static_data[7]
 
+        # Scale the Python static recharge grids using the C++ controls.
+        self.max_groundwater_recharge = (
+            self.max_groundwater_recharge * self.parameters.rg_max_mult.values)
+        self.groundwater_recharge_factor = (
+            self.groundwater_recharge_factor * self.parameters.gw_factor_mult.values)
+        # C++ gw_frac.cpp resets factors above 1 to 0.95.
+        self.groundwater_recharge_factor = np.where(
+            self.groundwater_recharge_factor > 1.0, 0.95,
+            self.groundwater_recharge_factor)
+
         # Calulate maximum soil water content
         soil_parameters = \
             self.forcings_static.static_data.canopy_snow_soil_parameters
@@ -158,6 +171,7 @@ class VerticalWaterBalance:
         for i in range(len(soil_parameters)):
             rooting_depth[self.land_cover[:, :] == soil_parameters.loc[i, 'Number']] = \
                 soil_parameters.loc[i, 'rooting_depth']
+        rooting_depth *= self.parameters.root_depth_multiplier.values
         self.max_soil_water_content = \
             np.where(total_avail_water_content > 0,
                      total_avail_water_content * rooting_depth, np.nan)
@@ -212,6 +226,7 @@ class VerticalWaterBalance:
 
         # Covert precipitation units to mm/day
         precipitation = check_or_convert.to_mm_per_day(precipitation.pr)
+        precipitation = precipitation * self.parameters.precip_mult.values
 
         #                  =============================
         #                  ||     Air tempeature (K)  ||
@@ -290,7 +305,7 @@ class VerticalWaterBalance:
                                self.parameters.critcal_gw_precipitation.values,
                                self.max_soil_water_content,
                                self.parameters.areal_corr_factor.values,
-                               basin)
+                               basin, self.parameters.net_radiation_mult.values)
 
         # Radiation and PET output
         net_radiation = output[0]

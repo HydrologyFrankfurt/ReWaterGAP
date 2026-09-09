@@ -22,6 +22,7 @@ from controller import configuration_module as cm
 import xarray as xr
 import misc.cli_args as cli
 import watergap_logger as log
+from model.parameter_multipliers import add_multiplier_defaults
 
 
 # ===============================================================
@@ -51,7 +52,8 @@ class Parameters:
                 param_path = str(Path(cm.global_parameter_path))
             
             
-            self.global_params = xr.open_dataset(param_path, decode_times=False)
+            self.global_params = add_multiplier_defaults(
+                xr.open_dataset(param_path, decode_times=False))
 
         except FileNotFoundError:
             log.config_logger(logging.ERROR, modname, 'Global parameter data  '

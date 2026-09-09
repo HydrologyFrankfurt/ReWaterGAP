@@ -37,7 +37,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        gamma, max_daily_pet, soil_texture, drainage_direction,
                        max_groundwater_recharge, groundwater_recharge_factor,
                        critcal_gw_precipitation, max_soil_water_content,
-                       areal_corr_factor, basin):
+                       areal_corr_factor, basin, net_radiation_mult=None):
     """Compute vertical Waterbalance."""
     # =========================================================================
     #   Creating outputs for storages, fluxes and factors
@@ -109,6 +109,9 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
 
             net_rad, openwater_net_rad = radiation_for_potevap
             net_radiation[x, y] = net_rad.item()
+            # C++ daily.cpp scales land radiation only, before computing PET.
+            if net_radiation_mult is not None:
+                net_radiation[x, y] *= net_radiation_mult[x, y]
             openwater_net_radiation[x, y] = openwater_net_rad.item()
 
             pot_evap, openwater_evap = \

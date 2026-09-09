@@ -631,6 +631,13 @@ class LateralWaterBalance:
                         self.potential_net_abstraction_sw = self.actual_net_abstraction.atotusesw.\
                             sel(time=date)[0].values.astype(np.float64)
 
+                    # Apply cell-specific multipliers once per monthly load,
+                    # before conversion and riparian aggregation (C++ dailyNUInit).
+                    self.potential_net_abstraction_gw *= (
+                        self.parameters.net_abstraction_groundwater_mult.values)
+                    self.potential_net_abstraction_sw *= (
+                        self.parameters.net_abstraction_surfacewater_mult.values)
+
                     # coverted to units = km3/day
                     self.potential_net_abstraction_gw = \
                         self.potential_net_abstraction_gw / (num_of_days * m3_to_km3)
