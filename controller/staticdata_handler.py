@@ -21,6 +21,7 @@ import pandas as pd
 import watergap_logger as log
 import misc.cli_args as cli
 from controller import configuration_module as cm
+from controller.reservoir_inputs import load_reservoir_inputs
 
 
 # ===============================================================
@@ -81,8 +82,6 @@ class StaticData:
         river_static_file_path = \
             str(Path(cm.static_land_data_path + r'/river_static_data/*'))
 
-        reservoir_reglake_file_path = str(Path(cm.static_land_data_path +
-                                               r'/reservoir_regulated_lake/*'))
 
         reservoir_frac_file_path = \
             str(Path(cm.static_land_data_path +
@@ -154,8 +153,10 @@ class StaticData:
 
             # Reserviour and regulated lakes (data for computing waterbalance)
             self.res_reg_files = \
-                xr.open_mfdataset(reservoir_reglake_file_path,
-                                  decode_times=False)
+                load_reservoir_inputs(cm.static_land_data_path,
+                                      cm.res_operation_algorithm,
+                                      cm.reservoir_forcing,
+                                      cm.reservoir_routing_data_path)
 
             # Yearly Reserviour fractions
             self.resyear_frac = \

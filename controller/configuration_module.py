@@ -18,6 +18,7 @@ import sys
 import pandas as pd
 import watergap_logger as log
 import misc.cli_args as cli
+from controller.reservoir_options import reservoir_options
 
 
 # ===============================================================
@@ -181,6 +182,13 @@ save_and_read_states_path = restart_save_option["save_and_read_states_dir"]
 # =============================================================================
 # Run WaterGAP calibration
 # =============================================================================
-calibration_options = config_file['RuntimeOptions'][5]["Calibrate WaterGAP"]
+calibration_section = config_file['RuntimeOptions'][5]
+calibration_options = calibration_section.get(
+    "CalibrateWaterGAP", calibration_section.get("Calibrate WaterGAP", {}))
 run_calib = calibration_options["run_calib"]
+calib_forcing = calibration_options.get("calib_forcing", "gswp3-era5")
+res_operation_algorithm, reservoir_forcing, reservoir_routing_data_path = \
+    reservoir_options(config_file)
+# Integer passed explicitly through Numba kernels: 0 = scaling, 1 = Hanasaki.
+res_operation_algorithm_code = int(res_operation_algorithm == "hanasaki")
 observed_discharge_filepath = calibration_options["path_to_observed_discharge"]

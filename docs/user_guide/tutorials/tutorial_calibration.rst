@@ -53,7 +53,7 @@ In the downloaded and unzipped folder, unzip the "json_annual.zip" file. Move th
 
 Edit the path in the configuration file
 ***************************************
-In the WaterGAP Configuration file "Config_ReWaterGAP.json" navigate to "Calibrate WaterGAP". Under "path_to_observed_discharge" add the path to the "json_annual" folder you just saved and set "run_calib" to "true".
+In the WaterGAP Configuration file "Config_ReWaterGAP.json" navigate to "CalibrateWaterGAP". Under "path_to_observed_discharge" add the path to the "json_annual" folder you just saved and set "run_calib" to "true".
 
 WaterGAP is calibrated from the year 1901. Under "SimulationPeriod" set the start year to 1901 by changing the following values:
 "start": "1901-01-01", "end": "2019-12-31", "reservoir_start_year": 1901, "reservoir_end_year": 2019, "spinup_years": 5

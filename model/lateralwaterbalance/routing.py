@@ -70,7 +70,8 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                   res_inflow_past_30days, 
                   counter_for_mean_30days,
                   P1_reservoir, P2_reservoir, P3_reservoir,
-                  P4_reservoir, P5_reservoir, P6_reservoir
+                  P4_reservoir, P5_reservoir, P6_reservoir,
+                  res_operation_algorithm=0
                   ):
 
     """Route flow to river. """
@@ -527,11 +528,12 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                         res_inflow_past_30days[:,x, y], 
                                         counter_for_mean_30days[x, y],
                                         P1_reservoir[x, y], P2_reservoir[x, y], P3_reservoir[x, y],
-                                        P5_reservoir[x, y], P5_reservoir[x, y], P6_reservoir[x, y],
+                                        P4_reservoir[x, y], P5_reservoir[x, y], P6_reservoir[x, y],
+                                        res_operation_algorithm,
                                         )
 
                 storage, outflow, recharge, res_k_release, accum_unpot_netabs_sw, \
-                    actual_use, openwater_evapo_cor = daily_res_reg_balance
+                    actual_use, openwater_evapo_cor, counter_for_mean_30days[x, y] = daily_res_reg_balance
 
                 glores_precip[x, y] = precipitation[x, y] * glores_area[x, y]
                 glores_storage_out[x, y] = storage.item()

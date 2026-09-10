@@ -65,7 +65,8 @@ class RestartState:
                   prev_accumulated_unsatisfied_potential_netabs_sw,
                   prev_potential_water_withdrawal_sw_irri,
                   prev_potential_consumptive_use_sw_irri,
-                  set_res_storage_flag):
+                  set_res_storage_flag, res_inflow_past_30days=None,
+                  counter_for_mean_30days=None):
         """
         Write variable to file for only a day before the restart date.
 
@@ -219,6 +220,10 @@ class RestartState:
                           "prev_potential_consumptive_use_sw_irri":
                               prev_potential_consumptive_use_sw_irri,
                           "set_res_storage_flag": set_res_storage_flag}
+
+        if res_inflow_past_30days is not None:
+            lat_bal_states["res_inflow_past_30days"] = res_inflow_past_30days
+            lat_bal_states["counter_for_mean_30days"] = counter_for_mean_30days
 
         self.state.update({"last_date": date,
                           "landfrac_state": landfrac_state,

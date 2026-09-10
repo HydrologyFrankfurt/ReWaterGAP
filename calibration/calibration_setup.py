@@ -231,7 +231,10 @@ class SetupCalibration:
         config_file['RuntimeOptions'][2]["SimulationPeriod"]["start"] = station_start_year
         config_file['RuntimeOptions'][2]["SimulationPeriod"]["end"] = station_end_year
         config_file['RuntimeOptions'][4]["SimulationExtent"]["run_basin"] = True
-        config_file['RuntimeOptions'][5]["Calibrate WaterGAP"]["run_calib"] = True
+        calibration = config_file['RuntimeOptions'][5]
+        calibration_key = ("CalibrateWaterGAP" if "CalibrateWaterGAP" in calibration
+                           else "Calibrate WaterGAP")
+        calibration[calibration_key]["run_calib"] = True
         config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]["streamflow"] = True
         config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]["pot_cell_runoff"] = True
         config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]\
@@ -249,7 +252,7 @@ class SetupCalibration:
         matching_files = glob.glob(src_file_pattern)
         src_file_path = matching_files[0]    
         config_file['FilePath']["inputDir"]["parameter_path"] = \
-            f"{self.calib_out_dir}{basin_id}/{src_file_path.split('/')[-1].replace('_nocal.nc', f'_basin_{basin_id}.nc')}"
+            f"{self.calib_out_dir}{basin_id}/{src_file_path.split('/')[-1].replace('_run-calib.nc', f'_basin_{basin_id}.nc').replace('_nocal.nc', f'_basin_{basin_id}.nc')}"
 
         out_config_path = (
             f"{self.calib_out_dir}{basin_id}/station_config_files/"
@@ -277,7 +280,7 @@ class SetupCalibration:
             matching_files = glob.glob(src_file_pattern)
             src_file_path = matching_files[0]
 
-            dest_file_path = f"{self.calib_out_dir}{i}/{src_file_path.split('/')[-1].replace('_nocal.nc', f'_basin_{i}.nc')}"
+            dest_file_path = f"{self.calib_out_dir}{i}/{src_file_path.split('/')[-1].replace('_run-calib.nc', f'_basin_{i}.nc').replace('_nocal.nc', f'_basin_{i}.nc')}"
             shutil.copy2(src_file_path, dest_file_path)
 
 

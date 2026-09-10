@@ -54,6 +54,10 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
             print(colored('Standard (ant) run: Include human water'
                           ' use and include global man-made'
                           ' reservoirs/regulated lakes', 'blue'))
+        if cm.RESERVOIR_OPT:
+            print("Reservoir operation algorithm: " + cm.res_operation_algorithm)
+            if cm.res_operation_algorithm == "hanasaki":
+                print("Reservoir forcing: " + cm.reservoir_forcing)
         # demand satisfaction option
         if cm.DELAYED_USE and cm.NEIGHBOURING_CELL:
             msg = 'Delayed water supply & Neighboring cell water supply'
@@ -388,7 +392,9 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
                                           prev_accumulated_unsatisfied_potential_netabs_sw,
                                       lateral_waterbalance.prev_potential_water_withdrawal_sw_irri,
                                       lateral_waterbalance.prev_potential_consumptive_use_sw_irri,
-                                      lateral_waterbalance.set_res_storage_flag
+                                      lateral_waterbalance.set_res_storage_flag,
+                                      lateral_waterbalance.res_inflow_past_30days,
+                                      lateral_waterbalance.counter_for_mean_30days
                                       )
 
                 if end_date == date.astype('datetime64[D]'):

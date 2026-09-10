@@ -175,6 +175,13 @@ class LateralWaterBalance:
              forcings_static.lat_length,
              forcings_static.lon_length))
         
+        self.res_operation_algorithm = cm.res_operation_algorithm_code
+        # Hanasaki can use older parameter files without the six scaling fields.
+        self.reservoir_scaling_parameters = tuple(
+            self.parameters[f"P{i}_reservoir"].values
+            if self.res_operation_algorithm == 0 else np.ones_like(self.cell_area)
+            for i in range(1, 7))
+
         self.counter_for_mean_30days = np.zeros(
             (forcings_static.lat_length,
              forcings_static.lon_length),
@@ -775,12 +782,13 @@ class LateralWaterBalance:
                                land_aet_corr, sum_canopy_snow_soil_storage,
                                self.res_inflow_past_30days,
                                self.counter_for_mean_30days,
-                               self.parameters.P1_reservoir.values,
-                               self.parameters.P2_reservoir.values,
-                               self.parameters.P3_reservoir.values,
-                               self.parameters.P4_reservoir.values,
-                               self.parameters.P5_reservoir.values,
-                               self.parameters.P6_reservoir.values,
+                               self.reservoir_scaling_parameters[0],
+                               self.reservoir_scaling_parameters[1],
+                               self.reservoir_scaling_parameters[2],
+                               self.reservoir_scaling_parameters[3],
+                               self.reservoir_scaling_parameters[4],
+                               self.reservoir_scaling_parameters[5],
+                               self.res_operation_algorithm,
                                )
 
         # update variables for next timestep or output.
@@ -1035,6 +1043,11 @@ class LateralWaterBalance:
         self.river_storage = latbalance_states["river_storage"]
         self.glores_storage = latbalance_states["glores_storage"]
         self.k_release = latbalance_states["k_release"]
+        # Older restart files have no scaling history; retain initialized zeros.
+        self.res_inflow_past_30days = latbalance_states.get(
+            "res_inflow_past_30days", self.res_inflow_past_30days)
+        self.counter_for_mean_30days = latbalance_states.get(
+            "counter_for_mean_30days", self.counter_for_mean_30days)
         self.unsatisfied_potential_netabs_riparian = \
             latbalance_states["unsatisfied_potential_netabs_riparian"]
         self.unsat_potnetabs_sw_from_demandcell = \

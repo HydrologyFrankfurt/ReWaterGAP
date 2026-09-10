@@ -36,6 +36,26 @@ Simulation Options
 
 "AntNat_opts": {"ant": true, "subtract_use": true, "res_opt": true} as shown in the :ref:`image <file_pathk>` above, simulates the effects of both human water use and man-made reservoirs (including their commissioning years) on flows and storages and is referred to as a standard anthropogenic run.
 
+Reservoir release algorithm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Inside ``RuntimeOptions[0].SimulationOption``, configure:
+
+.. code-block:: json
+
+    "ReservoirOperation": {
+      "res_operation_algorithm": "scaling",
+      "reservoir_forcing": "era5",
+      "reservoir_routing_data_path": "input_data/static_input/reservoir_regulated_lake"
+    }
+
+Choose ``scaling`` for the six seasonal reservoir parameters, or ``hanasaki``
+for the Hanasaki release rule. ``AntNat_opts.res_opt`` must be enabled.
+Scaling keeps the existing reservoir inputs. Hanasaki reads inflow, demand,
+and start months from ``reservoir_routing_era5`` or ``reservoir_routing_w5e5``
+under the specified path, retaining local reservoir geometry. The forcing is
+explicit and does not depend on the parameter filename.
+
 The following options in „AntNat_opts“ can be turned off and on to simulate:
 
 (1) a naturalized run (without human impact). For a tutorial on how to simulate a naturalized run, see :ref:`here <naturalized_run>`.

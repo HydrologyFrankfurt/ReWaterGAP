@@ -16,6 +16,11 @@
           "subtract_use": true,
           "res_opt": true
         },
+        "ReservoirOperation": {
+          "res_operation_algorithm": "scaling",
+          "reservoir_forcing": "era5",
+          "reservoir_routing_data_path": "input_data/static_input/reservoir_regulated_lake"
+        },
         "Demand_satisfaction_opts": {
           "delayed_use": true,
           "neighbouring_cell": true
@@ -50,8 +55,9 @@
       }
     },
     {
-      "Calibrate WaterGAP": {
+      "CalibrateWaterGAP": {
         "run_calib": false,
+        "calib_forcing": "gswp3-era5",
         "path_to_observed_discharge": "../test_wateruse/json_annual/"
       }
     }
