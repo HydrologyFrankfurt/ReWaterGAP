@@ -133,8 +133,8 @@ def priestley_taylor_pet(temperature, pt_coeff_humid_arid,
     ----------
     temperature : float
         Daily air tempeature, Units : [K]
-    pt_coeff_humid_arid : flaot
-        Priestley-Taylor coefficient  for humid and arid cells (alpha), Units: [-]
+    pt_coeff_humid_arid : float
+        Selected Priestley-Taylor coefficient for this cell (alpha), Units: [-]
     net_radiation : float
         Net radiation  according to Müller Schmied et al., 2016., Units: [Wm−2]
     openwater_net_radiation : float

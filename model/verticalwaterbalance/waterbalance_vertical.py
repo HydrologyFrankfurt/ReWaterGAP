@@ -24,7 +24,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        down_longwave_radiation, snow_water_storage,
                        snow_albedo_thresh, openwater_albedo, snow_albedo,
                        albedo, emissivity, humid_arid, arid_coarse, 
-                       karst_frac, pt_coeff_humid_arid,
+                       karst_frac, pt_coeff,
                        growth_status, lai_days, initial_days,
                        cum_precipitation, precipitation, min_leaf_area_index,
                        max_leaf_area_index, land_cover, canopy_storage,
@@ -116,7 +116,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
 
             pot_evap, openwater_evap = \
                 rad_pet.priestley_taylor_pet(temperature[x, y],
-                                             pt_coeff_humid_arid[x, y],
+                                             pt_coeff[x, y],
                                              net_radiation[x, y],
                                              openwater_net_radiation[x, y], x, y)
 

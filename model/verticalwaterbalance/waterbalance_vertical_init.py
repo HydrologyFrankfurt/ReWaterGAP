@@ -19,6 +19,7 @@ import numpy as np
 from model.utility import units_conveter_check_neg_precip as check_or_convert
 from model.verticalwaterbalance import waterbalance_vertical as vb_numba
 from model.verticalwaterbalance import lai_init
+from model.priestley_taylor import select_pt_coeff
 
 
 class VerticalWaterBalance:
@@ -51,6 +52,8 @@ class VerticalWaterBalance:
         self.land_cover = self.forcings_static.static_data.land_cover
         # Humid-arid calssification based on Müller Schmied et al. 2021
         self.humid_arid = self.forcings_static.static_data.humid_arid
+        # Resolve the two calibration parameters using the static climate map.
+        self.pt_coeff = select_pt_coeff(self.parameters, self.humid_arid)
 
         # Albedo based on landcover type (Müller Schmied et al 2014,Table A2)
         self.albedo = np.zeros((self.forcings_static.lat_length,
@@ -279,7 +282,7 @@ class VerticalWaterBalance:
                                self.parameters.openwater_albedo.values,
                                self.snow_albedo, self.albedo, self.emissivity,
                                self.humid_arid, self.arid_coarse, self.karst_frac, 
-                               self.parameters.pt_coeff_humid_arid.values,
+                               self.pt_coeff,
                                self.growth_status, self.lai_days,
                                self.lai_param.initial_days,
                                self.cum_precipitation, precipitation,

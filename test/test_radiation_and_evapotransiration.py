@@ -11,6 +11,8 @@
 """Test radiation and evapotranspiration module."""
 
 import unittest
+from pathlib import Path
+from model.priestley_taylor import select_pt_coeff
 import xarray as xr
 import numpy as np
 from model.verticalwaterbalance import radiation_evapotranspiration as re
@@ -38,8 +40,11 @@ class TestRadiationEvapotranspiration(unittest.TestCase):
         path_global_par = cm.global_parameter_path
         if path_global_par.startswith("model"):
             path_global_par = f"./{path_global_par}"
-        pt_coeff = xr.open_dataset(path_global_par , decode_times=False)
-        self.pt_coeff_humid_arid = pt_coeff.pt_coeff_humid_arid.values  # -
+        climate_path = Path(cm.static_land_data_path) / "watergap_22e_aridhumid.nc4"
+        with xr.open_dataset(path_global_par, decode_times=False) as pt_coeff, \
+                xr.open_dataset(climate_path, decode_times=False) as climate:
+            self.pt_coeff_humid_arid = select_pt_coeff(
+                pt_coeff, climate.aridhumid[0].values)
 
         # (open water)net radiation and could be negative but we set it to zero
         self.net_radiation = np.random.uniform(0, 300, size=size)  # Wm-
