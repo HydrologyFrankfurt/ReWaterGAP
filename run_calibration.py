@@ -85,8 +85,15 @@ class CalibrateStations:
 
         # Apply the function to each dictionary in the list
         if 'OutputVariable' in config_file:
-            for item in config_file['OutputVariable']:
-                self.update_config_values(item)
+            output = config_file['OutputVariable']
+            if isinstance(output, dict):
+                for item in output.get('Daily', []):
+                    self.update_config_values(item)
+                # This preparatory run requires daily abstraction files.
+                output['Monthly'] = []
+            else:
+                for item in output:
+                    self.update_config_values(item)
 
         if 'RuntimeOptions' in config_file:
             for item in config_file['RuntimeOptions']:

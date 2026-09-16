@@ -235,16 +235,26 @@ class SetupCalibration:
         calibration_key = ("CalibrateWaterGAP" if "CalibrateWaterGAP" in calibration
                            else "Calibrate WaterGAP")
         calibration[calibration_key]["run_calib"] = True
-        config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]["streamflow"] = True
-        config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]["pot_cell_runoff"] = True
-        config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]\
+        output = config_file['OutputVariable']
+        if isinstance(output, dict):
+            daily_output = output.setdefault('Daily', [])
+            for name in ('VerticalWaterBalanceFluxes', 'VerticalWaterBalanceStorages',
+                         'LateralWaterBalanceFluxes', 'LateralWaterBalanceStorages'):
+                if not any(name in entry for entry in daily_output):
+                    daily_output.append({name: {}})
+        else:
+            daily_output = output
+        daily_groups = {name: flags for entry in daily_output for name, flags in entry.items()}
+        daily_groups["LateralWaterBalanceFluxes"]["streamflow"] = True
+        daily_groups["LateralWaterBalanceFluxes"]["pot_cell_runoff"] = True
+        daily_groups["LateralWaterBalanceFluxes"]\
             ["actual_net_abstr_groundwater"] = False
-        config_file['OutputVariable'][2]["LateralWaterBalanceFluxes"]\
+        daily_groups["LateralWaterBalanceFluxes"]\
             ["actual_net_abstr_surfacewater"] = False
         config_file['RuntimeOptions'][0]['SimulationOption']\
             ['Demand_satisfaction_opts']['neighbouring_cell'] = False
 
-        config_file['OutputVariable'][1]["VerticalWaterBalanceStorages"]\
+        daily_groups["VerticalWaterBalanceStorages"]\
             ["maximum_soil_moisture"] = False
             
         

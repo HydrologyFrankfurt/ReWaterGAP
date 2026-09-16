@@ -15,6 +15,8 @@
 # =============================================================================
 import concurrent.futures
 import platform
+from pathlib import Path
+from controller.output_options import OUTPUT_GROUPS
 import numpy as np
 from controller import configuration_module as cm
 from view import data_output_handler as doh
@@ -32,12 +34,7 @@ def write_to_netcdf(args):
 
     """
     var, encoding, path = args
-    try:
-        var.to_netcdf(path, format='NETCDF4_CLASSIC', encoding=encoding)
-        del var
-        return None  # Successful execution
-    except FileNotFoundError as exc:
-        return exc
+    var.to_netcdf(path, format='NETCDF4_CLASSIC', encoding=encoding)
 
 
 class CreateandWritetoVariables:
@@ -46,6 +43,9 @@ class CreateandWritetoVariables:
     def __init__(self, grid_coords):
         # output path
         self.path = cm.config_file['FilePath']['outputDir']
+        # Forcing coordinates can extend beyond the requested simulation end.
+        grid_coords = grid_coords.to_dataset().sel(time=slice(cm.start, cm.end)).coords
+        self.monthly = {name: {} for name in OUTPUT_GROUPS}
         # =====================================================================
         # create ouput variable
         # =====================================================================
@@ -78,18 +78,9 @@ class CreateandWritetoVariables:
             "qs": "surface_runoff"
         }
 
-        # Initialize output variables for vertical water balance
-        for var_name, cm_var in vb_output_vars.items():
-            if var_name in {'canopystor', 'swe', 'soilmoist', 'smax'}:
-                if cm.vb_storages.get(cm_var):
-                    var = doh.OutputVariable(var_name, cm.vb_storages.get(cm_var),
-                                             grid_coords)
-                    self.vb_storages[var_name] = var
-            else:
-                if cm.vb_fluxes.get(cm_var):
-                    var = doh.OutputVariable(var_name, cm.vb_fluxes.get(cm_var),
-                                             grid_coords)
-                    self.vb_fluxes[var_name] = var
+        self._create_variables(vb_output_vars, grid_coords,
+                               {"canopystor", "swe", "soilmoist", "smax"},
+                               "VerticalWaterBalance", self.vb_storages, self.vb_fluxes)
 
         # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         #         #  Lateral Water Balance (lb)
@@ -148,20 +139,40 @@ class CreateandWritetoVariables:
 
         }
 
-        # Initialize output variables for lateral water balance
-        for var_name, cm_var in lb_output_vars.items():
-            if var_name in {'groundwstor', "locallakestor", "localwetlandstor",
-                            "globallakestor", "globalwetlandstor",
-                            "riverstor", "reservoirstor", "tws"}:
-                if cm.lb_storages.get(cm_var):
-                    var = doh.OutputVariable(var_name, cm.lb_storages.get(cm_var),
-                                             grid_coords)
-                    self.lb_storages[var_name] = var
-            else:
-                if cm.lb_fluxes.get(cm_var):
-                    var = doh.OutputVariable(var_name, cm.lb_fluxes.get(cm_var),
-                                             grid_coords)
-                    self.lb_fluxes[var_name] = var
+        self._create_variables(lb_output_vars, grid_coords,
+                               {"groundwstor", "locallakestor", "localwetlandstor",
+                                "globallakestor", "globalwetlandstor", "riverstor",
+                                "reservoirstor", "tws"},
+                               "LateralWaterBalance", self.lb_storages, self.lb_fluxes)
+
+    def _create_variables(self, names, grid_coords, storage_names, balance,
+                          daily_storages, daily_fluxes):
+        for var_name, config_name in names.items():
+            storage = var_name in storage_names
+            group = balance + ("Storages" if storage else "Fluxes")
+            for frequency in ("Daily", "Monthly"):
+                selected = cm.output_options[frequency][group].get(config_name, False)
+                # Calibration consumes daily discharge/runoff directly in memory.
+                if cm.run_calib:
+                    if frequency == "Monthly":
+                        continue
+                    selected = selected or var_name in {"dis", "pot_cell_runoff"}
+                if selected:
+                    target = (self.monthly[group] if frequency == "Monthly" else
+                              daily_storages if storage else daily_fluxes)
+                    target[var_name] = doh.OutputVariable(
+                        var_name, True, grid_coords, frequency=frequency)
+
+    def _output_groups(self):
+        """Yield groups in conversion order, independently for each frequency."""
+        for frequency, groups in (
+                ("Daily", [self.vb_storages, self.vb_fluxes,
+                           self.lb_storages, self.lb_fluxes]),
+                ("Monthly", [self.monthly[name] for name in
+                             ("VerticalWaterBalanceStorages", "VerticalWaterBalanceFluxes",
+                              "LateralWaterBalanceStorages", "LateralWaterBalanceFluxes")])):
+            for index, group in enumerate(groups):
+                yield frequency, index, group
 
     def verticalbalance_write_daily_var(self, value, sim_year,
                                         sim_month, sim_day):
@@ -191,13 +202,15 @@ class CreateandWritetoVariables:
         # =================================================================
         # Storages
         storage_var = value[0]
-        for var_name, var in self.vb_storages.items():
+        for var_name, var in list(self.vb_storages.items()) + list(
+                self.monthly["VerticalWaterBalanceStorages"].items()):
             var.write_daily_output(storage_var[var_name], sim_year,
                                    sim_month, sim_day)
 
         # Fluxes
         fluxes_var = value[1]
-        for var_name, var in self.vb_fluxes.items():
+        for var_name, var in list(self.vb_fluxes.items()) + list(
+                self.monthly["VerticalWaterBalanceFluxes"].items()):
             var.write_daily_output(fluxes_var[var_name], sim_year,
                                    sim_month, sim_day)
 
@@ -227,13 +240,15 @@ class CreateandWritetoVariables:
         # =================================================================
         # Storages
         storage_var = value[0]
-        for var_name, var in self.lb_storages.items():
+        for var_name, var in list(self.lb_storages.items()) + list(
+                self.monthly["LateralWaterBalanceStorages"].items()):
             var.write_daily_output(storage_var[var_name], sim_year,
                                    sim_month, sim_day)
 
         # Fluxes
         fluxes_var = value[1]
-        for var_name, var in self.lb_fluxes.items():
+        for var_name, var in list(self.lb_fluxes.items()) + list(
+                self.monthly["LateralWaterBalanceFluxes"].items()):
             var.write_daily_output(fluxes_var[var_name], sim_year,
                                    sim_month, sim_day)
 
@@ -247,9 +262,6 @@ class CreateandWritetoVariables:
             Area of the grid cell,  Unit: [km^2]
         contfrac : array
             continental fraction (land and surfacewater bodies), Unit: [-]
-        month_daily_aggr : string
-            Specifies the aggregation method, either "month" for monthly averages 
-            or "daily" for daily values.
 
         Returns
         -------
@@ -263,20 +275,22 @@ class CreateandWritetoVariables:
         days_to_s = 86400
         km_to_m = 1e3
         km3_to_m3 = 1e9
-        ouptputs = [self.vb_storages, self.vb_fluxes, self.lb_storages,
-                    self.lb_fluxes]
-        for i in range(4):
-            for key, value in ouptputs[i].items():
+        for frequency, i, group in self._output_groups():
+            for key, value in group.items():
+                value.finalize_month()
+                # Monthly water amounts already contain the sum of daily amounts.
+                time_divisor = (1 if frequency == "Monthly" and
+                                value.aggregation == "sum" else days_to_s)
                 if i == 0:
                     # already in mm or  kg m-2
                     converted_data = value.data[key].values
 
                 elif i == 1:
-                    if key in ("lai-total", "snowcover-frac"):
+                    if key in ("lai-total", "snowcover-frac", "netrad"):
                         converted_data = value.data[key].values
                     else:
                         # convert from mm/day to mm/s or  kg m-2 s-1
-                        converted_data = value.data[key].values / days_to_s
+                        converted_data = value.data[key].values / time_divisor
 
                 elif i == 2:
                     # convert from km3 to mm or  kg m-2
@@ -284,15 +298,15 @@ class CreateandWritetoVariables:
 
                 elif i == 3:
                     if key in ("get_neighbouring_cells_map", "land-area-fraction",
-                               "locwet_extent","glowet_extent","loclake_extent"):
+                               "locwet_extent", "glowet_extent", "loclake_extent"):
                         converted_data = value.data[key].values
                     # convert to m3/s  for discharge and m/s for velocity
                     elif key in ("dis",  "dis-from-upstream","glores_outflow", "glores_inflow"):
                         converted_data = (value.data[key].values * km3_to_m3) / days_to_s
-                    elif key == "river_velocity":
+                    elif key == "river-velocity":
                         converted_data = (value.data[key].values * km_to_m) / days_to_s
                     else:  # convert from km3/day to mm/s or  kg m-2 s-1
-                        converted_data = (value.data[key].values * km3_to_mm) / days_to_s
+                        converted_data = (value.data[key].values * km3_to_mm) / time_divisor
 
                 # converted and aggreagated data
                 value.data[key][:] = converted_data
@@ -311,10 +325,13 @@ class CreateandWritetoVariables:
         """
         # Create a list of tuples with arguments for writing
         write_args = []
-        for var in [self.vb_storages, self.vb_fluxes,
-                    self.lb_storages, self.lb_fluxes]:
-            for key, value in var.items():
-                path = self.path + f'{key}_{end_date}.nc'
+        output_dir = Path(self.path)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        paths = set()
+        for frequency, _, group in self._output_groups():
+            for key, value in group.items():
+                suffix = end_date[:7] if frequency == "Monthly" else end_date
+                path = output_dir / f'{key}_{suffix}.nc'
 
                 if key == "get_neighbouring_cells_map":
                     encoding = {key: {'chunksizes': [1, value.data[key].shape[1], 
@@ -322,7 +339,7 @@ class CreateandWritetoVariables:
                                       "zlib": True,
                                       "complevel": 5}}
                 elif key == 'smax':
-                    path = self.path + f'{key}.nc'
+                    path = output_dir / f'{key}.nc'
                     encoding = {key: {'_FillValue': 1e+20,
                                       "zlib": True,
                                       "complevel": 5}}
@@ -331,13 +348,23 @@ class CreateandWritetoVariables:
                                       'chunksizes': [1, value.data[key].shape[1], 
                                                      value.data[key].shape[2]],
                                       "zlib": True, "complevel": 5}}
+                if path in paths:  # smax is static and shared between frequencies.
+                    continue
+                paths.add(path)
+                if "time_bnds" in value.data:
+                    time_encoding = {"units": "days since 1900-01-01", "calendar": "noleap"}
+                    encoding["time"] = time_encoding.copy()
+                    encoding["time_bnds"] = time_encoding.copy()
                 write_args.append((value.data, encoding, path))
 
         # For saving output in parallel, Threading is used for macOS but
         # multiprocessing is used of Linux, windows, etc
+        if not write_args:
+            return
         if platform.system() != 'Darwin':  # not macOS
-            with concurrent.futures.ProcessPoolExecutor() as executor:
-                executor.map(write_to_netcdf, write_args)
+            with concurrent.futures.ProcessPoolExecutor(max_workers=min(8, len(write_args))) as executor:
+                # Consume results so write failures propagate to the caller.
+                list(executor.map(write_to_netcdf, write_args))
         else:
             for i in write_args:
                 write_to_netcdf(i)

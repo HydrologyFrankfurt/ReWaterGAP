@@ -132,6 +132,70 @@ Output Variables
 
 A comprehensive list of the output variables in the :ref:`image <out_var>` above can be found in the :ref:`glossary <glossary>`. Each output can be toggled on (set to "true") or off (set to "false") in the "OutputVariable" options.
 
+Daily and monthly selection
+***************************
+
+``OutputVariable`` contains independent ``Daily`` and ``Monthly`` lists. Each
+list contains the same four groups and variable flags as before. Set a variable
+to ``true`` in either list, both lists, or neither. Missing flags are disabled.
+For example, this writes daily discharge and monthly recharge and total storage:
+
+.. code-block:: json
+
+    "OutputVariable": {
+      "Daily": [
+        {"LateralWaterBalanceFluxes": {"streamflow": true}}
+      ],
+      "Monthly": [
+        {"VerticalWaterBalanceFluxes": {"groundwater_recharge_diffuse": true}},
+        {"LateralWaterBalanceStorages": {"total_water_storage": true}}
+      ]
+    }
+
+Daily and monthly output flags can be set independently. Legacy configurations
+where ``OutputVariable`` is a list still select daily outputs. The model time step remains daily.
+Monthly values are accumulated during simulation; monthly-only variables do
+not allocate or write daily output arrays. Files are saved at year end or the
+last simulation day, using the existing naming pattern:
+
+* Daily: ``dis_2010-12-31.nc`` (daily values for that simulation year).
+* Monthly: ``dis_2010-12.nc`` (monthly values for that simulation year).
+* A run ending on 2010-02-02 produces ``dis_2010-02-02.nc`` and/or
+  ``dis_2010-02.nc``. The latter contains January and the simulated part of February.
+
+Monthly aggregation and units
+*****************************
+
+* Water amounts (precipitation, evaporation, snowmelt, recharge, runoff,
+  lake/wetland outflows, abstraction, consumption and demand diagnostics) are
+  **summed**. Daily files use ``kg m-2 s-1``; monthly files use ``kg m-2``
+  (equivalent to mm accumulated over the month). When checking against daily
+  files, multiply the sum of daily rates by 86400 seconds.
+* River discharge, upstream discharge, and reservoir inflow/outflow are
+  **averaged**, retaining ``m3 s-1``.
+* Water storages are **averaged**, retaining ``kg m-2``. Leaf area index,
+  land/snow fractions, lake/wetland extents, and river velocity are also
+  **averaged** in their existing units.
+* Net radiation is **averaged** in ``W m-2``. Its previous water-flux label
+  and conversion were incorrect; daily output now also uses ``W m-2``.
+  River velocity uses the corrected conversion from km/day to ``m s-1``.
+* ``maximum_soil_moisture`` is static and writes ``smax.nc`` once per save,
+  even when selected at both frequencies.
+* ``get_neighbouring_cells_map`` contains cell indices, so monthly output
+  retains the **last simulated day's map**, rather than averaging indices.
+
+Monthly time coordinates use the first day of each month. ``time_bnds`` gives
+the actual simulated interval, including partial months. Every year has 365 days; February always has 28
+days and February 29 is excluded. Monthly files declare the ``noleap`` calendar.
+``cell_methods`` and ``aggregation`` describe each variable's aggregation.
+Missing daily values propagate to missing monthly values; an all-missing cell
+is never converted to a zero total. Partial-month means use only simulated days,
+and totals cover only those days. Separate restarted runs do not automatically
+merge their partial-month files.
+
+Calibration retains its required daily discharge and potential-runoff buffers
+internally, regardless of monthly selections.
+
 .. _configuration_file_gwswuse:
 
 **************************

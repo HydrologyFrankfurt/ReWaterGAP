@@ -334,7 +334,7 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
                         annual_pot_cell_runoff.attrs['units'] = "km3/year"
                         get_annual_pot_cell_runoff.append(annual_pot_cell_runoff)
                     else:
-                        print(f'\nWriting data for {save_year} to NetCDF\n')
+                        print(f'\nWriting output for {sim_year} to NetCDF\n')
 
                         create_out_var.base_units(initialize_forcings_static.static_data.cell_area,
                                                   initialize_forcings_static.static_data.

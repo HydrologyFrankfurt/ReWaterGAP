@@ -8,155 +8,148 @@
 # You should have received a copy of the LGPLv3 License along with WaterGAP.
 # if not see <https://www.gnu.org/licenses/lgpl-3.0>
 # =============================================================================
-"""Create ouput variables."""
+"""Buffer selected daily outputs or aggregate monthly outputs during simulation."""
 
 import datetime as dt
-import xarray as xr
+
 import numpy as np
+import pandas as pd
+import xarray as xr
+
 from misc import watergap_version
 from view import output_var_info as var_info
-import pandas as pd
+
+
+MONTH_LENGTHS = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+
+
+def next_model_day(date):
+    """Exclusive interval end in the model's fixed 365-day calendar."""
+    result = date + pd.Timedelta(days=1)
+    if result.month == 2 and result.day == 29:
+        result += pd.Timedelta(days=1)
+    return result
+
 
 class OutputVariable:
-    """Create ouput variables."""
+    """One output frequency, with at most one year of output in memory."""
 
-    def __init__(self, variable_name, create, grid_coords):
-        """
-        Create multidemnsional dataset with variable name.
-
-        Parameters
-        ----------
-        variable_name : string
-            Variable name for output variable.
-        create : boolean
-             Create and write to empty data set for variable if True.
-        grid_coords : xarray coordinate
-            Contains coordinates to create output variable.
-
-        Returns
-        -------
-        Output variable.
-
-        """
+    def __init__(self, variable_name, create, grid_coords, frequency="Daily"):
+        if frequency not in {"Daily", "Monthly"}:
+            raise ValueError(f"Unsupported output frequency: {frequency}")
         self.variable_name = variable_name
         self.create = create
-        if self.create:
-            self.grid_coords = grid_coords
+        self.frequency = frequency
+        self.aggregation = var_info.monthly_aggregation(variable_name)
+        if not create:
+            return
+        self.grid_coords = grid_coords
+        self._dates = pd.DatetimeIndex(grid_coords["time"].values)
+        self._dates = self._dates[~((self._dates.month == 2) & (self._dates.day == 29))]
+        self._month = None
+        self._accumulator = None
+        self._count = 0
+        self._initialize_year(self._dates[0].year)
 
-            # Geting length of time,lat,lon from grid coordinates (grid_coords)
-            lat_length = len(self.grid_coords['lat'].values)
-            lon_length = len(self.grid_coords['lon'].values)
-            time_length = len(self.grid_coords['time'][:365].values)
-
-            # Create dummy data for variable
-            if self.variable_name == "get_neighbouring_cells_map":
-                dummy_data = np.zeros((time_length, lat_length, lon_length, 2),
-                                      dtype=np.int32)
-                self.data = xr.Dataset(
-                        {'get_neighbouring_cells_map':
-                         (['time', 'lat', 'lon', 'dim2'], dummy_data)},
-
-                        coords={
-                            'time': self.grid_coords['time'][:365].values,
-                            'lat': self.grid_coords['lat'].values,
-                            'lon': self.grid_coords['lon'].values,
-                            # Adding a new dimension 'dim2'
-                            'dim2': np.arange(2)})
-
-            elif self.variable_name == "smax":  # maximum soil moisture
-                dummy_data = np.zeros((lat_length, lon_length),
-                                      dtype=np.float32)
-                self.data = xr.Dataset(
-                        {'smax': (['lat', 'lon'], dummy_data)},
-
-                        coords={'lat': self.grid_coords['lat'].values,
-                                'lon': self.grid_coords['lon'].values})
-
+    def _initialize_year(self, year):
+        """Allocate only requested output time steps; never daily monthly buffers."""
+        self._year = year
+        dates = self._dates[self._dates.year == year]
+        coords = {name: self.grid_coords[name].values for name in ("lat", "lon")}
+        dims = ["lat", "lon"]
+        if self.variable_name != "smax":
+            times = (dates.to_period("M").unique().to_timestamp()
+                     if self.frequency == "Monthly" else dates)
+            coords = {"time": times, **coords}
+            dims.insert(0, "time")
+            self._time_index = {date: index for index, date in enumerate(times)}
+        if self.variable_name == "get_neighbouring_cells_map":
+            dims.append("dim2")
+            coords["dim2"] = np.arange(2)
+            data = np.zeros(tuple(len(coords[d]) for d in dims), dtype=np.int32)
+        else:
+            data = np.full(tuple(len(coords[d]) for d in dims), np.nan,
+                           dtype=np.float32)
+        self.data = xr.Dataset({self.variable_name: (dims, data)}, coords=coords)
+        info = var_info.modelvars[self.variable_name]
+        attrs = {
+            "standard_name": self.variable_name,
+            "long_name": info["long"],
+            "units": info["unit"],
+            "unit_conversion_info": (
+                "If the variable needs conversion to volumetric units (L³ T⁻¹ or L³), "
+                "use watergap22e_continentalarea.nc4 (water density is 1 kg per dm³);"
+                "otherwise, conversion is not needed."),
+        }
+        if self.frequency == "Monthly" and self.variable_name != "smax":
+            attrs["aggregation"] = self.aggregation
+            if self.aggregation == "last":
+                attrs["comment"] = "Cell indices from the last simulated day of each month"
+                attrs["cell_methods"] = "time: point"
             else:
-                dummy_data = np.full((time_length, lat_length, lon_length),
-                                     np.nan, dtype=np.float32)
+                attrs["cell_methods"] = f"time: {self.aggregation}"
+            if self.aggregation == "sum":
+                attrs["units"] = "kg m-2"
+            bounds = []
+            for time in times:
+                month_dates = dates[(dates.year == time.year) & (dates.month == time.month)]
+                bounds.append([month_dates[0], next_model_day(month_dates[-1])])
+            self.data["time_bnds"] = (("time", "bnds"),
+                                      np.asarray(bounds, dtype="datetime64[ns]"))
+            self.data.time.attrs["bounds"] = "time_bnds"
+        self.data[self.variable_name].attrs = attrs
+        self.data.attrs = {
+            "title": "WaterGAP " + watergap_version.__version__ + " model output",
+            "institution": watergap_version.__institution__,
+            "contact": "nyenah@em.uni-frankfurt.de",
+            "model_version": "WaterGAP " + watergap_version.__version__,
+            "reference": watergap_version.__reference__,
+            "license": "LGPL-3.0",
+            "output_frequency": self.frequency.lower(),
+            "Creation_date": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        }
 
-                dummy_coords = {"time": self.grid_coords['time'][:365].values,
-                                "lat": self.grid_coords['lat'].values,
-                                "lon": self.grid_coords['lon'].values}
-
-                # create Xarray dataset for output variable
-                self.data = xr.Dataset(coords=dummy_coords).\
-                    chunk({'time': 1, 'lat': len(self.grid_coords['lat'].values), 
-                           'lon':  len(self.grid_coords['lon'].values)})
-
-                # Add variables names for respective output varaibes
-                self.data[self.variable_name] = \
-                    xr.DataArray(dummy_data, coords=dummy_coords,
-                                 dims=('time', 'lat', 'lon'),
-                                 )
-
-            # Add variable metadata
-            unit_conversion_info = ["If the variable needs conversion to"
-                                    " volumetric units (L³ T⁻¹ or L³),"
-                                    " use watergap22e_continentalarea.nc4"
-                                    " (water density is 1 kg per dm³);"
-                                    "otherwise, conversion is not needed."]
-            self.data[self.variable_name].attrs = {
-                "standard_name": self.variable_name,
-                "long_name": var_info.modelvars[self.variable_name]['long'],
-                "units": var_info.modelvars[self.variable_name]['unit'],
-                "unit_conversion_info": unit_conversion_info[0]
-                }
-
-            # Add global metadata
-            self.data.attrs = {
-                'title': "WaterGAP"+" "+watergap_version.__version__ + ' model ouptput',
-                'institution': watergap_version.__institution__,
-                'contact': "nyenah@em.uni-frankfurt.de",
-                'model_version':  "WaterGAP"+" "+watergap_version.__version__,
-                "reference": watergap_version.__reference__,
-                "license": "LGPL-3.0",
-                'Creation_date':
-                    dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    }
-            del dummy_data  # delete dummy data to free memory
-
-        # =====================================================================
+    def finalize_month(self):
+        """Flush a full or partial month, preserving missing cells as NaN."""
+        if self._month is None:
+            return
+        result = self._accumulator
+        if self.aggregation == "mean":
+            result = result / self._count
+        index = self._time_index[self._month]
+        self.data[self.variable_name].values[index] = result
+        self.data["time_bnds"].values[index] = [
+            self._first_date.to_datetime64(),
+            next_model_day(self._last_date).to_datetime64(),
+        ]
+        self._month = None
+        self._accumulator = None
+        self._count = 0
 
     def write_daily_output(self, array, year, month, day):
-        """
-        Write results to output variable  per time step.
-
-        Parameters
-        ----------
-        array : numpy array
-             results (array) to be wriiten to vaiable per time step.
-        year: : int
-            Simulation year
-        month : int
-            Simulation month
-        day : int
-            Simulation day
-
-        Returns
-        -------
-        None.
-
-        """
-        if self.create:
-            # Check if it's a new year (time to update the dataset time values)
-            if month == 1 and day == 1:
-                # Get right dates  for data
-                next_year_time = \
-                    self.grid_coords['time'].sel(time=str(year))
-
-                # Update the time coordinate in self.data except for
-                # maximum soil moisture
-                if self.variable_name == "smax":
-                    self.data[self.variable_name][:, :] = array
-                else:
-                    self.data = self.data.reindex(time=next_year_time)
-
-            # reset counter to zero after each year
-            if self.variable_name == "smax":
-                pass
+        """Consume one model day, retaining it only if daily output is selected."""
+        if not self.create or (month == 2 and day == 29):
+            return
+        date = pd.Timestamp(year=year, month=month, day=day)
+        if self._year != year:
+            self.finalize_month()
+            self._initialize_year(year)
+        if self.variable_name == "smax":
+            self.data[self.variable_name].values[:] = array
+        elif self.frequency == "Daily":
+            self.data[self.variable_name].values[self._time_index[date]] = array
+        else:
+            month_start = date.replace(day=1)
+            if self._month != month_start:
+                self.finalize_month()
+                self._month = month_start
+                self._first_date = date
+                self._accumulator = np.array(array, dtype=np.float64, copy=True)
+            elif self.aggregation == "last":
+                self._accumulator[:] = array
             else:
-                date = pd.Timestamp(year=year, month=month, day=day)
-                self.data[self.variable_name].loc[dict(time=date)] = array
-                
+                self._accumulator += array
+            self._count += 1
+            self._last_date = date
+            if day == MONTH_LENGTHS[month - 1] or date == self._dates[-1]:
+                self.finalize_month()

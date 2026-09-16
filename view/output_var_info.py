@@ -15,7 +15,7 @@
 modelvars = {
     # VerticalWaterBalanceFluxes
     "potevap": {"long": " Total potential evapotranspiration", "unit": " kg m-2 s-1"},
-    "netrad": {"long": "Net radiation", "unit": " kg m-2 s-1"},
+    "netrad": {"long": "Net radiation", "unit": "W m-2"},
     "lai-total": {"long": "Leaf area index", "unit": "-"},
     "canopy-evap":  {"long": "Canopy evaporation", "unit": " kg m-2 s-1"},
     "throughfall": {"long": "Throughfall", "unit": " kg m-2 s-1"},
@@ -88,6 +88,7 @@ modelvars = {
     "glowet_extent": {"long": "Global wetland extent",  "unit": "km2"},
     "loclake_extent": {"long":"Local lake extent",  "unit": "km2"},
 
+
     # VerticalWaterBalanceStorages
     "canopystor": {"long": "Canopy storage", "unit": "kg m-2"},
     "swe": {"long": "Snow water equivalent", "unit": "kg m-2"},
@@ -104,3 +105,17 @@ modelvars = {
     "reservoirstor": {"long": "Global reservoir storage",  "unit": "kg m-2"},
     "tws": {"long": "Total water storage",  "unit": "kg m-2"}
 }
+
+
+def monthly_aggregation(variable_name):
+    """Water flux amounts are totals; rates and states are monthly means.
+
+    Internal water fluxes are daily mm or km3. Monthly totals are converted
+    to kg m-2 (equivalent to mm), whereas discharge retains m3 s-1.
+    Cell indices cannot be averaged: retain the last simulated day's map.
+    """
+    if variable_name == "get_neighbouring_cells_map":
+        return "last"
+    if modelvars[variable_name]["unit"].strip() == "kg m-2 s-1":
+        return "sum"
+    return "mean"

@@ -19,6 +19,7 @@ import pandas as pd
 import watergap_logger as log
 import misc.cli_args as cli
 from controller.reservoir_options import reservoir_options
+from controller.output_options import output_selections
 
 
 # ===============================================================
@@ -162,13 +163,12 @@ path_to_stations_file = extent_options['path_to_stations_file']
 # =============================================================================
 # # Selection of output variable (fluxes, storages and flows)
 # =============================================================================
-# Vertical Water Balance (vb)
-vb_fluxes = config_file['OutputVariable'][0]['VerticalWaterBalanceFluxes']
-vb_storages = config_file['OutputVariable'][1]['VerticalWaterBalanceStorages']
-
-# Lateral Water Balance (lb)
-lb_fluxes = config_file['OutputVariable'][2]['LateralWaterBalanceFluxes']
-lb_storages = config_file['OutputVariable'][3]['LateralWaterBalanceStorages']
+output_options = output_selections(config_file)
+# Retain these daily aliases for existing callers.
+vb_fluxes = output_options['Daily']['VerticalWaterBalanceFluxes']
+vb_storages = output_options['Daily']['VerticalWaterBalanceStorages']
+lb_fluxes = output_options['Daily']['LateralWaterBalanceFluxes']
+lb_storages = output_options['Daily']['LateralWaterBalanceStorages']
 
 # =============================================================================
 # # Save and restart WaterGAP state
