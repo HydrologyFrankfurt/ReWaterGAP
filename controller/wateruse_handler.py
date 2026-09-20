@@ -121,7 +121,7 @@ class Wateruse:
                     xr.open_dataset(glwdunits_path, decode_times=False)
                 self.glwdunits = glwdunits.glwdunits.values
 
-            except OSError as error: #FileNotFoundError as error:
+            except OSError as error: #FileNotFoundError is also included
                 log.config_logger(logging.ERROR, modname, f'Water use data '
                                   f'not found \n{error}', args.debug)
                 sys.exit()  # dont run code if file does not exist
