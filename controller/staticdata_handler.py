@@ -209,7 +209,7 @@ class StaticData:
             self.lat_lon_arcid = pd.read_csv(lat_lon_arcid_path)
             self.stations = pd.read_csv(station_path)
 
-        except FileNotFoundError as error:
+        except OSError as error: #FileNotFoundError is also included
             log.config_logger(logging.ERROR, modname, error, args.debug)
             sys.exit()  # dont run code if file does not exist
         except ValueError:
