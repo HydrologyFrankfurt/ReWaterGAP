@@ -446,7 +446,7 @@
 <span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
 <span class="c1"># =============================================================================</span>
 
-<span class="sd">&quot;&quot;&quot;Daily Leaf Area Index (LAI) Function.&quot;&quot;&quot;</span>
+<span class="sd">"""Daily Leaf Area Index (LAI) Function."""</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># This module computes leaf area index based on section 4.2.3 of</span>
@@ -464,7 +464,7 @@
                         <span class="n">cum_precipitation</span><span class="p">,</span> <span class="n">precipitation</span><span class="p">,</span>
                         <span class="n">leaf_area_index</span><span class="p">,</span> <span class="n">min_leaf_area_index</span><span class="p">,</span>
                         <span class="n">max_leaf_area_index</span><span class="p">,</span> <span class="n">land_cover</span><span class="p">,</span> <span class="n">humid_arid</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute daily leaf area index per grid cells.</span>
 
 <span class="sd">    Parameters</span>
@@ -534,14 +534,14 @@
 <span class="sd">                The global water resources and use model WaterGAP v2.2d: model</span>
 <span class="sd">                description and evaluation. Geoscientific Model Development,</span>
 <span class="sd">                14(2), 1037–1079. https://doi.org/10.5194/gmd-14-1037-2021</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">land_cover</span><span class="p">):</span>
         <span class="c1"># ======================</span>
         <span class="c1"># Growing Phase</span>
         <span class="c1"># ======================</span>
         <span class="c1"># Plant can only start growing if daily temperature is above</span>
         <span class="c1"># 8◦C(281.15 K) for a land-cover-specific number of initial days (See</span>
-        <span class="c1"># Table C1 in (Müller Schmied et al. 2021). Note that &#39;days&#39; variable</span>
+        <span class="c1"># Table C1 in (Müller Schmied et al. 2021). Note that 'days' variable</span>
         <span class="c1"># is a counter for days with growing conditions</span>
         <span class="c1"># Initially growth staus is zero (landcover is not growing yet).</span>
         <span class="k">if</span> <span class="n">temperature</span> <span class="o">&gt;</span> <span class="mf">281.15</span><span class="p">:</span>
@@ -594,7 +594,7 @@
 
                 <span class="k">if</span> <span class="n">days</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">:</span>
                     <span class="n">days</span> <span class="o">=</span> <span class="n">days</span><span class="o">-</span><span class="mi">1</span>
-                    <span class="c1"># if land_cover_type is &#39;1&#39; or &#39;2&#39; we have evergreen plants</span>
+                    <span class="c1"># if land_cover_type is '1' or '2' we have evergreen plants</span>
                     <span class="c1"># and LAI will never completely degrade and hence growth</span>
                     <span class="c1"># status is switched at once.</span>
                     <span class="k">if</span> <span class="n">land_cover</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
@@ -620,7 +620,7 @@
                     <span class="k">if</span> <span class="n">humid_arid</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">precipitation</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
                         <span class="n">days</span> <span class="o">=</span> <span class="n">days</span><span class="o">-</span><span class="mi">1</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="c1"># Note!! when growth status is 1, &quot;days&quot; only decreases</span>
+                        <span class="c1"># Note!! when growth status is 1, "days" only decreases</span>
                         <span class="c1"># when temperature is &lt; 281.15 (see no growing phase</span>
                         <span class="c1"># lines from 247-257) except for arid regions with</span>
                         <span class="c1"># precipitation below 0.5mm which decreases whether</span>

@@ -446,7 +446,7 @@
 <span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
 <span class="c1"># =============================================================================</span>
 
-<span class="sd">&quot;&quot;&quot;Optimised snow water storage.&quot;&quot;&quot;</span>
+<span class="sd">"""Optimised snow water storage."""</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># This module calulates snow water water balance, including snow water storage</span>
@@ -475,7 +475,7 @@
                        <span class="n">elevation</span><span class="p">,</span> <span class="n">daily_storage_transfer</span><span class="p">,</span>
                        <span class="n">adiabatic_lapse_rate</span><span class="p">,</span>  <span class="n">snow_freeze_temp</span><span class="p">,</span>
                        <span class="n">snow_melt_temp</span><span class="p">,</span> <span class="n">minstorage_volume</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute snow water balance for subgrids including snow water storage and</span>
 <span class="sd">    water flows entering and leaving the snow storage</span>
 
@@ -551,7 +551,7 @@
 <span class="sd">                https://www.usgs.gov/centers/eros/science/usgs-eros-archivedigital-elevation-global-30-arc-second-elevation-gtopo30?qtscience_center_objects=0#qt-science_center_objects</span>
 <span class="sd">                (last access: 25 MArch 2020), 1996</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Index (x, y) to  print out varibales of interest</span>
     <span class="c1"># e.g.  if x==65 and y==137: print(mean_elevation)</span>
 
@@ -604,7 +604,7 @@
             <span class="c1"># timestep, its elevation is used as a threshold for remaning upper</span>
             <span class="c1"># subcells (those in higher elevations).</span>
             <span class="c1"># New temperature is calulated for these remaning subcells so that</span>
-            <span class="c1"># temperature doesn&#39;t decrease in these remaining subcells</span>
+            <span class="c1"># temperature doesn't decrease in these remaining subcells</span>
             <span class="c1"># This should prevent uncontrolled snow accumulation.</span>
             <span class="c1"># =================================================================</span>
             <span class="c1"># Getting elevation threshold (thresh_elev) from subcell when snow</span>

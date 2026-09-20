@@ -446,7 +446,7 @@
 <span class="c1"># if not see &lt;https://www.gnu.org/licenses/lgpl-3.0&gt;</span>
 <span class="c1"># =============================================================================</span>
 
-<span class="sd">&quot;&quot;&quot;Lakes and wetland storages and fluxes.&quot;&quot;&quot;</span>
+<span class="sd">"""Lakes and wetland storages and fluxes."""</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># This module computes water balance for global and local lakes and wetlands,</span>
@@ -472,7 +472,7 @@
                                <span class="n">lake_outflow_exp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wetland_outflow_exp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                <span class="n">reservoir_area</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                <span class="n">accumulated_unsatisfied_potential_netabs_sw</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute water balance for global and local lakes and wetlands including</span>
 <span class="sd">    storage and related fluxes.</span>
 
@@ -554,14 +554,14 @@
 <span class="sd">        satisfaction, Unit: [km^3/day]</span>
 <span class="sd">    actual_use_sw: float</span>
 <span class="sd">        Actual net abstraction from lakes and wetlands, Unit: [km^3/day]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Index (x,y) to  print out varibales of interest</span>
     <span class="c1"># e.g.  if x==65 and y==137: print(prev_gw_storage)</span>
 
     <span class="c1"># =========================================================================</span>
     <span class="c1">#     Parameters for respective surface waterbody.</span>
     <span class="c1"># =========================================================================</span>
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;local lake&quot;</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"local lake"</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"global lake"</span><span class="p">:</span>
         <span class="n">exp_factor</span> <span class="o">=</span> <span class="n">lake_outflow_exp</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">exp_factor</span> <span class="o">=</span> <span class="n">wetland_outflow_exp</span>
@@ -589,7 +589,7 @@
     <span class="c1"># and not area since global lake area is assumed not to be dynamic.</span>
     <span class="c1"># This would prevent continuous decline of global lake levels in some cases</span>
     <span class="c1"># i.e. ((semi)arid regions)</span>
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"global lake"</span><span class="p">:</span>
         <span class="n">evapo_redfactor</span> <span class="o">=</span> <span class="n">redfactor</span>
         <span class="n">lake_wet_area</span> <span class="o">=</span> <span class="n">max_area</span>
     <span class="k">else</span><span class="p">:</span>
@@ -631,7 +631,7 @@
     <span class="c1">#</span>
     <span class="c1"># /////////////////////////////////////////////////////////////////////////</span>
 
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"global lake"</span><span class="p">:</span>
         <span class="c1"># Reducing potential evaporation for global lake using reduction factor</span>
         <span class="n">openwater_pet</span> <span class="o">=</span> <span class="n">openwater_pot_evap</span> <span class="o">*</span> <span class="n">evapo_redfactor</span>
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># local lakes and global and local wetlands</span>
@@ -651,7 +651,7 @@
     <span class="c1"># bodies but not for  inlank sink or humid regions</span>
     <span class="c1"># convert m to km</span>
     <span class="n">m_to_km</span> <span class="o">=</span> <span class="mf">0.001</span>
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"global lake"</span><span class="p">:</span>
         <span class="c1"># Since global lake area is assumed not be dynamic, recharge needs to</span>
         <span class="c1"># be reduced else more water will recharge the ground</span>
         <span class="n">gwr_lakewet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">aridity</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">drainage_direction</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span>
@@ -675,7 +675,7 @@
     <span class="c1"># Incase of global lake, If reservoirs are found in the same outflow cell.</span>
     <span class="c1"># The potential net abstraction is shared equally(50%) between.</span>
 
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"global lake"</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">reservoir_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">=</span> \
                 <span class="n">accumulated_unsatisfied_potential_netabs_sw</span> <span class="o">*</span> <span class="mf">0.5</span>
@@ -700,7 +700,7 @@
     <span class="c1"># that lake (wetland) storage does not fall below  -max_storage (0):.</span>
     <span class="c1"># Note!! lake (wetland) storage goes from -max_storage (0) to max_storage</span>
 
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;local lake&quot;</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"local lake"</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"global lake"</span><span class="p">:</span>
         <span class="n">petgwr_netabs_sw_max</span> <span class="o">=</span> <span class="n">storage_prevstep</span> <span class="o">+</span> <span class="n">max_storage</span> <span class="o">+</span> <span class="n">total_inflow</span>
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># local and global wetlands</span>
         <span class="n">petgwr_netabs_sw_max</span> <span class="o">=</span> <span class="n">storage_prevstep</span> <span class="o">+</span> <span class="n">total_inflow</span>
@@ -712,7 +712,7 @@
     <span class="c1"># analytically for global lake and wetland  but numerically for local lake</span>
     <span class="c1"># and wetlands</span>
 
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global lake&#39;</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global wetland&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">'global lake'</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">'global wetland'</span><span class="p">:</span>
         <span class="c1"># Global lake and wetland balance:</span>
         <span class="c1"># dS/dt = total_inflow - petgwr - NAl - k*S is solved analytically for</span>
         <span class="c1"># each time step of 1 day</span>
@@ -736,12 +736,12 @@
     <span class="c1"># net abstraction from surface water and open water evaporation as well</span>
     <span class="c1"># when petgwr_netabs_sw &gt; petgwr_netabs_sw_max.</span>
 
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;local lake&quot;</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">&quot;global lake&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"local lake"</span> <span class="ow">or</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s2">"global lake"</span><span class="p">:</span>
         <span class="n">storage_limit</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">max_storage</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">storage_limit</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global lake&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">'global lake'</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">petgwr_netabs_sw</span> <span class="o">&gt;</span> <span class="n">petgwr_netabs_sw_max</span><span class="p">:</span>
             <span class="n">outflow</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">storage</span> <span class="o">=</span> <span class="n">storage_limit</span>
@@ -774,7 +774,7 @@
 
             <span class="n">accumulated_unsatisfied_potential_netabs_glolake</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">elif</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global wetland&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">'global wetland'</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">petgwr_netabs_sw</span> <span class="o">&gt;</span> <span class="n">petgwr_netabs_sw_max</span><span class="p">:</span>
             <span class="n">outflow</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">storage</span> <span class="o">=</span> <span class="n">storage_limit</span>
@@ -796,7 +796,7 @@
 
         <span class="c1"># choose storage type to calculate outflow (current or previous)</span>
         <span class="c1"># but all should be previous.</span>
-        <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;local lake&#39;</span><span class="p">:</span>  <span class="c1"># previous storage</span>
+        <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">'local lake'</span><span class="p">:</span>  <span class="c1"># previous storage</span>
             <span class="n">which_storge</span> <span class="o">=</span> <span class="n">storage_prevstep</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">which_storge</span> <span class="o">=</span> <span class="n">storage</span>  <span class="c1"># current storage</span>
@@ -834,7 +834,7 @@
     <span class="c1"># Computing new  local lake and global and local wetland area fractions for</span>
     <span class="c1"># next day. see eqn. 23 in Müller Schmied et al. (2021)</span>
 
-    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">&#39;global lake&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">choose_swb</span> <span class="o">==</span> <span class="s1">'global lake'</span><span class="p">:</span>
         <span class="n">lake_wet_newfraction</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">lake_wet_newfraction</span> <span class="o">=</span> <span class="n">new_redfactor</span> <span class="o">*</span> <span class="n">lakewet_frac</span>
