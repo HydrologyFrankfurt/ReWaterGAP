@@ -91,7 +91,7 @@ class ClimateForcing:
                 xr.open_mfdataset(glob.glob(temperature_path),
                                   chunks={'time': 365})
 
-        except FileNotFoundError as error:
+        except OSError as error: #FileNotFoundError is also included
             log.config_logger(logging.ERROR, modname, f'Climate forcing'
                               f' not found. \n{error}', args.debug)
             sys.exit()  # don't run code if file does not exist
