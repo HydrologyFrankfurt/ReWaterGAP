@@ -69,8 +69,9 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                   sum_canopy_snow_soil_storage,
                   res_inflow_past_30days, 
                   counter_for_mean_30days,
-                  P1_reservoir, P2_reservoir, P3_reservoir,
-                  P4_reservoir, P5_reservoir, P6_reservoir,
+                  P1_scaling, P2_scaling, P3_scaling,
+                  P4_scaling, P5_scaling, P6_scaling,
+                  P1_hanasaki, P2_hanasaki, P3_hanasaki,
                   res_operation_algorithm=0
                   ):
 
@@ -527,9 +528,10 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                         minstorage_volume,
                                         res_inflow_past_30days[:,x, y], 
                                         counter_for_mean_30days[x, y],
-                                        P1_reservoir[x, y], P2_reservoir[x, y], P3_reservoir[x, y],
-                                        P4_reservoir[x, y], P5_reservoir[x, y], P6_reservoir[x, y],
+                                        P1_scaling[x, y], P2_scaling[x, y], P3_scaling[x, y],
+                                        P4_scaling[x, y], P5_scaling[x, y], P6_scaling[x, y],
                                         res_operation_algorithm,
+                                        P1_hanasaki[x, y], P2_hanasaki[x, y], P3_hanasaki[x, y],
                                         )
 
                 storage, outflow, recharge, res_k_release, accum_unpot_netabs_sw, \

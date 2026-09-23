@@ -176,11 +176,11 @@ class LateralWaterBalance:
              forcings_static.lon_length))
         
         self.res_operation_algorithm = cm.res_operation_algorithm_code
-        # Hanasaki can use older parameter files without the six scaling fields.
+        # Both parameter families are resolved when the parameter file is loaded.
         self.reservoir_scaling_parameters = tuple(
-            self.parameters[f"P{i}_reservoir"].values
-            if self.res_operation_algorithm == 0 else np.ones_like(self.cell_area)
-            for i in range(1, 7))
+            self.parameters[f"P{i}_scaling"].values for i in range(1, 7))
+        self.reservoir_hanasaki_parameters = tuple(
+            self.parameters[f"P{i}_hanasaki"].values for i in range(1, 4))
 
         self.counter_for_mean_30days = np.zeros(
             (forcings_static.lat_length,
@@ -788,6 +788,9 @@ class LateralWaterBalance:
                                self.reservoir_scaling_parameters[3],
                                self.reservoir_scaling_parameters[4],
                                self.reservoir_scaling_parameters[5],
+                               self.reservoir_hanasaki_parameters[0],
+                               self.reservoir_hanasaki_parameters[1],
+                               self.reservoir_hanasaki_parameters[2],
                                self.res_operation_algorithm,
                                )
 

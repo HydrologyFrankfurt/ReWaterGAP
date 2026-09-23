@@ -43,9 +43,11 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
                                            reg_lake_redfactor_firstday, minstorage_volume,
                                            res_inflow_past_30days, 
                                            counter_for_mean_30days,
-                                           P1_res, P2_res, P3_res,
-                                           P4_res, P5_res, P6_res,
-                                           res_operation_algorithm=0):
+                                           P1_scaling, P2_scaling, P3_scaling,
+                                           P4_scaling, P5_scaling, P6_scaling,
+                                           res_operation_algorithm=0,
+                                           P1_hanasaki=0.85, P2_hanasaki=0.5,
+                                           P3_hanasaki=0.5):
     """
     Compute water balance for reservoirs and regulated lakes.
 
@@ -322,12 +324,13 @@ def reservoir_regulated_lake_water_balance(rout_order, routflow_looper, outflow_
             k_release, reservoir_type, rout_order, outflow_cell, routflow_looper,
             reservior_area, allocation_coeff, monthly_demand, mean_annual_demand,
             mean_annual_inflow, inflow_to_swb, num_days_in_month,
-            all_reservoir_and_regulated_lake_area)
+            all_reservoir_and_regulated_lake_area,
+            P1_hanasaki, P2_hanasaki, P3_hanasaki)
     else:
         release, counter_for_mean_30days = scaling.scaling_res_reslease(
             storage, stor_capacity, simulation_momth_day, mean_annual_inflow,
             inflow_to_swb, res_inflow_past_30days, counter_for_mean_30days,
-            P1_res, P2_res, P3_res, P4_res, P5_res, P6_res)
+            P1_scaling, P2_scaling, P3_scaling, P4_scaling, P5_scaling, P6_scaling)
         k_release_new = k_release
 
     # Reservoirs release (outflow) water based on their current level [S(t)]

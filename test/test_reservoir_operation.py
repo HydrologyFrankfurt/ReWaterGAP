@@ -41,7 +41,7 @@ def reservoir_fixture():
         all_reservoir_and_regulated_lake_area=np.ones((1, 1)),
         reg_lake_redfactor_firstday=1., minstorage_volume=1e-15,
         res_inflow_past_30days=np.zeros(30), counter_for_mean_30days=0,
-        P1_res=1., P2_res=1., P3_res=1., P4_res=.4, P5_res=.9, P6_res=1.)
+        P1_scaling=1., P2_scaling=1., P3_scaling=1., P4_scaling=.4, P5_scaling=.9, P6_scaling=1.)
 
 
 def routing_fixture():
@@ -66,7 +66,8 @@ def routing_fixture():
          glores_startmonth=7.,k_release=.1,glores_type=2.,mean_annual_inflow_res=100.,
          all_reservoir_and_regulated_lake_area=1., reg_lake_redfactor_firstday=1.,
          landwaterfrac_excl_glolake_res=1.,cell_area=100.,
-         P1_reservoir=1.,P2_reservoir=1.,P3_reservoir=1.,P4_reservoir=.4,P5_reservoir=.9,P6_reservoir=1.).items():
+         P1_scaling=1.,P2_scaling=1.,P3_scaling=1.,P4_scaling=.4,P5_scaling=.9,P6_scaling=1.,
+         P1_hanasaki=.85,P2_hanasaki=.5,P3_hanasaki=.5).items():
         p[name][:]=value
     return p
 
@@ -82,10 +83,10 @@ class TestReservoirAlgorithms(unittest.TestCase):
             self.assertAlmostEqual(result[4].item() + result[27].item(), 5.)
             self.assertEqual(result[40].item(), int(algorithm == 0))
             results.append(result[27].item())
-            # July must use P4, while Hanasaki is independent of all P values.
+            # July must use P4, while Hanasaki is independent of Scaling parameters.
             p = routing_fixture()
             p['res_operation_algorithm'] = algorithm
-            p['P4_reservoir'] *= 2
+            p['P4_scaling'] *= 2
             changed = river_routing(**p)
             self.assertAlmostEqual(changed[27].item(), results[-1] * (2 if algorithm == 0 else 1))
         self.assertNotEqual(*results)
@@ -125,7 +126,7 @@ class TestReservoirAlgorithms(unittest.TestCase):
             self.assertEqual(result[3], coefficient)
             self.assertEqual(result[7], 0)
             np.testing.assert_array_equal(p['res_inflow_past_30days'], np.zeros(30))
-            p['P4_res'] = 99.
+            p['P4_scaling'] = 99.
             changed = reservoir_regulated_lake_water_balance(**p, res_operation_algorithm=1)
             np.testing.assert_array_equal(result, changed)
 

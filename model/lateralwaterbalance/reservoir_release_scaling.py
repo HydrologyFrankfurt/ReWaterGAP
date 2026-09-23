@@ -26,10 +26,10 @@ def scaling_res_reslease(storage, stor_capacity,
                           inflow_to_swb,
                           res_inflow_past_30days, 
                           counter_for_mean_30days,
-                          P1_reservoir,P2_reservoir,P3_reservoir,
-                          P4_reservoir,P5_reservoir,P6_reservoir):
+                          P1_scaling,P2_scaling,P3_scaling,
+                          P4_scaling,P5_scaling,P6_scaling):
     """
-    Compute reservoir release based on 
+    Compute reservoir release with six seasonal Scaling multipliers.
 
     Parameters
     ----------
@@ -37,10 +37,10 @@ def scaling_res_reslease(storage, stor_capacity,
         Current storage in the reservoir, Unit: [km^3].
     stor_capacity : float
         Storage capacity of the reservoir, Unit: [km^3].
-    routflow_looper : int
-        Routing flow looper.
+    P1_scaling, P2_scaling, P3_scaling, P4_scaling, P5_scaling, P6_scaling : float
+        Dimensionless release multipliers for successive two-month periods.
     mean_annual_inflow : array
-        Mean annual inflow for each grid cell, Unit: [km^3/day].
+        Mean annual inflow at this reservoir, Unit: [m^3/s].
     inflow_to_swb : float
         Inflow to surface water bodies, Unit: [km^3/day].
   
@@ -87,17 +87,17 @@ def scaling_res_reslease(storage, stor_capacity,
     month = simulation_momth_day[0]   # 1 = Jan ... 12 = Dec
     
     if month in (1, 2):
-        release *= P1_reservoir
+        release *= P1_scaling
     elif month in (3, 4):
-        release *= P2_reservoir
+        release *= P2_scaling
     elif month in (5, 6):
-        release *= P3_reservoir
+        release *= P3_scaling
     elif month in (7, 8):
-        release *= P4_reservoir
+        release *= P4_scaling
     elif month in (9, 10):
-        release *= P5_reservoir
+        release *= P5_scaling
     elif month in (11, 12):
-        release *= P6_reservoir
+        release *= P6_scaling
         
 
     counter_for_mean_30days +=1;

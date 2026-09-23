@@ -26,7 +26,8 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
                           reservior_area, allocation_coeff, monthly_demand,
                           mean_annual_demand, mean_annual_inflow,
                           inflow_to_swb, num_days_in_month,
-                          all_reservoir_and_regulated_lake_area):
+                          all_reservoir_and_regulated_lake_area,
+                          P1_hanasaki=0.85, P2_hanasaki=0.5, P3_hanasaki=0.5):
     """
     Compute reservoir release based on Hanasaki et al 2006.
 
@@ -55,17 +56,31 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     allocation_coeff : float
         Allocation coefficient for water release Eqn 6 [2]_.
     monthly_demand : array
-        Monthly demand for each grid cell, Unit: [km^3/day].
+        Monthly demand for each grid cell, Unit: [km^3/month].
     mean_annual_demand : array
-        Mean annual demand for each grid cell, Unit: [km^3/day].
+        Mean annual demand for each grid cell, Unit: [m^3/year].
     mean_annual_inflow : array
-        Mean annual inflow for each grid cell, Unit: [km^3/day].
+        Mean annual inflow at this reservoir, Unit: [m^3/s].
     inflow_to_swb : float
         Inflow to surface water bodies, Unit: [km^3/day].
     num_days_in_month : int
         Number of days in the current month.
     all_reservoir_and_regulated_lake_area : array
         all reservoirs and regulated lakes areas in simulation, Unit: [km^2].
+
+    P1_hanasaki : float
+        Capacity multiplier in the annual release-coefficient denominator
+        (default 0.85), [-]. Does not change physical reservoir capacity.
+    P2_hanasaki : float
+        Controls provisional release for irrigation reservoirs: both the
+        demand-to-inflow threshold and the high-demand release factor
+        (default 0.5), [-].
+    P3_hanasaki : float
+        Capacity-to-annual-inflow ratio threshold selecting the release
+        equation, also controlling the blend with daily inflow below the
+        threshold (default 0.5), [-]. Annual inflow volume uses 365 days.
+        All three parameters must be finite and strictly positive. These map to
+        Eqs. 2, 4 and 5 in https://doi.org/10.5194/hess-29-4073-2025.
 
     Returns
     -------
@@ -77,6 +92,10 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     """
     # Index to  print out varibales of interest
     # e.g  if x==65 and y==137: print(prev_gw_storage)
+    for value in (P1_hanasaki, P2_hanasaki, P3_hanasaki):
+        if not np.isfinite(value) or value <= 0:
+            raise ValueError("Hanasaki parameters must be finite and strictly positive")
+
     x, y = rout_order[routflow_looper]
 
     # =========================================================================
@@ -94,7 +113,7 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
             if storage < (stor_capacity * 0.1):
                 k_release = 0.1
             else:
-                k_release = storage / (stor_capacity * 0.85)
+                k_release = storage / (stor_capacity * P1_hanasaki)
 
             # annual_release = k_release * mean_annual_inflow
     # Reservoirs are categorized into two classes of purpose thus
@@ -153,9 +172,9 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
             mean_annual_downstream_demand / year_to_s
 
         # see eqn 3 of  Hanasaki et al 2006
-        if mean_annual_downstream_demand >= (0.5 * mean_annual_inflow):
+        if mean_annual_downstream_demand >= (P2_hanasaki * mean_annual_inflow):
             prov_rel =\
-                mean_annual_inflow / 2 * (1 + monthly_downstream_demand /
+                mean_annual_inflow * P2_hanasaki * (1 + monthly_downstream_demand /
                                           mean_annual_downstream_demand)
         else:
             prov_rel = mean_annual_inflow + monthly_downstream_demand - \
@@ -183,13 +202,14 @@ def hanasaki_res_reslease(storage, stor_capacity, res_start_month,
     else:
         c_ratio = stor_capacity/(mean_annual_inflow * to_km3)
 
-    if c_ratio >= 0.5:
+    if c_ratio >= P3_hanasaki:
         release = k_release * prov_rel
     else:
         # to convert inflow from km3 per day to m3/s
         to_m3_per_s = 1e9/86400
         # release is applied on daily inflow
-        release = ((4*(c_ratio)**2) * k_release * prov_rel) + \
-            ((1 - (4*(c_ratio)**2)) * (inflow_to_swb*to_m3_per_s))
+        release_weight = (c_ratio / P3_hanasaki)**2
+        release = (release_weight * k_release * prov_rel) + \
+            ((1 - release_weight) * (inflow_to_swb * to_m3_per_s))
 
     return release, k_release
