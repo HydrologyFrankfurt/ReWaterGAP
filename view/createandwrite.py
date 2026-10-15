@@ -242,10 +242,7 @@ class CreateandWritetoVariables:
             Area of the grid cell,  Unit: [km^2]
         contfrac : array
             continental fraction (land and surfacewater bodies), Unit: [-]
-        month_daily_aggr : string
-            Specifies the aggregation method, either "month" for monthly averages 
-            or "daily" for daily values.
-
+    
         Returns
         -------
         None.
@@ -291,7 +288,55 @@ class CreateandWritetoVariables:
                 # converted and aggreagated data
                 value.data[key][:] = converted_data
 
-    def save_netcdf_parallel(self, end_date):
+    def convert_to_monthly(self):
+        """
+        Aggregate model outputs to monthly means.
+        
+        Storages:  Monthly mean, mm or kg m-2.
+        
+        Fluxes: Monthly mean, mm/s or kg m-2/s.
+        
+        Discharge: Monthly mean,  m3/s.
+        
+        Velocity: Monthly mean,  m/s.
+        
+        Static variables are left unchanged.
+        """
+        
+        unchanged_keys = {
+            "get_neighbouring_cells_map",
+        }
+        
+        output_groups = [
+            self.vb_storages,
+            self.vb_fluxes,
+            self.lb_storages,
+            self.lb_fluxes,
+        ]
+        
+        
+        self.monthly_data ={}
+        for group in output_groups:
+            for key, value in group.items():
+        
+                # Skip variables without units.
+                if key in unchanged_keys:
+                    continue
+                
+                # do not avearage non time variables
+                if key == "smax":
+                    self.monthly_data[key]= value.data
+            	
+                else: 
+                    # Monthly mean; units remain unchanged.
+                    self.monthly_data[key]= value.data.resample(time="MS").mean(
+                        dim="time",
+                        skipna=True,
+                    )
+
+            	
+
+    def save_netcdf_parallel(self, end_date, monthly_output=False):
         """
         Save variables to netcdf.
 
@@ -308,11 +353,23 @@ class CreateandWritetoVariables:
         for var in [self.vb_storages, self.vb_fluxes,
                     self.lb_storages, self.lb_fluxes]:
             for key, value in var.items():
-                path = self.path + f'{key}_{end_date}.nc'
+                # skip "get_neighbouring_cells_map" only when monthly_output=True
+                if monthly_output and key == "get_neighbouring_cells_map":
+                    continue
+                
+                if monthly_output and self.monthly_data is not None:
+                    path = self.path + f'{key}_monthly_{end_date}.nc'
+                    out_data = self.monthly_data[key]
+
+                else: # daily 
+                    path = self.path + f'{key}_{end_date}.nc'
+                    out_data = value.data
+                    
+                    
 
                 if key == "get_neighbouring_cells_map":
-                    encoding = {key: {'chunksizes': [1, value.data[key].shape[1], 
-                                                     value.data[key].shape[2], 2],
+                    encoding = {key: {'chunksizes': [1, out_data[key].shape[1], 
+                                                     out_data[key].shape[2], 2],
                                       "zlib": True,
                                       "complevel": 5}}
                 elif key == 'smax':
@@ -322,10 +379,10 @@ class CreateandWritetoVariables:
                                       "complevel": 5}}
                 else:
                     encoding = {key: {'_FillValue': 1e+20,
-                                      'chunksizes': [1, value.data[key].shape[1], 
-                                                     value.data[key].shape[2]],
+                                      'chunksizes': [1, out_data[key].shape[1], 
+                                                     out_data[key].shape[2]],
                                       "zlib": True, "complevel": 5}}
-                write_args.append((value.data, encoding, path))
+                write_args.append((out_data, encoding, path))
 
         # For saving output in parallel, Threading is used for macOS but
         # multiprocessing is used of Linux, windows, etc
