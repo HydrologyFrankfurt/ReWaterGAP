@@ -721,40 +721,6 @@
                 <span class="n">immediate_runoff</span> <span class="o">*=</span> <span class="n">areal_corr_factor</span>
 
                 <span class="c1"># =============================================================</span>
-                <span class="c1"># Calculating ground water recharge from soil(mm/day),</span>
-                <span class="c1"># potential recharge (mm/day)</span>
-                <span class="c1">#               Order of calculation is important!!!</span>
-                <span class="c1"># =============================================================</span>
-                <span class="c1"># Note: the 'mm' at the end of</span>
-                <span class="c1"># groundwater_recharge_from_soil_mm means it is a vertical</span>
-                <span class="c1"># water balance variable.This distinguish it from</span>
-                <span class="c1"># ground water recharge in the lateral water balance</span>
-
-                <span class="c1"># # Groundwater recharge equation is calulated based on  Eq. 19</span>
-                <span class="c1"># # from H. Müller Schmied et al 2021. </span>
-
-                <span class="c1"># if (humid_arid == 1) &amp; (soil_texture &lt; 21) &amp; \</span>
-                <span class="c1">#         (drainage_direction &gt;= 0):</span>
-                <span class="c1">#     groundwater_recharge_from_soil_mm = \</span>
-                <span class="c1">#         np.minimum(max_groundwater_recharge,</span>
-                <span class="c1">#                    groundwater_recharge_factor * daily_runoff)</span>
-
-                <span class="c1">#     # For (semi) arid cells groundwater recharge becomes zero</span>
-                <span class="c1">#     # when critical precipitation for groundwater recharge</span>
-                <span class="c1">#     # (default = 12.5 mm/day) is not exceeded.</span>
-                <span class="c1">#     if precipitation &lt;= critcal_gw_precipitation:</span>
-                <span class="c1">#         potential_gw_recharge = \</span>
-                <span class="c1">#             groundwater_recharge_from_soil_mm</span>
-                <span class="c1">#         groundwater_recharge_from_soil_mm = 0</span>
-
-                <span class="c1"># else:</span>
-                <span class="c1">#     potential_gw_recharge = 0</span>
-                <span class="c1">#     groundwater_recharge_from_soil_mm = \</span>
-                <span class="c1">#         np.minimum(max_groundwater_recharge,</span>
-                <span class="c1">#                    groundwater_recharge_factor * daily_runoff)</span>
-                
-                
-                <span class="c1"># =============================================================</span>
                 <span class="c1"># Diffuse ground water recharge with the updated approach from </span>
                 <span class="c1"># Wan, W., Döll, P., &amp; Müller Schmied, H. (2024).</span>
                 <span class="c1"># https://doi.org/10.1029/2023WR036182</span>
@@ -787,7 +753,6 @@
                     <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">max_groundwater_recharge</span><span class="p">,</span>
                               <span class="n">gw_recharge_karst</span> <span class="o">+</span>   <span class="n">gw_recharge_no_karst</span><span class="p">)</span>
                 <span class="c1"># =============================================================================</span>
-
 
                 <span class="c1"># =============================================================</span>
                 <span class="c1"># Updating runoff and soil water content with remaning water in</span>
