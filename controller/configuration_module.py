@@ -114,6 +114,12 @@ if ant and RESERVOIR_OPT is False and SUBTRACT_USE is False:
     log.config_logger(logging.ERROR, modname, MSG, args.debug)
     sys.exit()  # don't run code if configuration file does not exist
 
+
+# Activate karst option according to Wan, W., Döll, P., & Müller Schmied, H. (2024).
+# https://doi.org/10.1029/2023WR036182
+#++++++++++++++++++++++++++++++++++++++++++
+run_karst = config_file['RuntimeOptions'][0]['SimulationOption']['Karst_opt']
+#++++++++++++++++++++++++++++++++++++++++#
 # =============================================================================
 # # Initializing  simulation and spinup period
 # =============================================================================
@@ -161,13 +167,17 @@ path_to_stations_file = extent_options['path_to_stations_file']
 # =============================================================================
 # # Selection of output variable (fluxes, storages and flows)
 # =============================================================================
+# daily or monthly 
+daily_output=config_file['OutputVariable'][0]['daily']
+monthly_output=config_file['OutputVariable'][0]['monthly']
+
 # Vertical Water Balance (vb)
-vb_fluxes = config_file['OutputVariable'][0]['VerticalWaterBalanceFluxes']
-vb_storages = config_file['OutputVariable'][1]['VerticalWaterBalanceStorages']
+vb_fluxes = config_file['OutputVariable'][1]['VerticalWaterBalanceFluxes']
+vb_storages = config_file['OutputVariable'][2]['VerticalWaterBalanceStorages']
 
 # Lateral Water Balance (lb)
-lb_fluxes = config_file['OutputVariable'][2]['LateralWaterBalanceFluxes']
-lb_storages = config_file['OutputVariable'][3]['LateralWaterBalanceStorages']
+lb_fluxes = config_file['OutputVariable'][3]['LateralWaterBalanceFluxes']
+lb_storages = config_file['OutputVariable'][4]['LateralWaterBalanceStorages']
 
 # =============================================================================
 # # Save and restart WaterGAP state

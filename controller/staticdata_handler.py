@@ -44,7 +44,7 @@ args = cli.parse_cli()
 class StaticData:
     """Handles static data."""
 
-    def __init__(self, run_calib):
+    def __init__(self, run_calib, run_karst):
         """
         Get file path.
 
@@ -53,6 +53,7 @@ class StaticData:
         Static data
 
         """
+        self.run_karst = run_karst
         # ==============================================================
         # path to climate forcing netcdf data
         # ==============================================================
@@ -68,9 +69,13 @@ class StaticData:
 
         land_surface_waterfraction_path = \
             str(Path(cm.static_land_data_path + r'/land_water_fractions/*'))
-
-        soil_static_files_path = \
-            str(Path(cm.static_land_data_path + r'/soil_storage/with_karst/*'))
+            
+        if self.run_karst ==True:
+            soil_static_files_path = \
+                str(Path(cm.static_land_data_path + r'/soil_storage/with_karst/*'))
+        else: 
+            soil_static_files_path = \
+                str(Path(cm.static_land_data_path + r'/soil_storage/no_karst/*'))
 
         gtopo30_elevation_path = \
             str(Path(cm.static_land_data_path +
@@ -257,21 +262,31 @@ class StaticData:
         drainage_direction = \
             self.soil_static_files.drainage_direction[0].values
 
-        # Maxumum ground water recharge = mm  
-        # no need to divide by 100 for the new max recharge based on 
-        max_groundwater_recharge = \
-            self.soil_static_files.max_recharge.values
-        
-        # for karst ground water recharge scheme
-        arid_coarse = self.soil_static_files.arid_coarse.values
-        karst_frac = self.soil_static_files.karst_frac.values
-        
         # Soil texture, units= (-)
         soil_texture = self.soil_static_files.texture.values
-
-        # groundwater recharge factor with Missipi corrected, units= (-)
-        groundwater_recharge_factor = \
-            self.soil_static_files.gw_factor_corr.values.astype(np.float64)
+        
+        # for karst ground water recharge scheme
+        if self.run_karst ==True:
+            arid_coarse = self.soil_static_files.arid_coarse.values
+            karst_frac = self.soil_static_files.karst_frac.values
+            # Maxumum ground water recharge = mm  
+            # no need to divide by 100 for the new max recharge based on 
+            max_groundwater_recharge = \
+                self.soil_static_files.max_recharge.values
+            # groundwater recharge factor with Missipi corrected, units= (-)
+            groundwater_recharge_factor = \
+                self.soil_static_files.gw_factor_corr.values.astype(np.float64)
+        else: 
+            arid_coarse = np.zeros(drainage_direction.shape)
+            karst_frac = np.zeros(drainage_direction.shape)
+            # Maxumum ground water recharge = mm*100
+            max_groundwater_recharge = \
+                self.soil_static_files.max_recharge[0].values/100
+            # groundwater recharge factor with Missipi corrected, units= (-)
+            groundwater_recharge_factor = \
+                self.soil_static_files.gw_factor_corr[0].values.astype(np.float64)
+            
+       
 
         return builtup_area_frac, total_avail_water_content, drainage_direction,\
             max_groundwater_recharge, soil_texture, groundwater_recharge_factor,\
