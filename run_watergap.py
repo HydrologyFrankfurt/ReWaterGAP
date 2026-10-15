@@ -71,6 +71,8 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
         print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
         print('Temporal resolution:' +
               colored(f'{cm.TEMPORAL_RES}', 'green'))
+        print('Karst Option:' +
+              colored(f'{cm.run_karst}', 'green'))
         print('Run basin:' +
               colored(f'{cm.run_basin}', 'green'))
     else:
@@ -82,8 +84,12 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
         print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
         print('Temporal resolution:' +
               colored(f'{cm.TEMPORAL_RES}', 'green'))
+        print('Karst Option:' +
+              colored(f'{cm.run_karst}', 'green'))
         print('Run basin:' +
               colored(f'{cm.run_basin}', 'green'))
+    
+   
 
     # Flag to run WaterGAP calibration
     run_calib = cm.run_calib
@@ -98,7 +104,7 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
     # Initialize static data, climate forcings , wateruse data
     # and get data dimensions
     # =====================================================================
-    initialize_forcings_static = rd.InitializeForcingsandStaticdata(run_calib)
+    initialize_forcings_static = rd.InitializeForcingsandStaticdata(run_calib, cm.run_karst)
     grid_coords = initialize_forcings_static.grid_coords
     potential_net_abstraction = wateruse.Wateruse(cm.SUBTRACT_USE, grid_coords, run_calib)
     parameters = pm.Parameters(run_calib, basin_id)
@@ -258,7 +264,7 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
                           land_water_frac.landareafrac_ratio,
                           watergap_basin.upstream_basin,
                           land_water_frac.water_freq,
-                          land_water_frac.land_freq)
+                          land_water_frac.land_freq, cm.run_karst)
 
             # =================================================================
             #  Computing lateral water balance
@@ -335,8 +341,15 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
                         create_out_var.base_units(initialize_forcings_static.static_data.cell_area,
                                                   initialize_forcings_static.static_data.
                                                   land_surface_water_fraction.contfrac)
-
-                        create_out_var.save_netcdf_parallel(str(save_year))
+                        
+                        # Daily is computed first and then agrregated to monthly  
+                        if cm.daily_output ==True:
+                            create_out_var.save_netcdf_parallel(str(save_year))
+                        
+                        if cm.monthly_output ==True:
+                            create_out_var.convert_to_monthly()   
+                            create_out_var.save_netcdf_parallel(str(save_year), 
+                                                                cm.monthly_output)
 
                 # =============================================================
                 #  Get restart information if restart is needed.

@@ -1,7 +1,7 @@
 {
   "FilePath": {
     "inputDir": {
-      "climate_forcing": "input_data/climate_forcing/",
+      "climate_forcing": "/home/home9/ReWaterGAP_data/Climate_forcing_ReWaterGAP/era5/climate_forcing/",
       "water_use_data": "input_data/water_use/",
       "static_land_data": "input_data/static_input/",
       "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5.nc"
@@ -19,7 +19,9 @@
         "Demand_satisfaction_opts": {
           "delayed_use": true,
           "neighbouring_cell": true
-        }
+        },
+        
+        "Karst_opt": true
       }
     },
     {
@@ -32,10 +34,10 @@
     {
       "SimulationPeriod": {
         "start": "1901-01-01",
-        "end": "1902-12-31",
+        "end": "1905-01-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
-        "spinup_years": 5
+        "spinup_years": 0
       }
     },
     {
@@ -58,6 +60,10 @@
     }
   ],
   "OutputVariable": [
+     {"daily":false,
+     "monthly": true
+     },
+     
     {
       "VerticalWaterBalanceFluxes": {
         "pot_evap": false,
@@ -104,7 +110,7 @@
         "returned_demand_from_supplycell_nextday": false,
         "demand_left_excl_returned_nextday": false,
         "potnetabs_sw": false,
-        "get_neighbouring_cells_map": false,
+        "get_neighbouring_cells_map": true,
         "net_cell_runoff": false,
         "river_velocity": false,
         "land_area_fraction": false
