@@ -282,40 +282,6 @@ def soil_water_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
                 immediate_runoff *= areal_corr_factor
 
                 # =============================================================
-                # Calculating ground water recharge from soil(mm/day),
-                # potential recharge (mm/day)
-                #               Order of calculation is important!!!
-                # =============================================================
-                # Note: the 'mm' at the end of
-                # groundwater_recharge_from_soil_mm means it is a vertical
-                # water balance variable.This distinguish it from
-                # ground water recharge in the lateral water balance
-
-                # # Groundwater recharge equation is calulated based on  Eq. 19
-                # # from H. Müller Schmied et al 2021. 
-
-                # if (humid_arid == 1) & (soil_texture < 21) & \
-                #         (drainage_direction >= 0):
-                #     groundwater_recharge_from_soil_mm = \
-                #         np.minimum(max_groundwater_recharge,
-                #                    groundwater_recharge_factor * daily_runoff)
-
-                #     # For (semi) arid cells groundwater recharge becomes zero
-                #     # when critical precipitation for groundwater recharge
-                #     # (default = 12.5 mm/day) is not exceeded.
-                #     if precipitation <= critcal_gw_precipitation:
-                #         potential_gw_recharge = \
-                #             groundwater_recharge_from_soil_mm
-                #         groundwater_recharge_from_soil_mm = 0
-
-                # else:
-                #     potential_gw_recharge = 0
-                #     groundwater_recharge_from_soil_mm = \
-                #         np.minimum(max_groundwater_recharge,
-                #                    groundwater_recharge_factor * daily_runoff)
-                
-                
-                # =============================================================
                 # Diffuse ground water recharge with the updated approach from 
                 # Wan, W., Döll, P., & Müller Schmied, H. (2024).
                 # https://doi.org/10.1029/2023WR036182
@@ -348,7 +314,6 @@ def soil_water_balance(soil_water_content, pet_to_soil,  current_landarea_frac,
                     np.minimum(max_groundwater_recharge,
                               gw_recharge_karst +   gw_recharge_no_karst)
                 # =============================================================================
-
 
                 # =============================================================
                 # Updating runoff and soil water content with remaning water in

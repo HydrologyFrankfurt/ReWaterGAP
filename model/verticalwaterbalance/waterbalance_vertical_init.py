@@ -170,7 +170,7 @@ class VerticalWaterBalance:
                       self.forcings_static.lon_length))
 
     def calculate(self, date, current_landarea_frac, landareafrac_ratio,
-                  basin, water_freq, land_freq):
+                  basin, water_freq, land_freq,  run_karst):
         """
         Calculate vertical waterbalance.
 
@@ -289,7 +289,7 @@ class VerticalWaterBalance:
                                self.groundwater_recharge_factor,
                                self.parameters.critcal_gw_precipitation.values,
                                self.max_soil_water_content,
-                               self.parameters.areal_corr_factor.values,
+                               self.parameters.areal_corr_factor.values, run_karst,
                                basin)
 
         # Radiation and PET output

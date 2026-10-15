@@ -17,6 +17,7 @@ from model.verticalwaterbalance import lai
 from model.verticalwaterbalance import canopy
 from model.verticalwaterbalance import snow
 from model.verticalwaterbalance import soil
+from model.verticalwaterbalance import soil_no_karst
 
 
 @njit(cache=True)
@@ -37,7 +38,7 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        gamma, max_daily_pet, soil_texture, drainage_direction,
                        max_groundwater_recharge, groundwater_recharge_factor,
                        critcal_gw_precipitation, max_soil_water_content,
-                       areal_corr_factor, basin):
+                       areal_corr_factor, run_karst, basin):
     """Compute vertical Waterbalance."""
     # =========================================================================
     #   Creating outputs for storages, fluxes and factors
@@ -223,28 +224,51 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             immediate_runoff[x, y] = modified_effective_precipitation[1]
 
             # compute daily soil water balance.
-            daily_soil_balance = soil.\
-                soil_water_balance(soil_water_content[x, y], pet_to_soil[x, y],
-                                   current_landarea_frac[x, y],
-                                   landareafrac_ratio[x, y],
-                                   max_temp_elev[x, y], canopy_evap[x, y],
-                                   effective_precipitation[x, y],
-                                   precipitation[x, y],
-                                   immediate_runoff[x, y],
-                                   land_storage_change_sum[x, y],
-                                   sublimation[x, y],
-                                   daily_storage_transfer[x, y],
-                                   snow_freeze_temp[x, y],
-                                   gamma[x, y], max_daily_pet[x, y], 
-                                   arid_coarse[x, y], karst_frac[x, y],
-                                   soil_texture[x, y], drainage_direction[x, y],
-                                   max_groundwater_recharge[x, y],
-                                   groundwater_recharge_factor[x, y],
-                                   critcal_gw_precipitation[x, y],
-                                   max_soil_water_content[x, y],
-                                   areal_corr_factor[x, y],
-                                   minstorage_volume, x, y)
-
+            if run_karst == True:
+                daily_soil_balance = soil.\
+                    soil_water_balance(soil_water_content[x, y], pet_to_soil[x, y],
+                                       current_landarea_frac[x, y],
+                                       landareafrac_ratio[x, y],
+                                       max_temp_elev[x, y], canopy_evap[x, y],
+                                       effective_precipitation[x, y],
+                                       precipitation[x, y],
+                                       immediate_runoff[x, y],
+                                       land_storage_change_sum[x, y],
+                                       sublimation[x, y],
+                                       daily_storage_transfer[x, y],
+                                       snow_freeze_temp[x, y],
+                                       gamma[x, y], max_daily_pet[x, y], 
+                                       arid_coarse[x, y], karst_frac[x, y],
+                                       soil_texture[x, y], drainage_direction[x, y],
+                                       max_groundwater_recharge[x, y],
+                                       groundwater_recharge_factor[x, y],
+                                       critcal_gw_precipitation[x, y],
+                                       max_soil_water_content[x, y],
+                                       areal_corr_factor[x, y],
+                                       minstorage_volume, x, y)
+            else:
+                daily_soil_balance = soil_no_karst.\
+                    soil_water_balance(soil_water_content[x, y], pet_to_soil[x, y],
+                                       current_landarea_frac[x, y],
+                                       landareafrac_ratio[x, y],
+                                       max_temp_elev[x, y], canopy_evap[x, y],
+                                       effective_precipitation[x, y],
+                                       precipitation[x, y],
+                                       immediate_runoff[x, y],
+                                       land_storage_change_sum[x, y],
+                                       sublimation[x, y],
+                                       daily_storage_transfer[x, y],
+                                       snow_freeze_temp[x, y],
+                                       gamma[x, y], max_daily_pet[x, y], humid_arid[x, y],
+                                       soil_texture[x, y], drainage_direction[x, y],
+                                       max_groundwater_recharge[x, y],
+                                       groundwater_recharge_factor[x, y],
+                                       critcal_gw_precipitation[x, y],
+                                       max_soil_water_content[x, y],
+                                       areal_corr_factor[x, y],
+                                       minstorage_volume, x, y)
+                
+    
             # ouputs from the  daily_soil_balance  are
             # 0 = soil_water_content (mm),
             # 1 = groundwater_recharge_from_soil_mm (mm),
