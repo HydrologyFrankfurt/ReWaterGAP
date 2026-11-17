@@ -388,6 +388,7 @@ class LateralWaterBalance:
         if cm.ant and cm.RESERVOIR_OPT:
 
             m_to_km = 0.001
+            simu_start_year = pd.to_datetime(cm.start).year
             # Activate  area and capacity of reservoir and regulated lake that
             # are  active in current year
             if simulation_date.astype('datetime64[D]') in reservoir_opt_year \
@@ -400,17 +401,58 @@ class LateralWaterBalance:
                     res_reg_files.stor_cap[0].values.astype(np.float64)
 
                 # ---------------------------------
-                # Regulated Lakes Area and Capacity
+                # Regulated Lakes 
                 # ----------------------------------
-                self.glores_area = \
-                    np.where((self.regulated_lake_status == 1),
-                             self.all_reservoir_and_regulated_lake_area,
-                             self.glores_area)
+                # Regulated lakes that become operational during the simulation
+                # are treated as reservoirs.
+                # Also, regulated lakes already operational at simulation start 
+                # are treated reservoir
+                newly_activated_regulated_lake = (
+                    (resyear == self.glores_startyear)
+                    & (self.glores_startyear > simu_start_year)
+                    & (self.regulated_lake_status == 1)
+                )
+               
+                # At operational year regulated lake storage proportion is taken 
+                # from global lake storage to reservoir storage.# This is only 
+                # done for regulated lakes included in global lake area.
+                
 
-                self.glores_capacity = \
-                    np.where((self.regulated_lake_status == 1),
-                             glores_capacity_active, self.glores_capacity)
-
+                reg_area_per_glolake_area= np.divide(
+                    self.all_reservoir_and_regulated_lake_area,
+                    self.glolake_area,
+                    out=np.zeros_like(
+                       self.glolake_area, dtype=np.float64
+                    ), where=self.glolake_area > 0 )
+    
+                self.glores_storage  = \
+                   np.where(newly_activated_regulated_lake ,
+                            self.glolake_storage * reg_area_per_glolake_area
+                            , self.glores_storage)
+                
+                # making sure that at most the storage of the regulated lake passed to the
+                # reservoir is its reported capacity.
+                self.glores_storage  = \
+                    np.where((self.regulated_lake_status == 1) & (self.glores_storage>glores_capacity_active) ,
+                             glores_capacity_active , self.glores_storage)
+                
+                
+                # Remove  regulated lake storage, maximum storage, and area
+                # from global lake
+                
+                self.glolake_storage = \
+                     np.where(newly_activated_regulated_lake ,
+                              self.glolake_storage - self.glores_storage, self.glolake_storage )
+     
+                self.max_glolake_storage = \
+                    np.where(newly_activated_regulated_lake ,
+                              self.max_glolake_storage - glores_capacity_active , self.max_glolake_storage)
+                    
+                self.glolake_area = np.where(
+                    newly_activated_regulated_lake,
+                    self.glolake_area - self.all_reservoir_and_regulated_lake_area,
+                    self.glolake_area
+                )
                 # ---------------------------
                 # Reservoir Area and Capacity
                 # ---------------------------
@@ -456,8 +498,6 @@ class LateralWaterBalance:
             # Note!: Storages are activated on the 1st day of the year
             if self.set_res_storage_flag:
 
-                simu_start_year = pd.to_datetime(cm.start).year
-
                 # If run is a restart run, saved storage is used
                 # -----------------
                 # Reservoir Storage
@@ -476,16 +516,16 @@ class LateralWaterBalance:
                 # -------------------------
                 # Regulated Lake Storage
                 # -----------------------
-                # For regulated lake: if it's not yet operational
-                # increase reservoir storage by multiplying the area with
-                # lake depth (Treat it as a global lake)- changed by mohammed
-                self.glores_storage =\
-                    np.where((simu_start_year < self.glores_startyear) &
-                             (self.regulated_lake_status == 1),
-                             (self.all_reservoir_and_regulated_lake_area *
-                              self.parameters.activelake_depth.values * m_to_km)
-                             + self.glores_storage,
-                             self.glores_storage)
+                # Regulated lakes are treated as the original natural lakes 
+                # (global lakes)  before operational year 
+                self.glolake_area =\
+                    np.where((simu_start_year < self.glores_startyear) & (self.regulated_lake_status == 1),
+                             self.glolake_area + self.all_reservoir_and_regulated_lake_area,
+                             self.glolake_area)
+                
+                self.max_glolake_storage = \
+                    np.where((simu_start_year < self.glores_startyear) & (self.regulated_lake_status == 1),
+                             glores_capacity_active + self.max_glolake_storage, self.max_glolake_storage)
 
                 self.reg_lake_redfactor_firstday = \
                     np.where((simu_start_year < self.glores_startyear) &
@@ -497,7 +537,8 @@ class LateralWaterBalance:
                              (self.regulated_lake_status == 1), 0,
                              self.reg_lake_redfactor_firstday)
 
-                # update initial storage of global lake if reservoir
+                # update initial storage of global lake. 
+                # 1. for regulated lake and 2. if reservoir
                 # becomes global lake due to mean_annual_inflow_res = 0.
                 self.glolake_storage = self.max_glolake_storage
 
@@ -695,7 +736,7 @@ class LateralWaterBalance:
 
         current_mon_day = np.array([int(current_year_mon_day[1]),
                                     current_year_mon_day[2]])
-
+        current_year = int(current_year_mon_day[0])
         river_length = self.get_river_prop.river_length
         river_bottom_width = self.get_river_prop.river_bottom_width
         roughness = self.get_river_prop.roughness
@@ -756,7 +797,9 @@ class LateralWaterBalance:
                                self.all_reservoir_and_regulated_lake_area,
                                self.reg_lake_redfactor_firstday, basin, cm.DELAYED_USE,
                                landwaterfrac_excl_glolake_res, self.cell_area,
-                               land_aet_corr, sum_canopy_snow_soil_storage)
+                               land_aet_corr, sum_canopy_snow_soil_storage,
+                               self.glores_startyear, cm.ant, current_year)
+                               
 
         # update variables for next timestep or output.
         self.groundwater_storage = out[0]

@@ -66,7 +66,8 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                   num_days_in_month, all_reservoir_and_regulated_lake_area,
                   reg_lake_redfactor_firstday, basin, delayed_use_option,
                   landwaterfrac_excl_glolake_res, cell_area, land_aet_corr,
-                  sum_canopy_snow_soil_storage):
+                  sum_canopy_snow_soil_storage, glores_startyear, ant_option,
+                  current_year):
 
     """Route flow to river. """
 
@@ -335,9 +336,11 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                                                groundwater_discharge[x, y],
                                                loclake_frac[x, y], locwet_frac[x, y],
                                                glowet_frac[x, y], glolake_frac[x, y],
-                                               reglake_frac[x, y], headwatercell[x, y],
+                                               glores_area[x, y], headwatercell[x, y],
                                                drainage_direction[x, y],
-                                               swb_drainage_area_factor[x, y])
+                                               swb_drainage_area_factor[x, y],
+                                               glores_startyear[x, y], ant_option,
+                                               current_year)
 
             inflow_to_swb, inflow_to_river = routed_flow
 
@@ -464,7 +467,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                 actual_daily_netabstraction_sw[x, y] = actual_use.item()
                 accu_unsatisfied_pot_netabstr_glolake = accum_unpot_netabs_sw.item()
                 glolake_evapo[x, y] = openwater_evapo_cor.item()
-
+                
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
 
@@ -519,7 +522,7 @@ def river_routing(rout_order, outflow_cell, drainage_direction, aridhumid,
                 actual_daily_netabstraction_sw[x, y] += actual_use.item()
                 accu_unsatisfied_pot_netabstr_glores = accum_unpot_netabs_sw.item()
                 glores_evapo[x, y] = openwater_evapo_cor.item()
-
+                
                 # update inflow to surface water bodies
                 inflow_to_swb = outflow
 

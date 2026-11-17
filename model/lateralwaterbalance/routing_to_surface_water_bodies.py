@@ -24,8 +24,10 @@ from numba import njit
 def frac_routing(x, y,
                  surface_runoff, groundwater_discharge, loclake_frac,
                  locwet_frac, glowet_frac, glolake_frac,
-                 reglake_frac, headwater_cell, drainage_direction,
-                 swb_drainage_area_factor):
+                 glores_area, headwater_cell, drainage_direction,
+                 swb_drainage_area_factor, glores_startyear, ant_option,
+                 current_year
+                 ):
     """
     Rout water through storage compartment using fractional routing scheme.
 
@@ -47,8 +49,8 @@ def frac_routing(x, y,
         Global wetland area fraction, unit: [-].
     glolake_frac: float
         Global lake area fraction, unit: [-].
-    reglake_frac: float
-        Regulated lake area fraction, unit: [-].
+    glores_area: float
+        Global reservoir area, unit: [km2].
     headwater_cell: int
         Head water cells, unit: [-].
     drainage_direction: int
@@ -57,6 +59,12 @@ def frac_routing(x, y,
     swb_drainage_area_factor: float
         Surface water bodies drainage area factor taken from
         (Müller Schmied et al. (2021),  units: [-]
+    glores_startyear: float
+        start (operational)year of Reservoir and regulated lake 
+    ant_option, boolean
+        simulation run type: True is anthropogenic and False is naturalised
+    current_year: int
+        Current simulaion year
 
     Returns
     -------
@@ -76,7 +84,21 @@ def frac_routing(x, y,
     # see section 4 of  (Müller Schmied et al. (2021)
     fswb_catchment = (loclake_frac + locwet_frac + glowet_frac) * \
         swb_drainage_area_factor
+    
 
+    # Correction for headwater cells  containg reservoir & lacking loc lake, 
+    # loc wet, and glo wet. (reservoir perviously gets no inflow)
+    # fswb_catchment is set to 0.6 if none of these SWB exists or  they exist 
+    # and fswb_catchment is below 0.6. The 0.6 threshold was empirically 
+    # calibrated against observed US reservoir outflows.
+    # (at least 60% of runoff should be routed through reservoir)
+    if (ant_option ==True
+        and headwater_cell == 1
+        and current_year >= glores_startyear
+        and glores_area > 0
+        and fswb_catchment < 0.6):
+        fswb_catchment = 0.6
+    
     fswb_catchment = np.where(fswb_catchment > 1, 1, fswb_catchment)
 
     # =========================================================================
