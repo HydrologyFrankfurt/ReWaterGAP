@@ -27,6 +27,7 @@ from model import land_surfacewater_fraction_init as lwf
 from model.lateralwaterbalance import waterbalance_lateral as lb
 from model.utility import restart_watergap as restartwatergap
 from model.utility import get_upstream_basin as get_basin
+from model.utility import temperature_reduction_factor as trf
 from model.verticalwaterbalance import waterbalance_vertical_init as vb
 from view import createandwrite as cw
 
@@ -67,27 +68,18 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
             f"Riparian water supply (default) & {msg} option activated."
         print(colored('Demand satisfaction option: ' + satisfaction_option,
                       'blue'))
-
-        print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
-        print('Temporal resolution:' +
-              colored(f'{cm.TEMPORAL_RES}', 'green'))
-        print('Karst Option:' +
-              colored(f'{cm.run_karst}', 'green'))
-        print('Run basin:' +
-              colored(f'{cm.run_basin}', 'green'))
     else:
         print('\n' + colored('+++ Naturalised Run +++', 'cyan'))
         print('Note:' + colored(' 1. Reserviors, abstraction from surface and'
                                 ' groundwater are not considered.' + '\n'
                                 + '      2. Regulated lakes are treated as'
                                 '  global lakes ', 'blue'))
-        print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
-        print('Temporal resolution:' +
-              colored(f'{cm.TEMPORAL_RES}', 'green'))
-        print('Karst Option:' +
-              colored(f'{cm.run_karst}', 'green'))
-        print('Run basin:' +
-              colored(f'{cm.run_basin}', 'green'))
+
+    print('\nPeriod:' + colored(f'{cm.start} to {cm.end}', 'green'))
+    print('Temporal resolution:' + colored(f'{cm.TEMPORAL_RES}', 'green'))
+    print('Karst Option:' + colored(f'{cm.run_karst}', 'green'))
+    print('PET method:' +colored(f'{cm.pet_method}', 'green'))
+    print('Run basin:' + colored(f'{cm.run_basin}', 'green'))
     
    
 
@@ -104,7 +96,8 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
     # Initialize static data, climate forcings , wateruse data
     # and get data dimensions
     # =====================================================================
-    initialize_forcings_static = rd.InitializeForcingsandStaticdata(run_calib, cm.run_karst)
+    initialize_forcings_static = \
+        rd.InitializeForcingsandStaticdata(run_calib, cm.run_karst, cm.yearly_urban_area)
     grid_coords = initialize_forcings_static.grid_coords
     potential_net_abstraction = wateruse.Wateruse(cm.SUBTRACT_USE, grid_coords, run_calib)
     parameters = pm.Parameters(run_calib, basin_id)
@@ -113,17 +106,31 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
     land_water_frac = \
         lwf.LandsurfacewaterFraction(initialize_forcings_static.static_data,
                                      cm.RESERVOIR_OPT)
-
+    
     # =====================================================================
     #  Create and write to ouput variable if selected by user
     # =====================================================================
     create_out_var = cw.CreateandWritetoVariables(grid_coords)
-
+    
     # =====================================================================
     # Initialize Vertical Water Balance
     # =====================================================================
+    # The modified Priestley-Taylor PET in the vertical water balance
+    # requires a temperature reduction factor. It is computed once per run
+    # and used only for climate chnage studies
+    
+    temp_red_factor = 0
+    if cm.pet_method == "modified_priestley_taylor":
+        temp_red_factor = trf.temperature_reduction_factor(
+                        cm.gcm,  cm.scenario, cm.pet_md_hist_path,
+                        initialize_forcings_static, cm.pet_md_start_year, 
+                        cm.pet_md_end_year)
+    
+        print(colored("\nTemperature reduction factor calculated successfully!", 'green'))
+    
     vertical_waterbalance = \
-        vb.VerticalWaterBalance(initialize_forcings_static, parameters)
+        vb.VerticalWaterBalance(initialize_forcings_static, parameters, 
+                                temp_red_factor)
 
     # =====================================================================
     # Initialize Lateral Water Balance
@@ -264,7 +271,8 @@ def run(calib_station=None, watergap_basin=None, basin_id=None):
                           land_water_frac.landareafrac_ratio,
                           watergap_basin.upstream_basin,
                           land_water_frac.water_freq,
-                          land_water_frac.land_freq, cm.run_karst)
+                          land_water_frac.land_freq, cm.run_karst, 
+                          cm.pet_method, cm.yearly_urban_area)
 
             # =================================================================
             #  Computing lateral water balance

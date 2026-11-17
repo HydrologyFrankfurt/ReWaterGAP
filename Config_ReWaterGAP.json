@@ -1,7 +1,7 @@
 {
   "FilePath": {
     "inputDir": {
-      "climate_forcing": "/home/home9/ReWaterGAP_data/Climate_forcing_ReWaterGAP/era5/climate_forcing/",
+      "climate_forcing": "input_data/climate_forcing",
       "water_use_data": "input_data/water_use/",
       "static_land_data": "input_data/static_input/",
       "parameter_path": "model/WaterGAP_2.3_global_parameters_gswp3_era5.nc"
@@ -21,7 +21,20 @@
           "neighbouring_cell": true
         },
         
-        "Karst_opt": true
+        "Karst_opt": true,
+        "use_yearly_urban_area_ts":{"enable": true, 
+        "yearly_urban_area_path": "../GFDL-ESM4/historical/"},
+
+        "pet_method":{
+          "priestley_taylor": true,
+          
+          "modified_priestley_taylor":{ 
+          "enable": false, 
+          "historical_temperature_path": "../GFDL-ESM4/historical/",
+          "reference_period": {"start": 1981, "end": 2000}, 
+          "gcm": "gfdl-esm4",
+          "scenario": "ssp585"}  
+        }
       }
     },
     {
@@ -33,8 +46,8 @@
     },
     {
       "SimulationPeriod": {
-        "start": "1901-01-01",
-        "end": "1905-01-31",
+        "start": "2015-01-01",
+        "end": "2017-12-31",
         "reservoir_start_year": 1901,
         "reservoir_end_year": 2019,
         "spinup_years": 0
@@ -60,8 +73,8 @@
     }
   ],
   "OutputVariable": [
-     {"daily":false,
-     "monthly": true
+     {"daily":true,
+     "monthly": false
      },
      
     {
