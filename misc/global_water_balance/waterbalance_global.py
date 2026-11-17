@@ -31,8 +31,8 @@ out_var_path = "../../output_data/"
 #            Select the time period for the analysis
 #       (make sure model data for start year-1 is available)
 # =============================================================================
-start_date = '2001-01-01'  # Start date for the waterbalance
-end_date = '2019-12-31'    # End date for the waterbalance
+start_date = '1961-01-01'  # Start date for the waterbalance
+end_date = '1990-12-31'    # End date for the waterbalance
 
 # Extract start and end years from the dates
 start_year = int(start_date[:4])
@@ -51,7 +51,7 @@ year_before_start = str(start_year - 1)
 # =============================================================================
 mask_greenland = xr.open_dataarray("greenland_masked.nc")
 drainage_direction = xr.open_dataarray('../../input_data'
-                                       '/static_input/soil_storage/watergap_22e_drainage_direction.nc',
+                                       '/static_input/soil_storage/with_karst/watergap_22e_drainage_direction.nc',
                                        decode_times=False)
 
 cell_area = xr.open_dataarray("../../input_data/static_input/watergap_22e_continentalarea.nc", 
@@ -60,7 +60,7 @@ contfrac = xr.open_dataarray("../../input_data/static_input/land_water_fractions
                              "watergap_22e_contfrac_global.nc", decode_times=False )
 
 # Model parameters
-params = xr.open_dataset("../../model/WaterGAP_2.2e_global_parameters_gswp3_w5e5.nc",
+params = xr.open_dataset("../../model/WaterGAP_2.3_global_parameters_gswp3_era5.nc",
                          decode_times=False)
 
 # Get station correction factor (CFS) from model parameters
