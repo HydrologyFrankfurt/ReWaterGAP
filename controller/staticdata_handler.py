@@ -44,7 +44,7 @@ args = cli.parse_cli()
 class StaticData:
     """Handles static data."""
 
-    def __init__(self, run_calib, run_karst):
+    def __init__(self, run_calib, run_karst, yearly_urban_area):
         """
         Get file path.
 
@@ -54,6 +54,10 @@ class StaticData:
 
         """
         self.run_karst = run_karst
+        
+        self.yearly_urban_area = yearly_urban_area
+        
+        
         # ==============================================================
         # path to climate forcing netcdf data
         # ==============================================================
@@ -86,7 +90,7 @@ class StaticData:
 
         river_static_file_path = \
             str(Path(cm.static_land_data_path + r'/river_static_data/*'))
-
+        
         # =============================================================================
         # resevoir routing  (resevoir start month and demand are  dependent on forcing)
         # =============================================================================
@@ -234,7 +238,7 @@ class StaticData:
         Returns
         -------
         builtup_area_frac : array
-            Built up area fraction, Unit: [-]
+            Built up area fraction (static or yearly), Unit: [-]
         total_avail_water_content : array
             Total available water content,  Unit: [mm]
         drainage_direction : array
@@ -252,7 +256,13 @@ class StaticData:
 
         """
         # Built up area fraction, units = (-)
-        builtup_area_frac = self.soil_static_files.builtup_area_frac[0].values
+        if self.yearly_urban_area==True:
+            urban_area_path = \
+                str(Path(cm.yearly_urban_area_path + r'landuse-urbanareas*.nc'))
+            builtup_area_frac =  xr.open_mfdataset(urban_area_path)
+            builtup_area_frac = builtup_area_frac["urbanareas"]
+        else: 
+            builtup_area_frac = self.soil_static_files.builtup_area_frac[0].values
 
         # Total available water content , units = mm (per 1m soil)
         total_avail_water_content = \
@@ -291,3 +301,5 @@ class StaticData:
         return builtup_area_frac, total_avail_water_content, drainage_direction,\
             max_groundwater_recharge, soil_texture, groundwater_recharge_factor,\
               arid_coarse, karst_frac
+
+

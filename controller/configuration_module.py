@@ -120,6 +120,37 @@ if ant and RESERVOIR_OPT is False and SUBTRACT_USE is False:
 #++++++++++++++++++++++++++++++++++++++++++
 run_karst = config_file['RuntimeOptions'][0]['SimulationOption']['Karst_opt']
 #++++++++++++++++++++++++++++++++++++++++#
+yearly_urban_area_opts=\
+    config_file['RuntimeOptions'][0]['SimulationOption']['use_yearly_urban_area_ts']
+yearly_urban_area = yearly_urban_area_opts["enable"]
+yearly_urban_area_path = yearly_urban_area_opts['yearly_urban_area_path']
+
+# =============================================================================
+# # Activate PET method 
+# =============================================================================
+priestley_taylor = config_file['RuntimeOptions'][0]['SimulationOption']\
+    ['pet_method']["priestley_taylor"]
+    
+pet_md_options= config_file['RuntimeOptions'][0]['SimulationOption']\
+    ['pet_method']["modified_priestley_taylor"]    
+    
+modified_priestley_taylor=pet_md_options["enable"]
+
+if priestley_taylor == True and  modified_priestley_taylor == False:
+    pet_method="priestley_taylor"
+elif modified_priestley_taylor == True and priestley_taylor == False:
+    pet_method="modified_priestley_taylor"
+else: 
+    MSG = 'only activate one PET variant at a time' 
+    log.config_logger(logging.ERROR, modname, MSG, args.debug)
+    sys.exit()
+
+gcm= pet_md_options["gcm"]
+scenario= pet_md_options["scenario"]
+pet_md_start_year= pet_md_options["reference_period"]["start"]
+pet_md_end_year= pet_md_options["reference_period"]["end"]
+pet_md_hist_path =pet_md_options["historical_temperature_path"]
+
 # =============================================================================
 # # Initializing  simulation and spinup period
 # =============================================================================

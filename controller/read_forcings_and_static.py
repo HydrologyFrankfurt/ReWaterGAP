@@ -28,12 +28,12 @@ from controller import configuration_module as cm
 class InitializeForcingsandStaticdata:
     """Reads in climate forcings and static data."""
 
-    def __init__(self, run_calib, run_karst):
+    def __init__(self, run_calib, run_karst, yearly_urban_area):
         # =====================================================================
         # Get static data and climate forcing
         # Please see staticdata and climateforcing handlers for varibale units
         # =====================================================================
-        self.static_data = sd.StaticData(run_calib, run_karst)
+        self.static_data = sd.StaticData(run_calib, run_karst,  yearly_urban_area)
         self.climate_forcing = cf.ClimateForcing(run_calib)
         if run_calib is False:
             self.climate_forcing.check_unitandvarname()
