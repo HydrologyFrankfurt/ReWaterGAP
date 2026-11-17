@@ -38,7 +38,8 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
                        gamma, max_daily_pet, soil_texture, drainage_direction,
                        max_groundwater_recharge, groundwater_recharge_factor,
                        critcal_gw_precipitation, max_soil_water_content,
-                       areal_corr_factor, run_karst, basin):
+                       areal_corr_factor, run_karst, basin, temp_red_factor, 
+                       sim_year, pet_method):
     """Compute vertical Waterbalance."""
     # =========================================================================
     #   Creating outputs for storages, fluxes and factors
@@ -111,15 +112,39 @@ def vert_water_balance(rout_order, temperature, down_shortwave_radiation,
             net_rad, openwater_net_rad = radiation_for_potevap
             net_radiation[x, y] = net_rad.item()
             openwater_net_radiation[x, y] = openwater_net_rad.item()
+            
+            if pet_method=="modified_priestley_taylor":  # To be used only for climate change studies
+                if sim_year <= 2000: 
+                    pot_evap, openwater_evap = \
+                        rad_pet.priestley_taylor_pet(temperature[x, y],
+                                                     pt_coeff_humid_arid[x, y],
+                                                     net_radiation[x, y],
+                                                     openwater_net_radiation[x, y], x, y)
+        
+                    daily_potential_evap[x, y] = pot_evap.item()
+                    openwater_potential_evap[x, y] = openwater_evap.item()
+                else:
+                    pot_evap, openwater_evap = \
+                        rad_pet.modified_priestley_taylor_pet(temperature[x, y],
+                                                              temp_red_factor[x, y],
+                                                              pt_coeff_humid_arid[x, y],
+                                                              net_radiation[x, y],
+                                                              openwater_net_radiation[x, y], x, y)
+        
+                    daily_potential_evap[x, y] = pot_evap.item()
+                    openwater_potential_evap[x, y] = openwater_evap.item()
 
-            pot_evap, openwater_evap = \
-                rad_pet.priestley_taylor_pet(temperature[x, y],
-                                             pt_coeff_humid_arid[x, y],
-                                             net_radiation[x, y],
-                                             openwater_net_radiation[x, y], x, y)
-
-            daily_potential_evap[x, y] = pot_evap.item()
-            openwater_potential_evap[x, y] = openwater_evap.item()
+            
+            else: # use default priestly_taylor
+            
+                pot_evap, openwater_evap = \
+                    rad_pet.priestley_taylor_pet(temperature[x, y],
+                                                 pt_coeff_humid_arid[x, y],
+                                                 net_radiation[x, y],
+                                                 openwater_net_radiation[x, y], x, y)
+    
+                daily_potential_evap[x, y] = pot_evap.item()
+                openwater_potential_evap[x, y] = openwater_evap.item()
 
             # =================================================================
             #               	 Daily leaf area index

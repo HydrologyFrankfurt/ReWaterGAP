@@ -16,6 +16,7 @@
 # =============================================================================
 
 import numpy as np
+import pandas as pd
 from model.utility import units_conveter_check_neg_precip as check_or_convert
 from model.verticalwaterbalance import waterbalance_vertical as vb_numba
 from model.verticalwaterbalance import lai_init
@@ -28,11 +29,13 @@ class VerticalWaterBalance:
     fluxes = {}
     storages = {}
 
-    def __init__(self, forcings_static, parameters):
+    def __init__(self, forcings_static, parameters, temp_red_factor):
         self.forcings_static = forcings_static
         self.cont_frac = self.forcings_static.static_data.\
             land_surface_water_fraction.contfrac.values.astype(np.float64)/100
         self.parameters = parameters.global_params
+        self.temp_red_factor = temp_red_factor
+
 
         # Initialise routing order
         rout_order = self.forcings_static.static_data.rout_order
@@ -170,7 +173,8 @@ class VerticalWaterBalance:
                       self.forcings_static.lon_length))
 
     def calculate(self, date, current_landarea_frac, landareafrac_ratio,
-                  basin, water_freq, land_freq,  run_karst):
+                  basin, water_freq, land_freq,  run_karst,  pet_method, 
+                  yearly_urban_area):
         """
         Calculate vertical waterbalance.
 
@@ -196,6 +200,7 @@ class VerticalWaterBalance:
         None.
 
         """
+        sim_year = pd.to_datetime(date).year
         # =====================================================================
         # Select daily climate forcing and convert units (only precipitation
         #  and tempearture)
@@ -251,7 +256,22 @@ class VerticalWaterBalance:
             down_shortwave_radiation = down_shortwave_radiation[0]
         if down_longwave_radiation.shape != basin.shape:
             down_longwave_radiation = down_longwave_radiation[0]
-
+            
+        
+        # only for climate change studies 
+        # Get temperature reduction factor for a particular year 
+        temp_red_factor_year = np.zeros(basin.shape)
+        if pet_method == "modified_priestley_taylor":
+            temp_red_factor_year = self.temp_red_factor.sel(year=sim_year).values
+        
+        # use annual urban area time series
+        if yearly_urban_area == True:
+            builtup_area_frac = \
+                self.builtup_area_frac.sel(time=(str(sim_year)+"-01-01"))[0].values
+        else:
+            builtup_area_frac = self.builtup_area_frac
+            
+        print( self.builtup_area_frac.sel(time=(str(sim_year)+"-01-01")))
         # =====================================================================
         # compute vertical waterbalance
         # =====================================================================
@@ -281,7 +301,7 @@ class VerticalWaterBalance:
                                self.parameters.snow_freeze_temp.values,
                                self.parameters.snow_melt_temp.values,
                                self.parameters.runoff_frac_builtup.values,
-                               self.builtup_area_frac, self.soil_water_content,
+                               builtup_area_frac, self.soil_water_content,
                                self.parameters.gamma.values,
                                self.parameters.max_daily_pet.values,
                                self.soil_texture, self.drainage_direction,
@@ -290,7 +310,7 @@ class VerticalWaterBalance:
                                self.parameters.critcal_gw_precipitation.values,
                                self.max_soil_water_content,
                                self.parameters.areal_corr_factor.values, run_karst,
-                               basin)
+                               basin, temp_red_factor_year, sim_year, pet_method)
 
         # Radiation and PET output
         net_radiation = output[0]

@@ -220,3 +220,131 @@ def priestley_taylor_pet(temperature, pt_coeff_humid_arid,
     openwater_pot_evap = np.where(openwater_net_radiation <= 0, 0,
                                   openwater_pot_evap)
     return potential_evap, openwater_pot_evap
+
+
+@njit(cache=True)
+def modified_priestley_taylor_pet(temperature, temp_red_factor, pt_coeff_humid_arid,
+                                  net_radiation, openwater_net_radiation,
+                                  x, y):
+    """
+    Potential evapotranspiration based on Modified Priestly-Taylor algorithm (https://hess.copernicus.org/articles/27/3663/2023/)
+
+    Parameters
+    ----------
+    temperature : float
+        Daily air tempeature, Units : [K]
+    temp_red_factor: float 
+       Temperature reduction factor for each year, Units : [K]
+    pt_coeff_humid_arid : flaot
+        Priestley-Taylor coefficient  for humid and arid cells (alpha), Units: [-]
+    net_radiation : float
+        Net radiation  according to Müller Schmied et al., 2016., Units: [Wm−2]
+    openwater_net_radiation : float
+        Open water radiation  according to Müller Schmied et al., 2016.,
+        Units: [Wm−2]
+     x : int
+         Latitude index of cell
+     y : int
+         Longitude index of cell
+
+    Returns
+    -------
+    potential_evap : float
+        Potential evapotranspiration, Units: [mm/day]
+    openwater_pot_evap : float
+        Open water potential evapotranspiration, Units: [mm/day]
+
+    """
+    # Index (x, y) to  print out varibales of interest
+    # e.g.  if x==65 and y==137: print(net_radiation)
+    # =====================================================================
+    # Slope of the saturation(kPa°C-1) according to  Peiris, T. A. and Döll, P:2023  
+    # =====================================================================
+    # Converting temperature to degrees celcius
+    covert_to_degree = 273.15
+    conv_temperature = temperature - covert_to_degree
+    
+    # equation 4 in (https://hess.copernicus.org/articles/27/3663/2023/)
+    modified_temp = conv_temperature - temp_red_factor 
+    
+    # Actual name: Slope of the saturation, Units: kPa°C-1
+    slope_of_sat_num_md = 4098 * (0.6108 * np.exp((17.27 * modified_temp) /
+                                               (modified_temp + 237.3)))
+
+    slope_of_sat_den_md = (modified_temp + 237.3)**2
+
+    slope_of_sat_md = slope_of_sat_num_md / slope_of_sat_den_md
+    
+    # +++++++++++++++++++++++++++++++++++
+    # Psychrometric constant  kPa°C-1
+    # +++++++++++++++++++++++++++++++++++
+    # Actual name: Atmospheric pressure,	Units: kPa
+    atm_pressure = 101.3
+
+    # Actual name: Latent heat,	Units: MJkg-1
+    latent_heat_md = np.where(modified_temp > 0,
+                           (2.501 - (0.002361 * modified_temp)), 2.835)
+
+    #  Actual name: Psychrometric constant	Unit kPa°C-1
+    psy_const_md = (0.0016286 * atm_pressure) / latent_heat_md
+    
+    # =====================================================================
+    #  Priestley-Taylor Potential evapotranspiration (mm/day)
+    # according to  Peiris, T. A. and Döll, P:2023  
+    # =====================================================================
+    # Priestley-Taylor coefficient  for potential evapotranspiration(α)
+    # Following Shuttleworth (1993), α is set to 1.26 in humid
+    # and to 1.74 in (semi)arid cells
+    # Humid-arid calssification based on Müller Schmied et al. 2021
+
+    # Coverting net radiation to mm/day
+    # Note!!!, I deliberately did not attach "self"  here so I dont
+    # convert the final net radiation output to  mm/day.
+    net_radiation_md = (net_radiation * 0.0864) / latent_heat_md
+
+    # Actual name: Potential evapotranspiration,	Units:  mmd-1
+    potential_evap_md = pt_coeff_humid_arid * ((slope_of_sat_md * net_radiation_md)
+                                             / (slope_of_sat_md + psy_const_md))
+
+    # Accounting for negative net radiation and setting them to zero
+    potential_evap_md = np.where(net_radiation_md <= 0, 0, potential_evap_md)
+
+    # =====================================================================
+    # Slope of the saturation(kPa°C-1) according to  Müller Schmied et al 2021.
+    # To compute PET from open water surfaces
+    # =====================================================================
+    
+    # Actual name: Slope of the saturation, Units: kPa°C-1
+    slope_of_sat_num = 4098 * (0.6108 * np.exp((17.27 * conv_temperature) /
+                                               (conv_temperature + 237.3)))
+
+    slope_of_sat_den = (conv_temperature + 237.3)**2
+
+    slope_of_sat = slope_of_sat_num / slope_of_sat_den
+
+    # =====================================================================
+    # Psychrometric constant  kPa°C-1
+    # =====================================================================
+    # Actual name: Latent heat,	Units: MJkg-1
+    latent_heat = np.where(conv_temperature > 0,
+                           (2.501 - (0.002361 * conv_temperature)), 2.835)
+
+    #  Actual name: Psychrometric constant	Unit kPa°C-1
+    psy_const = (0.0016286 * atm_pressure) / latent_heat
+
+    # =====================================================================
+    # Priestley-Taylor open water potential evapotranspiration (mm/day)
+    # =====================================================================
+    # Coverting net radiation to mm/day
+    openwater_net_radiation = \
+        (openwater_net_radiation * 0.0864) / latent_heat
+
+    # Actual name: Open water potential evapotranspiration,	Units:  mmd-1
+    openwater_pot_evap = \
+       pt_coeff_humid_arid * ((slope_of_sat * openwater_net_radiation) /
+                                (slope_of_sat + psy_const))
+
+    # Accounting for negative net radiation and setting them to zero
+    openwater_pot_evap = np.where(openwater_net_radiation <= 0, 0,
+                                  openwater_pot_evap)
+    return potential_evap_md, openwater_pot_evap
